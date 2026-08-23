@@ -1,0 +1,119 @@
+"use client";
+
+import { useRef, useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { Product } from "@/lib/types";
+import { ProductVisual } from "@/components/ui/ProductVisual";
+import { PackSelector, usePackSelection } from "./PackSelector";
+import { useCart } from "@/lib/cart-context";
+
+const DOSAGE_PATTERN = /\s(\d+(?:\.\d+)?\s?(?:mg|mcg|iu|g)(?:\/\d+(?:\.\d+)?\s?(?:mg|mcg|iu|g))?)$/i;
+
+function splitDosage(name: string) {
+  const match = name.match(DOSAGE_PATTERN);
+  if (!match) return { title: name, dosage: null as string | null };
+  return { title: name.slice(0, match.index).trim(), dosage: match[1].toUpperCase() };
+}
+
+export function ProductCard({ product }: { product: Product }) {
+  const { packIndex, setPackIndex, packs, selected } = usePackSelection(product);
+  const { addToCart } = useCart();
+  const { title, dosage } = splitDosage(product.name);
+  const [hovering, setHovering] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  function handleEnter() {
+    setHovering(true);
+    videoRef.current?.play().catch(() => {});
+  }
+
+  function handleLeave() {
+    setHovering(false);
+    if (videoRef.current) {
+      videoRef.current.pause();
+      videoRef.current.currentTime = 0;
+    }
+  }
+
+  return (
+    <div className="group flex flex-col">
+      <Link
+        href={`/shop/${product.slug}`}
+        onMouseEnter={handleEnter}
+        onMouseLeave={handleLeave}
+        className="relative block overflow-hidden rounded-lg bg-ivory-soft"
+      >
+        <div className="aspect-[4/5] w-full">
+          {product.image ? (
+            <Image
+              src={product.image}
+              alt={product.name}
+              width={600}
+              height={750}
+              sizes="(max-width: 768px) 45vw, 320px"
+              className={`h-full w-full object-cover transition-opacity duration-500 ${hovering ? "opacity-0" : "opacity-100"}`}
+            />
+          ) : (
+            <ProductVisual
+              name={title}
+              dosage={dosage}
+              floating
+              className={`h-full w-full p-6 transition-opacity duration-500 ${hovering ? "opacity-0" : "opacity-100"}`}
+            />
+          )}
+          <video
+            ref={videoRef}
+            muted
+            loop
+            playsInline
+            preload="none"
+            className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${hovering ? "opacity-100" : "opacity-0"}`}
+          >
+            <source src="/videos/product-hover.mp4" type="video/mp4" />
+          </video>
+        </div>
+        {product.badges?.map((badge) => (
+          <span key={badge} className="absolute left-3 top-3 text-[10px] font-semibold uppercase tracking-wider text-sage-deep">
+            {badge}
+          </span>
+        ))}
+        {!product.inStock && (
+          <span className="absolute right-3 top-3 text-[10px] font-semibold uppercase tracking-wider text-charcoal/50">Out of Stock</span>
+        )}
+      </Link>
+
+      <div className="flex flex-1 flex-col pt-7">
+        <span className="mb-2 text-[10px] font-medium uppercase tracking-[0.2em] text-charcoal/40">{product.categoryLabel}</span>
+        <Link href={`/shop/${product.slug}`} className="font-display text-lg font-medium tracking-tight text-charcoal transition hover:opacity-60">
+          {title}
+        </Link>
+        {dosage && <div className="mt-1.5 text-[11px] uppercase tracking-[0.2em] text-charcoal/50">{dosage}</div>}
+        {product.purity && <div className="mt-2 text-[11px] uppercase tracking-[0.15em] text-charcoal/50">{product.purity} Tested Purity</div>}
+        <div className="mt-3 text-lg font-medium text-charcoal">
+          ${product.price.toFixed(2)} <span className="text-xs font-normal text-charcoal/40">CAD</span>
+        </div>
+
+        <div className="mt-auto pt-6">
+          {packs.length > 1 && <PackSelector packs={packs} packIndex={packIndex} onSelect={setPackIndex} savePercent={product.bulkOption?.savePercent} />}
+          <div className="mt-5 space-y-3">
+            <button
+              type="button"
+              disabled={!product.inStock}
+              onClick={() => addToCart(product, 1, selected.unitPrice, selected.label)}
+              className="w-full rounded-md bg-sage-deep py-3.5 text-[12px] font-semibold uppercase tracking-[0.15em] text-ivory transition hover:bg-charcoal disabled:cursor-not-allowed disabled:bg-stone disabled:text-charcoal/40"
+            >
+              {product.inStock ? "Add to Cart" : "Out of Stock"}
+            </button>
+            <Link
+              href="/lab-results"
+              className="flex items-center justify-center gap-2 text-[11px] uppercase tracking-[0.15em] text-charcoal/50 transition hover:text-charcoal"
+            >
+              View COA <i className="ri-arrow-right-up-line" />
+            </Link>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
