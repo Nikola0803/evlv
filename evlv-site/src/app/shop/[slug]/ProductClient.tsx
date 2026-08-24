@@ -97,7 +97,7 @@ export function ProductClient({ product }: { product: Product }) {
         </div>
 
         <div className="mt-6">
-          <PackSelector packs={packs} packIndex={packIndex} onSelect={setPackIndex} savePercent={product.bulkOption?.savePercent} />
+          <PackSelector packs={packs} packIndex={packIndex} onSelect={setPackIndex} />
         </div>
 
         <div className="mt-6">

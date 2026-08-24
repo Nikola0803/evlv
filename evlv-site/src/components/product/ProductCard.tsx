@@ -95,7 +95,7 @@ export function ProductCard({ product }: { product: Product }) {
         </div>
 
         <div className="mt-auto pt-6">
-          {packs.length > 1 && <PackSelector packs={packs} packIndex={packIndex} onSelect={setPackIndex} savePercent={product.bulkOption?.savePercent} />}
+          {packs.length > 1 && <PackSelector packs={packs} packIndex={packIndex} onSelect={setPackIndex} />}
           <div className="mt-5 space-y-3">
             <button
               type="button"
