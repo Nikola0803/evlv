@@ -7,6 +7,7 @@ import { Footer } from "@/components/layout/Footer";
 import { CartToast } from "@/components/layout/CartToast";
 import { CartDrawer } from "@/components/layout/CartDrawer";
 import { QuizWidget } from "@/components/layout/QuizWidget";
+import { AgeGate } from "@/components/layout/AgeGate";
 import { CartProvider } from "@/lib/cart-context";
 
 const poppins = Poppins({
@@ -34,13 +35,15 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       </head>
       <body className="flex min-h-full flex-col bg-ivory text-charcoal">
         <CartProvider>
-          <AnnouncementBar />
-          <Header />
-          <main className="flex-1 pt-[90px] md:pt-[100px]">{children}</main>
-          <Footer />
-          <CartToast />
-          <CartDrawer />
-          <QuizWidget />
+          <AgeGate>
+            <AnnouncementBar />
+            <Header />
+            <main className="flex-1 pt-[90px] md:pt-[100px]">{children}</main>
+            <Footer />
+            <CartToast />
+            <CartDrawer />
+            <QuizWidget />
+          </AgeGate>
         </CartProvider>
       </body>
     </html>
