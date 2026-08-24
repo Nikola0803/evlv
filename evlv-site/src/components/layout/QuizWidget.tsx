@@ -54,7 +54,7 @@ export function QuizWidget() {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="fixed bottom-6 left-6 z-[130] flex items-center gap-2 rounded-full bg-charcoal px-5 py-3 text-xs font-semibold uppercase tracking-wide text-ivory shadow-lg transition hover:bg-sage-deep"
+        className="fixed bottom-6 right-6 z-[130] flex items-center gap-2 rounded-full bg-charcoal px-5 py-3 text-xs font-semibold uppercase tracking-wide text-ivory shadow-lg transition hover:bg-sage-deep"
       >
         <i className="ri-compass-3-line text-base text-copper" />
         Not sure what you need?

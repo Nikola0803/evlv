@@ -7,6 +7,7 @@ import { Footer } from "@/components/layout/Footer";
 import { CartToast } from "@/components/layout/CartToast";
 import { CartDrawer } from "@/components/layout/CartDrawer";
 import { QuizWidget } from "@/components/layout/QuizWidget";
+import { RecentPurchaseToast } from "@/components/layout/RecentPurchaseToast";
 import { AgeGate } from "@/components/layout/AgeGate";
 import { CartProvider } from "@/lib/cart-context";
 
@@ -43,6 +44,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             <CartToast />
             <CartDrawer />
             <QuizWidget />
+            <RecentPurchaseToast />
           </AgeGate>
         </CartProvider>
       </body>
