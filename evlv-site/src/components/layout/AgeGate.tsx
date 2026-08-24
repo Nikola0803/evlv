@@ -2,28 +2,24 @@
 
 /**
  * Premium age/RUO verification + account gate, shown before the site is
- * accessible. Three paths in one gate:
- *   1. "Enter Site" — guest verify + email capture, no backend needed.
- *      Access remembered in localStorage for ACCESS_TTL_DAYS.
- *   2. "Sign In" / "Create Account" — real accounts backed by the custom CRM
- *      (peptides-crm-app) via this app's /api/auth/* proxy routes. Falls
- *      back to a clear error if CRM_API_URL/CRM_ORG_API_KEY/CRM_STORE_DOMAIN
- *      aren't set rather than pretending to work.
+ * accessible. Real accounts only (Sign In / Create Account) — no guest
+ * bypass — backed by the custom CRM (peptides-crm-app) via this app's
+ * /api/auth/* proxy routes. Falls back to a clear error if
+ * CRM_API_URL/CRM_ORG_API_KEY/CRM_STORE_DOMAIN aren't set rather than
+ * pretending to work.
  */
 
 import { useEffect, useRef, useState } from "react";
 import { getStoredToken, saveAuth } from "@/lib/auth";
 
-const ACCESS_KEY = "evlv_access";
-const ACCESS_TTL_DAYS = 30;
 const MIN_AGE = 21;
 
-type Mode = "verify" | "signin" | "register";
+type Mode = "signin" | "register";
 
 export function AgeGate({ children }: { children: React.ReactNode }) {
   const [granted, setGranted] = useState(false);
   const [checking, setChecking] = useState(true);
-  const [mode, setMode] = useState<Mode>("verify");
+  const [mode, setMode] = useState<Mode>("register");
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -38,20 +34,6 @@ export function AgeGate({ children }: { children: React.ReactNode }) {
   const firstFieldRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem(ACCESS_KEY);
-      if (raw) {
-        const { ts } = JSON.parse(raw) as { ts: number };
-        if (Date.now() - ts < ACCESS_TTL_DAYS * 864e5) {
-          setGranted(true);
-          setChecking(false);
-          return;
-        }
-      }
-    } catch {
-      /* ignore */
-    }
-
     const token = getStoredToken();
     if (!token) {
       setChecking(false);
@@ -90,15 +72,6 @@ export function AgeGate({ children }: { children: React.ReactNode }) {
     setTimeout(() => setShaking(false), 600);
   }
 
-  function grantGuest() {
-    try {
-      localStorage.setItem(ACCESS_KEY, JSON.stringify({ ts: Date.now(), email, marketing: agreeEmail }));
-    } catch {
-      /* ignore */
-    }
-    setGranted(true);
-  }
-
   function switchMode(m: Mode) {
     setMode(m);
     setError("");
@@ -118,12 +91,6 @@ export function AgeGate({ children }: { children: React.ReactNode }) {
       shake();
       return;
     }
-
-    if (mode === "verify") {
-      grantGuest();
-      return;
-    }
-
     if (!password) {
       setError("Please enter your password.");
       shake();
@@ -170,7 +137,6 @@ export function AgeGate({ children }: { children: React.ReactNode }) {
   }
 
   const TABS: { key: Mode; label: string }[] = [
-    { key: "verify", label: "Enter Site" },
     { key: "signin", label: "Sign In" },
     { key: "register", label: "Create Account" },
   ];
@@ -194,7 +160,7 @@ export function AgeGate({ children }: { children: React.ReactNode }) {
           {/* Left brand panel */}
           <div className="relative hidden w-[340px] shrink-0 flex-col justify-between overflow-hidden bg-charcoal p-9 md:flex">
             <div className="absolute inset-0">
-              <img src="/images/hero-vial.png" alt="" className="h-full w-full object-cover opacity-30" style={{ objectPosition: "center 30%" }} />
+              <img src="/images/hero-vial.png" alt="" className="h-full w-full object-cover opacity-30" style={{ objectPosition: "10% 30%" }} />
               <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgba(14,17,19,0.6) 0%, rgba(14,17,19,0.25) 45%, rgba(14,17,19,0.95) 100%)" }} />
             </div>
 
@@ -244,12 +210,11 @@ export function AgeGate({ children }: { children: React.ReactNode }) {
             <div className="flex flex-1 flex-col gap-4 p-8">
               <div>
                 <h2 className="font-display text-xl font-semibold tracking-tight text-charcoal md:text-2xl">
-                  {mode === "verify" ? "Confirm research access" : mode === "signin" ? "Sign in to continue" : "Create your account"}
+                  {mode === "signin" ? "Sign in to continue" : "Create your account"}
                 </h2>
                 <p className="mt-1 text-sm text-charcoal/60">
-                  {mode === "verify"
-                    ? `You must be ${MIN_AGE}+ and agree to our research-only terms to browse. Enter your email to unlock 10% off your first order.`
-                    : "Your account keeps order history and COAs in one place."}
+                  Due to regulatory requirements, an account is required to browse product information. Your account
+                  keeps order history and COAs in one place.
                 </p>
               </div>
 
@@ -270,32 +235,30 @@ export function AgeGate({ children }: { children: React.ReactNode }) {
                 />
               </div>
 
-              {mode !== "verify" && (
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-medium text-charcoal/60">Password</label>
-                  <div className="relative">
-                    <input
-                      type={showPass ? "text" : "password"}
-                      value={password}
-                      onChange={(e) => {
-                        setPassword(e.target.value);
-                        setError("");
-                      }}
-                      onKeyDown={onKey}
-                      placeholder={mode === "register" ? "Min. 8 characters" : "Your password"}
-                      autoComplete={mode === "register" ? "new-password" : "current-password"}
-                      className="h-11 w-full rounded-md border border-stone bg-ivory-soft px-4 pr-16 text-sm text-charcoal outline-none transition placeholder:text-charcoal/40 focus:border-copper focus:ring-1 focus:ring-copper/40"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowPass((p) => !p)}
-                      className="absolute right-2 top-1/2 -translate-y-1/2 rounded bg-stone/60 px-2 py-1 text-[11px] font-semibold text-charcoal/60 hover:text-charcoal"
-                    >
-                      {showPass ? "Hide" : "Show"}
-                    </button>
-                  </div>
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs font-medium text-charcoal/60">Password</label>
+                <div className="relative">
+                  <input
+                    type={showPass ? "text" : "password"}
+                    value={password}
+                    onChange={(e) => {
+                      setPassword(e.target.value);
+                      setError("");
+                    }}
+                    onKeyDown={onKey}
+                    placeholder={mode === "register" ? "Min. 8 characters" : "Your password"}
+                    autoComplete={mode === "register" ? "new-password" : "current-password"}
+                    className="h-11 w-full rounded-md border border-stone bg-ivory-soft px-4 pr-16 text-sm text-charcoal outline-none transition placeholder:text-charcoal/40 focus:border-copper focus:ring-1 focus:ring-copper/40"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPass((p) => !p)}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 rounded bg-stone/60 px-2 py-1 text-[11px] font-semibold text-charcoal/60 hover:text-charcoal"
+                  >
+                    {showPass ? "Hide" : "Show"}
+                  </button>
                 </div>
-              )}
+              </div>
 
               {mode === "register" && (
                 <div className="flex flex-col gap-1.5">
@@ -336,7 +299,9 @@ export function AgeGate({ children }: { children: React.ReactNode }) {
                     }}
                     className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer accent-[#B8875A]"
                   />
-                  <span className="text-xs font-medium leading-snug text-charcoal/70">I confirm I am {MIN_AGE}+ and agree to the research-only terms.</span>
+                  <span className="text-xs font-medium leading-snug text-charcoal/70">
+                    By logging in or creating an account, you agree to the research-only terms above and confirm you are {MIN_AGE}+.
+                  </span>
                 </label>
 
                 <label className="flex cursor-pointer items-start gap-3">
@@ -370,19 +335,23 @@ export function AgeGate({ children }: { children: React.ReactNode }) {
                     <span className="h-4 w-4 animate-spin rounded-full border-2 border-charcoal/30 border-t-charcoal" />
                     {mode === "signin" ? "Signing in…" : "Creating account…"}
                   </>
-                ) : mode === "verify" ? (
-                  "Enter Site"
                 ) : mode === "signin" ? (
                   "Sign In & Continue"
                 ) : (
-                  "Create Account"
+                  "Continue"
                 )}
               </button>
 
-              {mode === "signin" && (
+              {mode === "signin" ? (
                 <p className="text-center text-xs text-charcoal/50">
                   <button type="button" onClick={() => switchMode("register")} className="transition hover:text-charcoal">
                     Need an account? Create one
+                  </button>
+                </p>
+              ) : (
+                <p className="text-center text-xs text-charcoal/50">
+                  <button type="button" onClick={() => switchMode("signin")} className="transition hover:text-charcoal">
+                    Already have an account? Sign in
                   </button>
                 </p>
               )}
@@ -390,7 +359,10 @@ export function AgeGate({ children }: { children: React.ReactNode }) {
 
             <div className="border-t border-stone bg-charcoal px-8 py-4">
               <p className="mb-0.5 font-display text-xs tracking-wide text-white">EVLV</p>
-              <p className="text-[11px] text-white/50">Evolve. Alter. Become your ultimate.</p>
+              <p className="text-[11px] text-white/50">
+                Due to regulatory changes in this industry, we now require an account to access product information
+                and continue browsing.
+              </p>
             </div>
           </div>
         </div>
