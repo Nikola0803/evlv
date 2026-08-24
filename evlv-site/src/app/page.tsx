@@ -5,7 +5,7 @@ import { ShopByCategory } from "@/components/home/ShopByCategory";
 import { AboutSection } from "@/components/home/AboutSection";
 import { ScienceSection } from "@/components/home/ScienceSection";
 import { LabResultsPreview } from "@/components/home/LabResultsPreview";
-import { Testimonials } from "@/components/home/Testimonials";
+import { TrustpilotWidget } from "@/components/home/TrustpilotWidget";
 import { ValueSection } from "@/components/home/ValueSection";
 import { FinalCta } from "@/components/home/FinalCta";
 
@@ -23,12 +23,12 @@ export default function Home() {
       <Hero />
       <TrustIconRow items={HOME_TRUST_ITEMS} />
       <FeaturedProducts />
+      <TrustpilotWidget />
       <ShopByCategory />
       <AboutSection />
-      <ScienceSection />
       <LabResultsPreview />
-      <Testimonials />
       <ValueSection />
+      <ScienceSection />
       <FinalCta />
     </>
   );

@@ -4,7 +4,8 @@ import { ButtonLink } from "@/components/ui/Button";
 export function Hero() {
   return (
     <section className="relative -mt-[90px] flex min-h-[80vh] items-center overflow-hidden bg-charcoal md:min-h-[88vh] md:-mt-[100px]">
-      {/* Mobile: static portrait shot, no video yet. Desktop/16:9: real EVLV footage. */}
+      {/* Mobile: static portrait shot, no video yet. Desktop: real EVLV footage — a 21:9 cut on ultra-wide
+          viewports, the standard 16:9 cut otherwise. */}
       <Image
         src="/images/hero-vial-mobile.png"
         alt=""
@@ -21,6 +22,7 @@ export function Hero() {
         className="absolute inset-0 h-full w-full object-cover max-md:hidden"
         poster="/images/hero-vial.png"
       >
+        <source src="/videos/hero-21by9.mp4" media="(min-aspect-ratio: 21/9)" type="video/mp4" />
         <source src="/videos/hero-evlv.mp4" type="video/mp4" />
       </video>
 

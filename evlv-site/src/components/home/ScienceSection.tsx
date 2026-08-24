@@ -29,7 +29,7 @@ export function ScienceSection() {
     <section className="bg-ivory py-20 md:py-32">
       <div className="mx-auto max-w-[1400px] px-4 md:px-8">
         <div className="mb-16 max-w-2xl md:mb-24">
-          <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">05 / The EVLV Research Journal</p>
+          <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">08 / The EVLV Research Journal</p>
           <h2 className="font-display text-4xl font-semibold leading-tight text-charcoal md:text-5xl">
             Research deserves
             <br />

@@ -4,7 +4,7 @@ export function ValueSection() {
   return (
     <section className="bg-ivory py-28 text-center md:py-40">
       <div className="mx-auto max-w-[1400px] px-4 md:px-8">
-        <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">08 / The EVLV Difference</p>
+        <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">07 / The EVLV Difference</p>
         <h2 className="mx-auto max-w-3xl font-display text-4xl font-semibold leading-[1.05] text-charcoal md:text-5xl lg:text-6xl">
           Same standard.
           <br />
