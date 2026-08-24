@@ -160,7 +160,7 @@ export function AgeGate({ children }: { children: React.ReactNode }) {
           {/* Left brand panel */}
           <div className="relative hidden w-[340px] shrink-0 flex-col justify-between overflow-hidden bg-charcoal p-9 md:flex">
             <div className="absolute inset-0">
-              <img src="/images/hero-vial.png" alt="" className="h-full w-full object-cover opacity-30" style={{ objectPosition: "10% 30%" }} />
+              <img src="/images/hero-vial.png" alt="" className="h-full w-full object-cover opacity-30" style={{ objectPosition: "78% 45%" }} />
               <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgba(14,17,19,0.6) 0%, rgba(14,17,19,0.25) 45%, rgba(14,17,19,0.95) 100%)" }} />
             </div>
 
