@@ -68,9 +68,21 @@ export function Footer() {
       </div>
 
       <div className="mx-auto mt-16 max-w-[1400px] border-t border-white/10 px-4 pt-8 md:px-8">
-        <p className="max-w-2xl text-xs leading-relaxed text-white/40">
-          EVLV products are intended strictly for research and laboratory use only. Not for human or veterinary use.
-        </p>
+        <div className="max-w-2xl space-y-3 text-xs leading-relaxed text-white/40">
+          <p>
+            All products sold on this website are intended for research and identification purposes only. These
+            products are not intended for human dosing, injection, or ingestion.
+          </p>
+          <p>
+            The statements made on this website have not been evaluated by the US Food and Drug Administration. The
+            statements and the products of this company are not intended to diagnose, treat, cure, or prevent any
+            disease.
+          </p>
+          <p>
+            EVLV is a chemical supplier, not a compounding pharmacy or outsourcing facility as defined under 503A or
+            503B of the Federal Food, Drug, and Cosmetic Act.
+          </p>
+        </div>
         <div className="mt-6 flex flex-col gap-2 text-xs text-white/40 sm:flex-row sm:items-center sm:justify-between">
           <span>© EVLV {new Date().getFullYear()}. All rights reserved.</span>
           <span>EVLVPEPTIDES.COM</span>

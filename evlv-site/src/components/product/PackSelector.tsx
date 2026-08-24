@@ -50,7 +50,7 @@ export function PackSelector({
               key={pack.label}
               type="button"
               onClick={() => onSelect(i)}
-              className={`flex flex-col items-center whitespace-nowrap rounded-lg px-4 py-1.5 text-xs font-medium tracking-wide transition ${
+              className={`flex flex-1 items-center justify-center gap-2 whitespace-nowrap rounded-lg px-4 py-2 text-xs font-medium tracking-wide transition ${
                 packIndex === i
                   ? "border border-charcoal text-charcoal"
                   : "border border-transparent text-charcoal/40 hover:text-charcoal/70"
@@ -64,7 +64,7 @@ export function PackSelector({
               key={pack.label}
               type="button"
               onClick={() => onSelect(i)}
-              className={`whitespace-nowrap rounded-full px-4 py-1.5 text-xs font-medium tracking-wide transition ${
+              className={`whitespace-nowrap rounded-md px-4 py-2 text-xs font-medium tracking-wide transition ${
                 packIndex === i
                   ? "border border-charcoal text-charcoal"
                   : "border border-transparent text-charcoal/40 hover:text-charcoal/70"
