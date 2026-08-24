@@ -15,7 +15,7 @@ const NAV = [
 
 export function Header() {
   const [open, setOpen] = useState(false);
-  const { count } = useCart();
+  const { count, openCart } = useCart();
 
   return (
     <header className="fixed top-[32px] right-0 left-0 z-50 bg-charcoal/20 backdrop-blur-sm">
@@ -37,14 +37,14 @@ export function Header() {
           <button type="button" className="hidden h-9 w-9 items-center justify-center text-white/85 transition hover:text-white md:flex" aria-label="Account">
             <i className="ri-user-line text-base" />
           </button>
-          <Link href="/shop" className="relative flex h-9 w-9 items-center justify-center text-white/85 transition hover:text-white" aria-label="Cart">
+          <button type="button" onClick={openCart} className="relative flex h-9 w-9 items-center justify-center text-white/85 transition hover:text-white" aria-label="Cart">
             <i className="ri-shopping-bag-line text-base" />
             {count > 0 && (
               <span className="absolute right-0 top-0 flex h-4 w-4 items-center justify-center rounded-full bg-copper text-[10px] font-semibold text-charcoal">
                 {count}
               </span>
             )}
-          </Link>
+          </button>
           <button
             type="button"
             className="flex h-9 w-9 items-center justify-center text-white/85 transition hover:text-white md:hidden"

@@ -68,7 +68,7 @@ export function Footer() {
       </div>
 
       <div className="mx-auto mt-16 max-w-[1400px] border-t border-white/10 px-4 pt-8 md:px-8">
-        <div className="max-w-2xl space-y-3 text-xs leading-relaxed text-white/40">
+        <div className="space-y-3 text-xs leading-relaxed text-white/40">
           <p>
             All products sold on this website are intended for research and identification purposes only. These
             products are not intended for human dosing, injection, or ingestion.
