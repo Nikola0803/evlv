@@ -12,8 +12,8 @@ export function AboutSection() {
     <section className="bg-ivory-soft py-20 md:py-32">
       <div className="mx-auto grid max-w-[1400px] grid-cols-1 items-center gap-14 px-4 md:px-8 lg:grid-cols-2 lg:gap-20">
         <div className="aspect-[4/5] w-full overflow-hidden rounded-lg bg-charcoal">
-          <video autoPlay loop muted playsInline className="h-full w-full object-cover">
-            <source src="/videos/standard-vial.mp4" type="video/mp4" />
+          <video autoPlay loop muted playsInline poster="/images/precision-section.png" className="h-full w-full object-cover">
+            <source src="/videos/precision-section.mp4" type="video/mp4" />
           </video>
         </div>
 
