@@ -5,9 +5,20 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCart, BAC_WATER } from "@/lib/cart-context";
 import { getProducts } from "@/lib/products";
+import { CheckoutUpsellModal, useCheckoutUpsell } from "./CheckoutUpsellModal";
 
 export function CartDrawer() {
   const { lines, subtotal, isOpen, closeCart, removeLine, setLineQty, addToCart } = useCart();
+  const upsellModal = useCheckoutUpsell();
+
+  function handleCheckoutClick() {
+    if (upsellModal.maybeOpen()) return;
+    runStubCheckout();
+  }
+
+  function runStubCheckout() {
+    alert("Checkout isn't wired up yet — WooCommerce integration pending.");
+  }
 
   useEffect(() => {
     if (!isOpen) return;
@@ -140,7 +151,7 @@ export function CartDrawer() {
             </div>
             <button
               type="button"
-              onClick={() => alert("Checkout isn't wired up yet — WooCommerce integration pending.")}
+              onClick={handleCheckoutClick}
               className="w-full rounded-md bg-copper py-3.5 text-[12px] font-semibold uppercase tracking-[0.2em] text-charcoal transition hover:bg-copper-light"
             >
               Checkout
@@ -151,6 +162,15 @@ export function CartDrawer() {
           </div>
         )}
       </aside>
+
+      <CheckoutUpsellModal
+        open={upsellModal.open}
+        onClose={() => upsellModal.setOpen(false)}
+        onContinue={() => {
+          upsellModal.setOpen(false);
+          runStubCheckout();
+        }}
+      />
     </>
   );
 }
