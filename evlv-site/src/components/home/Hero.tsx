@@ -1,19 +1,20 @@
-import Image from "next/image";
 import { ButtonLink } from "@/components/ui/Button";
 
 export function Hero() {
   return (
     <section className="relative -mt-[90px] flex min-h-[80vh] items-center overflow-hidden bg-charcoal md:min-h-[88vh] md:-mt-[100px]">
-      {/* Mobile: static portrait shot, no video yet. Desktop: real EVLV footage — a 21:9 cut on ultra-wide
-          viewports, the standard 16:9 cut otherwise. */}
-      <Image
-        src="/images/hero-vial-mobile.png"
-        alt=""
-        fill
-        priority
-        sizes="100vw"
-        className="absolute inset-0 object-cover md:hidden"
-      />
+      {/* Mobile: real EVLV footage (portrait cut), poster fallback is the static portrait shot.
+          Desktop: real EVLV footage — a 21:9 cut on ultra-wide viewports, the standard 16:9 cut otherwise. */}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="absolute inset-0 h-full w-full object-cover md:hidden"
+        poster="/images/hero-vial-mobile.png"
+      >
+        <source src="/videos/hero-mobile.mp4" type="video/mp4" />
+      </video>
       <video
         autoPlay
         loop
