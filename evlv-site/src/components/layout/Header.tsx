@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Logo } from "@/components/ui/Logo";
+import { SearchWidget } from "./SearchWidget";
 import { useCart } from "@/lib/cart-context";
 
 const NAV = [
@@ -31,9 +32,7 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-1 md:gap-2">
-          <button type="button" className="hidden h-9 w-9 items-center justify-center text-white/85 transition hover:text-white md:flex" aria-label="Search">
-            <i className="ri-search-line text-base" />
-          </button>
+          <SearchWidget />
           <button type="button" className="hidden h-9 w-9 items-center justify-center text-white/85 transition hover:text-white md:flex" aria-label="Account">
             <i className="ri-user-line text-base" />
           </button>

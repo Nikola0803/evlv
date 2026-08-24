@@ -14,6 +14,8 @@ export function ShopClient({ products }: { products: Product[] }) {
   useEffect(() => {
     const fromUrl = searchParams.get("category") as ProductCategory | null;
     if (fromUrl && categories.some((c) => c.value === fromUrl)) setActive(fromUrl);
+    const q = searchParams.get("q");
+    if (q) setQuery(q);
   }, [searchParams]);
 
   const filtered = useMemo(() => {

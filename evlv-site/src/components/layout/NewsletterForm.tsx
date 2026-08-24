@@ -12,13 +12,13 @@ export function NewsletterForm() {
   }
 
   return (
-    <div>
+    <div id="newsletter">
       <p className="mb-4 text-[11px] font-semibold uppercase tracking-wider text-white/40">Newsletter</p>
       {submitted ? (
         <p className="text-sm text-white/60">You&apos;re on the list.</p>
       ) : (
         <>
-          <p className="mb-4 text-sm leading-relaxed text-white/50">Research notes and new SKUs, occasionally.</p>
+          <p className="mb-4 text-sm leading-relaxed text-white/50">Subscribe for 10% off your first order, plus research notes and new SKUs.</p>
           <form onSubmit={handleSubmit} className="flex items-center gap-2 border-b border-white/20 pb-2">
             <input
               type="email"
