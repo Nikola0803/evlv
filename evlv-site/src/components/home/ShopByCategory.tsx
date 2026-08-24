@@ -1,10 +1,10 @@
 import Link from "next/link";
 
 const CATEGORIES = [
-  { num: "01", title: "Recovery", compounds: "BPC-157 · TB-500", href: "/shop?category=peptides", art: "fragmented" as const },
+  { num: "01", title: "Recovery Research", compounds: "BPC-157 · TB-500", href: "/shop?category=peptides", art: "fragmented" as const },
   { num: "02", title: "Metabolic Research", compounds: "Semaglutide · Tirzepatide · Retatrutide", href: "/shop?category=peptides", art: "particles" as const },
-  { num: "03", title: "Performance", compounds: "MOTS-C · GHK-Cu", href: "/shop?category=ancillaries", art: "expanding" as const },
-  { num: "04", title: "Longevity", compounds: "CJC-1295 · Ipamorelin · Tesamorelin", href: "/shop?category=growth-hormone", art: "concentric" as const },
+  { num: "03", title: "Performance Research", compounds: "MOTS-C · GHK-Cu", href: "/shop?category=ancillaries", art: "expanding" as const },
+  { num: "04", title: "Longevity Research", compounds: "CJC-1295 · Ipamorelin · Tesamorelin", href: "/shop?category=growth-hormone", art: "concentric" as const },
 ];
 
 export function ShopByCategory() {

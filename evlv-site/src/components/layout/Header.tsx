@@ -20,7 +20,7 @@ export function Header() {
   return (
     <header className="fixed top-[32px] right-0 left-0 z-50 bg-charcoal/20 backdrop-blur-sm">
       <div className="mx-auto flex max-w-[1400px] items-center justify-between px-4 py-4 md:px-8 md:py-5">
-        <Logo tone="ivory" imgClassName="h-5 w-auto md:h-6" />
+        <Logo tone="ivory" imgClassName="h-10 w-auto md:h-12" />
 
         <nav className="hidden items-center gap-7 text-[11px] font-medium uppercase tracking-[0.14em] text-white/85 md:flex lg:gap-9">
           {NAV.map((item) => (
