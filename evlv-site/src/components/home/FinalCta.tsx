@@ -12,8 +12,8 @@ export function FinalCta() {
           <ButtonLink href="/shop" size="lg" className="!bg-ivory !text-charcoal hover:!bg-sage-light">
             Shop All Products
           </ButtonLink>
-          <ButtonLink href="/lab-results" variant="secondary" size="lg" className="!border-white/40 !text-ivory hover:!bg-ivory hover:!text-charcoal">
-            View Lab Results
+          <ButtonLink href="/coas" variant="secondary" size="lg" className="!border-white/40 !text-ivory hover:!bg-ivory hover:!text-charcoal">
+            View COAs
           </ButtonLink>
         </div>
       </div>

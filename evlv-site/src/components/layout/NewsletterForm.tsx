@@ -28,7 +28,7 @@ export function NewsletterForm() {
               className="w-full bg-transparent text-sm text-white outline-none placeholder:text-white/40"
             />
             <input tabIndex={-1} autoComplete="off" aria-hidden className="hidden" type="text" name="website" />
-            <button type="submit" aria-label="Subscribe" className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-white/30 transition hover:bg-white hover:text-charcoal">
+            <button type="submit" aria-label="Subscribe" className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-white/30 transition hover:border-copper hover:bg-copper hover:text-charcoal">
               <i className="ri-arrow-right-line text-xs" />
             </button>
           </form>

@@ -2,19 +2,22 @@ import Image from "next/image";
 
 const ARTICLES = [
   {
-    label: "Purity",
+    num: "01",
+    label: "Understanding Peptides",
     title: "Understanding peptide purity",
     description: "How purity is evaluated and why independent verification matters.",
     image: "/images/science/purity.jpg",
   },
   {
-    label: "Testing",
+    num: "02",
+    label: "How We Test",
     title: "Batch testing explained",
     description: "How laboratory documentation helps researchers evaluate a specific lot.",
     image: "/images/science/testing.jpg",
   },
   {
-    label: "Standards",
+    num: "03",
+    label: "Research Standards",
     title: "Inside the EVLV standard",
     description: "How EVLV approaches packaging, handling and traceability.",
     image: "/images/science/standard.jpg",
@@ -26,7 +29,7 @@ export function ScienceSection() {
     <section className="bg-ivory py-20 md:py-32">
       <div className="mx-auto max-w-[1400px] px-4 md:px-8">
         <div className="mb-16 max-w-2xl md:mb-24">
-          <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-sage-deep">The Science</p>
+          <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">05 / The EVLV Research Journal</p>
           <h2 className="font-display text-4xl font-semibold leading-tight text-charcoal md:text-5xl">
             Research deserves
             <br />
@@ -51,7 +54,9 @@ export function ScienceSection() {
                   className="h-full w-full object-cover transition duration-700 ease-out group-hover:scale-[1.04]"
                 />
               </div>
-              <p className="mt-6 text-[11px] font-semibold uppercase tracking-wider text-sage-deep">{article.label}</p>
+              <p className="mt-6 flex items-baseline gap-2 text-[11px] font-semibold uppercase tracking-wider text-copper">
+                <span>{article.num} /</span> {article.label}
+              </p>
               <h3 className="mt-2 font-display text-xl font-medium text-charcoal">{article.title}</h3>
               <p className="mt-2 text-sm leading-relaxed text-soft-gray">{article.description}</p>
               <span className="mt-4 inline-flex items-center gap-1 text-xs font-medium uppercase tracking-wider text-sage-deep">

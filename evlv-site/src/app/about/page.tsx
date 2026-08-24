@@ -39,8 +39,8 @@ export default function AboutPage() {
           ))}
         </div>
 
-        <ButtonLink href="/lab-results" className="mt-12">
-          View Lab Results <i className="ri-arrow-right-line" />
+        <ButtonLink href="/coas" className="mt-12">
+          View COAs <i className="ri-arrow-right-line" />
         </ButtonLink>
       </div>
     </section>

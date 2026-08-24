@@ -24,7 +24,7 @@ const PROTOCOL = [
   ["4", "Customer Verification", "Match your vial batch number to the published report"],
 ];
 
-export function LabResultsClient() {
+export function CoasClient() {
   const batches = useMemo(() => getProducts().filter((p) => p.batch), []);
   const [query, setQuery] = useState("");
 
@@ -41,7 +41,7 @@ export function LabResultsClient() {
           <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold text-sage-light">
             <i className="ri-shield-check-line" /> Independent Verification
           </div>
-          <h1 className="mb-4 font-display text-4xl font-semibold md:text-5xl lg:text-6xl">Lab Results</h1>
+          <h1 className="mb-4 font-display text-4xl font-semibold md:text-5xl lg:text-6xl">COAs</h1>
           <p className="mx-auto max-w-2xl text-base leading-relaxed text-white/70 md:text-lg">
             Every batch is independently tested. View purity, mass and batch verification for complete transparency.
           </p>

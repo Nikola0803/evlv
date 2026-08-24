@@ -18,27 +18,27 @@ export function AboutSection() {
         </div>
 
         <div>
-          <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-sage-deep">The EVLV Standard</p>
-          <h2 className="font-display text-4xl font-semibold leading-tight text-charcoal md:text-5xl">
-            Precision
+          <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">04 / The EVLV Standard</p>
+          <h2 className="font-display text-4xl font-semibold uppercase leading-[1.05] text-charcoal md:text-5xl">
+            Precision.
             <br />
-            without compromise.
+            Without compromise.
           </h2>
           <p className="mt-6 max-w-md text-base leading-relaxed text-soft-gray md:text-lg">
-            EVLV is built around clarity and consistency in research. Every SKU, every batch and every result is
-            handled with the same standard — because transparency should never be optional.
+            Every compound is sourced, documented and presented with the same commitment to precision that defines
+            EVLV — because transparency should never be optional.
           </p>
 
           <div className="mt-10 divide-y divide-stone border-t border-stone">
             {STANDARDS.map((item) => (
               <div key={item.num} className="flex items-center gap-6 py-4">
-                <span className="font-display text-sm text-sage-deep">{item.num}</span>
+                <span className="font-display text-sm text-copper">{item.num}</span>
                 <span className="text-sm font-medium uppercase tracking-wide text-charcoal">{item.title}</span>
               </div>
             ))}
           </div>
 
-          <ButtonLink href="/lab-results" className="mt-10">
+          <ButtonLink href="/coas" className="mt-10">
             Explore Our Standards <i className="ri-arrow-right-line" />
           </ButtonLink>
         </div>

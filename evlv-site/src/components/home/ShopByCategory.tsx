@@ -1,24 +1,25 @@
 import Link from "next/link";
 
 const CATEGORIES = [
-  { title: "Recovery & Tissue Research", compounds: "BPC-157 · TB-500", href: "/shop?category=peptides", art: "botanical" as const },
-  { title: "Metabolic Research", compounds: "Semaglutide · Tirzepatide · Retatrutide", href: "/shop?category=peptides", art: "droplet" as const },
-  { title: "Cellular & Longevity Research", compounds: "MOTS-C · NAD+ · GHK-Cu", href: "/shop?category=ancillaries", art: "molecular" as const },
-  { title: "Growth Hormone Research", compounds: "CJC-1295 · Ipamorelin · Tesamorelin", href: "/shop?category=growth-hormone", art: "sculptural" as const },
+  { num: "01", title: "Recovery", compounds: "BPC-157 · TB-500", href: "/shop?category=peptides", art: "fragmented" as const },
+  { num: "02", title: "Metabolic Research", compounds: "Semaglutide · Tirzepatide · Retatrutide", href: "/shop?category=peptides", art: "particles" as const },
+  { num: "03", title: "Performance", compounds: "MOTS-C · GHK-Cu", href: "/shop?category=ancillaries", art: "expanding" as const },
+  { num: "04", title: "Longevity", compounds: "CJC-1295 · Ipamorelin · Tesamorelin", href: "/shop?category=growth-hormone", art: "concentric" as const },
 ];
 
 export function ShopByCategory() {
   return (
     <section className="bg-ivory-soft py-20 md:py-32">
       <div className="mx-auto max-w-[1400px] px-4 md:px-8">
-        <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-sage-deep">Explore the Collection</p>
+        <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">03 / Explore the Collection</p>
         <h2 className="max-w-xl font-display text-3xl font-semibold text-charcoal md:text-4xl">Shop by research category</h2>
 
         <div className="mt-12 grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
           {CATEGORIES.map((cat) => (
             <Link key={cat.title} href={cat.href} className="group block">
-              <div className="aspect-[4/5] w-full overflow-hidden rounded-lg">
+              <div className="relative aspect-[4/5] w-full overflow-hidden rounded-lg">
                 <CategoryArt variant={cat.art} className="h-full w-full transition duration-700 ease-out group-hover:scale-[1.04]" />
+                <span className="absolute left-4 top-4 font-display text-xs font-semibold tracking-[0.2em] text-copper">{cat.num}</span>
               </div>
               <h3 className="mt-5 font-display text-lg font-medium text-charcoal">{cat.title}</h3>
               <p className="mt-1.5 text-xs uppercase tracking-[0.1em] text-soft-gray">{cat.compounds}</p>
@@ -30,63 +31,53 @@ export function ShopByCategory() {
   );
 }
 
-function CategoryArt({ variant, className = "" }: { variant: "botanical" | "droplet" | "molecular" | "sculptural"; className?: string }) {
-  const bg = {
-    botanical: "linear-gradient(160deg, #e7e9e2 0%, #cdd4c7 60%, #97a494 100%)",
-    droplet: "linear-gradient(160deg, #3a4539 0%, #1c211c 70%, #10130f 100%)",
-    molecular: "linear-gradient(160deg, #f4f0e7 0%, #e7e9e2 100%)",
-    sculptural: "linear-gradient(160deg, #d8d3c9 0%, #97a494 100%)",
-  }[variant];
-
+/**
+ * Each category gets its own visual expression of "transformation" instead
+ * of a generic molecular-diagram icon, per the EVLV motif system: fragmented
+ * lines reconnecting, particle systems, expanding structures, concentric
+ * layers — obsidian/charcoal/copper only, no green (green is reserved for
+ * brand sections, not decorative category art).
+ */
+function CategoryArt({ variant, className = "" }: { variant: "fragmented" | "particles" | "expanding" | "concentric"; className?: string }) {
   return (
-    <div className={`relative flex items-center justify-center ${className}`} style={{ background: bg }}>
-      {variant === "botanical" && (
-        <svg viewBox="0 0 120 200" className="h-[70%] w-auto opacity-80">
-          <path d="M60 190 V40" stroke="#454f43" strokeWidth="2" fill="none" strokeLinecap="round" />
-          {[0, 1, 2, 3].map((i) => (
-            <path
-              key={i}
-              d={`M60 ${170 - i * 35} q ${i % 2 === 0 ? 30 : -30} -10 ${i % 2 === 0 ? 34 : -34} -30`}
-              stroke="#454f43"
-              strokeWidth="1.5"
-              fill="none"
-              strokeLinecap="round"
-            />
-          ))}
+    <div className={`relative flex items-center justify-center bg-charcoal ${className}`}>
+      {variant === "fragmented" && (
+        <svg viewBox="0 0 160 200" className="h-[70%] w-auto" aria-hidden>
+          <path d="M40 30 L60 60 M75 75 L95 100 M110 115 L120 170" stroke="#B8875A" strokeWidth="1.5" strokeLinecap="round" opacity="0.9" />
+          <path d="M50 40 L45 20 M85 88 L105 78 M115 130 L135 125" stroke="#E7E3DA" strokeWidth="1" strokeLinecap="round" opacity="0.4" />
+          <circle cx="40" cy="30" r="3" fill="#E7E3DA" />
+          <circle cx="75" cy="75" r="3.5" fill="#B8875A" />
+          <circle cx="110" cy="115" r="4" fill="#E7E3DA" />
+          <circle cx="120" cy="170" r="4.5" fill="#B8875A" />
         </svg>
       )}
-      {variant === "droplet" && (
-        <svg viewBox="0 0 200 200" className="h-full w-full" aria-hidden>
-          {Array.from({ length: 18 }).map((_, i) => {
-            const x = (i * 37) % 190;
-            const y = (i * 53) % 190;
-            const r = 3 + (i % 4);
-            return <circle key={i} cx={x} cy={y} r={r} fill="#F2EDE2" opacity={0.12 + (i % 3) * 0.08} />;
+      {variant === "particles" && (
+        <svg viewBox="0 0 160 160" className="h-[70%] w-auto" aria-hidden>
+          <circle cx="80" cy="80" r="58" fill="none" stroke="#314743" strokeWidth="1" opacity="0.6" />
+          {Array.from({ length: 14 }).map((_, i) => {
+            const angle = (i / 14) * Math.PI * 2;
+            const r = 58;
+            const x = 80 + Math.cos(angle) * r;
+            const y = 80 + Math.sin(angle) * r;
+            return <circle key={i} cx={x} cy={y} r={i % 5 === 0 ? 3.5 : 2} fill={i % 5 === 0 ? "#B8875A" : "#E7E3DA"} opacity={i % 5 === 0 ? 0.95 : 0.45} />;
           })}
+          <circle cx="80" cy="80" r="4" fill="#B8875A" />
         </svg>
       )}
-      {variant === "molecular" && (
-        <svg viewBox="0 0 160 160" className="h-[70%] w-auto">
-          {[
-            [40, 40],
-            [120, 50],
-            [80, 90],
-            [30, 120],
-            [130, 120],
-          ].map(([x, y], i) => (
-            <circle key={i} cx={x} cy={y} r="5" fill="#687767" opacity="0.7" />
+      {variant === "expanding" && (
+        <svg viewBox="0 0 160 160" className="h-[70%] w-auto" aria-hidden>
+          <rect x="70" y="70" width="20" height="20" fill="none" stroke="#B8875A" strokeWidth="1.5" />
+          <rect x="50" y="50" width="60" height="60" fill="none" stroke="#E7E3DA" strokeWidth="1" opacity="0.5" />
+          <rect x="25" y="25" width="110" height="110" fill="none" stroke="#314743" strokeWidth="1" opacity="0.6" />
+          <path d="M80 25 V10 M80 150 V135 M25 80 H10 M150 80 H135" stroke="#B8875A" strokeWidth="1" opacity="0.7" />
+        </svg>
+      )}
+      {variant === "concentric" && (
+        <svg viewBox="0 0 160 160" className="h-[70%] w-auto" aria-hidden>
+          {[62, 46, 30, 14].map((r, i) => (
+            <circle key={r} cx="80" cy="80" r={r} fill="none" stroke={i === 3 ? "#B8875A" : "#E7E3DA"} strokeWidth={i === 3 ? 1.5 : 1} opacity={i === 3 ? 0.9 : 0.3 + i * 0.08} />
           ))}
-          <path d="M40 40 L80 90 L120 50 M80 90 L30 120 M80 90 L130 120" stroke="#97A494" strokeWidth="1" fill="none" />
-        </svg>
-      )}
-      {variant === "sculptural" && (
-        <svg viewBox="0 0 160 200" className="h-[70%] w-auto">
-          <circle cx="80" cy="60" r="26" fill="#536252" opacity="0.85" />
-          <circle cx="55" cy="120" r="20" fill="#536252" opacity="0.7" />
-          <circle cx="105" cy="130" r="18" fill="#536252" opacity="0.6" />
-          <line x1="80" y1="60" x2="55" y2="120" stroke="#454f43" strokeWidth="4" />
-          <line x1="80" y1="60" x2="105" y2="130" stroke="#454f43" strokeWidth="4" />
-          <rect x="45" y="170" width="70" height="10" rx="2" fill="#454f43" opacity="0.5" />
+          <circle cx="80" cy="80" r="3" fill="#B8875A" />
         </svg>
       )}
     </div>

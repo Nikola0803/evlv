@@ -52,10 +52,8 @@ export function ProductVisual({
         <line x1="64" y1="204" x2="136" y2="204" stroke="#b8875a" strokeWidth="1" opacity="0.6" />
         <circle cx="100" cy="204" r="1.6" fill="#b8875a" />
 
-        {/* wordmark */}
-        <text x="100" y="175" textAnchor="middle" fontFamily="var(--font-display), sans-serif" fontWeight="600" fontSize="15" letterSpacing="3" fill="#f2ede2">
-          EVLV
-        </text>
+        {/* wordmark — real EVLV logo, not recreated as text */}
+        <image href="/logo/evlv-logo-light.png" x="76" y="165" width="48" height="16" preserveAspectRatio="xMidYMid meet" />
 
         {/* product name */}
         <foreignObject x="68" y="212" width="64" height="34">

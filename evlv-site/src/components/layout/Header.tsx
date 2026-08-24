@@ -8,7 +8,7 @@ import { useCart } from "@/lib/cart-context";
 const NAV = [
   { href: "/shop", label: "Shop" },
   { href: "/science", label: "Science" },
-  { href: "/lab-results", label: "Lab Results" },
+  { href: "/coas", label: "COAs" },
   { href: "/journal", label: "Journal" },
   { href: "/about", label: "About" },
 ];
@@ -20,7 +20,7 @@ export function Header() {
   return (
     <header className="fixed top-[32px] right-0 left-0 z-50 bg-charcoal/20 backdrop-blur-sm">
       <div className="mx-auto flex max-w-[1400px] items-center justify-between px-4 py-4 md:px-8 md:py-5">
-        <Logo tone="ivory" className="shrink-0 text-lg md:text-xl" />
+        <Logo tone="ivory" imgClassName="h-5 w-auto md:h-6" />
 
         <nav className="hidden items-center gap-7 text-[11px] font-medium uppercase tracking-[0.14em] text-white/85 md:flex lg:gap-9">
           {NAV.map((item) => (
@@ -34,10 +34,13 @@ export function Header() {
           <button type="button" className="hidden h-9 w-9 items-center justify-center text-white/85 transition hover:text-white md:flex" aria-label="Search">
             <i className="ri-search-line text-base" />
           </button>
+          <button type="button" className="hidden h-9 w-9 items-center justify-center text-white/85 transition hover:text-white md:flex" aria-label="Account">
+            <i className="ri-user-line text-base" />
+          </button>
           <Link href="/shop" className="relative flex h-9 w-9 items-center justify-center text-white/85 transition hover:text-white" aria-label="Cart">
             <i className="ri-shopping-bag-line text-base" />
             {count > 0 && (
-              <span className="absolute right-0 top-0 flex h-4 w-4 items-center justify-center rounded-full bg-sage text-[10px] font-semibold text-white">
+              <span className="absolute right-0 top-0 flex h-4 w-4 items-center justify-center rounded-full bg-copper text-[10px] font-semibold text-charcoal">
                 {count}
               </span>
             )}

@@ -1,18 +1,21 @@
 const ITEMS = [
-  { title: "Research Use Only", subtitle: "Clearly labeled, every SKU" },
-  { title: "Third-Party Tested", subtitle: "Every batch, no exceptions" },
-  { title: "Premium Quality", subtitle: "99%+ verified purity" },
-  { title: "Performance Driven", subtitle: "Precision. Purity. Potential." },
+  { icon: "ri-flask-line", title: "Third-Party", subtitle: "Tested" },
+  { icon: "ri-shield-check-line", title: "Transparency", subtitle: "You Can Trust" },
+  { icon: "ri-node-tree", title: "Premium", subtitle: "Quality" },
+  { icon: "ri-bar-chart-line", title: "Performance", subtitle: "Driven" },
 ];
 
 export function TrustBar() {
   return (
-    <section className="border-y border-stone bg-sage-deep">
+    <section className="border-b border-charcoal bg-charcoal">
       <div className="container-altr grid grid-cols-2 gap-y-8 py-10 md:grid-cols-4 md:gap-0">
-        {ITEMS.map((item, i) => (
-          <div key={item.title} className={`px-4 text-center ${i > 0 ? "md:border-l md:border-ivory/15" : ""}`}>
-            <p className="font-display text-sm font-medium text-ivory">{item.title}</p>
-            <p className="mt-1 text-[11px] text-ivory/65">{item.subtitle}</p>
+        {ITEMS.map((item) => (
+          <div key={item.title} className="flex items-center gap-4 px-4">
+            <i className={`${item.icon} text-2xl text-copper`} aria-hidden />
+            <div>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-white">{item.title}</p>
+              <p className="text-[11px] uppercase tracking-[0.15em] text-white/50">{item.subtitle}</p>
+            </div>
           </div>
         ))}
       </div>

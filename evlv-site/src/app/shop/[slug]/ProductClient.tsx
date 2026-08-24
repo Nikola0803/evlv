@@ -123,7 +123,7 @@ export function ProductClient({ product }: { product: Product }) {
             type="button"
             disabled={!product.inStock}
             onClick={() => addToCart(product, qty * selected.qty, selected.unitPrice, selected.label)}
-            className="flex-1 whitespace-nowrap rounded-md bg-sage-deep py-4 text-sm font-semibold uppercase tracking-wide text-ivory transition hover:bg-charcoal disabled:cursor-not-allowed disabled:bg-stone disabled:text-charcoal/50"
+            className="flex-1 whitespace-nowrap rounded-md bg-copper py-4 text-sm font-semibold uppercase tracking-wide text-charcoal transition hover:bg-copper-light disabled:cursor-not-allowed disabled:bg-stone disabled:text-charcoal/50"
           >
             {product.inStock ? `Add to Cart — $${lineTotal.toFixed(2)}` : "Out of Stock"}
           </button>

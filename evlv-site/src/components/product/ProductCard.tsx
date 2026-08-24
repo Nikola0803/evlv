@@ -44,7 +44,7 @@ export function ProductCard({ product }: { product: Product }) {
         onMouseLeave={handleLeave}
         className="relative block overflow-hidden rounded-lg bg-ivory-soft"
       >
-        <div className="aspect-[4/5] w-full">
+        <div className="aspect-[3/4] w-full">
           {product.image ? (
             <Image
               src={product.image}
@@ -74,7 +74,7 @@ export function ProductCard({ product }: { product: Product }) {
           </video>
         </div>
         {product.badges?.map((badge) => (
-          <span key={badge} className="absolute left-3 top-3 text-[10px] font-semibold uppercase tracking-wider text-sage-deep">
+          <span key={badge} className="absolute left-3 top-3 border-l-2 border-copper bg-charcoal/80 px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-copper backdrop-blur-sm">
             {badge}
           </span>
         ))}
@@ -83,14 +83,14 @@ export function ProductCard({ product }: { product: Product }) {
         )}
       </Link>
 
-      <div className="flex flex-1 flex-col pt-7">
-        <span className="mb-2 text-[10px] font-medium uppercase tracking-[0.2em] text-charcoal/40">{product.categoryLabel}</span>
-        <Link href={`/shop/${product.slug}`} className="font-display text-lg font-medium tracking-tight text-charcoal transition hover:opacity-60">
+      <div className="flex flex-1 flex-col pt-5">
+        <span className="mb-1.5 text-[10px] font-medium uppercase tracking-[0.2em] text-copper">{product.categoryLabel}</span>
+        <Link href={`/shop/${product.slug}`} className="font-display text-xl font-semibold tracking-tight text-charcoal transition hover:opacity-60 md:text-2xl">
           {title}
         </Link>
         {dosage && <div className="mt-1.5 text-[11px] uppercase tracking-[0.2em] text-charcoal/50">{dosage}</div>}
         {product.purity && <div className="mt-2 text-[11px] uppercase tracking-[0.15em] text-charcoal/50">{product.purity} Tested Purity</div>}
-        <div className="mt-3 text-lg font-medium text-charcoal">
+        <div className="mt-3 font-display text-2xl font-semibold text-charcoal">
           ${product.price.toFixed(2)} <span className="text-xs font-normal text-charcoal/40">CAD</span>
         </div>
 
@@ -101,13 +101,13 @@ export function ProductCard({ product }: { product: Product }) {
               type="button"
               disabled={!product.inStock}
               onClick={() => addToCart(product, 1, selected.unitPrice, selected.label)}
-              className="w-full rounded-md bg-sage-deep py-3.5 text-[12px] font-semibold uppercase tracking-[0.15em] text-ivory transition hover:bg-charcoal disabled:cursor-not-allowed disabled:bg-stone disabled:text-charcoal/40"
+              className="w-full rounded-md bg-copper py-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-charcoal transition hover:bg-copper-light disabled:cursor-not-allowed disabled:bg-stone disabled:text-charcoal/40"
             >
               {product.inStock ? "Add to Cart" : "Out of Stock"}
             </button>
             <Link
-              href="/lab-results"
-              className="flex items-center justify-center gap-2 text-[11px] uppercase tracking-[0.15em] text-charcoal/50 transition hover:text-charcoal"
+              href="/coas"
+              className="flex items-center justify-center gap-2 text-[11px] uppercase tracking-[0.15em] text-charcoal/50 transition hover:text-copper"
             >
               View COA <i className="ri-arrow-right-up-line" />
             </Link>

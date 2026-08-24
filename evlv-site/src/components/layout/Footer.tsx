@@ -4,7 +4,7 @@ import { NewsletterForm } from "./NewsletterForm";
 
 const SHOP_NAV = [
   { href: "/shop", label: "Shop" },
-  { href: "/lab-results", label: "Lab Results" },
+  { href: "/coas", label: "COAs" },
   { href: "/faq", label: "FAQ" },
   { href: "/contact", label: "Contact" },
 ];
@@ -14,12 +14,12 @@ const LEGAL_NAV = ["Research Use Only", "Terms", "Privacy"];
 
 export function Footer() {
   return (
-    <footer className="bg-charcoal pb-8 pt-20 text-white md:pt-28">
+    <footer className="bg-charcoal pb-10 pt-24 text-white md:pt-36">
       <div className="mx-auto max-w-[1400px] px-4 md:px-8">
-        <Logo tone="ivory" className="text-4xl md:text-5xl" />
-        <p className="mt-3 text-sm text-white/50">Evolve. Alter. Become your ultimate.</p>
+        <Logo tone="ivory" imgClassName="h-14 w-auto md:h-20" />
+        <p className="mt-4 text-sm text-white/50">Evolve. Alter. Become your ultimate.</p>
 
-        <div className="mt-12 grid grid-cols-2 gap-6 border-t border-white/10 pt-8 sm:grid-cols-4">
+        <div className="mt-16 grid grid-cols-2 gap-6 border-t border-white/10 pt-10 sm:grid-cols-4">
           {[
             { icon: "ri-flag-line", label: "Made in USA", sub: "With global standards" },
             { icon: "ri-shield-check-line", label: "cGMP Compliant", sub: "Facility" },
@@ -36,7 +36,7 @@ export function Footer() {
           ))}
         </div>
 
-        <div className="mt-12 grid grid-cols-2 gap-8 border-t border-white/10 pt-12 md:grid-cols-4">
+        <div className="mt-14 grid grid-cols-2 gap-8 border-t border-white/10 pt-14 md:grid-cols-4">
           <FooterColumn title="Shop">
             {SHOP_NAV.map((item) => (
               <li key={item.label}>

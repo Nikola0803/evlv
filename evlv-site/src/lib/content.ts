@@ -49,6 +49,6 @@ export const faqItems: FaqItem[] = [
   {
     question: "How can I verify your product is legitimate?",
     answer:
-      "Every batch we sell is independently tested by a third-party laboratory. Match the batch code on your vial to the corresponding report on our Lab Results page.",
+      "Every batch we sell is independently tested by a third-party laboratory. Match the batch code on your vial to the corresponding report on our COAs page.",
   },
 ];

@@ -2,7 +2,7 @@
 
 import { FormEvent, useState } from "react";
 
-const TOPICS = ["Order Question", "Product Question", "Shipping & Tracking", "Lab Results", "Other"];
+const TOPICS = ["Order Question", "Product Question", "Shipping & Tracking", "COAs", "Other"];
 
 export function ContactForm() {
   const [submitted, setSubmitted] = useState(false);
@@ -60,7 +60,7 @@ export function ContactForm() {
 
       <input tabIndex={-1} autoComplete="off" aria-hidden className="hidden" type="text" name="company" />
 
-      <button type="submit" className="w-full rounded-md bg-sage-deep py-3.5 text-[12px] font-semibold uppercase tracking-[0.15em] text-ivory transition hover:bg-charcoal">
+      <button type="submit" className="w-full rounded-md bg-copper py-3.5 text-[12px] font-semibold uppercase tracking-[0.15em] text-charcoal transition hover:bg-copper-light">
         Send Message
       </button>
     </form>
