@@ -3,8 +3,8 @@
 import { Suspense, useEffect, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { getStoredUser, clearAuth, setDisplayName, type AuthUser } from "@/lib/auth";
-import { getOrdersForUser, type Order } from "@/lib/orders";
+import { getStoredUser, getStoredToken, clearAuth, setDisplayName, type AuthUser } from "@/lib/auth";
+import { getOrdersForUser, mapCrmOrders, type Order } from "@/lib/orders";
 import { getAddressesForUser, addAddress, removeAddress, setDefaultAddress, type Address } from "@/lib/addresses";
 import { useCurrency } from "@/lib/currency-context";
 
@@ -14,6 +14,11 @@ const STATUS_STYLE: Record<Order["status"], string> = {
   Processing: "bg-copper/15 text-copper",
   Shipped: "bg-sage-mist text-sage-deep",
   Delivered: "bg-sage-deep text-ivory",
+  Pending: "bg-copper/15 text-copper",
+  Completed: "bg-sage-deep text-ivory",
+  "On Hold": "bg-stone text-charcoal/70",
+  Refunded: "bg-stone text-charcoal/70",
+  Cancelled: "bg-red-100 text-red-700",
 };
 
 const TABS: { key: Tab; label: string; icon: string }[] = [
@@ -40,9 +45,29 @@ function AccountPageInner() {
   const justPlacedId = searchParams.get("order");
   const { formatPrice } = useCurrency();
 
-  function refresh(u: AuthUser) {
-    setOrders(getOrdersForUser(u.user_id));
+  async function refresh(u: AuthUser) {
+    const local = getOrdersForUser(u.user_id);
+    setOrders(local);
     setAddresses(getAddressesForUser(u.user_id));
+
+    // Real accounts (not the local-only CRM-not-configured bypass) have a
+    // real token — fetch live order history from the CRM and show it
+    // alongside any local-only orders placed before the CRM was connected.
+    const token = getStoredToken();
+    if (u.user_id === "local" || !token) return;
+    try {
+      const res = await fetch("/api/account/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token }),
+      });
+      if (!res.ok) return;
+      const data = await res.json();
+      const remote = mapCrmOrders(u.user_id, data.orders ?? [], "USD");
+      setOrders([...remote, ...local]);
+    } catch {
+      /* CRM unreachable, local orders already shown */
+    }
   }
 
   useEffect(() => {

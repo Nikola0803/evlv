@@ -10,8 +10,9 @@ interface CartLine {
   packLabel: string;
 }
 
-/** Required reconstitution add-on. Not a real product/SKU — a fixed line auto-included whenever the cart has items. */
+/** Required reconstitution add-on, auto-included whenever the cart has items. Seeded as a real CRM product (see prisma/seed-evlv.ts) so it resolves at real checkout too. */
 export const BAC_WATER = {
+  slug: "bacteriostatic-water-30ml",
   name: "Bacteriostatic Water 30mL",
   note: "Required for reconstitution",
   price: 15,

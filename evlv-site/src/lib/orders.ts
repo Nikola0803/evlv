@@ -14,11 +14,13 @@ export interface OrderLine {
   unitPrice: number;
 }
 
+export type OrderStatus = "Processing" | "Shipped" | "Delivered" | "Pending" | "Completed" | "On Hold" | "Refunded" | "Cancelled";
+
 export interface Order {
   id: string;
   userId: string;
   createdAt: string;
-  status: "Processing" | "Shipped" | "Delivered";
+  status: OrderStatus;
   lines: OrderLine[];
   subtotal: number;
   shipping: number;
@@ -26,6 +28,8 @@ export interface Order {
   currency: "USD" | "CAD";
   paymentMethod?: "cashapp" | "zelle" | "venmo";
   paymentMemo?: string;
+  /** True for orders fetched live from the CRM, vs a local-only browser record. */
+  isRemote?: boolean;
 }
 
 const STORAGE_KEY = "evlv_orders";
@@ -62,4 +66,43 @@ export function addOrder(order: Omit<Order, "id" | "createdAt" | "status">): Ord
   };
   writeAll([...readAll(), full]);
   return full;
+}
+
+const CRM_STATUS_LABEL: Record<string, OrderStatus> = {
+  PENDING: "Pending",
+  PROCESSING: "Processing",
+  COMPLETED: "Completed",
+  ON_HOLD: "On Hold",
+  REFUNDED: "Refunded",
+  CANCELLED: "Cancelled",
+};
+
+interface CrmOrder {
+  id: string;
+  number: string;
+  status: string;
+  total: string;
+  date_created: string;
+  line_items: { name: string; quantity: number; total: string }[];
+}
+
+/** Maps the CRM's /api/store/account/orders response onto the same Order shape local orders use. */
+export function mapCrmOrders(userId: string, crmOrders: CrmOrder[], currency: "USD" | "CAD"): Order[] {
+  return crmOrders.map((o) => ({
+    id: o.number || o.id,
+    userId,
+    createdAt: o.date_created,
+    status: CRM_STATUS_LABEL[o.status] ?? "Processing",
+    lines: o.line_items.map((li) => ({
+      name: li.name,
+      packLabel: "",
+      qty: li.quantity,
+      unitPrice: li.quantity > 0 ? Number(li.total) / li.quantity : Number(li.total),
+    })),
+    subtotal: Number(o.total),
+    shipping: 0,
+    total: Number(o.total),
+    currency,
+    isRemote: true,
+  }));
 }
