@@ -17,7 +17,7 @@ const CUSTOMER_NAV = [
   { href: "/returns", label: "Returns" },
 ];
 const LEGAL_NAV = [
-  { href: "/#legal-disclaimer", label: "Research Use Only" },
+  { href: "/ruo", label: "Research Use Only" },
   { href: "/terms", label: "Terms" },
   { href: "/privacy", label: "Privacy" },
 ];
