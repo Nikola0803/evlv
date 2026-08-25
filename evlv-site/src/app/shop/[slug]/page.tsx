@@ -28,7 +28,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
   return (
     <>
-      <div className="mx-auto max-w-[1400px] px-4 py-4 md:px-8">
+      <div className="mx-auto max-w-[1400px] px-4 pb-4 pt-8 md:px-8 md:pt-10">
         <nav className="flex flex-wrap items-center gap-2 text-xs text-charcoal/50">
           <Link href="/" className="transition hover:text-charcoal">
             Home

@@ -24,6 +24,8 @@ export interface Order {
   shipping: number;
   total: number;
   currency: "USD" | "CAD";
+  paymentMethod?: "cashapp" | "zelle" | "venmo";
+  paymentMemo?: string;
 }
 
 const STORAGE_KEY = "evlv_orders";

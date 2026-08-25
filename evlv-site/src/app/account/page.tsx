@@ -179,6 +179,18 @@ function OrdersPanel({ orders, formatPrice }: { orders: Order[]; formatPrice: (n
                 ))}
               </div>
 
+              {order.paymentMethod && (
+                <div className="flex items-center gap-2 border-t border-dashed border-stone px-5 py-3 text-xs text-charcoal/50">
+                  <i className="ri-bank-card-line text-copper" />
+                  Pay via <span className="font-medium capitalize text-charcoal">{order.paymentMethod}</span>
+                  {order.paymentMemo && (
+                    <>
+                      , memo <span className="font-mono text-copper">{order.paymentMemo}</span>
+                    </>
+                  )}
+                </div>
+              )}
+
               <div className="flex items-center justify-between px-5 py-3.5">
                 <span className="text-xs text-charcoal/50">
                   Subtotal {formatPrice(order.subtotal)} + Shipping {order.shipping === 0 ? "Free" : formatPrice(order.shipping)}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -9,34 +9,131 @@ import { useCurrency } from "@/lib/currency-context";
 import { FREE_SHIPPING_THRESHOLD, FLAT_SHIPPING_COST } from "@/components/layout/CartUpsellOffers";
 import { getStoredUser } from "@/lib/auth";
 import { addOrder } from "@/lib/orders";
+import { PAYMENT_GATEWAYS, type PaymentGatewayId } from "@/lib/payment-config";
+
+const US_STATES = [
+  "AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA",
+  "KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ",
+  "NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT",
+  "VA","WA","WV","WI","WY","DC",
+];
+
+const CA_PROVINCES = ["AB","BC","MB","NB","NL","NS","NT","NU","ON","PE","QC","SK","YT"];
+
+const MEMO_CHARS = "ABCDEFGHJKMNPQRSTUVWXYZ23456789"; // avoids ambiguous 0/O/1/I/L
+const RESERVATION_MS = 2 * 60 * 60 * 1000; // 2 hours
+
+function generateMemo() {
+  let code = "";
+  for (let i = 0; i < 4; i++) code += MEMO_CHARS[Math.floor(Math.random() * MEMO_CHARS.length)];
+  return code;
+}
+
+function formatCountdown(ms: number) {
+  const totalSeconds = Math.max(0, Math.floor(ms / 1000));
+  const h = Math.floor(totalSeconds / 3600);
+  const m = Math.floor((totalSeconds % 3600) / 60);
+  const s = totalSeconds % 60;
+  return `${h}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+}
 
 export default function CheckoutPage() {
   const { lines, subtotal, clearCart } = useCart();
   const { formatPrice, currency } = useCurrency();
-  const [submitting, setSubmitting] = useState(false);
   const router = useRouter();
+
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address1, setAddress1] = useState("");
+  const [city, setCity] = useState("");
+  const [country, setCountry] = useState<"US" | "CA">("US");
+  const [stateCode, setStateCode] = useState("");
+  const [zip, setZip] = useState("");
+  const [smsConsent, setSmsConsent] = useState(false);
+  const [orderNotes, setOrderNotes] = useState("");
+
+  const [selectedGateway, setSelectedGateway] = useState<PaymentGatewayId | null>(null);
+  const [memo, setMemo] = useState(() => generateMemo());
+  const [expiresAt, setExpiresAt] = useState(() => Date.now() + RESERVATION_MS);
+  const [now, setNow] = useState(() => Date.now());
+  const [copied, setCopied] = useState(false);
+  const [handleCopied, setHandleCopied] = useState(false);
+  const [placing, setPlacing] = useState(false);
 
   const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : FLAT_SHIPPING_COST;
   const total = subtotal + shipping;
+  const shippingComplete = Boolean(
+    firstName.trim() && lastName.trim() && email.trim() && phone.trim() && address1.trim() && city.trim() && stateCode && zip.trim()
+  );
+
+  useEffect(() => {
+    const timer = window.setInterval(() => setNow(Date.now()), 1000);
+    return () => window.clearInterval(timer);
+  }, []);
+
+  const remainingMs = expiresAt - now;
+  const expired = remainingMs <= 0;
+  const selectedGatewayInfo = PAYMENT_GATEWAYS.find((g) => g.id === selectedGateway) ?? null;
+
+  function handleRegenerate() {
+    setMemo(generateMemo());
+    setExpiresAt(Date.now() + RESERVATION_MS);
+  }
+
+  async function handleCopyMemo() {
+    try {
+      await navigator.clipboard.writeText(memo);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1800);
+    } catch {
+      /* clipboard unavailable, code is still visible to copy manually */
+    }
+  }
+
+  async function handleCopyGatewayHandle() {
+    if (!selectedGatewayInfo?.handle) return;
+    try {
+      await navigator.clipboard.writeText(selectedGatewayInfo.handle);
+      setHandleCopied(true);
+      window.setTimeout(() => setHandleCopied(false), 1800);
+    } catch {
+      /* clipboard unavailable, handle is still visible to copy manually */
+    }
+  }
 
   function handlePlaceOrder(e: React.FormEvent) {
     e.preventDefault();
-    setSubmitting(true);
+    if (!selectedGateway || expired || !shippingComplete || placing) return;
+    setPlacing(true);
+
     window.setTimeout(() => {
       const user = getStoredUser();
+      const gatewayInfo = PAYMENT_GATEWAYS.find((g) => g.id === selectedGateway)!;
       const order = addOrder({
         userId: user?.user_id ?? "guest",
         currency,
         subtotal,
         shipping,
         total,
+        paymentMethod: selectedGateway,
+        paymentMemo: memo,
         lines: [
           ...lines.map((l) => ({ name: l.product.name, packLabel: l.packLabel, qty: l.qty, unitPrice: l.unitPrice })),
           { name: BAC_WATER.name, packLabel: BAC_WATER.note, qty: 1, unitPrice: BAC_WATER.price },
         ],
       });
       clearCart();
-      router.push(`/account?order=${order.id}`);
+
+      const params = new URLSearchParams({
+        order: order.id,
+        gateway: selectedGateway,
+        label: gatewayInfo.label,
+        handle: gatewayInfo.handle || "",
+        memo,
+      });
+      router.push(`/order-success?${params.toString()}`);
     }, 500);
   }
 
@@ -56,39 +153,214 @@ export default function CheckoutPage() {
     <div className="mx-auto max-w-5xl px-4 py-10 md:py-14">
       <h1 className="font-display text-2xl font-semibold uppercase tracking-tight text-charcoal md:text-3xl">Checkout</h1>
 
-      <div className="mt-8 grid grid-cols-1 gap-10 lg:grid-cols-[1fr_400px]">
-        <form onSubmit={handlePlaceOrder} className="space-y-8">
+      <form onSubmit={handlePlaceOrder} className="mt-8 grid grid-cols-1 gap-10 lg:grid-cols-[1fr_420px]">
+        <div className="space-y-8">
           <section>
-            <h2 className="mb-4 text-[11px] font-semibold uppercase tracking-wider text-charcoal/50">Contact</h2>
-            <input required type="email" placeholder="Email address" className="w-full rounded-md border border-stone bg-white px-4 py-3 text-sm text-charcoal outline-none placeholder:text-charcoal/40 focus:border-copper" />
-          </section>
-
-          <section>
-            <h2 className="mb-4 text-[11px] font-semibold uppercase tracking-wider text-charcoal/50">Shipping Address</h2>
+            <h2 className="mb-4 text-[11px] font-semibold uppercase tracking-wider text-charcoal/50">Shipping Information</h2>
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-              <input required type="text" placeholder="First name" className="rounded-md border border-stone bg-white px-4 py-3 text-sm text-charcoal outline-none placeholder:text-charcoal/40 focus:border-copper" />
-              <input required type="text" placeholder="Last name" className="rounded-md border border-stone bg-white px-4 py-3 text-sm text-charcoal outline-none placeholder:text-charcoal/40 focus:border-copper" />
-              <input required type="text" placeholder="Address" className="sm:col-span-2 rounded-md border border-stone bg-white px-4 py-3 text-sm text-charcoal outline-none placeholder:text-charcoal/40 focus:border-copper" />
-              <input required type="text" placeholder="City" className="rounded-md border border-stone bg-white px-4 py-3 text-sm text-charcoal outline-none placeholder:text-charcoal/40 focus:border-copper" />
-              <input required type="text" placeholder="Postal / ZIP code" className="rounded-md border border-stone bg-white px-4 py-3 text-sm text-charcoal outline-none placeholder:text-charcoal/40 focus:border-copper" />
+              <Field label="First Name" required value={firstName} onChange={setFirstName} placeholder="John" />
+              <Field label="Last Name" required value={lastName} onChange={setLastName} placeholder="Doe" />
+              <Field label="Email Address" required type="email" value={email} onChange={setEmail} placeholder="you@lab.edu" className="sm:col-span-2" />
+              <Field label="Phone Number" required type="tel" value={phone} onChange={setPhone} placeholder="+1 (555) 000-0000" className="sm:col-span-2" />
+              <Field label="Street Address" required value={address1} onChange={setAddress1} placeholder="123 Research Blvd, Suite 100" className="sm:col-span-2" />
+
+              <div>
+                <label className="mb-1.5 block text-[12px] font-medium text-charcoal/70">
+                  Country <span className="text-copper">*</span>
+                </label>
+                <select
+                  value={country}
+                  onChange={(e) => {
+                    setCountry(e.target.value as "US" | "CA");
+                    setStateCode("");
+                  }}
+                  className="h-10 w-full rounded-md border border-stone bg-white px-3 text-sm text-charcoal outline-none focus:border-copper"
+                >
+                  <option value="US">United States</option>
+                  <option value="CA">Canada</option>
+                </select>
+              </div>
+              <Field label="City" required value={city} onChange={setCity} placeholder="Boston" />
+
+              <div>
+                <label className="mb-1.5 block text-[12px] font-medium text-charcoal/70">
+                  {country === "US" ? "State" : "Province"} <span className="text-copper">*</span>
+                </label>
+                <select
+                  value={stateCode}
+                  onChange={(e) => setStateCode(e.target.value)}
+                  className="h-10 w-full rounded-md border border-stone bg-white px-3 text-sm text-charcoal outline-none focus:border-copper"
+                >
+                  <option value="" disabled>
+                    Select {country === "US" ? "state" : "province"}...
+                  </option>
+                  {(country === "US" ? US_STATES : CA_PROVINCES).map((s) => (
+                    <option key={s} value={s}>
+                      {s}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <Field label="Postal / ZIP Code" required value={zip} onChange={setZip} placeholder="02110" maxLength={10} />
+            </div>
+
+            <label className="mt-5 flex items-start gap-3 rounded-md border border-stone bg-ivory-soft p-3">
+              <input type="checkbox" checked={smsConsent} onChange={(e) => setSmsConsent(e.target.checked)} className="mt-0.5 h-4 w-4 shrink-0 accent-copper" />
+              <span className="text-[11px] leading-relaxed text-charcoal/60">
+                By checking this box, you agree to receive text messages from EVLV at the number provided. Consent
+                is not a condition to purchase. Message frequency varies. Message and data rates may apply. Reply
+                STOP to cancel or HELP for help. View our{" "}
+                <Link href="/privacy" className="text-copper hover:underline">
+                  Privacy Policy
+                </Link>{" "}
+                and{" "}
+                <Link href="/terms" className="text-copper hover:underline">
+                  Terms of Service
+                </Link>
+                .
+              </span>
+            </label>
+          </section>
+
+          <section>
+            <h2 className="mb-4 text-[11px] font-semibold uppercase tracking-wider text-charcoal/50">Payment Method</h2>
+            <div className="grid grid-cols-3 gap-3">
+              {PAYMENT_GATEWAYS.map((gw) => {
+                const active = selectedGateway === gw.id;
+                return (
+                  <button
+                    key={gw.id}
+                    type="button"
+                    onClick={() => {
+                      setSelectedGateway(gw.id);
+                      setHandleCopied(false);
+                    }}
+                    aria-pressed={active}
+                    className={`relative flex flex-col items-center gap-2 rounded-lg border p-4 transition ${
+                      active ? "border-copper bg-copper/10" : "border-stone bg-ivory-soft hover:border-charcoal/30"
+                    }`}
+                  >
+                    {active && <i className="ri-checkbox-circle-fill absolute right-2 top-2 text-sm text-copper" />}
+                    <i className={`${gw.icon} text-2xl ${active ? "text-copper" : "text-charcoal/40"}`} />
+                    <span className={`text-xs font-medium ${active ? "text-copper" : "text-charcoal/60"}`}>{gw.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+
+            {selectedGatewayInfo && (
+              <div className="mt-4 rounded-lg border border-stone bg-ivory-soft p-4">
+                <p className="mb-3 flex items-center gap-2 text-xs font-medium text-charcoal/70">
+                  <i className={`${selectedGatewayInfo.icon} text-copper`} /> Send your {selectedGatewayInfo.label} payment to
+                </p>
+                {selectedGatewayInfo.handle ? (
+                  <>
+                    <div className="flex items-center gap-2">
+                      <span className="flex h-11 flex-1 items-center truncate rounded-md border border-copper/40 bg-white px-4 font-mono text-sm text-copper">
+                        {selectedGatewayInfo.handle}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={handleCopyGatewayHandle}
+                        className="h-11 shrink-0 whitespace-nowrap rounded-md border border-stone px-4 text-xs font-medium text-charcoal/70 transition hover:border-copper hover:text-copper"
+                      >
+                        {handleCopied ? "Copied" : "Copy"}
+                      </button>
+                    </div>
+                    <p className="mt-2 text-[11px] leading-relaxed text-charcoal/50">{selectedGatewayInfo.handleNote}</p>
+                  </>
+                ) : (
+                  <p className="flex items-start gap-2 text-xs leading-relaxed text-charcoal/60">
+                    <i className="ri-mail-send-line mt-0.5 shrink-0 text-copper" />
+                    We&rsquo;ll email your {selectedGatewayInfo.label} payment details right after you place this
+                    order, along with your memo code below.
+                  </p>
+                )}
+              </div>
+            )}
+
+            <div className="mt-4 rounded-lg border border-copper/30 bg-copper/5 p-4">
+              <div className="mb-2 flex items-center justify-between">
+                <label className="text-xs font-semibold text-charcoal">Payment Memo</label>
+                {!expired ? (
+                  <span className="flex items-center gap-1.5 font-mono text-[10px] tracking-wider text-charcoal/50">
+                    <i className="ri-time-line" /> Reserved {formatCountdown(remainingMs)}
+                  </span>
+                ) : (
+                  <span className="flex items-center gap-1.5 font-mono text-[10px] tracking-wider text-red-600">
+                    <i className="ri-error-warning-line" /> Reservation expired
+                  </span>
+                )}
+              </div>
+              <div className="flex items-center gap-2">
+                <span
+                  className={`flex h-11 flex-1 items-center rounded-md border bg-white px-4 font-mono text-lg tracking-[0.35em] ${
+                    expired ? "border-stone text-charcoal/30" : "border-copper/40 text-copper"
+                  }`}
+                >
+                  {memo}
+                </span>
+                <button
+                  type="button"
+                  onClick={handleCopyMemo}
+                  disabled={expired}
+                  className="h-11 shrink-0 whitespace-nowrap rounded-md border border-stone px-4 text-xs font-medium text-charcoal/70 transition hover:border-copper hover:text-copper disabled:cursor-not-allowed disabled:opacity-30"
+                >
+                  {copied ? "Copied" : "Copy"}
+                </button>
+              </div>
+              <p className="mt-2 text-[11px] leading-relaxed text-charcoal/50">
+                Include this exact code in your {selectedGateway ? PAYMENT_GATEWAYS.find((g) => g.id === selectedGateway)?.label : "payment"} note
+                so we can match your payment and dispatch faster. Your items are held for 2 hours. After that, stock
+                releases back to general inventory.
+              </p>
+              {expired && (
+                <button
+                  type="button"
+                  onClick={handleRegenerate}
+                  className="mt-3 rounded-md border border-copper/40 bg-copper/10 px-4 py-2 text-xs font-medium text-copper transition hover:bg-copper/20"
+                >
+                  <i className="ri-refresh-line mr-1.5" /> Generate New Code
+                </button>
+              )}
             </div>
           </section>
 
           <section>
-            <h2 className="mb-4 text-[11px] font-semibold uppercase tracking-wider text-charcoal/50">Payment</h2>
-            <div className="rounded-lg border border-dashed border-stone bg-ivory-soft p-4 text-xs text-charcoal/50">
-              Payment processing isn&apos;t connected yet. This checkout is a preview of the flow.
-            </div>
+            <label className="mb-2 block text-[11px] font-semibold uppercase tracking-wider text-charcoal/50">
+              Order Notes <span className="font-normal normal-case text-charcoal/40">(optional)</span>
+            </label>
+            <textarea
+              maxLength={500}
+              rows={3}
+              placeholder="Any special instructions or notes..."
+              value={orderNotes}
+              onChange={(e) => setOrderNotes(e.target.value)}
+              className="w-full resize-none rounded-md border border-stone bg-white px-4 py-3 text-sm text-charcoal outline-none placeholder:text-charcoal/40 focus:border-copper"
+            />
+            <p className="mt-1 text-right text-[10px] text-charcoal/40">{orderNotes.length}/500</p>
           </section>
+
+          <div className="flex items-start gap-2 rounded-md border border-stone bg-ivory-soft p-3">
+            <i className="ri-information-line mt-0.5 text-copper" />
+            <p className="text-[11px] leading-relaxed text-charcoal/60">
+              By placing this order, you confirm that all products are purchased for laboratory research use only,
+              in accordance with our{" "}
+              <Link href="/ruo" className="text-copper hover:underline">
+                Research Use Only Policy
+              </Link>
+              .
+            </p>
+          </div>
 
           <button
             type="submit"
-            disabled={submitting}
-            className="w-full rounded-md bg-copper py-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-charcoal transition hover:bg-copper-light disabled:cursor-wait disabled:opacity-60"
+            disabled={!selectedGateway || expired || !shippingComplete || placing}
+            className="w-full rounded-md bg-copper py-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-charcoal transition hover:bg-copper-light disabled:cursor-not-allowed disabled:opacity-40"
           >
-            {submitting ? "Processing..." : `Place Order (${formatPrice(total)})`}
+            {placing ? "Placing Order..." : `Confirm Order (${formatPrice(total)})`}
           </button>
-        </form>
+        </div>
 
         <div className="h-fit rounded-lg border border-stone bg-ivory-soft p-5">
           <h2 className="mb-4 text-[11px] font-semibold uppercase tracking-wider text-charcoal/50">Order Summary</h2>
@@ -133,7 +405,44 @@ export default function CheckoutPage() {
             </div>
           </div>
         </div>
-      </div>
+      </form>
+    </div>
+  );
+}
+
+function Field({
+  label,
+  value,
+  onChange,
+  placeholder,
+  required,
+  type = "text",
+  maxLength,
+  className = "",
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  placeholder?: string;
+  required?: boolean;
+  type?: string;
+  maxLength?: number;
+  className?: string;
+}) {
+  return (
+    <div className={className}>
+      <label className="mb-1.5 block text-[12px] font-medium text-charcoal/70">
+        {label} {required && <span className="text-copper">*</span>}
+      </label>
+      <input
+        type={type}
+        required={required}
+        maxLength={maxLength}
+        placeholder={placeholder}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className="h-10 w-full rounded-md border border-stone bg-white px-3 text-sm text-charcoal outline-none placeholder:text-charcoal/40 focus:border-copper"
+      />
     </div>
   );
 }
