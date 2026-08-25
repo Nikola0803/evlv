@@ -25,7 +25,7 @@ export default function AboutPage() {
         </h1>
         <p className="mt-6 max-w-xl text-base leading-relaxed text-soft-gray md:text-lg">
           EVLV is built around clarity and consistency in research. Every SKU, every batch and every result is
-          handled with the same standard — because transparency should never be optional. We priced the catalogue
+          handled with the same standard, because transparency should never be optional. We priced the catalogue
           the way we did because volume pricing communicated plainly beats a discount code, and a straightforward
           buying process beats a clever one.
         </p>

@@ -17,7 +17,7 @@ export const FOCUS_AREAS: FocusArea[] = [
   { key: "recovery", label: "Recovery & Repair Research" },
   { key: "longevity", label: "Longevity & Cellular Health Research" },
   { key: "metabolic", label: "Metabolic & Weight Research" },
-  { key: "growth", label: "Growth & Performance Research" },
+  { key: "growth", label: "GHRH & Pituitary Axis Research" },
   { key: "cognition", label: "Cognition & Mood Research" },
   { key: "vitality", label: "Sexual Health Research" },
 ];
@@ -58,11 +58,8 @@ export const SUBGOALS: Record<string, SubgoalConfig> = {
     ],
   },
   growth: {
-    question: "Within growth & performance, what are you most focused on?",
-    options: [
-      { key: "gh", label: "Natural growth-hormone pathway support" },
-      { key: "direct", label: "Direct growth-hormone research" },
-    ],
+    question: "Within GHRH & pituitary axis research, what are you most focused on?",
+    options: [{ key: "gh", label: "Natural GHRH pathway support" }],
   },
   cognition: {
     question: "Within cognition & mood, what are you most focused on?",
@@ -92,7 +89,7 @@ export const QUIZ_PRODUCTS: Record<string, QuizProduct> = {
     tier: "mid",
     variants: {
       "recovery:general":
-        "Studied for immune modulation and systemic recovery support — a common pick when the focus is whole-body rather than one area.",
+        "Studied for immune modulation and systemic recovery support, a common pick when the focus is whole-body rather than one area.",
     },
   },
   "wolverine-stack-20mg": {
@@ -115,7 +112,7 @@ export const QUIZ_PRODUCTS: Record<string, QuizProduct> = {
     tier: "mid",
     variants: {
       "longevity:cellular": "An NNMT-inhibitor compound studied in the context of cellular metabolism research.",
-      "metabolic:general": "Studied for its role in cellular metabolism — a common starting point for general metabolic research.",
+      "metabolic:general": "Studied for its role in cellular metabolism, a common starting point for general metabolic research.",
     },
   },
   "ghk-cu-50mg": {
@@ -131,7 +128,7 @@ export const QUIZ_PRODUCTS: Record<string, QuizProduct> = {
       "longevity:skin": "A pre-combined cellular-support blend researched for tissue- and skin-focused protocols.",
     },
   },
-  "retatrutide-10mg": {
+  "gp-3-10mg": {
     tier: "advanced",
     variants: {
       "metabolic:appetite":
@@ -141,25 +138,19 @@ export const QUIZ_PRODUCTS: Record<string, QuizProduct> = {
   "sermorelin-10mg": {
     tier: "beginner",
     variants: {
-      "growth:gh": "A GHRH-analog studied for its role in natural growth-hormone pathway research — a common starting point.",
+      "growth:gh": "A GHRH-analog studied for its role in natural pituitary-axis research, a common starting point.",
     },
   },
   "cjc-1295-no-dac-5mg": {
     tier: "mid",
     variants: {
-      "growth:gh": "A GHRH-analog studied for sustained growth-hormone pathway signaling research.",
+      "growth:gh": "A GHRH-analog studied for sustained pituitary-axis signaling research.",
     },
   },
   "tesamorelin-10mg": {
     tier: "mid",
     variants: {
-      "growth:gh": "Studied for its role in body composition and growth-hormone pathway research.",
-    },
-  },
-  "hgh-24iu": {
-    tier: "advanced",
-    variants: {
-      "growth:direct": "Direct growth-hormone research vial — typically explored once someone's already familiar with GH-pathway compounds.",
+      "growth:gh": "Studied for its role in body composition and pituitary-axis research.",
     },
   },
   "selank-10mg": {
@@ -174,7 +165,7 @@ export const QUIZ_LABELS = {
   startHere: "Start Here",
   alsoWorthLook: "Also Worth A Look",
   resultsHeader: "Based on what you told us",
-  resultsSubheader: "A short, research-first starting point — not a recommendation. Everything at EVLV is for research use only.",
+  resultsSubheader: "A short, research-first starting point, not a recommendation. Everything at EVLV is for research use only.",
   footer: "These are starting points for your own research, chosen from what you selected. Nothing here is medical or dosing advice.",
-  noMatch: "We don't carry a direct match for this focus yet — explore the full catalogue.",
+  noMatch: "We don't carry a direct match for this focus yet. Explore the full catalogue.",
 };

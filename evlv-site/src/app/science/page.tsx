@@ -18,7 +18,7 @@ const ARTICLES = [
     label: "Testing",
     title: "Batch testing explained",
     description:
-      "Every batch we sell is tied to a lot number and a corresponding certificate of analysis. HPLC identifies and quantifies the compound; mass spectrometry confirms molecular identity. Together they answer two different questions — how much, and is it actually what it claims to be.",
+      "Every batch we sell is tied to a lot number and a corresponding certificate of analysis. HPLC identifies and quantifies the compound; mass spectrometry confirms molecular identity. Together they answer two different questions: how much, and is it actually what it claims to be.",
     image: "/images/science/testing.jpg",
   },
   {

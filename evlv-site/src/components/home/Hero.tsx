@@ -52,13 +52,11 @@ export function Hero() {
           <h1 className="font-display text-4xl font-semibold leading-[1.05] md:text-6xl lg:text-7xl">
             <span className="text-white/40">Evolve.</span>
             <br />
-            <span className="text-white/40">Alter.</span>
-            <br />
             <span className="text-white">Become your ultimate.</span>
           </h1>
 
           <p className="mt-7 max-w-md text-base leading-relaxed text-white/70 md:text-lg">
-            Premium research peptides engineered around precision, transparency and possibility.
+            Premium research peptides engineered around precision and transparency. For Research Use Only. Not for human or veterinary use.
           </p>
 
           <div className="mt-9 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
@@ -92,7 +90,7 @@ export function Hero() {
 }
 
 function StampBadge({ className = "" }: { className?: string }) {
-  const text = "EVOLVE. ALTER. • BECOME YOUR ULTIMATE. • ";
+  const text = "EVOLVE. • BECOME YOUR ULTIMATE. • ";
   return (
     <div className={`flex items-center justify-center rounded-full border border-white/40 bg-charcoal/50 backdrop-blur-sm ${className}`}>
       <svg viewBox="0 0 100 100" className="hero-spin absolute inset-0 h-full w-full">

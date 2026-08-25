@@ -40,7 +40,7 @@ export function ProductClient({ product }: { product: Product }) {
 
   return (
     <section className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-12">
-      <div className="relative">
+      <div className="relative self-start lg:sticky lg:top-[110px]">
         <div className="overflow-hidden rounded-lg border border-stone bg-ivory-soft">
           <div className="aspect-square w-full">
             {product.image ? (
@@ -74,7 +74,7 @@ export function ProductClient({ product }: { product: Product }) {
           <div className="font-display text-3xl font-semibold text-charcoal md:text-4xl">{formatPrice(selected.unitPrice)}</div>
           {product.bulkOption && (
             <p className="mt-1 text-sm text-charcoal/50">
-              Single vial — save {product.bulkOption.savePercent}% with {product.bulkOption.qty}-pack
+              Single vial, save {product.bulkOption.savePercent}% with {product.bulkOption.qty}-pack
             </p>
           )}
         </div>
@@ -125,7 +125,7 @@ export function ProductClient({ product }: { product: Product }) {
             onClick={() => addToCart(product, qty * selected.qty, selected.unitPrice, selected.label)}
             className="flex-1 whitespace-nowrap rounded-md bg-copper py-4 text-sm font-semibold uppercase tracking-wide text-charcoal transition hover:bg-copper-light disabled:cursor-not-allowed disabled:bg-stone disabled:text-charcoal/50"
           >
-            {product.inStock ? `Add to Cart — ${formatPrice(lineTotal)}` : "Out of Stock"}
+            {product.inStock ? `Add to Cart (${formatPrice(lineTotal)})` : "Out of Stock"}
           </button>
           <a href="/shop" className="flex-1 whitespace-nowrap rounded-md border border-charcoal py-4 text-center text-sm font-semibold uppercase tracking-wide text-charcoal transition hover:bg-charcoal hover:text-ivory">
             Continue Shopping

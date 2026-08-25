@@ -35,9 +35,9 @@ export function Header() {
         <div className="flex items-center gap-1 md:gap-3">
           <CurrencySwitcher />
           <SearchWidget />
-          <button type="button" className="hidden h-9 w-9 items-center justify-center text-white/85 transition hover:text-white md:flex" aria-label="Account">
+          <Link href="/account" className="hidden h-9 w-9 items-center justify-center text-white/85 transition hover:text-white md:flex" aria-label="Account">
             <i className="ri-user-line text-base" />
-          </button>
+          </Link>
           <button type="button" onClick={openCart} className="relative flex h-9 w-9 items-center justify-center text-white/85 transition hover:text-white" aria-label="Cart">
             <i className="ri-shopping-bag-line text-base" />
             {count > 0 && (

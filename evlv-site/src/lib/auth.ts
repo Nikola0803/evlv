@@ -41,3 +41,11 @@ export function clearAuth() {
   localStorage.removeItem(TOKEN_KEY);
   localStorage.removeItem(USER_KEY);
 }
+
+/** Local display-name override, since the CRM record itself isn't editable from here yet. */
+export function setDisplayName(name: string) {
+  const user = getStoredUser();
+  if (!user) return;
+  const next = { ...user, username: name };
+  localStorage.setItem(USER_KEY, JSON.stringify(next));
+}

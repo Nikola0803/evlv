@@ -1,26 +1,27 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useCart, BAC_WATER } from "@/lib/cart-context";
 import { useCurrency } from "@/lib/currency-context";
-import { getProducts } from "@/lib/products";
-import { CheckoutUpsellModal, useCheckoutUpsell } from "./CheckoutUpsellModal";
+import { ShippingProgressBar, FeaturedOfferCard, ResearchersAlsoAdd, FREE_SHIPPING_THRESHOLD, FLAT_SHIPPING_COST } from "./CartUpsellOffers";
 
 export function CartDrawer() {
-  const { lines, subtotal, isOpen, closeCart, removeLine, setLineQty, addToCart } = useCart();
+  const { lines, subtotal, isOpen, closeCart, removeLine, setLineQty } = useCart();
   const { formatPrice } = useCurrency();
-  const upsellModal = useCheckoutUpsell();
+  const [promoOpen, setPromoOpen] = useState(false);
+  const [promoCode, setPromoCode] = useState("");
+  const router = useRouter();
 
   function handleCheckoutClick() {
-    if (upsellModal.maybeOpen()) return;
-    runStubCheckout();
+    closeCart();
+    router.push("/checkout");
   }
 
-  function runStubCheckout() {
-    alert("Checkout isn't wired up yet — WooCommerce integration pending.");
-  }
+  const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : FLAT_SHIPPING_COST;
+  const total = subtotal + shipping;
 
   useEffect(() => {
     if (!isOpen) return;
@@ -32,11 +33,6 @@ export function CartDrawer() {
       document.body.style.overflow = "";
     };
   }, [isOpen, closeCart]);
-
-  const inCartIds = new Set(lines.map((l) => l.product.id));
-  const upsells = getProducts()
-    .filter((p) => !inCartIds.has(p.id) && p.inStock)
-    .slice(0, 3);
 
   return (
     <>
@@ -66,6 +62,8 @@ export function CartDrawer() {
             <p className="mt-10 text-center text-sm text-charcoal/50">Your cart is empty.</p>
           ) : (
             <>
+              <ShippingProgressBar />
+
               <div className="space-y-5">
                 {lines.map((line) => (
                   <div key={`${line.product.id}-${line.packLabel}`} className="flex gap-3">
@@ -116,41 +114,56 @@ export function CartDrawer() {
                 <span className="text-sm font-semibold text-charcoal">{formatPrice(BAC_WATER.price)}</span>
               </div>
 
-              {upsells.length > 0 && (
-                <div className="mt-8 border-t border-stone pt-5">
-                  <p className="mb-3 text-[11px] font-semibold uppercase tracking-wider text-charcoal/50">Frequently added</p>
-                  <div className="space-y-3">
-                    {upsells.map((p) => (
-                      <div key={p.id} className="flex items-center gap-3">
-                        <div className="h-14 w-11 shrink-0 overflow-hidden rounded-md bg-ivory-soft">
-                          {p.image && <Image src={p.image} alt={p.name} width={90} height={112} className="h-full w-full object-cover" />}
-                        </div>
-                        <div className="flex-1">
-                          <p className="text-xs font-medium text-charcoal">{p.name}</p>
-                          <p className="text-xs text-charcoal/50">{formatPrice(p.price)}</p>
-                        </div>
-                        <button
-                          type="button"
-                          onClick={() => addToCart(p, 1, p.price, "1 PCS")}
-                          className="rounded-md border border-charcoal px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wide text-charcoal transition hover:bg-charcoal hover:text-ivory"
-                        >
-                          Add
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
+              <FeaturedOfferCard />
+              <ResearchersAlsoAdd />
             </>
           )}
         </div>
 
         {lines.length > 0 && (
           <div className="border-t border-stone px-5 py-5">
-            <div className="mb-4 flex items-center justify-between text-sm">
-              <span className="text-charcoal/60">Subtotal</span>
-              <span className="font-display text-lg font-semibold text-charcoal">{formatPrice(subtotal)}</span>
+            {promoOpen ? (
+              <div className="mb-4 flex gap-2">
+                <input
+                  type="text"
+                  value={promoCode}
+                  onChange={(e) => setPromoCode(e.target.value)}
+                  placeholder="Promo code"
+                  className="flex-1 rounded-md border border-stone bg-white px-3 py-2 text-sm text-charcoal outline-none placeholder:text-charcoal/40 focus:border-copper"
+                />
+                <button
+                  type="button"
+                  onClick={() => alert("Promo codes aren't wired up yet.")}
+                  className="rounded-md border border-charcoal px-3 py-2 text-xs font-semibold uppercase tracking-wide text-charcoal transition hover:bg-charcoal hover:text-ivory"
+                >
+                  Apply
+                </button>
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={() => setPromoOpen(true)}
+                className="mb-4 text-xs text-charcoal/50 underline decoration-charcoal/30 underline-offset-2 transition hover:text-charcoal"
+              >
+                Have a promo code? Click here
+              </button>
+            )}
+
+            <div className="space-y-1.5 text-sm">
+              <div className="flex items-center justify-between">
+                <span className="text-charcoal/60">Subtotal</span>
+                <span className="font-medium text-charcoal">{formatPrice(subtotal)}</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-charcoal/60">Shipping</span>
+                <span className="font-medium text-charcoal">{shipping === 0 ? "Free" : formatPrice(shipping)}</span>
+              </div>
             </div>
+            <div className="mb-4 mt-2 flex items-center justify-between border-t border-stone pt-3">
+              <span className="text-sm text-charcoal/60">Total</span>
+              <span className="font-display text-lg font-semibold text-charcoal">{formatPrice(total)}</span>
+            </div>
+
             <button
               type="button"
               onClick={handleCheckoutClick}
@@ -164,15 +177,6 @@ export function CartDrawer() {
           </div>
         )}
       </aside>
-
-      <CheckoutUpsellModal
-        open={upsellModal.open}
-        onClose={() => upsellModal.setOpen(false)}
-        onContinue={() => {
-          upsellModal.setOpen(false);
-          runStubCheckout();
-        }}
-      />
     </>
   );
 }

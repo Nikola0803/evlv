@@ -95,9 +95,9 @@ export function CoasClient() {
                     <td className="px-4 py-4 font-medium text-charcoal md:px-6">{p.name}</td>
                     <td className="hidden px-4 py-4 text-charcoal/50 md:table-cell md:px-6">{p.batch!.date}</td>
                     <td className="px-4 py-4 md:px-6">
-                      <span className="font-semibold text-sage-deep">{p.purity ?? "—"}</span>
+                      <span className="font-semibold text-sage-deep">{p.purity ?? "N/A"}</span>
                     </td>
-                    <td className="hidden px-4 py-4 text-charcoal/60 sm:table-cell md:px-6">{p.avgMass ?? "—"}</td>
+                    <td className="hidden px-4 py-4 text-charcoal/60 sm:table-cell md:px-6">{p.avgMass ?? "N/A"}</td>
                     <td className="px-4 py-4 md:px-6">
                       <span className="inline-flex items-center gap-1 rounded-full bg-sage-mist px-2.5 py-1 text-xs font-semibold text-sage-deep">
                         <i className="ri-checkbox-circle-fill" /> PASS

@@ -28,6 +28,7 @@ interface CartContextValue {
   addToCart: (product: Product, qty: number, unitPrice: number, packLabel: string) => void;
   removeLine: (productId: string, packLabel: string) => void;
   setLineQty: (productId: string, packLabel: string, qty: number) => void;
+  clearCart: () => void;
 }
 
 const CartContext = createContext<CartContextValue | null>(null);
@@ -69,13 +70,15 @@ export function CartProvider({ children }: { children: ReactNode }) {
     );
   }, []);
 
+  const clearCart = useCallback(() => setLines([]), []);
+
   const count = useMemo(() => lines.reduce((sum, l) => sum + l.qty, 0), [lines]);
   const productSubtotal = useMemo(() => lines.reduce((sum, l) => sum + l.qty * l.unitPrice, 0), [lines]);
   const subtotal = useMemo(() => productSubtotal + (lines.length > 0 ? BAC_WATER.price : 0), [productSubtotal, lines.length]);
 
   const value = useMemo(
-    () => ({ lines, count, subtotal, toastMessage, isOpen, openCart, closeCart, addToCart, removeLine, setLineQty }),
-    [lines, count, subtotal, toastMessage, isOpen, openCart, closeCart, addToCart, removeLine, setLineQty]
+    () => ({ lines, count, subtotal, toastMessage, isOpen, openCart, closeCart, addToCart, removeLine, setLineQty, clearCart }),
+    [lines, count, subtotal, toastMessage, isOpen, openCart, closeCart, addToCart, removeLine, setLineQty, clearCart]
   );
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

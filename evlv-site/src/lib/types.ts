@@ -1,4 +1,4 @@
-export type ProductCategory = "peptides" | "growth-hormone" | "ancillaries";
+export type ProductCategory = "peptides" | "ancillaries";
 
 export interface BulkOption {
   qty: number;

@@ -1,10 +1,31 @@
 import { ButtonLink } from "@/components/ui/Button";
 
 const STANDARDS = [
-  { num: "01", title: "Independent Testing" },
-  { num: "02", title: "Batch-Level COAs" },
-  { num: "03", title: "Controlled Handling" },
-  { num: "04", title: "Transparent Sourcing" },
+  {
+    num: "01",
+    title: "Sourcing",
+    body: "Pharmaceutical-grade raw materials from vetted synthesis partners under NDA and audit.",
+  },
+  {
+    num: "02",
+    title: "Synthesis",
+    body: "Solid-phase peptide synthesis in ISO-controlled facilities with sequence verification.",
+  },
+  {
+    num: "03",
+    title: "Third-Party Testing",
+    body: "Every lot HPLC and mass-spec verified by independent laboratories. No exceptions.",
+  },
+  {
+    num: "04",
+    title: "COA Publication",
+    body: "Certificates of Analysis published publicly and searchable by batch code the moment they clear.",
+  },
+  {
+    num: "05",
+    title: "Ambient Fulfillment",
+    body: "Lyophilized and shelf-stable in transit. No cold-chain packaging, dispatched next-day.",
+  },
 ];
 
 export function AboutSection() {
@@ -20,20 +41,20 @@ export function AboutSection() {
         <div>
           <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">05 / The EVLV Standard</p>
           <h2 className="font-display text-4xl font-semibold uppercase leading-[1.05] text-charcoal md:text-5xl">
-            Precision.
+            The highest standard in peptides.
             <br />
-            Without compromise.
+            Verified at every stage.
           </h2>
-          <p className="mt-6 max-w-md text-base leading-relaxed text-soft-gray md:text-lg">
-            Every compound is sourced, documented and presented with the same commitment to precision that defines
-            EVLV — because transparency should never be optional.
-          </p>
 
-          <div className="mt-10 divide-y divide-stone border-t border-stone">
+          <p className="mt-8 text-[11px] font-semibold uppercase tracking-[0.18em] text-charcoal/40">Full Quality Standards</p>
+          <div className="mt-3 divide-y divide-stone border-t border-stone">
             {STANDARDS.map((item) => (
-              <div key={item.num} className="flex items-center gap-6 py-4">
+              <div key={item.num} className="flex gap-6 py-5">
                 <span className="font-display text-sm text-copper">{item.num}</span>
-                <span className="text-sm font-medium uppercase tracking-wide text-charcoal">{item.title}</span>
+                <div>
+                  <p className="text-sm font-medium uppercase tracking-wide text-charcoal">{item.title}</p>
+                  <p className="mt-1.5 max-w-md text-sm leading-relaxed text-soft-gray">{item.body}</p>
+                </div>
               </div>
             ))}
           </div>

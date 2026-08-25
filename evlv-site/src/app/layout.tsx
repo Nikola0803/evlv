@@ -25,7 +25,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "EVLV — Evolve. Alter. Become Your Ultimate.",
+  title: "EVLV: Evolve. Become Your Ultimate.",
   description: "Premium research peptides. Rigorously tested, third-party verified, every batch.",
 };
 

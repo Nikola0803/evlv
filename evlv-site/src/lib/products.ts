@@ -33,9 +33,9 @@ export const products: Product[] = [
   },
   {
     id: "7",
-    slug: "retatrutide-10mg",
-    sku: "RETA-10",
-    name: "RETATRUTIDE 10MG",
+    slug: "gp-3-10mg",
+    sku: "GP3-10",
+    name: "GP-3 10MG",
     category: "peptides",
     categoryLabel: "Peptide Research",
     image: "/images/products/vial-placeholder.png",
@@ -48,11 +48,11 @@ export const products: Product[] = [
     inStock: true,
     shortDescription: "Tri-agonist research peptide, standard concentration.",
     description:
-      "Retatrutide 10mg vial for research protocols. 99.69% purity verified by independent third-party testing.",
+      "GP-3 10mg vial for research protocols. 99.69% purity verified by independent third-party testing.",
     storage: "Store lyophilized vials at 2–8°C. After reconstitution, use within 30 days and refrigerate.",
     reconstitution: "Reconstitute with bacteriostatic or sterile water appropriate for laboratory use.",
     badges: ["Save 20%"],
-    batch: { code: "ALT-RETA10-07", date: "2026-07-30", status: "PASS" },
+    batch: { code: "ALT-GP3-10-07", date: "2026-07-30", status: "PASS" },
   },
   {
     id: "10",
@@ -142,26 +142,6 @@ export const products: Product[] = [
     reconstitution: "Reconstitute with bacteriostatic or sterile water appropriate for laboratory use.",
     badges: ["Save 20%"],
     batch: { code: "ALT-5AM1MQ-08", date: "2026-08-18", status: "PASS" },
-  },
-  {
-    id: "20",
-    slug: "hgh-24iu",
-    sku: "HGH-24",
-    name: "HGH 24IU",
-    category: "growth-hormone",
-    categoryLabel: "Growth Hormone Research",
-    image: "/images/products/vial-placeholder.png",
-    price: 220,
-    purity: "97.1%",
-    avgMass: "24.3 ius",
-    rating: 4.8,
-    reviewCount: 33,
-    inStock: true,
-    shortDescription: "Growth hormone research vial, standard concentration.",
-    description: "Growth hormone 24IU vial for research protocols. 97.1% purity verified by independent third-party testing.",
-    storage: "Store lyophilized vials at 2–8°C. After reconstitution, use within 30 days and refrigerate.",
-    reconstitution: "Reconstitute with bacteriostatic or sterile water appropriate for laboratory use.",
-    batch: { code: "ALT-HGH24-08", date: "2026-08-19", status: "PASS" },
   },
   {
     id: "21",
@@ -321,7 +301,7 @@ export function getProducts() {
 }
 
 export function getFeaturedProducts() {
-  return products.filter((p) => ["bpc-157-10mg", "retatrutide-10mg", "ghk-cu-50mg", "mots-c-10mg"].includes(p.slug));
+  return products.filter((p) => ["bpc-157-10mg", "gp-3-10mg", "ghk-cu-50mg", "mots-c-10mg"].includes(p.slug));
 }
 
 export function getProductBySlug(slug: string) {
@@ -336,7 +316,6 @@ export function getRelatedProducts(slug: string, limit = 4) {
 
 export const categories: { value: Product["category"] | "all"; label: string }[] = [
   { value: "all", label: "All Research" },
-  { value: "growth-hormone", label: "Growth Hormone Research" },
   { value: "peptides", label: "Peptide Research" },
   { value: "ancillaries", label: "Ancillary Research" },
 ];

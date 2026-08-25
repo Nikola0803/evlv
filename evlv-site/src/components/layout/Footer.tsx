@@ -17,7 +17,7 @@ export function Footer() {
     <footer className="bg-charcoal pb-10 pt-24 text-white md:pt-36">
       <div className="mx-auto max-w-[1400px] px-4 md:px-8">
         <Logo tone="ivory" imgClassName="h-14 w-auto md:h-20" />
-        <p className="mt-4 text-sm text-white/50">Evolve. Alter. Become your ultimate.</p>
+        <p className="mt-4 text-sm text-white/50">Evolve. Become your ultimate.</p>
 
         <div className="mt-16 grid grid-cols-2 gap-6 border-t border-white/10 pt-10 sm:grid-cols-4">
           {[

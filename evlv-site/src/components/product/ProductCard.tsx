@@ -86,32 +86,76 @@ export function ProductCard({ product }: { product: Product }) {
       </Link>
 
       <div className="flex flex-1 flex-col pt-5">
-        <span className="mb-1.5 text-[10px] font-medium uppercase tracking-[0.2em] text-copper">{product.categoryLabel}</span>
+        <div className="mb-1.5 flex items-center justify-between gap-2">
+          <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-copper">{product.categoryLabel}</span>
+          <Link
+            href="/coas"
+            className="flex shrink-0 items-center gap-1 text-[10px] font-medium uppercase tracking-[0.15em] text-charcoal/40 transition hover:text-copper"
+          >
+            Read COA <i className="ri-arrow-right-up-line" />
+          </Link>
+        </div>
+
         <Link href={`/shop/${product.slug}`} className="font-display text-xl font-semibold tracking-tight text-charcoal transition hover:opacity-60 md:text-2xl">
           {title}
         </Link>
         {dosage && <div className="mt-1.5 text-[11px] uppercase tracking-[0.2em] text-charcoal/50">{dosage}</div>}
-        {product.purity && <div className="mt-2 text-[11px] uppercase tracking-[0.15em] text-charcoal/50">{product.purity} Tested Purity</div>}
-        <div className="mt-3 font-display text-2xl font-semibold text-charcoal">{formatPrice(product.price)}</div>
+
+        <div className="mt-3 flex items-center justify-between gap-3">
+          <div className="flex items-baseline gap-1.5">
+            <span className="font-display text-2xl font-semibold text-charcoal">{formatPrice(product.price).split(" ")[0]}</span>
+            <span className="text-[11px] font-medium uppercase tracking-wide text-charcoal/40">{formatPrice(product.price).split(" ")[1]}</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <span className="flex items-center gap-0.5 text-sage-deep">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <i key={i} className="ri-star-fill text-[11px]" />
+              ))}
+            </span>
+            <span className="text-xs font-semibold text-charcoal">{product.rating}</span>
+            <span className="text-xs text-charcoal/40">({product.reviewCount})</span>
+          </div>
+        </div>
+
+        <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1.5 border-t border-stone pt-3.5">
+          {product.purity && (
+            <span className="flex items-center gap-1 text-[11px] uppercase tracking-[0.1em] text-charcoal/50">
+              <i className="ri-flask-line text-copper" /> {product.purity}+ Purity Verified
+            </span>
+          )}
+          <span className="flex items-center gap-1 text-[11px] uppercase tracking-[0.1em] text-charcoal/50">
+            <i className="ri-truck-line text-copper" /> Ships within 24h
+          </span>
+        </div>
 
         <div className="mt-auto pt-6">
           {packs.length > 1 && <PackSelector packs={packs} packIndex={packIndex} onSelect={setPackIndex} />}
-          <div className="mt-5 space-y-3">
-            <button
-              type="button"
-              disabled={!product.inStock}
-              onClick={() => addToCart(product, 1, selected.unitPrice, selected.label)}
-              className="w-full rounded-md bg-copper py-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-charcoal transition hover:bg-copper-light disabled:cursor-not-allowed disabled:bg-stone disabled:text-charcoal/40"
-            >
-              {product.inStock ? "Add to Cart" : "Out of Stock"}
-            </button>
-            <Link
-              href="/coas"
-              className="flex items-center justify-center gap-2 text-[11px] uppercase tracking-[0.15em] text-charcoal/50 transition hover:text-copper"
-            >
-              View COA <i className="ri-arrow-right-up-line" />
-            </Link>
-          </div>
+
+          {(dosage || product.batch) && (
+            <div className="mt-5 grid grid-cols-2 gap-3 border-t border-stone pt-4">
+              {dosage && (
+                <div>
+                  <p className="text-[10px] font-semibold uppercase tracking-wider text-charcoal/40">Dose</p>
+                  <p className="mt-0.5 text-xs font-medium text-charcoal">{dosage} / vial</p>
+                </div>
+              )}
+              {product.batch && (
+                <div>
+                  <p className="text-[10px] font-semibold uppercase tracking-wider text-charcoal/40">Batch</p>
+                  <p className="mt-0.5 text-xs font-medium text-charcoal">{product.batch.code}</p>
+                </div>
+              )}
+            </div>
+          )}
+
+          <button
+            type="button"
+            disabled={!product.inStock}
+            onClick={() => addToCart(product, 1, selected.unitPrice, selected.label)}
+            className="mt-5 w-full rounded-md bg-copper py-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-charcoal transition hover:bg-copper-light disabled:cursor-not-allowed disabled:bg-stone disabled:text-charcoal/40"
+          >
+            {product.inStock ? "Add to Cart" : "Out of Stock"}
+          </button>
         </div>
       </div>
     </div>

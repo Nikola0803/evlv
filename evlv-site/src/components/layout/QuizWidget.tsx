@@ -8,6 +8,7 @@ import { getProductBySlug } from "@/lib/products";
 import { useCart } from "@/lib/cart-context";
 import { useCurrency } from "@/lib/currency-context";
 
+
 type Step = "intro" | "goals" | "subgoal" | "results";
 
 interface Candidate {
@@ -54,7 +55,7 @@ export function QuizWidget() {
   const [selectedGoals, setSelectedGoals] = useState<string[]>([]);
   const [subgoalIndex, setSubgoalIndex] = useState(0);
   const [subgoalAnswers, setSubgoalAnswers] = useState<Record<string, string>>({});
-  const { addToCart } = useCart();
+  const { addToCart, isOpen: cartOpen } = useCart();
   const { formatPrice } = useCurrency();
 
   useEffect(() => {
@@ -121,14 +122,16 @@ export function QuizWidget() {
 
   return (
     <>
-      <button
-        type="button"
-        onClick={() => setOpen(true)}
-        className="fixed bottom-6 right-6 z-[130] flex items-center gap-2 rounded-full bg-charcoal px-5 py-3 text-xs font-semibold uppercase tracking-wide text-ivory shadow-lg transition hover:bg-sage-deep"
-      >
-        <i className="ri-compass-3-line text-base text-copper" />
-        Not sure what you need?
-      </button>
+      {!cartOpen && (
+        <button
+          type="button"
+          onClick={() => setOpen(true)}
+          className="fixed bottom-6 right-6 z-[100] flex items-center gap-2 rounded-full bg-charcoal px-5 py-3 text-xs font-semibold uppercase tracking-wide text-ivory shadow-lg transition hover:bg-sage-deep"
+        >
+          <i className="ri-compass-3-line text-base text-copper" />
+          Not sure what you need?
+        </button>
+      )}
 
       {open && (
         <div className="fixed inset-0 z-[140] flex items-center justify-center p-4">

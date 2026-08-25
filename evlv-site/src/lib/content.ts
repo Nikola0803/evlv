@@ -15,7 +15,7 @@ export const testimonials: Testimonial[] = [
   },
   {
     quote:
-      "What I appreciate most is the transparency — every batch has a report, every report is easy to find. No hunting around.",
+      "What I appreciate most is the transparency. Every batch has a report, every report is easy to find. No hunting around.",
     author: "@coredata_r",
     source: "Verified Buyer",
   },
