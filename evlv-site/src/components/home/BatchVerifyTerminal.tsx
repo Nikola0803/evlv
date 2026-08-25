@@ -9,10 +9,16 @@
 import { useState } from "react";
 import Link from "next/link";
 import { getProducts } from "@/lib/products";
+import type { Product } from "@/lib/types";
 
 type LookupState = "idle" | "loading" | "found" | "not-found";
+type ProductWithBatch = Product & { batch: NonNullable<Product["batch"]> };
 
-const products = getProducts();
+function hasBatch(p: Product): p is ProductWithBatch {
+  return Boolean(p.batch);
+}
+
+const products = getProducts().filter(hasBatch);
 const latestBatch = [...products].sort((a, b) => (a.batch.date < b.batch.date ? 1 : -1))[0];
 
 export function BatchVerifyTerminal() {
