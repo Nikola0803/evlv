@@ -10,6 +10,7 @@ import { QuizWidget } from "@/components/layout/QuizWidget";
 import { RecentPurchaseToast } from "@/components/layout/RecentPurchaseToast";
 import { AgeGate } from "@/components/layout/AgeGate";
 import { CartProvider } from "@/lib/cart-context";
+import { CurrencyProvider } from "@/lib/currency-context";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -35,18 +36,20 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" />
       </head>
       <body className="flex min-h-full flex-col bg-ivory text-charcoal">
-        <CartProvider>
-          <AgeGate>
-            <AnnouncementBar />
-            <Header />
-            <main className="flex-1 pt-[90px] md:pt-[100px]">{children}</main>
-            <Footer />
-            <CartToast />
-            <CartDrawer />
-            <QuizWidget />
-            <RecentPurchaseToast />
-          </AgeGate>
-        </CartProvider>
+        <CurrencyProvider>
+          <CartProvider>
+            <AgeGate>
+              <AnnouncementBar />
+              <Header />
+              <main className="flex-1 pt-[90px] md:pt-[100px]">{children}</main>
+              <Footer />
+              <CartToast />
+              <CartDrawer />
+              <QuizWidget />
+              <RecentPurchaseToast />
+            </AgeGate>
+          </CartProvider>
+        </CurrencyProvider>
       </body>
     </html>
   );

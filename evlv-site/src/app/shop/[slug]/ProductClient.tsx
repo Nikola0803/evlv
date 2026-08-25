@@ -6,6 +6,7 @@ import { Product } from "@/lib/types";
 import { ProductVisual } from "@/components/ui/ProductVisual";
 import { PackSelector, usePackSelection } from "@/components/product/PackSelector";
 import { useCart } from "@/lib/cart-context";
+import { useCurrency } from "@/lib/currency-context";
 
 const TABS = ["Description", "Reviews", "Lab Report"] as const;
 
@@ -17,18 +18,19 @@ function splitDosage(name: string) {
   return { title: name.slice(0, match.index).trim(), dosage: match[1].toUpperCase() };
 }
 
-const TRUST_ITEMS = [
-  { icon: "ri-shield-check-line", title: "Independently Verified", subtitle: "Independent lab testing" },
-  { icon: "ri-truck-line", title: "Free Shipping", subtitle: "Orders over $300 CAD" },
-  { icon: "ri-lock-line", title: "Secure Checkout", subtitle: "256-bit encryption" },
-  { icon: "ri-refresh-line", title: "Satisfaction Guaranteed", subtitle: "Quality assured" },
-];
-
 export function ProductClient({ product }: { product: Product }) {
   const { packIndex, setPackIndex, packs, selected } = usePackSelection(product);
   const [qty, setQty] = useState(1);
   const [tab, setTab] = useState<(typeof TABS)[number]>("Description");
   const { addToCart } = useCart();
+  const { formatPrice, convert, currency } = useCurrency();
+
+  const TRUST_ITEMS = [
+    { icon: "ri-shield-check-line", title: "Independently Verified", subtitle: "Independent lab testing" },
+    { icon: "ri-truck-line", title: "Free Shipping", subtitle: `Orders over $${convert(300).toFixed(0)} ${currency}` },
+    { icon: "ri-lock-line", title: "Secure Checkout", subtitle: "256-bit encryption" },
+    { icon: "ri-refresh-line", title: "Satisfaction Guaranteed", subtitle: "Quality assured" },
+  ];
 
   const lineTotal = selected.unitPrice * qty * selected.qty;
   const shippingThreshold = 300;
@@ -69,9 +71,7 @@ export function ProductClient({ product }: { product: Product }) {
         </div>
 
         <div className="mt-5">
-          <div className="font-display text-3xl font-semibold text-charcoal md:text-4xl">
-            ${selected.unitPrice.toFixed(2)} <span className="text-base font-normal text-charcoal/50">CAD</span>
-          </div>
+          <div className="font-display text-3xl font-semibold text-charcoal md:text-4xl">{formatPrice(selected.unitPrice)}</div>
           {product.bulkOption && (
             <p className="mt-1 text-sm text-charcoal/50">
               Single vial — save {product.bulkOption.savePercent}% with {product.bulkOption.qty}-pack
@@ -125,7 +125,7 @@ export function ProductClient({ product }: { product: Product }) {
             onClick={() => addToCart(product, qty * selected.qty, selected.unitPrice, selected.label)}
             className="flex-1 whitespace-nowrap rounded-md bg-copper py-4 text-sm font-semibold uppercase tracking-wide text-charcoal transition hover:bg-copper-light disabled:cursor-not-allowed disabled:bg-stone disabled:text-charcoal/50"
           >
-            {product.inStock ? `Add to Cart — $${lineTotal.toFixed(2)}` : "Out of Stock"}
+            {product.inStock ? `Add to Cart — ${formatPrice(lineTotal)}` : "Out of Stock"}
           </button>
           <a href="/shop" className="flex-1 whitespace-nowrap rounded-md border border-charcoal py-4 text-center text-sm font-semibold uppercase tracking-wide text-charcoal transition hover:bg-charcoal hover:text-ivory">
             Continue Shopping
@@ -148,13 +148,13 @@ export function ProductClient({ product }: { product: Product }) {
           <div className="mb-2 flex items-center justify-between text-sm">
             <span className="font-medium text-charcoal">Free shipping threshold</span>
             <span className="font-semibold text-sage-deep">
-              {shippingRemaining > 0 ? `$${shippingRemaining.toFixed(0)} away` : "Unlocked"}
+              {shippingRemaining > 0 ? `$${convert(shippingRemaining).toFixed(0)} ${currency} away` : "Unlocked"}
             </span>
           </div>
           <div className="h-2 overflow-hidden rounded-full bg-stone">
             <div className="h-full rounded-full bg-sage transition-all duration-500" style={{ width: `${shippingProgress}%` }} />
           </div>
-          <p className="mt-2 text-xs text-charcoal/50">Free express shipping on all orders over $300 CAD</p>
+          <p className="mt-2 text-xs text-charcoal/50">Free express shipping on all orders over ${convert(shippingThreshold).toFixed(0)} {currency}</p>
         </div>
 
         <div className="mt-10 border-t border-stone">

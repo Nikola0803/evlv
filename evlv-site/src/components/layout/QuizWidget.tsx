@@ -6,6 +6,7 @@ import Link from "next/link";
 import { FOCUS_AREAS, SUBGOALS, QUIZ_PRODUCTS, QUIZ_LABELS, TIER_ORDER, MAX_FOCUS_SELECTIONS, type Tier } from "@/lib/quiz-data";
 import { getProductBySlug } from "@/lib/products";
 import { useCart } from "@/lib/cart-context";
+import { useCurrency } from "@/lib/currency-context";
 
 type Step = "intro" | "goals" | "subgoal" | "results";
 
@@ -54,6 +55,7 @@ export function QuizWidget() {
   const [subgoalIndex, setSubgoalIndex] = useState(0);
   const [subgoalAnswers, setSubgoalAnswers] = useState<Record<string, string>>({});
   const { addToCart } = useCart();
+  const { formatPrice } = useCurrency();
 
   useEffect(() => {
     if (!open) return;
@@ -256,7 +258,7 @@ export function QuizWidget() {
                                   </div>
                                   <div className="min-w-0 flex-1">
                                     <p className="truncate text-sm font-medium text-charcoal">{product.name}</p>
-                                    <p className="text-xs text-charcoal/50">${product.price.toFixed(2)} CAD</p>
+                                    <p className="text-xs text-charcoal/50">{formatPrice(product.price)}</p>
                                   </div>
                                   <span className="shrink-0 whitespace-nowrap rounded-full bg-copper/15 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-copper">
                                     {i === 0 ? QUIZ_LABELS.startHere : QUIZ_LABELS.alsoWorthLook}

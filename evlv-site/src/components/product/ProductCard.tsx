@@ -7,6 +7,7 @@ import { Product } from "@/lib/types";
 import { ProductVisual } from "@/components/ui/ProductVisual";
 import { PackSelector, usePackSelection } from "./PackSelector";
 import { useCart } from "@/lib/cart-context";
+import { useCurrency } from "@/lib/currency-context";
 
 const DOSAGE_PATTERN = /\s(\d+(?:\.\d+)?\s?(?:mg|mcg|iu|g)(?:\/\d+(?:\.\d+)?\s?(?:mg|mcg|iu|g))?)$/i;
 
@@ -19,6 +20,7 @@ function splitDosage(name: string) {
 export function ProductCard({ product }: { product: Product }) {
   const { packIndex, setPackIndex, packs, selected } = usePackSelection(product);
   const { addToCart } = useCart();
+  const { formatPrice } = useCurrency();
   const { title, dosage } = splitDosage(product.name);
   const [hovering, setHovering] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -90,9 +92,7 @@ export function ProductCard({ product }: { product: Product }) {
         </Link>
         {dosage && <div className="mt-1.5 text-[11px] uppercase tracking-[0.2em] text-charcoal/50">{dosage}</div>}
         {product.purity && <div className="mt-2 text-[11px] uppercase tracking-[0.15em] text-charcoal/50">{product.purity} Tested Purity</div>}
-        <div className="mt-3 font-display text-2xl font-semibold text-charcoal">
-          ${product.price.toFixed(2)} <span className="text-xs font-normal text-charcoal/40">CAD</span>
-        </div>
+        <div className="mt-3 font-display text-2xl font-semibold text-charcoal">{formatPrice(product.price)}</div>
 
         <div className="mt-auto pt-6">
           {packs.length > 1 && <PackSelector packs={packs} packIndex={packIndex} onSelect={setPackIndex} />}

@@ -4,11 +4,13 @@ import { useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useCart, BAC_WATER } from "@/lib/cart-context";
+import { useCurrency } from "@/lib/currency-context";
 import { getProducts } from "@/lib/products";
 import { CheckoutUpsellModal, useCheckoutUpsell } from "./CheckoutUpsellModal";
 
 export function CartDrawer() {
   const { lines, subtotal, isOpen, closeCart, removeLine, setLineQty, addToCart } = useCart();
+  const { formatPrice } = useCurrency();
   const upsellModal = useCheckoutUpsell();
 
   function handleCheckoutClick() {
@@ -95,7 +97,7 @@ export function CartDrawer() {
                             <i className="ri-add-line text-xs" />
                           </button>
                         </div>
-                        <span className="text-sm font-semibold text-charcoal">${(line.qty * line.unitPrice).toFixed(2)}</span>
+                        <span className="text-sm font-semibold text-charcoal">{formatPrice(line.qty * line.unitPrice)}</span>
                       </div>
                     </div>
                   </div>
@@ -111,7 +113,7 @@ export function CartDrawer() {
                   <p className="text-sm font-medium text-charcoal">{BAC_WATER.name}</p>
                   <p className="text-xs text-copper">{BAC_WATER.note}</p>
                 </div>
-                <span className="text-sm font-semibold text-charcoal">${BAC_WATER.price.toFixed(2)}</span>
+                <span className="text-sm font-semibold text-charcoal">{formatPrice(BAC_WATER.price)}</span>
               </div>
 
               {upsells.length > 0 && (
@@ -125,7 +127,7 @@ export function CartDrawer() {
                         </div>
                         <div className="flex-1">
                           <p className="text-xs font-medium text-charcoal">{p.name}</p>
-                          <p className="text-xs text-charcoal/50">${p.price.toFixed(2)}</p>
+                          <p className="text-xs text-charcoal/50">{formatPrice(p.price)}</p>
                         </div>
                         <button
                           type="button"
@@ -147,7 +149,7 @@ export function CartDrawer() {
           <div className="border-t border-stone px-5 py-5">
             <div className="mb-4 flex items-center justify-between text-sm">
               <span className="text-charcoal/60">Subtotal</span>
-              <span className="font-display text-lg font-semibold text-charcoal">${subtotal.toFixed(2)} CAD</span>
+              <span className="font-display text-lg font-semibold text-charcoal">{formatPrice(subtotal)}</span>
             </div>
             <button
               type="button"

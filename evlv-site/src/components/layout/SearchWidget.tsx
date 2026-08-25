@@ -5,12 +5,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { getProducts } from "@/lib/products";
+import { useCurrency } from "@/lib/currency-context";
 
 export function SearchWidget() {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
+  const { formatPrice } = useCurrency();
 
   useEffect(() => {
     if (!open) return;
@@ -90,7 +92,7 @@ export function SearchWidget() {
                             <p className="text-sm font-medium text-charcoal">{p.name}</p>
                             <p className="text-xs text-charcoal/50">{p.categoryLabel}</p>
                           </div>
-                          <span className="text-sm font-semibold text-charcoal">${p.price.toFixed(2)}</span>
+                          <span className="text-sm font-semibold text-charcoal">{formatPrice(p.price)}</span>
                         </Link>
                       ))}
                       <button

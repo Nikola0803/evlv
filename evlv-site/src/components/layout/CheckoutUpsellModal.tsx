@@ -14,6 +14,7 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useCart } from "@/lib/cart-context";
+import { useCurrency } from "@/lib/currency-context";
 import { getProductBySlug } from "@/lib/products";
 
 const ANCHOR_SLUG = "bpc-157-10mg";
@@ -47,6 +48,7 @@ export function useCheckoutUpsell() {
 
 export function CheckoutUpsellModal({ open, onClose, onContinue }: { open: boolean; onClose: () => void; onContinue: () => void }) {
   const { addToCart } = useCart();
+  const { formatPrice } = useCurrency();
   const [remaining, setRemaining] = useState(WINDOW_MS);
   const deadlineRef = useRef<number>(0);
 
@@ -124,9 +126,9 @@ export function CheckoutUpsellModal({ open, onClose, onContinue }: { open: boole
           </p>
 
           <div className="mt-4 flex items-baseline gap-2">
-            <span className="text-sm text-charcoal/40 line-through">${product.price.toFixed(2)}</span>
-            <span className="font-display text-2xl font-semibold text-charcoal">${discountedPrice.toFixed(2)}</span>
-            <span className="text-xs font-semibold text-copper">Save ${savings.toFixed(2)}</span>
+            <span className="text-sm text-charcoal/40 line-through">{formatPrice(product.price)}</span>
+            <span className="font-display text-2xl font-semibold text-charcoal">{formatPrice(discountedPrice)}</span>
+            <span className="text-xs font-semibold text-copper">Save {formatPrice(savings)}</span>
           </div>
 
           <div className="mt-5 rounded-lg border border-stone bg-ivory-soft px-4 py-3 text-center">
