@@ -15,6 +15,15 @@ const STORAGE_KEY = "evlv_currency";
  */
 const USD_TO_CAD_RATE = 1.38;
 
+/**
+ * Launching US-only for the first few days -- the CurrencySwitcher is
+ * hidden from the header, so CAD auto-detection/stored-preference is
+ * disabled here too (a Canadian visitor would otherwise get stuck in CAD
+ * with no UI to switch back). Flip this back to false once CAD is ready
+ * to show again; nothing else needs to change.
+ */
+const US_ONLY_LAUNCH = true;
+
 interface CurrencyContextValue {
   currency: Currency;
   setCurrency: (c: Currency) => void;
@@ -29,6 +38,7 @@ export function CurrencyProvider({ children }: { children: ReactNode }) {
   const [currency, setCurrencyState] = useState<Currency>("USD");
 
   useEffect(() => {
+    if (US_ONLY_LAUNCH) return;
     let stored: string | null = null;
     try {
       stored = localStorage.getItem(STORAGE_KEY);

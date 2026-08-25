@@ -37,9 +37,9 @@ export function CoasClient() {
 
   return (
     <>
-      <section className="bg-sage-deep py-20 text-center text-white md:py-32">
+      <section className="-mt-[90px] bg-charcoal pb-20 pt-[150px] text-center text-white md:-mt-[100px] md:pb-32 md:pt-[170px]">
         <div className="mx-auto max-w-[1400px] px-4 md:px-8">
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold text-sage-light">
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold text-copper">
             <i className="ri-shield-check-line" /> Independent Verification
           </div>
           <h1 className="mb-4 font-display text-4xl font-semibold md:text-5xl lg:text-6xl">COAs</h1>

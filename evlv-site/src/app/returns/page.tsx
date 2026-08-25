@@ -28,9 +28,9 @@ const SECTIONS = [
 export default function ReturnsPage() {
   return (
     <>
-      <section className="bg-sage-deep py-20 text-center text-white md:py-32">
+      <section className="-mt-[90px] bg-charcoal pb-20 pt-[150px] text-center text-white md:-mt-[100px] md:pb-32 md:pt-[170px]">
         <div className="mx-auto max-w-[900px] px-4 md:px-8">
-          <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-sage-light">Returns Policy</p>
+          <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">Returns Policy</p>
           <h1 className="font-display text-4xl font-semibold md:text-5xl">All sales are final, and here's why.</h1>
         </div>
       </section>

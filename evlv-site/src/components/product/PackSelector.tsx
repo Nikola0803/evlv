@@ -44,36 +44,19 @@ export function PackSelector({
     <div>
       <label className="mb-2.5 block text-[10px] font-semibold uppercase tracking-wider text-charcoal/50">Quantity</label>
       <div className="flex items-center gap-2">
-        {packs.map((pack, i) =>
-          pack.savePercent ? (
-            <button
-              key={pack.label}
-              type="button"
-              onClick={() => onSelect(i)}
-              className={`flex flex-1 items-center justify-center gap-2 whitespace-nowrap rounded-lg px-4 py-2 text-xs font-medium tracking-wide transition ${
-                packIndex === i
-                  ? "border border-charcoal text-charcoal"
-                  : "border border-transparent text-charcoal/40 hover:text-charcoal/70"
-              }`}
-            >
-              <span className="bu-swatch-label">{pack.label}</span>
-              <span className="text-[11px] font-semibold text-copper">Save {pack.savePercent}%</span>
-            </button>
-          ) : (
-            <button
-              key={pack.label}
-              type="button"
-              onClick={() => onSelect(i)}
-              className={`whitespace-nowrap rounded-md px-4 py-2 text-xs font-medium tracking-wide transition ${
-                packIndex === i
-                  ? "border border-charcoal text-charcoal"
-                  : "border border-transparent text-charcoal/40 hover:text-charcoal/70"
-              }`}
-            >
-              {pack.label}
-            </button>
-          )
-        )}
+        {packs.map((pack, i) => (
+          <button
+            key={pack.label}
+            type="button"
+            onClick={() => onSelect(i)}
+            className={`flex flex-1 items-center justify-center gap-2 whitespace-nowrap rounded-md border px-4 py-2.5 text-xs font-medium tracking-wide transition ${
+              packIndex === i ? "border-charcoal text-charcoal" : "border-stone text-charcoal/40 hover:text-charcoal/70"
+            }`}
+          >
+            <span>{pack.label}</span>
+            {pack.savePercent && <span className="text-[11px] font-semibold text-copper">Save {pack.savePercent}%</span>}
+          </button>
+        ))}
       </div>
     </div>
   );

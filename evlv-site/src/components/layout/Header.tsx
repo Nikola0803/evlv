@@ -4,7 +4,6 @@ import { useState } from "react";
 import Link from "next/link";
 import { Logo } from "@/components/ui/Logo";
 import { SearchWidget } from "./SearchWidget";
-import { CurrencySwitcher } from "./CurrencySwitcher";
 import { ShopMegaMenu } from "./ShopMegaMenu";
 import { useCart } from "@/lib/cart-context";
 
@@ -34,16 +33,9 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-1 md:gap-3">
-          <CurrencySwitcher />
           <SearchWidget />
           <Link href="/account" className="hidden h-9 w-9 items-center justify-center text-white/85 transition hover:text-white md:flex" aria-label="Account">
             <i className="ri-user-line text-base" />
-          </Link>
-          <Link
-            href="/plans"
-            className="hidden shrink-0 whitespace-nowrap rounded-full bg-copper px-4 py-2 text-[11px] font-semibold uppercase tracking-wide text-charcoal transition hover:bg-copper-light md:block"
-          >
-            Get Started
           </Link>
           <button type="button" onClick={openCart} className="relative flex h-9 w-9 items-center justify-center text-white/85 transition hover:text-white" aria-label="Cart">
             <i className="ri-shopping-bag-line text-base" />
@@ -53,6 +45,12 @@ export function Header() {
               </span>
             )}
           </button>
+          <Link
+            href="/plans"
+            className="hidden shrink-0 whitespace-nowrap rounded-full bg-copper px-4 py-2 text-[11px] font-semibold uppercase tracking-wide text-charcoal transition hover:bg-copper-light md:block"
+          >
+            Get Started
+          </Link>
           <button
             type="button"
             className="flex h-9 w-9 items-center justify-center text-white/85 transition hover:text-white md:hidden"

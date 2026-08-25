@@ -46,9 +46,9 @@ export default function PlansPage() {
 
   return (
     <>
-      <section className="bg-sage-deep py-16 text-center text-white md:py-24">
+      <section className="-mt-[90px] bg-charcoal pb-16 pt-[150px] text-center text-white md:-mt-[100px] md:pb-24 md:pt-[170px]">
         <div className="mx-auto max-w-[700px] px-4 md:px-8">
-          <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-sage-light">Plans</p>
+          <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">Plans</p>
           <h1 className="font-display text-4xl font-semibold md:text-5xl">Choose your access.</h1>
           <p className="mt-4 text-base leading-relaxed text-white/70">
             Purchase a plan for member pricing and access to member-exclusive blends, or ask us to grant access
