@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Link from "next/link";
 import { getProducts } from "@/lib/products";
 
 const STATS = [
@@ -104,9 +105,9 @@ export function CoasClient() {
                       </span>
                     </td>
                     <td className="px-4 py-4 text-right md:px-6">
-                      <button type="button" className="text-xs font-medium text-sage-deep transition hover:underline">
+                      <Link href={`/shop/${p.slug}`} className="text-xs font-medium text-sage-deep transition hover:underline">
                         View <i className="ri-external-link-line" />
-                      </button>
+                      </Link>
                     </td>
                   </tr>
                 ))}

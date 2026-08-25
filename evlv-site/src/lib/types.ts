@@ -26,6 +26,8 @@ export interface Product {
   storage: string;
   reconstitution?: string;
   badges?: string[];
+  /** Only purchasable by Member-plan accounts (see /plans). */
+  memberOnly?: boolean;
   batch?: {
     code: string;
     date: string;

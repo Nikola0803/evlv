@@ -5,10 +5,10 @@ import Link from "next/link";
 import { Logo } from "@/components/ui/Logo";
 import { SearchWidget } from "./SearchWidget";
 import { CurrencySwitcher } from "./CurrencySwitcher";
+import { ShopMegaMenu } from "./ShopMegaMenu";
 import { useCart } from "@/lib/cart-context";
 
 const NAV = [
-  { href: "/shop", label: "Shop" },
   { href: "/science", label: "Science" },
   { href: "/coas", label: "COAs" },
   { href: "/journal", label: "Journal" },
@@ -25,6 +25,7 @@ export function Header() {
         <Logo tone="ivory" imgClassName="h-10 w-auto md:h-12" />
 
         <nav className="hidden items-center gap-7 text-[11px] font-medium uppercase tracking-[0.14em] text-white/85 md:flex lg:gap-9">
+          <ShopMegaMenu />
           {NAV.map((item) => (
             <Link key={item.href} href={item.href} className="whitespace-nowrap transition hover:text-white">
               {item.label}
@@ -37,6 +38,12 @@ export function Header() {
           <SearchWidget />
           <Link href="/account" className="hidden h-9 w-9 items-center justify-center text-white/85 transition hover:text-white md:flex" aria-label="Account">
             <i className="ri-user-line text-base" />
+          </Link>
+          <Link
+            href="/plans"
+            className="hidden shrink-0 whitespace-nowrap rounded-full bg-copper px-4 py-2 text-[11px] font-semibold uppercase tracking-wide text-charcoal transition hover:bg-copper-light md:block"
+          >
+            Get Started
           </Link>
           <button type="button" onClick={openCart} className="relative flex h-9 w-9 items-center justify-center text-white/85 transition hover:text-white" aria-label="Cart">
             <i className="ri-shopping-bag-line text-base" />
@@ -59,6 +66,9 @@ export function Header() {
 
       {open && (
         <nav className="flex flex-col gap-1 border-t border-white/10 bg-charcoal px-4 pb-4 pt-2 md:hidden">
+          <Link href="/shop" onClick={() => setOpen(false)} className="py-2.5 text-sm font-medium uppercase tracking-wide text-white">
+            Shop
+          </Link>
           {NAV.map((item) => (
             <Link key={item.href} href={item.href} onClick={() => setOpen(false)} className="py-2.5 text-sm font-medium uppercase tracking-wide text-white">
               {item.label}

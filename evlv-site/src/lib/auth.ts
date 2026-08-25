@@ -8,10 +8,13 @@
 const TOKEN_KEY = "evlv_auth_token";
 const USER_KEY = "evlv_auth_user";
 
+export type Plan = "standard" | "member";
+
 export interface AuthUser {
   email: string;
   username: string;
   user_id: string;
+  plan?: Plan;
 }
 
 export function getStoredToken(): string {
@@ -22,10 +25,21 @@ export function getStoredToken(): string {
 export function getStoredUser(): AuthUser | null {
   if (typeof window === "undefined") return null;
   try {
-    return JSON.parse(localStorage.getItem(USER_KEY) ?? "null");
+    const user = JSON.parse(localStorage.getItem(USER_KEY) ?? "null");
+    return user ? { ...user, plan: user.plan ?? "standard" } : null;
   } catch {
     return null;
   }
+}
+
+/**
+ * Sets the account's plan locally. There's no real billing wired up yet, so this
+ * is an honest preview toggle (matches the checkout preview pattern), not a charge.
+ */
+export function setPlan(plan: Plan) {
+  const user = getStoredUser();
+  if (!user) return;
+  localStorage.setItem(USER_KEY, JSON.stringify({ ...user, plan }));
 }
 
 export function saveAuth(data: { token: string; email: string; username: string; user_id: string }) {

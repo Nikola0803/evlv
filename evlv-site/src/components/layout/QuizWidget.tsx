@@ -59,6 +59,12 @@ export function QuizWidget() {
   const { formatPrice } = useCurrency();
 
   useEffect(() => {
+    const onOpenEvent = () => setOpen(true);
+    window.addEventListener("evlv:open-quiz", onOpenEvent);
+    return () => window.removeEventListener("evlv:open-quiz", onOpenEvent);
+  }, []);
+
+  useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && closeModal();
     document.addEventListener("keydown", onKey);

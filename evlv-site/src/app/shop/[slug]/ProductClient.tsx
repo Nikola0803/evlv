@@ -1,12 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Product } from "@/lib/types";
 import { ProductVisual } from "@/components/ui/ProductVisual";
 import { PackSelector, usePackSelection } from "@/components/product/PackSelector";
 import { useCart } from "@/lib/cart-context";
 import { useCurrency } from "@/lib/currency-context";
+import { getStoredUser } from "@/lib/auth";
 
 const TABS = ["Description", "Reviews", "Lab Report"] as const;
 
@@ -24,6 +26,13 @@ export function ProductClient({ product }: { product: Product }) {
   const [tab, setTab] = useState<(typeof TABS)[number]>("Description");
   const { addToCart } = useCart();
   const { formatPrice, convert, currency } = useCurrency();
+  const [isMember, setIsMember] = useState(false);
+
+  useEffect(() => {
+    setIsMember(getStoredUser()?.plan === "member");
+  }, []);
+
+  const locked = !!product.memberOnly && !isMember;
 
   const TRUST_ITEMS = [
     { icon: "ri-shield-check-line", title: "Independently Verified", subtitle: "Independent lab testing" },
@@ -55,6 +64,11 @@ export function ProductClient({ product }: { product: Product }) {
             {b}
           </span>
         ))}
+        {locked && (
+          <span className="absolute right-4 top-4 flex items-center gap-1.5 rounded-full bg-charcoal/85 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-copper backdrop-blur-sm">
+            <i className="ri-lock-line" /> Member Exclusive
+          </span>
+        )}
       </div>
 
       <div className="flex flex-col">
@@ -118,15 +132,34 @@ export function ProductClient({ product }: { product: Product }) {
           </div>
         </div>
 
+        {locked && (
+          <div className="mt-6 flex items-center gap-2 rounded-lg border border-copper/30 bg-copper/5 p-4 text-sm text-charcoal/70">
+            <i className="ri-lock-line text-copper" />
+            This is a member-exclusive blend.{" "}
+            <Link href="/plans" className="font-semibold text-copper hover:underline">
+              View plans
+            </Link>
+          </div>
+        )}
+
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-          <button
-            type="button"
-            disabled={!product.inStock}
-            onClick={() => addToCart(product, qty * selected.qty, selected.unitPrice, selected.label)}
-            className="flex-1 whitespace-nowrap rounded-md bg-copper py-4 text-sm font-semibold uppercase tracking-wide text-charcoal transition hover:bg-copper-light disabled:cursor-not-allowed disabled:bg-stone disabled:text-charcoal/50"
-          >
-            {product.inStock ? `Add to Cart (${formatPrice(lineTotal)})` : "Out of Stock"}
-          </button>
+          {locked ? (
+            <Link
+              href="/plans"
+              className="flex-1 whitespace-nowrap rounded-md bg-copper py-4 text-center text-sm font-semibold uppercase tracking-wide text-charcoal transition hover:bg-copper-light"
+            >
+              Unlock With Membership
+            </Link>
+          ) : (
+            <button
+              type="button"
+              disabled={!product.inStock}
+              onClick={() => addToCart(product, qty * selected.qty, selected.unitPrice, selected.label)}
+              className="flex-1 whitespace-nowrap rounded-md bg-copper py-4 text-sm font-semibold uppercase tracking-wide text-charcoal transition hover:bg-copper-light disabled:cursor-not-allowed disabled:bg-stone disabled:text-charcoal/50"
+            >
+              {product.inStock ? `Add to Cart (${formatPrice(lineTotal)})` : "Out of Stock"}
+            </button>
+          )}
           <a href="/shop" className="flex-1 whitespace-nowrap rounded-md border border-charcoal py-4 text-center text-sm font-semibold uppercase tracking-wide text-charcoal transition hover:bg-charcoal hover:text-ivory">
             Continue Shopping
           </a>

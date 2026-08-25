@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Product } from "@/lib/types";
@@ -8,6 +8,7 @@ import { ProductVisual } from "@/components/ui/ProductVisual";
 import { PackSelector, usePackSelection } from "./PackSelector";
 import { useCart } from "@/lib/cart-context";
 import { useCurrency } from "@/lib/currency-context";
+import { getStoredUser } from "@/lib/auth";
 
 const DOSAGE_PATTERN = /\s(\d+(?:\.\d+)?\s?(?:mg|mcg|iu|g)(?:\/\d+(?:\.\d+)?\s?(?:mg|mcg|iu|g))?)$/i;
 
@@ -23,7 +24,14 @@ export function ProductCard({ product }: { product: Product }) {
   const { formatPrice } = useCurrency();
   const { title, dosage } = splitDosage(product.name);
   const [hovering, setHovering] = useState(false);
+  const [isMember, setIsMember] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    setIsMember(getStoredUser()?.plan === "member");
+  }, []);
+
+  const locked = !!product.memberOnly && !isMember;
 
   function handleEnter() {
     setHovering(true);
@@ -80,7 +88,12 @@ export function ProductCard({ product }: { product: Product }) {
             {badge}
           </span>
         ))}
-        {!product.inStock && (
+        {locked && (
+          <span className="absolute right-3 top-3 flex items-center gap-1 rounded-full bg-charcoal/85 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-copper backdrop-blur-sm">
+            <i className="ri-lock-line" /> Member Exclusive
+          </span>
+        )}
+        {!product.inStock && !locked && (
           <span className="absolute right-3 top-3 text-[10px] font-semibold uppercase tracking-wider text-charcoal/50">Out of Stock</span>
         )}
       </Link>
@@ -148,14 +161,23 @@ export function ProductCard({ product }: { product: Product }) {
             </div>
           )}
 
-          <button
-            type="button"
-            disabled={!product.inStock}
-            onClick={() => addToCart(product, 1, selected.unitPrice, selected.label)}
-            className="mt-5 w-full rounded-md bg-copper py-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-charcoal transition hover:bg-copper-light disabled:cursor-not-allowed disabled:bg-stone disabled:text-charcoal/40"
-          >
-            {product.inStock ? "Add to Cart" : "Out of Stock"}
-          </button>
+          {locked ? (
+            <Link
+              href="/plans"
+              className="mt-5 flex w-full items-center justify-center gap-1.5 rounded-md border border-charcoal py-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-charcoal transition hover:bg-charcoal hover:text-ivory"
+            >
+              <i className="ri-lock-line" /> Unlock With Membership
+            </Link>
+          ) : (
+            <button
+              type="button"
+              disabled={!product.inStock}
+              onClick={() => addToCart(product, 1, selected.unitPrice, selected.label)}
+              className="mt-5 w-full rounded-md bg-copper py-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-charcoal transition hover:bg-copper-light disabled:cursor-not-allowed disabled:bg-stone disabled:text-charcoal/40"
+            >
+              {product.inStock ? "Add to Cart" : "Out of Stock"}
+            </button>
+          )}
         </div>
       </div>
     </div>

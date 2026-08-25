@@ -7,10 +7,20 @@ const SHOP_NAV = [
   { href: "/coas", label: "COAs" },
   { href: "/faq", label: "FAQ" },
   { href: "/contact", label: "Contact" },
+  { href: "/affiliates", label: "Affiliate Program" },
 ];
 
-const CUSTOMER_NAV = ["Account", "Orders", "Shipping", "Returns"];
-const LEGAL_NAV = ["Research Use Only", "Terms", "Privacy"];
+const CUSTOMER_NAV = [
+  { href: "/account", label: "Account" },
+  { href: "/account", label: "Orders" },
+  { href: "/shipping", label: "Shipping" },
+  { href: "/returns", label: "Returns" },
+];
+const LEGAL_NAV = [
+  { href: "/#legal-disclaimer", label: "Research Use Only" },
+  { href: "/terms", label: "Terms" },
+  { href: "/privacy", label: "Privacy" },
+];
 
 export function Footer() {
   return (
@@ -48,17 +58,21 @@ export function Footer() {
           </FooterColumn>
 
           <FooterColumn title="Customer">
-            {CUSTOMER_NAV.map((label) => (
-              <li key={label} className="text-sm text-white/40">
-                {label}
+            {CUSTOMER_NAV.map((item) => (
+              <li key={item.label}>
+                <Link href={item.href} className="text-sm text-white/60 transition hover:text-white">
+                  {item.label}
+                </Link>
               </li>
             ))}
           </FooterColumn>
 
           <FooterColumn title="Legal">
-            {LEGAL_NAV.map((label) => (
-              <li key={label} className="text-sm text-white/40">
-                {label}
+            {LEGAL_NAV.map((item) => (
+              <li key={item.label}>
+                <Link href={item.href} className="text-sm text-white/60 transition hover:text-white">
+                  {item.label}
+                </Link>
               </li>
             ))}
           </FooterColumn>
@@ -67,7 +81,7 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="mx-auto mt-16 max-w-[1400px] border-t border-white/10 px-4 pt-8 md:px-8">
+      <div id="legal-disclaimer" className="mx-auto mt-16 max-w-[1400px] scroll-mt-32 border-t border-white/10 px-4 pt-8 md:px-8">
         <div className="space-y-3 text-xs leading-relaxed text-white/40">
           <p>
             All products sold on this website are intended for research and identification purposes only. These

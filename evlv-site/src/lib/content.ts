@@ -30,7 +30,7 @@ export const faqItems: FaqItem[] = [
   {
     question: "Where do you ship?",
     answer:
-      "We currently ship across Canada. Every order is packaged discreetly and dispatched same day when placed before our daily cutoff.",
+      "We ship across the US and Canada. Every order is packaged discreetly and dispatched same day when placed before our daily cutoff.",
   },
   {
     question: "How long does shipping take?",

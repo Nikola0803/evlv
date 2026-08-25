@@ -185,6 +185,7 @@ export const products: Product[] = [
     reconstitution: "Reconstitute with bacteriostatic or sterile water appropriate for laboratory use.",
     badges: ["Save 20%"],
     batch: { code: "ALT-WOLV20-08", date: "2026-08-20", status: "PASS" },
+    memberOnly: true,
   },
   {
     id: "23",
@@ -206,6 +207,7 @@ export const products: Product[] = [
     reconstitution: "Reconstitute with bacteriostatic or sterile water appropriate for laboratory use.",
     badges: ["Save 20%"],
     batch: { code: "ALT-GLOW70-08", date: "2026-08-20", status: "PASS" },
+    memberOnly: true,
   },
   {
     id: "24",
@@ -249,6 +251,7 @@ export const products: Product[] = [
     reconstitution: "Reconstitute with bacteriostatic or sterile water appropriate for laboratory use.",
     badges: ["Save 20%"],
     batch: { code: "ALT-KLOW80-08", date: "2026-08-21", status: "PASS" },
+    memberOnly: true,
   },
   {
     id: "26",

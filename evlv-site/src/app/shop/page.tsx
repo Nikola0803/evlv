@@ -6,12 +6,12 @@ import { TrustIconRow } from "@/components/ui/TrustIconRow";
 
 export const metadata: Metadata = {
   title: "Shop | EVLV",
-  description: "Browse the full EVLV catalogue of research peptides, growth hormone kits and ancillaries.",
+  description: "Browse the full EVLV catalogue of research peptides and ancillaries.",
 };
 
 const SHOP_TRUST_ITEMS = [
   { icon: "ri-shield-check-line", label: "Independently Verified", sublabel: "Every batch independently tested" },
-  { icon: "ri-truck-line", label: "Canada-wide Shipping", sublabel: "1–2 business day delivery" },
+  { icon: "ri-truck-line", label: "US & Canada Shipping", sublabel: "1-2 business day delivery" },
   { icon: "ri-lock-line", label: "Secure Payments", sublabel: "Encrypted checkout" },
   { icon: "ri-customer-service-2-line", label: "Expert Support", sublabel: "Response within minutes" },
 ];
