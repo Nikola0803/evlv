@@ -1,6 +1,7 @@
 import Link from "next/link";
 import QRCode from "qrcode";
 import { buildQuickPayTarget, getEffectiveHandle, type PaymentGatewayId } from "@/lib/payment-config";
+import { PurchasePixel } from "./PurchasePixel";
 
 const GATEWAY_IDS: PaymentGatewayId[] = ["cashapp", "zelle", "venmo"];
 
@@ -38,6 +39,9 @@ export default async function OrderSuccessPage({
 
   return (
     <div className="mx-auto flex max-w-[640px] flex-col items-center px-4 py-20 text-center md:px-8">
+      {orderNumber && Number.isFinite(amount) && amount > 0 && (
+        <PurchasePixel orderNumber={orderNumber} total={amount} currency="USD" />
+      )}
       <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-full border border-sage-deep/30 bg-sage-mist">
         <i className="ri-check-line text-3xl text-sage-deep" />
       </div>

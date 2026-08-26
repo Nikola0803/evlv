@@ -94,6 +94,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ORGANIZATION_JSON_LD) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(WEBSITE_JSON_LD) }} />
+        {process.env.NEXT_PUBLIC_CRM_URL && process.env.NEXT_PUBLIC_CRM_TRACKING_KEY && (
+          <script src={`${process.env.NEXT_PUBLIC_CRM_URL}/pixel.js`} data-key={process.env.NEXT_PUBLIC_CRM_TRACKING_KEY} async />
+        )}
       </head>
       <body className="flex min-h-full flex-col bg-ivory text-charcoal">
         <GoogleAnalytics />
