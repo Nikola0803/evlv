@@ -16,7 +16,10 @@ export default async function OrderSuccessPage({
   const handle = typeof params.handle === "string" ? params.handle : "";
   const memo = typeof params.memo === "string" ? params.memo : "";
   const gatewayParam = typeof params.gateway === "string" ? params.gateway : "";
-  const amountParam = typeof params.amount === "string" ? params.amount : "";
+  // checkout/page.tsx sends this as `total` (added alongside `currency` for
+  // the purchase pixel) -- kept as `amount` internally here since that's
+  // what the quick-pay/QR logic below is named after.
+  const amountParam = typeof params.total === "string" ? params.total : "";
   const amount = Number(amountParam);
 
   const gateway: PaymentGatewayId | null = GATEWAY_IDS.includes(gatewayParam as PaymentGatewayId)
