@@ -26,3 +26,16 @@ export async function crmFetch(path: string, body: unknown) {
   const data = await res.json().catch(() => ({}));
   return { ok: res.ok, status: res.status, data };
 }
+
+/** GET variant, for read-only CRM endpoints like /api/store/products. */
+export async function crmGet(path: string, opts?: { revalidate?: number }) {
+  const res = await fetch(`${process.env.CRM_API_URL}${path}`, {
+    headers: {
+      "x-store-domain": process.env.CRM_STORE_DOMAIN!,
+      "x-store-api-key": process.env.CRM_ORG_API_KEY!,
+    },
+    next: { revalidate: opts?.revalidate ?? 60 },
+  });
+  const data = await res.json().catch(() => null);
+  return { ok: res.ok, status: res.status, data };
+}

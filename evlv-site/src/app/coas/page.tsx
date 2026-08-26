@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import { CoasClient } from "./CoasClient";
+import { getCoaMap } from "@/lib/coa-data";
 
 export const metadata: Metadata = {
   title: "Certificates of Analysis",
@@ -7,6 +8,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/coas" },
 };
 
-export default function CoasPage() {
-  return <CoasClient />;
+export default async function CoasPage() {
+  const coaMap = await getCoaMap();
+  return <CoasClient coaMap={coaMap} />;
 }
