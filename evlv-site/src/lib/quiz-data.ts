@@ -2,10 +2,10 @@
  * "Find your protocol" quiz content: goals -> a follow-up subgoal question
  * per selected goal -> tiered product recommendations. Ported from a
  * reference project's goals/subgoals/tiers structure, remapped entirely to
- * EVLV's real 14-SKU catalog (src/lib/products.ts) — every product/copy
- * pairing here reflects what EVLV actually carries, not the reference's
- * catalog. RUO framing throughout: "studied for / researched in the context
- * of" language only, no dosing advice, no therapeutic claims.
+ * EVLV's real catalog (src/lib/products.ts) — every product/copy pairing
+ * here reflects what EVLV actually carries, not the reference's catalog.
+ * RUO framing throughout: "studied for / researched in the context of"
+ * language only, no dosing advice, no therapeutic claims.
  */
 
 export interface FocusArea {
@@ -92,7 +92,7 @@ export const QUIZ_PRODUCTS: Record<string, QuizProduct> = {
         "Studied for immune modulation and systemic recovery support, a common pick when the focus is whole-body rather than one area.",
     },
   },
-  "wolverine-stack-20mg": {
+  "bpc-tb-500-blend-10mg": {
     tier: "mid",
     variants: {
       "recovery:injury":
@@ -108,11 +108,16 @@ export const QUIZ_PRODUCTS: Record<string, QuizProduct> = {
         "A mitochondrial-derived peptide studied around cellular energy and how the body uses fuel. The usual first stop here.",
     },
   },
-  "5-amino-1mq-50mg": {
+  "ss-31-10mg": {
     tier: "mid",
     variants: {
-      "longevity:cellular": "An NNMT-inhibitor compound studied in the context of cellular metabolism research.",
-      "metabolic:general": "Studied for its role in cellular metabolism, a common starting point for general metabolic research.",
+      "longevity:cellular": "A mitochondria-targeted compound studied in the context of cellular energy research.",
+    },
+  },
+  "semaglutide-5mg": {
+    tier: "beginner",
+    variants: {
+      "metabolic:general": "A widely-studied GLP-1 research compound, a common starting point for general metabolic research.",
     },
   },
   "ghk-cu-50mg": {
@@ -135,16 +140,16 @@ export const QUIZ_PRODUCTS: Record<string, QuizProduct> = {
         "A tri-agonist compound at the frontier of metabolic research. Usually explored once someone's already familiar with the category.",
     },
   },
-  "sermorelin-10mg": {
-    tier: "beginner",
-    variants: {
-      "growth:gh": "A GHRH-analog studied for its role in natural pituitary-axis research, a common starting point.",
-    },
-  },
-  "cjc-1295-no-dac-5mg": {
+  "tirzepatide-10mg": {
     tier: "mid",
     variants: {
-      "growth:gh": "A GHRH-analog studied for sustained pituitary-axis signaling research.",
+      "metabolic:appetite": "A dual-agonist GLP-1/GIP research compound, a common middle step before tri-agonist research.",
+    },
+  },
+  "cjc-ipa-blend-10mg": {
+    tier: "beginner",
+    variants: {
+      "growth:gh": "A pre-combined GHRH-analog blend studied for natural pituitary-axis research, a common starting point.",
     },
   },
   "tesamorelin-10mg": {
@@ -157,6 +162,12 @@ export const QUIZ_PRODUCTS: Record<string, QuizProduct> = {
     tier: "beginner",
     variants: {
       "cognition:stress": "Researched around stress response and a calm, steady state.",
+    },
+  },
+  "semax-10mg": {
+    tier: "mid",
+    variants: {
+      "cognition:stress": "A nootropic peptide studied alongside Selank when the focus extends toward cognitive research.",
     },
   },
 };

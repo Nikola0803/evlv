@@ -88,35 +88,28 @@ charcoal), not hard white/black/green jumps.
 - `src/components/home/*`, `src/components/product/*`, `src/components/layout/*` — same structure as ALTR.
 - Pages: `/`, `/shop`, `/shop/[slug]`, `/faq`, `/contact`, `/lab-results`, `/science`, `/journal`, `/about`.
 
-## Product photography — KNOWN GAP, do not reuse ALTR assets
+## Product photography — RESOLVED (2026-08-26)
 
-The real product photos in ALTR's `public/images/products/*.jpg` have the **ALTR wordmark physically printed on
-the vial labels** — they cannot be reused for EVLV under any circumstance. During the fork:
-- The `image` field was removed from every product in `products.ts`, so every product now falls back to
-  `ProductVisual` (the branded SVG placeholder), which was re-themed to EVLV colors (dark obsidian/charcoal
-  label, copper divider + band, soft-ivory text) instead of copied as-is.
-- The old `public/images/products/*.jpg` files are still physically present in this fork's `public/` folder
-  (copied wholesale) but are **unused and must not be wired back in** — delete them once confirmed unused, or
-  replace with real EVLV-labeled photography.
-- **`public/videos/hero-water-2.mp4`, `standard-vial.mp4`, and `product-hover.mp4` are still the original
-  ALTR-branded videos** (visible ALTR wordmark on vials in the footage) and are still referenced by `Hero.tsx`
-  and `AboutSection.tsx`. This is a launch-blocker, not a nice-to-have — flag to the user before this site goes
-  live. Needs new EVLV-branded video/photography, or these sections need to be reworked to not require branded
-  footage until real assets exist.
+Real EVLV-labeled product renders now exist for every SKU, sourced from `C:\Users\PC\Desktop\EVLV MEdia\products`
+and copied into `public/images/products/<slug>.png`, wired via the `image` field on every `Product` in
+`products.ts`. `ProductVisual.tsx` (the branded SVG placeholder) is no longer used by any live product but is
+left in place as a fallback pattern for future SKUs shipped without a real photo.
+- Hero/section videos (`hero-evlv.mp4`, `hero-water.mp4`, `precision-section.mp4`, etc.) are already the
+  real EVLV-branded footage — `Hero.tsx`/`AboutSection.tsx` reference the EVLV files, not ALTR's.
 - `public/images/science/*.jpg` (the 3 Science-section article images) are generic/non-branded and are safe to
   keep reusing.
 
 ## Known gaps / not-yet-built
 
-- **Real vector logo** — see "Logo" section above. Current wordmark is a styled-text placeholder.
-- **Real EVLV product photography and hero/section video** — see "Product photography" above.
-- **No real checkout** — cart is a client-side badge counter only.
-- **No CMS/backend wired up** — `evlv-cms-plugin` exists as a sibling project but this frontend still reads
-  hardcoded mock data from `src/lib/`.
-- **`/journal`** is a "coming soon" placeholder.
-- **Contact form and newsletter form** are UI-only.
-- **"View COA" links** don't deep-link to a real per-batch document.
-- Footer's Account/Orders/Returns and Terms/Privacy links are inert.
+Note: much of this section predates the CRM (`peptides-crm-app`) integration work — logo, product photography,
+checkout, contact/newsletter forms, COAs, and footer legal links are all resolved now (see git log). Remaining
+real gaps:
+- **No CMS/backend for catalog data** — product/bundle/journal content is still hardcoded in `src/lib/`, not
+  pulled from a real WooCommerce/WPGraphQL or CRM source. `evlv-cms-plugin` exists as a sibling project for this.
+- **Affiliate form** (`src/app/affiliates/AffiliateForm.tsx`) doesn't submit anywhere yet — no state on its
+  inputs, no `onSubmit` POST, just a fake "submitted" UI state. Needs the same `/api/*` + CRM proxy pattern as
+  `ContactForm.tsx`.
+- **Plans/membership pricing** shows "Coming soon" — member pricing tiers not finalized.
 - Copy throughout (hero, trust bar, about, science, testimonials) is a first-pass EVLV rewrite of the ALTR
   original — matches the spec's tone/CTA language rules but has not been reviewed line-by-line against the full
   brand voice guidance yet.
