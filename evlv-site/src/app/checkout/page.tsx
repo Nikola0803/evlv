@@ -10,6 +10,7 @@ import { FREE_SHIPPING_THRESHOLD, FLAT_SHIPPING_COST } from "@/components/layout
 import { getStoredUser } from "@/lib/auth";
 import { addOrder } from "@/lib/orders";
 import { PAYMENT_GATEWAYS, type PaymentGatewayId } from "@/lib/payment-config";
+import { getStoredReferralCode } from "@/lib/referral";
 
 const US_STATES = [
   "AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA",
@@ -53,6 +54,12 @@ export default function CheckoutPage() {
   const [zip, setZip] = useState("");
   const [smsConsent, setSmsConsent] = useState(false);
   const [orderNotes, setOrderNotes] = useState("");
+  const [couponCode, setCouponCode] = useState("");
+
+  useEffect(() => {
+    const stored = getStoredReferralCode();
+    if (stored) setCouponCode(stored);
+  }, []);
 
   const [selectedGateway, setSelectedGateway] = useState<PaymentGatewayId | null>(null);
   const [memo, setMemo] = useState(() => generateMemo());
@@ -130,6 +137,7 @@ export default function CheckoutPage() {
           ],
           paymentMethod: selectedGateway,
           paymentMemo: memo,
+          couponCode: couponCode.trim() || undefined,
           customerNote: orderNotes.trim() || undefined,
           customerId: user && user.user_id !== "local" ? user.user_id : undefined,
           // The deployed CRM's checkout also requires a top-level customerEmail
@@ -266,6 +274,19 @@ export default function CheckoutPage() {
                 .
               </span>
             </label>
+          </section>
+
+          <section>
+            <label className="mb-3 block text-sm font-semibold uppercase tracking-wider text-charcoal/50">
+              Coupon / Referral Code <span className="font-normal normal-case text-charcoal/40">(optional)</span>
+            </label>
+            <input
+              type="text"
+              placeholder="Enter a code"
+              value={couponCode}
+              onChange={(e) => setCouponCode(e.target.value)}
+              className="w-full rounded-md border border-stone bg-white px-4 py-3.5 text-base uppercase text-charcoal outline-none placeholder:text-charcoal/40 placeholder:normal-case focus:border-copper"
+            />
           </section>
 
           <section>
