@@ -1,5 +1,10 @@
 export type ProductCategory = "peptides" | "ancillaries";
 
+/** Shop-page "Shop by Format" filter dimension. Most current products are
+ * standalone lyophilized vials and don't belong to any of these buckets
+ * (they still show up under "All Formats"). */
+export type ProductFormat = "blend" | "supplies" | "oral" | "nasal";
+
 export interface BulkOption {
   qty: number;
   price: number;
@@ -13,6 +18,7 @@ export interface Product {
   name: string;
   category: ProductCategory;
   categoryLabel: string;
+  format?: ProductFormat;
   image?: string;
   price: number;
   bulkOption?: BulkOption;
@@ -44,4 +50,20 @@ export interface Testimonial {
 export interface FaqItem {
   question: string;
   answer: string;
+}
+
+/**
+ * Multi-product research protocol packages, distinct from a single Product
+ * (duration-based, not dose-based; no purity/batch of its own since it's a
+ * bundle of already-verified individual products).
+ */
+export interface Bundle {
+  slug: string;
+  name: string;
+  tagline: string;
+  category: string;
+  duration: string;
+  price: number;
+  compareAtPrice: number;
+  comingSoon?: boolean;
 }

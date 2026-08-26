@@ -172,6 +172,7 @@ export const products: Product[] = [
     name: "WOLVERINE STACK 20MG",
     category: "peptides",
     categoryLabel: "Peptide Research",
+    format: "blend",
     image: "/images/products/vial-placeholder.png",
     price: 95,
     bulkOption: { qty: 10, price: 760, savePercent: 20 },
@@ -194,6 +195,7 @@ export const products: Product[] = [
     name: "GLOW 70MG",
     category: "peptides",
     categoryLabel: "Peptide Research",
+    format: "blend",
     image: "/images/products/vial-placeholder.png",
     price: 110,
     bulkOption: { qty: 10, price: 880, savePercent: 20 },
@@ -238,6 +240,7 @@ export const products: Product[] = [
     name: "KLOW 80MG",
     category: "peptides",
     categoryLabel: "Peptide Research",
+    format: "blend",
     image: "/images/products/vial-placeholder.png",
     price: 125,
     bulkOption: { qty: 10, price: 1000, savePercent: 20 },
@@ -321,4 +324,12 @@ export const categories: { value: Product["category"] | "all"; label: string }[]
   { value: "all", label: "All Research" },
   { value: "peptides", label: "Peptide Research" },
   { value: "ancillaries", label: "Ancillary Research" },
+];
+
+export const formats: { value: NonNullable<Product["format"]> | "all"; label: string }[] = [
+  { value: "all", label: "All Formats" },
+  { value: "blend", label: "Blends" },
+  { value: "supplies", label: "Supplies" },
+  { value: "oral", label: "Oral / Capsules" },
+  { value: "nasal", label: "Nasal Sprays" },
 ];
