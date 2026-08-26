@@ -132,6 +132,9 @@ export default function CheckoutPage() {
           paymentMemo: memo,
           customerNote: orderNotes.trim() || undefined,
           customerId: user && user.user_id !== "local" ? user.user_id : undefined,
+          // The deployed CRM's checkout also requires a top-level customerEmail
+          // for guest checkout (billing.email alone isn't enough there).
+          customerEmail: email.trim(),
           billing: {
             firstName: firstName.trim(),
             lastName: lastName.trim(),
