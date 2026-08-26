@@ -7,29 +7,23 @@ export interface CoaEntry {
   label?: string;
 }
 
-interface CrmProduct {
-  slug: string;
-  coaUrl?: string;
-  coaBatchLabel?: string;
-}
-
 /**
  * Real lab COA PDFs, keyed by product slug, sourced from the CRM's
- * CoaDocument table (see peptides-crm-app/prisma/schema.prisma). Returns {}
- * if the CRM isn't configured or a product has no COA uploaded yet — the
- * /coas page shows "COA pending" for those rather than inventing data.
+ * CoaDocument table via /api/store/coas (see peptide-saas's
+ * src/app/api/store/coas/route.ts, and the Master Products admin page
+ * where COAs are uploaded). Returns {} if the CRM isn't configured or a
+ * product has no COA uploaded yet — the /coas page shows "COA pending"
+ * for those rather than inventing data.
  */
 export async function getCoaMap(): Promise<Record<string, CoaEntry>> {
   if (!crmConfigured()) return {};
 
-  const { ok, data } = await crmGet("/api/store/products", { revalidate: 120 });
+  const { ok, data } = await crmGet("/api/store/coas", { revalidate: 120 });
   if (!ok || !Array.isArray(data)) return {};
 
   const map: Record<string, CoaEntry> = {};
-  for (const p of data as CrmProduct[]) {
-    if (p.slug && p.coaUrl) {
-      map[p.slug] = { slug: p.slug, url: p.coaUrl, label: p.coaBatchLabel };
-    }
+  for (const c of data as CoaEntry[]) {
+    if (c.slug && c.url) map[c.slug] = c;
   }
   return map;
 }

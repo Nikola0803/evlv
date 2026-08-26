@@ -22,8 +22,9 @@ export function ContactForm() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          contactEmail: email.trim(),
-          subject: `${subject}${name.trim() ? ` (from ${name.trim()})` : ""}`,
+          name: name.trim(),
+          email: email.trim(),
+          subject,
           message: message.trim(),
         }),
       });

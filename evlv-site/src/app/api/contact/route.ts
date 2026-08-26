@@ -1,16 +1,28 @@
 import { NextResponse } from "next/server";
-import { crmConfigured, crmFetch } from "@/lib/crm-proxy";
 
 export const runtime = "nodejs";
 
-// POST /api/contact { contactEmail, subject, message, orderRef? }
-// Proxies to the CRM's /api/store/support, landing as a real SupportTicket
-// visible in the CRM's Support admin instead of going nowhere.
+/**
+ * POST /api/contact { name, email, subject, message }
+ * Proxies to the CRM's /api/forms/submit, which creates a real Conversation
+ * (channel: CONTACT_FORM) visible in the CRM's Support inbox. That endpoint
+ * authenticates with a per-brand `publicKey` (from TrackingConfig, the same
+ * key the tracking pixel uses) rather than the x-store-domain/x-store-api-key
+ * pair the rest of this proxy uses -- see peptide-saas's
+ * src/app/api/forms/submit/route.ts.
+ */
 export async function POST(req: Request) {
-  if (!crmConfigured()) {
+  const publicKey = process.env.CRM_CONTACT_FORM_KEY;
+  if (!process.env.CRM_API_URL || !publicKey) {
     return NextResponse.json({ error: "Contact form isn't connected to the CRM yet." }, { status: 503 });
   }
   const body = await req.json().catch(() => ({}));
-  const { ok, status, data } = await crmFetch("/api/store/support", body);
-  return NextResponse.json(data, { status: ok ? 200 : status });
+
+  const res = await fetch(`${process.env.CRM_API_URL}/api/forms/submit`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ publicKey, ...body }),
+  });
+  const data = await res.json().catch(() => ({}));
+  return NextResponse.json(data, { status: res.ok ? 200 : res.status });
 }
