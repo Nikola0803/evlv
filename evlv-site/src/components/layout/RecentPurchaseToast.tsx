@@ -5,8 +5,7 @@
  * project's RecentPurchaseToast pattern, re-skinned to EVLV.
  *
  * Data is illustrative, not a live feed of real orders (same convention as
- * the mock ratings/review counts in src/lib/products.ts and the testimonial
- * in TrustpilotWidget's fallback) -- cycles through actual catalog products/
+ * the mock ratings/review counts in src/lib/products.ts) -- cycles through actual catalog products/
  * images, but the buyer name, city, and "N minutes ago" are placeholder
  * examples, not real customer data. If real anonymized order data becomes
  * available later, resolve it server-side (same pattern as any future
