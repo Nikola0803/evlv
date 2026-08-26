@@ -7,11 +7,40 @@ const TOPICS = ["Order Question", "Product Question", "Shipping & Tracking", "CO
 export function ContactForm() {
   const [submitted, setSubmitted] = useState(false);
   const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
+  const [sending, setSending] = useState(false);
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    // TODO: wire up to a form endpoint (e.g. WordPress REST /wp-json/contact-form-7 or a mail API) once available.
-    setSubmitted(true);
+    setError("");
+
+    const form = new FormData(e.currentTarget);
+    // Honeypot -- real visitors never fill a hidden field. Pretend success
+    // without actually sending anything.
+    if (String(form.get("company") ?? "").trim()) {
+      setSubmitted(true);
+      return;
+    }
+
+    setSending(true);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: form.get("name"),
+          email: form.get("email"),
+          subject: form.get("subject"),
+          message: form.get("message"),
+        }),
+      });
+      if (!res.ok) throw new Error("failed");
+      setSubmitted(true);
+    } catch {
+      setError("Something went wrong sending your message — please try again, or email us directly.");
+    } finally {
+      setSending(false);
+    }
   }
 
   if (submitted) {
@@ -32,7 +61,7 @@ export function ContactForm() {
 
       <div>
         <label className="mb-1.5 block text-sm font-semibold text-charcoal">Subject</label>
-        <select required className="w-full rounded-md border border-stone bg-ivory px-4 py-2.5 text-sm outline-none transition focus:border-sage-deep">
+        <select name="subject" required className="w-full rounded-md border border-stone bg-ivory px-4 py-2.5 text-sm outline-none transition focus:border-sage-deep">
           <option value="">Select a topic</option>
           {TOPICS.map((t) => (
             <option key={t} value={t}>
@@ -47,6 +76,7 @@ export function ContactForm() {
           <label className="text-sm font-semibold text-charcoal">Message</label>
         </div>
         <textarea
+          name="message"
           required
           maxLength={500}
           rows={5}
@@ -60,8 +90,14 @@ export function ContactForm() {
 
       <input tabIndex={-1} autoComplete="off" aria-hidden className="hidden" type="text" name="company" />
 
-      <button type="submit" className="w-full rounded-md bg-copper py-3.5 text-[12px] font-semibold uppercase tracking-[0.15em] text-charcoal transition hover:bg-copper-light">
-        Send Message
+      {error && <p className="text-sm text-red-600">{error}</p>}
+
+      <button
+        type="submit"
+        disabled={sending}
+        className="w-full rounded-md bg-copper py-3.5 text-[12px] font-semibold uppercase tracking-[0.15em] text-charcoal transition hover:bg-copper-light disabled:opacity-60"
+      >
+        {sending ? "Sending…" : "Send Message"}
       </button>
     </form>
   );
