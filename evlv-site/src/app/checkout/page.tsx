@@ -188,6 +188,7 @@ export default function CheckoutPage() {
       label: gatewayInfo.label,
       handle: gatewayInfo.handle || "",
       memo,
+      amount: total.toFixed(2),
     });
     router.push(`/order-success?${params.toString()}`);
   }
