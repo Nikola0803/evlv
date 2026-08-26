@@ -5,8 +5,9 @@ import { ShopClient } from "./ShopClient";
 import { TrustIconRow } from "@/components/ui/TrustIconRow";
 
 export const metadata: Metadata = {
-  title: "Shop | EVLV",
-  description: "Browse the full EVLV catalogue of research peptides and ancillaries.",
+  title: "Shop Research Peptides",
+  description: "Browse the full EVLV catalogue of research peptides and ancillaries, each batch independently tested with a published Certificate of Analysis.",
+  alternates: { canonical: "/shop" },
 };
 
 const SHOP_TRUST_ITEMS = [

@@ -2,8 +2,9 @@ import { Metadata } from "next";
 import Image from "next/image";
 
 export const metadata: Metadata = {
-  title: "Science | EVLV",
-  description: "How EVLV approaches testing, documentation, handling and transparency across every research compound.",
+  title: "The Science",
+  description: "How EVLV approaches testing, documentation, handling and transparency across every research peptide.",
+  alternates: { canonical: "/science" },
 };
 
 const ARTICLES = [

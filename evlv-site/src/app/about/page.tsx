@@ -6,8 +6,9 @@ import { FinalCta } from "@/components/home/FinalCta";
 import { QuizTrigger } from "./QuizTrigger";
 
 export const metadata: Metadata = {
-  title: "About | EVLV",
+  title: "About EVLV",
   description: "EVLV is built around clarity and consistency in research, documentation over claims, every time.",
+  alternates: { canonical: "/about" },
 };
 
 const PRINCIPLES = [

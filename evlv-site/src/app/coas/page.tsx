@@ -2,8 +2,9 @@ import { Metadata } from "next";
 import { CoasClient } from "./CoasClient";
 
 export const metadata: Metadata = {
-  title: "COAs | EVLV",
-  description: "Independent batch verification reports (Certificates of Analysis) for every EVLV product.",
+  title: "Certificates of Analysis",
+  description: "Independent batch verification reports (Certificates of Analysis) for every EVLV research peptide, searchable by batch code.",
+  alternates: { canonical: "/coas" },
 };
 
 export default function CoasPage() {

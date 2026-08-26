@@ -13,9 +13,17 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const product = getProductBySlug(slug);
   if (!product) return {};
+  const title = `${product.name}, Research Peptide`;
   return {
-    title: `${product.name} | EVLV`,
-    description: product.shortDescription,
+    title,
+    description: `${product.shortDescription} ${product.purity ? `Purity: ${product.purity}.` : ""} Batch-tested with a published Certificate of Analysis. Research use only.`.trim(),
+    alternates: { canonical: `/shop/${product.slug}` },
+    openGraph: {
+      type: "website",
+      title,
+      description: product.shortDescription,
+      images: product.image ? [{ url: product.image, width: 800, height: 800, alt: product.name }] : undefined,
+    },
   };
 }
 
@@ -26,8 +34,42 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
   const related = getRelatedProducts(slug);
 
+  const productJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    sku: product.sku,
+    description: product.shortDescription,
+    image: product.image ? [`https://evlvpeptides.com${product.image}`] : undefined,
+    category: product.categoryLabel,
+    offers: {
+      "@type": "Offer",
+      url: `https://evlvpeptides.com/shop/${product.slug}`,
+      priceCurrency: "USD",
+      price: product.price,
+      availability: product.inStock ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+    },
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: product.rating,
+      reviewCount: product.reviewCount,
+    },
+  };
+
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://evlvpeptides.com" },
+      { "@type": "ListItem", position: 2, name: "Shop", item: "https://evlvpeptides.com/shop" },
+      { "@type": "ListItem", position: 3, name: product.name, item: `https://evlvpeptides.com/shop/${product.slug}` },
+    ],
+  };
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <div className="mx-auto max-w-[1400px] px-4 pb-4 pt-8 md:px-8 md:pt-10">
         <nav className="flex flex-wrap items-center gap-2 text-xs text-charcoal/50">
           <Link href="/" className="transition hover:text-charcoal">

@@ -5,13 +5,38 @@ import { FormEvent, useState } from "react";
 const TOPICS = ["Order Question", "Product Question", "Shipping & Tracking", "COAs", "Other"];
 
 export function ContactForm() {
-  const [submitted, setSubmitted] = useState(false);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    // TODO: wire up to a form endpoint (e.g. WordPress REST /wp-json/contact-form-7 or a mail API) once available.
-    setSubmitted(true);
+    setError("");
+    setSubmitting(true);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contactEmail: email.trim(),
+          subject: `${subject}${name.trim() ? ` (from ${name.trim()})` : ""}`,
+          message: message.trim(),
+        }),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data?.error || "Something went wrong sending your message.");
+      }
+      setSubmitted(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   if (submitted) {
@@ -26,13 +51,18 @@ export function ContactForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-5 rounded-md border border-stone bg-ivory p-6 md:p-8">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <Field label="Name" name="name" placeholder="Your name" required />
-        <Field label="Email" name="email" type="email" placeholder="you@example.com" required />
+        <Field label="Name" name="name" placeholder="Your name" required value={name} onChange={setName} />
+        <Field label="Email" name="email" type="email" placeholder="you@example.com" required value={email} onChange={setEmail} />
       </div>
 
       <div>
         <label className="mb-1.5 block text-sm font-semibold text-charcoal">Subject</label>
-        <select required className="w-full rounded-md border border-stone bg-ivory px-4 py-2.5 text-sm outline-none transition focus:border-sage-deep">
+        <select
+          required
+          value={subject}
+          onChange={(e) => setSubject(e.target.value)}
+          className="w-full rounded-md border border-stone bg-ivory px-4 py-2.5 text-sm outline-none transition focus:border-sage-deep"
+        >
           <option value="">Select a topic</option>
           {TOPICS.map((t) => (
             <option key={t} value={t}>
@@ -60,8 +90,19 @@ export function ContactForm() {
 
       <input tabIndex={-1} autoComplete="off" aria-hidden className="hidden" type="text" name="company" />
 
-      <button type="submit" className="w-full rounded-md bg-copper py-3.5 text-[12px] font-semibold uppercase tracking-[0.15em] text-charcoal transition hover:bg-copper-light">
-        Send Message
+      {error && (
+        <p className="flex items-center gap-1.5 text-xs font-medium text-red-600">
+          <i className="ri-error-warning-line text-sm shrink-0" />
+          {error}
+        </p>
+      )}
+
+      <button
+        type="submit"
+        disabled={submitting}
+        className="w-full rounded-md bg-copper py-3.5 text-[12px] font-semibold uppercase tracking-[0.15em] text-charcoal transition hover:bg-copper-light disabled:cursor-wait disabled:opacity-60"
+      >
+        {submitting ? "Sending..." : "Send Message"}
       </button>
     </form>
   );
@@ -73,12 +114,16 @@ function Field({
   type = "text",
   placeholder,
   required,
+  value,
+  onChange,
 }: {
   label: string;
   name: string;
   type?: string;
   placeholder?: string;
   required?: boolean;
+  value: string;
+  onChange: (v: string) => void;
 }) {
   return (
     <div>
@@ -91,6 +136,8 @@ function Field({
         type={type}
         placeholder={placeholder}
         required={required}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
         className="w-full rounded-md border border-stone bg-ivory px-4 py-2.5 text-sm outline-none transition focus:border-sage-deep"
       />
     </div>

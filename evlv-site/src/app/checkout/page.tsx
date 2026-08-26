@@ -52,6 +52,7 @@ export default function CheckoutPage() {
   const [stateCode, setStateCode] = useState("");
   const [zip, setZip] = useState("");
   const [smsConsent, setSmsConsent] = useState(false);
+  const [newsletterOptIn, setNewsletterOptIn] = useState(true);
   const [orderNotes, setOrderNotes] = useState("");
 
   const [selectedGateway, setSelectedGateway] = useState<PaymentGatewayId | null>(null);
@@ -170,6 +171,16 @@ export default function CheckoutPage() {
       orderId = order.id;
     }
 
+    if (newsletterOptIn && email.trim()) {
+      fetch("/api/newsletter", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email.trim() }),
+      }).catch(() => {
+        /* best-effort, never block order completion on this */
+      });
+    }
+
     clearCart();
     const params = new URLSearchParams({
       order: orderId,
@@ -262,6 +273,18 @@ export default function CheckoutPage() {
                   Terms of Service
                 </Link>
                 .
+              </span>
+            </label>
+
+            <label className="mt-3 flex items-start gap-3 rounded-lg border border-stone bg-ivory-soft p-4">
+              <input
+                type="checkbox"
+                checked={newsletterOptIn}
+                onChange={(e) => setNewsletterOptIn(e.target.checked)}
+                className="mt-0.5 h-4 w-4 shrink-0 accent-copper"
+              />
+              <span className="text-xs leading-relaxed text-charcoal/60">
+                Send me research notes, new SKUs and offers by email. You can unsubscribe at any time.
               </span>
             </label>
           </section>
