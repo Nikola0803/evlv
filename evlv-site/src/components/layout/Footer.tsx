@@ -27,8 +27,22 @@ export function Footer() {
   return (
     <footer className="bg-charcoal pb-10 pt-24 text-white md:pt-36">
       <div className="mx-auto max-w-[1400px] px-4 md:px-8">
-        <Logo tone="ivory" imgClassName="h-14 w-auto md:h-20" />
-        <p className="mt-4 text-sm text-white/50">Evolve. Become your ultimate.</p>
+        <div className="flex flex-wrap items-center justify-between gap-6">
+          <div>
+            <Logo tone="ivory" imgClassName="h-14 w-auto md:h-20" />
+            <p className="mt-4 text-sm text-white/50">Evolve. Become your ultimate.</p>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+            <p className="text-[11px] font-semibold uppercase tracking-wider text-white/40">We Accept</p>
+            {PAYMENT_GATEWAYS.map((gateway) => (
+              <div key={gateway.id} className="flex items-center gap-1.5 text-white/60">
+                <i className={`${gateway.icon} text-base text-copper`} />
+                <span className="text-xs">{gateway.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
 
         <div className="mt-16 grid grid-cols-2 gap-6 border-t border-white/10 pt-10 sm:grid-cols-4">
           {[
@@ -43,16 +57,6 @@ export function Footer() {
                 <p className="text-[11px] font-semibold uppercase tracking-wider text-white/80">{item.label}</p>
                 <p className="text-[11px] text-white/40">{item.sub}</p>
               </div>
-            </div>
-          ))}
-        </div>
-
-        <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-white/10 pt-6">
-          <p className="text-[11px] font-semibold uppercase tracking-wider text-white/40">We Accept</p>
-          {PAYMENT_GATEWAYS.map((gateway) => (
-            <div key={gateway.id} className="flex items-center gap-1.5 text-white/60">
-              <i className={`${gateway.icon} text-base text-copper`} />
-              <span className="text-xs">{gateway.label}</span>
             </div>
           ))}
         </div>
