@@ -9,8 +9,9 @@ import { getAddressesForUser, addAddress, removeAddress, setDefaultAddress, type
 import { useCurrency } from "@/lib/currency-context";
 import { AffiliatePanel } from "./AffiliatePanel";
 import { VerificationPanel } from "./VerificationPanel";
+import { WholesalePanel } from "./WholesalePanel";
 
-type Tab = "orders" | "addresses" | "profile" | "affiliate" | "verification";
+type Tab = "orders" | "addresses" | "profile" | "affiliate" | "verification" | "wholesale";
 
 const STATUS_STYLE: Record<Order["status"], string> = {
   Processing: "bg-copper/15 text-copper",
@@ -28,6 +29,7 @@ const TABS: { key: Tab; label: string; icon: string }[] = [
   { key: "addresses", label: "Addresses", icon: "ri-map-pin-line" },
   { key: "affiliate", label: "Affiliate", icon: "ri-handshake-line" },
   { key: "verification", label: "Verification", icon: "ri-shield-check-line" },
+  { key: "wholesale", label: "Wholesale", icon: "ri-store-2-line" },
   { key: "profile", label: "Profile", icon: "ri-user-settings-line" },
 ];
 
@@ -82,6 +84,7 @@ function AccountPageInner() {
     if (justPlacedId) setTab("orders");
     else if (tabParam === "affiliate") setTab("affiliate");
     else if (tabParam === "verification") setTab("verification");
+    else if (tabParam === "wholesale") setTab("wholesale");
     setMounted(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -159,6 +162,7 @@ function AccountPageInner() {
           )}
           {tab === "affiliate" && <AffiliatePanel />}
           {tab === "verification" && <VerificationPanel />}
+          {tab === "wholesale" && <WholesalePanel />}
           {tab === "profile" && <ProfilePanel user={user} onUpdate={setUser} />}
         </div>
       </div>

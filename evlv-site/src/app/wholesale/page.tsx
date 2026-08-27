@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import Link from "next/link";
 import { WholesaleForm } from "./WholesaleForm";
 
 export const metadata: Metadata = {
@@ -46,6 +47,12 @@ export default function WholesalePage() {
             White-label a research peptide business on EVLV&apos;s infrastructure — a custom CRM/CMS, a branded
             website, and fulfillment, built around a wholesale volume commitment.
           </p>
+          <Link
+            href="/account?tab=wholesale"
+            className="mt-6 inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-white/60 transition hover:text-white"
+          >
+            Already a partner? Sign in to your account <i className="ri-arrow-right-line" />
+          </Link>
         </div>
       </section>
 
