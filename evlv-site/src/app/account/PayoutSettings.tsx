@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { getStoredAffiliateToken } from "@/lib/affiliate-auth";
+import { getStoredToken } from "@/lib/auth";
 
 export type PayoutMethod = "venmo" | "zelle" | "cashapp" | "bank_ach";
 
@@ -54,7 +54,7 @@ export function PayoutSettings({ initial, onSaved }: { initial: PayoutInfo; onSa
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          token: getStoredAffiliateToken(),
+          token: getStoredToken(),
           payoutMethod: method,
           payoutDestination: method !== "bank_ach" ? destination.trim() : undefined,
           bankAccountHolder: method === "bank_ach" ? accountHolder.trim() : undefined,

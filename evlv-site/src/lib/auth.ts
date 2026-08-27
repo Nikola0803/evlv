@@ -9,12 +9,21 @@ const TOKEN_KEY = "evlv_auth_token";
 const USER_KEY = "evlv_auth_user";
 
 export type Plan = "standard" | "member";
+export type ResearcherStatus = "NONE" | "PENDING" | "APPROVED";
 
 export interface AuthUser {
   email: string;
   username: string;
   user_id: string;
   plan?: Plan;
+  /**
+   * Cached locally, refreshed by VerificationSync.tsx (a background check
+   * on app load) and by /account's Verification tab. This is a compliance
+   * gate for restricted product formats (nasal sprays, injector pens) --
+   * unlike `plan`, it's never set client-side as a "preview," only ever
+   * synced from what the CRM actually approved.
+   */
+  researcherStatus?: ResearcherStatus;
 }
 
 export function getStoredToken(): string {
@@ -26,10 +35,17 @@ export function getStoredUser(): AuthUser | null {
   if (typeof window === "undefined") return null;
   try {
     const user = JSON.parse(localStorage.getItem(USER_KEY) ?? "null");
-    return user ? { ...user, plan: user.plan ?? "standard" } : null;
+    return user ? { ...user, plan: user.plan ?? "standard", researcherStatus: user.researcherStatus ?? "NONE" } : null;
   } catch {
     return null;
   }
+}
+
+/** Synced from the CRM (VerificationSync.tsx, or /account's Verification tab) — never set as a client-side preview. */
+export function setResearcherStatus(status: ResearcherStatus) {
+  const user = getStoredUser();
+  if (!user) return;
+  localStorage.setItem(USER_KEY, JSON.stringify({ ...user, researcherStatus: status }));
 }
 
 /**

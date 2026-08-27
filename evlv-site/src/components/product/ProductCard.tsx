@@ -25,13 +25,18 @@ export function ProductCard({ product }: { product: Product }) {
   const { title, dosage } = splitDosage(product.name);
   const [hovering, setHovering] = useState(false);
   const [isMember, setIsMember] = useState(false);
+  const [isVerified, setIsVerified] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    setIsMember(getStoredUser()?.plan === "member");
+    const user = getStoredUser();
+    setIsMember(user?.plan === "member");
+    setIsVerified(user?.researcherStatus === "APPROVED");
   }, []);
 
-  const locked = !!product.memberOnly && !isMember;
+  const memberLocked = !!product.memberOnly && !isMember;
+  const restrictedLocked = !!product.restricted && !isVerified;
+  const locked = memberLocked || restrictedLocked;
 
   function handleEnter() {
     setHovering(true);
@@ -90,7 +95,7 @@ export function ProductCard({ product }: { product: Product }) {
         ))}
         {locked && (
           <span className="absolute right-3 top-3 flex items-center gap-1 rounded-full bg-charcoal/85 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-copper backdrop-blur-sm">
-            <i className="ri-lock-line" /> Member Exclusive
+            <i className="ri-lock-line" /> {restrictedLocked ? "Verified Researchers Only" : "Member Exclusive"}
           </span>
         )}
         {!product.inStock && !locked && (
@@ -163,10 +168,10 @@ export function ProductCard({ product }: { product: Product }) {
 
           {locked ? (
             <Link
-              href="/plans"
+              href={restrictedLocked ? "/account?tab=verification" : "/plans"}
               className="mt-5 flex w-full items-center justify-center gap-1.5 rounded-md border border-charcoal py-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-charcoal transition hover:bg-charcoal hover:text-ivory"
             >
-              <i className="ri-lock-line" /> Unlock With Membership
+              <i className="ri-lock-line" /> {restrictedLocked ? "Apply for Verification" : "Unlock With Membership"}
             </Link>
           ) : (
             <button

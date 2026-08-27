@@ -3,11 +3,14 @@ import { crmConfigured, crmFetch } from "@/lib/crm-proxy";
 
 export const runtime = "nodejs";
 
-// POST /api/affiliate/register — proxies to the CRM's /api/store/affiliate/register.
-// This CRM endpoint doesn't exist yet as of 2026-08 (peptides-crm-app's Affiliate
-// model is currently admin-created only, no self-serve signup/auth) — see
-// AFFILIATE-PORTAL.md for what needs to be built there. Until then this
-// correctly 503s rather than pretending to work.
+// POST /api/affiliate/register { token, referredBy?, socialLink, phone, address,
+// postalCode, city, province, country } — applies for affiliate status on the
+// shopper's EXISTING customer account (resolved server-side from `token`, same
+// bearer token /api/auth/login already issues). Affiliates are a role on the
+// Customer record, not a separate login — see AFFILIATE-PORTAL.md. This CRM
+// endpoint doesn't exist yet as of 2026-08 (peptides-crm-app's Affiliate model
+// is currently admin-created only). Until then this correctly 503s rather than
+// pretending to work.
 export async function POST(req: Request) {
   if (!crmConfigured()) {
     return NextResponse.json({ error: "Affiliate signup isn't connected yet." }, { status: 503 });

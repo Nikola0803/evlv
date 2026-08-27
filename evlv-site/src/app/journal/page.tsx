@@ -6,6 +6,7 @@ import { getJournalArticles } from "@/lib/journal-data";
 export const metadata: Metadata = {
   title: "Journal | EVLV",
   description: "Long-form notes on peptide purity, batch testing methodology and the EVLV research standard.",
+  alternates: { canonical: "/journal" },
 };
 
 export default function JournalPage() {

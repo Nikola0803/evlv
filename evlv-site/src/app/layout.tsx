@@ -9,10 +9,12 @@ import { CartDrawer } from "@/components/layout/CartDrawer";
 import { QuizWidget } from "@/components/layout/QuizWidget";
 import { RecentPurchaseToast } from "@/components/layout/RecentPurchaseToast";
 import { ReferralCapture } from "@/components/layout/ReferralCapture";
+import { VerificationSync } from "@/components/layout/VerificationSync";
 import { AgeGate } from "@/components/layout/AgeGate";
 import { CartProvider } from "@/lib/cart-context";
 import { CurrencyProvider } from "@/lib/currency-context";
 import { GoogleAnalytics } from "@/components/layout/GoogleAnalytics";
+import { GoogleTagManagerHead, GoogleTagManagerBody } from "@/components/layout/GoogleTagManager";
 
 const SITE_URL = "https://evlvpeptides.com";
 
@@ -92,6 +94,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${poppins.variable} ${inter.variable} h-full antialiased`}>
       <head>
+        <GoogleTagManagerHead />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ORGANIZATION_JSON_LD) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(WEBSITE_JSON_LD) }} />
@@ -100,8 +103,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         )}
       </head>
       <body className="flex min-h-full flex-col bg-ivory text-charcoal">
+        <GoogleTagManagerBody />
         <GoogleAnalytics />
         <ReferralCapture />
+        <VerificationSync />
         <CurrencyProvider>
           <CartProvider>
             <AgeGate>

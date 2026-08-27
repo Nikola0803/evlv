@@ -16,7 +16,7 @@ export function ShopMegaMenu() {
         Shop
       </Link>
 
-      <div className="invisible absolute left-1/2 top-full w-[min(90vw,780px)] -translate-x-1/2 pt-4 opacity-0 transition duration-150 group-hover:visible group-hover:opacity-100">
+      <div className="invisible absolute left-0 top-full w-[min(90vw,780px)] pt-4 opacity-0 transition duration-150 group-hover:visible group-hover:opacity-100">
         <div className="rounded-lg border border-white/10 bg-charcoal p-6 shadow-2xl shadow-black/40">
           <div className="mb-5 flex items-center justify-between gap-4 border-b border-white/10 pb-5">
             <p className="text-xs text-white/50">Every listing is independently HPLC-verified and COA-backed.</p>
@@ -28,7 +28,7 @@ export function ShopMegaMenu() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-2 gap-x-6 gap-y-6 md:grid-cols-3">
+          <div className="grid grid-cols-2 gap-x-6 gap-y-6 md:grid-cols-4">
             {groups.map((group) => (
               <div key={group.label}>
                 <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.15em] text-copper">{group.label}</p>

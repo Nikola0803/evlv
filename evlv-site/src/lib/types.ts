@@ -3,7 +3,7 @@ export type ProductCategory = "peptides" | "ancillaries";
 /** Shop-page "Shop by Format" filter dimension. Most current products are
  * standalone lyophilized vials and don't belong to any of these buckets
  * (they still show up under "All Formats"). */
-export type ProductFormat = "blend" | "supplies" | "oral" | "nasal";
+export type ProductFormat = "blend" | "supplies" | "oral" | "nasal" | "device";
 
 export interface BulkOption {
   qty: number;
@@ -32,8 +32,16 @@ export interface Product {
   storage: string;
   reconstitution?: string;
   badges?: string[];
-  /** Only purchasable by Member-plan accounts (see /plans). */
+  /** Only purchasable by Member-plan accounts (see /plans) — a paid loyalty
+   * tier, unrelated to research-use compliance. */
   memberOnly?: boolean;
+  /**
+   * Only purchasable by accounts with an APPROVED researcher/institutional
+   * verification (see /account's Verification tab and
+   * RESEARCHER-VERIFICATION.md) — a compliance gate for delivery-adjacent
+   * formats (nasal sprays, injector pens), distinct from memberOnly.
+   */
+  restricted?: boolean;
   batch?: {
     code: string;
     date: string;
@@ -42,11 +50,20 @@ export interface Product {
   /**
    * Sibling size/dose options sharing this product's base name (e.g.
    * BPC-157 5mg/10mg/20mg), each its own independently priced/stocked
-   * product with its own slug. Only set for products synced live from the
-   * CRM's supplier price lists (see lib/product-feed.ts) — the static
-   * demo catalog below doesn't have real variant data.
+   * product with its own slug/page. Every sibling in a group carries an
+   * identical `variants` array (including itself) — see the `*_VARIANTS`
+   * consts in lib/products.ts and `getShopListProducts()`, which uses
+   * `variants[0].slug === slug` to show one canonical card per group in
+   * the shop grid while every dose still has a real, linkable page.
    */
-  variants?: { slug: string; label: string; price: number; inStock: boolean }[];
+  variants?: ProductVariant[];
+}
+
+export interface ProductVariant {
+  slug: string;
+  label: string;
+  price: number;
+  inStock: boolean;
 }
 
 export interface Testimonial {

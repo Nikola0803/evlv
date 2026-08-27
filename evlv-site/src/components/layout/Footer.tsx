@@ -6,9 +6,11 @@ import { PAYMENT_GATEWAYS } from "@/lib/payment-config";
 const SHOP_NAV = [
   { href: "/shop", label: "Shop" },
   { href: "/coas", label: "COAs" },
+  { href: "/journal", label: "Journal" },
   { href: "/faq", label: "FAQ" },
   { href: "/contact", label: "Contact" },
   { href: "/affiliates", label: "Affiliate Program" },
+  { href: "/wholesale", label: "Dropshipping & Wholesale" },
 ];
 
 const CUSTOMER_NAV = [
@@ -16,6 +18,7 @@ const CUSTOMER_NAV = [
   { href: "/account", label: "Orders" },
   { href: "/shipping", label: "Shipping" },
   { href: "/returns", label: "Returns" },
+  { href: "/heroes-discount", label: "Heroes Discount" },
 ];
 const LEGAL_NAV = [
   { href: "/ruo", label: "Research Use Only" },
@@ -27,34 +30,21 @@ export function Footer() {
   return (
     <footer className="bg-charcoal pb-10 pt-24 text-white md:pt-36">
       <div className="mx-auto max-w-[1400px] px-4 md:px-8">
-        <Logo tone="ivory" imgClassName="h-14 w-auto md:h-20" />
-        <p className="mt-4 text-sm text-white/50">Evolve. Become your ultimate.</p>
+        <div className="flex flex-wrap items-center justify-between gap-6">
+          <div>
+            <Logo tone="ivory" imgClassName="h-14 w-auto md:h-20" />
+            <p className="mt-4 text-sm text-white/50">Evolve. Become your ultimate.</p>
+          </div>
 
-        <div className="mt-16 grid grid-cols-2 gap-6 border-t border-white/10 pt-10 sm:grid-cols-4">
-          {[
-            { icon: "ri-flag-line", label: "Made in USA", sub: "With global standards" },
-            { icon: "ri-shield-check-line", label: "cGMP Compliant", sub: "Facility" },
-            { icon: "ri-test-tube-line", label: "Rigorous Testing", sub: "Protocols" },
-            { icon: "ri-truck-line", label: "Fast & Discreet", sub: "Worldwide shipping" },
-          ].map((item) => (
-            <div key={item.label} className="flex items-center gap-3">
-              <i className={`${item.icon} text-xl text-copper`} />
-              <div>
-                <p className="text-[11px] font-semibold uppercase tracking-wider text-white/80">{item.label}</p>
-                <p className="text-[11px] text-white/40">{item.sub}</p>
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+            <p className="text-[11px] font-semibold uppercase tracking-wider text-white/40">We Accept</p>
+            {PAYMENT_GATEWAYS.map((gateway) => (
+              <div key={gateway.id} className="flex items-center gap-1.5 text-white/60">
+                <i className={`${gateway.icon} text-base text-copper`} />
+                <span className="text-xs">{gateway.label}</span>
               </div>
-            </div>
-          ))}
-        </div>
-
-        <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-white/10 pt-6">
-          <p className="text-[11px] font-semibold uppercase tracking-wider text-white/40">We Accept</p>
-          {PAYMENT_GATEWAYS.map((gateway) => (
-            <div key={gateway.id} className="flex items-center gap-1.5 text-white/60">
-              <i className={`${gateway.icon} text-base text-copper`} />
-              <span className="text-xs">{gateway.label}</span>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
 
         <div className="mt-14 grid grid-cols-2 gap-8 border-t border-white/10 pt-14 md:grid-cols-4">

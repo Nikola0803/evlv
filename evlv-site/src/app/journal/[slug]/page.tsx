@@ -8,13 +8,31 @@ export function generateStaticParams() {
   return getJournalArticles().map((a) => ({ slug: a.slug }));
 }
 
+const SITE_URL = "https://evlvpeptides.com";
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const article = getJournalArticleBySlug(slug);
   if (!article) return {};
+  const url = `${SITE_URL}/journal/${article.slug}`;
   return {
     title: `${article.title} | EVLV Journal`,
     description: article.excerpt,
+    alternates: { canonical: `/journal/${article.slug}` },
+    openGraph: {
+      type: "article",
+      url,
+      title: article.title,
+      description: article.excerpt,
+      publishedTime: article.publishedDate,
+      images: [{ url: `${SITE_URL}${article.image}`, width: 1200, height: 675, alt: article.title }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: article.title,
+      description: article.excerpt,
+      images: [`${SITE_URL}${article.image}`],
+    },
   };
 }
 
@@ -25,8 +43,37 @@ export default async function JournalArticlePage({ params }: { params: Promise<{
 
   const more = getJournalArticles().filter((a) => a.slug !== slug).slice(0, 2);
 
+  const articleJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: article.title,
+    description: article.excerpt,
+    image: [`${SITE_URL}${article.image}`],
+    datePublished: article.publishedDate,
+    dateModified: article.publishedDate,
+    author: { "@type": "Organization", name: "EVLV" },
+    publisher: {
+      "@type": "Organization",
+      name: "EVLV",
+      logo: { "@type": "ImageObject", url: `${SITE_URL}/logo/evlv-logo-light.png` },
+    },
+    mainEntityOfPage: { "@type": "WebPage", "@id": `${SITE_URL}/journal/${article.slug}` },
+  };
+
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+      { "@type": "ListItem", position: 2, name: "Journal", item: `${SITE_URL}/journal` },
+      { "@type": "ListItem", position: 3, name: article.title, item: `${SITE_URL}/journal/${article.slug}` },
+    ],
+  };
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <div className="mx-auto max-w-[900px] px-4 pt-6 md:px-8">
         <nav className="flex flex-wrap items-center gap-2 text-xs text-charcoal/50">
           <Link href="/" className="transition hover:text-charcoal">
@@ -61,6 +108,15 @@ export default async function JournalArticlePage({ params }: { params: Promise<{
             <p key={i}>{paragraph}</p>
           ))}
         </div>
+
+        {article.cta && (
+          <Link
+            href={article.cta.href}
+            className="mt-10 inline-flex items-center gap-2 rounded-md bg-copper px-6 py-3.5 text-[12px] font-semibold uppercase tracking-[0.15em] text-charcoal transition hover:bg-copper-light"
+          >
+            {article.cta.label} <i className="ri-arrow-right-line" />
+          </Link>
+        )}
 
         <div className="mt-12 rounded-lg border border-stone bg-ivory-soft p-5 text-xs leading-relaxed text-charcoal/50">
           For research use only. Nothing in this article is dosing, medical or veterinary guidance.

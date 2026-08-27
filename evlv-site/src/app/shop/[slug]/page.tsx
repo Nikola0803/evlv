@@ -4,6 +4,7 @@ import { Metadata } from "next";
 import { getProductBySlug, getProducts, getRelatedProducts } from "@/lib/products";
 import { getLiveProducts, mergeProducts } from "@/lib/product-feed";
 import { ProductCard } from "@/components/product/ProductCard";
+import { FrequentlyBoughtTogether } from "@/components/product/FrequentlyBoughtTogether";
 import { ProductClient } from "./ProductClient";
 
 export function generateStaticParams() {
@@ -93,6 +94,8 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       <div className="mx-auto max-w-[1400px] px-4 pb-12 md:px-8">
         <ProductClient product={product} />
       </div>
+
+      <FrequentlyBoughtTogether product={product} related={related} />
 
       {related.length > 0 && (
         <section className="border-t border-stone py-16 md:py-24">

@@ -1,4 +1,4 @@
-import { Product } from "./types";
+import { Product, ProductVariant } from "./types";
 
 /**
  * Mock catalog shaped to mirror the WooCommerce REST/Store API product
@@ -7,13 +7,74 @@ import { Product } from "./types";
  * fetches against the WooCommerce API once the WordPress site is live —
  * see lib/woocommerce.ts.
  *
- * Every mg/iu/mcg strength of a compound is its own Product entry (its own
- * slug, sku, price, page) rather than a variant selector on one entry —
- * matches how the shop/product pages already route by slug.
+ * Every mg/iu/mcg strength of a compound is still its own Product entry
+ * (its own slug, sku, price, real page — needed for direct links, SEO,
+ * and per-dose COA/batch data), but siblings sharing a base compound carry
+ * an identical `variants` array (see the *_VARIANTS consts below) so the
+ * shop grid shows one card per compound with a dose selector, matching
+ * `getShopListProducts()`'s dedup logic below instead of listing every
+ * dose as a separate card.
  *
  * "GP-3" is the site's compliant name for Retatrutide — do not rename to
  * "Retatrutide" anywhere in copy, slugs, or SKUs.
  */
+
+const BPC_157_VARIANTS: ProductVariant[] = [
+  { slug: "bpc-157-10mg", label: "10mg", price: 70, inStock: true },
+  { slug: "bpc-157-5mg", label: "5mg", price: 45, inStock: true },
+  { slug: "bpc-157-20mg", label: "20mg", price: 125, inStock: true },
+];
+
+const TB_500_VARIANTS: ProductVariant[] = [
+  { slug: "tb-500-10mg", label: "10mg", price: 80, inStock: true },
+  { slug: "tb-500-5mg", label: "5mg", price: 50, inStock: true },
+  { slug: "tb-500-20mg", label: "20mg", price: 140, inStock: true },
+];
+
+const BPC_TB_BLEND_VARIANTS: ProductVariant[] = [
+  { slug: "bpc-tb-500-blend-10mg", label: "10mg", price: 85, inStock: true },
+  { slug: "bpc-tb-500-blend-20mg", label: "20mg", price: 150, inStock: true },
+];
+
+const GP3_VARIANTS: ProductVariant[] = [
+  { slug: "gp-3-10mg", label: "10mg", price: 90, inStock: true },
+  { slug: "gp-3-15mg", label: "15mg", price: 125, inStock: true },
+  { slug: "gp-3-30mg", label: "30mg", price: 220, inStock: true },
+  { slug: "gp-3-60mg", label: "60mg", price: 380, inStock: true },
+];
+
+const TESAMORELIN_VARIANTS: ProductVariant[] = [
+  { slug: "tesamorelin-10mg", label: "10mg", price: 90, inStock: true },
+  { slug: "tesamorelin-20mg", label: "20mg", price: 160, inStock: true },
+];
+
+const MOTS_C_VARIANTS: ProductVariant[] = [
+  { slug: "mots-c-10mg", label: "10mg", price: 75, inStock: true },
+  { slug: "mots-c-40mg", label: "40mg", price: 220, inStock: true },
+];
+
+const CJC_IPA_BLEND_VARIANTS: ProductVariant[] = [
+  { slug: "cjc-ipa-blend-10mg", label: "10mg", price: 75, inStock: true },
+  { slug: "cjc-ipa-blend-20mg", label: "20mg", price: 130, inStock: true },
+];
+
+const SEMAGLUTIDE_VARIANTS: ProductVariant[] = [
+  { slug: "semaglutide-5mg", label: "5mg", price: 85, inStock: true },
+  { slug: "semaglutide-10mg", label: "10mg", price: 150, inStock: true },
+];
+
+const TIRZEPATIDE_VARIANTS: ProductVariant[] = [
+  { slug: "tirzepatide-10mg", label: "10mg", price: 95, inStock: true },
+  { slug: "tirzepatide-15mg", label: "15mg", price: 135, inStock: true },
+  { slug: "tirzepatide-30mg", label: "30mg", price: 230, inStock: true },
+  { slug: "tirzepatide-60mg", label: "60mg", price: 400, inStock: true },
+];
+
+const HCG_VARIANTS: ProductVariant[] = [
+  { slug: "hcg-2000iu", label: "2000iu", price: 55, inStock: true },
+  { slug: "hcg-5000iu", label: "5000iu", price: 95, inStock: true },
+];
+
 export const products: Product[] = [
   // ---- BPC-157 ----
   {
@@ -26,7 +87,7 @@ export const products: Product[] = [
     image: "/images/products/bpc-157-5mg.png",
     price: 45,
     bulkOption: { qty: 10, price: 360, savePercent: 20 },
-    purity: "98.7%",
+    purity: "99.7%",
     avgMass: "5.09 mg",
     rating: 4.8,
     reviewCount: 41,
@@ -38,6 +99,7 @@ export const products: Product[] = [
     reconstitution: "Reconstitute with bacteriostatic or sterile water appropriate for laboratory use.",
     badges: ["Save 20%"],
     batch: { code: "EVLV-BPC5-08", date: "2026-08-11", status: "PASS" },
+    variants: BPC_157_VARIANTS,
   },
   {
     id: "2",
@@ -49,7 +111,7 @@ export const products: Product[] = [
     image: "/images/products/bpc-157-10mg.png",
     price: 70,
     bulkOption: { qty: 10, price: 560, savePercent: 20 },
-    purity: "98.51%",
+    purity: "99.51%",
     avgMass: "11.22 mg",
     rating: 4.8,
     reviewCount: 89,
@@ -61,6 +123,7 @@ export const products: Product[] = [
     reconstitution: "Reconstitute with bacteriostatic or sterile water appropriate for laboratory use.",
     badges: ["Save 20%"],
     batch: { code: "EVLV-BPC10-08", date: "2026-08-09", status: "PASS" },
+    variants: BPC_157_VARIANTS,
   },
   {
     id: "3",
@@ -72,7 +135,7 @@ export const products: Product[] = [
     image: "/images/products/bpc-157-20mg.png",
     price: 125,
     bulkOption: { qty: 10, price: 1000, savePercent: 20 },
-    purity: "98.9%",
+    purity: "99.9%",
     avgMass: "20.4 mg",
     rating: 4.9,
     reviewCount: 33,
@@ -84,6 +147,7 @@ export const products: Product[] = [
     reconstitution: "Reconstitute with bacteriostatic or sterile water appropriate for laboratory use.",
     badges: ["Save 20%"],
     batch: { code: "EVLV-BPC20-08", date: "2026-08-11", status: "PASS" },
+    variants: BPC_157_VARIANTS,
   },
 
   // ---- TB-500 ----
@@ -97,7 +161,7 @@ export const products: Product[] = [
     image: "/images/products/tb-500-5mg.png",
     price: 50,
     bulkOption: { qty: 10, price: 400, savePercent: 20 },
-    purity: "98.6%",
+    purity: "99.6%",
     avgMass: "5.05 mg",
     rating: 4.7,
     reviewCount: 27,
@@ -109,6 +173,7 @@ export const products: Product[] = [
     reconstitution: "Reconstitute with bacteriostatic or sterile water appropriate for laboratory use.",
     badges: ["Save 20%"],
     batch: { code: "EVLV-TB5-08", date: "2026-08-12", status: "PASS" },
+    variants: TB_500_VARIANTS,
   },
   {
     id: "5",
@@ -120,7 +185,7 @@ export const products: Product[] = [
     image: "/images/products/tb-500-10mg.png",
     price: 80,
     bulkOption: { qty: 10, price: 640, savePercent: 20 },
-    purity: "98.8%",
+    purity: "99.8%",
     avgMass: "10.14 mg",
     rating: 4.8,
     reviewCount: 52,
@@ -132,6 +197,7 @@ export const products: Product[] = [
     reconstitution: "Reconstitute with bacteriostatic or sterile water appropriate for laboratory use.",
     badges: ["Save 20%"],
     batch: { code: "EVLV-TB10-08", date: "2026-08-12", status: "PASS" },
+    variants: TB_500_VARIANTS,
   },
   {
     id: "6",
@@ -155,6 +221,7 @@ export const products: Product[] = [
     reconstitution: "Reconstitute with bacteriostatic or sterile water appropriate for laboratory use.",
     badges: ["Save 20%"],
     batch: { code: "EVLV-TB20-08", date: "2026-08-13", status: "PASS" },
+    variants: TB_500_VARIANTS,
   },
 
   // ---- BPC-157 / TB-500 blend ----
@@ -180,6 +247,7 @@ export const products: Product[] = [
     reconstitution: "Reconstitute with bacteriostatic or sterile water appropriate for laboratory use.",
     badges: ["Save 20%"],
     batch: { code: "EVLV-BB10-08", date: "2026-08-14", status: "PASS" },
+    variants: BPC_TB_BLEND_VARIANTS,
   },
   {
     id: "9",
@@ -203,6 +271,7 @@ export const products: Product[] = [
     reconstitution: "Reconstitute with bacteriostatic or sterile water appropriate for laboratory use.",
     badges: ["Save 20%"],
     batch: { code: "EVLV-BB20-08", date: "2026-08-14", status: "PASS" },
+    variants: BPC_TB_BLEND_VARIANTS,
   },
 
   // ---- GP-3 (Retatrutide) ----
@@ -228,6 +297,7 @@ export const products: Product[] = [
     reconstitution: "Reconstitute with bacteriostatic or sterile water appropriate for laboratory use.",
     badges: ["Save 20%"],
     batch: { code: "EVLV-GP3-10-07", date: "2026-07-30", status: "PASS" },
+    variants: GP3_VARIANTS,
   },
   {
     id: "28",
@@ -251,6 +321,7 @@ export const products: Product[] = [
     reconstitution: "Reconstitute with bacteriostatic or sterile water appropriate for laboratory use.",
     badges: ["Save 20%"],
     batch: { code: "EVLV-GP3-15-08", date: "2026-08-15", status: "PASS" },
+    variants: GP3_VARIANTS,
   },
   {
     id: "29",
@@ -274,6 +345,7 @@ export const products: Product[] = [
     reconstitution: "Reconstitute with bacteriostatic or sterile water appropriate for laboratory use.",
     badges: ["Save 20%"],
     batch: { code: "EVLV-GP3-30-08", date: "2026-08-15", status: "PASS" },
+    variants: GP3_VARIANTS,
   },
   {
     id: "30",
@@ -297,6 +369,7 @@ export const products: Product[] = [
     reconstitution: "Reconstitute with bacteriostatic or sterile water appropriate for laboratory use.",
     badges: ["Save 20%"],
     batch: { code: "EVLV-GP3-60-08", date: "2026-08-16", status: "PASS" },
+    variants: GP3_VARIANTS,
   },
 
   // ---- Tesamorelin ----
@@ -322,6 +395,7 @@ export const products: Product[] = [
     reconstitution: "Reconstitute with bacteriostatic or sterile water appropriate for laboratory use.",
     badges: ["Save 20%"],
     batch: { code: "EVLV-TES10-07", date: "2026-07-18", status: "PASS" },
+    variants: TESAMORELIN_VARIANTS,
   },
   {
     id: "31",
@@ -345,6 +419,7 @@ export const products: Product[] = [
     reconstitution: "Reconstitute with bacteriostatic or sterile water appropriate for laboratory use.",
     badges: ["Save 20%"],
     batch: { code: "EVLV-TES20-08", date: "2026-08-17", status: "PASS" },
+    variants: TESAMORELIN_VARIANTS,
   },
 
   // ---- GHK-Cu ----
@@ -393,6 +468,7 @@ export const products: Product[] = [
     reconstitution: "Reconstitute with bacteriostatic or sterile water appropriate for laboratory use.",
     badges: ["Save 20%"],
     batch: { code: "EVLV-MOTS10-08", date: "2026-08-17", status: "PASS" },
+    variants: MOTS_C_VARIANTS,
   },
   {
     id: "32",
@@ -415,6 +491,7 @@ export const products: Product[] = [
     reconstitution: "Reconstitute with bacteriostatic or sterile water appropriate for laboratory use.",
     badges: ["Save 20%"],
     batch: { code: "EVLV-MOTS40-08", date: "2026-08-18", status: "PASS" },
+    variants: MOTS_C_VARIANTS,
   },
 
   // ---- Thymosin Alpha-1 ----
@@ -557,6 +634,7 @@ export const products: Product[] = [
     reconstitution: "Reconstitute with bacteriostatic or sterile water appropriate for laboratory use.",
     badges: ["Save 20%"],
     batch: { code: "EVLV-CP10-08", date: "2026-08-23", status: "PASS" },
+    variants: CJC_IPA_BLEND_VARIANTS,
   },
   {
     id: "35",
@@ -579,6 +657,7 @@ export const products: Product[] = [
     reconstitution: "Reconstitute with bacteriostatic or sterile water appropriate for laboratory use.",
     badges: ["Save 20%"],
     batch: { code: "EVLV-CP20-08", date: "2026-08-23", status: "PASS" },
+    variants: CJC_IPA_BLEND_VARIANTS,
   },
 
   // ---- Semaglutide / Tirzepatide (metabolic) ----
@@ -603,6 +682,7 @@ export const products: Product[] = [
     reconstitution: "Reconstitute with bacteriostatic or sterile water appropriate for laboratory use.",
     badges: ["Save 20%"],
     batch: { code: "EVLV-SEM5-08", date: "2026-08-24", status: "PASS" },
+    variants: SEMAGLUTIDE_VARIANTS,
   },
   {
     id: "37",
@@ -625,6 +705,7 @@ export const products: Product[] = [
     reconstitution: "Reconstitute with bacteriostatic or sterile water appropriate for laboratory use.",
     badges: ["Save 20%"],
     batch: { code: "EVLV-SEM10-08", date: "2026-08-24", status: "PASS" },
+    variants: SEMAGLUTIDE_VARIANTS,
   },
   {
     id: "38",
@@ -647,6 +728,7 @@ export const products: Product[] = [
     reconstitution: "Reconstitute with bacteriostatic or sterile water appropriate for laboratory use.",
     badges: ["Save 20%"],
     batch: { code: "EVLV-TIR10-08", date: "2026-08-25", status: "PASS" },
+    variants: TIRZEPATIDE_VARIANTS,
   },
   {
     id: "39",
@@ -669,6 +751,7 @@ export const products: Product[] = [
     reconstitution: "Reconstitute with bacteriostatic or sterile water appropriate for laboratory use.",
     badges: ["Save 20%"],
     batch: { code: "EVLV-TIR15-08", date: "2026-08-25", status: "PASS" },
+    variants: TIRZEPATIDE_VARIANTS,
   },
   {
     id: "40",
@@ -691,6 +774,7 @@ export const products: Product[] = [
     reconstitution: "Reconstitute with bacteriostatic or sterile water appropriate for laboratory use.",
     badges: ["Save 20%"],
     batch: { code: "EVLV-TIR30-08", date: "2026-08-25", status: "PASS" },
+    variants: TIRZEPATIDE_VARIANTS,
   },
   {
     id: "41",
@@ -713,6 +797,7 @@ export const products: Product[] = [
     reconstitution: "Reconstitute with bacteriostatic or sterile water appropriate for laboratory use.",
     badges: ["Save 20%"],
     batch: { code: "EVLV-TIR60-08", date: "2026-08-25", status: "PASS" },
+    variants: TIRZEPATIDE_VARIANTS,
   },
 
   // ---- Ancillaries / hormones ----
@@ -748,7 +833,7 @@ export const products: Product[] = [
     image: "/images/products/cartalax-20mg.png",
     price: 70,
     bulkOption: { qty: 10, price: 560, savePercent: 20 },
-    purity: "98.9%",
+    purity: "99.4%",
     avgMass: "20.1 mg",
     rating: 4.5,
     reviewCount: 6,
@@ -781,6 +866,7 @@ export const products: Product[] = [
     reconstitution: "Reconstitute with bacteriostatic or sterile water appropriate for laboratory use.",
     badges: ["Save 20%"],
     batch: { code: "EVLV-HCG2-08", date: "2026-08-19", status: "PASS" },
+    variants: HCG_VARIANTS,
   },
   {
     id: "45",
@@ -803,6 +889,7 @@ export const products: Product[] = [
     reconstitution: "Reconstitute with bacteriostatic or sterile water appropriate for laboratory use.",
     badges: ["Save 20%"],
     batch: { code: "EVLV-HCG5-08", date: "2026-08-19", status: "PASS" },
+    variants: HCG_VARIANTS,
   },
   {
     id: "46",
@@ -994,6 +1081,17 @@ export function getProductBySlug(slug: string) {
   return products.find((p) => p.slug === slug);
 }
 
+/**
+ * One card per compound for shop-grid listings: a product with siblings
+ * (a `variants` array) only shows up here if it's the canonical/first
+ * entry in its own group's array — every dose still has a real page via
+ * getProductBySlug, just not its own card in the grid. A product with no
+ * `variants` always shows (nothing to dedupe).
+ */
+export function getShopListProducts(source: Product[] = products) {
+  return source.filter((p) => !p.variants || p.variants[0]?.slug === p.slug);
+}
+
 export function getRelatedProducts(slug: string, limit = 4) {
   const current = getProductBySlug(slug);
   if (!current) return [];
@@ -1012,4 +1110,5 @@ export const formats: { value: NonNullable<Product["format"]> | "all"; label: st
   { value: "supplies", label: "Supplies" },
   { value: "oral", label: "Oral / Capsules" },
   { value: "nasal", label: "Nasal Sprays" },
+  { value: "device", label: "Injector Pens" },
 ];
