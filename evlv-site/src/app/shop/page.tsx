@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { Metadata } from "next";
-import { getProducts } from "@/lib/products";
+import { getProducts, getShopListProducts } from "@/lib/products";
 import { getLiveProducts, mergeProducts } from "@/lib/product-feed";
 import { ShopClient } from "./ShopClient";
 import { TrustIconRow } from "@/components/ui/TrustIconRow";
@@ -19,7 +19,7 @@ const SHOP_TRUST_ITEMS = [
 ];
 
 export default async function ShopPage() {
-  const products = mergeProducts(getProducts(), await getLiveProducts());
+  const products = getShopListProducts(mergeProducts(getProducts(), await getLiveProducts()));
 
   return (
     <>

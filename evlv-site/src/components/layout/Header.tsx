@@ -38,6 +38,14 @@ export function Header() {
           <Link href="/account" className="hidden h-9 w-9 items-center justify-center text-white/85 transition hover:text-white md:flex" aria-label="Account">
             <i className="ri-user-line text-base" />
           </Link>
+          <Link
+            href="/affiliates/login"
+            className="hidden h-9 w-9 items-center justify-center text-white/85 transition hover:text-white md:flex"
+            aria-label="Affiliate Login"
+            title="Affiliate Login"
+          >
+            <i className="ri-handshake-line text-base" />
+          </Link>
           <button type="button" onClick={openCart} className="relative flex h-9 w-9 items-center justify-center text-white/85 transition hover:text-white" aria-label="Cart">
             <i className="ri-shopping-bag-line text-base" />
             {count > 0 && (
@@ -73,6 +81,9 @@ export function Header() {
               {item.label}
             </Link>
           ))}
+          <Link href="/affiliates/login" onClick={() => setOpen(false)} className="py-2.5 text-sm font-medium uppercase tracking-wide text-white">
+            Affiliate Login
+          </Link>
         </nav>
       )}
     </header>

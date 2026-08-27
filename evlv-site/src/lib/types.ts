@@ -42,11 +42,20 @@ export interface Product {
   /**
    * Sibling size/dose options sharing this product's base name (e.g.
    * BPC-157 5mg/10mg/20mg), each its own independently priced/stocked
-   * product with its own slug. Only set for products synced live from the
-   * CRM's supplier price lists (see lib/product-feed.ts) — the static
-   * demo catalog below doesn't have real variant data.
+   * product with its own slug/page. Every sibling in a group carries an
+   * identical `variants` array (including itself) — see the `*_VARIANTS`
+   * consts in lib/products.ts and `getShopListProducts()`, which uses
+   * `variants[0].slug === slug` to show one canonical card per group in
+   * the shop grid while every dose still has a real, linkable page.
    */
-  variants?: { slug: string; label: string; price: number; inStock: boolean }[];
+  variants?: ProductVariant[];
+}
+
+export interface ProductVariant {
+  slug: string;
+  label: string;
+  price: number;
+  inStock: boolean;
 }
 
 export interface Testimonial {

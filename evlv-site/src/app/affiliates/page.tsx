@@ -29,26 +29,38 @@ const TIERS = [
 export default function AffiliatesPage() {
   return (
     <>
-      <section className="relative -mt-[90px] w-full overflow-hidden bg-charcoal pt-[90px] md:-mt-[100px] md:pt-[100px]">
-        <h1 className="sr-only">Become an EVLV Affiliate — refer colleagues, earn commission on every order.</h1>
-        <div className="relative mx-auto aspect-[3/2] w-full max-w-[1920px] sm:aspect-[16/9] lg:aspect-[2.4/1]">
-          <Image
-            src="/images/affiliate-banner.png"
-            alt="Become an EVLV Affiliate — partner with a brand built on precision, transparency, and results"
-            fill
-            sizes="100vw"
-            className="object-cover"
-            priority
-          />
-        </div>
-        <div className="relative mx-auto max-w-[1400px] px-4 py-8 md:px-8">
-          <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
-            <a href="#apply" className="rounded-md bg-copper px-6 py-3.5 text-[12px] font-semibold uppercase tracking-[0.15em] text-charcoal transition hover:bg-copper-light">
-              Apply Now
-            </a>
-            <a href="#tiers" className="text-[12px] font-semibold uppercase tracking-[0.1em] text-white/60 transition hover:text-white">
-              View Commission Tiers
-            </a>
+      <section className="bg-ivory-soft py-16 md:py-24">
+        <div className="mx-auto grid max-w-[1400px] grid-cols-1 items-center gap-10 px-4 md:grid-cols-2 md:px-8">
+          <div>
+            <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">Lab Affiliate Program</p>
+            <h1 className="font-display text-4xl font-semibold leading-tight text-charcoal md:text-5xl">
+              Refer colleagues.
+              <br />
+              Earn on every order.
+            </h1>
+            <p className="mt-5 max-w-md text-base leading-relaxed text-charcoal/60">
+              Designed for researchers, lab managers, and institutions who already trust EVLV, and want to extend
+              that trust, and earn while doing it.
+            </p>
+            <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
+              <a href="#apply" className="rounded-md bg-copper px-6 py-3.5 text-[12px] font-semibold uppercase tracking-[0.15em] text-charcoal transition hover:bg-copper-light">
+                Apply Now
+              </a>
+              <a href="#tiers" className="text-[12px] font-semibold uppercase tracking-[0.1em] text-charcoal/60 transition hover:text-charcoal">
+                View Commission Tiers
+              </a>
+            </div>
+          </div>
+
+          <div className="relative aspect-square w-full overflow-hidden rounded-lg bg-charcoal">
+            <Image
+              src="/images/affiliate-banner.png"
+              alt="Become an EVLV Affiliate — EVLV research peptide vials"
+              fill
+              sizes="(max-width: 768px) 90vw, 640px"
+              className="object-cover"
+              priority
+            />
           </div>
         </div>
       </section>
