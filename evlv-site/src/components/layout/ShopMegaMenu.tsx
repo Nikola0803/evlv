@@ -31,11 +31,11 @@ export function ShopMegaMenu() {
           <div className="grid grid-cols-2 gap-x-6 gap-y-6 md:grid-cols-4">
             {groups.map((group) => (
               <div key={group.label}>
-                <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.15em] text-copper">{group.label}</p>
+                <p className="mb-3 text-xs font-semibold uppercase tracking-[0.15em] text-copper">{group.label}</p>
                 <ul className="space-y-2">
                   {group.products.map((p) => (
                     <li key={p.slug}>
-                      <Link href={`/shop/${p.slug}`} className="text-sm text-white/70 transition hover:text-white">
+                      <Link href={`/shop/${p.slug}`} className="text-xs font-light text-white/50 transition hover:text-white/90">
                         {p.name}
                       </Link>
                     </li>
