@@ -69,6 +69,24 @@ on every order — **attribution and commission math already work end-to-end tod
 missing: linking `Affiliate` to `Customer`, an apply/status/dashboard flow that uses the
 Customer's existing session, click tracking, and payout handling.
 
+### Commission tiers (`/affiliates#tiers` on the storefront)
+
+`Affiliate.ratePercent` is already a free-form `Float` — no schema change needed for tiering,
+just an admin convention when approving/upgrading an affiliate:
+
+| Tier | Rate | Qualification |
+|---|---|---|
+| Researcher | 8% | Default — every approved affiliate starts here |
+| Lab Associate | 12% | Consistently active referral volume |
+| Principal | 16% | Established, high-volume partner |
+| Institutional Partner | 20% | High volume **and** a compliance review of their actual promotional materials — content making therapeutic/dosing/human-use claims disqualifies regardless of volume |
+
+Tier upgrades are a manual admin action (edit `ratePercent` on the `Affiliate` row) — not
+automatic, and the storefront copy says as much. The 20% tier is the one place in this program
+where "how they promote" is a hard gate, not just a general RUO reminder — worth an actual manual
+review of their content/site/social presence before approving that rate, not just a volume
+threshold.
+
 ## Schema changes needed
 
 ```prisma

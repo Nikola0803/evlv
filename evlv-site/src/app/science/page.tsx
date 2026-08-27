@@ -115,12 +115,12 @@ export default function SciencePage() {
             </div>
           </div>
 
-          <div className="aspect-[4/3] w-full overflow-hidden rounded-lg">
+          <div className="aspect-[3/2] w-full overflow-hidden rounded-lg">
             <Image
-              src="/images/science/purity.jpg"
-              alt="Purity verification"
-              width={800}
-              height={600}
+              src="/images/science/coa-vial-banner.png"
+              alt="EVLV BPC-157 vial with its certificate of analysis"
+              width={1536}
+              height={1024}
               sizes="(max-width: 768px) 90vw, 640px"
               className="h-full w-full object-cover"
             />

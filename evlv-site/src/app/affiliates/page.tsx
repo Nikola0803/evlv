@@ -25,6 +25,11 @@ const TIERS = [
   { label: "Researcher", rate: "8%", note: "Starting rate for every approved affiliate" },
   { label: "Lab Associate", rate: "12%", note: "For consistently active referral volume" },
   { label: "Principal", rate: "16%", note: "For established, high-volume partners" },
+  {
+    label: "Institutional Partner",
+    rate: "20%",
+    note: "Our top rate — reserved for high-volume partners whose promotional materials pass a compliance review",
+  },
 ];
 
 export default function AffiliatesPage() {
@@ -120,7 +125,7 @@ export default function AffiliatesPage() {
         <div className="mx-auto max-w-[1400px] px-4 md:px-8">
           <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">03 / Commission Tiers</p>
           <h2 className="mb-10 font-display text-3xl font-semibold text-charcoal md:text-4xl">Scales with your network.</h2>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-4">
             {TIERS.map((t) => (
               <div key={t.label} className="rounded-lg border border-stone bg-ivory-soft p-6">
                 <p className="text-[11px] font-semibold uppercase tracking-wider text-charcoal/40">{t.label}</p>
@@ -132,7 +137,10 @@ export default function AffiliatesPage() {
           </div>
           <p className="mt-6 max-w-2xl text-xs leading-relaxed text-charcoal/40">
             Every affiliate starts at the Researcher rate once approved. Tier upgrades are reviewed manually as your
-            referral volume grows, not automatic, reach out any time to request a review.
+            referral volume grows, not automatic, reach out any time to request a review. The Institutional Partner
+            rate additionally requires a compliance review of how you promote EVLV — content that makes therapeutic,
+            dosing, or human-use claims won&apos;t qualify, regardless of volume. Research-first, RUO-compliant
+            promotion is the standard at every tier, but it&apos;s a hard requirement for the top one.
           </p>
         </div>
       </section>
