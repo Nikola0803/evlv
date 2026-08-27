@@ -3,7 +3,7 @@ export type ProductCategory = "peptides" | "ancillaries";
 /** Shop-page "Shop by Format" filter dimension. Most current products are
  * standalone lyophilized vials and don't belong to any of these buckets
  * (they still show up under "All Formats"). */
-export type ProductFormat = "blend" | "supplies" | "oral" | "nasal";
+export type ProductFormat = "blend" | "supplies" | "oral" | "nasal" | "device";
 
 export interface BulkOption {
   qty: number;
@@ -32,8 +32,16 @@ export interface Product {
   storage: string;
   reconstitution?: string;
   badges?: string[];
-  /** Only purchasable by Member-plan accounts (see /plans). */
+  /** Only purchasable by Member-plan accounts (see /plans) — a paid loyalty
+   * tier, unrelated to research-use compliance. */
   memberOnly?: boolean;
+  /**
+   * Only purchasable by accounts with an APPROVED researcher/institutional
+   * verification (see /account's Verification tab and
+   * RESEARCHER-VERIFICATION.md) — a compliance gate for delivery-adjacent
+   * formats (nasal sprays, injector pens), distinct from memberOnly.
+   */
+  restricted?: boolean;
   batch?: {
     code: string;
     date: string;

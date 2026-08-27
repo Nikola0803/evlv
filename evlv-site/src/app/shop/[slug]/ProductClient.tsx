@@ -27,12 +27,17 @@ export function ProductClient({ product }: { product: Product }) {
   const { addToCart } = useCart();
   const { formatPrice, convert, currency } = useCurrency();
   const [isMember, setIsMember] = useState(false);
+  const [isVerified, setIsVerified] = useState(false);
 
   useEffect(() => {
-    setIsMember(getStoredUser()?.plan === "member");
+    const user = getStoredUser();
+    setIsMember(user?.plan === "member");
+    setIsVerified(user?.researcherStatus === "APPROVED");
   }, []);
 
-  const locked = !!product.memberOnly && !isMember;
+  const memberLocked = !!product.memberOnly && !isMember;
+  const restrictedLocked = !!product.restricted && !isVerified;
+  const locked = memberLocked || restrictedLocked;
 
   const TRUST_ITEMS = [
     { icon: "ri-shield-check-line", title: "Independently Verified", subtitle: "Independent lab testing" },
@@ -66,7 +71,7 @@ export function ProductClient({ product }: { product: Product }) {
         ))}
         {locked && (
           <span className="absolute right-4 top-4 flex items-center gap-1.5 rounded-full bg-charcoal/85 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-copper backdrop-blur-sm">
-            <i className="ri-lock-line" /> Member Exclusive
+            <i className="ri-lock-line" /> {restrictedLocked ? "Verified Researchers Only" : "Member Exclusive"}
           </span>
         )}
       </div>
@@ -156,20 +161,31 @@ export function ProductClient({ product }: { product: Product }) {
         {locked && (
           <div className="mt-6 flex items-center gap-2 rounded-lg border border-copper/30 bg-copper/5 p-4 text-sm text-charcoal/70">
             <i className="ri-lock-line text-copper" />
-            This is a member-exclusive blend.{" "}
-            <Link href="/plans" className="font-semibold text-copper hover:underline">
-              View plans
-            </Link>
+            {restrictedLocked ? (
+              <>
+                This product requires verified researcher/institutional access.{" "}
+                <Link href="/account?tab=verification" className="font-semibold text-copper hover:underline">
+                  Apply for verification
+                </Link>
+              </>
+            ) : (
+              <>
+                This is a member-exclusive blend.{" "}
+                <Link href="/plans" className="font-semibold text-copper hover:underline">
+                  View plans
+                </Link>
+              </>
+            )}
           </div>
         )}
 
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           {locked ? (
             <Link
-              href="/plans"
+              href={restrictedLocked ? "/account?tab=verification" : "/plans"}
               className="flex-1 whitespace-nowrap rounded-md bg-copper py-4 text-center text-sm font-semibold uppercase tracking-wide text-charcoal transition hover:bg-copper-light"
             >
-              Unlock With Membership
+              {restrictedLocked ? "Apply for Verification" : "Unlock With Membership"}
             </Link>
           ) : (
             <button

@@ -8,8 +8,9 @@ import { getOrdersForUser, mapCrmOrders, type Order } from "@/lib/orders";
 import { getAddressesForUser, addAddress, removeAddress, setDefaultAddress, type Address } from "@/lib/addresses";
 import { useCurrency } from "@/lib/currency-context";
 import { AffiliatePanel } from "./AffiliatePanel";
+import { VerificationPanel } from "./VerificationPanel";
 
-type Tab = "orders" | "addresses" | "profile" | "affiliate";
+type Tab = "orders" | "addresses" | "profile" | "affiliate" | "verification";
 
 const STATUS_STYLE: Record<Order["status"], string> = {
   Processing: "bg-copper/15 text-copper",
@@ -26,6 +27,7 @@ const TABS: { key: Tab; label: string; icon: string }[] = [
   { key: "orders", label: "Orders", icon: "ri-file-list-3-line" },
   { key: "addresses", label: "Addresses", icon: "ri-map-pin-line" },
   { key: "affiliate", label: "Affiliate", icon: "ri-handshake-line" },
+  { key: "verification", label: "Verification", icon: "ri-shield-check-line" },
   { key: "profile", label: "Profile", icon: "ri-user-settings-line" },
 ];
 
@@ -79,6 +81,7 @@ function AccountPageInner() {
     if (stored) refresh(stored);
     if (justPlacedId) setTab("orders");
     else if (tabParam === "affiliate") setTab("affiliate");
+    else if (tabParam === "verification") setTab("verification");
     setMounted(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -155,6 +158,7 @@ function AccountPageInner() {
             />
           )}
           {tab === "affiliate" && <AffiliatePanel />}
+          {tab === "verification" && <VerificationPanel />}
           {tab === "profile" && <ProfilePanel user={user} onUpdate={setUser} />}
         </div>
       </div>
