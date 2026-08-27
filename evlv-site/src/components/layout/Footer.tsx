@@ -6,6 +6,7 @@ import { PAYMENT_GATEWAYS } from "@/lib/payment-config";
 const SHOP_NAV = [
   { href: "/shop", label: "Shop" },
   { href: "/coas", label: "COAs" },
+  { href: "/journal", label: "Journal" },
   { href: "/faq", label: "FAQ" },
   { href: "/contact", label: "Contact" },
   { href: "/affiliates", label: "Affiliate Program" },

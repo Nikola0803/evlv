@@ -10,9 +10,12 @@ import { useCart } from "@/lib/cart-context";
 const NAV = [
   { href: "/science", label: "Science" },
   { href: "/coas", label: "COAs" },
-  { href: "/journal", label: "Journal" },
   { href: "/about", label: "About" },
   { href: "/affiliates", label: "Affiliates" },
+  // Only shown from the lg breakpoint up -- between md and lg there isn't
+  // room for a 6th nav item without overlapping the search/account/cart
+  // icons on the right. Still reachable via the footer and mobile menu.
+  { href: "/wholesale", label: "Wholesale", lgOnly: true },
 ];
 
 export function Header() {
@@ -24,10 +27,14 @@ export function Header() {
       <div className="mx-auto flex max-w-[1400px] items-center justify-between px-4 py-4 md:px-8 md:py-5">
         <Logo tone="ivory" imgClassName="h-10 w-auto md:h-12" />
 
-        <nav className="hidden items-center gap-7 text-[11px] font-medium uppercase tracking-[0.14em] text-white/85 md:flex lg:gap-9">
+        <nav className="hidden items-center gap-6 text-[11px] font-medium uppercase tracking-[0.14em] text-white/85 md:flex lg:gap-7">
           <ShopMegaMenu />
           {NAV.map((item) => (
-            <Link key={item.href} href={item.href} className="whitespace-nowrap transition hover:text-white">
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`whitespace-nowrap transition hover:text-white ${item.lgOnly ? "hidden lg:inline-block" : ""}`}
+            >
               {item.label}
             </Link>
           ))}
