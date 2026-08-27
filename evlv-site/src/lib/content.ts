@@ -42,6 +42,11 @@ export const faqItems: FaqItem[] = [
     answer: "Yes. Tracking is generated automatically and sent to your email within one business day of your order.",
   },
   {
+    question: "What payment methods do you accept?",
+    answer:
+      "We accept Zelle, Cash App, and Venmo. Each is a direct transfer with no processor holding your payment, and every gateway shows a quick-pay QR code and exact instructions at checkout.",
+  },
+  {
     question: "Is bacteriostatic water required?",
     answer:
       "Most lyophilized compounds require reconstitution before use. We recommend pharmaceutical-grade bacteriostatic water, available in our Ancillaries category.",

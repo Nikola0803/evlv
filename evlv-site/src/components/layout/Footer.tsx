@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Logo } from "@/components/ui/Logo";
 import { NewsletterForm } from "./NewsletterForm";
+import { PAYMENT_GATEWAYS } from "@/lib/payment-config";
 
 const SHOP_NAV = [
   { href: "/shop", label: "Shop" },
@@ -42,6 +43,16 @@ export function Footer() {
                 <p className="text-[11px] font-semibold uppercase tracking-wider text-white/80">{item.label}</p>
                 <p className="text-[11px] text-white/40">{item.sub}</p>
               </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-white/10 pt-6">
+          <p className="text-[11px] font-semibold uppercase tracking-wider text-white/40">We Accept</p>
+          {PAYMENT_GATEWAYS.map((gateway) => (
+            <div key={gateway.id} className="flex items-center gap-1.5 text-white/60">
+              <i className={`${gateway.icon} text-base text-copper`} />
+              <span className="text-xs">{gateway.label}</span>
             </div>
           ))}
         </div>
