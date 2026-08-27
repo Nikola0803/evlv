@@ -8,11 +8,11 @@ import { CartToast } from "@/components/layout/CartToast";
 import { CartDrawer } from "@/components/layout/CartDrawer";
 import { QuizWidget } from "@/components/layout/QuizWidget";
 import { RecentPurchaseToast } from "@/components/layout/RecentPurchaseToast";
+import { ReferralCapture } from "@/components/layout/ReferralCapture";
 import { AgeGate } from "@/components/layout/AgeGate";
 import { CartProvider } from "@/lib/cart-context";
 import { CurrencyProvider } from "@/lib/currency-context";
 import { GoogleAnalytics } from "@/components/layout/GoogleAnalytics";
-import { ReferralCapture } from "@/components/layout/ReferralCapture";
 
 const SITE_URL = "https://evlvpeptides.com";
 

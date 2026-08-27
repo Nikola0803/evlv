@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import { getProductBySlug, getProducts, getRelatedProducts } from "@/lib/products";
+import { getLiveProducts, mergeProducts } from "@/lib/product-feed";
 import { ProductCard } from "@/components/product/ProductCard";
 import { ProductClient } from "./ProductClient";
 
@@ -9,9 +10,14 @@ export function generateStaticParams() {
   return getProducts().map((p) => ({ slug: p.slug }));
 }
 
+async function resolveProduct(slug: string) {
+  const live = await getLiveProducts();
+  return mergeProducts(getProducts(), live).find((p) => p.slug === slug) ?? getProductBySlug(slug);
+}
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
+  const product = await resolveProduct(slug);
   if (!product) return {};
   const title = `${product.name}, Research Peptide`;
   return {
@@ -29,7 +35,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
+  const product = await resolveProduct(slug);
   if (!product) notFound();
 
   const related = getRelatedProducts(slug);

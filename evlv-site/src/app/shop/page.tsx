@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import { Metadata } from "next";
 import { getProducts } from "@/lib/products";
+import { getLiveProducts, mergeProducts } from "@/lib/product-feed";
 import { ShopClient } from "./ShopClient";
 import { TrustIconRow } from "@/components/ui/TrustIconRow";
 
@@ -17,8 +18,8 @@ const SHOP_TRUST_ITEMS = [
   { icon: "ri-customer-service-2-line", label: "Expert Support", sublabel: "Response within minutes" },
 ];
 
-export default function ShopPage() {
-  const products = getProducts();
+export default async function ShopPage() {
+  const products = mergeProducts(getProducts(), await getLiveProducts());
 
   return (
     <>

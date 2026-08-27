@@ -39,6 +39,14 @@ export interface Product {
     date: string;
     status: "PASS" | "PENDING";
   };
+  /**
+   * Sibling size/dose options sharing this product's base name (e.g.
+   * BPC-157 5mg/10mg/20mg), each its own independently priced/stocked
+   * product with its own slug. Only set for products synced live from the
+   * CRM's supplier price lists (see lib/product-feed.ts) — the static
+   * demo catalog below doesn't have real variant data.
+   */
+  variants?: { slug: string; label: string; price: number; inStock: boolean }[];
 }
 
 export interface Testimonial {

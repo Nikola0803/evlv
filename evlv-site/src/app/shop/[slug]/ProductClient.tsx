@@ -110,6 +110,27 @@ export function ProductClient({ product }: { product: Product }) {
           </span>
         </div>
 
+        {product.variants && product.variants.length > 1 && (
+          <div className="mt-6">
+            <label className="mb-2 block text-[11px] font-semibold uppercase tracking-wider text-charcoal/60">Size</label>
+            <div className="flex flex-wrap gap-2">
+              {product.variants.map((v) => (
+                <Link
+                  key={v.slug}
+                  href={`/shop/${v.slug}`}
+                  className={`rounded-md border px-4 py-2 text-sm font-medium transition ${
+                    v.slug === product.slug
+                      ? "border-copper bg-copper text-charcoal"
+                      : "border-stone bg-ivory text-charcoal/70 hover:border-copper"
+                  } ${!v.inStock ? "opacity-40" : ""}`}
+                >
+                  {v.label}
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
+
         <div className="mt-6">
           <PackSelector packs={packs} packIndex={packIndex} onSelect={setPackIndex} />
         </div>
