@@ -11,6 +11,9 @@ import { getStoredUser } from "@/lib/auth";
 import { addOrder } from "@/lib/orders";
 import { PAYMENT_GATEWAYS, type PaymentGatewayId } from "@/lib/payment-config";
 import { getStoredCouponCode, setStoredCouponCode } from "@/lib/referral";
+import { trackEvent } from "@/lib/pixel";
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const US_STATES = [
   "AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA",
@@ -74,6 +77,18 @@ export default function CheckoutPage() {
     const timer = window.setInterval(() => setNow(Date.now()), 1000);
     return () => window.clearInterval(timer);
   }, []);
+
+  useEffect(() => {
+    if (lines.length > 0) trackEvent("begin_checkout");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    const trimmed = email.trim();
+    if (!EMAIL_RE.test(trimmed)) return;
+    const timer = window.setTimeout(() => trackEvent("identify", { email: trimmed }), 800);
+    return () => window.clearTimeout(timer);
+  }, [email]);
 
   const remainingMs = expiresAt - now;
   const expired = remainingMs <= 0;

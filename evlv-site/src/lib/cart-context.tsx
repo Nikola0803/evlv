@@ -2,6 +2,7 @@
 
 import { createContext, useCallback, useContext, useMemo, useRef, useState, ReactNode } from "react";
 import { Product } from "./types";
+import { trackEvent } from "./pixel";
 
 interface CartLine {
   product: Product;
@@ -57,6 +58,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     window.clearTimeout(toastTimer.current);
     toastTimer.current = window.setTimeout(() => setToastMessage(null), 2600);
     setIsOpen(true);
+    trackEvent("add_to_cart", { properties: { name: product.name, slug: product.slug, sku: product.sku }, valueCents: Math.round(unitPrice * qty * 100) });
   }, []);
 
   const removeLine = useCallback((productId: string, packLabel: string) => {

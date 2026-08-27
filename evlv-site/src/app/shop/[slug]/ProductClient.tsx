@@ -9,6 +9,7 @@ import { PackSelector, usePackSelection } from "@/components/product/PackSelecto
 import { useCart } from "@/lib/cart-context";
 import { useCurrency } from "@/lib/currency-context";
 import { getStoredUser } from "@/lib/auth";
+import { trackEvent } from "@/lib/pixel";
 
 const TABS = ["Description", "Reviews", "Lab Report"] as const;
 
@@ -31,6 +32,11 @@ export function ProductClient({ product }: { product: Product }) {
   useEffect(() => {
     setIsMember(getStoredUser()?.plan === "member");
   }, []);
+
+  useEffect(() => {
+    trackEvent("view_content", { properties: { name: product.name, slug: product.slug, sku: product.sku } });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [product.slug]);
 
   const locked = !!product.memberOnly && !isMember;
 
