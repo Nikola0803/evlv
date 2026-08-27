@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { AffiliateForm } from "./AffiliateForm";
 
 export const metadata: Metadata = {
@@ -29,6 +30,17 @@ const TIERS = [
 export default function AffiliatesPage() {
   return (
     <>
+      <div className="bg-charcoal py-3">
+        <div className="mx-auto flex max-w-[1400px] items-center justify-end px-4 md:px-8">
+          <Link
+            href="/account?tab=affiliate"
+            className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-white/70 transition hover:text-white"
+          >
+            Already applied? Sign in to your account <i className="ri-arrow-right-line" />
+          </Link>
+        </div>
+      </div>
+
       <section className="bg-ivory-soft py-16 md:py-24">
         <div className="mx-auto grid max-w-[1400px] grid-cols-1 items-center gap-10 px-4 md:grid-cols-2 md:px-8">
           <div>

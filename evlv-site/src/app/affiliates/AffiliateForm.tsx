@@ -2,16 +2,9 @@
 
 import { FormEvent, useState } from "react";
 import Link from "next/link";
-
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+import { getStoredUser, getStoredToken } from "@/lib/auth";
 
 interface FormState {
-  username: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  confirmEmail: string;
-  password: string;
   referredBy: string;
   socialLink: string;
   phone: string;
@@ -23,12 +16,6 @@ interface FormState {
 }
 
 const EMPTY: FormState = {
-  username: "",
-  firstName: "",
-  lastName: "",
-  email: "",
-  confirmEmail: "",
-  password: "",
   referredBy: "",
   socialLink: "",
   phone: "",
@@ -39,7 +26,14 @@ const EMPTY: FormState = {
   country: "",
 };
 
-export function AffiliateForm() {
+/**
+ * Applies for affiliate status on the shopper's EXISTING account — no
+ * separate username/email/password. Affiliates are a role on the same
+ * Customer record (see AFFILIATE-PORTAL.md), not a parallel login system.
+ * Requires an existing customer session (AgeGate gates the whole site
+ * before this is ever reachable, so this should always be present).
+ */
+export function AffiliateForm({ onApplied }: { onApplied?: () => void }) {
   const [form, setForm] = useState<FormState>(EMPTY);
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -54,16 +48,9 @@ export function AffiliateForm() {
     e.preventDefault();
     setError("");
 
-    if (!EMAIL_RE.test(form.email.trim())) {
-      setError("Please enter a valid email address.");
-      return;
-    }
-    if (form.email.trim().toLowerCase() !== form.confirmEmail.trim().toLowerCase()) {
-      setError("Email addresses do not match.");
-      return;
-    }
-    if (form.password.length < 8) {
-      setError("Password must be at least 8 characters.");
+    const user = getStoredUser();
+    if (!user) {
+      setError("Sign in to your account first, then apply.");
       return;
     }
     if (!agreedToTerms) {
@@ -77,11 +64,7 @@ export function AffiliateForm() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          username: form.username.trim(),
-          firstName: form.firstName.trim(),
-          lastName: form.lastName.trim(),
-          email: form.email.trim(),
-          password: form.password,
+          token: getStoredToken(),
           referredBy: form.referredBy.trim() || undefined,
           socialLink: form.socialLink.trim(),
           phone: form.phone.trim(),
@@ -96,11 +79,12 @@ export function AffiliateForm() {
       if (!res.ok) {
         throw new Error(
           res.status === 503
-            ? "The affiliate program isn't accepting self-serve applications yet — check back soon, or reach out via Contact in the meantime."
+            ? "The affiliate program isn't accepting applications yet — check back soon, or reach out via Contact in the meantime."
             : data?.error || "Something went wrong submitting your application."
         );
       }
       setSubmitted(true);
+      onApplied?.();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
     } finally {
@@ -114,7 +98,8 @@ export function AffiliateForm() {
         <i className="ri-checkbox-circle-fill text-2xl text-sage-deep" />
         <p className="mt-3 font-display text-lg font-semibold text-charcoal">Application received</p>
         <p className="mt-2 text-sm text-charcoal/60">
-          We review every application by hand. We&apos;ll follow up by email within a couple of business days.
+          We review every application by hand. We&apos;ll follow up by email within a couple of business days — check
+          your Account page for your status any time.
         </p>
       </div>
     );
@@ -122,25 +107,6 @@ export function AffiliateForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 rounded-lg border border-stone bg-white p-6 md:p-8">
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <Field label="Username" required value={form.username} onChange={(v) => set("username", v)} />
-        <div className="grid grid-cols-2 gap-3">
-          <Field label="First Name" required value={form.firstName} onChange={(v) => set("firstName", v)} />
-          <Field label="Last Name" required value={form.lastName} onChange={(v) => set("lastName", v)} />
-        </div>
-        <Field label="Email" type="email" required value={form.email} onChange={(v) => set("email", v)} />
-        <Field label="Confirm Email" type="email" required value={form.confirmEmail} onChange={(v) => set("confirmEmail", v)} />
-        <Field
-          label="Password"
-          type="password"
-          required
-          value={form.password}
-          onChange={(v) => set("password", v)}
-          placeholder="Min. 8 characters"
-          className="sm:col-span-2"
-        />
-      </div>
-
       <Field label="Who referred you?" value={form.referredBy} onChange={(v) => set("referredBy", v)} placeholder="Optional" />
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -193,13 +159,6 @@ export function AffiliateForm() {
       >
         {submitting ? "Submitting..." : "Submit Application"}
       </button>
-
-      <p className="text-center text-xs text-charcoal/50">
-        Already have an account?{" "}
-        <Link href="/affiliates/login" className="text-copper hover:underline">
-          Sign in
-        </Link>
-      </p>
     </form>
   );
 }
