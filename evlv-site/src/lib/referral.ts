@@ -24,12 +24,22 @@ export function captureReferralFromUrl() {
   if (typeof window === "undefined") return;
   const ref = new URLSearchParams(window.location.search).get("ref");
   if (!ref) return;
+  const code = ref.trim().toUpperCase();
   try {
-    localStorage.setItem(REF_KEY, ref.trim().toUpperCase());
+    localStorage.setItem(REF_KEY, code);
     localStorage.setItem(REF_EXPIRES_KEY, String(Date.now() + REF_TTL_MS));
   } catch {
     /* localStorage unavailable -- referral just won't be remembered */
   }
+
+  // Best-effort affiliate click counter -- most ?ref= codes will be
+  // customer referral codes, not affiliate ones (the CRM route no-ops if
+  // the code doesn't match an Affiliate). Never block on this.
+  fetch("/api/affiliate/click", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ code }),
+  }).catch(() => {});
 }
 
 export function getStoredReferralCode(): string {
