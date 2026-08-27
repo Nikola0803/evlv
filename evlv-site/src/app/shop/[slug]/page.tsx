@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import { getProductBySlug, getProducts, getRelatedProducts } from "@/lib/products";
 import { getLiveProducts, mergeProducts } from "@/lib/product-feed";
+import { getCoaMap } from "@/lib/coa-data";
 import { ProductCard } from "@/components/product/ProductCard";
 import { FrequentlyBoughtTogether } from "@/components/product/FrequentlyBoughtTogether";
 import { ProductClient } from "./ProductClient";
@@ -40,6 +41,8 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
   if (!product) notFound();
 
   const related = getRelatedProducts(slug);
+  const coaMap = await getCoaMap();
+  const coa = coaMap[product.slug];
 
   const productJsonLd = {
     "@context": "https://schema.org",
@@ -92,7 +95,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       </div>
 
       <div className="mx-auto max-w-[1400px] px-4 pb-12 md:px-8">
-        <ProductClient product={product} />
+        <ProductClient product={product} coa={coa} />
       </div>
 
       <FrequentlyBoughtTogether product={product} related={related} />

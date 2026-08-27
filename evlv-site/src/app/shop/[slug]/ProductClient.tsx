@@ -10,6 +10,7 @@ import { useCart } from "@/lib/cart-context";
 import { useCurrency } from "@/lib/currency-context";
 import { getStoredUser } from "@/lib/auth";
 import { trackEvent } from "@/lib/pixel";
+import type { CoaEntry } from "@/lib/coa-data";
 
 const TABS = ["Description", "Reviews", "Lab Report"] as const;
 
@@ -21,7 +22,7 @@ function splitDosage(name: string) {
   return { title: name.slice(0, match.index).trim(), dosage: match[1].toUpperCase() };
 }
 
-export function ProductClient({ product }: { product: Product }) {
+export function ProductClient({ product, coa }: { product: Product; coa?: CoaEntry }) {
   const { packIndex, setPackIndex, packs, selected } = usePackSelection(product);
   const [qty, setQty] = useState(1);
   const [tab, setTab] = useState<(typeof TABS)[number]>("Description");
@@ -276,6 +277,17 @@ export function ProductClient({ product }: { product: Product }) {
                   {product.avgMass && <Row label="Avg. Mass" value={product.avgMass} />}
                   <Row label="Status" value="PASS" accent />
                 </dl>
+                {coa && (
+                  <a
+                    href={coa.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex items-center justify-between gap-2 border-t border-stone bg-ivory-soft px-4 py-3 text-xs font-semibold text-sage-deep transition hover:bg-sage-mist"
+                  >
+                    View Certificate of Analysis (PDF)
+                    <i className="ri-external-link-line" />
+                  </a>
+                )}
               </div>
             )}
           </div>
