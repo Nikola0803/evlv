@@ -3,7 +3,7 @@ import Link from "next/link";
 import { getJournalArticles } from "@/lib/journal-data";
 
 export function ScienceSection() {
-  const articles = getJournalArticles();
+  const articles = getJournalArticles().slice(0, 3);
   return (
     <section className="bg-ivory py-20 md:py-32">
       <div className="mx-auto max-w-[1400px] px-4 md:px-8">
@@ -43,6 +43,15 @@ export function ScienceSection() {
               </span>
             </Link>
           ))}
+        </div>
+
+        <div className="mt-12 text-center">
+          <Link
+            href="/journal"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-sage-deep transition hover:text-charcoal"
+          >
+            View All Journal Articles <i className="ri-arrow-right-line" />
+          </Link>
         </div>
       </div>
     </section>

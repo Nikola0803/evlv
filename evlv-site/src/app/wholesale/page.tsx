@@ -4,6 +4,7 @@ import { WholesaleForm } from "./WholesaleForm";
 export const metadata: Metadata = {
   title: "Dropshipping & Wholesale | EVLV",
   description: "White-label your own research peptide storefront on EVLV's supply chain — custom CRM/CMS, branded website, and fulfillment included.",
+  alternates: { canonical: "/wholesale" },
 };
 
 const INCLUDED = [

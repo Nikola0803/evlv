@@ -4,6 +4,7 @@ import { MilitaryDiscountForm } from "./MilitaryDiscountForm";
 export const metadata: Metadata = {
   title: "Military & First Responder Discount | EVLV",
   description: "Active duty, veterans, reservists, and first responders get a 20% discount on EVLV research peptides.",
+  alternates: { canonical: "/military-discount" },
 };
 
 const ELIGIBLE = ["Active Duty", "Veterans", "Reservists & National Guard", "Police, Fire & EMS"];
