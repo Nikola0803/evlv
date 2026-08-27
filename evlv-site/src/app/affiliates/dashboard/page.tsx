@@ -3,14 +3,16 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { getStoredAffiliateUser, getStoredAffiliateToken, clearAffiliateAuth, type AffiliateUser } from "@/lib/affiliate-auth";
+import { PayoutSettings, type PayoutInfo } from "./PayoutSettings";
 
-interface DashboardData {
+interface DashboardData extends PayoutInfo {
   clicks30d: number;
   clicksTotal: number;
   salesConfirmed: number;
   salesPending: number;
   commissionAvailableCents: number;
   commissionPendingCents: number;
+  minPayoutCents: number;
 }
 
 function money(cents: number) {
@@ -18,14 +20,23 @@ function money(cents: number) {
 }
 
 export default function AffiliateDashboardPage() {
-  const [user] = useState<AffiliateUser | null>(() => getStoredAffiliateUser());
+  const [mounted, setMounted] = useState(false);
+  const [user, setUser] = useState<AffiliateUser | null>(null);
   const [data, setData] = useState<DashboardData | null>(null);
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(() => !!getStoredAffiliateUser());
+  const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState(false);
+  const [requesting, setRequesting] = useState(false);
+  const [requestMsg, setRequestMsg] = useState<{ text: string; ok: boolean } | null>(null);
 
   useEffect(() => {
-    if (!user) return;
+    setMounted(true);
+    const stored = getStoredAffiliateUser();
+    setUser(stored);
+    if (!stored) {
+      setLoading(false);
+      return;
+    }
     const token = getStoredAffiliateToken();
     fetch("/api/affiliate/dashboard", {
       method: "POST",
@@ -54,10 +65,31 @@ export default function AffiliateDashboardPage() {
     }
   }
 
+  async function requestPayout() {
+    setRequestMsg(null);
+    setRequesting(true);
+    try {
+      const res = await fetch("/api/affiliate/payout-request", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token: getStoredAffiliateToken() }),
+      });
+      const body = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(body?.error || "Couldn't request a payout.");
+      setRequestMsg({ text: `Payout of ${money(body.amountCents ?? data?.commissionAvailableCents ?? 0)} requested.`, ok: true });
+    } catch (err) {
+      setRequestMsg({ text: err instanceof Error ? err.message : "Couldn't request a payout.", ok: false });
+    } finally {
+      setRequesting(false);
+    }
+  }
+
   function handleSignOut() {
     clearAffiliateAuth();
     window.location.href = "/affiliates/login";
   }
+
+  if (!mounted) return null;
 
   if (!user) {
     return (
@@ -119,19 +151,62 @@ export default function AffiliateDashboardPage() {
         )}
 
         {!loading && !error && data && (
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
-            <StatCard label="Clicks (30d)" value={String(data.clicks30d)} />
-            <StatCard label="Total Clicks" value={String(data.clicksTotal)} />
-            <StatCard label="Confirmed Sales" value={String(data.salesConfirmed)} />
-            <StatCard label="Pending Sales" value={String(data.salesPending)} />
-            <StatCard label="Available Commission" value={money(data.commissionAvailableCents)} accent />
-            <StatCard label="Pending Commission" value={money(data.commissionPendingCents)} />
-          </div>
+          <>
+            <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
+              <StatCard label="Clicks (30d)" value={String(data.clicks30d)} />
+              <StatCard label="Total Clicks" value={String(data.clicksTotal)} />
+              <StatCard label="Confirmed Sales" value={String(data.salesConfirmed)} />
+              <StatCard label="Pending Sales" value={String(data.salesPending)} />
+              <StatCard label="Available Commission" value={money(data.commissionAvailableCents)} accent />
+              <StatCard label="Pending Commission" value={money(data.commissionPendingCents)} />
+            </div>
+
+            <div className="mt-8 flex flex-col items-start justify-between gap-4 rounded-lg border border-stone bg-white p-6 sm:flex-row sm:items-center">
+              <div>
+                <p className="font-display text-base font-semibold text-charcoal">Withdraw Your Earnings</p>
+                <p className="mt-1 text-xs text-charcoal/50">
+                  Minimum payout: {money(data.minPayoutCents)} · Sent via {data.payoutMethod ? PAYOUT_LABELS[data.payoutMethod] : "—"}
+                </p>
+                {requestMsg && (
+                  <p className={`mt-2 text-xs font-medium ${requestMsg.ok ? "text-sage-deep" : "text-red-600"}`}>{requestMsg.text}</p>
+                )}
+              </div>
+              <button
+                type="button"
+                onClick={requestPayout}
+                disabled={requesting || !data.payoutMethod || data.commissionAvailableCents < data.minPayoutCents}
+                className="shrink-0 rounded-md bg-copper px-6 py-3 text-xs font-semibold uppercase tracking-wide text-charcoal transition hover:bg-copper-light disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                {requesting ? "Requesting..." : "Request Payout"}
+              </button>
+            </div>
+
+            <div className="mt-8">
+              <PayoutSettings
+                initial={{
+                  payoutMethod: data.payoutMethod,
+                  payoutDestination: data.payoutDestination,
+                  bankAccountHolder: data.bankAccountHolder,
+                  bankRoutingNumber: data.bankRoutingNumber,
+                  bankAccountNumber: data.bankAccountNumber,
+                  bankAccountType: data.bankAccountType,
+                }}
+                onSaved={(info) => setData((d) => (d ? { ...d, ...info } : d))}
+              />
+            </div>
+          </>
         )}
       </div>
     </section>
   );
 }
+
+const PAYOUT_LABELS: Record<NonNullable<DashboardData["payoutMethod"]>, string> = {
+  venmo: "Venmo",
+  zelle: "Zelle",
+  cashapp: "Cash App",
+  bank_ach: "Bank Transfer (ACH)",
+};
 
 function StatCard({ label, value, accent }: { label: string; value: string; accent?: boolean }) {
   return (
