@@ -9,6 +9,7 @@ const SHOP_NAV = [
   { href: "/faq", label: "FAQ" },
   { href: "/contact", label: "Contact" },
   { href: "/affiliates", label: "Affiliate Program" },
+  { href: "/wholesale", label: "Dropshipping & Wholesale" },
 ];
 
 const CUSTOMER_NAV = [
@@ -16,6 +17,7 @@ const CUSTOMER_NAV = [
   { href: "/account", label: "Orders" },
   { href: "/shipping", label: "Shipping" },
   { href: "/returns", label: "Returns" },
+  { href: "/military-discount", label: "Military & First Responder Discount" },
 ];
 const LEGAL_NAV = [
   { href: "/ruo", label: "Research Use Only" },
