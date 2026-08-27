@@ -18,7 +18,7 @@ const CUSTOMER_NAV = [
   { href: "/account", label: "Orders" },
   { href: "/shipping", label: "Shipping" },
   { href: "/returns", label: "Returns" },
-  { href: "/military-discount", label: "Military & First Responder Discount" },
+  { href: "/heroes-discount", label: "Heroes Discount" },
 ];
 const LEGAL_NAV = [
   { href: "/ruo", label: "Research Use Only" },

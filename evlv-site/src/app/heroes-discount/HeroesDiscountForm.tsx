@@ -10,9 +10,20 @@ interface FormState {
 }
 
 const STATUS_OPTIONS = ["Active Duty", "Veteran", "Reservist / National Guard", "First Responder (Police/Fire/EMS)"];
+const MAX_FILE_BYTES = 8 * 1024 * 1024; // 8MB
 
-export function MilitaryDiscountForm() {
+function readFileAsDataUrl(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = () => reject(reader.error);
+    reader.readAsDataURL(file);
+  });
+}
+
+export function HeroesDiscountForm() {
   const [form, setForm] = useState<FormState>({ name: "", email: "", branch: "", status: "" });
+  const [proofFile, setProofFile] = useState<File | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
@@ -21,15 +32,37 @@ export function MilitaryDiscountForm() {
     setForm((f) => ({ ...f, [key]: value }));
   }
 
+  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0] ?? null;
+    setError("");
+    if (file && file.size > MAX_FILE_BYTES) {
+      setError("File is too large — please upload something under 8MB.");
+      e.target.value = "";
+      setProofFile(null);
+      return;
+    }
+    setProofFile(file);
+  }
+
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError("");
+    if (!proofFile) {
+      setError("Please attach proof of service (ID, discharge paperwork, or a badge/department photo).");
+      return;
+    }
     setSubmitting(true);
     try {
-      const res = await fetch("/api/military-discount/request", {
+      const proofDataUrl = await readFileAsDataUrl(proofFile);
+      const res = await fetch("/api/heroes-discount/request", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({
+          ...form,
+          proofFileName: proofFile.name,
+          proofFileType: proofFile.type,
+          proofFileDataUrl: proofDataUrl,
+        }),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
@@ -112,6 +145,23 @@ export function MilitaryDiscountForm() {
           placeholder="e.g. U.S. Army, Chicago PD, County EMS"
           className="w-full rounded-md border border-stone bg-ivory px-4 py-2.5 text-sm outline-none focus:border-copper"
         />
+      </div>
+
+      <div>
+        <label className="mb-1.5 block text-sm font-semibold text-charcoal">
+          Proof of Service <span className="text-copper">*</span>
+        </label>
+        <input
+          type="file"
+          required
+          accept="image/*,.pdf"
+          onChange={handleFileChange}
+          className="w-full rounded-md border border-stone bg-ivory px-4 py-2.5 text-sm outline-none file:mr-3 file:rounded file:border-0 file:bg-copper file:px-3 file:py-1.5 file:text-xs file:font-semibold file:uppercase file:text-charcoal focus:border-copper"
+        />
+        <p className="mt-1.5 text-xs text-charcoal/40">
+          Military/veteran ID, DD-214, or a department badge/ID photo. Image or PDF, under 8MB. Used only to verify
+          eligibility.
+        </p>
       </div>
 
       <p className="text-xs text-charcoal/50">
