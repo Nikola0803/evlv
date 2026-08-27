@@ -28,7 +28,7 @@ export function ShopMegaMenu() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-2 gap-x-6 gap-y-6 md:grid-cols-3">
+          <div className="grid grid-cols-2 gap-x-6 gap-y-6 md:grid-cols-4">
             {groups.map((group) => (
               <div key={group.label}>
                 <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.15em] text-copper">{group.label}</p>
