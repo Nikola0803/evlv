@@ -118,7 +118,7 @@ export default function AboutPage() {
           </div>
           <div className="aspect-[4/3] w-full overflow-hidden rounded-lg bg-ivory-soft">
             <video autoPlay loop muted playsInline poster="/images/precision-section.png" className="h-full w-full object-cover">
-              <source src="/videos/standard-vial.mp4" type="video/mp4" />
+              <source src="/videos/product-hover.mp4" type="video/mp4" />
             </video>
           </div>
         </div>

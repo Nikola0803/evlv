@@ -12,6 +12,7 @@ import { AgeGate } from "@/components/layout/AgeGate";
 import { CartProvider } from "@/lib/cart-context";
 import { CurrencyProvider } from "@/lib/currency-context";
 import { GoogleAnalytics } from "@/components/layout/GoogleAnalytics";
+import { ReferralCapture } from "@/components/layout/ReferralCapture";
 
 const SITE_URL = "https://evlvpeptides.com";
 
@@ -100,6 +101,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       </head>
       <body className="flex min-h-full flex-col bg-ivory text-charcoal">
         <GoogleAnalytics />
+        <ReferralCapture />
         <CurrencyProvider>
           <CartProvider>
             <AgeGate>

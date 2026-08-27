@@ -10,6 +10,7 @@ import { FREE_SHIPPING_THRESHOLD, FLAT_SHIPPING_COST } from "@/components/layout
 import { getStoredUser } from "@/lib/auth";
 import { addOrder } from "@/lib/orders";
 import { PAYMENT_GATEWAYS, type PaymentGatewayId } from "@/lib/payment-config";
+import { getStoredCouponCode, setStoredCouponCode } from "@/lib/referral";
 
 const US_STATES = [
   "AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA",
@@ -53,6 +54,7 @@ export default function CheckoutPage() {
   const [zip, setZip] = useState("");
   const [smsConsent, setSmsConsent] = useState(false);
   const [orderNotes, setOrderNotes] = useState("");
+  const [couponCode, setCouponCode] = useState(() => getStoredCouponCode());
 
   const [selectedGateway, setSelectedGateway] = useState<PaymentGatewayId | null>(null);
   const [memo, setMemo] = useState(() => generateMemo());
@@ -130,6 +132,11 @@ export default function CheckoutPage() {
           ],
           paymentMethod: selectedGateway,
           paymentMemo: memo,
+          couponCode: couponCode.trim() || undefined,
+          // Same value doubles as the affiliate ?ref= candidate — the CRM's
+          // order engine tries couponCode first, then affiliateRef, against
+          // Affiliate.couponCode/slug (see order-engine.ts).
+          affiliateRef: couponCode.trim() || undefined,
           customerNote: orderNotes.trim() || undefined,
           customerId: user && user.user_id !== "local" ? user.user_id : undefined,
           // The deployed CRM's checkout also requires a top-level customerEmail
@@ -266,6 +273,23 @@ export default function CheckoutPage() {
                 .
               </span>
             </label>
+          </section>
+
+          <section>
+            <label className="mb-3 block text-sm font-semibold uppercase tracking-wider text-charcoal/50">
+              Promo / Referral Code <span className="font-normal normal-case text-charcoal/40">(optional)</span>
+            </label>
+            <input
+              type="text"
+              value={couponCode}
+              onChange={(e) => {
+                const next = e.target.value.toUpperCase();
+                setCouponCode(next);
+                setStoredCouponCode(next);
+              }}
+              placeholder="Enter a code"
+              className="h-12 w-full rounded-md border border-stone bg-white px-4 text-base uppercase tracking-wide text-charcoal outline-none placeholder:text-charcoal/40 placeholder:normal-case focus:border-copper"
+            />
           </section>
 
           <section>

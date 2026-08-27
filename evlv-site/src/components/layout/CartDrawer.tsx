@@ -7,12 +7,14 @@ import { useRouter } from "next/navigation";
 import { useCart, BAC_WATER } from "@/lib/cart-context";
 import { useCurrency } from "@/lib/currency-context";
 import { ShippingProgressBar, FeaturedOfferCard, ResearchersAlsoAdd, FREE_SHIPPING_THRESHOLD, FLAT_SHIPPING_COST } from "./CartUpsellOffers";
+import { getStoredCouponCode, setStoredCouponCode } from "@/lib/referral";
 
 export function CartDrawer() {
   const { lines, subtotal, isOpen, closeCart, removeLine, setLineQty } = useCart();
   const { formatPrice } = useCurrency();
   const [promoOpen, setPromoOpen] = useState(false);
-  const [promoCode, setPromoCode] = useState("");
+  const [promoCode, setPromoCode] = useState(() => getStoredCouponCode());
+  const [promoSaved, setPromoSaved] = useState(false);
   const router = useRouter();
 
   function handleCheckoutClick() {
@@ -123,21 +125,32 @@ export function CartDrawer() {
         {lines.length > 0 && (
           <div className="border-t border-stone px-5 py-5">
             {promoOpen ? (
-              <div className="mb-4 flex gap-2">
-                <input
-                  type="text"
-                  value={promoCode}
-                  onChange={(e) => setPromoCode(e.target.value)}
-                  placeholder="Promo code"
-                  className="flex-1 rounded-md border border-stone bg-white px-3 py-2 text-sm text-charcoal outline-none placeholder:text-charcoal/40 focus:border-copper"
-                />
-                <button
-                  type="button"
-                  onClick={() => alert("Promo codes aren't wired up yet.")}
-                  className="rounded-md border border-charcoal px-3 py-2 text-xs font-semibold uppercase tracking-wide text-charcoal transition hover:bg-charcoal hover:text-ivory"
-                >
-                  Apply
-                </button>
+              <div className="mb-4">
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={promoCode}
+                    onChange={(e) => {
+                      setPromoCode(e.target.value);
+                      setPromoSaved(false);
+                    }}
+                    placeholder="Promo code"
+                    className="flex-1 rounded-md border border-stone bg-white px-3 py-2 text-sm text-charcoal outline-none placeholder:text-charcoal/40 focus:border-copper"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setStoredCouponCode(promoCode);
+                      setPromoSaved(true);
+                    }}
+                    className="rounded-md border border-charcoal px-3 py-2 text-xs font-semibold uppercase tracking-wide text-charcoal transition hover:bg-charcoal hover:text-ivory"
+                  >
+                    Apply
+                  </button>
+                </div>
+                {promoSaved && (
+                  <p className="mt-1.5 text-xs text-sage-deep">Saved — this code will be applied at checkout.</p>
+                )}
               </div>
             ) : (
               <button

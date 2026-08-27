@@ -11,6 +11,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { getStoredToken, getStoredUser, saveAuth } from "@/lib/auth";
+import { getStoredCouponCode } from "@/lib/referral";
 
 const MIN_AGE = 21;
 
@@ -117,10 +118,16 @@ export function AgeGate({ children }: { children: React.ReactNode }) {
 
     setLoading(true);
     try {
+      const referralCode = mode === "register" ? getStoredCouponCode() : undefined;
       const res = await fetch(`/api/auth/${mode === "signin" ? "login" : "register"}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: email.trim(), password, marketingOptIn: agreeEmail }),
+        body: JSON.stringify({
+          email: email.trim(),
+          password,
+          marketingOptIn: agreeEmail,
+          ...(referralCode ? { referralCode } : {}),
+        }),
       });
       const data = await res.json().catch(() => ({}));
       if (res.status === 503) {
