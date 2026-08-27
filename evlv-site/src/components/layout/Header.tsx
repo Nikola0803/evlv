@@ -12,6 +12,7 @@ const NAV = [
   { href: "/coas", label: "COAs" },
   { href: "/journal", label: "Journal" },
   { href: "/about", label: "About" },
+  { href: "/affiliates", label: "Affiliates" },
 ];
 
 export function Header() {
