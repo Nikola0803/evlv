@@ -44,23 +44,6 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-16 grid grid-cols-2 gap-6 border-t border-white/10 pt-10 sm:grid-cols-4">
-          {[
-            { icon: "ri-flag-line", label: "Made in USA", sub: "With global standards" },
-            { icon: "ri-shield-check-line", label: "cGMP Compliant", sub: "Facility" },
-            { icon: "ri-test-tube-line", label: "Rigorous Testing", sub: "Protocols" },
-            { icon: "ri-truck-line", label: "Fast & Discreet", sub: "Worldwide shipping" },
-          ].map((item) => (
-            <div key={item.label} className="flex items-center gap-3">
-              <i className={`${item.icon} text-xl text-copper`} />
-              <div>
-                <p className="text-[11px] font-semibold uppercase tracking-wider text-white/80">{item.label}</p>
-                <p className="text-[11px] text-white/40">{item.sub}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-
         <div className="mt-14 grid grid-cols-2 gap-8 border-t border-white/10 pt-14 md:grid-cols-4">
           <FooterColumn title="Shop">
             {SHOP_NAV.map((item) => (

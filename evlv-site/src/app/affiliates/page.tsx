@@ -30,7 +30,7 @@ const TIERS = [
 export default function AffiliatesPage() {
   return (
     <>
-      <div className="bg-charcoal py-3">
+      <div className="-mt-[90px] bg-charcoal pb-3 pt-[122px] md:-mt-[100px] md:pt-[132px]">
         <div className="mx-auto flex max-w-[1400px] items-center justify-end px-4 md:px-8">
           <Link
             href="/account?tab=affiliate"
