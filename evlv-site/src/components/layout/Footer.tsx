@@ -22,6 +22,8 @@ const CUSTOMER_NAV = [
 ];
 const LEGAL_NAV = [
   { href: "/ruo", label: "Research Use Only" },
+  { href: "/sourcing", label: "Sourcing & Quality" },
+  { href: "/indemnity-waiver", label: "Indemnity Waiver" },
   { href: "/terms", label: "Terms" },
   { href: "/privacy", label: "Privacy" },
 ];
