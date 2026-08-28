@@ -543,7 +543,6 @@ export const products: Product[] = [
     reconstitution: "Reconstitute with bacteriostatic or sterile water appropriate for laboratory use.",
     badges: ["Save 20%"],
     batch: { code: "MSV-9377026-P", date: "2026-06-08", status: "PASS" },
-    memberOnly: true,
   },
   {
     id: "25",
@@ -566,7 +565,6 @@ export const products: Product[] = [
     reconstitution: "Reconstitute with bacteriostatic or sterile water appropriate for laboratory use.",
     badges: ["Save 20%"],
     batch: { code: "EVLV-KLOW80-08", date: "2026-08-21", status: "PASS" },
-    memberOnly: true,
   },
 
   // ---- Selank / Semax (cognition) ----
