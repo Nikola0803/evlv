@@ -20,7 +20,7 @@ export async function ReviewsSection() {
   const data = await getGoogleReviews();
 
   return (
-    <section className="bg-charcoal py-24 text-white md:py-36">
+    <section className="bg-sage-deep py-24 text-white md:py-36">
       <div className="mx-auto max-w-[1400px] px-4 md:px-8">
         {data ? (
           <>
