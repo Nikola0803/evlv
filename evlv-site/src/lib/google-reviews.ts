@@ -33,7 +33,15 @@ export function googleReviewsConfigured() {
 }
 
 export async function getGoogleReviews(): Promise<GoogleReviewsData | null> {
-  if (!googleReviewsConfigured()) return null;
+  if (!googleReviewsConfigured()) {
+    // Opt-in only, for internal design-review previews -- never set this in
+    // the production environment real customers see. See lib/demo-reviews.ts.
+    if (process.env.DEMO_REVIEWS === "true") {
+      const { DEMO_REVIEWS_DATA } = await import("./demo-reviews");
+      return DEMO_REVIEWS_DATA;
+    }
+    return null;
+  }
 
   try {
     const url = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${PLACE_ID}&fields=rating,user_ratings_total,reviews,url&key=${API_KEY}`;

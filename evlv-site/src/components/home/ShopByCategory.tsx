@@ -9,7 +9,7 @@ const CATEGORIES = [
 
 export function ShopByCategory() {
   return (
-    <section className="bg-ivory-soft py-20 md:py-32">
+    <section className="bg-ivory-soft pb-8 pt-20 md:pb-12 md:pt-32">
       <div className="mx-auto max-w-[1400px] px-4 md:px-8">
         <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">04 / Explore the Collection</p>
         <h2 className="max-w-xl font-display text-3xl font-semibold text-charcoal md:text-4xl">Shop by research category</h2>

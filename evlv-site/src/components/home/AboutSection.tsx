@@ -30,7 +30,7 @@ const STANDARDS = [
 
 export function AboutSection() {
   return (
-    <section className="bg-ivory-soft py-20 md:py-32">
+    <section className="bg-ivory-soft pb-20 pt-8 md:pb-32 md:pt-12">
       <div className="mx-auto grid max-w-[1400px] grid-cols-1 items-center gap-14 px-4 md:px-8 lg:grid-cols-2 lg:gap-20">
         <div className="aspect-[4/5] w-full overflow-hidden rounded-lg bg-charcoal">
           <video autoPlay loop muted playsInline poster="/images/precision-section.png" className="h-full w-full object-cover">

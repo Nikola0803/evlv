@@ -116,6 +116,11 @@ body {
   to { transform: translateX(-50%); }
 }
 
+.marquee-fade {
+  mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+}
+
 .grain-texture {
   position: relative;
 }
