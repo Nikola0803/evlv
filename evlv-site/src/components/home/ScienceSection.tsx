@@ -5,7 +5,7 @@ import { getJournalArticles } from "@/lib/journal-data";
 export function ScienceSection() {
   const articles = getJournalArticles().slice(0, 3);
   return (
-    <section className="bg-ivory py-20 md:py-32">
+    <section className="bg-ivory pb-20 pt-8 md:pb-32 md:pt-12">
       <div className="mx-auto max-w-[1400px] px-4 md:px-8">
         <div className="mb-16 max-w-2xl md:mb-24">
           <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">08 / The EVLV Research Journal</p>
