@@ -2,45 +2,51 @@
 
 /*
  * EVLV design tokens. Two layers:
- *  1. Spec-exact palette (EVLV Brand Identity System, section 04/05) — the
- *     single source of truth for every hex value used on the site.
+ *  1. Spec-exact palette (2026-08-29 redesign-brief palette, superseding the
+ *     original EVLV Brand Identity System hex values) — the single source
+ *     of truth for every hex value used on the site.
  *  2. Semantic aliases — the names components actually reference in
  *     className (e.g. `bg-sage-deep`), each pointed at the correct
  *     spec color for its role. Never hardcode a hex in a component; add
  *     an alias here instead.
  *
+ * This is a straight hex-value swap on the same alias names, so it's a
+ * single revertible commit (`git revert`) if the previous darker/greener
+ * palette is preferred again -- no component changed.
+ *
  * Alias -> spec color map:
- *   charcoal     -> EVLV Obsidian      #0E1113 (primary dark bg/text)
- *   sage-forest  -> EVLV Charcoal      #1C2224 (secondary dark)
- *   sage-deep    -> EVLV Deep Mineral  #203A37 (brand green, CTAs, hover)
- *   sage-light   -> EVLV Mineral       #314743 (lighter green accent)
- *   sage         -> EVLV Slate         #6B7370 (secondary text/UI/borders)
- *   soft-gray    -> EVLV Slate         #6B7370 (muted body text)
- *   stone        -> EVLV Warm Ivory    #D8D3C7 (borders, product bg)
- *   ivory        -> EVLV Soft Ivory    #E7E3DA (primary page background)
- *   ivory-soft   -> EVLV Porcelain     #F1EEE7 (lightest panels/cards)
- *   sage-mist    -> EVLV Porcelain     #F1EEE7 (active/selected tint)
- *   copper       -> EVLV Copper        #B8875A (accent, ~5% of the UI, never a primary CTA color)
+ *   charcoal     -> Charcoal            #292D2A (primary dark bg/text)
+ *   sage-forest  -> Forest              #454F43 (secondary dark)
+ *   sage-deep    -> Deep sage           #536252 (brand green, CTAs, hover)
+ *   sage-light   -> Sage light          #97A494 (lighter green accent)
+ *   sage         -> Sage                #687767 (secondary text/UI/borders)
+ *   soft-gray    -> Sage                #687767 (muted body text)
+ *   stone        -> Stone               #D8D3C9 (borders, product bg)
+ *   ivory        -> Primary background  #F4F0E7 (primary page background)
+ *   ivory-soft   -> Soft background     #FAF8F3 (lightest panels/cards)
+ *   sage-mist    -> Sage mist           #E7E9E2 (active/selected tint)
+ *   copper       -> EVLV Copper         #B8875A (unchanged -- brief says keep the existing brass/tan accent)
  */
 :root {
-  --color-obsidian: #0e1113;
-  --color-charcoal-spec: #1c2224;
-  --color-deep-mineral: #203a37;
-  --color-mineral: #314743;
-  --color-slate: #6b7370;
+  --color-obsidian: #292d2a;
+  --color-charcoal-spec: #454f43;
+  --color-deep-mineral: #536252;
+  --color-mineral: #97a494;
+  --color-slate: #687767;
   --color-stone-spec: #a7a297;
-  --color-warm-ivory: #d8d3c7;
-  --color-soft-ivory: #e7e3da;
-  --color-porcelain: #f1eee7;
+  --color-warm-ivory: #d8d3c9;
+  --color-soft-ivory: #f4f0e7;
+  --color-porcelain: #faf8f3;
   --color-copper-light: #c9a77f;
   --color-copper-dark: #8f6847;
+  --color-sage-mist-spec: #e7e9e2;
 
   --color-ivory: var(--color-soft-ivory);
   --color-ivory-soft: var(--color-porcelain);
   --color-sage: var(--color-slate);
   --color-sage-deep: var(--color-deep-mineral);
   --color-sage-light: var(--color-mineral);
-  --color-sage-mist: var(--color-porcelain);
+  --color-sage-mist: var(--color-sage-mist-spec);
   --color-charcoal: var(--color-obsidian);
   --color-stone: var(--color-warm-ivory);
   --color-white: #ffffff;
