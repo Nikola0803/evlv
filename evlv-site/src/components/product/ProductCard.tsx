@@ -104,19 +104,17 @@ export function ProductCard({ product }: { product: Product }) {
       </Link>
 
       <div className="flex flex-1 flex-col pt-5">
-        <div className="mb-1.5 flex items-center justify-between gap-2">
-          <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-copper">{product.categoryLabel}</span>
+        <div className="flex items-start justify-between gap-2">
+          <Link href={`/shop/${product.slug}`} className="font-display text-xl font-semibold tracking-tight text-charcoal transition hover:opacity-60 md:text-2xl">
+            {title}
+          </Link>
           <Link
             href="/coas"
-            className="flex shrink-0 items-center gap-1 text-[10px] font-medium uppercase tracking-[0.15em] text-charcoal/40 transition hover:text-copper"
+            className="flex shrink-0 items-center gap-1 pt-1 text-[10px] font-medium uppercase tracking-[0.15em] text-charcoal/40 transition hover:text-copper"
           >
             Read COA <i className="ri-arrow-right-up-line" />
           </Link>
         </div>
-
-        <Link href={`/shop/${product.slug}`} className="font-display text-xl font-semibold tracking-tight text-charcoal transition hover:opacity-60 md:text-2xl">
-          {title}
-        </Link>
         {dosage && <div className="mt-1.5 text-[11px] uppercase tracking-[0.2em] text-charcoal/50">{dosage}</div>}
 
         <div className="mt-3 flex items-center justify-between gap-3">
@@ -135,36 +133,14 @@ export function ProductCard({ product }: { product: Product }) {
           </div>
         </div>
 
-        <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1.5 border-t border-stone pt-3.5">
-          {product.purity && (
-            <span className="flex items-center gap-1 text-[11px] uppercase tracking-[0.1em] text-charcoal/50">
-              <i className="ri-flask-line text-copper" /> {product.purity}+ Purity Verified
-            </span>
-          )}
-          <span className="flex items-center gap-1 text-[11px] uppercase tracking-[0.1em] text-charcoal/50">
-            <i className="ri-truck-line text-copper" /> Ships within 24h
-          </span>
-        </div>
+        {product.purity && (
+          <div className="mt-4 flex items-center gap-1 border-t border-stone pt-3.5 text-[11px] uppercase tracking-[0.1em] text-charcoal/50">
+            <i className="ri-flask-line text-copper" /> {product.purity}+ Purity Verified
+          </div>
+        )}
 
         <div className="mt-auto pt-6">
           {packs.length > 1 && <PackSelector packs={packs} packIndex={packIndex} onSelect={setPackIndex} />}
-
-          {(dosage || product.batch) && (
-            <div className="mt-5 grid grid-cols-2 gap-3 border-t border-stone pt-4">
-              {dosage && (
-                <div>
-                  <p className="text-[10px] font-semibold uppercase tracking-wider text-charcoal/40">Dose</p>
-                  <p className="mt-0.5 text-xs font-medium text-charcoal">{dosage} / vial</p>
-                </div>
-              )}
-              {product.batch && (
-                <div>
-                  <p className="text-[10px] font-semibold uppercase tracking-wider text-charcoal/40">Batch</p>
-                  <p className="mt-0.5 text-xs font-medium text-charcoal">{product.batch.code}</p>
-                </div>
-              )}
-            </div>
-          )}
 
           {locked ? (
             <Link
