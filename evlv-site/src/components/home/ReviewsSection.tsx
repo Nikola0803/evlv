@@ -1,5 +1,6 @@
 import { getGoogleReviews } from "@/lib/google-reviews";
 import { Reveal } from "@/components/ui/Reveal";
+import { MolecularMotif } from "@/components/ui/MolecularMotif";
 
 function Stars({ rating, className = "" }: { rating: number; className?: string }) {
   return (
@@ -21,8 +22,12 @@ export async function ReviewsSection() {
   const data = await getGoogleReviews();
 
   return (
-    <section className="bg-sage-deep py-24 text-white md:py-36">
-      <div className="mx-auto max-w-[1400px] px-4 md:px-8">
+    <section className="relative overflow-hidden bg-sage-deep py-24 text-white md:py-36">
+      <MolecularMotif
+        variant="particles"
+        className="pointer-events-none absolute -right-24 -top-24 hidden h-[380px] w-[380px] lg:block"
+      />
+      <div className="relative mx-auto max-w-[1400px] px-4 md:px-8">
         {data ? (
           <>
             <Reveal className="mb-14 flex flex-col items-start justify-between gap-8 md:mb-20 md:flex-row md:items-end">
