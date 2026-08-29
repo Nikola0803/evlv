@@ -1,18 +1,46 @@
 import Link from "next/link";
 
 const CATEGORIES = [
-  { num: "01", title: "Recovery Research", compounds: "BPC-157 · TB-500", href: "/shop?category=peptides", art: "fragmented" as const },
-  { num: "02", title: "Metabolic Research", compounds: "Semaglutide · Tirzepatide · GP-3", href: "/shop?category=peptides", art: "particles" as const },
-  { num: "03", title: "Performance Research", compounds: "MOTS-C · GHK-Cu", href: "/shop?category=ancillaries", art: "expanding" as const },
-  { num: "04", title: "Longevity Research", compounds: "CJC-1295 · Sermorelin · Tesamorelin", href: "/shop?category=peptides", art: "concentric" as const },
+  {
+    num: "01",
+    title: "Recovery Research",
+    descriptor: "Tissue repair and regenerative pathway compounds.",
+    compounds: "BPC-157 · TB-500",
+    href: "/shop?category=peptides",
+    art: "fragmented" as const,
+  },
+  {
+    num: "02",
+    title: "Metabolic Research",
+    descriptor: "Weight and metabolic regulation research materials.",
+    compounds: "Semaglutide · Tirzepatide · GP-3",
+    href: "/shop?category=peptides",
+    art: "particles" as const,
+  },
+  {
+    num: "03",
+    title: "Performance Research",
+    descriptor: "Cellular energy and performance-focused compounds.",
+    compounds: "MOTS-C · GHK-Cu",
+    href: "/shop?category=ancillaries",
+    art: "expanding" as const,
+  },
+  {
+    num: "04",
+    title: "Longevity Research",
+    descriptor: "Growth hormone and longevity pathway materials.",
+    compounds: "CJC-1295 · Sermorelin · Tesamorelin",
+    href: "/shop?category=peptides",
+    art: "concentric" as const,
+  },
 ];
 
 export function ShopByCategory() {
   return (
     <section className="bg-ivory-soft pb-8 pt-20 md:pb-12 md:pt-32">
       <div className="mx-auto max-w-[1400px] px-4 md:px-8">
-        <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">04 / Explore the Collection</p>
-        <h2 className="max-w-xl font-display text-3xl font-semibold text-charcoal md:text-4xl">Shop by research category</h2>
+        <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">04 / Explore by Research Area</p>
+        <h2 className="max-w-xl font-display text-3xl font-semibold text-charcoal md:text-4xl">Explore by research area</h2>
 
         <div className="mt-12 grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
           {CATEGORIES.map((cat) => (
@@ -21,8 +49,14 @@ export function ShopByCategory() {
                 <CategoryArt variant={cat.art} className="h-full w-full transition duration-700 ease-out group-hover:scale-[1.04]" />
                 <span className="absolute left-4 top-4 font-display text-xs font-semibold tracking-[0.2em] text-copper">{cat.num}</span>
               </div>
-              <h3 className="mt-5 font-display text-lg font-medium text-charcoal">{cat.title}</h3>
-              <p className="mt-1.5 text-xs uppercase tracking-[0.1em] text-soft-gray">{cat.compounds}</p>
+              <div className="mt-5 flex items-start justify-between gap-3">
+                <div>
+                  <h3 className="font-display text-lg font-medium text-charcoal">{cat.title}</h3>
+                  <p className="mt-1.5 text-sm leading-relaxed text-soft-gray">{cat.descriptor}</p>
+                  <p className="mt-2 text-xs uppercase tracking-[0.1em] text-charcoal/40">{cat.compounds}</p>
+                </div>
+                <i className="ri-arrow-right-line mt-1 shrink-0 text-charcoal/40 transition group-hover:translate-x-0.5 group-hover:text-sage-deep" />
+              </div>
             </Link>
           ))}
         </div>
