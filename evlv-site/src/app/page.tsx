@@ -7,6 +7,7 @@ import { ScienceSection } from "@/components/home/ScienceSection";
 import { LabResultsPreview } from "@/components/home/LabResultsPreview";
 import { GoogleReviewsWidget } from "@/components/home/GoogleReviewsWidget";
 import { ValueSection } from "@/components/home/ValueSection";
+import { FaqHomeSection } from "@/components/home/FaqHomeSection";
 import { FinalCta } from "@/components/home/FinalCta";
 
 const HOME_TRUST_ITEMS = [
@@ -29,6 +30,7 @@ export default function Home() {
       <LabResultsPreview />
       <ValueSection />
       <ScienceSection />
+      <FaqHomeSection />
       <FinalCta />
     </>
   );
