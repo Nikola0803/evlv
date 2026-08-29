@@ -258,6 +258,20 @@ body {
   }
 }
 
+/*
+ * Sitewide visible focus state (brief section 23). Many inputs/buttons use
+ * Tailwind's `outline-none` with only a subtle focus:border-color as a
+ * replacement, which doesn't meet WCAG 2.4.7 for keyboard users. Rather
+ * than touching every component, this element-selector rule sits after
+ * Tailwind's utilities in the cascade and wins on source order at equal
+ * specificity, restoring a real focus ring everywhere without removing
+ * `outline-none`'s other utility behavior.
+ */
+:focus-visible {
+  outline: 2px solid var(--color-copper);
+  outline-offset: 2px;
+}
+
 .container-altr {
   max-width: 1360px;
   margin-left: auto;
