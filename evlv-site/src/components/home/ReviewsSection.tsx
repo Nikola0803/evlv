@@ -26,7 +26,7 @@ export async function ReviewsSection() {
           <>
             <div className="mb-14 flex flex-col items-start justify-between gap-8 md:mb-20 md:flex-row md:items-end">
               <div className="max-w-xl">
-                <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">04 / The EVLV Experience</p>
+                <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">03 / The EVLV Experience</p>
                 <h2 className="font-display text-3xl font-semibold leading-[1.1] md:text-5xl">
                   {data.reviewCount > 0 ? `${data.reviewCount.toLocaleString()}+` : "Trusted by"} researchers
                   <br />
@@ -93,7 +93,7 @@ export async function ReviewsSection() {
         ) : (
           <>
             <p className="mb-4 text-center text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">
-              04 / The EVLV Experience
+              03 / The EVLV Experience
             </p>
             <div className="mx-auto flex max-w-lg flex-col items-center gap-3 rounded-lg border border-dashed border-white/20 px-6 py-10 text-center">
               <i className="ri-shield-star-line text-2xl text-copper" />
