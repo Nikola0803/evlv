@@ -5,7 +5,7 @@ import { ShopByCategory } from "@/components/home/ShopByCategory";
 import { AboutSection } from "@/components/home/AboutSection";
 import { ScienceSection } from "@/components/home/ScienceSection";
 import { LabResultsPreview } from "@/components/home/LabResultsPreview";
-import { GoogleReviewsWidget } from "@/components/home/GoogleReviewsWidget";
+import { ReviewsSection } from "@/components/home/ReviewsSection";
 import { ValueSection } from "@/components/home/ValueSection";
 import { FaqHomeSection } from "@/components/home/FaqHomeSection";
 import { FinalCta } from "@/components/home/FinalCta";
@@ -24,7 +24,7 @@ export default function Home() {
       <Hero />
       <TrustIconRow items={HOME_TRUST_ITEMS} />
       <FeaturedProducts />
-      <GoogleReviewsWidget />
+      <ReviewsSection />
       <ShopByCategory />
       <AboutSection />
       <LabResultsPreview />
