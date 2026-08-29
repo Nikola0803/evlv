@@ -3,24 +3,26 @@ import { Logo } from "@/components/ui/Logo";
 import { NewsletterForm } from "./NewsletterForm";
 import { PAYMENT_GATEWAYS } from "@/lib/payment-config";
 
-const SHOP_NAV = [
-  { href: "/shop", label: "Shop" },
-  { href: "/coas", label: "COAs" },
+const RESEARCH_NAV = [
+  { href: "/shop", label: "Products" },
+  { href: "/shop", label: "Categories" },
+  { href: "/coas", label: "Documentation" },
   { href: "/journal", label: "Journal" },
-  { href: "/faq", label: "FAQ" },
+];
+
+const COMPANY_NAV = [
+  { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
+  { href: "/faq", label: "FAQ" },
+  { href: "/account", label: "Account" },
   { href: "/affiliates", label: "Affiliate Program" },
   { href: "/wholesale", label: "Dropshipping & Wholesale" },
 ];
 
-const CUSTOMER_NAV = [
-  { href: "/account", label: "Account" },
-  { href: "/account", label: "Orders" },
+const POLICIES_NAV = [
   { href: "/shipping", label: "Shipping" },
   { href: "/returns", label: "Returns" },
   { href: "/heroes-discount", label: "Heroes Discount" },
-];
-const LEGAL_NAV = [
   { href: "/ruo", label: "Research Use Only" },
   { href: "/sourcing", label: "Sourcing & Quality" },
   { href: "/indemnity-waiver", label: "Indemnity Waiver" },
@@ -50,8 +52,8 @@ export function Footer() {
         </div>
 
         <div className="mt-14 grid grid-cols-2 gap-8 border-t border-white/10 pt-14 md:grid-cols-4">
-          <FooterColumn title="Shop">
-            {SHOP_NAV.map((item) => (
+          <FooterColumn title="Research">
+            {RESEARCH_NAV.map((item) => (
               <li key={item.label}>
                 <Link href={item.href} className="text-sm text-white/60 transition hover:text-white">
                   {item.label}
@@ -60,8 +62,8 @@ export function Footer() {
             ))}
           </FooterColumn>
 
-          <FooterColumn title="Customer">
-            {CUSTOMER_NAV.map((item) => (
+          <FooterColumn title="Company">
+            {COMPANY_NAV.map((item) => (
               <li key={item.label}>
                 <Link href={item.href} className="text-sm text-white/60 transition hover:text-white">
                   {item.label}
@@ -70,8 +72,8 @@ export function Footer() {
             ))}
           </FooterColumn>
 
-          <FooterColumn title="Legal">
-            {LEGAL_NAV.map((item) => (
+          <FooterColumn title="Policies">
+            {POLICIES_NAV.map((item) => (
               <li key={item.label}>
                 <Link href={item.href} className="text-sm text-white/60 transition hover:text-white">
                   {item.label}
