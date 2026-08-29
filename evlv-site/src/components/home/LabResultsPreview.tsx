@@ -14,7 +14,7 @@ export function LabResultsPreview() {
         <div className="md:col-span-2">
           <div className="mb-4 flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">
             <span className="h-px w-8 bg-copper/60" />
-            06 / Transparency
+            07 / Transparency
           </div>
           <h2 className="font-display text-5xl font-semibold uppercase leading-[0.95] md:text-6xl">
             Every batch.

@@ -1,6 +1,7 @@
 import { Hero } from "@/components/home/Hero";
 import { TrustIconRow } from "@/components/ui/TrustIconRow";
 import { FeaturedProducts } from "@/components/home/FeaturedProducts";
+import { FeaturedResearch } from "@/components/home/FeaturedResearch";
 import { ShopByCategory } from "@/components/home/ShopByCategory";
 import { AboutSection } from "@/components/home/AboutSection";
 import { ScienceSection } from "@/components/home/ScienceSection";
@@ -24,6 +25,7 @@ export default function Home() {
       <Hero />
       <TrustIconRow items={HOME_TRUST_ITEMS} />
       <FeaturedProducts />
+      <FeaturedResearch />
       <ReviewsSection />
       <ShopByCategory />
       <AboutSection />

@@ -39,7 +39,7 @@ export function AboutSection() {
         </div>
 
         <div>
-          <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">05 / The EVLV Standard</p>
+          <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">06 / The EVLV Standard</p>
           <h2 className="font-display text-4xl font-semibold uppercase leading-[1.05] text-charcoal md:text-5xl">
             The highest standard in peptides.
             <br />
