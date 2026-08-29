@@ -10,7 +10,7 @@ export function FinalCta() {
         </p>
         <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <ButtonLink href="/shop" size="lg" className="!bg-ivory !text-charcoal hover:!bg-sage-light">
-            Shop All Products
+            Explore Materials <i className="ri-arrow-right-line" />
           </ButtonLink>
           <ButtonLink href="/coas" variant="secondary" size="lg" className="!border-white/40 !text-ivory hover:!bg-ivory hover:!text-charcoal">
             View COAs
