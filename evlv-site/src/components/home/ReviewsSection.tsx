@@ -1,4 +1,5 @@
 import { getGoogleReviews } from "@/lib/google-reviews";
+import { Reveal } from "@/components/ui/Reveal";
 
 function Stars({ rating, className = "" }: { rating: number; className?: string }) {
   return (
@@ -24,7 +25,7 @@ export async function ReviewsSection() {
       <div className="mx-auto max-w-[1400px] px-4 md:px-8">
         {data ? (
           <>
-            <div className="mb-14 flex flex-col items-start justify-between gap-8 md:mb-20 md:flex-row md:items-end">
+            <Reveal className="mb-14 flex flex-col items-start justify-between gap-8 md:mb-20 md:flex-row md:items-end">
               <div className="max-w-xl">
                 <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">03 / The EVLV Experience</p>
                 <h2 className="font-display text-3xl font-semibold leading-[1.1] md:text-5xl">
@@ -46,10 +47,10 @@ export async function ReviewsSection() {
                   <span className="text-[11px] text-white/50">{data.reviewCount.toLocaleString()} verified reviews</span>
                 </span>
               </a>
-            </div>
+            </Reveal>
 
             {data.reviews.length > 0 && (
-              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              <Reveal stagger className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
                 {data.reviews.slice(0, 6).map((r, i) => (
                   <div
                     key={i}
@@ -76,7 +77,7 @@ export async function ReviewsSection() {
                     </div>
                   </div>
                 ))}
-              </div>
+              </Reveal>
             )}
 
             <div className="mt-12 text-center">

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Reveal } from "@/components/ui/Reveal";
 
 const CATEGORIES = [
   {
@@ -39,10 +40,12 @@ export function ShopByCategory() {
   return (
     <section className="bg-ivory-soft pb-8 pt-20 md:pb-12 md:pt-32">
       <div className="mx-auto max-w-[1400px] px-4 md:px-8">
-        <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">04 / Explore by Research Area</p>
-        <h2 className="max-w-xl font-display text-3xl font-semibold text-charcoal md:text-4xl">Explore by research area</h2>
+        <Reveal>
+          <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">04 / Explore by Research Area</p>
+          <h2 className="max-w-xl font-display text-3xl font-semibold text-charcoal md:text-4xl">Explore by research area</h2>
+        </Reveal>
 
-        <div className="mt-12 grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
+        <Reveal stagger className="mt-12 grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
           {CATEGORIES.map((cat) => (
             <Link key={cat.title} href={cat.href} className="group block">
               <div className="relative aspect-[4/5] w-full overflow-hidden rounded-lg">
@@ -59,7 +62,7 @@ export function ShopByCategory() {
               </div>
             </Link>
           ))}
-        </div>
+        </Reveal>
       </div>
     </section>
   );

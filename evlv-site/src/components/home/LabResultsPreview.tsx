@@ -1,4 +1,5 @@
 import { ButtonLink } from "@/components/ui/Button";
+import { Reveal } from "@/components/ui/Reveal";
 import { BatchVerifyTerminal } from "./BatchVerifyTerminal";
 
 export function LabResultsPreview() {
@@ -11,7 +12,7 @@ export function LabResultsPreview() {
       />
 
       <div className="relative mx-auto grid max-w-[1400px] grid-cols-1 items-center gap-14 px-4 md:grid-cols-5 md:px-8 lg:gap-16">
-        <div className="md:col-span-2">
+        <Reveal className="md:col-span-2">
           <div className="mb-4 flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">
             <span className="h-px w-8 bg-copper/60" />
             06 / Transparency
@@ -28,11 +29,11 @@ export function LabResultsPreview() {
           <ButtonLink href="/coas" variant="secondary" size="lg" className="mt-9 !border-white/40 !text-ivory hover:!border-copper hover:!bg-transparent hover:!text-copper">
             View All COAs <i className="ri-arrow-right-line" />
           </ButtonLink>
-        </div>
+        </Reveal>
 
-        <div className="md:col-span-3">
+        <Reveal className="md:col-span-3">
           <BatchVerifyTerminal />
-        </div>
+        </Reveal>
       </div>
     </section>
   );

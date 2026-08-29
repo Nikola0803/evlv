@@ -1,4 +1,5 @@
 import { ButtonLink } from "@/components/ui/Button";
+import { Reveal } from "@/components/ui/Reveal";
 
 const STANDARDS = [
   {
@@ -32,13 +33,13 @@ export function AboutSection() {
   return (
     <section className="bg-ivory-soft pb-20 pt-8 md:pb-32 md:pt-12">
       <div className="mx-auto grid max-w-[1400px] grid-cols-1 items-center gap-14 px-4 md:px-8 lg:grid-cols-2 lg:gap-20">
-        <div className="aspect-[4/5] w-full overflow-hidden rounded-lg bg-charcoal">
+        <Reveal className="aspect-[4/5] w-full overflow-hidden rounded-lg bg-charcoal">
           <video autoPlay loop muted playsInline poster="/images/precision-section.png" className="h-full w-full object-cover">
             <source src="/videos/precision-section.mp4" type="video/mp4" />
           </video>
-        </div>
+        </Reveal>
 
-        <div>
+        <Reveal>
           <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">05 / The EVLV Standard</p>
           <h2 className="font-display text-4xl font-semibold uppercase leading-[1.05] text-charcoal md:text-5xl">
             The highest standard in peptides.
@@ -62,7 +63,7 @@ export function AboutSection() {
           <ButtonLink href="/coas" className="mt-10">
             Explore Our Standards <i className="ri-arrow-right-line" />
           </ButtonLink>
-        </div>
+        </Reveal>
       </div>
     </section>
   );
