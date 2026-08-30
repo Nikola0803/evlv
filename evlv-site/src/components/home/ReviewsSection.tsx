@@ -22,17 +22,19 @@ export async function ReviewsSection() {
   const data = await getGoogleReviews();
 
   return (
-    <section className="relative overflow-hidden bg-sage-deep py-24 text-white md:py-36">
+    <section className="relative overflow-hidden bg-charcoal py-24 text-white md:py-36">
       <MolecularMotif
         variant="particles"
         className="pointer-events-none absolute -right-24 -top-24 hidden h-[380px] w-[380px] lg:block"
       />
-      <div className="relative mx-auto max-w-[1400px] px-4 md:px-8">
+      <div className="relative mx-auto max-w-[1000px] px-4 md:px-8">
         {data ? (
           <>
             <Reveal className="mb-14 flex flex-col items-start justify-between gap-8 md:mb-20 md:flex-row md:items-end">
               <div className="max-w-xl">
-                <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">03 / The EVLV Experience</p>
+                <span className="mb-4 inline-flex items-center gap-2 rounded-md border border-white/10 bg-white/5 px-3 py-1.5 text-[11px] font-medium uppercase tracking-wider text-white/60">
+                  <span className="h-1.5 w-1.5 rounded-full bg-copper" /> Verified Researchers
+                </span>
                 <h2 className="font-display text-3xl font-semibold leading-[1.1] md:text-5xl">
                   {data.reviewCount > 0 ? `${data.reviewCount.toLocaleString()}+` : "Trusted by"} researchers
                   <br />
@@ -46,53 +48,52 @@ export async function ReviewsSection() {
                 rel="noopener noreferrer"
                 className="flex shrink-0 items-center gap-4 rounded-lg border border-white/10 bg-white/5 px-6 py-4 transition hover:border-copper/40"
               >
-                <span className="font-display text-3xl font-semibold">{data.rating.toFixed(1)}</span>
-                <span className="flex flex-col gap-1">
+                <div>
+                  <span className="font-display text-2xl font-semibold">{data.rating.toFixed(1)} / 5</span>
+                  <p className="text-[11px] text-white/40">from verified reviews</p>
+                </div>
+                <span className="h-8 w-px bg-white/10" />
+                <div className="flex flex-col gap-1">
                   <Stars rating={data.rating} />
-                  <span className="text-[11px] text-white/50">{data.reviewCount.toLocaleString()} verified reviews</span>
-                </span>
+                  <span className="text-[11px] text-white/50">{data.reviewCount.toLocaleString()}+ reviews</span>
+                </div>
               </a>
             </Reveal>
 
             {data.reviews.length > 0 && (
-              <Reveal stagger className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                {data.reviews.slice(0, 6).map((r, i) => (
-                  <div
-                    key={i}
-                    className={`rounded-lg border border-white/10 bg-white/5 p-6 ${i % 3 === 1 ? "lg:mt-8" : ""}`}
-                  >
-                    <div className="flex items-start justify-between gap-4">
-                      <i className="ri-double-quotes-l text-2xl text-copper/60" />
-                      <Stars rating={r.rating} />
-                    </div>
-                    <p className="mt-3 text-sm leading-relaxed text-white/75">{r.text}</p>
-                    <div className="mt-6 flex items-center gap-3 border-t border-white/10 pt-5">
-                      {r.authorPhotoUrl ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img src={r.authorPhotoUrl} alt={r.author} className="h-9 w-9 rounded-full object-cover" />
-                      ) : (
-                        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-sm font-semibold">
-                          {r.author.charAt(0)}
-                        </div>
-                      )}
-                      <div className="min-w-0">
-                        <p className="truncate text-sm font-semibold">{r.author}</p>
-                        <p className="text-[11px] text-white/40">{r.relativeTime}</p>
+              <Reveal stagger className="divide-y divide-white/10 border-t border-white/10">
+                {data.reviews.slice(0, 6).map((r, i) => {
+                  const alt = i % 2 === 1;
+                  return (
+                    <div key={i} className={`flex items-start gap-6 py-8 ${alt ? "flex-row-reverse text-right" : "text-left"}`}>
+                      <div className={`flex shrink-0 flex-col items-center gap-1.5 ${alt ? "items-center" : "items-center"}`}>
+                        {r.authorPhotoUrl ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img src={r.authorPhotoUrl} alt={r.author} className="h-9 w-9 rounded-full object-cover" />
+                        ) : (
+                          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-sm font-semibold">
+                            {r.author.charAt(0)}
+                          </div>
+                        )}
+                        <p className="whitespace-nowrap text-xs font-semibold">{r.author}</p>
+                        <p className="whitespace-nowrap text-[11px] text-white/40">{r.relativeTime}</p>
+                        <Stars rating={r.rating} className="text-xs" />
                       </div>
+                      <p className="flex-1 text-lg leading-relaxed text-white/85 md:text-xl">&ldquo;{r.text}&rdquo;</p>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </Reveal>
             )}
 
-            <div className="mt-12 text-center">
+            <div className="mt-10 border-t border-white/10 pt-10 text-center">
               <a
                 href={data.mapsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-copper transition hover:text-white"
               >
-                Read All Reviews <i className="ri-arrow-right-line" />
+                Read All {data.reviewCount > 0 ? `${data.reviewCount}+ ` : ""}Reviews <i className="ri-arrow-right-line" />
               </a>
             </div>
           </>
