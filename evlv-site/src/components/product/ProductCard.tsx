@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Product } from "@/lib/types";
 import { ProductVisual } from "@/components/ui/ProductVisual";
-import { usePackSelection } from "./PackSelector";
+import { PackSelector, usePackSelection } from "./PackSelector";
 import { useCart } from "@/lib/cart-context";
 import { useCurrency } from "@/lib/currency-context";
 import { getStoredUser } from "@/lib/auth";
@@ -101,26 +101,10 @@ export function ProductCard({ product }: { product: Product }) {
         {!product.inStock && !locked && (
           <span className="absolute right-3 top-3 text-[10px] font-semibold uppercase tracking-wider text-charcoal/50">Out of Stock</span>
         )}
-        {!locked && packs.length > 1 && (
-          <div className="absolute right-3 top-3 z-10 flex items-center gap-0.5 rounded-md bg-charcoal/80 p-1 backdrop-blur-sm">
-            {packs.map((pack, i) => (
-              <button
-                key={pack.label}
-                type="button"
-                aria-pressed={packIndex === i}
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  setPackIndex(i);
-                }}
-                className={`rounded px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide transition ${
-                  packIndex === i ? "bg-copper text-charcoal" : "text-white/70 hover:text-white"
-                }`}
-              >
-                {pack.qty}
-              </button>
-            ))}
-          </div>
+        {product.purity && !locked && (
+          <span className="absolute right-3 top-3 flex items-center gap-1 rounded-md bg-charcoal/80 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-white backdrop-blur-sm">
+            <i className="ri-flask-line text-copper" /> {product.purity}+
+          </span>
         )}
       </Link>
 
@@ -153,13 +137,13 @@ export function ProductCard({ product }: { product: Product }) {
           </div>
         </div>
 
-        {product.purity && (
-          <div className="mt-3 flex items-center gap-1 border-t border-stone pt-3 text-[11px] uppercase tracking-[0.1em] text-charcoal/50">
-            <i className="ri-flask-line text-copper" /> {product.purity}+ Purity Verified
-          </div>
-        )}
-
         <div className="mt-auto pt-4">
+          {packs.length > 1 && (
+            <div className="mb-4">
+              <PackSelector packs={packs} packIndex={packIndex} onSelect={setPackIndex} />
+            </div>
+          )}
+
           {locked ? (
             <Link
               href={restrictedLocked ? "/account?tab=verification" : "/plans"}
