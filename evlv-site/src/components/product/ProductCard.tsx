@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Product } from "@/lib/types";
 import { ProductVisual } from "@/components/ui/ProductVisual";
-import { PackSelector, usePackSelection } from "./PackSelector";
+import { usePackSelection } from "./PackSelector";
 import { useCart } from "@/lib/cart-context";
 import { useCurrency } from "@/lib/currency-context";
 import { getStoredUser } from "@/lib/auth";
@@ -101,12 +101,33 @@ export function ProductCard({ product }: { product: Product }) {
         {!product.inStock && !locked && (
           <span className="absolute right-3 top-3 text-[10px] font-semibold uppercase tracking-wider text-charcoal/50">Out of Stock</span>
         )}
+        {!locked && packs.length > 1 && (
+          <div className="absolute right-3 top-3 z-10 flex items-center gap-0.5 rounded-md bg-charcoal/80 p-1 backdrop-blur-sm">
+            {packs.map((pack, i) => (
+              <button
+                key={pack.label}
+                type="button"
+                aria-pressed={packIndex === i}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setPackIndex(i);
+                }}
+                className={`rounded px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide transition ${
+                  packIndex === i ? "bg-copper text-charcoal" : "text-white/70 hover:text-white"
+                }`}
+              >
+                {pack.qty}
+              </button>
+            ))}
+          </div>
+        )}
       </Link>
 
-      <div className="flex flex-1 flex-col pt-5">
+      <div className="flex flex-1 flex-col pt-4">
         <div className="flex items-start justify-between gap-2">
           <Link href={`/shop/${product.slug}`} className="font-display text-xl font-semibold tracking-tight text-charcoal transition hover:opacity-60 md:text-2xl">
-            {title}
+            {title} {dosage}
           </Link>
           <Link
             href="/coas"
@@ -115,9 +136,8 @@ export function ProductCard({ product }: { product: Product }) {
             Read COA <i className="ri-arrow-right-up-line" />
           </Link>
         </div>
-        {dosage && <div className="mt-1.5 text-[11px] uppercase tracking-[0.2em] text-charcoal/50">{dosage}</div>}
 
-        <div className="mt-3 flex items-center justify-between gap-3">
+        <div className="mt-2 flex items-center justify-between gap-3">
           <div className="flex items-baseline gap-1.5">
             <span className="font-display text-2xl font-semibold text-charcoal">{formatPrice(product.price).split(" ")[0]}</span>
             <span className="text-[11px] font-medium uppercase tracking-wide text-charcoal/40">{formatPrice(product.price).split(" ")[1]}</span>
@@ -134,18 +154,16 @@ export function ProductCard({ product }: { product: Product }) {
         </div>
 
         {product.purity && (
-          <div className="mt-4 flex items-center gap-1 border-t border-stone pt-3.5 text-[11px] uppercase tracking-[0.1em] text-charcoal/50">
+          <div className="mt-3 flex items-center gap-1 border-t border-stone pt-3 text-[11px] uppercase tracking-[0.1em] text-charcoal/50">
             <i className="ri-flask-line text-copper" /> {product.purity}+ Purity Verified
           </div>
         )}
 
-        <div className="mt-auto pt-6">
-          {packs.length > 1 && <PackSelector packs={packs} packIndex={packIndex} onSelect={setPackIndex} />}
-
+        <div className="mt-auto pt-4">
           {locked ? (
             <Link
               href={restrictedLocked ? "/account?tab=verification" : "/plans"}
-              className="mt-5 flex w-full items-center justify-center gap-1.5 rounded-md border border-charcoal py-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-charcoal transition hover:bg-charcoal hover:text-ivory"
+              className="flex w-full items-center justify-center gap-1.5 rounded-md border border-charcoal py-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-charcoal transition hover:bg-charcoal hover:text-ivory"
             >
               <i className="ri-lock-line" /> {restrictedLocked ? "Apply for Verification" : "Unlock With Membership"}
             </Link>
@@ -154,7 +172,7 @@ export function ProductCard({ product }: { product: Product }) {
               type="button"
               disabled={!product.inStock}
               onClick={() => addToCart(product, 1, selected.unitPrice, selected.label)}
-              className="mt-5 w-full rounded-md bg-copper py-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-charcoal transition hover:bg-copper-light disabled:cursor-not-allowed disabled:bg-stone disabled:text-charcoal/40"
+              className="w-full rounded-md bg-copper py-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-charcoal transition hover:bg-copper-light disabled:cursor-not-allowed disabled:bg-stone disabled:text-charcoal/40"
             >
               {product.inStock ? "Add to Cart" : "Out of Stock"}
             </button>
