@@ -6,10 +6,10 @@ import { Reveal } from "@/components/ui/Reveal";
 export function ScienceSection() {
   const articles = getJournalArticles().slice(0, 3);
   return (
-    <section className="bg-ivory pb-20 pt-8 md:pb-32 md:pt-12">
+    <section className="bg-ivory pb-20 pt-20 md:pb-32 md:pt-32">
       <div className="mx-auto max-w-[1400px] px-4 md:px-8">
         <Reveal className="mb-16 max-w-2xl md:mb-24">
-          <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">08 / The EVLV Research Journal</p>
+          <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">07 / The EVLV Research Journal</p>
           <h2 className="font-display text-4xl font-semibold leading-tight text-charcoal md:text-5xl">
             Research deserves
             <br />

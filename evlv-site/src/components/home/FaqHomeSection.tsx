@@ -19,7 +19,7 @@ export function FaqHomeSection() {
     <section className="bg-ivory-soft py-20 md:py-28">
       <Reveal className="mx-auto grid max-w-[1400px] gap-10 px-4 md:grid-cols-3 md:px-8">
         <div className="md:col-span-1">
-          <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">09 / Common Questions</p>
+          <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">08 / Common Questions</p>
           <h2 className="font-display text-3xl font-semibold leading-tight text-charcoal md:text-4xl">Answers before you order.</h2>
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-charcoal/60">
             Clear answers on shipping, testing, and how EVLV verifies every batch.
