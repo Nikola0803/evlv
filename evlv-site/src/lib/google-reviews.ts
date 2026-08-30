@@ -34,9 +34,13 @@ export function googleReviewsConfigured() {
 
 export async function getGoogleReviews(): Promise<GoogleReviewsData | null> {
   if (!googleReviewsConfigured()) {
-    // Opt-in only, for internal design-review previews -- never set this in
-    // the production environment real customers see. See lib/demo-reviews.ts.
-    if (process.env.DEMO_REVIEWS === "true") {
+    // Placeholder content for internal design review -- never in production.
+    // DEMO_REVIEWS=true is the explicit opt-in for any environment; Vercel
+    // Preview deployments (VERCEL_ENV=preview, set automatically by Vercel,
+    // never on the Production environment/domain) show it automatically so
+    // PR previews are review-ready without needing a manually-set env var.
+    // See lib/demo-reviews.ts.
+    if (process.env.DEMO_REVIEWS === "true" || process.env.VERCEL_ENV === "preview") {
       const { DEMO_REVIEWS_DATA } = await import("./demo-reviews");
       return DEMO_REVIEWS_DATA;
     }

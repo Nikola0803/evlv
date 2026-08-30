@@ -10,8 +10,8 @@ import type { GoogleReviewsData } from "./google-reviews";
  */
 export const DEMO_REVIEWS_DATA: GoogleReviewsData = {
   rating: 4.8,
-  reviewCount: 214,
-  mapsUrl: "#",
+  reviewCount: 57,
+  mapsUrl: "https://www.google.com/search?q=EVLV+Peptides",
   reviews: [
     {
       author: "Marcus T.",

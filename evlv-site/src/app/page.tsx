@@ -6,7 +6,6 @@ import { AboutSection } from "@/components/home/AboutSection";
 import { ScienceSection } from "@/components/home/ScienceSection";
 import { LabResultsPreview } from "@/components/home/LabResultsPreview";
 import { ReviewsSection } from "@/components/home/ReviewsSection";
-import { ValueSection } from "@/components/home/ValueSection";
 import { FaqHomeSection } from "@/components/home/FaqHomeSection";
 import { FinalCta } from "@/components/home/FinalCta";
 
@@ -28,7 +27,6 @@ export default function Home() {
       <ShopByCategory />
       <AboutSection />
       <LabResultsPreview />
-      <ValueSection />
       <ScienceSection />
       <FaqHomeSection />
       <FinalCta />

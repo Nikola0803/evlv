@@ -101,25 +101,27 @@ export function ProductCard({ product }: { product: Product }) {
         {!product.inStock && !locked && (
           <span className="absolute right-3 top-3 text-[10px] font-semibold uppercase tracking-wider text-charcoal/50">Out of Stock</span>
         )}
+        {product.purity && !locked && (
+          <span className="absolute right-3 top-3 flex items-center gap-1 rounded-md bg-charcoal/80 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-white backdrop-blur-sm">
+            <i className="ri-flask-line text-copper" /> {product.purity}+
+          </span>
+        )}
       </Link>
 
-      <div className="flex flex-1 flex-col pt-5">
-        <div className="mb-1.5 flex items-center justify-between gap-2">
-          <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-copper">{product.categoryLabel}</span>
+      <div className="flex flex-1 flex-col pt-4">
+        <div className="flex items-start justify-between gap-2">
+          <Link href={`/shop/${product.slug}`} className="font-display text-xl font-semibold tracking-tight text-charcoal transition hover:opacity-60 md:text-2xl">
+            {title} {dosage}
+          </Link>
           <Link
             href="/coas"
-            className="flex shrink-0 items-center gap-1 text-[10px] font-medium uppercase tracking-[0.15em] text-charcoal/40 transition hover:text-copper"
+            className="flex shrink-0 items-center gap-1 pt-1 text-[10px] font-medium uppercase tracking-[0.15em] text-charcoal/40 transition hover:text-copper"
           >
             Read COA <i className="ri-arrow-right-up-line" />
           </Link>
         </div>
 
-        <Link href={`/shop/${product.slug}`} className="font-display text-xl font-semibold tracking-tight text-charcoal transition hover:opacity-60 md:text-2xl">
-          {title}
-        </Link>
-        {dosage && <div className="mt-1.5 text-[11px] uppercase tracking-[0.2em] text-charcoal/50">{dosage}</div>}
-
-        <div className="mt-3 flex items-center justify-between gap-3">
+        <div className="mt-2 flex items-center justify-between gap-3">
           <div className="flex items-baseline gap-1.5">
             <span className="font-display text-2xl font-semibold text-charcoal">{formatPrice(product.price).split(" ")[0]}</span>
             <span className="text-[11px] font-medium uppercase tracking-wide text-charcoal/40">{formatPrice(product.price).split(" ")[1]}</span>
@@ -135,41 +137,17 @@ export function ProductCard({ product }: { product: Product }) {
           </div>
         </div>
 
-        <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1.5 border-t border-stone pt-3.5">
-          {product.purity && (
-            <span className="flex items-center gap-1 text-[11px] uppercase tracking-[0.1em] text-charcoal/50">
-              <i className="ri-flask-line text-copper" /> {product.purity}+ Purity Verified
-            </span>
-          )}
-          <span className="flex items-center gap-1 text-[11px] uppercase tracking-[0.1em] text-charcoal/50">
-            <i className="ri-truck-line text-copper" /> Ships within 24h
-          </span>
-        </div>
-
-        <div className="mt-auto pt-6">
-          {packs.length > 1 && <PackSelector packs={packs} packIndex={packIndex} onSelect={setPackIndex} />}
-
-          {(dosage || product.batch) && (
-            <div className="mt-5 grid grid-cols-2 gap-3 border-t border-stone pt-4">
-              {dosage && (
-                <div>
-                  <p className="text-[10px] font-semibold uppercase tracking-wider text-charcoal/40">Dose</p>
-                  <p className="mt-0.5 text-xs font-medium text-charcoal">{dosage} / vial</p>
-                </div>
-              )}
-              {product.batch && (
-                <div>
-                  <p className="text-[10px] font-semibold uppercase tracking-wider text-charcoal/40">Batch</p>
-                  <p className="mt-0.5 text-xs font-medium text-charcoal">{product.batch.code}</p>
-                </div>
-              )}
+        <div className="mt-auto pt-4">
+          {packs.length > 1 && (
+            <div className="mb-4">
+              <PackSelector packs={packs} packIndex={packIndex} onSelect={setPackIndex} />
             </div>
           )}
 
           {locked ? (
             <Link
               href={restrictedLocked ? "/account?tab=verification" : "/plans"}
-              className="mt-5 flex w-full items-center justify-center gap-1.5 rounded-md border border-charcoal py-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-charcoal transition hover:bg-charcoal hover:text-ivory"
+              className="flex w-full items-center justify-center gap-1.5 rounded-md border border-charcoal py-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-charcoal transition hover:bg-charcoal hover:text-ivory"
             >
               <i className="ri-lock-line" /> {restrictedLocked ? "Apply for Verification" : "Unlock With Membership"}
             </Link>
@@ -178,7 +156,7 @@ export function ProductCard({ product }: { product: Product }) {
               type="button"
               disabled={!product.inStock}
               onClick={() => addToCart(product, 1, selected.unitPrice, selected.label)}
-              className="mt-5 w-full rounded-md bg-copper py-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-charcoal transition hover:bg-copper-light disabled:cursor-not-allowed disabled:bg-stone disabled:text-charcoal/40"
+              className="w-full rounded-md bg-copper py-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-charcoal transition hover:bg-copper-light disabled:cursor-not-allowed disabled:bg-stone disabled:text-charcoal/40"
             >
               {product.inStock ? "Add to Cart" : "Out of Stock"}
             </button>
