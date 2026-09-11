@@ -132,10 +132,11 @@ export function QuizWidget() {
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="fixed bottom-6 right-6 z-[100] flex items-center gap-2 rounded-full bg-charcoal px-5 py-3 text-xs font-semibold uppercase tracking-wide text-ivory shadow-lg transition hover:bg-sage-deep"
+          aria-label="Not sure what you need? Take the quiz"
+          className="fixed bottom-4 right-4 z-[100] flex h-12 w-12 items-center justify-center rounded-full bg-charcoal text-ivory shadow-lg transition hover:bg-sage-deep sm:bottom-6 sm:right-6 sm:h-auto sm:w-auto sm:gap-2 sm:rounded-full sm:px-5 sm:py-3"
         >
-          <i className="ri-compass-3-line text-base text-copper" />
-          Not sure what you need?
+          <i className="ri-compass-3-line text-lg text-copper sm:text-base" />
+          <span className="hidden text-xs font-semibold uppercase tracking-wide sm:inline">Not sure what you need?</span>
         </button>
       )}
 
