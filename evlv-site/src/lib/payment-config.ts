@@ -8,9 +8,9 @@
  * "we'll email you the details" when a handle is empty, it never invents one.
  */
 export const PAYMENT_HANDLES = {
-  cashapp: "", // e.g. "$EVLVPeptides"
-  zelle: "", // e.g. "payments@evlvpeptides.com" or a phone number
-  venmo: "", // e.g. "@EVLV-Peptides"
+  cashapp: "$VVGOps",
+  zelle: "help@mysecretvitality.com",
+  venmo: "@VVGOps",
 };
 
 /**
