@@ -9,7 +9,6 @@ import { Footer } from "@/components/layout/Footer";
 import { CartToast } from "@/components/layout/CartToast";
 import { CartDrawer } from "@/components/layout/CartDrawer";
 import { QuizWidget } from "@/components/layout/QuizWidget";
-import { RecentPurchaseToast } from "@/components/layout/RecentPurchaseToast";
 import { ReferralCapture } from "@/components/layout/ReferralCapture";
 import { VerificationSync } from "@/components/layout/VerificationSync";
 import { AgeGate } from "@/components/layout/AgeGate";
@@ -46,11 +45,11 @@ const newsreader = Newsreader({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "EVLV: Evolve. Become Your Ultimate.",
+    default: "EVLV Peptides: High-Purity Research Peptides for Laboratory Analysis",
     template: "%s | EVLV",
   },
   description:
-    "Premium research peptides, independently tested and batch-verified. Certificates of Analysis published for every lot. Research use only.",
+    "High-purity research peptides supplied for laboratory and in-vitro analytical research. Certificate of Analysis published for every lot. Not for human or animal use.",
   keywords: [
     "research peptides",
     "BPC-157",
@@ -66,14 +65,14 @@ export const metadata: Metadata = {
     type: "website",
     url: SITE_URL,
     siteName: "EVLV",
-    title: "EVLV: Evolve. Become Your Ultimate.",
-    description: "Premium research peptides, independently tested and batch-verified. Research use only.",
+    title: "EVLV Peptides: High-Purity Research Peptides for Laboratory Analysis",
+    description: "High-purity research peptides supplied for laboratory and in-vitro analytical research. Batch-level Certificates of Analysis published. Not for human or animal use.",
     images: [{ url: "/images/hero-vial.png", width: 1200, height: 630, alt: "EVLV research peptides" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "EVLV: Evolve. Become Your Ultimate.",
-    description: "Premium research peptides, independently tested and batch-verified. Research use only.",
+    title: "EVLV Peptides: High-Purity Research Peptides for Laboratory Analysis",
+    description: "High-purity research peptides supplied for laboratory and in-vitro analytical research. Batch-level Certificates of Analysis published. Not for human or animal use.",
     images: ["/images/hero-vial.png"],
   },
   robots: {
@@ -88,7 +87,7 @@ const ORGANIZATION_JSON_LD = {
   name: "EVLV",
   url: SITE_URL,
   logo: `${SITE_URL}/logo/evlv-logo-light.png`,
-  description: "Premium research peptides, independently tested and batch-verified. Research use only.",
+  description: "High-purity research peptides supplied for laboratory and in-vitro analytical research. Batch-level Certificates of Analysis published. Not for human or animal use.",
 };
 
 const WEBSITE_JSON_LD = {
@@ -137,7 +136,6 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
               <CartToast />
               <CartDrawer />
               <QuizWidget />
-              <RecentPurchaseToast />
             </AgeGate>
           </CartProvider>
         </CurrencyProvider>

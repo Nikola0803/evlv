@@ -13,7 +13,7 @@ import { ResearchUseNotice } from "@/components/product/ResearchUseNotice";
 import { trackEvent } from "@/lib/pixel";
 import type { CoaEntry } from "@/lib/coa-data";
 
-const TABS = ["Description", "Reviews", "Lab Report"] as const;
+const TABS = ["Description", "Lab Report"] as const;
 
 const DOSAGE_PATTERN = /\s(\d+(?:\.\d+)?\s?(?:mg|mcg|iu|g)(?:\/\d+(?:\.\d+)?\s?(?:mg|mcg|iu|g))?)$/i;
 
@@ -253,7 +253,7 @@ export function ProductClient({ product, coa }: { product: Product; coa?: CoaEnt
                   tab === t ? "border-sage text-sage-deep" : "border-transparent text-charcoal/50 hover:text-charcoal"
                 }`}
               >
-                {t === "Reviews" ? `Reviews (${product.reviewCount})` : t}
+                {t}
               </button>
             ))}
           </div>
@@ -269,12 +269,6 @@ export function ProductClient({ product, coa }: { product: Product; coa?: CoaEnt
                   <InfoCard title="Shipping" body="Ships domestically in discreet packaging. Tracking provided within 1 business day." />
                 </div>
               </div>
-            )}
-            {tab === "Reviews" && (
-              <p>
-                {product.reviewCount} verified researchers rated this product an average of {product.rating.toFixed(1)}{" "}
-                out of 5.
-              </p>
             )}
             {tab === "Lab Report" && product.batch && (
               <div className="max-w-sm">
