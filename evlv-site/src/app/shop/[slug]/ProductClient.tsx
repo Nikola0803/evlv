@@ -151,7 +151,7 @@ export function ProductClient({ product, coa }: { product: Product; coa?: CoaEnt
           </div>
           {product.bulkOption && (
             <p className="mt-1 text-sm text-charcoal/50">
-              Single vial, save {product.bulkOption.savePercent}% with {product.bulkOption.qty}-pack
+              Case pricing available -- {product.bulkOption.qty}-unit case at reduced per-unit cost
             </p>
           )}
           <ResearchUseNotice />

@@ -84,18 +84,3 @@ export interface FaqItem {
   answer: string;
 }
 
-/**
- * Multi-product research protocol packages, distinct from a single Product
- * (duration-based, not dose-based; no purity/batch of its own since it's a
- * bundle of already-verified individual products).
- */
-export interface Bundle {
-  slug: string;
-  name: string;
-  tagline: string;
-  category: string;
-  duration: string;
-  price: number;
-  compareAtPrice: number;
-  comingSoon?: boolean;
-}

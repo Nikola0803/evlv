@@ -148,12 +148,6 @@ export function ShopClient({ products }: { products: Product[] }) {
       <CheckboxGroup title="Category" options={focusOptions} selected={activeFocus} onToggle={(v) => toggle(activeFocus, setActiveFocus, v)} />
       <CheckboxGroup title="Product Format" options={formats.filter((f) => f.value !== "all") as { value: ProductFormat; label: string }[]} selected={activeFormats} onToggle={(v) => toggle(activeFormats, setActiveFormats, v)} />
 
-      <Link
-        href="/bundles"
-        className="mt-5 flex items-center justify-between rounded-md border border-stone bg-ivory-soft px-4 py-2.5 text-xs font-semibold text-charcoal/70 transition hover:bg-stone/40"
-      >
-        Shop Bundles <i className="ri-arrow-right-line" />
-      </Link>
     </>
   );
 
