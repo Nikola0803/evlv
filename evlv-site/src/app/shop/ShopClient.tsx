@@ -67,9 +67,18 @@ export function ShopClient({ products }: { products: Product[] }) {
     if (fromUrl && categories.some((c) => c.value === fromUrl)) {
       setActiveTypes(new Set([fromUrl]));
     }
+    // ?focus=<label> -- links into the real research-focus taxonomy (the
+    // same groups the mega-menu and this page's own "Category" checkboxes
+    // use, from shop-menu-data.ts), so a link from anywhere on the site
+    // (the homepage category marquee) actually filters to real products
+    // instead of just being decorative text.
+    const focusFromUrl = searchParams.get("focus");
+    if (focusFromUrl && focusGroups.some((g) => g.label === focusFromUrl)) {
+      setActiveFocus(new Set([focusFromUrl]));
+    }
     const q = searchParams.get("q");
     if (q) setQuery(q);
-  }, [searchParams]);
+  }, [searchParams, focusGroups]);
 
   // Lock body scroll while the mobile filter drawer is open.
   useEffect(() => {

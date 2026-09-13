@@ -17,6 +17,8 @@ import { CartProvider } from "@/lib/cart-context";
 import { CurrencyProvider } from "@/lib/currency-context";
 import { GoogleAnalytics } from "@/components/layout/GoogleAnalytics";
 import { GoogleTagManagerHead, GoogleTagManagerBody } from "@/components/layout/GoogleTagManager";
+import { ScrollToTop } from "@/components/layout/ScrollToTop";
+import { ChunkErrorReload } from "@/components/layout/ChunkErrorReload";
 
 const SITE_URL = "https://evlvpeptides.com";
 
@@ -119,6 +121,8 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         )}
       </head>
       <body className="flex min-h-full flex-col bg-ivory text-charcoal">
+        <ScrollToTop />
+        <ChunkErrorReload />
         <GoogleTagManagerBody />
         <GoogleAnalytics />
         <ReferralCapture />
