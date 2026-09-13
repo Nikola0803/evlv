@@ -286,3 +286,20 @@ body {
     padding-right: 2.5rem;
   }
 }
+
+/* ProofSection asymmetric photo grid -- plain CSS instead of a Tailwind
+   arbitrary-value class because decimal fr values (1.4fr) in bracket
+   notation were silently failing to compile under the project's Tailwind
+   JIT setup, leaving the section stacked at every width. */
+.proof-photo-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+@media (min-width: 768px) {
+  .proof-photo-grid {
+    grid-template-columns: 1.4fr 1fr 1fr;
+    grid-template-rows: repeat(2, 1fr);
+    gap: 1rem;
+  }
+}

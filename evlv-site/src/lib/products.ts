@@ -1112,5 +1112,5 @@ export const formats: { value: NonNullable<Product["format"]> | "all"; label: st
   { value: "supplies", label: "Supplies" },
   { value: "oral", label: "Oral / Capsules" },
   { value: "nasal", label: "Nasal Sprays" },
-  { value: "device", label: "Injector Pens" },
+  { value: "device", label: "Multi-Dose Cartridges" },
 ];

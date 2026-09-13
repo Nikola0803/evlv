@@ -15,7 +15,6 @@ const COMPANY_NAV = [
   { href: "/contact", label: "Contact" },
   { href: "/faq", label: "FAQ" },
   { href: "/account", label: "Account" },
-  { href: "/affiliates", label: "Affiliate Program" },
   { href: "/wholesale", label: "Dropshipping & Wholesale" },
 ];
 

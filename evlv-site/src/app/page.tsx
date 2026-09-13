@@ -1,35 +1,58 @@
-import { Hero } from "@/components/home/Hero";
-import { TrustIconRow } from "@/components/ui/TrustIconRow";
-import { FeaturedProducts } from "@/components/home/FeaturedProducts";
-import { ShopByCategory } from "@/components/home/ShopByCategory";
-import { AboutSection } from "@/components/home/AboutSection";
-import { ScienceSection } from "@/components/home/ScienceSection";
-import { LabResultsPreview } from "@/components/home/LabResultsPreview";
-import { ReviewsSection } from "@/components/home/ReviewsSection";
-import { FaqHomeSection } from "@/components/home/FaqHomeSection";
-import { FinalCta } from "@/components/home/FinalCta";
+import data from "./landing-content.json";
+import { ProofSection } from "@/components/home/ProofSection";
 
-const HOME_TRUST_ITEMS = [
-  { icon: "ri-shield-check-line", label: "Independently Tested" },
-  { icon: "ri-checkbox-circle-line", label: "Batch Verified" },
-  { icon: "ri-file-list-3-line", label: "COA Available" },
-  { icon: "ri-lock-line", label: "Secure Checkout" },
-  { icon: "ri-flask-line", label: "Research Use Only" },
-];
+/**
+ * Homepage content is a direct port of the approved
+ * evlv-everlife-landing.html mockup's desktop ("ev-d") content tree --
+ * same markup, same CSS, same real EVLV product/lab/asset images baked
+ * into that file.
+ *
+ * The content was extracted from inside the source file's
+ * `<ev-embed class="ev-d">` wrapper, but that wrapper element itself
+ * -- and its `ev-d` class -- was left behind during extraction. Hundreds
+ * of this stylesheet's rules are scoped as `.ev-d .labs`, `.ev-d .proof`,
+ * `.ev-d .hero`, etc., so without that class on an ancestor, none of them
+ * matched anything and almost every section rendered with only generic,
+ * unstyled fallback styling (confirmed live in a browser: adding the
+ * class to the wrapper div below is what made the hero photo, product
+ * cards, lab-testing widgets, and reviews section all snap into their
+ * real styling). The div below carries that class now so the whole tree
+ * resolves the way the source file intends.
+ *
+ * `script` is the mockup's own `evlv-rendered-copy` text-swap script --
+ * some copy in this file (e.g. the reviews/proof section) is only
+ * correct after this script's find-and-replace map runs over the
+ * rendered text, which is why that section looked wrong before it was
+ * included. Trimmed from its original DOMContentLoaded+setInterval(750)
+ * polling loop (needed on the original live scraped page, not here) down
+ * to one immediate run plus two short retries.
+ *
+ * landing-content.json also carries a small CSS safety net so every
+ * content block (`.block`, `.labs`, `.proof`, `.proc`, `.path`,
+ * `.science`, `.faq`) shows the site's beige/ivory tone instead of
+ * falling back to white when a section has no explicit background of
+ * its own -- per the "no white sections" note.
+ *
+ * The old static "reviews/proof" block from the mockup has been cut out of
+ * data.html entirely (left behind as a "<!-- PROOF_SECTION_SLOT -->"
+ * marker) and replaced with a real <ProofSection /> component rendered
+ * between the two halves -- it matches the asymmetric photo-grid + rating
+ * badge + testimonial-card layout the user pointed to as a reference, and
+ * it pulls real reviews via the site's existing Google Places integration
+ * instead of the static blob's placeholder photos/copy.
+ */
+const [htmlBefore, htmlAfter] = data.html.split("<!-- PROOF_SECTION_SLOT -->");
 
-export default function Home() {
+export default async function Home() {
   return (
     <>
-      <Hero />
-      <TrustIconRow items={HOME_TRUST_ITEMS} />
-      <FeaturedProducts />
-      <ReviewsSection />
-      <ShopByCategory />
-      <AboutSection />
-      <LabResultsPreview />
-      <ScienceSection />
-      <FaqHomeSection />
-      <FinalCta />
+      <style dangerouslySetInnerHTML={{ __html: data.css }} />
+      <div id="evlv-landing-content" className="ev-d">
+        <div dangerouslySetInnerHTML={{ __html: htmlBefore }} />
+        <ProofSection />
+        <div dangerouslySetInnerHTML={{ __html: htmlAfter }} />
+      </div>
+      <script dangerouslySetInnerHTML={{ __html: data.script }} />
     </>
   );
 }

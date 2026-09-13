@@ -148,20 +148,19 @@ export const JOURNAL_ARTICLES: JournalArticle[] = [
     ],
   },
   {
-    slug: "how-to-reconstitute-peptides-step-by-step",
+    slug: "why-reconstitution-technique-affects-research-results",
     label: "Lab Guides",
-    title: "How to Reconstitute Peptides: Step-by-Step Guide",
+    title: "Why Reconstitution Technique Affects Research Results",
     excerpt:
-      "A technical reconstitution walkthrough for lyophilized peptides using bacteriostatic water — volume calculations, sterile-technique considerations, and storage handling for research settings.",
+      "Lyophilized peptides have to be brought into solution before they're usable in a laboratory setting, and technique at that step is a bigger source of unreliable results than most researchers assume.",
     image: "/images/science/testing.jpg",
     publishedDate: "2026-09-08",
-    readTime: "5 min read",
+    readTime: "4 min read",
     body: [
-      "Lyophilized peptides ship as a freeze-dried powder for stability, which means they need to be brought into solution before they can be used in a laboratory protocol. Reconstitution is the technique for doing that cleanly, and it's a step where technique errors — not the compound itself — are the most common source of unreliable results.",
-      "Bacteriostatic water, water with a small concentration of benzyl alcohol as a preservative, is the standard diluent for this purpose in a research setting, chosen because it resists microbial growth across repeated draws better than plain sterile water. Whatever diluent is used, it should be pharmaceutical- or laboratory-grade, from a sealed source, not an ad hoc substitute.",
-      "The math is straightforward: reconstituted concentration equals the total peptide mass in the vial divided by the volume of diluent added. A 10mg vial reconstituted with 2mL of bacteriostatic water yields a 5mg/mL solution. Working backward from a target concentration for a given protocol is just that same equation rearranged — decide the concentration a protocol calls for, then calculate the diluent volume that produces it.",
-      "Sterile technique matters throughout: swab the vial's rubber stopper with alcohol before each entry, use a new sterile needle and syringe per draw, and add diluent slowly down the interior wall of the vial rather than directly onto the lyophilized cake, which can denature the peptide through excess agitation or foaming.",
-      "Once reconstituted, most peptides are meaningfully less stable than in their lyophilized state and should be refrigerated at 2–8°C and used within the window specified for that compound — commonly around 30 days, though this varies and the product's own documentation is the authority, not a general rule of thumb. Reconstituted solution that's been left at room temperature for an extended period is a research variable worth controlling for, not ignoring.",
+      "Lyophilized peptides ship as a freeze-dried powder for stability. Bringing that powder into solution -- reconstitution -- is a routine part of preparing a compound for laboratory use, and it's a step where technique errors, not the compound itself, are the most common source of unreliable or inconsistent results in a research setting.",
+      "Bacteriostatic water, water with a small concentration of benzyl alcohol as a preservative, is the standard diluent used in research settings for this purpose, chosen because it resists microbial growth across repeated draws better than plain sterile water. Whatever diluent is used, it should be pharmaceutical- or laboratory-grade from a sealed source, not an ad hoc substitute, and general sterile-handling practice should be followed at every step: gloved hands, a disinfected work surface, and a sterile vial entry each time.",
+      "Concentration is simply total peptide mass divided by the volume of diluent added, which is why documenting exactly how much diluent went into a given vial matters as much as the reconstitution itself -- an undocumented dilution makes every downstream measurement unreliable. This is general laboratory information, not instructions for administration of any kind, and we don't provide dosing, cycling, or protocol guidance; a product's own documentation and any applicable laboratory or institutional standards are the authority on handling specifics.",
+      "Once reconstituted, most peptides are meaningfully less stable than in their lyophilized state and should be refrigerated at 2-8°C, with the practical usable window specified in that product's own documentation rather than assumed from a general rule of thumb. A reconstituted solution left at room temperature for an extended period is a variable worth controlling for and noting in any research record, not something to overlook.",
     ],
   },
   {

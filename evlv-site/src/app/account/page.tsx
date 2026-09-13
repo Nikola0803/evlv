@@ -27,7 +27,7 @@ const STATUS_STYLE: Record<Order["status"], string> = {
 const TABS: { key: Tab; label: string; icon: string }[] = [
   { key: "orders", label: "Orders", icon: "ri-file-list-3-line" },
   { key: "addresses", label: "Addresses", icon: "ri-map-pin-line" },
-  { key: "affiliate", label: "Affiliate", icon: "ri-handshake-line" },
+  { key: "affiliate", label: "Ambassador", icon: "ri-handshake-line" },
   { key: "verification", label: "Verification", icon: "ri-shield-check-line" },
   { key: "wholesale", label: "Wholesale", icon: "ri-store-2-line" },
   { key: "profile", label: "Profile", icon: "ri-user-settings-line" },

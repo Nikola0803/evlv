@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { getProducts } from "@/lib/products";
 import type { CoaEntry } from "@/lib/coa-data";
@@ -21,7 +22,8 @@ const PROTOCOL = [
 
 export function CoasClient({ coaMap }: { coaMap: Record<string, CoaEntry> }) {
   const products = useMemo(() => getProducts(), []);
-  const [query, setQuery] = useState("");
+  const searchParams = useSearchParams();
+  const [query, setQuery] = useState(() => searchParams.get("search") ?? "");
 
   const filtered = products.filter((p) => {
     const q = query.trim().toLowerCase();

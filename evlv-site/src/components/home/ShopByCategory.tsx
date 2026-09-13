@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useRef } from "react";
 import { Reveal } from "@/components/ui/Reveal";
 
 const CATEGORIES = [
@@ -36,18 +39,66 @@ const CATEGORIES = [
   },
 ];
 
+/**
+ * Everlife's "Shop by goal" section is a horizontal snap-scroll carousel
+ * with prev/next arrows (goal-track / #goal-prev / #goal-next in the
+ * source markup) rather than a static grid -- this ports that exact
+ * interaction pattern onto EVLV's own research-area categories.
+ */
 export function ShopByCategory() {
+  const trackRef = useRef<HTMLDivElement>(null);
+
+  function scrollByCard(dir: 1 | -1) {
+    const track = trackRef.current;
+    if (!track) return;
+    const card = track.querySelector<HTMLElement>("[data-goal-card]");
+    const amount = (card?.offsetWidth ?? 300) + 24;
+    track.scrollBy({ left: amount * dir, behavior: "smooth" });
+  }
+
   return (
     <section className="bg-ivory-soft pb-8 pt-20 md:pb-12 md:pt-32">
       <div className="mx-auto max-w-[1400px] px-4 md:px-8">
-        <Reveal>
-          <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">04 / Explore by Research Area</p>
-          <h2 className="max-w-xl font-display text-3xl font-semibold text-charcoal md:text-4xl">Explore by research area</h2>
+        <Reveal className="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">04 / Explore by Research Area</p>
+            <h2 className="max-w-xl font-display text-3xl font-semibold text-charcoal md:text-4xl">
+              Start with the <em className="text-sage-deep not-italic">research area</em>
+              <br />
+              you want
+            </h2>
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => scrollByCard(-1)}
+              aria-label="Previous"
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-stone bg-white text-charcoal transition hover:border-sage-deep hover:text-sage-deep"
+            >
+              <i className="ri-arrow-left-s-line" />
+            </button>
+            <button
+              type="button"
+              onClick={() => scrollByCard(1)}
+              aria-label="Next"
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-stone bg-white text-charcoal transition hover:border-sage-deep hover:text-sage-deep"
+            >
+              <i className="ri-arrow-right-s-line" />
+            </button>
+          </div>
         </Reveal>
 
-        <Reveal stagger className="mt-12 grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
+        <div
+          ref={trackRef}
+          className="mt-10 flex snap-x snap-proximity gap-6 overflow-x-auto scroll-smooth pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:mt-12"
+        >
           {CATEGORIES.map((cat) => (
-            <Link key={cat.title} href={cat.href} className="group block">
+            <Link
+              key={cat.title}
+              href={cat.href}
+              data-goal-card
+              className="group block w-[78%] shrink-0 snap-start sm:w-[46%] lg:w-[24%]"
+            >
               <div className="relative aspect-[4/5] w-full overflow-hidden rounded-lg">
                 <CategoryArt variant={cat.art} className="h-full w-full transition duration-700 ease-out group-hover:scale-[1.04]" />
                 <span className="absolute left-4 top-4 font-display text-xs font-semibold tracking-[0.2em] text-copper">{cat.num}</span>
@@ -62,7 +113,7 @@ export function ShopByCategory() {
               </div>
             </Link>
           ))}
-        </Reveal>
+        </div>
       </div>
     </section>
   );
@@ -75,7 +126,7 @@ export function ShopByCategory() {
  * layers — obsidian/charcoal/copper only, no green (green is reserved for
  * brand sections, not decorative category art).
  */
-function CategoryArt({ variant, className = "" }: { variant: "fragmented" | "particles" | "expanding" | "concentric"; className?: string }) {
+export function CategoryArt({ variant, className = "" }: { variant: "fragmented" | "particles" | "expanding" | "concentric"; className?: string }) {
   return (
     <div className={`relative flex items-center justify-center bg-charcoal ${className}`}>
       {variant === "fragmented" && (

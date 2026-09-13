@@ -1,14 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Product } from "@/lib/types";
-import { ProductVisual } from "@/components/ui/ProductVisual";
 import { PackSelector, usePackSelection } from "@/components/product/PackSelector";
+import { MediaGallery } from "@/components/product/MediaGallery";
 import { useCart } from "@/lib/cart-context";
 import { useCurrency } from "@/lib/currency-context";
 import { getStoredUser } from "@/lib/auth";
+import { getAnchorPrice } from "@/lib/pricing";
+import { ResearchUseNotice } from "@/components/product/ResearchUseNotice";
 import { trackEvent } from "@/lib/pixel";
 import type { CoaEntry } from "@/lib/coa-data";
 
@@ -24,10 +25,9 @@ function splitDosage(name: string) {
 
 export function ProductClient({ product, coa }: { product: Product; coa?: CoaEntry }) {
   const { packIndex, setPackIndex, packs, selected } = usePackSelection(product);
-  const [qty, setQty] = useState(1);
   const [tab, setTab] = useState<(typeof TABS)[number]>("Description");
   const { addToCart } = useCart();
-  const { formatPrice, convert, currency } = useCurrency();
+  const { formatPrice } = useCurrency();
   const [isMember, setIsMember] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
 
@@ -42,131 +42,150 @@ export function ProductClient({ product, coa }: { product: Product; coa?: CoaEnt
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [product.slug]);
 
+  const ctaRef = useRef<HTMLDivElement>(null);
+  const [showStickyBar, setShowStickyBar] = useState(false);
+
+  // Scroll-position based (not IntersectionObserver) so it also works
+  // correctly in environments/tools that throttle IO callbacks in
+  // background or automated tabs.
+  useEffect(() => {
+    function check() {
+      const el = ctaRef.current;
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      setShowStickyBar(rect.bottom < 0 || rect.top > window.innerHeight);
+    }
+    check();
+    window.addEventListener("scroll", check, { passive: true });
+    window.addEventListener("resize", check);
+    return () => {
+      window.removeEventListener("scroll", check);
+      window.removeEventListener("resize", check);
+    };
+  }, []);
+
   const memberLocked = !!product.memberOnly && !isMember;
   const restrictedLocked = !!product.restricted && !isVerified;
   const locked = memberLocked || restrictedLocked;
 
-  const TRUST_ITEMS = [
-    { icon: "ri-shield-check-line", title: "Independently Verified", subtitle: "Independent lab testing" },
-    { icon: "ri-truck-line", title: "Free Shipping", subtitle: `Orders over $${convert(300).toFixed(0)} ${currency}` },
-    { icon: "ri-lock-line", title: "Secure Checkout", subtitle: "256-bit encryption" },
-    { icon: "ri-refresh-line", title: "Satisfaction Guaranteed", subtitle: "Quality assured" },
+  // One consolidated benefits list -- mirrors the reference PDP's single
+  // bordered "key benefits" block rather than splitting the same trust
+  // signals across a bullet list AND a separate badge-card grid.
+  const KEY_BENEFITS = [
+    { icon: "ri-shield-check-line", title: "Identity & Purity Verified", subtitle: "Every batch tested by an independent lab" },
+    {
+      icon: "ri-file-list-3-line",
+      title: "Certificate of Analysis",
+      subtitle: `Published per batch, searchable by lot code${product.purity ? ` -- ${product.purity} purity` : ""}`,
+    },
+    { icon: "ri-truck-line", title: "Ships Same Day", subtitle: "Discreet packaging, before daily cutoff" },
+    { icon: "ri-lock-line", title: "Secure Checkout", subtitle: "No membership or subscription required" },
   ];
 
-  const lineTotal = selected.unitPrice * qty * selected.qty;
-  const shippingThreshold = 300;
-  const shippingProgress = Math.min(100, (lineTotal / shippingThreshold) * 100);
-  const shippingRemaining = Math.max(0, shippingThreshold - lineTotal);
+  const lineTotal = selected.unitPrice * selected.qty;
+  const variantPrices = product.variants?.map((v) => v.price) ?? [];
+  const minVariantPrice = variantPrices.length > 0 ? Math.min(product.price, ...variantPrices) : product.price;
+  const hasCheaperVariant = !!product.variants && product.variants.length > 1 && minVariantPrice < product.price;
   const { title, dosage } = splitDosage(product.name);
 
   return (
-    <section className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-12">
-      <div className="relative self-start lg:sticky lg:top-[110px]">
-        <div className="overflow-hidden rounded-lg border border-stone bg-ivory-soft">
-          <div className="aspect-square w-full">
-            {product.image ? (
-              <Image src={product.image} alt={product.name} width={800} height={800} sizes="(max-width: 1024px) 90vw, 560px" className="h-full w-full object-cover" priority />
-            ) : (
-              <ProductVisual name={title} dosage={dosage} className="h-full w-full p-10" />
-            )}
-          </div>
+    <>
+    <section className="grid grid-cols-1 gap-6 pb-20 lg:grid-cols-[1.04fr_1fr] lg:items-start lg:gap-x-[60px] lg:gap-y-1 lg:pb-0">
+      {/* Gallery -- left column, spans both rows on wide desktop like the reference */}
+      <div className="relative self-start lg:sticky lg:top-[110px] lg:col-start-1 lg:row-start-1 lg:row-span-2">
+        <MediaGallery name={product.name} title={title} dosage={dosage} image={product.image} gallery={product.gallery} />
+        <div className="pointer-events-none absolute inset-0 flex items-start justify-between p-4">
+          {product.badges?.map((b) => (
+            <span key={b} className="pointer-events-auto rounded-full bg-sage-deep px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-white">
+              {b}
+            </span>
+          ))}
+          {locked && (
+            <span className="pointer-events-auto ml-auto flex items-center gap-1.5 rounded-full bg-charcoal/85 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-copper backdrop-blur-sm">
+              <i className="ri-lock-line" /> {restrictedLocked ? "Verified Researchers Only" : "Member Exclusive"}
+            </span>
+          )}
         </div>
-        {product.badges?.map((b) => (
-          <span key={b} className="absolute left-4 top-4 rounded-full bg-sage-deep px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-white">
-            {b}
-          </span>
-        ))}
-        {locked && (
-          <span className="absolute right-4 top-4 flex items-center gap-1.5 rounded-full bg-charcoal/85 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-copper backdrop-blur-sm">
-            <i className="ri-lock-line" /> {restrictedLocked ? "Verified Researchers Only" : "Member Exclusive"}
-          </span>
-        )}
       </div>
 
-      <div className="flex flex-col">
-        <div className="mb-2 text-[11px] font-medium uppercase tracking-wider text-sage-deep">{product.categoryLabel}</div>
-        <h1 className="font-display text-3xl font-semibold uppercase tracking-tight text-charcoal md:text-4xl">{product.name}</h1>
-        <div className="mt-3 flex items-center gap-2">
-          <span className="flex items-center gap-0.5 text-sage-deep">
-            {Array.from({ length: 5 }).map((_, i) => (
-              <i key={i} className="ri-star-fill text-sm" />
-            ))}
-          </span>
-          <span className="text-sm font-semibold text-charcoal">{product.rating}</span>
-          <span className="text-sm text-charcoal/50">({product.reviewCount} reviews)</span>
+      {/* Hero head -- title + rating on one line, subhead below */}
+      <div className="flex flex-col lg:col-start-2 lg:row-start-1">
+        <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1.5">
+          <h1
+            className="font-medium text-charcoal"
+            style={{ fontFamily: "var(--font-newsreader), Georgia, serif", fontSize: "clamp(1.9rem, 4vw, 3.2rem)", lineHeight: 1.05, letterSpacing: "-0.02em" }}
+          >
+            {title}
+          </h1>
+          <div className="flex shrink-0 items-center gap-2">
+            <span className="text-sm tracking-wider text-sage-deep">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <i key={i} className="ri-star-fill" />
+              ))}
+            </span>
+            <span className="text-sm font-semibold text-charcoal">{product.rating}</span>
+            <a href="#reviews" className="text-sm text-charcoal/50 underline underline-offset-2 hover:text-charcoal">
+              ({product.reviewCount} reviews)
+            </a>
+          </div>
         </div>
+        <p className="mt-2 text-base leading-relaxed text-charcoal/60 md:text-lg">{product.shortDescription}</p>
+      </div>
 
-        <div className="mt-5">
-          <div className="font-display text-3xl font-semibold text-charcoal md:text-4xl">{formatPrice(selected.unitPrice)}</div>
+      {/* Buy box -- right column, below the hero head */}
+      <div className="flex flex-col lg:col-start-2 lg:row-start-2 lg:mt-2.5">
+        <div className="mt-1">
+          {hasCheaperVariant && (
+            <p className="mb-0.5 text-[11px] font-semibold uppercase tracking-wide text-charcoal/40">
+              Starting at {formatPrice(minVariantPrice)}
+            </p>
+          )}
+          <div className="flex items-baseline gap-3">
+            <span className="whitespace-nowrap text-lg font-medium text-charcoal/25 line-through md:text-xl">
+              {formatPrice(getAnchorPrice(selected.unitPrice))}
+            </span>
+            <div className="font-display text-3xl font-semibold text-charcoal md:text-4xl">{formatPrice(selected.unitPrice)}</div>
+            <span className={`flex items-center gap-1 text-xs font-medium ${product.inStock ? "text-sage-deep" : "text-charcoal/40"}`}>
+              <i className="ri-checkbox-circle-line" /> {product.inStock ? "In Stock" : "Out of Stock"}
+            </span>
+          </div>
           {product.bulkOption && (
             <p className="mt-1 text-sm text-charcoal/50">
               Single vial, save {product.bulkOption.savePercent}% with {product.bulkOption.qty}-pack
             </p>
           )}
-        </div>
-
-        {(product.purity || product.avgMass) && (
-          <div className="mt-4 flex items-center gap-2 rounded-lg border border-sage-mist bg-sage-mist/40 p-3">
-            <i className="ri-flask-line text-sage-deep" />
-            <span className="text-sm font-medium text-sage-deep">
-              {product.purity && `Purity ${product.purity}`}
-              {product.purity && product.avgMass && " / "}
-              {product.avgMass && `Avg. mass ${product.avgMass}`}
-            </span>
-          </div>
-        )}
-
-        <div className="mt-3 flex items-center gap-4 text-xs text-charcoal/50">
-          <span>
-            SKU: <span className="font-medium text-charcoal/70">{product.sku}</span>
-          </span>
+          <ResearchUseNotice />
         </div>
 
         {product.variants && product.variants.length > 1 && (
           <div className="mt-6">
-            <label className="mb-2 block text-[11px] font-semibold uppercase tracking-wider text-charcoal/60">Size</label>
+            <label className="mb-2.5 block text-[13px] font-semibold text-charcoal">Size</label>
             <div className="flex flex-wrap gap-2">
-              {product.variants.map((v) => (
-                <Link
-                  key={v.slug}
-                  href={`/shop/${v.slug}`}
-                  className={`rounded-md border px-4 py-2 text-sm font-medium transition ${
-                    v.slug === product.slug
-                      ? "border-copper bg-copper text-charcoal"
-                      : "border-stone bg-ivory text-charcoal/70 hover:border-copper"
-                  } ${!v.inStock ? "opacity-40" : ""}`}
-                >
-                  {v.label}
-                </Link>
-              ))}
+              {product.variants.map((v) => {
+                const active = v.slug === product.slug;
+                return (
+                  <Link
+                    key={v.slug}
+                    href={`/shop/${v.slug}`}
+                    className={`flex items-center gap-1.5 rounded-full border-[1.5px] px-3.5 py-2 text-xs font-semibold transition ${
+                      active ? "border-sage-deep bg-white text-sage-deep shadow-sm" : "border-stone bg-sage-mist/20 text-charcoal/60 hover:border-charcoal/30"
+                    } ${!v.inStock ? "pointer-events-none opacity-40" : ""}`}
+                  >
+                    {v.label}
+                    <span className={active ? "text-sage-deep/70" : "text-charcoal/40"}>{formatPrice(v.price)}</span>
+                  </Link>
+                );
+              })}
             </div>
           </div>
         )}
 
         <div className="mt-6">
-          <PackSelector packs={packs} packIndex={packIndex} onSelect={setPackIndex} />
-        </div>
-
-        <div className="mt-6">
-          <label className="mb-2 block text-[11px] font-semibold uppercase tracking-wider text-charcoal/60">Quantity</label>
-          <div className="flex items-center gap-3">
-            <div className="flex items-center rounded-md border border-stone bg-ivory">
-              <button type="button" onClick={() => setQty((q) => Math.max(1, q - 1))} className="flex h-11 w-11 items-center justify-center rounded-l-md transition hover:bg-ivory-soft" aria-label="Decrease quantity">
-                <i className="ri-subtract-line text-charcoal/70" />
-              </button>
-              <span className="w-12 text-center text-sm font-semibold text-charcoal">{qty}</span>
-              <button type="button" onClick={() => setQty((q) => q + 1)} className="flex h-11 w-11 items-center justify-center rounded-r-md transition hover:bg-ivory-soft" aria-label="Increase quantity">
-                <i className="ri-add-line text-charcoal/70" />
-              </button>
-            </div>
-            <span className={`flex items-center gap-1 text-xs font-medium ${product.inStock ? "text-sage-deep" : "text-charcoal/40"}`}>
-              <i className="ri-checkbox-circle-line" /> {product.inStock ? "In Stock" : "Out of Stock"}
-            </span>
-          </div>
+          <PackSelector packs={packs} packIndex={packIndex} onSelect={setPackIndex} formatPrice={formatPrice} />
         </div>
 
         {locked && (
-          <div className="mt-6 flex items-center gap-2 rounded-lg border border-copper/30 bg-copper/5 p-4 text-sm text-charcoal/70">
+          <div className="mt-6 flex items-center gap-2 rounded-xl border border-copper/30 bg-copper/5 p-4 text-sm text-charcoal/70">
             <i className="ri-lock-line text-copper" />
             {restrictedLocked ? (
               <>
@@ -186,11 +205,11 @@ export function ProductClient({ product, coa }: { product: Product; coa?: CoaEnt
           </div>
         )}
 
-        <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+        <div ref={ctaRef} className="mt-6">
           {locked ? (
             <Link
               href={restrictedLocked ? "/account?tab=verification" : "/plans"}
-              className="flex-1 whitespace-nowrap rounded-md bg-copper py-4 text-center text-sm font-semibold uppercase tracking-wide text-charcoal transition hover:bg-copper-light"
+              className="block w-full rounded-xl bg-copper py-4 text-center text-sm font-semibold uppercase tracking-wide text-charcoal transition hover:bg-copper-light"
             >
               {restrictedLocked ? "Apply for Verification" : "Unlock With Membership"}
             </Link>
@@ -198,40 +217,29 @@ export function ProductClient({ product, coa }: { product: Product; coa?: CoaEnt
             <button
               type="button"
               disabled={!product.inStock}
-              onClick={() => addToCart(product, qty * selected.qty, selected.unitPrice, selected.label)}
-              className="flex-1 whitespace-nowrap rounded-md bg-copper py-4 text-sm font-semibold uppercase tracking-wide text-charcoal transition hover:bg-copper-light disabled:cursor-not-allowed disabled:bg-stone disabled:text-charcoal/50"
+              onClick={() => addToCart(product, selected.qty, selected.unitPrice, selected.label)}
+              className="block w-full rounded-xl bg-copper py-4 text-sm font-semibold uppercase tracking-wide text-charcoal transition hover:bg-copper-light disabled:cursor-not-allowed disabled:bg-stone disabled:text-charcoal/50"
             >
-              {product.inStock ? `Add to Cart (${formatPrice(lineTotal)})` : "Out of Stock"}
+              {product.inStock ? `Add to Cart -- ${formatPrice(lineTotal)}` : "Out of Stock"}
             </button>
           )}
-          <a href="/shop" className="flex-1 whitespace-nowrap rounded-md border border-charcoal py-4 text-center text-sm font-semibold uppercase tracking-wide text-charcoal transition hover:bg-charcoal hover:text-ivory">
-            Continue Shopping
-          </a>
         </div>
 
-        <div className="mt-6 grid grid-cols-2 gap-3">
-          {TRUST_ITEMS.map((item) => (
-            <div key={item.title} className="flex items-center gap-2 rounded-lg bg-ivory-soft p-3 text-xs">
-              <i className={`${item.icon} flex h-5 w-5 items-center justify-center text-lg text-sage-deep`} />
-              <div>
-                <div className="font-semibold text-charcoal">{item.title}</div>
-                <div className="text-charcoal/50">{item.subtitle}</div>
+        {/* Key benefits -- compact 2x2 grid, icon in a tinted rounded square.
+            Sits below the CTA so it reads as reassurance right after the
+            purchase decision, not as another thing to read before it. */}
+        <div className="mt-6 grid grid-cols-2 gap-x-4 gap-y-3 rounded-xl border border-stone bg-ivory-soft/60 p-4">
+          {KEY_BENEFITS.map((item) => (
+            <div key={item.title} className="flex items-start gap-2">
+              <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-sage-mist/70 text-xs text-sage-deep">
+                <i className={item.icon} />
+              </span>
+              <div className="min-w-0">
+                <div className="text-xs font-semibold leading-tight text-charcoal">{item.title}</div>
+                <div className="mt-0.5 text-[11px] leading-snug text-charcoal/50">{item.subtitle}</div>
               </div>
             </div>
           ))}
-        </div>
-
-        <div className="mt-6 rounded-lg border border-stone bg-ivory-soft p-4">
-          <div className="mb-2 flex items-center justify-between text-sm">
-            <span className="font-medium text-charcoal">Free shipping threshold</span>
-            <span className="font-semibold text-sage-deep">
-              {shippingRemaining > 0 ? `$${convert(shippingRemaining).toFixed(0)} ${currency} away` : "Unlocked"}
-            </span>
-          </div>
-          <div className="h-2 overflow-hidden rounded-full bg-stone">
-            <div className="h-full rounded-full bg-sage transition-all duration-500" style={{ width: `${shippingProgress}%` }} />
-          </div>
-          <p className="mt-2 text-xs text-charcoal/50">Free express shipping on all orders over ${convert(shippingThreshold).toFixed(0)} {currency}</p>
         </div>
 
         <div className="mt-10 border-t border-stone">
@@ -269,7 +277,11 @@ export function ProductClient({ product, coa }: { product: Product; coa?: CoaEnt
               </p>
             )}
             {tab === "Lab Report" && product.batch && (
-              <div className="max-w-sm overflow-hidden rounded-lg border border-stone">
+              <div className="max-w-sm">
+                <p className="mb-3 text-sm text-charcoal/60">
+                  Every batch is tested by an independent third-party lab before it ships. Certificate of Analysis for batch {product.batch.code}:
+                </p>
+                <div className="overflow-hidden rounded-xl border border-stone">
                 <dl className="divide-y divide-stone text-xs">
                   <Row label="Batch" value={product.batch.code} />
                   <Row label="Date" value={product.batch.date} />
@@ -288,18 +300,55 @@ export function ProductClient({ product, coa }: { product: Product; coa?: CoaEnt
                     <i className="ri-external-link-line" />
                   </a>
                 )}
+                </div>
               </div>
             )}
           </div>
         </div>
       </div>
     </section>
+
+    {/* Persistent buy bar: reappears once the primary Add to Cart button scrolls
+        out of view, so a long page never leaves a visitor without a one-tap
+        way back to checkout. */}
+    <div
+      className={`fixed inset-x-0 bottom-0 z-40 border-t border-stone bg-ivory/95 shadow-[0_-4px_24px_rgba(20,39,26,0.08)] backdrop-blur transition-transform duration-300 ${
+        showStickyBar ? "translate-y-0" : "translate-y-full"
+      }`}
+    >
+      <div className="mx-auto flex max-w-[1400px] items-center gap-4 px-4 py-3 md:px-8">
+        <div className="hidden min-w-0 sm:block">
+          <p className="truncate text-sm font-semibold text-charcoal">{product.name}</p>
+          <p className="text-xs text-charcoal/50">{formatPrice(lineTotal)}</p>
+        </div>
+        <div className="flex flex-1 items-center gap-3 sm:flex-none">
+          {locked ? (
+            <Link
+              href={restrictedLocked ? "/account?tab=verification" : "/plans"}
+              className="flex-1 whitespace-nowrap rounded-xl bg-copper py-3.5 text-center text-sm font-semibold uppercase tracking-wide text-charcoal transition hover:bg-copper-light sm:flex-none sm:px-8"
+            >
+              {restrictedLocked ? "Apply for Verification" : "Unlock With Membership"}
+            </Link>
+          ) : (
+            <button
+              type="button"
+              disabled={!product.inStock}
+              onClick={() => addToCart(product, selected.qty, selected.unitPrice, selected.label)}
+              className="flex-1 whitespace-nowrap rounded-xl bg-copper py-3.5 text-sm font-semibold uppercase tracking-wide text-charcoal transition hover:bg-copper-light disabled:cursor-not-allowed disabled:bg-stone disabled:text-charcoal/50 sm:flex-none sm:px-8"
+            >
+              {product.inStock ? `Add to Cart -- ${formatPrice(lineTotal)}` : "Out of Stock"}
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
+    </>
   );
 }
 
 function InfoCard({ title, body }: { title: string; body: string }) {
   return (
-    <div className="rounded-lg border border-stone bg-ivory-soft p-4">
+    <div className="rounded-xl border border-stone bg-ivory-soft p-4">
       <h4 className="mb-1 text-sm font-semibold text-charcoal">{title}</h4>
       <p className="text-xs text-charcoal/60">{body}</p>
     </div>

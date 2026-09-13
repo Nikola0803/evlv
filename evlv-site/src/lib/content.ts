@@ -49,7 +49,7 @@ export const faqItems: FaqItem[] = [
   {
     question: "Is bacteriostatic water required?",
     answer:
-      "Most lyophilized compounds require reconstitution before use. We recommend pharmaceutical-grade bacteriostatic water, available in our Ancillaries category.",
+      "Most lyophilized compounds require reconstitution before they can be used in a laboratory protocol. We recommend pharmaceutical-grade bacteriostatic water, available in our Ancillaries category.",
   },
   {
     question: "How can I verify your product is legitimate?",

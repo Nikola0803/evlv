@@ -5,7 +5,7 @@ git add .
 echo Committing...
 git commit -m "Update EVLV site"
 echo Pushing to GitHub...
-git push -u origin master
+git push -u origin main
 echo.
 echo Done! Press any key to close.
 pause

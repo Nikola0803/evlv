@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
-import { Poppins, Inter } from "next/font/google";
+import { Poppins, Inter, Newsreader } from "next/font/google";
 import "./globals.css";
 import { AnnouncementBar } from "@/components/layout/AnnouncementBar";
 import { Header } from "@/components/layout/Header";
+import { getProducts } from "@/lib/products";
+import { getLiveProducts, mergeProducts } from "@/lib/product-feed";
 import { Footer } from "@/components/layout/Footer";
 import { CartToast } from "@/components/layout/CartToast";
 import { CartDrawer } from "@/components/layout/CartDrawer";
@@ -28,6 +30,15 @@ const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
   weight: ["300", "400", "500", "600"],
+});
+
+// Editorial serif used only for the single-product page's headline, to
+// mirror the reference PDP's premium serif title treatment.
+const newsreader = Newsreader({
+  variable: "--font-newsreader",
+  subsets: ["latin"],
+  weight: ["500", "600"],
+  style: ["normal", "italic"],
 });
 
 export const metadata: Metadata = {
@@ -90,9 +101,14 @@ const WEBSITE_JSON_LD = {
   },
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  // Same CRM-merge pipeline the /shop page uses (see product-feed.ts) --
+  // fetched once here so the header mega menu and every page under it see
+  // the same CRM-aware catalog instead of the header falling back to the
+  // static-only list while /shop shows live CRM stock/pricing.
+  const products = mergeProducts(getProducts(), await getLiveProducts());
   return (
-    <html lang="en" className={`${poppins.variable} ${inter.variable} h-full antialiased`}>
+    <html lang="en" className={`${poppins.variable} ${inter.variable} ${newsreader.variable} h-full antialiased`}>
       <head>
         <GoogleTagManagerHead />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" />
@@ -111,7 +127,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <CartProvider>
             <AgeGate>
               <AnnouncementBar />
-              <Header />
+              <Header products={products} />
               <main className="flex-1 pt-[90px] md:pt-[100px]">{children}</main>
               <Footer />
               <CartToast />

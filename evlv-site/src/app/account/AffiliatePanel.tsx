@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { getStoredToken } from "@/lib/auth";
-import { AffiliateForm } from "@/app/affiliates/AffiliateForm";
+import { AffiliateForm } from "@/app/ambassadors/AffiliateForm";
 import { PayoutSettings, type PayoutInfo } from "./PayoutSettings";
 
 type AffiliateStatus = "NONE" | "PENDING" | "APPROVED";

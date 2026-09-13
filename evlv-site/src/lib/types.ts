@@ -20,6 +20,13 @@ export interface Product {
   categoryLabel: string;
   format?: ProductFormat;
   image?: string;
+  /**
+   * Extra gallery media for the product page's rotating media viewer, shown
+   * alongside `image` (which always renders first). Videos loop muted/inline.
+   * No per-product video assets exist yet -- MediaGallery falls back to the
+   * shared /videos/product-hover.mp4 clip when a product has no `gallery`.
+   */
+  gallery?: { type: "image" | "video"; src: string }[];
   price: number;
   bulkOption?: BulkOption;
   purity?: string;
