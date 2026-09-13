@@ -1,5 +1,6 @@
 import data from "./landing-content.json";
 import { ProofSection } from "@/components/home/ProofSection";
+import { getDealRowHtml, getGiveawayRowHtml } from "@/lib/deal-and-giveaway";
 
 /**
  * Homepage content is a direct port of the approved
@@ -40,10 +41,32 @@ import { ProofSection } from "@/components/home/ProofSection";
  * badge + testimonial-card layout the user pointed to as a reference, and
  * it pulls real reviews via the site's existing Google Places integration
  * instead of the static blob's placeholder photos/copy.
+ *
+ * The middle two hero-rows (previously static Ancillaries / Stacked
+ * Research links) were replaced with "<!-- DEAL_ROW_SLOT -->" and
+ * "<!-- GIVEAWAY_ROW_SLOT -->" markers. Unlike PROOF_SECTION_SLOT, these
+ * two are filled in with plain HTML STRINGS (getDealRowHtml() /
+ * getGiveawayRowHtml()) spliced into data.html *before* it's split for
+ * rendering -- not React components rendered as dangerouslySetInnerHTML
+ * siblings. That's because these markers sit *inside* the scraped
+ * `.hero-rows` CSS grid; splitting that grid's markup across separate
+ * dangerouslySetInnerHTML divs (the way the proof-section split works)
+ * would make the browser's fragment parser auto-close the still-open
+ * `.hero-rows` div early, breaking the 2-column grid layout. Splicing
+ * strings in first keeps that grid's markup contiguous. Both helpers
+ * return "" (nothing rendered, cards collapse away) when no deal/
+ * giveaway is configured -- same real-data-only rule as the rest of the
+ * page.
  */
-const [htmlBefore, htmlAfter] = data.html.split("<!-- PROOF_SECTION_SLOT -->");
-
 export default async function Home() {
+  const [dealRowHtml, giveawayRowHtml] = await Promise.all([getDealRowHtml(), getGiveawayRowHtml()]);
+
+  const htmlWithRows = data.html
+    .replace("<!-- DEAL_ROW_SLOT -->", dealRowHtml)
+    .replace("<!-- GIVEAWAY_ROW_SLOT -->", giveawayRowHtml);
+
+  const [htmlBefore, htmlAfter] = htmlWithRows.split("<!-- PROOF_SECTION_SLOT -->");
+
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: data.css }} />
