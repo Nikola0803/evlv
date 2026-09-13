@@ -114,7 +114,7 @@ export const QUIZ_PRODUCTS: Record<string, QuizProduct> = {
       "longevity:cellular": "A mitochondria-targeted compound studied in the context of cellular energy research.",
     },
   },
-  "semaglutide-5mg": {
+  "gp-1-5mg": {
     tier: "beginner",
     variants: {
       "metabolic:general": "A widely-studied GLP-1 research compound and one of the more established entries in general metabolic research.",
@@ -140,7 +140,7 @@ export const QUIZ_PRODUCTS: Record<string, QuizProduct> = {
         "A tri-agonist compound at the frontier of metabolic research. Typically referenced in more advanced literature within this category.",
     },
   },
-  "tirzepatide-10mg": {
+  "gp-2-10mg": {
     tier: "mid",
     variants: {
       "metabolic:appetite": "A dual-agonist GLP-1/GIP research compound, a frequently-cited midpoint in the literature before tri-agonist research.",

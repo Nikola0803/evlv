@@ -17,7 +17,7 @@ const CATEGORIES = [
     num: "02",
     title: "Metabolic Research",
     descriptor: "Weight and metabolic regulation research materials.",
-    compounds: "Semaglutide · Tirzepatide · GP-3",
+    compounds: "GP-1 · GP-2 · GP-3",
     href: "/shop?category=peptides",
     art: "particles" as const,
   },

@@ -58,16 +58,16 @@ const CJC_IPA_BLEND_VARIANTS: ProductVariant[] = [
   { slug: "cjc-ipa-blend-20mg", label: "20mg", price: 130, inStock: true },
 ];
 
-const SEMAGLUTIDE_VARIANTS: ProductVariant[] = [
-  { slug: "semaglutide-5mg", label: "5mg", price: 85, inStock: true },
-  { slug: "semaglutide-10mg", label: "10mg", price: 150, inStock: true },
+const GP1_VARIANTS: ProductVariant[] = [
+  { slug: "gp-1-5mg", label: "5mg", price: 85, inStock: true },
+  { slug: "gp-1-10mg", label: "10mg", price: 150, inStock: true },
 ];
 
-const TIRZEPATIDE_VARIANTS: ProductVariant[] = [
-  { slug: "tirzepatide-10mg", label: "10mg", price: 95, inStock: true },
-  { slug: "tirzepatide-15mg", label: "15mg", price: 135, inStock: true },
-  { slug: "tirzepatide-30mg", label: "30mg", price: 230, inStock: true },
-  { slug: "tirzepatide-60mg", label: "60mg", price: 400, inStock: true },
+const GP2_VARIANTS: ProductVariant[] = [
+  { slug: "gp-2-10mg", label: "10mg", price: 95, inStock: true },
+  { slug: "gp-2-15mg", label: "15mg", price: 135, inStock: true },
+  { slug: "gp-2-30mg", label: "30mg", price: 230, inStock: true },
+  { slug: "gp-2-60mg", label: "60mg", price: 400, inStock: true },
 ];
 
 const HCG_VARIANTS: ProductVariant[] = [
@@ -662,12 +662,12 @@ export const products: Product[] = [
     variants: CJC_IPA_BLEND_VARIANTS,
   },
 
-  // ---- Semaglutide / Tirzepatide (metabolic) ----
+  // ---- GP-1 / GP-2 (metabolic; compliant names for Semaglutide / Tirzepatide) ----
   {
     id: "36",
-    slug: "semaglutide-5mg",
-    sku: "SEM-5",
-    name: "SEMAGLUTIDE 5MG",
+    slug: "gp-1-5mg",
+    sku: "GP1-5",
+    name: "GP-1 5MG",
     category: "peptides",
     categoryLabel: "Peptide Research",
     image: "/images/products/semaglutide-5mg.png",
@@ -679,18 +679,18 @@ export const products: Product[] = [
     reviewCount: 31,
     inStock: true,
     shortDescription: "GLP-1 receptor agonist research peptide, standard concentration.",
-    description: "Semaglutide 5mg vial for research protocols. 99.19% purity verified by independent third-party testing.",
+    description: "GP-1 5mg vial for research protocols. 99.19% purity verified by independent third-party testing.",
     storage: "Store lyophilized vials at 2–8°C. After reconstitution, use within 30 days and refrigerate.",
     reconstitution: "Reconstitute with bacteriostatic or sterile water appropriate for laboratory use.",
     badges: ["Save 20%"],
     batch: { code: "MSV-4193082-P", date: "2026-06-08", status: "PASS" },
-    variants: SEMAGLUTIDE_VARIANTS,
+    variants: GP1_VARIANTS,
   },
   {
     id: "37",
-    slug: "semaglutide-10mg",
-    sku: "SEM-10",
-    name: "SEMAGLUTIDE 10MG",
+    slug: "gp-1-10mg",
+    sku: "GP1-10",
+    name: "GP-1 10MG",
     category: "peptides",
     categoryLabel: "Peptide Research",
     image: "/images/products/semaglutide-10mg.png",
@@ -702,18 +702,18 @@ export const products: Product[] = [
     reviewCount: 24,
     inStock: true,
     shortDescription: "GLP-1 receptor agonist research peptide, high concentration.",
-    description: "Semaglutide 10mg vial for research protocols. 99.4% purity verified by independent third-party testing.",
+    description: "GP-1 10mg vial for research protocols. 99.4% purity verified by independent third-party testing.",
     storage: "Store lyophilized vials at 2–8°C. After reconstitution, use within 30 days and refrigerate.",
     reconstitution: "Reconstitute with bacteriostatic or sterile water appropriate for laboratory use.",
     badges: ["Save 20%"],
     batch: { code: "EVLV-SEM10-08", date: "2026-08-24", status: "PASS" },
-    variants: SEMAGLUTIDE_VARIANTS,
+    variants: GP1_VARIANTS,
   },
   {
     id: "38",
-    slug: "tirzepatide-10mg",
-    sku: "TIR-10",
-    name: "TIRZEPATIDE 10MG",
+    slug: "gp-2-10mg",
+    sku: "GP2-10",
+    name: "GP-2 10MG",
     category: "peptides",
     categoryLabel: "Peptide Research",
     image: "/images/products/tirzepatide-10mg.png",
@@ -725,18 +725,18 @@ export const products: Product[] = [
     reviewCount: 37,
     inStock: true,
     shortDescription: "GIP/GLP-1 dual-agonist research peptide, standard concentration.",
-    description: "Tirzepatide 10mg vial for research protocols. 99.44% purity verified by independent third-party testing.",
+    description: "GP-2 10mg vial for research protocols. 99.44% purity verified by independent third-party testing.",
     storage: "Store lyophilized vials at 2–8°C. After reconstitution, use within 30 days and refrigerate.",
     reconstitution: "Reconstitute with bacteriostatic or sterile water appropriate for laboratory use.",
     badges: ["Save 20%"],
     batch: { code: "MSV-9109868-P", date: "2026-06-08", status: "PASS" },
-    variants: TIRZEPATIDE_VARIANTS,
+    variants: GP2_VARIANTS,
   },
   {
     id: "39",
-    slug: "tirzepatide-15mg",
-    sku: "TIR-15",
-    name: "TIRZEPATIDE 15MG",
+    slug: "gp-2-15mg",
+    sku: "GP2-15",
+    name: "GP-2 15MG",
     category: "peptides",
     categoryLabel: "Peptide Research",
     image: "/images/products/tirzepatide-15mg.png",
@@ -748,18 +748,18 @@ export const products: Product[] = [
     reviewCount: 15,
     inStock: true,
     shortDescription: "GIP/GLP-1 dual-agonist research peptide, mid concentration.",
-    description: "Tirzepatide 15mg vial for research protocols. 99.28% purity verified by independent third-party testing.",
+    description: "GP-2 15mg vial for research protocols. 99.28% purity verified by independent third-party testing.",
     storage: "Store lyophilized vials at 2–8°C. After reconstitution, use within 30 days and refrigerate.",
     reconstitution: "Reconstitute with bacteriostatic or sterile water appropriate for laboratory use.",
     badges: ["Save 20%"],
     batch: { code: "MSV-3795846-P", date: "2026-06-08", status: "PASS" },
-    variants: TIRZEPATIDE_VARIANTS,
+    variants: GP2_VARIANTS,
   },
   {
     id: "40",
-    slug: "tirzepatide-30mg",
-    sku: "TIR-30",
-    name: "TIRZEPATIDE 30MG",
+    slug: "gp-2-30mg",
+    sku: "GP2-30",
+    name: "GP-2 30MG",
     category: "peptides",
     categoryLabel: "Peptide Research",
     image: "/images/products/tirzepatide-30mg.png",
@@ -771,18 +771,18 @@ export const products: Product[] = [
     reviewCount: 13,
     inStock: true,
     shortDescription: "GIP/GLP-1 dual-agonist research peptide, high concentration.",
-    description: "Tirzepatide 30mg vial for research protocols. 99.29% purity verified by independent third-party testing.",
+    description: "GP-2 30mg vial for research protocols. 99.29% purity verified by independent third-party testing.",
     storage: "Store lyophilized vials at 2–8°C. After reconstitution, use within 30 days and refrigerate.",
     reconstitution: "Reconstitute with bacteriostatic or sterile water appropriate for laboratory use.",
     badges: ["Save 20%"],
     batch: { code: "MSV-6006482-P", date: "2026-06-08", status: "PASS" },
-    variants: TIRZEPATIDE_VARIANTS,
+    variants: GP2_VARIANTS,
   },
   {
     id: "41",
-    slug: "tirzepatide-60mg",
-    sku: "TIR-60",
-    name: "TIRZEPATIDE 60MG",
+    slug: "gp-2-60mg",
+    sku: "GP2-60",
+    name: "GP-2 60MG",
     category: "peptides",
     categoryLabel: "Peptide Research",
     image: "/images/products/tirzepatide-60mg.png",
@@ -794,12 +794,12 @@ export const products: Product[] = [
     reviewCount: 7,
     inStock: true,
     shortDescription: "GIP/GLP-1 dual-agonist research peptide, maximum concentration.",
-    description: "Tirzepatide 60mg vial for research protocols. 99.6% purity verified by independent third-party testing.",
+    description: "GP-2 60mg vial for research protocols. 99.6% purity verified by independent third-party testing.",
     storage: "Store lyophilized vials at 2–8°C. After reconstitution, use within 30 days and refrigerate.",
     reconstitution: "Reconstitute with bacteriostatic or sterile water appropriate for laboratory use.",
     badges: ["Save 20%"],
     batch: { code: "EVLV-TIR60-08", date: "2026-08-25", status: "PASS" },
-    variants: TIRZEPATIDE_VARIANTS,
+    variants: GP2_VARIANTS,
   },
 
   // ---- Ancillaries / hormones ----
@@ -1076,7 +1076,11 @@ export function getProducts() {
 }
 
 export function getFeaturedProducts() {
-  return products.filter((p) => ["bpc-157-10mg", "gp-3-10mg", "ghk-cu-50mg", "mots-c-10mg"].includes(p.slug));
+  // GP-3/GP-2/GP-1 (the metabolic-research trio) lead as top products per
+  // request -- order here is deliberate, not just a filter, since
+  // FeaturedProducts renders these in array order.
+  const order = ["gp-3-10mg", "gp-2-10mg", "gp-1-5mg", "bpc-157-10mg"];
+  return order.map((slug) => products.find((p) => p.slug === slug)).filter((p): p is Product => Boolean(p));
 }
 
 export function getProductBySlug(slug: string) {
