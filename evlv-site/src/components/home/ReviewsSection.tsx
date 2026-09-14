@@ -3,10 +3,10 @@ import { Reveal } from "@/components/ui/Reveal";
 import { MolecularMotif } from "@/components/ui/MolecularMotif";
 
 const PURITY_STATS = [
-  { value: "99%+", label: "Avg HPLC purity across all batches" },
-  { value: "100%", label: "Batches with published COA" },
-  { value: "48h", label: "Third-party lab turnaround" },
-  { value: "12 mo", label: "Shelf life guarantee" },
+  { icon: "ri-flask-line", value: "99%+", label: "Avg HPLC purity across all batches" },
+  { icon: "ri-file-shield-2-line", value: "100%", label: "Batches with published COA" },
+  { icon: "ri-time-line", value: "48h", label: "Third-party lab turnaround" },
+  { icon: "ri-calendar-check-line", value: "12 mo", label: "Shelf life guarantee" },
 ];
 
 function Stars({ rating, className = "" }: { rating: number; className?: string }) {
@@ -27,6 +27,8 @@ function Stars({ rating, className = "" }: { rating: number; className?: string 
  * the same lab-standard figures shown in the hero and the "From checkout
  * to your bench" order-process section -- kept identical across all three
  * so the numbers read as one consistent claim, not three different ones.
+ * Icons match the TrustBar/AboutSection icon-row convention used
+ * elsewhere on the page rather than introducing a new visual language.
  */
 export async function ReviewsSection() {
   const data = await getGoogleReviews();
@@ -37,8 +39,12 @@ export async function ReviewsSection() {
         variant="particles"
         className="pointer-events-none absolute -right-24 -top-24 hidden h-[380px] w-[380px] lg:block"
       />
+      <MolecularMotif
+        variant="concentric"
+        className="pointer-events-none absolute -bottom-32 -left-32 hidden h-[340px] w-[340px] lg:block"
+      />
       <div className="relative mx-auto max-w-[1000px] px-4 md:px-8">
-        <Reveal className="mb-14 text-center md:mb-16">
+        <Reveal className="mb-12 text-center md:mb-14">
           <span className="mb-4 inline-flex items-center gap-2 rounded-md border border-white/10 bg-white/5 px-3 py-1.5 text-[11px] font-medium uppercase tracking-wider text-white/60">
             <span className="h-1.5 w-1.5 rounded-full bg-copper" /> Research-Grade Quality
           </span>
@@ -54,11 +60,15 @@ export async function ReviewsSection() {
           )}
         </Reveal>
 
-        <Reveal stagger className="mb-16 grid grid-cols-2 gap-4 md:mb-20 md:grid-cols-4 md:gap-5">
+        <Reveal
+          stagger
+          className="mb-16 grid grid-cols-2 divide-y divide-white/10 rounded-lg border border-white/10 bg-white/[0.03] md:mb-20 md:grid-cols-4 md:divide-x md:divide-y-0"
+        >
           {PURITY_STATS.map((s) => (
-            <div key={s.label} className="rounded-lg border border-white/10 bg-white/5 px-4 py-5 text-center">
-              <p className="font-display text-2xl font-semibold text-sage-light md:text-3xl">{s.value}</p>
-              <p className="mt-1.5 text-[11px] leading-snug text-white/50">{s.label}</p>
+            <div key={s.label} className="flex flex-col items-center gap-2 px-4 py-6 text-center">
+              <i className={`${s.icon} text-lg text-copper`} aria-hidden />
+              <p className="font-display text-xl font-semibold text-white md:text-2xl">{s.value}</p>
+              <p className="max-w-[140px] text-[11px] leading-snug text-white/45">{s.label}</p>
             </div>
           ))}
         </Reveal>

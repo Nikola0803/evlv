@@ -2,6 +2,7 @@ import data from "./landing-content.json";
 import { getDealRowHtml, getGiveawayRowHtml } from "@/lib/deal-and-giveaway";
 import { ReviewsSection } from "@/components/home/ReviewsSection";
 import { PartnerReferralSection } from "@/components/home/PartnerReferralSection";
+import { FaqHomeSection } from "@/components/home/FaqHomeSection";
 
 /**
  * Homepage content is a direct port of the approved
@@ -35,8 +36,11 @@ import { PartnerReferralSection } from "@/components/home/PartnerReferralSection
  * falling back to white when a section has no explicit background of
  * its own -- per the "no white sections" note.
  *
- * data.html carries two markers, each swapped out for a real React
- * component rather than static scraped markup:
+ * data.html carries three markers, each swapped out for a real,
+ * design-token-driven React component rather than static scraped markup
+ * (so these sections visually match the rest of the real-component
+ * pages -- ambassadors, checkout, etc. -- not the scraped mockup's own
+ * styling):
  *  - "<!-- PROOF_SECTION_SLOT -->" -> <ReviewsSection />, real reviews
  *    pulled live via the site's Google Places integration (never
  *    fabricated placeholder testimonials).
@@ -44,16 +48,21 @@ import { PartnerReferralSection } from "@/components/home/PartnerReferralSection
  *    ambassador/affiliate program's two-audience CTA (apply vs.
  *    already-approved), backed by the same real commission system as
  *    /ambassadors -- not a separate invented referral program.
+ *  - "<!-- FAQ_SECTION_SLOT -->" -> <FaqHomeSection />, a searchable
+ *    accordion built on the site's real FAQ data (lib/content.ts) --
+ *    replaces the scraped mockup's static FAQ block, which duplicated
+ *    outdated payment-method copy (Zelle/Cash App/Venmo) that lib/content
+ *    has already moved past.
  *
  * The middle two hero-rows (previously static Ancillaries / Stacked
  * Research links) were replaced with "<!-- DEAL_ROW_SLOT -->" and
- * "<!-- GIVEAWAY_ROW_SLOT -->" markers. Unlike the two slots above, these
- * two are filled in with plain HTML STRINGS (getDealRowHtml() /
+ * "<!-- GIVEAWAY_ROW_SLOT -->" markers. Unlike the three slots above,
+ * these two are filled in with plain HTML STRINGS (getDealRowHtml() /
  * getGiveawayRowHtml()) spliced into data.html *before* it's split for
  * rendering -- not React components rendered as dangerouslySetInnerHTML
  * siblings. That's because these markers sit *inside* the scraped
  * `.hero-rows` CSS grid; splitting that grid's markup across separate
- * dangerouslySetInnerHTML divs (the way the proof-section split works)
+ * dangerouslySetInnerHTML divs (the way the other three splits work)
  * would make the browser's fragment parser auto-close the still-open
  * `.hero-rows` div early, breaking the 2-column grid layout. Splicing
  * strings in first keeps that grid's markup contiguous. Both helpers
@@ -69,7 +78,8 @@ export default async function Home() {
     .replace("<!-- GIVEAWAY_ROW_SLOT -->", giveawayRowHtml);
 
   const [beforeProof, afterProof] = htmlWithRows.split("<!-- PROOF_SECTION_SLOT -->");
-  const [htmlBefore, htmlAfter] = afterProof.split("<!-- PARTNER_SECTION_SLOT -->");
+  const [beforePartner, afterPartner] = afterProof.split("<!-- PARTNER_SECTION_SLOT -->");
+  const [beforeFaq, afterFaq] = afterPartner.split("<!-- FAQ_SECTION_SLOT -->");
 
   return (
     <>
@@ -77,9 +87,11 @@ export default async function Home() {
       <div id="evlv-landing-content" className="ev-d">
         <div dangerouslySetInnerHTML={{ __html: beforeProof }} />
         <ReviewsSection />
-        <div dangerouslySetInnerHTML={{ __html: htmlBefore }} />
+        <div dangerouslySetInnerHTML={{ __html: beforePartner }} />
         <PartnerReferralSection />
-        <div dangerouslySetInnerHTML={{ __html: htmlAfter }} />
+        <div dangerouslySetInnerHTML={{ __html: beforeFaq }} />
+        <FaqHomeSection />
+        <div dangerouslySetInnerHTML={{ __html: afterFaq }} />
       </div>
       <script dangerouslySetInnerHTML={{ __html: data.script }} />
     </>
