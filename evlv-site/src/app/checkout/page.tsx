@@ -56,6 +56,7 @@ export default function CheckoutPage() {
   const [stateCode, setStateCode] = useState("");
   const [zip, setZip] = useState("");
   const [smsConsent, setSmsConsent] = useState(false);
+  const [ruoAttestation, setRuoAttestation] = useState(false);
   const [orderNotes, setOrderNotes] = useState("");
   const [couponCode, setCouponCode] = useState(() => getStoredCouponCode());
 
@@ -122,7 +123,7 @@ export default function CheckoutPage() {
 
   async function handlePlaceOrder(e: React.FormEvent) {
     e.preventDefault();
-    if (!selectedGateway || expired || !shippingComplete || placing) return;
+    if (!selectedGateway || expired || !shippingComplete || !ruoAttestation || placing) return;
     setPlacing(true);
 
     const user = getStoredUser();
@@ -152,7 +153,14 @@ export default function CheckoutPage() {
           // order engine tries couponCode first, then affiliateRef, against
           // Affiliate.couponCode/slug (see order-engine.ts).
           affiliateRef: couponCode.trim() || undefined,
-          customerNote: orderNotes.trim() || undefined,
+          customerNote: [
+            `RUO attestation: purchaser confirmed laboratory/research use only at ${new Date().toISOString()}.`,
+            orderNotes.trim() || undefined,
+          ]
+            .filter(Boolean)
+            .join(" | "),
+          ruoAttested: true,
+          ruoAttestedAt: new Date().toISOString(),
           customerId: user && user.user_id !== "local" ? user.user_id : undefined,
           // The deployed CRM's checkout also requires a top-level customerEmail
           // for guest checkout (billing.email alone isn't enough there).
@@ -472,21 +480,28 @@ export default function CheckoutPage() {
             </div>
           </div>
 
-          <div className="flex items-start gap-2 rounded-md border border-stone bg-ivory-soft p-4">
-            <i className="ri-information-line mt-0.5 text-copper" />
-            <p className="text-xs leading-relaxed text-charcoal/60">
-              By placing this order, you confirm that all products are purchased for laboratory research use only,
-              in accordance with our{" "}
+          <label className="flex items-start gap-3 rounded-lg border border-stone bg-ivory-soft p-4">
+            <input
+              type="checkbox"
+              checked={ruoAttestation}
+              onChange={(e) => setRuoAttestation(e.target.checked)}
+              required
+              className="mt-0.5 h-4 w-4 shrink-0 accent-copper"
+            />
+            <span className="text-xs leading-relaxed text-charcoal/60">
+              I confirm I am purchasing these products exclusively for laboratory, analytical, or in-vitro research
+              use by qualified personnel, not for human or animal consumption, administration, or any diagnostic
+              or therapeutic purpose, in accordance with the{" "}
               <Link href="/ruo" className="text-copper hover:underline">
                 Research Use Only Policy
               </Link>
-              .
-            </p>
-          </div>
+              . I understand this order and its attestation are retained as part of the order record.
+            </span>
+          </label>
 
           <button
             type="submit"
-            disabled={!selectedGateway || expired || !shippingComplete || placing}
+            disabled={!selectedGateway || expired || !shippingComplete || !ruoAttestation || placing}
             className="w-full rounded-md bg-copper py-5 text-sm font-semibold uppercase tracking-[0.2em] text-charcoal transition hover:bg-copper-light disabled:cursor-not-allowed disabled:opacity-40"
           >
             {placing ? "Placing Order..." : `Confirm Order (${formatPrice(total)})`}
