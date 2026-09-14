@@ -15,7 +15,7 @@ import { Product, ProductVariant } from "./types";
  * `getShopListProducts()`'s dedup logic below instead of listing every
  * dose as a separate card.
  *
- * "GP-3" is the site's compliant name for Retatrutide — do not rename to
+ * "EVLV-3" is the site's compliant name for Retatrutide — do not rename to
  * "Retatrutide" anywhere in copy, slugs, or SKUs.
  */
 
@@ -36,11 +36,11 @@ const BPC_TB_BLEND_VARIANTS: ProductVariant[] = [
   { slug: "bpc-tb-500-blend-20mg", label: "20mg", price: 150, inStock: true },
 ];
 
-const GP3_VARIANTS: ProductVariant[] = [
-  { slug: "gp-3-10mg", label: "10mg", price: 90, inStock: true },
-  { slug: "gp-3-15mg", label: "15mg", price: 125, inStock: true },
-  { slug: "gp-3-30mg", label: "30mg", price: 220, inStock: true },
-  { slug: "gp-3-60mg", label: "60mg", price: 380, inStock: true },
+const EVLV3_VARIANTS: ProductVariant[] = [
+  { slug: "evlv-3-10mg", label: "10mg", price: 90, inStock: true },
+  { slug: "evlv-3-15mg", label: "15mg", price: 125, inStock: true },
+  { slug: "evlv-3-30mg", label: "30mg", price: 220, inStock: true },
+  { slug: "evlv-3-60mg", label: "60mg", price: 380, inStock: true },
 ];
 
 const TESAMORELIN_VARIANTS: ProductVariant[] = [
@@ -58,16 +58,16 @@ const CJC_IPA_BLEND_VARIANTS: ProductVariant[] = [
   { slug: "cjc-ipa-blend-20mg", label: "20mg", price: 130, inStock: true },
 ];
 
-const GP1_VARIANTS: ProductVariant[] = [
-  { slug: "gp-1-5mg", label: "5mg", price: 85, inStock: true },
-  { slug: "gp-1-10mg", label: "10mg", price: 150, inStock: true },
+const EVLV1_VARIANTS: ProductVariant[] = [
+  { slug: "evlv-1-5mg", label: "5mg", price: 85, inStock: true },
+  { slug: "evlv-1-10mg", label: "10mg", price: 150, inStock: true },
 ];
 
-const GP2_VARIANTS: ProductVariant[] = [
-  { slug: "gp-2-10mg", label: "10mg", price: 95, inStock: true },
-  { slug: "gp-2-15mg", label: "15mg", price: 135, inStock: true },
-  { slug: "gp-2-30mg", label: "30mg", price: 230, inStock: true },
-  { slug: "gp-2-60mg", label: "60mg", price: 400, inStock: true },
+const EVLV2_VARIANTS: ProductVariant[] = [
+  { slug: "evlv-2-10mg", label: "10mg", price: 95, inStock: true },
+  { slug: "evlv-2-15mg", label: "15mg", price: 135, inStock: true },
+  { slug: "evlv-2-30mg", label: "30mg", price: 230, inStock: true },
+  { slug: "evlv-2-60mg", label: "60mg", price: 400, inStock: true },
 ];
 
 const HCG_VARIANTS: ProductVariant[] = [
@@ -276,15 +276,15 @@ export const products: Product[] = [
     variants: BPC_TB_BLEND_VARIANTS,
   },
 
-  // ---- GP-3 (Retatrutide) ----
+  // ---- EVLV-3 (Retatrutide) ----
   {
     id: "7",
-    slug: "gp-3-10mg",
-    sku: "GP3-10",
-    name: "GP-3 10MG",
+    slug: "evlv-3-10mg",
+    sku: "EVLV3-10",
+    name: "EVLV-3 10MG",
     category: "peptides",
     categoryLabel: "Peptide Research",
-    image: "/images/products/gp-3-10mg.png",
+    image: "/images/products/evlv-3-10mg.png",
     price: 90,
     bulkOption: { qty: 10, price: 720, savePercent: 20 },
     purity: "99.34%",
@@ -294,21 +294,21 @@ export const products: Product[] = [
     inStock: true,
     shortDescription: "Tri-agonist research peptide, standard concentration.",
     description:
-      "GP-3 10mg vial for research protocols. 99.34% purity verified by independent third-party testing.",
+      "EVLV-3 10mg vial for research protocols. 99.34% purity verified by independent third-party testing.",
     storage: "Store lyophilized vials at 2–8°C. After reconstitution, use within 30 days and refrigerate.",
     reconstitution: "Reconstitute with bacteriostatic or sterile water appropriate for laboratory use.",
     badges: ["Case Pricing"],
     batch: { code: "MSV-7184415-P", date: "2026-06-08", status: "PASS" },
-    variants: GP3_VARIANTS,
+    variants: EVLV3_VARIANTS,
   },
   {
     id: "28",
-    slug: "gp-3-15mg",
-    sku: "GP3-15",
-    name: "GP-3 15MG",
+    slug: "evlv-3-15mg",
+    sku: "EVLV3-15",
+    name: "EVLV-3 15MG",
     category: "peptides",
     categoryLabel: "Peptide Research",
-    image: "/images/products/gp-3-15mg.png",
+    image: "/images/products/evlv-3-15mg.png",
     price: 125,
     bulkOption: { qty: 10, price: 1000, savePercent: 20 },
     purity: "99.41%",
@@ -318,21 +318,21 @@ export const products: Product[] = [
     inStock: true,
     shortDescription: "Tri-agonist research peptide, mid concentration.",
     description:
-      "GP-3 15mg vial for research protocols. 99.41% purity verified by independent third-party testing.",
+      "EVLV-3 15mg vial for research protocols. 99.41% purity verified by independent third-party testing.",
     storage: "Store lyophilized vials at 2–8°C. After reconstitution, use within 30 days and refrigerate.",
     reconstitution: "Reconstitute with bacteriostatic or sterile water appropriate for laboratory use.",
     badges: ["Case Pricing"],
     batch: { code: "MSV-5244055-P", date: "2026-06-08", status: "PASS" },
-    variants: GP3_VARIANTS,
+    variants: EVLV3_VARIANTS,
   },
   {
     id: "29",
-    slug: "gp-3-30mg",
-    sku: "GP3-30",
-    name: "GP-3 30MG",
+    slug: "evlv-3-30mg",
+    sku: "EVLV3-30",
+    name: "EVLV-3 30MG",
     category: "peptides",
     categoryLabel: "Peptide Research",
-    image: "/images/products/gp-3-30mg.png",
+    image: "/images/products/evlv-3-30mg.png",
     price: 220,
     bulkOption: { qty: 10, price: 1760, savePercent: 20 },
     purity: "99.43%",
@@ -342,21 +342,21 @@ export const products: Product[] = [
     inStock: true,
     shortDescription: "Tri-agonist research peptide, high concentration.",
     description:
-      "GP-3 30mg vial for research protocols. 99.43% purity verified by independent third-party testing.",
+      "EVLV-3 30mg vial for research protocols. 99.43% purity verified by independent third-party testing.",
     storage: "Store lyophilized vials at 2–8°C. After reconstitution, use within 30 days and refrigerate.",
     reconstitution: "Reconstitute with bacteriostatic or sterile water appropriate for laboratory use.",
     badges: ["Case Pricing"],
     batch: { code: "MSV-6472318-P", date: "2026-06-08", status: "PASS" },
-    variants: GP3_VARIANTS,
+    variants: EVLV3_VARIANTS,
   },
   {
     id: "30",
-    slug: "gp-3-60mg",
-    sku: "GP3-60",
-    name: "GP-3 60MG",
+    slug: "evlv-3-60mg",
+    sku: "EVLV3-60",
+    name: "EVLV-3 60MG",
     category: "peptides",
     categoryLabel: "Peptide Research",
-    image: "/images/products/gp-3-60mg.png",
+    image: "/images/products/evlv-3-60mg.png",
     price: 380,
     bulkOption: { qty: 10, price: 3040, savePercent: 20 },
     purity: "99.6%",
@@ -366,12 +366,12 @@ export const products: Product[] = [
     inStock: true,
     shortDescription: "Tri-agonist research peptide, maximum concentration.",
     description:
-      "GP-3 60mg vial for research protocols. 99.6% purity verified by independent third-party testing.",
+      "EVLV-3 60mg vial for research protocols. 99.6% purity verified by independent third-party testing.",
     storage: "Store lyophilized vials at 2–8°C. After reconstitution, use within 30 days and refrigerate.",
     reconstitution: "Reconstitute with bacteriostatic or sterile water appropriate for laboratory use.",
     badges: ["Case Pricing"],
-    batch: { code: "EVLV-GP3-60-08", date: "2026-08-16", status: "PASS" },
-    variants: GP3_VARIANTS,
+    batch: { code: "EVLV-EVLV3-60-08", date: "2026-08-16", status: "PASS" },
+    variants: EVLV3_VARIANTS,
   },
 
   // ---- Tesamorelin ----
@@ -662,12 +662,12 @@ export const products: Product[] = [
     variants: CJC_IPA_BLEND_VARIANTS,
   },
 
-  // ---- GP-1 / GP-2 (metabolic; compliant names for Semaglutide / Tirzepatide) ----
+  // ---- EVLV-1 / EVLV-2 (metabolic; compliant names for Semaglutide / Tirzepatide) ----
   {
     id: "36",
-    slug: "gp-1-5mg",
-    sku: "GP1-5",
-    name: "GP-1 5MG",
+    slug: "evlv-1-5mg",
+    sku: "EVLV1-5",
+    name: "EVLV-1 5MG",
     category: "peptides",
     categoryLabel: "Peptide Research",
     image: "/images/products/semaglutide-5mg.png",
@@ -679,18 +679,18 @@ export const products: Product[] = [
     reviewCount: 31,
     inStock: true,
     shortDescription: "GLP-1 receptor agonist research peptide, standard concentration.",
-    description: "GP-1 5mg vial for research protocols. 99.19% purity verified by independent third-party testing.",
+    description: "EVLV-1 5mg vial for research protocols. 99.19% purity verified by independent third-party testing.",
     storage: "Store lyophilized vials at 2–8°C. After reconstitution, use within 30 days and refrigerate.",
     reconstitution: "Reconstitute with bacteriostatic or sterile water appropriate for laboratory use.",
     badges: ["Case Pricing"],
     batch: { code: "MSV-4193082-P", date: "2026-06-08", status: "PASS" },
-    variants: GP1_VARIANTS,
+    variants: EVLV1_VARIANTS,
   },
   {
     id: "37",
-    slug: "gp-1-10mg",
-    sku: "GP1-10",
-    name: "GP-1 10MG",
+    slug: "evlv-1-10mg",
+    sku: "EVLV1-10",
+    name: "EVLV-1 10MG",
     category: "peptides",
     categoryLabel: "Peptide Research",
     image: "/images/products/semaglutide-10mg.png",
@@ -702,18 +702,18 @@ export const products: Product[] = [
     reviewCount: 24,
     inStock: true,
     shortDescription: "GLP-1 receptor agonist research peptide, high concentration.",
-    description: "GP-1 10mg vial for research protocols. 99.4% purity verified by independent third-party testing.",
+    description: "EVLV-1 10mg vial for research protocols. 99.4% purity verified by independent third-party testing.",
     storage: "Store lyophilized vials at 2–8°C. After reconstitution, use within 30 days and refrigerate.",
     reconstitution: "Reconstitute with bacteriostatic or sterile water appropriate for laboratory use.",
     badges: ["Case Pricing"],
     batch: { code: "EVLV-SEM10-08", date: "2026-08-24", status: "PASS" },
-    variants: GP1_VARIANTS,
+    variants: EVLV1_VARIANTS,
   },
   {
     id: "38",
-    slug: "gp-2-10mg",
-    sku: "GP2-10",
-    name: "GP-2 10MG",
+    slug: "evlv-2-10mg",
+    sku: "EVLV2-10",
+    name: "EVLV-2 10MG",
     category: "peptides",
     categoryLabel: "Peptide Research",
     image: "/images/products/tirzepatide-10mg.png",
@@ -725,18 +725,18 @@ export const products: Product[] = [
     reviewCount: 37,
     inStock: true,
     shortDescription: "GIP/GLP-1 dual-agonist research peptide, standard concentration.",
-    description: "GP-2 10mg vial for research protocols. 99.44% purity verified by independent third-party testing.",
+    description: "EVLV-2 10mg vial for research protocols. 99.44% purity verified by independent third-party testing.",
     storage: "Store lyophilized vials at 2–8°C. After reconstitution, use within 30 days and refrigerate.",
     reconstitution: "Reconstitute with bacteriostatic or sterile water appropriate for laboratory use.",
     badges: ["Case Pricing"],
     batch: { code: "MSV-9109868-P", date: "2026-06-08", status: "PASS" },
-    variants: GP2_VARIANTS,
+    variants: EVLV2_VARIANTS,
   },
   {
     id: "39",
-    slug: "gp-2-15mg",
-    sku: "GP2-15",
-    name: "GP-2 15MG",
+    slug: "evlv-2-15mg",
+    sku: "EVLV2-15",
+    name: "EVLV-2 15MG",
     category: "peptides",
     categoryLabel: "Peptide Research",
     image: "/images/products/tirzepatide-15mg.png",
@@ -748,18 +748,18 @@ export const products: Product[] = [
     reviewCount: 15,
     inStock: true,
     shortDescription: "GIP/GLP-1 dual-agonist research peptide, mid concentration.",
-    description: "GP-2 15mg vial for research protocols. 99.28% purity verified by independent third-party testing.",
+    description: "EVLV-2 15mg vial for research protocols. 99.28% purity verified by independent third-party testing.",
     storage: "Store lyophilized vials at 2–8°C. After reconstitution, use within 30 days and refrigerate.",
     reconstitution: "Reconstitute with bacteriostatic or sterile water appropriate for laboratory use.",
     badges: ["Case Pricing"],
     batch: { code: "MSV-3795846-P", date: "2026-06-08", status: "PASS" },
-    variants: GP2_VARIANTS,
+    variants: EVLV2_VARIANTS,
   },
   {
     id: "40",
-    slug: "gp-2-30mg",
-    sku: "GP2-30",
-    name: "GP-2 30MG",
+    slug: "evlv-2-30mg",
+    sku: "EVLV2-30",
+    name: "EVLV-2 30MG",
     category: "peptides",
     categoryLabel: "Peptide Research",
     image: "/images/products/tirzepatide-30mg.png",
@@ -771,18 +771,18 @@ export const products: Product[] = [
     reviewCount: 13,
     inStock: true,
     shortDescription: "GIP/GLP-1 dual-agonist research peptide, high concentration.",
-    description: "GP-2 30mg vial for research protocols. 99.29% purity verified by independent third-party testing.",
+    description: "EVLV-2 30mg vial for research protocols. 99.29% purity verified by independent third-party testing.",
     storage: "Store lyophilized vials at 2–8°C. After reconstitution, use within 30 days and refrigerate.",
     reconstitution: "Reconstitute with bacteriostatic or sterile water appropriate for laboratory use.",
     badges: ["Case Pricing"],
     batch: { code: "MSV-6006482-P", date: "2026-06-08", status: "PASS" },
-    variants: GP2_VARIANTS,
+    variants: EVLV2_VARIANTS,
   },
   {
     id: "41",
-    slug: "gp-2-60mg",
-    sku: "GP2-60",
-    name: "GP-2 60MG",
+    slug: "evlv-2-60mg",
+    sku: "EVLV2-60",
+    name: "EVLV-2 60MG",
     category: "peptides",
     categoryLabel: "Peptide Research",
     image: "/images/products/tirzepatide-60mg.png",
@@ -794,12 +794,12 @@ export const products: Product[] = [
     reviewCount: 7,
     inStock: true,
     shortDescription: "GIP/GLP-1 dual-agonist research peptide, maximum concentration.",
-    description: "GP-2 60mg vial for research protocols. 99.6% purity verified by independent third-party testing.",
+    description: "EVLV-2 60mg vial for research protocols. 99.6% purity verified by independent third-party testing.",
     storage: "Store lyophilized vials at 2–8°C. After reconstitution, use within 30 days and refrigerate.",
     reconstitution: "Reconstitute with bacteriostatic or sterile water appropriate for laboratory use.",
     badges: ["Case Pricing"],
     batch: { code: "EVLV-TIR60-08", date: "2026-08-25", status: "PASS" },
-    variants: GP2_VARIANTS,
+    variants: EVLV2_VARIANTS,
   },
 
   // ---- Ancillaries / hormones ----
@@ -1076,10 +1076,10 @@ export function getProducts() {
 }
 
 export function getFeaturedProducts() {
-  // GP-3/GP-2/GP-1 (the metabolic-research trio) lead as top products per
+  // EVLV-3/EVLV-2/EVLV-1 (the metabolic-research trio) lead as top products per
   // request -- order here is deliberate, not just a filter, since
   // FeaturedProducts renders these in array order.
-  const order = ["gp-3-10mg", "gp-2-10mg", "gp-1-5mg", "bpc-157-10mg"];
+  const order = ["evlv-3-10mg", "evlv-2-10mg", "evlv-1-5mg", "bpc-157-10mg"];
   return order.map((slug) => products.find((p) => p.slug === slug)).filter((p): p is Product => Boolean(p));
 }
 

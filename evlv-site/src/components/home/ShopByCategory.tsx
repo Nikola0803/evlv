@@ -17,7 +17,7 @@ const CATEGORIES = [
     num: "02",
     title: "Metabolic Research",
     descriptor: "Weight and metabolic regulation research materials.",
-    compounds: "GP-1 · GP-2 · GP-3",
+    compounds: "EVLV-1 · EVLV-2 · EVLV-3",
     href: "/shop?category=peptides",
     art: "particles" as const,
   },

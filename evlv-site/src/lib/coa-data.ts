@@ -21,14 +21,14 @@ export interface CoaEntry {
  * "COA pending" on /coas rather than inventing data.
  */
 const LOCAL_COA_MAP: Record<string, CoaEntry> = {
-  "gp-3-10mg": { slug: "gp-3-10mg", url: "/coas/MSV-7184415-P.pdf", label: "MSV-7184415-P" },
-  "gp-3-15mg": { slug: "gp-3-15mg", url: "/coas/MSV-5244055-P.pdf", label: "MSV-5244055-P" },
-  "gp-3-30mg": { slug: "gp-3-30mg", url: "/coas/MSV-6472318-P.pdf", label: "MSV-6472318-P" },
+  "evlv-3-10mg": { slug: "evlv-3-10mg", url: "/coas/MSV-7184415-P.pdf", label: "MSV-7184415-P" },
+  "evlv-3-15mg": { slug: "evlv-3-15mg", url: "/coas/MSV-5244055-P.pdf", label: "MSV-5244055-P" },
+  "evlv-3-30mg": { slug: "evlv-3-30mg", url: "/coas/MSV-6472318-P.pdf", label: "MSV-6472318-P" },
   "mots-c-10mg": { slug: "mots-c-10mg", url: "/coas/MSV-7058391-P.pdf", label: "MSV-7058391-P" },
-  "gp-2-10mg": { slug: "gp-2-10mg", url: "/coas/MSV-9109868-P.pdf", label: "MSV-9109868-P" },
-  "gp-2-15mg": { slug: "gp-2-15mg", url: "/coas/MSV-3795846-P.pdf", label: "MSV-3795846-P" },
-  "gp-2-30mg": { slug: "gp-2-30mg", url: "/coas/MSV-6006482-P.pdf", label: "MSV-6006482-P" },
-  "gp-1-5mg": { slug: "gp-1-5mg", url: "/coas/MSV-4193082-P.pdf", label: "MSV-4193082-P" },
+  "evlv-2-10mg": { slug: "evlv-2-10mg", url: "/coas/MSV-9109868-P.pdf", label: "MSV-9109868-P" },
+  "evlv-2-15mg": { slug: "evlv-2-15mg", url: "/coas/MSV-3795846-P.pdf", label: "MSV-3795846-P" },
+  "evlv-2-30mg": { slug: "evlv-2-30mg", url: "/coas/MSV-6006482-P.pdf", label: "MSV-6006482-P" },
+  "evlv-1-5mg": { slug: "evlv-1-5mg", url: "/coas/MSV-4193082-P.pdf", label: "MSV-4193082-P" },
   "kpv-10mg": { slug: "kpv-10mg", url: "/coas/MSV-4451178-P.pdf", label: "MSV-4451178-P" },
   "bpc-157-5mg": { slug: "bpc-157-5mg", url: "/coas/MSV-8212693-P.pdf", label: "MSV-8212693-P" },
   "bpc-157-10mg": { slug: "bpc-157-10mg", url: "/coas/MSV-4152086-P.pdf", label: "MSV-4152086-P" },

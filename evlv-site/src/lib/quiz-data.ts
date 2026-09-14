@@ -114,7 +114,7 @@ export const QUIZ_PRODUCTS: Record<string, QuizProduct> = {
       "longevity:cellular": "A mitochondria-targeted compound studied in the context of cellular energy research.",
     },
   },
-  "gp-1-5mg": {
+  "evlv-1-5mg": {
     tier: "beginner",
     variants: {
       "metabolic:general": "A widely-studied GLP-1 research compound and one of the more established entries in general metabolic research.",
@@ -133,14 +133,14 @@ export const QUIZ_PRODUCTS: Record<string, QuizProduct> = {
       "longevity:skin": "A pre-combined cellular-support blend researched for tissue- and skin-focused protocols.",
     },
   },
-  "gp-3-10mg": {
+  "evlv-3-10mg": {
     tier: "advanced",
     variants: {
       "metabolic:appetite":
         "A tri-agonist compound at the frontier of metabolic research. Typically referenced in more advanced literature within this category.",
     },
   },
-  "gp-2-10mg": {
+  "evlv-2-10mg": {
     tier: "mid",
     variants: {
       "metabolic:appetite": "A dual-agonist GLP-1/GIP research compound, a frequently-cited midpoint in the literature before tri-agonist research.",
