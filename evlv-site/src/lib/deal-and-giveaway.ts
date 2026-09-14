@@ -32,7 +32,7 @@ const DEAL_OF_THE_DAY: DealOfTheDay | null = {
 
 const GIVEAWAY_STATUS: GiveawayStatus | null = {
   enabled: true,
-  prizeLabel: "a $100 EVLV Store Credit",
+  prizeLabel: "a $25 EVLV Store Credit",
   rulesText:
     "No purchase necessary to enter or win. One free entry per person per day via this page. Placing a qualifying order today also earns one automatic entry -- purchasing does not increase your odds of winning beyond that one entry. Winner is selected at random from that day's entries. Void where prohibited.",
 };

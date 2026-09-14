@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useCart, BAC_WATER } from "@/lib/cart-context";
+import { useCart } from "@/lib/cart-context";
 import { useCurrency } from "@/lib/currency-context";
 import { ShippingProgressBar, FeaturedOfferCard, ResearchersAlsoAdd, FREE_SHIPPING_THRESHOLD, FLAT_SHIPPING_COST } from "./CartUpsellOffers";
 import { getStoredCouponCode, setStoredCouponCode } from "@/lib/referral";
@@ -102,18 +102,6 @@ export function CartDrawer() {
                     </div>
                   </div>
                 ))}
-              </div>
-
-              {/* Mandatory reconstitution add-on — always included, not removable */}
-              <div className="mt-5 flex items-center gap-3 border-t border-dashed border-stone pt-5">
-                <div className="flex h-20 w-16 shrink-0 items-center justify-center rounded-md bg-sage-deep">
-                  <i className="ri-drop-line text-xl text-ivory" />
-                </div>
-                <div className="flex flex-1 flex-col">
-                  <p className="text-sm font-medium text-charcoal">{BAC_WATER.name}</p>
-                  <p className="text-xs text-copper">{BAC_WATER.note}</p>
-                </div>
-                <span className="text-sm font-semibold text-charcoal">{formatPrice(BAC_WATER.price)}</span>
               </div>
 
               <FeaturedOfferCard />

@@ -9,7 +9,7 @@
  */
 
 import Image from "next/image";
-import { useCart, BAC_WATER } from "@/lib/cart-context";
+import { useCart } from "@/lib/cart-context";
 import { useCurrency } from "@/lib/currency-context";
 import { getProductBySlug, getProducts } from "@/lib/products";
 
@@ -127,4 +127,3 @@ export function ResearchersAlsoAdd() {
   );
 }
 
-export { BAC_WATER };

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useCart, BAC_WATER } from "@/lib/cart-context";
+import { useCart } from "@/lib/cart-context";
 import { useCurrency } from "@/lib/currency-context";
 import { FREE_SHIPPING_THRESHOLD, FLAT_SHIPPING_COST } from "@/components/layout/CartUpsellOffers";
 import { getStoredUser } from "@/lib/auth";
@@ -128,10 +128,7 @@ export default function CheckoutPage() {
 
     const user = getStoredUser();
     const gatewayInfo = PAYMENT_GATEWAYS.find((g) => g.id === selectedGateway)!;
-    const localLines = [
-      ...lines.map((l) => ({ name: l.product.name, packLabel: l.packLabel, qty: l.qty, unitPrice: l.unitPrice })),
-      { name: BAC_WATER.name, packLabel: BAC_WATER.note, qty: 1, unitPrice: BAC_WATER.price },
-    ];
+    const localLines = lines.map((l) => ({ name: l.product.name, packLabel: l.packLabel, qty: l.qty, unitPrice: l.unitPrice }));
 
     // Try the real CRM checkout first; fall back to a local order record
     // if the CRM isn't connected yet (see /api/checkout's 503 case), so
@@ -142,10 +139,7 @@ export default function CheckoutPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          items: [
-            ...lines.map((l) => ({ slug: l.product.slug, quantity: l.qty })),
-            { slug: BAC_WATER.slug, quantity: 1 },
-          ],
+          items: lines.map((l) => ({ slug: l.product.slug, quantity: l.qty })),
           paymentMethod: selectedGateway,
           paymentMemo: memo,
           couponCode: couponCode.trim() || undefined,
@@ -348,16 +342,6 @@ export default function CheckoutPage() {
                   <span className="text-base font-semibold text-charcoal">{formatPrice(line.qty * line.unitPrice)}</span>
                 </div>
               ))}
-              <div className="flex items-center gap-4 border-t border-dashed border-stone pt-5">
-                <div className="flex h-20 w-16 shrink-0 items-center justify-center rounded-md bg-sage-deep">
-                  <i className="ri-drop-line text-xl text-ivory" />
-                </div>
-                <div className="flex-1">
-                  <p className="text-base font-medium text-charcoal">{BAC_WATER.name}</p>
-                  <p className="text-sm text-copper">{BAC_WATER.note}</p>
-                </div>
-                <span className="text-base font-semibold text-charcoal">{formatPrice(BAC_WATER.price)}</span>
-              </div>
             </div>
 
             <div className="mt-6 space-y-2 border-t border-stone pt-5 text-base">
