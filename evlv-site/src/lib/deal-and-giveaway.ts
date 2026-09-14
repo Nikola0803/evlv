@@ -1,6 +1,3 @@
-import "server-only";
-import { crmConfigured, crmGet } from "@/lib/crm-proxy";
-
 export interface DealOfTheDay {
   slug: string;
   name: string;
@@ -18,22 +15,34 @@ export interface GiveawayStatus {
   entryCount?: number;
 }
 
-// Real data only -- both return a value that means "nothing configured"
-// rather than ever inventing a deal or a prize. Short revalidate window
-// (not the 60s default other CRM reads use) since staff expect a deal
-// they just set in the CRM to show up on the site quickly.
+// Hardcoded, not CRM-driven -- there's no live CRM connection wired up for
+// this storefront yet, so pulling these from an unconfigured CRM endpoint
+// silently returned nothing and both rows on the homepage just vanished.
+// Update the values below directly to change the featured deal or run a
+// new giveaway; set DEAL_OF_THE_DAY / GIVEAWAY_STATUS to null to hide a
+// row entirely (same as before, when nothing was configured).
+const DEAL_OF_THE_DAY: DealOfTheDay | null = {
+  slug: "bpc-157-10mg",
+  name: "BPC-157 10MG",
+  imageUrl: "/images/products/bpc-157-10mg.png",
+  dealPriceCents: 5900,
+  regularPriceCents: 7000,
+  endsAt: new Date(new Date().setUTCHours(23, 59, 59, 999)).toISOString(),
+};
+
+const GIVEAWAY_STATUS: GiveawayStatus | null = {
+  enabled: true,
+  prizeLabel: "a $100 EVLV Store Credit",
+  rulesText:
+    "No purchase necessary to enter or win. One free entry per person per day via this page. Placing a qualifying order today also earns one automatic entry -- purchasing does not increase your odds of winning beyond that one entry. Winner is selected at random from that day's entries. Void where prohibited.",
+};
+
 export async function getDealOfTheDay(): Promise<DealOfTheDay | null> {
-  if (!crmConfigured()) return null;
-  const { ok, data } = await crmGet("/api/store/deal-of-the-day", { revalidate: 30 });
-  if (!ok || !data) return null;
-  return data as DealOfTheDay;
+  return DEAL_OF_THE_DAY;
 }
 
 export async function getGiveawayStatus(): Promise<GiveawayStatus | null> {
-  if (!crmConfigured()) return null;
-  const { ok, data } = await crmGet("/api/store/giveaway", { revalidate: 30 });
-  if (!ok || !data) return null;
-  return data as GiveawayStatus;
+  return GIVEAWAY_STATUS;
 }
 
 function escapeHtml(s: string): string {
@@ -60,8 +69,7 @@ function formatDollars(cents: number): string {
  * directly into data.html before it's ever split/rendered keeps the
  * grid's markup contiguous and intact.
  *
- * Returns "" (nothing rendered) when no deal is configured today --
- * same real-data-only rule as everything else on this page.
+ * Returns "" (nothing rendered) when DEAL_OF_THE_DAY above is set to null.
  */
 export async function getDealRowHtml(): Promise<string> {
   const deal = await getDealOfTheDay();
@@ -87,7 +95,7 @@ export async function getDealRowHtml(): Promise<string> {
  * grid's markup contiguous. Links to a dedicated /giveaway page (entry
  * form + rules) rather than embedding the form here, so this stays a
  * simple, minimal-looking teaser card that matches the other rows.
- * Returns "" when no giveaway is enabled today.
+ * Returns "" when GIVEAWAY_STATUS above is set to null or enabled: false.
  */
 export async function getGiveawayRowHtml(): Promise<string> {
   const giveaway = await getGiveawayStatus();
