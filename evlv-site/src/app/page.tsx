@@ -1,5 +1,6 @@
 import data from "./landing-content.json";
 import { getDealRowHtml, getGiveawayRowHtml } from "@/lib/deal-and-giveaway";
+import { ReviewsSection } from "@/components/home/ReviewsSection";
 
 /**
  * Homepage content is a direct port of the approved
@@ -64,11 +65,15 @@ export default async function Home() {
     .replace("<!-- DEAL_ROW_SLOT -->", dealRowHtml)
     .replace("<!-- GIVEAWAY_ROW_SLOT -->", giveawayRowHtml);
 
+  const [htmlBefore, htmlAfter] = htmlWithRows.split("<!-- PROOF_SECTION_SLOT -->");
+
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: data.css }} />
       <div id="evlv-landing-content" className="ev-d">
-        <div dangerouslySetInnerHTML={{ __html: htmlWithRows }} />
+        <div dangerouslySetInnerHTML={{ __html: htmlBefore }} />
+        <ReviewsSection />
+        <div dangerouslySetInnerHTML={{ __html: htmlAfter }} />
       </div>
       <script dangerouslySetInnerHTML={{ __html: data.script }} />
     </>
