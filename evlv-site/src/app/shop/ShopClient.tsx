@@ -76,6 +76,15 @@ export function ShopClient({ products }: { products: Product[] }) {
     if (focusFromUrl && focusGroups.some((g) => g.label === focusFromUrl)) {
       setActiveFocus(new Set([focusFromUrl]));
     }
+    // ?format=<value> -- links into the real product-format taxonomy
+    // (products.ts's `formats` export, the same list that drives this
+    // page's own "Product Format" checkboxes), so a link from anywhere on
+    // the site (the homepage featured-categories grid) filters to real
+    // products instead of pointing at a decorative label.
+    const formatFromUrl = searchParams.get("format") as ProductFormat | null;
+    if (formatFromUrl && formats.some((f) => f.value === formatFromUrl)) {
+      setActiveFormats(new Set([formatFromUrl]));
+    }
     const q = searchParams.get("q");
     if (q) setQuery(q);
   }, [searchParams, focusGroups]);
