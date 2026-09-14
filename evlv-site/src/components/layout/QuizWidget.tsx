@@ -172,7 +172,7 @@ export function QuizWidget() {
 
             {step === "goals" && (
               <div>
-                <h2 className="font-display text-xl font-semibold text-charcoal md:text-2xl">What&apos;s your main research focus?</h2>
+                <h2 className="font-display text-xl font-semibold text-charcoal md:text-2xl">Which compound class are you researching?</h2>
                 <p className="mt-2 text-sm text-charcoal/50">Pick up to {MAX_FOCUS_SELECTIONS}.</p>
 
                 <div className="mt-6 grid gap-3 sm:grid-cols-2">

@@ -14,12 +14,12 @@ export interface FocusArea {
 }
 
 export const FOCUS_AREAS: FocusArea[] = [
-  { key: "recovery", label: "Recovery & Repair Research" },
-  { key: "longevity", label: "Longevity & Cellular Health Research" },
-  { key: "metabolic", label: "Metabolic & Weight Research" },
-  { key: "growth", label: "GHRH & Pituitary Axis Research" },
-  { key: "cognition", label: "Cognition & Mood Research" },
-  { key: "vitality", label: "Sexual Health Research" },
+  { key: "recovery", label: "Tissue-Repair & Immunomodulatory Peptides" },
+  { key: "longevity", label: "Copper & Mitochondrial-Targeted Peptides" },
+  { key: "metabolic", label: "GLP-1 / GIP Receptor Agonist Peptides" },
+  { key: "growth", label: "Growth Hormone Secretagogue Peptides" },
+  { key: "cognition", label: "Neuropeptide Class" },
+  { key: "vitality", label: "Melanocortin & Gonadotropin Peptides" },
 ];
 
 export const MAX_FOCUS_SELECTIONS = 2;

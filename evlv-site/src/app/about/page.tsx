@@ -129,11 +129,9 @@ export default function AboutPage() {
           <div>
             <h2 className="font-display text-3xl font-semibold md:text-4xl">Built to actually shop.</h2>
             <p className="mt-4 max-w-lg text-base leading-relaxed text-white/60">
-              Most peptide sites are built for people who already know exactly what they want. We built EVLV for
-              them, and for everyone else. Shop by research focus if you know the goal, from the Shop menu, or A to
-              Z if you know the compound. Not sure where to start?{" "}
-              <QuizTrigger>Take the quiz</QuizTrigger> and we'll point you in the right direction. No pressure, no
-              upsell.
+              Browse by compound class from the Shop menu if you know the pharmacological category, or A to
+              Z if you know the exact compound. Not sure where to start?{" "}
+              <QuizTrigger>Use the compound finder</QuizTrigger> to narrow the catalog by research area.
             </p>
           </div>
 
