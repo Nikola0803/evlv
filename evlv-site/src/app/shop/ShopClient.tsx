@@ -67,14 +67,18 @@ export function ShopClient({ products }: { products: Product[] }) {
     if (fromUrl && categories.some((c) => c.value === fromUrl)) {
       setActiveTypes(new Set([fromUrl]));
     }
-    // ?focus=<label> -- links into the real research-focus taxonomy (the
+    // ?focus=<slug> -- links into the real compound-class taxonomy (the
     // same groups the mega-menu and this page's own "Category" checkboxes
     // use, from shop-menu-data.ts), so a link from anywhere on the site
-    // (the homepage category marquee) actually filters to real products
-    // instead of just being decorative text.
+    // (the homepage category marquee, "Shop by Compound Class," "Find
+    // your path") actually filters to real products instead of just
+    // being decorative text. Matched by slug, not the display label, so
+    // the URL stays a clean kebab-case string independent of "&" / "/"
+    // in the label itself.
     const focusFromUrl = searchParams.get("focus");
-    if (focusFromUrl && focusGroups.some((g) => g.label === focusFromUrl)) {
-      setActiveFocus(new Set([focusFromUrl]));
+    const matchedFocusGroup = focusGroups.find((g) => g.slug === focusFromUrl);
+    if (matchedFocusGroup) {
+      setActiveFocus(new Set([matchedFocusGroup.label]));
     }
     // ?format=<value> -- links into the real product-format taxonomy
     // (products.ts's `formats` export, the same list that drives this

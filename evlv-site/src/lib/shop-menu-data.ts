@@ -2,9 +2,10 @@ import { getProductBySlug, getProducts } from "./products";
 import type { Product } from "./types";
 
 /** Groupings for the Shop mega-menu, by pharmacological/compound class (not by personal research goal). Every curated static SKU appears exactly once. */
-const GROUPS: { label: string; slugs: string[] }[] = [
+const GROUPS: { slug: string; label: string; slugs: string[] }[] = [
   {
-    label: "Tissue-Repair & Immunomodulatory Peptides",
+    slug: "Synthetic-Structural-Peptides",
+    label: "Synthetic Structural Peptides",
     slugs: [
       "bpc-157-5mg",
       "bpc-157-10mg",
@@ -18,7 +19,8 @@ const GROUPS: { label: string; slugs: string[] }[] = [
     ],
   },
   {
-    label: "GLP-1 / GIP Receptor Agonist Peptides",
+    slug: "Metabolic-Assay-Peptides",
+    label: "Metabolic Assay Peptides",
     slugs: [
       "gp-3-10mg",
       "gp-3-15mg",
@@ -33,25 +35,40 @@ const GROUPS: { label: string; slugs: string[] }[] = [
     ],
   },
   {
-    label: "Growth Hormone Secretagogue Peptides",
+    slug: "Secretagogue-Class-Peptides",
+    label: "Secretagogue-Class Peptides",
     slugs: ["tesamorelin-10mg", "tesamorelin-20mg", "cjc-ipa-blend-10mg", "cjc-ipa-blend-20mg"],
   },
   {
-    label: "Copper & Mitochondrial-Targeted Peptides",
+    slug: "Copper-Metallopeptides",
+    label: "Copper & Metallopeptides",
     slugs: ["ghk-cu-50mg", "mots-c-10mg", "mots-c-40mg", "ss-31-10mg", "nad-500mg", "glow-70mg", "klow-80mg"],
   },
-  { label: "Neuropeptide Class", slugs: ["selank-10mg", "semax-10mg"] },
   {
-    label: "Melanocortin & Gonadotropin Peptides",
-    slugs: ["pt-141-10mg", "melanotan-ii-10mg", "oxytocin-10mg", "hcg-2000iu", "hcg-5000iu"],
+    slug: "Neuropeptide-Class",
+    label: "Neuropeptide Class",
+    slugs: ["selank-10mg", "semax-10mg"],
   },
   {
-    label: "Other Compounds",
-    slugs: ["aod-9604-10mg", "cartalax-20mg", "igf-1-lr3-1mg", "kpv-10mg", "kpv-oral-500mcg"],
+    slug: "Specialty-Research-Peptides",
+    label: "Specialty Research Peptides",
+    slugs: [
+      "pt-141-10mg",
+      "melanotan-ii-10mg",
+      "oxytocin-10mg",
+      "hcg-2000iu",
+      "hcg-5000iu",
+      "aod-9604-10mg",
+      "cartalax-20mg",
+      "igf-1-lr3-1mg",
+      "kpv-10mg",
+      "kpv-oral-500mcg",
+    ],
   },
 ];
 
 export interface ShopMenuGroup {
+  slug: string;
   label: string;
   products: Product[];
 }
@@ -72,6 +89,7 @@ export function getShopMenuGroups(products?: Product[]): ShopMenuGroup[] {
   const bySlug = new Map((products ?? getProducts()).map((p) => [p.slug, p]));
 
   const curated = GROUPS.map((g) => ({
+    slug: g.slug,
     label: g.label,
     products: g.slugs
       .map((slug) => bySlug.get(slug) ?? getProductBySlug(slug))
@@ -81,7 +99,10 @@ export function getShopMenuGroups(products?: Product[]): ShopMenuGroup[] {
   const claimedSlugs = new Set(GROUPS.flatMap((g) => g.slugs));
   const leftover = [...bySlug.values()].filter((p) => !claimedSlugs.has(p.slug));
 
-  const groups = leftover.length > 0 ? [...curated, { label: "New & Other Compounds", products: leftover }] : curated;
+  const groups =
+    leftover.length > 0
+      ? [...curated, { slug: "New-Other-Compounds", label: "New & Other Compounds", products: leftover }]
+      : curated;
 
   return groups.filter((g) => g.products.length > 0);
 }
