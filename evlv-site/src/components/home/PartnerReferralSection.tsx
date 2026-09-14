@@ -27,7 +27,7 @@ const AMBASSADOR_POINTS = [
 
 export function PartnerReferralSection() {
   return (
-    <section className="bg-ivory py-20 md:py-28">
+    <section className="bg-ivory-soft py-20 md:py-28">
       <div className="mx-auto max-w-[1300px] px-4 md:px-8">
         <Reveal className="mx-auto mb-12 max-w-2xl text-center md:mb-16">
           <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">Research Partners</p>
