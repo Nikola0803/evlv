@@ -10,30 +10,30 @@
  *     an alias here instead.
  *
  * Alias -> spec color map:
- *   charcoal     -> EVLV Obsidian      #0E1113 (primary dark bg/text)
- *   sage-forest  -> EVLV Charcoal      #1C2224 (secondary dark)
- *   sage-deep    -> EVLV Deep Mineral  #203A37 (brand green, CTAs, hover)
- *   sage-light   -> EVLV Mineral       #314743 (lighter green accent)
- *   sage         -> EVLV Slate         #6B7370 (secondary text/UI/borders)
- *   soft-gray    -> EVLV Slate         #6B7370 (muted body text)
- *   stone        -> EVLV Warm Ivory    #D8D3C7 (borders, product bg)
- *   ivory        -> EVLV Soft Ivory    #E7E3DA (primary page background)
- *   ivory-soft   -> EVLV Porcelain     #F1EEE7 (lightest panels/cards)
- *   sage-mist    -> EVLV Porcelain     #F1EEE7 (active/selected tint)
- *   copper       -> EVLV Copper        #B8875A (accent, ~5% of the UI, never a primary CTA color)
+ *   charcoal     -> EVLV Obsidian      #0a0e14 (primary dark bg/text)
+ *   sage-forest  -> EVLV Charcoal      #12181f (secondary dark)
+ *   sage-deep    -> EVLV Deep Mineral  #1b4b91 (brand green, CTAs, hover)
+ *   sage-light   -> EVLV Mineral       #2e6da4 (lighter green accent)
+ *   sage         -> EVLV Slate         #5c7a99 (secondary text/UI/borders)
+ *   soft-gray    -> EVLV Slate         #5c7a99 (muted body text)
+ *   stone        -> EVLV Warm Ivory    #dce8f2 (borders, product bg)
+ *   ivory        -> EVLV Soft Ivory    #eff5fa (primary page background)
+ *   ivory-soft   -> EVLV Porcelain     #ffffff (lightest panels/cards)
+ *   sage-mist    -> EVLV Porcelain     #ffffff (active/selected tint)
+ *   copper       -> EVLV Copper        #3e7cb8 (accent, ~5% of the UI, never a primary CTA color)
  */
 :root {
-  --color-obsidian: #0e1113;
-  --color-charcoal-spec: #1c2224;
-  --color-deep-mineral: #203a37;
-  --color-mineral: #314743;
-  --color-slate: #6b7370;
-  --color-stone-spec: #a7a297;
-  --color-warm-ivory: #d8d3c7;
-  --color-soft-ivory: #e7e3da;
-  --color-porcelain: #f1eee7;
-  --color-copper-light: #c9a77f;
-  --color-copper-dark: #8f6847;
+  --color-obsidian: #0a0e14;
+  --color-charcoal-spec: #12181f;
+  --color-deep-mineral: #1b4b91;
+  --color-mineral: #2e6da4;
+  --color-slate: #5c7a99;
+  --color-stone-spec: #a9bfd1;
+  --color-warm-ivory: #dce8f2;
+  --color-soft-ivory: #eff5fa;
+  --color-porcelain: #ffffff;
+  --color-copper-light: #7fb3d3;
+  --color-copper-dark: #2c5f82;
 
   --color-ivory: var(--color-soft-ivory);
   --color-ivory-soft: var(--color-porcelain);
@@ -46,7 +46,7 @@
   --color-white: #ffffff;
   --color-sage-forest: var(--color-charcoal-spec);
   --color-soft-gray: var(--color-slate);
-  --color-copper: #b8875a;
+  --color-copper: #3e7cb8;
 }
 
 @theme inline {
