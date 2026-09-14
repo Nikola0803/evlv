@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  allowedDevOrigins: ["192.168.1.83", "localhost", "127.0.0.1"],
   async redirects() {
     return [
       // Renamed to /heroes-discount (broader umbrella covering active
