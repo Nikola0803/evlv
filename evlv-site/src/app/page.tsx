@@ -1,6 +1,7 @@
 import data from "./landing-content.json";
 import { getDealRowHtml, getGiveawayRowHtml } from "@/lib/deal-and-giveaway";
 import { ReviewsSection } from "@/components/home/ReviewsSection";
+import { PartnerReferralSection } from "@/components/home/PartnerReferralSection";
 
 /**
  * Homepage content is a direct port of the approved
@@ -34,17 +35,19 @@ import { ReviewsSection } from "@/components/home/ReviewsSection";
  * falling back to white when a section has no explicit background of
  * its own -- per the "no white sections" note.
  *
- * The old static "reviews/proof" block from the mockup has been cut out of
- * data.html entirely (left behind as a "<!-- PROOF_SECTION_SLOT -->"
- * marker) and replaced with a real <ProofSection /> component rendered
- * between the two halves -- it matches the asymmetric photo-grid + rating
- * badge + testimonial-card layout the user pointed to as a reference, and
- * it pulls real reviews via the site's existing Google Places integration
- * instead of the static blob's placeholder photos/copy.
+ * data.html carries two markers, each swapped out for a real React
+ * component rather than static scraped markup:
+ *  - "<!-- PROOF_SECTION_SLOT -->" -> <ReviewsSection />, real reviews
+ *    pulled live via the site's Google Places integration (never
+ *    fabricated placeholder testimonials).
+ *  - "<!-- PARTNER_SECTION_SLOT -->" -> <PartnerReferralSection />, the
+ *    ambassador/affiliate program's two-audience CTA (apply vs.
+ *    already-approved), backed by the same real commission system as
+ *    /ambassadors -- not a separate invented referral program.
  *
  * The middle two hero-rows (previously static Ancillaries / Stacked
  * Research links) were replaced with "<!-- DEAL_ROW_SLOT -->" and
- * "<!-- GIVEAWAY_ROW_SLOT -->" markers. Unlike PROOF_SECTION_SLOT, these
+ * "<!-- GIVEAWAY_ROW_SLOT -->" markers. Unlike the two slots above, these
  * two are filled in with plain HTML STRINGS (getDealRowHtml() /
  * getGiveawayRowHtml()) spliced into data.html *before* it's split for
  * rendering -- not React components rendered as dangerouslySetInnerHTML
@@ -65,14 +68,17 @@ export default async function Home() {
     .replace("<!-- DEAL_ROW_SLOT -->", dealRowHtml)
     .replace("<!-- GIVEAWAY_ROW_SLOT -->", giveawayRowHtml);
 
-  const [htmlBefore, htmlAfter] = htmlWithRows.split("<!-- PROOF_SECTION_SLOT -->");
+  const [beforeProof, afterProof] = htmlWithRows.split("<!-- PROOF_SECTION_SLOT -->");
+  const [htmlBefore, htmlAfter] = afterProof.split("<!-- PARTNER_SECTION_SLOT -->");
 
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: data.css }} />
       <div id="evlv-landing-content" className="ev-d">
-        <div dangerouslySetInnerHTML={{ __html: htmlBefore }} />
+        <div dangerouslySetInnerHTML={{ __html: beforeProof }} />
         <ReviewsSection />
+        <div dangerouslySetInnerHTML={{ __html: htmlBefore }} />
+        <PartnerReferralSection />
         <div dangerouslySetInnerHTML={{ __html: htmlAfter }} />
       </div>
       <script dangerouslySetInnerHTML={{ __html: data.script }} />

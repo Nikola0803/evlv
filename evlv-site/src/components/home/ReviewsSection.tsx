@@ -2,6 +2,13 @@ import { getGoogleReviews } from "@/lib/google-reviews";
 import { Reveal } from "@/components/ui/Reveal";
 import { MolecularMotif } from "@/components/ui/MolecularMotif";
 
+const PURITY_STATS = [
+  { value: "99%+", label: "Avg HPLC purity across all batches" },
+  { value: "100%", label: "Batches with published COA" },
+  { value: "48h", label: "Third-party lab turnaround" },
+  { value: "12 mo", label: "Shelf life guarantee" },
+];
+
 function Stars({ rating, className = "" }: { rating: number; className?: string }) {
   return (
     <span className={`inline-flex items-center gap-0.5 text-copper ${className}`} aria-label={`${rating} out of 5 stars`}>
@@ -16,7 +23,10 @@ function Stars({ rating, className = "" }: { rating: number; className?: string 
  * Verified reviews, sourced live from lib/google-reviews.ts (Google Places
  * Place Details) -- server component, no client JS. Renders an honest empty
  * state until GOOGLE_PLACES_API_KEY/GOOGLE_PLACE_ID are set, never
- * placeholder/fabricated reviews.
+ * placeholder/fabricated reviews. PURITY_STATS above the testimonials are
+ * the same lab-standard figures shown in the hero and the "From checkout
+ * to your bench" order-process section -- kept identical across all three
+ * so the numbers read as one consistent claim, not three different ones.
  */
 export async function ReviewsSection() {
   const data = await getGoogleReviews();
@@ -28,38 +38,33 @@ export async function ReviewsSection() {
         className="pointer-events-none absolute -right-24 -top-24 hidden h-[380px] w-[380px] lg:block"
       />
       <div className="relative mx-auto max-w-[1000px] px-4 md:px-8">
+        <Reveal className="mb-14 text-center md:mb-16">
+          <span className="mb-4 inline-flex items-center gap-2 rounded-md border border-white/10 bg-white/5 px-3 py-1.5 text-[11px] font-medium uppercase tracking-wider text-white/60">
+            <span className="h-1.5 w-1.5 rounded-full bg-copper" /> Research-Grade Quality
+          </span>
+          <h2 className="font-display text-3xl font-semibold leading-[1.1] md:text-5xl">
+            Research you can <em className="text-sage-light not-italic">actually verify</em>.
+          </h2>
+          {data && (
+            <p className="mx-auto mt-4 flex items-center justify-center gap-2 text-sm text-white/60">
+              <Stars rating={data.rating} />
+              <span className="font-semibold text-white">{data.rating.toFixed(1)} / 5</span>
+              {data.reviewCount > 0 && <span>&middot; {data.reviewCount.toLocaleString()}+ verified researcher reviews</span>}
+            </p>
+          )}
+        </Reveal>
+
+        <Reveal stagger className="mb-16 grid grid-cols-2 gap-4 md:mb-20 md:grid-cols-4 md:gap-5">
+          {PURITY_STATS.map((s) => (
+            <div key={s.label} className="rounded-lg border border-white/10 bg-white/5 px-4 py-5 text-center">
+              <p className="font-display text-2xl font-semibold text-sage-light md:text-3xl">{s.value}</p>
+              <p className="mt-1.5 text-[11px] leading-snug text-white/50">{s.label}</p>
+            </div>
+          ))}
+        </Reveal>
+
         {data ? (
           <>
-            <Reveal className="mb-14 flex flex-col items-start justify-between gap-8 md:mb-20 md:flex-row md:items-end">
-              <div className="max-w-xl">
-                <span className="mb-4 inline-flex items-center gap-2 rounded-md border border-white/10 bg-white/5 px-3 py-1.5 text-[11px] font-medium uppercase tracking-wider text-white/60">
-                  <span className="h-1.5 w-1.5 rounded-full bg-copper" /> Verified Researchers
-                </span>
-                <h2 className="font-display text-3xl font-semibold leading-[1.1] md:text-5xl">
-                  {data.reviewCount > 0 ? `${data.reviewCount.toLocaleString()}+` : "Trusted by"} researchers
-                  <br />
-                  and counting.
-                </h2>
-              </div>
-
-              <a
-                href={data.mapsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex shrink-0 items-center gap-4 rounded-lg border border-white/10 bg-white/5 px-6 py-4 transition hover:border-copper/40"
-              >
-                <div>
-                  <span className="font-display text-2xl font-semibold">{data.rating.toFixed(1)} / 5</span>
-                  <p className="text-[11px] text-white/40">from verified reviews</p>
-                </div>
-                <span className="h-8 w-px bg-white/10" />
-                <div className="flex flex-col gap-1">
-                  <Stars rating={data.rating} />
-                  <span className="text-[11px] text-white/50">{data.reviewCount.toLocaleString()}+ reviews</span>
-                </div>
-              </a>
-            </Reveal>
-
             {data.reviews.length > 0 && (
               <Reveal stagger className="divide-y divide-white/10 border-t border-white/10">
                 {data.reviews.slice(0, 6).map((r, i) => {
@@ -98,19 +103,14 @@ export async function ReviewsSection() {
             </div>
           </>
         ) : (
-          <>
-            <p className="mb-4 text-center text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">
-              03 / The EVLV Experience
+          <div className="mx-auto flex max-w-lg flex-col items-center gap-3 rounded-lg border border-dashed border-white/20 px-6 py-10 text-center">
+            <i className="ri-shield-star-line text-2xl text-copper" />
+            <p className="text-sm text-white/60">
+              Verified researcher reviews will appear here once connected. Set{" "}
+              <code className="text-copper">GOOGLE_PLACES_API_KEY</code> and{" "}
+              <code className="text-copper">GOOGLE_PLACE_ID</code> in <code className="text-copper">.env.local</code>.
             </p>
-            <div className="mx-auto flex max-w-lg flex-col items-center gap-3 rounded-lg border border-dashed border-white/20 px-6 py-10 text-center">
-              <i className="ri-shield-star-line text-2xl text-copper" />
-              <p className="text-sm text-white/60">
-                Verified researcher reviews will appear here once connected. Set{" "}
-                <code className="text-copper">GOOGLE_PLACES_API_KEY</code> and{" "}
-                <code className="text-copper">GOOGLE_PLACE_ID</code> in <code className="text-copper">.env.local</code>.
-              </p>
-            </div>
-          </>
+          </div>
         )}
       </div>
     </section>
