@@ -187,6 +187,9 @@ export function CartDrawer() {
             <Link href="/shop" onClick={closeCart} className="mt-3 block text-center text-xs uppercase tracking-wide text-charcoal/50 transition hover:text-charcoal">
               Continue Shopping
             </Link>
+            <p className="mt-4 text-center text-[10px] leading-relaxed text-charcoal/35">
+              For laboratory and research use only. Not for human or veterinary use.
+            </p>
           </div>
         )}
       </aside>

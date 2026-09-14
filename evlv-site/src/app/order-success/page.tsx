@@ -117,6 +117,14 @@ export default async function OrderSuccessPage({
 
       <p className="mt-4 text-xs text-charcoal/40">Orders are typically dispatched within 24 hours of payment confirmation.</p>
 
+      <p className="mt-6 max-w-md text-[11px] leading-relaxed text-charcoal/40">
+        This order is supplied strictly for laboratory and analytical research use, in accordance with our{" "}
+        <Link href="/ruo" className="text-copper hover:underline">
+          Research Use Only Policy
+        </Link>
+        . Not for human or veterinary use.
+      </p>
+
       <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
         <Link href="/account" className="rounded-md bg-copper px-6 py-3 text-[12px] font-semibold uppercase tracking-[0.2em] text-charcoal transition hover:bg-copper-light">
           View Order
