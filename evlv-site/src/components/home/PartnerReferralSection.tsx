@@ -40,7 +40,7 @@ export function PartnerReferralSection() {
           <div className="relative flex flex-col overflow-hidden rounded-lg bg-charcoal p-8 text-white md:p-10">
             <MolecularMotif
               variant="particles"
-              className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 opacity-70"
+              className="pointer-events-none absolute -right-10 -top-10 hidden h-40 w-40 opacity-60 sm:block md:-right-16 md:-top-16 md:h-64 md:w-64"
             />
             <div className="relative flex h-11 w-11 items-center justify-center rounded-full bg-copper/15 text-copper">
               <i className="ri-flask-line text-xl" />
@@ -69,7 +69,7 @@ export function PartnerReferralSection() {
           <div className="relative flex flex-col overflow-hidden rounded-lg bg-sage-deep p-8 text-white md:p-10">
             <MolecularMotif
               variant="concentric"
-              className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 opacity-70"
+              className="pointer-events-none absolute -right-10 -top-10 hidden h-40 w-40 opacity-60 sm:block md:-right-16 md:-top-16 md:h-64 md:w-64"
             />
             <div className="relative flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-copper-light">
               <i className="ri-user-star-line text-xl" />
