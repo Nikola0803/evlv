@@ -16,6 +16,7 @@ import { CartProvider } from "@/lib/cart-context";
 import { CurrencyProvider } from "@/lib/currency-context";
 import { GoogleAnalytics } from "@/components/layout/GoogleAnalytics";
 import { GoogleTagManagerHead, GoogleTagManagerBody } from "@/components/layout/GoogleTagManager";
+import { OmnisendSnippet } from "@/components/layout/OmnisendSnippet";
 import { ScrollToTop } from "@/components/layout/ScrollToTop";
 import { ChunkErrorReload } from "@/components/layout/ChunkErrorReload";
 
@@ -124,6 +125,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         <ChunkErrorReload />
         <GoogleTagManagerBody />
         <GoogleAnalytics />
+        <OmnisendSnippet />
         <ReferralCapture />
         <VerificationSync />
         <CurrencyProvider>
