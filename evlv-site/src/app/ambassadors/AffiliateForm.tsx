@@ -2,7 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import Link from "next/link";
-import { getStoredUser, getStoredToken } from "@/lib/auth";
+import { getStoredToken } from "@/lib/auth";
 
 // EVLV ships US-only right now, so the form only collects a US state --
 // no separate country field (which was also the thing wrapping "Province /
@@ -10,6 +10,8 @@ import { getStoredUser, getStoredToken } from "@/lib/auth";
 const SHIP_COUNTRY = "US";
 
 interface FormState {
+  name: string;
+  email: string;
   referredBy: string;
   socialLink: string;
   phone: string;
@@ -20,6 +22,8 @@ interface FormState {
 }
 
 const EMPTY: FormState = {
+  name: "",
+  email: "",
   referredBy: "",
   socialLink: "",
   phone: "",
@@ -30,11 +34,13 @@ const EMPTY: FormState = {
 };
 
 /**
- * Applies for affiliate status on the shopper's EXISTING account - no
- * separate username/email/password. Affiliates are a role on the same
- * Customer record (see AFFILIATE-PORTAL.md), not a parallel login system.
- * Requires an existing customer session (AgeGate gates the whole site
- * before this is ever reachable, so this should always be present).
+ * Applies for affiliate status. If the applicant is already signed in
+ * (getStoredToken() is non-empty for a real account, not the AgeGate's
+ * placeholder "local" user), their existing account/order history carries
+ * over server-side -- but signing in first is NOT required, since most
+ * ambassador applicants on this public page have never shopped yet. Name +
+ * email collected here upsert (or reuse) their Contact record; see
+ * AFFILIATE-PORTAL.md.
  */
 export function AffiliateForm({ onApplied }: { onApplied?: () => void }) {
   const [form, setForm] = useState<FormState>(EMPTY);
@@ -51,11 +57,6 @@ export function AffiliateForm({ onApplied }: { onApplied?: () => void }) {
     e.preventDefault();
     setError("");
 
-    const user = getStoredUser();
-    if (!user) {
-      setError("Sign in to your account first, then apply.");
-      return;
-    }
     if (!agreedToTerms) {
       setError("You must accept the Terms & Conditions to apply.");
       return;
@@ -68,6 +69,8 @@ export function AffiliateForm({ onApplied }: { onApplied?: () => void }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           token: getStoredToken(),
+          name: form.name.trim(),
+          email: form.email.trim(),
           referredBy: form.referredBy.trim() || undefined,
           socialLink: form.socialLink.trim(),
           phone: form.phone.trim(),
@@ -110,6 +113,11 @@ export function AffiliateForm({ onApplied }: { onApplied?: () => void }) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 rounded-lg border border-stone bg-ivory-soft p-6 md:p-8">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <Field label="Full Name" required value={form.name} onChange={(v) => set("name", v)} />
+        <Field label="Email" type="email" required value={form.email} onChange={(v) => set("email", v)} />
+      </div>
+
       <Field label="Who referred you?" value={form.referredBy} onChange={(v) => set("referredBy", v)} placeholder="Optional" />
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
