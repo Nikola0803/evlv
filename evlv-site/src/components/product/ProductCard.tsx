@@ -91,22 +91,16 @@ export function ProductCard({ product }: { product: Product }) {
       <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-soft-gray">{product.shortDescription}</p>
 
       {/*
-        Product photos are shot with a copper "EVLVPEPTIDES.COM" brand band
-        baked into the bottom ~18% of the image (confirmed via pixel
-        sampling across multiple product photos: the band sits at roughly
-        83-90% of the image height on every vial shot), which visually
-        collided with the purity badge overlaid in the same corner. Rather
-        than re-shooting/editing the source images, we crop it out here:
-        the wrapper switches from a 1:1 square to a slightly taller-than-
-        wide box with overflow hidden, and the image is object-fit: cover,
-        object-position: top so only the top ~82% of the photo (cap, label,
-        "RESEARCH USE ONLY" text) is ever visible -- the copper band and
-        everything below it falls outside the visible box.
+        Whole product photo, uncropped -- the earlier version cropped out
+        the bottom of the image to dodge a purity-badge overlay that
+        collided with the copper brand band baked into the photo. That
+        crop was the wrong fix (it cut off real parts of the product shot);
+        removing the redundant overlay badge below was the right one --
+        purity already shows in the badge row above the title.
       */}
       <Link
         href={`/shop/${product.slug}`}
-        className="relative my-2 mx-auto block w-[70%] overflow-hidden"
-        style={{ aspectRatio: "1024 / 1260" }}
+        className="relative my-2 mx-auto block aspect-square w-[70%] overflow-hidden"
       >
         {product.image ? (
           <Image
@@ -115,19 +109,10 @@ export function ProductCard({ product }: { product: Product }) {
             width={500}
             height={500}
             sizes="(max-width: 768px) 45vw, 320px"
-            className="h-full w-full object-cover object-top"
-            style={{
-              maskImage: "linear-gradient(to bottom, black 78%, transparent 97%)",
-              WebkitMaskImage: "linear-gradient(to bottom, black 78%, transparent 97%)",
-            }}
+            className="h-full w-full object-contain"
           />
         ) : (
           <ProductVisual name={title} dosage={dosage} floating className="h-full w-full" />
-        )}
-        {product.purity && (
-          <span className="absolute bottom-0 right-0 flex items-center gap-1 rounded-md bg-charcoal/80 px-2 py-1 text-[10px] font-semibold uppercase tracking-wide text-white">
-            <i className="ri-flask-line text-copper" /> {product.purity}+
-          </span>
         )}
       </Link>
 
