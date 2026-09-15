@@ -3,7 +3,7 @@ import { crmConfigured, crmFetch } from "@/lib/crm-proxy";
 
 export const runtime = "nodejs";
 
-// POST /api/checkout — proxies to the CRM's /api/store/checkout, which
+// POST /api/checkout - proxies to the CRM's /api/store/checkout, which
 // places a real order in the same database the CRM dashboard reads from.
 // Body must match peptides-crm-app's CheckoutInput shape (lib/order-engine.ts):
 // { items: [{slug, quantity}], paymentMethod, paymentMemo, billing: {...}, customerNote? }

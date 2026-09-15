@@ -6,7 +6,7 @@ import { Reveal } from "@/components/ui/Reveal";
 
 export const metadata: Metadata = {
   title: "Dropshipping & Wholesale | EVLV",
-  description: "White-label your own research peptide storefront on EVLV's supply chain — custom CRM/CMS, branded website, and fulfillment included, priced with a personal offer built around your business.",
+  description: "White-label your own research peptide storefront on EVLV's supply chain - custom CRM/CMS, branded website, and fulfillment included, priced with a personal offer built around your business.",
   alternates: { canonical: "/wholesale" },
 };
 
@@ -20,7 +20,7 @@ const INCLUDED = [
   {
     icon: "ri-dashboard-3-line",
     title: "Custom CRM/CMS",
-    body: "A dedicated backend for your brand — orders, customers, content, and reporting, built on the same system EVLV runs on.",
+    body: "A dedicated backend for your brand - orders, customers, content, and reporting, built on the same system EVLV runs on.",
   },
   {
     icon: "ri-global-line",
@@ -30,31 +30,31 @@ const INCLUDED = [
   {
     icon: "ri-archive-2-line",
     title: "Fulfillment",
-    body: "Inventory, packing, and shipping handled on our end. You run the brand — we run the warehouse.",
+    body: "Inventory, packing, and shipping handled on our end. You run the brand - we run the warehouse.",
   },
   {
     icon: "ri-headphone-line",
     title: "Ongoing Support",
-    body: "Hosting, updates, and a direct line to our team after launch — not a one-time handoff.",
+    body: "Hosting, updates, and a direct line to our team after launch - not a one-time handoff.",
   },
 ];
 
 const BUILD_STATS = [
   { value: "$0", label: "Upfront cost for the website & CRM build" },
-  { value: "Market rate", label: "What you pay for product — no build markup" },
+  { value: "Market rate", label: "What you pay for product - no build markup" },
   { value: "1:1", label: "Personal offer, scoped to your pack selection" },
   { value: "Ongoing", label: "Hosting, updates, and support after launch" },
 ];
 
 const STEPS = [
   { num: "01", title: "Inquire", body: "Tell us about your business, your audience, and the pack sizes you want to sell." },
-  { num: "02", title: "Personal Offer", body: "We scope pricing and build to your business specifically — no flat monthly minimum, no one-size tier." },
+  { num: "02", title: "Personal Offer", body: "We scope pricing and build to your business specifically - no flat monthly minimum, no one-size tier." },
   { num: "03", title: "Launch", body: "We build your CRM/CMS and storefront, and connect fulfillment before you go live." },
 ];
 
 const FREE_ITEMS = [
   "Custom-designed storefront, built for your brand",
-  "Full CRM/CMS — orders, customers, content, reporting",
+  "Full CRM/CMS - orders, customers, content, reporting",
   "Hosting, updates, and ongoing support after launch",
   "Inventory, packing, and shipping on our end",
 ];
@@ -62,7 +62,7 @@ const FREE_ITEMS = [
 const REQUIRED_ITEMS = [
   "Your storefront and CRM run on EVLV's product catalog",
   "Product pricing to you matches current market rates",
-  "No separate setup fee — the build is funded by the supply relationship",
+  "No separate setup fee - the build is funded by the supply relationship",
 ];
 
 export default function WholesalePage() {
@@ -92,7 +92,7 @@ export default function WholesalePage() {
             </h1>
 
             <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-white/70 md:text-lg lg:mx-0">
-              White-label a research peptide business on EVLV&apos;s infrastructure — a custom CRM/CMS, a branded
+              White-label a research peptide business on EVLV&apos;s infrastructure - a custom CRM/CMS, a branded
               website, and fulfillment, built around a personal offer for your business.
             </p>
             <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-white/50 lg:mx-0">
@@ -203,9 +203,9 @@ export default function WholesalePage() {
             </h2>
             <p className="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-white/70 md:text-base">
               Every wholesale and dropshipping partner gets a fully built website and a complete CRM system at no
-              additional cost — no setup fee, no dev bill. The one requirement: everything we build for you runs on
+              additional cost - no setup fee, no dev bill. The one requirement: everything we build for you runs on
               EVLV&apos;s product catalog, so the build stays tied to the supply relationship that funds it. What you
-              pay us for product matches current market rates — we don&apos;t mark up to cover the build.
+              pay us for product matches current market rates - we don&apos;t mark up to cover the build.
             </p>
           </Reveal>
 
@@ -251,7 +251,7 @@ export default function WholesalePage() {
             ))}
           </div>
           <p className="mt-6 max-w-2xl text-xs leading-relaxed text-charcoal/40">
-            No flat setup fee, no fixed monthly minimum — every offer is scoped to the pack sizes and volume you tell
+            No flat setup fee, no fixed monthly minimum - every offer is scoped to the pack sizes and volume you tell
             us about during the inquiry conversation.
           </p>
         </div>

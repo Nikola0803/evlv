@@ -22,7 +22,7 @@ const TIERS: { key: Plan | "admin"; label: string; price: string; body: string; 
   {
     key: "admin",
     label: "Admin-Granted",
-    price: "—",
+    price: "N/A",
     body: "Access granted manually on your profile. Ask us if you think you qualify.",
     features: ["For institutional & bulk buyers", "Granted case-by-case by our team", "Contact us to be considered"],
   },

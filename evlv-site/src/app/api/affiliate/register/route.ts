@@ -4,10 +4,10 @@ import { crmConfigured, crmFetch } from "@/lib/crm-proxy";
 export const runtime = "nodejs";
 
 // POST /api/affiliate/register { token, referredBy?, socialLink, phone, address,
-// postalCode, city, province, country } — applies for affiliate status on the
+// postalCode, city, province, country } - applies for affiliate status on the
 // shopper's EXISTING customer account (resolved server-side from `token`, same
 // bearer token /api/auth/login already issues). Affiliates are a role on the
-// Customer record, not a separate login — see AFFILIATE-PORTAL.md. This CRM
+// Customer record, not a separate login - see AFFILIATE-PORTAL.md. This CRM
 // endpoint doesn't exist yet as of 2026-08 (peptides-crm-app's Affiliate model
 // is currently admin-created only). Until then this correctly 503s rather than
 // pretending to work.

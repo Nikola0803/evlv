@@ -2,7 +2,7 @@ import Script from "next/script";
 
 /**
  * GA4. Needs NEXT_PUBLIC_GA_MEASUREMENT_ID set (a real "G-XXXXXXXXXX" from
- * Google Analytics > Admin > Data Streams) — renders nothing until it is,
+ * Google Analytics > Admin > Data Streams) - renders nothing until it is,
  * rather than shipping a broken/empty gtag call.
  */
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;

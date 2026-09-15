@@ -4,7 +4,7 @@
  * Inline checkout upsells, styled after a competitor reference the founder
  * liked: offers embedded directly in the order summary (a checkbox "add this
  * deal" card + a small "Researchers Also Add" row), not a popup modal.
- * Real EVLV pricing throughout — discounts are applied to actual product.price,
+ * Real EVLV pricing throughout - discounts are applied to actual product.price,
  * never fabricated "was $X" numbers.
  */
 

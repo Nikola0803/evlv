@@ -26,7 +26,7 @@ export default function HeroesDiscountPage() {
           <h1 className="font-display text-4xl font-semibold leading-tight md:text-5xl">Heroes get 20% off, always.</h1>
           <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-white/60">
             Active duty, veterans, reservists, National Guard, and first responders get a flat 20% off every order.
-            One code per person, applied at checkout — not combinable with other discounts or promotions.
+            One code per person, applied at checkout - not combinable with other discounts or promotions.
           </p>
 
           <div className="mt-10 flex flex-wrap justify-center gap-3">

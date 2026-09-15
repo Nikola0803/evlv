@@ -137,7 +137,7 @@ export function CartDrawer() {
                   </button>
                 </div>
                 {promoSaved && (
-                  <p className="mt-1.5 text-xs text-sage-deep">Saved — this code will be applied at checkout.</p>
+                  <p className="mt-1.5 text-xs text-sage-deep">Saved - this code will be applied at checkout.</p>
                 )}
               </div>
             ) : (

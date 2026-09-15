@@ -58,7 +58,7 @@ function AccountPageInner() {
     setAddresses(getAddressesForUser(u.user_id));
 
     // Real accounts (not the local-only CRM-not-configured bypass) have a
-    // real token — fetch live order history from the CRM and show it
+    // real token - fetch live order history from the CRM and show it
     // alongside any local-only orders placed before the CRM was connected.
     const token = getStoredToken();
     if (u.user_id === "local" || !token) return;

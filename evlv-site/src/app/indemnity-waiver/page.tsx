@@ -99,7 +99,7 @@ export default function IndemnityWaiverPage() {
             <p className="mt-3 text-sm leading-relaxed text-charcoal/70 md:text-base">
               By browsing EVLV product pages, creating an account, proceeding through checkout, submitting an order,
               or otherwise accepting this Agreement electronically, you confirm that you&apos;ve read, understood,
-              and voluntarily agreed to the terms below. EVLV products are sold strictly for laboratory research —
+              and voluntarily agreed to the terms below. EVLV products are sold strictly for laboratory research -
               not for human consumption, veterinary use, diagnostic use, therapeutic use, food use, cosmetic use, or
               any other unauthorized application.
             </p>
@@ -220,7 +220,7 @@ export default function IndemnityWaiverPage() {
             </PolicySection>
 
             <PolicySection id="indemnification" num="7" title="Indemnification">
-              <p>You agree to indemnify, defend and hold harmless EVLV, its owners, officers, employees, contractors, affiliates, vendors, fulfillment partners, payment processors and agents from any claims, liabilities, damages, losses, penalties, fines, regulatory actions, costs or expenses — including reasonable legal fees — arising from or related to:</p>
+              <p>You agree to indemnify, defend and hold harmless EVLV, its owners, officers, employees, contractors, affiliates, vendors, fulfillment partners, payment processors and agents from any claims, liabilities, damages, losses, penalties, fines, regulatory actions, costs or expenses - including reasonable legal fees - arising from or related to:</p>
               <ul className="mt-5 space-y-2.5">
                 {INDEMNIFY_ITEMS.map((item) => (
                   <li key={item} className="flex items-start gap-2.5 text-sm leading-relaxed text-charcoal/70">
@@ -321,7 +321,7 @@ export default function IndemnityWaiverPage() {
             <h3 className="font-display text-xl font-semibold md:text-2xl">Final acknowledgment</h3>
             <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-white/60">
               By proceeding with a purchase from EVLV, you confirm that you&apos;ve read, understood and voluntarily
-              agreed to this Agreement — and that products are strictly for laboratory research use, not for human
+              agreed to this Agreement - and that products are strictly for laboratory research use, not for human
               or veterinary use, and will be handled only in compliance with applicable laws, safety standards, and
               research-use restrictions.
             </p>

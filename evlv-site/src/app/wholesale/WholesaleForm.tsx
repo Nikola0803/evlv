@@ -22,7 +22,7 @@ const EMPTY: FormState = {
   message: "",
 };
 
-const VOLUME_OPTIONS = ["Just getting started", "Growing catalog", "High-volume / multi-SKU", "Not sure yet — let's talk"];
+const VOLUME_OPTIONS = ["Just getting started", "Growing catalog", "High-volume / multi-SKU", "Not sure yet - let's talk"];
 
 export function WholesaleForm() {
   const [form, setForm] = useState<FormState>(EMPTY);
@@ -48,7 +48,7 @@ export function WholesaleForm() {
       if (!res.ok) {
         throw new Error(
           res.status === 503
-            ? "Wholesale inquiries aren't connected yet — email us directly via Contact in the meantime."
+            ? "Wholesale inquiries aren't connected yet - email us directly via Contact in the meantime."
             : data?.error || "Something went wrong submitting your inquiry."
         );
       }
@@ -94,9 +94,11 @@ export function WholesaleForm() {
           onChange={(e) => set("monthlyVolume", e.target.value)}
           className="w-full rounded-md border border-white/15 bg-white/10 px-4 py-2.5 text-sm text-white outline-none focus:border-copper"
         >
-          <option value="">Select a range</option>
+          <option value="" style={{ color: "#0E1113" }}>
+            Select a range
+          </option>
           {VOLUME_OPTIONS.map((v) => (
-            <option key={v} value={v}>
+            <option key={v} value={v} style={{ color: "#0E1113" }}>
               {v}
             </option>
           ))}
@@ -112,7 +114,7 @@ export function WholesaleForm() {
           maxLength={500}
           value={form.message}
           onChange={(e) => set("message", e.target.value)}
-          placeholder="What are you looking to build — dropship, white-label, or a fully custom storefront?"
+          placeholder="What are you looking to build - dropship, white-label, or a fully custom storefront?"
           className="w-full resize-none rounded-md border border-white/15 bg-white/10 px-4 py-2.5 text-sm text-white outline-none placeholder:text-white/30 focus:border-copper"
         />
       </div>

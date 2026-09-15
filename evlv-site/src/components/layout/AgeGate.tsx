@@ -2,8 +2,8 @@
 
 /**
  * Premium age/RUO verification + account gate, shown before the site is
- * accessible. Real accounts only (Sign In / Create Account) — no guest
- * bypass — backed by the custom CRM (peptides-crm-app) via this app's
+ * accessible. Real accounts only (Sign In / Create Account) - no guest
+ * bypass - backed by the custom CRM (peptides-crm-app) via this app's
  * /api/auth/* proxy routes. Falls back to a clear error if
  * CRM_API_URL/CRM_ORG_API_KEY/CRM_STORE_DOMAIN aren't set rather than
  * pretending to work.

@@ -123,7 +123,7 @@ export function AffiliatePanel() {
         <i className="ri-time-line text-2xl text-copper" />
         <p className="mt-3 font-display text-lg font-semibold text-charcoal">Application under review</p>
         <p className="mx-auto mt-2 max-w-md text-sm text-charcoal/60">
-          We review every affiliate application by hand. You&apos;ll get an email once a decision is made — usually
+          We review every affiliate application by hand. You&apos;ll get an email once a decision is made - usually
           within a couple of business days.
         </p>
       </div>
@@ -160,7 +160,7 @@ export function AffiliatePanel() {
         <div>
           <p className="font-display text-base font-semibold text-charcoal">Withdraw Your Earnings</p>
           <p className="mt-1 text-xs text-charcoal/50">
-            Minimum payout: {money(data.minPayoutCents ?? 0)} · Sent via {data.payoutMethod ? PAYOUT_LABELS[data.payoutMethod] : "—"}
+            Minimum payout: {money(data.minPayoutCents ?? 0)} · Sent via {data.payoutMethod ? PAYOUT_LABELS[data.payoutMethod] : "N/A"}
           </p>
           {requestMsg && <p className={`mt-2 text-xs font-medium ${requestMsg.ok ? "text-sage-deep" : "text-red-600"}`}>{requestMsg.text}</p>}
         </div>

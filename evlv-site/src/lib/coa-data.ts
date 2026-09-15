@@ -16,7 +16,7 @@ export interface CoaEntry {
  * Until the CRM is populated, LOCAL_COA_MAP below covers our dropship/
  * testing partner's real, currently-available certificates (lab: Horizon
  * Analytical) as a local fallback under public/coas/. These use the real
- * lot codes exactly as issued by the lab — never relabeled to look like
+ * lot codes exactly as issued by the lab - never relabeled to look like
  * EVLV-native lot numbers. Products with no COA in either source show
  * "COA pending" on /coas rather than inventing data.
  */

@@ -30,7 +30,7 @@ const EMPTY: FormState = {
 };
 
 /**
- * Applies for affiliate status on the shopper's EXISTING account — no
+ * Applies for affiliate status on the shopper's EXISTING account - no
  * separate username/email/password. Affiliates are a role on the same
  * Customer record (see AFFILIATE-PORTAL.md), not a parallel login system.
  * Requires an existing customer session (AgeGate gates the whole site
@@ -82,7 +82,7 @@ export function AffiliateForm({ onApplied }: { onApplied?: () => void }) {
       if (!res.ok) {
         throw new Error(
           res.status === 503
-            ? "The affiliate program isn't accepting applications yet — check back soon, or reach out via Contact in the meantime."
+            ? "The affiliate program isn't accepting applications yet - check back soon, or reach out via Contact in the meantime."
             : data?.error || "Something went wrong submitting your application."
         );
       }
@@ -101,7 +101,7 @@ export function AffiliateForm({ onApplied }: { onApplied?: () => void }) {
         <i className="ri-checkbox-circle-fill text-2xl text-sage-deep" />
         <p className="mt-3 font-display text-lg font-semibold text-charcoal">Application received</p>
         <p className="mt-2 text-sm text-charcoal/60">
-          We review every application by hand. We&apos;ll follow up by email within a couple of business days — check
+          We review every application by hand. We&apos;ll follow up by email within a couple of business days - check
           your Account page for your status any time.
         </p>
       </div>

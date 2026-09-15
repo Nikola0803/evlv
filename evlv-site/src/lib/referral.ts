@@ -11,7 +11,7 @@
  *    isn't silently overwritten by a stray ?ref= on a later page view.
  *
  * Both ultimately feed the same couponCode/affiliateRef fields on checkout
- * — the CRM's order-engine.ts already matches either against Affiliate
+ * - the CRM's order-engine.ts already matches either against Affiliate
  * records end-to-end; the missing piece was ever collecting one from the
  * storefront in the first place.
  */

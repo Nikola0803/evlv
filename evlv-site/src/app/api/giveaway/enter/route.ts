@@ -3,7 +3,7 @@ import { crmConfigured, crmFetch } from "@/lib/crm-proxy";
 
 export const runtime = "nodejs";
 
-// POST /api/giveaway/enter — the free, no-purchase-necessary entry path
+// POST /api/giveaway/enter - the free, no-purchase-necessary entry path
 // (see peptides-crm-app's /api/store/giveaway/enter for why this has to
 // exist). Proxied server-side same as checkout, so the CRM's store API
 // key never reaches the browser.

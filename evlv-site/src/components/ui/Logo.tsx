@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 /**
- * Real EVLV wordmark (geometric cut-out letterforms) — two prepared
+ * Real EVLV wordmark (geometric cut-out letterforms) - two prepared
  * variants, not a recolorable font. "ivory" = white logo, for dark
  * backgrounds (header, footer). "charcoal" = black logo, for light
  * backgrounds. Do not recreate this as styled text.

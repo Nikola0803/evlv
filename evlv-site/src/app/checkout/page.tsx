@@ -143,7 +143,7 @@ export default function CheckoutPage() {
           paymentMethod: selectedGateway,
           paymentMemo: memo,
           couponCode: couponCode.trim() || undefined,
-          // Same value doubles as the affiliate ?ref= candidate — the CRM's
+          // Same value doubles as the affiliate ?ref= candidate - the CRM's
           // order engine tries couponCode first, then affiliateRef, against
           // Affiliate.couponCode/slug (see order-engine.ts).
           affiliateRef: couponCode.trim() || undefined,

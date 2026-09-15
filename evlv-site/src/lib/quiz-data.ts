@@ -2,7 +2,7 @@
  * "Find your protocol" quiz content: goals -> a follow-up subgoal question
  * per selected goal -> tiered product recommendations. Ported from a
  * reference project's goals/subgoals/tiers structure, remapped entirely to
- * EVLV's real catalog (src/lib/products.ts) — every product/copy pairing
+ * EVLV's real catalog (src/lib/products.ts) - every product/copy pairing
  * here reflects what EVLV actually carries, not the reference's catalog.
  * RUO framing throughout: "studied for / researched in the context of"
  * language only, no dosing advice, no therapeutic claims.

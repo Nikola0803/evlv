@@ -9,7 +9,7 @@ import { ButtonLink } from "@/components/ui/Button";
 export const metadata: Metadata = {
   title: "Ambassador Program | EVLV",
   description:
-    "Join the EVLV Ambassador Program — share research-grade peptides and compounds with your audience, and earn commission on every order they place.",
+    "Join the EVLV Ambassador Program - share research-grade peptides and compounds with your audience, and earn commission on every order they place.",
   alternates: { canonical: "/ambassadors" },
 };
 
@@ -32,17 +32,17 @@ const PARTNER_POINTS = [
   {
     num: "01",
     title: "Commission That Grows With You",
-    body: "Start at 8% and climb into higher tiers as your referral volume builds — up to 20% for top partners, paid out monthly.",
+    body: "Start at 8% and climb into higher tiers as your referral volume builds - up to 20% for top partners, paid out monthly.",
   },
   {
     num: "02",
     title: "Compliance-First, By Design",
-    body: "We keep every tier RUO-compliant. No dosing claims, no therapeutic promises to police yourself — just clear guardrails so your content stays safe to publish.",
+    body: "We keep every tier RUO-compliant. No dosing claims, no therapeutic promises to police yourself - just clear guardrails so your content stays safe to publish.",
   },
   {
     num: "03",
     title: "A Real Research Catalog",
-    body: "Peptides, compounds, and ancillaries — every batch independently lab-verified, so you're standing behind products that hold up to scrutiny.",
+    body: "Peptides, compounds, and ancillaries - every batch independently lab-verified, so you're standing behind products that hold up to scrutiny.",
   },
   {
     num: "04",
@@ -111,7 +111,7 @@ export default function AmbassadorsPage() {
             </p>
             <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-white/50 lg:mx-0">
               We partner with creators, researchers, and educators in the peptide and longevity-research space who
-              care about accuracy, not hype — and who want to earn from an audience that already trusts them.
+              care about accuracy, not hype - and who want to earn from an audience that already trusts them.
             </p>
 
             <div className="mt-9 flex flex-wrap items-center justify-center gap-3 lg:justify-start">
@@ -215,7 +215,7 @@ export default function AmbassadorsPage() {
               Content that lives outside the studio.
             </h2>
             <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-white/70">
-              Our best ambassadors share what the lab work actually looks like — a batch on the bench, a COA
+              Our best ambassadors share what the lab work actually looks like - a batch on the bench, a COA
               breakdown, a walkthrough of how they read a result. Authenticity beats polish, every time.
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-2.5">
@@ -243,7 +243,7 @@ export default function AmbassadorsPage() {
             <p className="mt-6 max-w-md text-sm leading-relaxed text-charcoal/60">
               The EVLV Ambassador Program isn&apos;t built for one-time promotions. We work closely with ambassadors
               through commission that grows with volume, real compliance guardrails, and direct support from our
-              team — not a ticket queue.
+              team - not a ticket queue.
             </p>
           </Reveal>
 
@@ -273,7 +273,7 @@ export default function AmbassadorsPage() {
             </h2>
             <p className="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-charcoal/60">
               Whether you&apos;re a growing creator, an established voice in research or fitness circles, or simply
-              an EVLV customer with a story to share — strong engagement and honest content matter most.
+              an EVLV customer with a story to share - strong engagement and honest content matter most.
             </p>
 
             <div className="mx-auto mt-8 flex max-w-3xl flex-wrap justify-center gap-2.5">
@@ -334,7 +334,7 @@ export default function AmbassadorsPage() {
               We review every application by hand, typically within 48 hours.
             </p>
             <p className="mt-6 max-w-md text-sm leading-relaxed text-charcoal/50">
-              Sign in to your EVLV account first — ambassador status is a role on your existing account, not a
+              Sign in to your EVLV account first - ambassador status is a role on your existing account, not a
               separate login.
             </p>
           </Reveal>

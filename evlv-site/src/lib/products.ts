@@ -4,18 +4,18 @@ import { Product, ProductVariant } from "./types";
  * Mock catalog shaped to mirror the WooCommerce REST/Store API product
  * schema (id, slug, sku, price, stock_status, categories, meta_data for
  * purity/mass/batch). Swap `getProducts` / `getProductBySlug` for real
- * fetches against the WooCommerce API once the WordPress site is live —
+ * fetches against the WooCommerce API once the WordPress site is live -
  * see lib/woocommerce.ts.
  *
  * Every mg/iu/mcg strength of a compound is still its own Product entry
- * (its own slug, sku, price, real page — needed for direct links, SEO,
+ * (its own slug, sku, price, real page - needed for direct links, SEO,
  * and per-dose COA/batch data), but siblings sharing a base compound carry
  * an identical `variants` array (see the *_VARIANTS consts below) so the
  * shop grid shows one card per compound with a dose selector, matching
  * `getShopListProducts()`'s dedup logic below instead of listing every
  * dose as a separate card.
  *
- * "EVLV-3" is the site's compliant name for Retatrutide — do not rename to
+ * "EVLV-3" is the site's compliant name for Retatrutide - do not rename to
  * "Retatrutide" anywhere in copy, slugs, or SKUs.
  */
 
@@ -1090,7 +1090,7 @@ export function getProductBySlug(slug: string) {
 /**
  * One card per compound for shop-grid listings: a product with siblings
  * (a `variants` array) only shows up here if it's the canonical/first
- * entry in its own group's array — every dose still has a real page via
+ * entry in its own group's array - every dose still has a real page via
  * getProductBySlug, just not its own card in the grid. A product with no
  * `variants` always shows (nothing to dedupe).
  */

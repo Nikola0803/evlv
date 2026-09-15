@@ -41,7 +41,7 @@ export function getStoredUser(): AuthUser | null {
   }
 }
 
-/** Synced from the CRM (VerificationSync.tsx, or /account's Verification tab) — never set as a client-side preview. */
+/** Synced from the CRM (VerificationSync.tsx, or /account's Verification tab) - never set as a client-side preview. */
 export function setResearcherStatus(status: ResearcherStatus) {
   const user = getStoredUser();
   if (!user) return;

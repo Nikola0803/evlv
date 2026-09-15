@@ -39,13 +39,13 @@ export interface Product {
   storage: string;
   reconstitution?: string;
   badges?: string[];
-  /** Only purchasable by Member-plan accounts (see /plans) — a paid loyalty
+  /** Only purchasable by Member-plan accounts (see /plans) - a paid loyalty
    * tier, unrelated to research-use compliance. */
   memberOnly?: boolean;
   /**
    * Only purchasable by accounts with an APPROVED researcher/institutional
    * verification (see /account's Verification tab and
-   * RESEARCHER-VERIFICATION.md) — a compliance gate for delivery-adjacent
+   * RESEARCHER-VERIFICATION.md) - a compliance gate for delivery-adjacent
    * formats (nasal sprays, injector pens), distinct from memberOnly.
    */
   restricted?: boolean;
@@ -58,7 +58,7 @@ export interface Product {
    * Sibling size/dose options sharing this product's base name (e.g.
    * BPC-157 5mg/10mg/20mg), each its own independently priced/stocked
    * product with its own slug/page. Every sibling in a group carries an
-   * identical `variants` array (including itself) — see the `*_VARIANTS`
+   * identical `variants` array (including itself) - see the `*_VARIANTS`
    * consts in lib/products.ts and `getShopListProducts()`, which uses
    * `variants[0].slug === slug` to show one canonical card per group in
    * the shop grid while every dose still has a real, linkable page.

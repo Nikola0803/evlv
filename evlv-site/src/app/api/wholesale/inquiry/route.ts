@@ -4,7 +4,7 @@ import { crmConfigured, crmFetch } from "@/lib/crm-proxy";
 export const runtime = "nodejs";
 
 // POST /api/wholesale/inquiry { companyName, contactName, email, phone, website?,
-// monthlyVolume, message? } — proxies to the CRM's /api/store/wholesale/inquiry.
+// monthlyVolume, message? } - proxies to the CRM's /api/store/wholesale/inquiry.
 // This is a B2B lead form, not a self-serve signup -- every inquiry is meant to
 // be reviewed and followed up manually (sales conversation, not automated
 // onboarding), so the CRM side just needs to land these somewhere visible
