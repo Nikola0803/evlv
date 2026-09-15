@@ -83,11 +83,12 @@ export async function ReviewsSection() {
       />
       <div className="relative mx-auto max-w-[1000px] px-4 md:px-8">
         <Reveal className="mb-12 text-center md:mb-14">
-          <span className="mb-4 inline-flex items-center gap-2 rounded-md border border-white/10 bg-white/5 px-3 py-1.5 text-[11px] font-medium uppercase tracking-wider text-white/60">
-            <span className="h-1.5 w-1.5 rounded-full bg-copper" /> Research-Grade Quality
-          </span>
-          <h2 className="font-display text-3xl font-semibold leading-[1.1] md:text-5xl">
-            Research you can <em className="text-sage-light not-italic">actually verify</em>.
+          <p className="mb-4 text-[11px] font-medium uppercase tracking-[0.18em] text-white/50">Research-Grade Quality</p>
+          <h2
+            className="font-normal leading-[1.1] text-white"
+            style={{ fontFamily: "var(--font-newsreader), Georgia, serif", fontWeight: 300, fontSize: "clamp(2rem, 3.6vw, 3rem)", letterSpacing: "-0.02em" }}
+          >
+            Trusted by researchers who <em className="text-sage-light" style={{ fontStyle: "italic" }}>check the data</em>.
           </h2>
           {data && (
             <p className="mx-auto mt-4 flex items-center justify-center gap-2 text-sm text-white/60">
