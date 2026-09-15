@@ -154,7 +154,9 @@ export function ProductClient({ product, coa }: { product: Product; coa?: CoaEnt
               Case pricing available -- {product.bulkOption.qty}-unit case at reduced per-unit cost
             </p>
           )}
-          <ResearchUseNotice />
+          <p className="mt-3 flex items-center gap-1.5 text-xs font-semibold text-copper-dark">
+            <i className="ri-fire-line" /> High demand -- 13 people viewing now
+          </p>
         </div>
 
         {product.variants && product.variants.length > 1 && (
@@ -224,6 +226,8 @@ export function ProductClient({ product, coa }: { product: Product; coa?: CoaEnt
             </button>
           )}
         </div>
+
+        <ResearchUseNotice />
 
         {/* Key benefits -- compact 2x2 grid, icon in a tinted rounded square.
             Sits below the CTA so it reads as reassurance right after the
