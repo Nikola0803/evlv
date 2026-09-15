@@ -52,7 +52,7 @@ export function ProductCard({ product }: { product: Product }) {
   const anchorPrice = getAnchorPrice(product.price);
 
   return (
-    <div className="group relative flex flex-col overflow-hidden rounded-2xl bg-ivory-soft p-5 transition hover:bg-stone/40">
+    <div className="group relative flex flex-col overflow-hidden rounded-2xl border border-stone bg-white p-5 shadow-sm transition hover:shadow-md">
       <div className="flex flex-wrap items-center gap-1.5">
         <span className="flex items-center gap-1 rounded-full bg-white px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-sage-deep">
           {product.purity ? (
@@ -116,6 +116,10 @@ export function ProductCard({ product }: { product: Product }) {
             height={500}
             sizes="(max-width: 768px) 45vw, 320px"
             className="h-full w-full object-cover object-top"
+            style={{
+              maskImage: "linear-gradient(to bottom, black 78%, transparent 97%)",
+              WebkitMaskImage: "linear-gradient(to bottom, black 78%, transparent 97%)",
+            }}
           />
         ) : (
           <ProductVisual name={title} dosage={dosage} floating className="h-full w-full" />
@@ -130,15 +134,15 @@ export function ProductCard({ product }: { product: Product }) {
       <div className="mt-auto pt-1">
         <div className="flex items-center justify-between gap-2">
           <div>
-            <p className="text-[10px] uppercase tracking-wide text-charcoal/40">Price</p>
-            <div className="flex items-baseline gap-1.5">
-              <span className="whitespace-nowrap text-sm font-medium text-charcoal/25 line-through">
+            <p className="text-[11px] font-semibold uppercase tracking-wide text-charcoal/55">Price</p>
+            <div className="flex items-baseline gap-2">
+              <span className="whitespace-nowrap text-base font-medium text-charcoal/40 line-through">
                 {formatPrice(anchorPrice)}
               </span>
-              <p className="whitespace-nowrap font-display text-lg font-semibold text-charcoal md:text-xl">{formatPrice(product.price)}</p>
+              <p className="whitespace-nowrap font-display text-xl font-semibold text-charcoal md:text-2xl">{formatPrice(product.price)}</p>
             </div>
             {hasMultiplePrices && (
-              <p className="mt-0.5 text-[10px] text-charcoal/40">As low as {formatPrice(lowestUnitPrice)}/vial in bulk</p>
+              <p className="mt-0.5 text-xs font-medium text-charcoal/65">As low as {formatPrice(lowestUnitPrice)}/vial in bulk</p>
             )}
           </div>
           <Link href="/coas" className="flex items-center gap-1 text-[10px] font-medium uppercase tracking-[0.15em] text-charcoal/40 transition hover:text-copper">
