@@ -3,6 +3,7 @@ import { getDealRowHtml, getGiveawayRowHtml } from "@/lib/deal-and-giveaway";
 import { ReviewsSection } from "@/components/home/ReviewsSection";
 import { PartnerReferralSection } from "@/components/home/PartnerReferralSection";
 import { FaqHomeSection } from "@/components/home/FaqHomeSection";
+import { MOBILE_FIX_CSS } from "./landing-mobile-fix";
 
 /**
  * Homepage content is a direct port of the approved
@@ -84,6 +85,7 @@ export default async function Home() {
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: data.css }} />
+      <style dangerouslySetInnerHTML={{ __html: MOBILE_FIX_CSS }} />
       <div id="evlv-landing-content" className="ev-d">
         <div dangerouslySetInnerHTML={{ __html: beforeProof }} />
         <ReviewsSection />
