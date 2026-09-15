@@ -20,7 +20,7 @@ const FEATURED_PACK_LABEL = `1 PCS (${FEATURED_DISCOUNT_PERCENT}% Off Offer)`;
 const ALSO_ADD_DISCOUNT_PERCENT = 10;
 const ALSO_ADD_PACK_LABEL = `1 PCS (${ALSO_ADD_DISCOUNT_PERCENT}% Off Offer)`;
 
-export const FREE_SHIPPING_THRESHOLD = 300;
+export const FREE_SHIPPING_THRESHOLD = 400;
 export const FLAT_SHIPPING_COST = 15;
 
 export function ShippingProgressBar() {
@@ -28,15 +28,23 @@ export function ShippingProgressBar() {
   const { formatPrice } = useCurrency();
   const remaining = Math.max(0, FREE_SHIPPING_THRESHOLD - subtotal);
   const pct = Math.min(100, (subtotal / FREE_SHIPPING_THRESHOLD) * 100);
+  const unlocked = remaining === 0;
 
   return (
-    <div className="mb-5 rounded-lg border border-stone bg-ivory-soft px-4 py-3">
-      <p className="flex items-center gap-1.5 text-xs font-medium text-charcoal">
-        <i className={`text-sm ${remaining === 0 ? "ri-checkbox-circle-fill text-sage-deep" : "ri-truck-line text-copper"}`} />
-        {remaining === 0 ? "You've unlocked free shipping!" : `Spend ${formatPrice(remaining)} more for free shipping!`}
+    <div
+      className={`mb-5 rounded-lg border p-4 shadow-sm ${
+        unlocked ? "border-sage-deep/40 bg-sage-deep/[0.07]" : "border-copper/30 bg-white"
+      }`}
+    >
+      <p className="flex items-center gap-1.5 text-xs font-semibold text-charcoal">
+        <i className={`text-sm ${unlocked ? "ri-checkbox-circle-fill text-sage-deep" : "ri-truck-line text-copper"}`} />
+        {unlocked ? "You've unlocked free shipping!" : `Spend ${formatPrice(remaining)} more for free shipping!`}
       </p>
-      <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-stone">
-        <div className="h-full rounded-full bg-sage-deep transition-all duration-500" style={{ width: `${pct}%` }} />
+      <div className="mt-2.5 h-2 w-full overflow-hidden rounded-full bg-charcoal/10">
+        <div
+          className={`h-full rounded-full transition-all duration-500 ${unlocked ? "bg-sage-deep" : "bg-copper"}`}
+          style={{ width: `${pct}%` }}
+        />
       </div>
     </div>
   );

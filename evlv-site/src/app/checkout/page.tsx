@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/lib/cart-context";
 import { useCurrency } from "@/lib/currency-context";
-import { FREE_SHIPPING_THRESHOLD, FLAT_SHIPPING_COST } from "@/components/layout/CartUpsellOffers";
+import { FREE_SHIPPING_THRESHOLD, FLAT_SHIPPING_COST, ShippingProgressBar } from "@/components/layout/CartUpsellOffers";
 import { getStoredUser } from "@/lib/auth";
 import { addOrder } from "@/lib/orders";
 import { PAYMENT_GATEWAYS, type PaymentGatewayId } from "@/lib/payment-config";
@@ -326,8 +326,9 @@ export default function CheckoutPage() {
         </div>
 
         <div className="h-fit space-y-6">
-          <div className="rounded-lg border border-stone bg-ivory-soft p-6">
-            <h2 className="mb-5 text-sm font-semibold uppercase tracking-wider text-charcoal/50">Order Summary</h2>
+          <div className="rounded-lg border border-stone bg-white p-6 shadow-sm">
+            <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-charcoal/50">Order Summary</h2>
+            <ShippingProgressBar />
             <div className="space-y-5">
               {lines.map((line) => (
                 <div key={`${line.product.id}-${line.packLabel}`} className="flex gap-4">
