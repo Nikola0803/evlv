@@ -74,7 +74,7 @@ export function PackSelector({
               aria-pressed={active}
               onClick={() => onSelect(i)}
               className={`flex flex-col gap-1 rounded-xl border-[1.5px] px-3.5 py-3 text-left transition ${
-                active ? "border-sage-deep bg-white shadow-sm" : "border-stone bg-sage-mist/20 hover:border-charcoal/30"
+                active ? "border-sage-deep bg-white shadow-sm" : "border-stone bg-white hover:border-charcoal/30"
               }`}
             >
               <div className="flex items-center justify-between gap-2">

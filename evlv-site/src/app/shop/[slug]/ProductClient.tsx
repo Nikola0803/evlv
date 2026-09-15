@@ -168,7 +168,7 @@ export function ProductClient({ product, coa }: { product: Product; coa?: CoaEnt
                     key={v.slug}
                     href={`/shop/${v.slug}`}
                     className={`flex items-center gap-1.5 rounded-full border-[1.5px] px-3.5 py-2 text-xs font-semibold transition ${
-                      active ? "border-sage-deep bg-white text-sage-deep shadow-sm" : "border-stone bg-sage-mist/20 text-charcoal/60 hover:border-charcoal/30"
+                      active ? "border-sage-deep bg-white text-sage-deep shadow-sm" : "border-stone bg-white text-charcoal/70 hover:border-charcoal/30"
                     } ${!v.inStock ? "pointer-events-none opacity-40" : ""}`}
                   >
                     {v.label}
@@ -228,7 +228,7 @@ export function ProductClient({ product, coa }: { product: Product; coa?: CoaEnt
         {/* Key benefits -- compact 2x2 grid, icon in a tinted rounded square.
             Sits below the CTA so it reads as reassurance right after the
             purchase decision, not as another thing to read before it. */}
-        <div className="mt-6 grid grid-cols-2 gap-x-4 gap-y-3 rounded-xl border border-stone bg-ivory-soft/60 p-4">
+        <div className="mt-6 grid grid-cols-2 gap-x-4 gap-y-3 rounded-xl border border-stone bg-white p-4 shadow-sm">
           {KEY_BENEFITS.map((item) => (
             <div key={item.title} className="flex items-start gap-2">
               <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-sage-mist/70 text-xs text-sage-deep">
@@ -240,6 +240,58 @@ export function ProductClient({ product, coa }: { product: Product; coa?: CoaEnt
               </div>
             </div>
           ))}
+        </div>
+
+        {/* Always visible -- COA/batch trust signal shouldn't depend on a
+            visitor clicking into a tab. The Lab Report tab below still has
+            the fuller breakdown (avg. mass, etc); this is the "prove it"
+            summary right next to the buy decision. */}
+        <div className="mt-4 overflow-hidden rounded-xl border border-sage-deep/25 bg-white shadow-sm">
+          <div className="flex items-center gap-2 bg-sage-deep px-4 py-2.5 text-white">
+            <i className="ri-verified-badge-fill" />
+            <span className="text-xs font-semibold uppercase tracking-wider">Certificate of Analysis</span>
+          </div>
+          <div className="p-4">
+            {product.batch ? (
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div className="min-w-0">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="rounded bg-stone px-1.5 py-0.5 font-mono text-[11px] text-charcoal/70">
+                      {product.batch.code}
+                    </span>
+                    <span className="inline-flex items-center gap-1 text-xs font-semibold text-sage-deep">
+                      <i className="ri-checkbox-circle-fill" /> PASS
+                    </span>
+                  </div>
+                  <p className="mt-1 text-xs text-charcoal/50">
+                    Tested {product.batch.date}
+                    {product.purity ? ` -- ${product.purity} purity` : ""}
+                  </p>
+                </div>
+                {coa ? (
+                  <a
+                    href={coa.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-charcoal px-3.5 py-2 text-xs font-semibold uppercase tracking-wide text-ivory transition hover:bg-charcoal/85"
+                  >
+                    View PDF <i className="ri-download-2-line" />
+                  </a>
+                ) : (
+                  <Link href="/coas" className="shrink-0 text-xs font-semibold text-sage-deep underline underline-offset-2">
+                    Find it in the COA library
+                  </Link>
+                )}
+              </div>
+            ) : (
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <p className="text-xs text-charcoal/60">This batch&apos;s certificate hasn&apos;t been published to this listing yet.</p>
+                <Link href="/coas" className="shrink-0 text-xs font-semibold text-sage-deep underline underline-offset-2">
+                  Browse all COAs
+                </Link>
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="mt-10 border-t border-stone">
@@ -270,31 +322,44 @@ export function ProductClient({ product, coa }: { product: Product; coa?: CoaEnt
                 </div>
               </div>
             )}
-            {tab === "Lab Report" && product.batch && (
+            {tab === "Lab Report" && (
               <div className="max-w-sm">
-                <p className="mb-3 text-sm text-charcoal/60">
-                  Every batch is tested by an independent third-party lab before it ships. Certificate of Analysis for batch {product.batch.code}:
-                </p>
-                <div className="overflow-hidden rounded-xl border border-stone">
-                <dl className="divide-y divide-stone text-xs">
-                  <Row label="Batch" value={product.batch.code} />
-                  <Row label="Date" value={product.batch.date} />
-                  {product.purity && <Row label="Purity" value={product.purity} />}
-                  {product.avgMass && <Row label="Avg. Mass" value={product.avgMass} />}
-                  <Row label="Status" value="PASS" accent />
-                </dl>
-                {coa && (
-                  <a
-                    href={coa.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="flex items-center justify-between gap-2 border-t border-stone bg-ivory-soft px-4 py-3 text-xs font-semibold text-sage-deep transition hover:bg-sage-mist"
-                  >
-                    View Certificate of Analysis (PDF)
-                    <i className="ri-external-link-line" />
-                  </a>
+                {product.batch ? (
+                  <>
+                    <p className="mb-3 text-sm text-charcoal/60">
+                      Every batch is tested by an independent third-party lab before it ships. Certificate of Analysis for batch {product.batch.code}:
+                    </p>
+                    <div className="overflow-hidden rounded-xl border border-stone">
+                    <dl className="divide-y divide-stone text-xs">
+                      <Row label="Batch" value={product.batch.code} />
+                      <Row label="Date" value={product.batch.date} />
+                      {product.purity && <Row label="Purity" value={product.purity} />}
+                      {product.avgMass && <Row label="Avg. Mass" value={product.avgMass} />}
+                      <Row label="Status" value="PASS" accent />
+                    </dl>
+                    {coa && (
+                      <a
+                        href={coa.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="flex items-center justify-between gap-2 border-t border-stone bg-white px-4 py-3 text-xs font-semibold text-sage-deep transition hover:bg-sage-mist"
+                      >
+                        View Certificate of Analysis (PDF)
+                        <i className="ri-external-link-line" />
+                      </a>
+                    )}
+                    </div>
+                  </>
+                ) : (
+                  <div className="rounded-xl border border-stone bg-white p-5 text-sm text-charcoal/60">
+                    Every batch we ship is independently lab-tested -- this specific listing&apos;s certificate hasn&apos;t
+                    been published here yet.{" "}
+                    <Link href="/coas" className="font-semibold text-sage-deep underline underline-offset-2">
+                      Browse the full COA library
+                    </Link>{" "}
+                    or contact us for the current batch&apos;s report.
+                  </div>
                 )}
-                </div>
               </div>
             )}
           </div>
@@ -342,7 +407,7 @@ export function ProductClient({ product, coa }: { product: Product; coa?: CoaEnt
 
 function InfoCard({ title, body }: { title: string; body: string }) {
   return (
-    <div className="rounded-xl border border-stone bg-ivory-soft p-4">
+    <div className="rounded-xl border border-stone bg-white p-4">
       <h4 className="mb-1 text-sm font-semibold text-charcoal">{title}</h4>
       <p className="text-xs text-charcoal/60">{body}</p>
     </div>
