@@ -70,7 +70,12 @@ export default function CheckoutPage() {
   const [placing, setPlacing] = useState(false);
 
   const cartItemsForCoupon = lines.map((l) => ({ slug: l.product.slug, quantity: l.qty }));
-  const coupon = useCouponValidation(couponCode, cartItemsForCoupon);
+  // Prefer the signed-in account's email so a personal lifetime deal
+  // previews immediately on page load; fall back to whatever the shopper
+  // has typed into the email field so far (guest checkout).
+  const storedUserEmail = getStoredUser()?.email;
+  const couponCustomerEmail = storedUserEmail || email.trim() || undefined;
+  const coupon = useCouponValidation(couponCode, cartItemsForCoupon, couponCustomerEmail);
   const discount = coupon.valid ? coupon.discountUsd : 0;
   const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : FLAT_SHIPPING_COST;
   const total = Math.max(0, subtotal - discount + shipping);
@@ -320,7 +325,8 @@ export default function CheckoutPage() {
             {coupon.checking && <p className="mt-1.5 text-xs text-charcoal/40">Checking code...</p>}
             {!coupon.checking && coupon.valid && (
               <p className="mt-1.5 text-xs font-medium text-sage-deep">
-                Code applied -- {formatPrice(coupon.discountUsd)} off{coupon.flooredByMargin ? " (partial, discount limit reached)" : ""}
+                {couponCode.trim() ? "Code applied" : "Member reward applied"} -- {formatPrice(coupon.discountUsd)} off
+                {coupon.flooredByMargin ? " (partial, discount limit reached)" : ""}
               </p>
             )}
           </section>
@@ -368,7 +374,9 @@ export default function CheckoutPage() {
               </div>
               {discount > 0 && (
                 <div className="flex items-center justify-between">
-                  <span className="text-sage-deep">Discount ({couponCode.trim()})</span>
+                  <span className="text-sage-deep">
+                    Discount{couponCode.trim() ? ` (${couponCode.trim()})` : " (member reward)"}
+                  </span>
                   <span className="font-medium text-sage-deep">-{formatPrice(discount)}</span>
                 </div>
               )}

@@ -9,6 +9,7 @@ import { useCurrency } from "@/lib/currency-context";
 import { ShippingProgressBar, FeaturedOfferCard, ResearchersAlsoAdd, FREE_SHIPPING_THRESHOLD, FLAT_SHIPPING_COST } from "./CartUpsellOffers";
 import { getStoredCouponCode, setStoredCouponCode } from "@/lib/referral";
 import { useCouponValidation } from "@/lib/use-coupon-validation";
+import { getStoredUser } from "@/lib/auth";
 
 export function CartDrawer() {
   const { lines, subtotal, isOpen, closeCart, removeLine, setLineQty } = useCart();
@@ -24,7 +25,10 @@ export function CartDrawer() {
   }
 
   const cartItemsForCoupon = lines.map((l) => ({ slug: l.product.slug, quantity: l.qty }));
-  const coupon = useCouponValidation(promoCode, cartItemsForCoupon);
+  // The cart drawer has no email field of its own -- a personal lifetime
+  // deal can only auto-preview here for a signed-in account.
+  const couponCustomerEmail = getStoredUser()?.email || undefined;
+  const coupon = useCouponValidation(promoCode, cartItemsForCoupon, couponCustomerEmail);
   const discount = coupon.valid ? coupon.discountUsd : 0;
   const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : FLAT_SHIPPING_COST;
   const total = Math.max(0, subtotal - discount + shipping);
@@ -143,7 +147,7 @@ export function CartDrawer() {
                 {coupon.checking && <p className="mt-1.5 text-xs text-charcoal/40">Checking code...</p>}
                 {!coupon.checking && coupon.valid && (
                   <p className="mt-1.5 text-xs font-medium text-sage-deep">
-                    Code applied -- {formatPrice(coupon.discountUsd)} off
+                    {promoCode.trim() ? "Code applied" : "Member reward applied"} -- {formatPrice(coupon.discountUsd)} off
                   </p>
                 )}
                 {!coupon.checking && !coupon.valid && promoSaved && (

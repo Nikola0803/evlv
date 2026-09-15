@@ -22,15 +22,29 @@ const EMPTY: CouponValidation = { checking: false, valid: false, discountUsd: 0,
  * code is blank or doesn't match a real discount coupon: it may still be a
  * valid Affiliate referral code, which this endpoint knows nothing about
  * and never blocks checkout over.
+ *
+ * customerEmail, when known (a logged-in account, or already typed at
+ * checkout), lets a personal/lifetime-deal coupon (assigned to that one
+ * customer -- see the CRM's Coupon.assignedContactId) auto-apply with
+ * zero code entry: the CRM merges it in automatically, so this hook
+ * still runs the validate call even when `code` is blank, as long as
+ * an email is known.
  */
-export function useCouponValidation(code: string, items: { slug: string; quantity: number }[]): CouponValidation {
+export function useCouponValidation(
+  code: string,
+  items: { slug: string; quantity: number }[],
+  customerEmail?: string
+): CouponValidation {
   const [result, setResult] = useState<CouponValidation>(EMPTY);
   const requestId = useRef(0);
   const itemsKey = JSON.stringify(items);
 
   useEffect(() => {
     const trimmed = code.trim();
-    if (!trimmed || items.length === 0) {
+    const email = customerEmail?.trim();
+    // Nothing to check unless there's either a typed code or a known
+    // customer who might have a personal deal waiting.
+    if ((!trimmed && !email) || items.length === 0) {
       setResult(EMPTY);
       return;
     }
@@ -43,7 +57,7 @@ export function useCouponValidation(code: string, items: { slug: string; quantit
         const res = await fetch("/api/coupons/validate", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ items, code: trimmed }),
+          body: JSON.stringify({ items, code: trimmed || undefined, customerEmail: email || undefined }),
         });
         if (id !== requestId.current) return; // a newer request already superseded this one
         if (!res.ok) {
@@ -66,7 +80,7 @@ export function useCouponValidation(code: string, items: { slug: string; quantit
 
     return () => window.clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [code, itemsKey]);
+  }, [code, itemsKey, customerEmail]);
 
   return result;
 }
