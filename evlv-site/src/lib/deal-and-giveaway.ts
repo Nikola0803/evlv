@@ -5,6 +5,8 @@ export interface DealOfTheDay {
   dealPriceCents: number;
   regularPriceCents: number;
   endsAt: string; // ISO, midnight UTC
+  /** Short research-use blurb shown on the richer deal card (2-3 sentences). */
+  description?: string;
 }
 
 export interface GiveawayStatus {
@@ -28,13 +30,25 @@ const DEAL_OF_THE_DAY: DealOfTheDay | null = {
   dealPriceCents: 5900,
   regularPriceCents: 7000,
   endsAt: new Date(new Date().setUTCHours(23, 59, 59, 999)).toISOString(),
+  description:
+    "BPC-157 is a synthetic peptide fragment studied for its interactions with tissue-repair and angiogenesis pathways. Supplied at 99%+ HPLC-verified purity for in vitro and laboratory research only.",
 };
 
 const GIVEAWAY_STATUS: GiveawayStatus | null = {
   enabled: true,
   prizeLabel: "a $25 EVLV Store Credit",
+  minOrderCents: 5000,
+  // Legal note: most US states treat "pay to enter, chance, prize" as an
+  // unlicensed lottery unless a free alternate method of entry (AMOE)
+  // exists alongside the purchase-triggered one. The homepage teaser and
+  // this page's headline both lead with the qualifying-order framing (to
+  // match the competitor pattern this was modeled on), but the free,
+  // no-purchase-necessary entry path below (GiveawayEntryForm, one entry
+  // per email per day) stays live and is still spelled out in rulesText --
+  // don't remove that path without checking sweepstakes law for every
+  // state you ship to first.
   rulesText:
-    "No purchase necessary to enter or win. One free entry per person per day via this page. Placing a qualifying order today also earns one automatic entry -- purchasing does not increase your odds of winning beyond that one entry. Winner is selected at random from that day's entries. Void where prohibited.",
+    "No purchase necessary to enter or win. One free entry per person per day via the entry form on this page. Placing a qualifying order of $50 or more today also earns one automatic entry -- purchasing does not increase your odds of winning beyond that one entry, and is not required to enter or win. Winner is selected at random from that day's entries. Void where prohibited.",
 };
 
 export async function getDealOfTheDay(): Promise<DealOfTheDay | null> {
@@ -78,14 +92,24 @@ export async function getDealRowHtml(): Promise<string> {
   const name = escapeHtml(deal.name);
   const dealPrice = formatDollars(deal.dealPriceCents);
   const regularPrice = formatDollars(deal.regularPriceCents);
+  const percentOff = Math.round((1 - deal.dealPriceCents / deal.regularPriceCents) * 100);
   const img = deal.imageUrl
-    ? `<img decoding="async" width="1022" height="2336" sizes="100vw" src="${escapeHtml(deal.imageUrl)}" alt="EVLV ${name} deal of the day" style="width: 65px; height: 83px; filter: drop-shadow(0 4px 6px rgba(20,39,26,.18))">`
+    ? `<img decoding="async" width="1022" height="2336" sizes="100vw" src="${escapeHtml(deal.imageUrl)}" alt="EVLV ${name} deal of the day">`
+    : "";
+  const desc = deal.description
+    ? `<p class="deal-desc">${escapeHtml(deal.description)}</p>`
     : "";
 
-  return `<a href="/shop/${escapeHtml(deal.slug)}" class="hero-row">
-        <h3>Deal of the Day<span class="hero-row-sub">${name} <span class="accent">$${dealPrice}</span><s>$${regularPrice}</s> &middot; today only</span></h3>
-        ${img}
-        <span class="chev" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg></span>
+  return `<a href="/shop/${escapeHtml(deal.slug)}" class="deal-card">
+        <div class="deal-card-img">${img}<span class="deal-badge">${percentOff}% OFF</span></div>
+        <div class="deal-card-body">
+          <p class="deal-eyebrow">Today&rsquo;s Featured Deal</p>
+          <h3>${name}</h3>
+          <p class="deal-price-row"><span class="deal-price-now">$${dealPrice}</span><s class="deal-price-was">$${regularPrice}</s><span class="deal-percent">${percentOff}% OFF</span></p>
+          ${desc}
+          <p class="deal-countdown-row"><i class="ri-time-line" aria-hidden="true"></i> <span class="deal-countdown" data-ends-at="${escapeHtml(deal.endsAt)}">calculating&hellip;</span></p>
+          <span class="deal-cta">Shop Today&rsquo;s Deal <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg></span>
+        </div>
       </a>`;
 }
 
@@ -101,11 +125,28 @@ export async function getGiveawayRowHtml(): Promise<string> {
   const giveaway = await getGiveawayStatus();
   if (!giveaway || !giveaway.enabled) return "";
 
-  const label = giveaway.prizeLabel ? `Win ${escapeHtml(giveaway.prizeLabel)}` : "Enter to Win";
-  const count = typeof giveaway.entryCount === "number" ? ` &middot; ${giveaway.entryCount} entered today` : "";
+  const minOrder = typeof giveaway.minOrderCents === "number" ? formatDollars(giveaway.minOrderCents) : null;
+  const title = minOrder
+    ? `Orders Over $${minOrder} Are Automatically Entered`
+    : giveaway.prizeLabel
+      ? `Win ${escapeHtml(giveaway.prizeLabel)}`
+      : "Enter to Win";
+  const sub = minOrder && giveaway.prizeLabel
+    ? `Place a qualifying order today and you&rsquo;re automatically entered for ${escapeHtml(giveaway.prizeLabel)}.`
+    : "Free entry, no purchase necessary.";
+  const count =
+    typeof giveaway.entryCount === "number"
+      ? `<p class="deal-countdown-row"><i class="ri-group-line" aria-hidden="true"></i> ${giveaway.entryCount} entered today</p>`
+      : "";
 
-  return `<a href="/giveaway" class="hero-row">
-        <h3>${label}<span class="hero-row-sub">Free entry, no purchase necessary${count}</span></h3>
-        <span class="chev" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg></span>
+  return `<a href="/giveaway" class="giveaway-card">
+        <div class="giveaway-icon"><i class="ri-gift-line" aria-hidden="true"></i></div>
+        <div class="deal-card-body">
+          <p class="deal-eyebrow">Today&rsquo;s Giveaway</p>
+          <h3>${title}</h3>
+          <p class="deal-desc">${sub}</p>
+          ${count}
+          <span class="deal-cta">View Drawing Page <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg></span>
+        </div>
       </a>`;
 }

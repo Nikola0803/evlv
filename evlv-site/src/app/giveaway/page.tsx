@@ -20,10 +20,19 @@ export default async function GiveawayPage() {
         <div className="mx-auto max-w-[900px] px-4 md:px-8">
           <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">Giveaway</p>
           <h1 className="font-display text-4xl font-semibold md:text-5xl">
-            {isLive && giveaway?.prizeLabel ? `Win ${giveaway.prizeLabel}` : "Today's Giveaway"}
+            {isLive && typeof giveaway?.minOrderCents === "number"
+              ? `Orders Over $${(giveaway.minOrderCents / 100).toFixed(0)} Are Automatically Entered`
+              : isLive && giveaway?.prizeLabel
+                ? `Win ${giveaway.prizeLabel}`
+                : "Today's Giveaway"}
           </h1>
+          {isLive && giveaway?.prizeLabel && (
+            <p className="mt-4 text-sm text-white/70">
+              Place a qualifying order today for a chance to win {giveaway.prizeLabel}.
+            </p>
+          )}
           {isLive && typeof giveaway?.entryCount === "number" && (
-            <p className="mt-4 text-sm text-white/60">{giveaway.entryCount} entered today</p>
+            <p className="mt-2 text-sm text-white/60">{giveaway.entryCount} entered today</p>
           )}
         </div>
       </section>
@@ -32,6 +41,9 @@ export default async function GiveawayPage() {
         <div className="mx-auto max-w-[560px] px-4 md:px-8">
           {isLive ? (
             <>
+              <p className="mb-4 text-center text-xs uppercase tracking-[0.14em] text-charcoal/40">
+                Prefer not to order? Enter free below -- no purchase necessary.
+              </p>
               <GiveawayEntryForm />
               <div className="mt-8 rounded-lg border border-stone bg-ivory-soft p-6">
                 <h3 className="mb-2 font-display text-base font-semibold text-charcoal">Official Rules</h3>
