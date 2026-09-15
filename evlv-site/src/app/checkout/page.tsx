@@ -11,6 +11,7 @@ import { getStoredUser } from "@/lib/auth";
 import { addOrder } from "@/lib/orders";
 import { PAYMENT_GATEWAYS, type PaymentGatewayId } from "@/lib/payment-config";
 import { getStoredCouponCode, setStoredCouponCode } from "@/lib/referral";
+import { useCouponValidation } from "@/lib/use-coupon-validation";
 import { trackEvent } from "@/lib/pixel";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -68,8 +69,11 @@ export default function CheckoutPage() {
   const [handleCopied, setHandleCopied] = useState(false);
   const [placing, setPlacing] = useState(false);
 
+  const cartItemsForCoupon = lines.map((l) => ({ slug: l.product.slug, quantity: l.qty }));
+  const coupon = useCouponValidation(couponCode, cartItemsForCoupon);
+  const discount = coupon.valid ? coupon.discountUsd : 0;
   const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : FLAT_SHIPPING_COST;
-  const total = subtotal + shipping;
+  const total = Math.max(0, subtotal - discount + shipping);
   const shippingComplete = Boolean(
     firstName.trim() && lastName.trim() && email.trim() && phone.trim() && address1.trim() && city.trim() && stateCode && zip.trim()
   );
@@ -147,6 +151,12 @@ export default function CheckoutPage() {
           // order engine tries couponCode first, then affiliateRef, against
           // Affiliate.couponCode/slug (see order-engine.ts).
           affiliateRef: couponCode.trim() || undefined,
+          // A real price-discount coupon (distinct from the affiliate
+          // attribution code above) -- runCheckout() looks this up
+          // separately and no-ops if it does not match a Coupon row, so
+          // it is always safe to send even when the code above is really
+          // just a referral code.
+          discountCode: couponCode.trim() || undefined,
           customerNote: [
             `RUO attestation: purchaser confirmed laboratory/research use only at ${new Date().toISOString()}.`,
             orderNotes.trim() || undefined,
@@ -307,6 +317,12 @@ export default function CheckoutPage() {
               placeholder="Enter a code"
               className="h-12 w-full rounded-md border border-stone bg-white px-4 text-base uppercase tracking-wide text-charcoal outline-none placeholder:text-charcoal/40 placeholder:normal-case focus:border-copper"
             />
+            {coupon.checking && <p className="mt-1.5 text-xs text-charcoal/40">Checking code...</p>}
+            {!coupon.checking && coupon.valid && (
+              <p className="mt-1.5 text-xs font-medium text-sage-deep">
+                Code applied -- {formatPrice(coupon.discountUsd)} off{coupon.flooredByMargin ? " (partial, discount limit reached)" : ""}
+              </p>
+            )}
           </section>
 
           <section>
@@ -350,6 +366,12 @@ export default function CheckoutPage() {
                 <span className="text-charcoal/60">Subtotal</span>
                 <span className="font-medium text-charcoal">{formatPrice(subtotal)}</span>
               </div>
+              {discount > 0 && (
+                <div className="flex items-center justify-between">
+                  <span className="text-sage-deep">Discount ({couponCode.trim()})</span>
+                  <span className="font-medium text-sage-deep">-{formatPrice(discount)}</span>
+                </div>
+              )}
               <div className="flex items-center justify-between">
                 <span className="text-charcoal/60">Shipping</span>
                 <span className="font-medium text-charcoal">{shipping === 0 ? "Free" : formatPrice(shipping)}</span>

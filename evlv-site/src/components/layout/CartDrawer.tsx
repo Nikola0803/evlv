@@ -8,6 +8,7 @@ import { useCart } from "@/lib/cart-context";
 import { useCurrency } from "@/lib/currency-context";
 import { ShippingProgressBar, FeaturedOfferCard, ResearchersAlsoAdd, FREE_SHIPPING_THRESHOLD, FLAT_SHIPPING_COST } from "./CartUpsellOffers";
 import { getStoredCouponCode, setStoredCouponCode } from "@/lib/referral";
+import { useCouponValidation } from "@/lib/use-coupon-validation";
 
 export function CartDrawer() {
   const { lines, subtotal, isOpen, closeCart, removeLine, setLineQty } = useCart();
@@ -22,8 +23,11 @@ export function CartDrawer() {
     router.push("/checkout");
   }
 
+  const cartItemsForCoupon = lines.map((l) => ({ slug: l.product.slug, quantity: l.qty }));
+  const coupon = useCouponValidation(promoCode, cartItemsForCoupon);
+  const discount = coupon.valid ? coupon.discountUsd : 0;
   const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : FLAT_SHIPPING_COST;
-  const total = subtotal + shipping;
+  const total = Math.max(0, subtotal - discount + shipping);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -136,8 +140,14 @@ export function CartDrawer() {
                     Apply
                   </button>
                 </div>
-                {promoSaved && (
-                  <p className="mt-1.5 text-xs text-sage-deep">Saved - this code will be applied at checkout.</p>
+                {coupon.checking && <p className="mt-1.5 text-xs text-charcoal/40">Checking code...</p>}
+                {!coupon.checking && coupon.valid && (
+                  <p className="mt-1.5 text-xs font-medium text-sage-deep">
+                    Code applied -- {formatPrice(coupon.discountUsd)} off
+                  </p>
+                )}
+                {!coupon.checking && !coupon.valid && promoSaved && (
+                  <p className="mt-1.5 text-xs text-charcoal/40">Saved - will still be checked as a referral code at checkout.</p>
                 )}
               </div>
             ) : (
@@ -155,6 +165,12 @@ export function CartDrawer() {
                 <span className="text-charcoal/60">Subtotal</span>
                 <span className="font-medium text-charcoal">{formatPrice(subtotal)}</span>
               </div>
+              {discount > 0 && (
+                <div className="flex items-center justify-between">
+                  <span className="text-sage-deep">Discount</span>
+                  <span className="font-medium text-sage-deep">-{formatPrice(discount)}</span>
+                </div>
+              )}
               <div className="flex items-center justify-between">
                 <span className="text-charcoal/60">Shipping</span>
                 <span className="font-medium text-charcoal">{shipping === 0 ? "Free" : formatPrice(shipping)}</span>
