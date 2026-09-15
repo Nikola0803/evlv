@@ -33,7 +33,7 @@ export function ProductClient({ product, coa }: { product: Product; coa?: CoaEnt
 
   useEffect(() => {
     const user = getStoredUser();
-    setIsMember(user?.plan === "member");
+    setIsMember(user?.membershipStatus === "APPROVED");
     setIsVerified(user?.researcherStatus === "APPROVED");
   }, []);
 

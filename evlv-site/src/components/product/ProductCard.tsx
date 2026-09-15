@@ -37,7 +37,7 @@ export function ProductCard({ product }: { product: Product }) {
 
   useEffect(() => {
     const user = getStoredUser();
-    setIsMember(user?.plan === "member");
+    setIsMember(user?.membershipStatus === "APPROVED");
     setIsVerified(user?.researcherStatus === "APPROVED");
   }, []);
 

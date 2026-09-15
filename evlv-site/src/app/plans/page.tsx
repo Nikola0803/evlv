@@ -2,22 +2,26 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { getStoredUser, setPlan, type AuthUser, type Plan } from "@/lib/auth";
+import { getStoredUser, getStoredToken, setMembershipStatus, type AuthUser, type MembershipStatus } from "@/lib/auth";
 
-const TIERS: { key: Plan | "admin"; label: string; price: string; body: string; features: string[] }[] = [
+const TIERS = [
   {
     key: "standard",
     label: "Standard",
     price: "Free to join",
-    body: "Full access to the shop, everything except member-exclusive blends.",
+    body: "Full access to the shop, everything except member-only research blend formulations.",
     features: ["All standard research compounds", "Standard pricing", "Full order history & account tools"],
   },
   {
     key: "member",
     label: "Member",
-    price: "Coming soon",
-    body: "Unlocks member-exclusive research blends, plus member pricing once billing is live.",
-    features: ["Everything in Standard", "Member-exclusive blends (Wolverine Stack, GLOW, KLOW)", "Member pricing (coming soon)"],
+    price: "By request",
+    body: "Unlocks member-only research blend formulations, reviewed and granted by our team.",
+    features: [
+      "Everything in Standard",
+      "Priority access to member-only research blend formulations (Wolverine Stack, GLOW, KLOW)",
+      "Reviewed by our team, typically within a couple of business days",
+    ],
   },
   {
     key: "admin",
@@ -26,20 +30,65 @@ const TIERS: { key: Plan | "admin"; label: string; price: string; body: string; 
     body: "Access granted manually on your profile. Ask us if you think you qualify.",
     features: ["For institutional & bulk buyers", "Granted case-by-case by our team", "Contact us to be considered"],
   },
-];
+] as const;
 
 export default function PlansPage() {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [mounted, setMounted] = useState(false);
+  const [status, setStatus] = useState<MembershipStatus>("NONE");
+  const [loadingStatus, setLoadingStatus] = useState(false);
+  const [requesting, setRequesting] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    setUser(getStoredUser());
+    const stored = getStoredUser();
+    setUser(stored);
     setMounted(true);
+    if (!stored || stored.user_id === "local") return;
+
+    setLoadingStatus(true);
+    fetch("/api/membership/status", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token: getStoredToken() }),
+    })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data?.status) {
+          setStatus(data.status);
+          setMembershipStatus(data.status);
+        }
+      })
+      .catch(() => {
+        /* CRM unreachable, keep NONE */
+      })
+      .finally(() => setLoadingStatus(false));
   }, []);
 
-  function handleSelectMember() {
-    setPlan("member");
-    setUser(getStoredUser());
+  async function handleRequestMembership() {
+    setRequesting(true);
+    setError("");
+    try {
+      const res = await fetch("/api/membership/request", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token: getStoredToken() }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(
+          res.status === 503
+            ? "Membership requests aren't connected yet -- check back soon, or reach out via Contact in the meantime."
+            : data?.error || "Something went wrong requesting Member access."
+        );
+      }
+      setStatus(data.status ?? "PENDING");
+      setMembershipStatus(data.status ?? "PENDING");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+    } finally {
+      setRequesting(false);
+    }
   }
 
   if (!mounted) return null;
@@ -51,8 +100,8 @@ export default function PlansPage() {
           <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">Plans</p>
           <h1 className="font-display text-4xl font-semibold md:text-5xl">Choose your access.</h1>
           <p className="mt-4 text-base leading-relaxed text-white/70">
-            Purchase a plan for member pricing and access to member-exclusive blends, or ask us to grant access
-            manually on your profile.
+            Request Member access for member-only research blend formulations, or ask us to grant access manually on
+            your profile.
           </p>
         </div>
       </section>
@@ -61,18 +110,28 @@ export default function PlansPage() {
         <div className="mx-auto max-w-[1100px] px-4 md:px-8">
           {!user && (
             <div className="mb-8 rounded-lg border border-dashed border-stone bg-ivory-soft p-4 text-center text-sm text-charcoal/50">
-              You&rsquo;re browsing as a guest, sign in to select a plan.
+              You&rsquo;re browsing as a guest, sign in to request Member access.
             </div>
+          )}
+
+          {error && (
+            <p className="mb-6 flex items-center justify-center gap-1.5 text-center text-xs font-medium text-red-600">
+              <i className="ri-error-warning-line text-sm shrink-0" />
+              {error}
+            </p>
           )}
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
             {TIERS.map((tier) => {
-              const isCurrent = user && (user.plan ?? "standard") === tier.key;
+              const isCurrentMember = tier.key === "member" && status === "APPROVED";
               return (
-                <div key={tier.key} className={`flex flex-col rounded-lg border p-6 ${isCurrent ? "border-copper bg-copper/5" : "border-stone bg-white"}`}>
-                  {isCurrent && (
+                <div
+                  key={tier.key}
+                  className={`flex flex-col rounded-lg border p-6 ${isCurrentMember ? "border-copper bg-copper/5" : "border-stone bg-white"}`}
+                >
+                  {isCurrentMember && (
                     <span className="mb-3 w-fit rounded-full bg-copper px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-charcoal">
-                      Current Plan
+                      Active
                     </span>
                   )}
                   <h2 className="font-display text-xl font-semibold text-charcoal">{tier.label}</h2>
@@ -98,19 +157,36 @@ export default function PlansPage() {
                       </button>
                     )}
                     {tier.key === "member" &&
-                      (user ? (
-                        <button
-                          type="button"
-                          onClick={handleSelectMember}
-                          disabled={!!isCurrent}
-                          className="w-full rounded-md bg-copper py-3 text-[11px] font-semibold uppercase tracking-wide text-charcoal transition hover:bg-copper-light disabled:cursor-default disabled:opacity-50"
+                      (!user ? (
+                        <Link
+                          href="/"
+                          className="block w-full rounded-md bg-copper py-3 text-center text-[11px] font-semibold uppercase tracking-wide text-charcoal transition hover:bg-copper-light"
                         >
-                          {isCurrent ? "Active" : "Unlock Membership"}
+                          Sign In to Request
+                        </Link>
+                      ) : status === "APPROVED" ? (
+                        <button
+                          disabled
+                          className="w-full cursor-default rounded-md border border-stone py-3 text-[11px] font-semibold uppercase tracking-wide text-charcoal/40"
+                        >
+                          Active
+                        </button>
+                      ) : status === "PENDING" ? (
+                        <button
+                          disabled
+                          className="w-full cursor-default rounded-md border border-stone py-3 text-[11px] font-semibold uppercase tracking-wide text-charcoal/40"
+                        >
+                          Request Under Review
                         </button>
                       ) : (
-                        <Link href="/" className="block w-full rounded-md bg-copper py-3 text-center text-[11px] font-semibold uppercase tracking-wide text-charcoal transition hover:bg-copper-light">
-                          Sign In to Join
-                        </Link>
+                        <button
+                          type="button"
+                          onClick={handleRequestMembership}
+                          disabled={requesting || loadingStatus}
+                          className="w-full rounded-md bg-copper py-3 text-[11px] font-semibold uppercase tracking-wide text-charcoal transition hover:bg-copper-light disabled:cursor-wait disabled:opacity-60"
+                        >
+                          {requesting ? "Submitting..." : status === "REJECTED" ? "Request Again" : "Request Member Access"}
+                        </button>
                       ))}
                     {tier.key === "admin" && (
                       <Link
@@ -126,10 +202,10 @@ export default function PlansPage() {
             })}
           </div>
 
-          {user && (
+          {user && status === "PENDING" && (
             <p className="mt-8 text-center text-xs text-charcoal/40">
-              Member billing isn&rsquo;t live yet, selecting Member unlocks access now as a preview so you can see how
-              it works. No charge.
+              We review every Member request by hand -- we&rsquo;ll follow up by email within a couple of business
+              days.
             </p>
           )}
         </div>

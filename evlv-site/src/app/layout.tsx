@@ -11,6 +11,7 @@ import { CartDrawer } from "@/components/layout/CartDrawer";
 import { QuizWidget } from "@/components/layout/QuizWidget";
 import { ReferralCapture } from "@/components/layout/ReferralCapture";
 import { VerificationSync } from "@/components/layout/VerificationSync";
+import { MembershipSync } from "@/components/layout/MembershipSync";
 import { AgeGate } from "@/components/layout/AgeGate";
 import { CartProvider } from "@/lib/cart-context";
 import { CurrencyProvider } from "@/lib/currency-context";
@@ -128,6 +129,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         <OmnisendSnippet />
         <ReferralCapture />
         <VerificationSync />
+        <MembershipSync />
         <CurrencyProvider>
           <CartProvider>
             <AgeGate>
