@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { AffiliateForm } from "./AffiliateForm";
 import { Reveal } from "@/components/ui/Reveal";
@@ -93,59 +94,65 @@ export default function AmbassadorsPage() {
       </div>
 
       {/* Hero */}
-      <section className="relative -mt-px overflow-hidden bg-charcoal pb-20 pt-20 text-center text-white md:pb-28 md:pt-28">
-        <MolecularMotif
-          variant="concentric"
-          className="pointer-events-none absolute -right-32 -top-32 hidden h-[420px] w-[420px] lg:block"
-        />
-        <MolecularMotif
-          variant="particles"
-          className="pointer-events-none absolute -bottom-24 -left-24 hidden h-[360px] w-[360px] lg:block"
-        />
-        <div className="relative mx-auto max-w-3xl px-4 md:px-8">
-          <div className="mb-5 flex items-center justify-center gap-3 text-[11px] font-medium uppercase tracking-[0.3em] text-copper">
-            <span className="h-px w-8 bg-copper/60" />
-            Ambassador Program
-            <span className="h-px w-8 bg-copper/60" />
-          </div>
+      <section className="relative -mt-px overflow-hidden bg-charcoal py-16 text-white md:py-24">
+        <div className="relative mx-auto grid max-w-[1300px] grid-cols-1 items-center gap-12 px-4 md:px-8 lg:grid-cols-2 lg:gap-16">
+          <div className="text-center lg:text-left">
+            <div className="mb-5 flex items-center justify-center gap-3 text-[11px] font-medium uppercase tracking-[0.3em] text-copper lg:justify-start">
+              <span className="h-px w-8 bg-copper/60" />
+              Ambassador Program
+            </div>
 
-          <h1 className="font-display text-4xl font-semibold leading-[1.05] text-white md:text-6xl">
-            Become an EVLV Ambassador.
-          </h1>
+            <h1 className="font-display text-4xl font-semibold leading-[1.05] text-white md:text-5xl lg:text-6xl">
+              Become an EVLV Ambassador.
+            </h1>
 
-          <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-white/70 md:text-lg">
-            Create content. Build your audience. Help serious researchers get real answers.
-          </p>
-          <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-white/50">
-            We partner with creators, researchers, and educators in the peptide and longevity-research space who
-            care about accuracy, not hype — and who want to earn from an audience that already trusts them.
-          </p>
+            <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-white/70 md:text-lg lg:mx-0">
+              Create content. Build your audience. Help serious researchers get real answers.
+            </p>
+            <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-white/50 lg:mx-0">
+              We partner with creators, researchers, and educators in the peptide and longevity-research space who
+              care about accuracy, not hype — and who want to earn from an audience that already trusts them.
+            </p>
 
-          <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
-            <a
-              href="#apply"
-              className="rounded-md bg-copper px-7 py-3.5 text-[12px] font-semibold uppercase tracking-[0.2em] text-charcoal transition hover:bg-copper-light"
-            >
-              Apply to be an ambassador <i className="ri-arrow-right-line" />
-            </a>
-            <a
-              href="#why-partner"
-              className="rounded-md border border-white/25 px-7 py-3.5 text-[12px] font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-white/10"
-            >
-              Why partner with us
-            </a>
-          </div>
+            <div className="mt-9 flex flex-wrap items-center justify-center gap-3 lg:justify-start">
+              <a
+                href="#apply"
+                className="rounded-md bg-copper px-7 py-3.5 text-[12px] font-semibold uppercase tracking-[0.2em] text-charcoal transition hover:bg-copper-light"
+              >
+                Apply to be an ambassador <i className="ri-arrow-right-line" />
+              </a>
+              <a
+                href="#why-partner"
+                className="rounded-md border border-white/25 px-7 py-3.5 text-[12px] font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-white/10"
+              >
+                Why partner with us
+              </a>
+            </div>
 
-          <div className="mt-12 flex flex-wrap items-center justify-center gap-x-8 gap-y-5 border-t border-white/10 pt-9">
-            {HERO_FACTS.map((f) => (
-              <div key={f.title} className="flex items-center gap-3">
-                <i className={`${f.icon} text-xl text-copper`} aria-hidden />
-                <div className="text-left">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-white">{f.title}</p>
-                  <p className="text-[11px] uppercase tracking-[0.1em] text-white/50">{f.subtitle}</p>
+            <div className="mt-12 flex flex-wrap items-center justify-center gap-x-8 gap-y-5 border-t border-white/10 pt-9 lg:justify-start">
+              {HERO_FACTS.map((f) => (
+                <div key={f.title} className="flex items-center gap-3">
+                  <i className={`${f.icon} text-xl text-copper`} aria-hidden />
+                  <div className="text-left">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-white">{f.title}</p>
+                    <p className="text-[11px] uppercase tracking-[0.1em] text-white/50">{f.subtitle}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
+          </div>
+
+          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-lg lg:aspect-[3/4]">
+            <Image
+              src="/images/ambassadors/hero-creator.webp"
+              alt="EVLV ambassador creator on set"
+              fill
+              priority
+              sizes="(max-width: 1024px) 100vw, 560px"
+              className="object-cover"
+              style={{ objectPosition: "25% center" }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-charcoal/50 via-transparent to-transparent" />
           </div>
         </div>
       </section>
@@ -339,7 +346,7 @@ export default function AmbassadorsPage() {
       </section>
 
       {/* Final CTA */}
-      <section className="bg-charcoal py-24 text-center text-white md:py-32">
+      <section className="bg-sage-deep py-24 text-center text-white md:py-32">
         <Reveal className="mx-auto max-w-[1400px] px-4 md:px-8">
           <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">Your Audience Already Trusts You</p>
           <h2 className="mx-auto max-w-2xl font-display text-4xl font-semibold leading-[1.05] md:text-5xl">
