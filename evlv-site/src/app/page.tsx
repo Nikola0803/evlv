@@ -1,5 +1,5 @@
 import data from "./landing-content.json";
-import { getDealRowHtml, getGiveawayRowHtml } from "@/lib/deal-and-giveaway";
+import { getDealOfTheDay, getGiveawayStatus, getDealRowHtml, getGiveawayRowHtml } from "@/lib/deal-and-giveaway";
 import { ReviewsSection } from "@/components/home/ReviewsSection";
 import { PartnerReferralSection } from "@/components/home/PartnerReferralSection";
 import { FaqHomeSection } from "@/components/home/FaqHomeSection";
@@ -75,10 +75,18 @@ import { applyLiveFeaturedPricing } from "@/lib/featured-products-pricing";
  * page.
  */
 export default async function Home() {
-  const [dealRowHtml, giveawayRowHtml, liveProducts] = await Promise.all([
-    getDealRowHtml(),
-    getGiveawayRowHtml(),
-    getLiveProducts(),
+  const [deal, giveaway, liveProducts] = await Promise.all([getDealOfTheDay(), getGiveawayStatus(), getLiveProducts()]);
+  // The two cards share a 2-column grid (.hero-rows) -- when only one of
+  // them has anything to show (e.g. no Deal of the Day is scheduled in
+  // the CRM's Promotions page today), the lone survivor needs to span
+  // both columns instead of leaving a dead empty gap where the other
+  // card used to be.
+  const dealPresent = !!deal;
+  const giveawayPresent = !!giveaway?.enabled;
+  const solo = dealPresent !== giveawayPresent;
+  const [dealRowHtml, giveawayRowHtml] = await Promise.all([
+    getDealRowHtml({ solo }),
+    getGiveawayRowHtml({ solo }),
   ]);
   // The FULL merged catalog, not getShopListProducts()'s deduped one --
   // the featured carousel below intentionally references specific dosage

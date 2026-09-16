@@ -103,9 +103,10 @@ function formatDollars(cents: number): string {
  *
  * Returns "" (nothing rendered) when DEAL_OF_THE_DAY above is set to null.
  */
-export async function getDealRowHtml(): Promise<string> {
+export async function getDealRowHtml(opts?: { solo?: boolean }): Promise<string> {
   const deal = await getDealOfTheDay();
   if (!deal) return "";
+  const soloStyle = opts?.solo ? ' style="grid-column: 1 / -1; max-width: 560px; margin: 0 auto"' : "";
 
   const name = escapeHtml(deal.name);
   const dealPrice = formatDollars(deal.dealPriceCents);
@@ -118,7 +119,7 @@ export async function getDealRowHtml(): Promise<string> {
     ? `<p class="deal-desc">${escapeHtml(deal.description)}</p>`
     : "";
 
-  return `<a href="/shop/${escapeHtml(deal.slug)}" class="deal-card">
+  return `<a href="/shop/${escapeHtml(deal.slug)}" class="deal-card"${soloStyle}>
         <div class="deal-card-img">${img}<span class="deal-badge">${percentOff}% OFF</span></div>
         <div class="deal-card-body">
           <p class="deal-eyebrow">Today&rsquo;s Featured Deal</p>
@@ -139,9 +140,10 @@ export async function getDealRowHtml(): Promise<string> {
  * simple, minimal-looking teaser card that matches the other rows.
  * Returns "" when GIVEAWAY_STATUS above is set to null or enabled: false.
  */
-export async function getGiveawayRowHtml(): Promise<string> {
+export async function getGiveawayRowHtml(opts?: { solo?: boolean }): Promise<string> {
   const giveaway = await getGiveawayStatus();
   if (!giveaway || !giveaway.enabled) return "";
+  const soloStyle = opts?.solo ? ' style="grid-column: 1 / -1; max-width: 560px; margin: 0 auto"' : "";
 
   const minOrder = typeof giveaway.minOrderCents === "number" ? formatDollars(giveaway.minOrderCents) : null;
   const title = minOrder
@@ -157,7 +159,7 @@ export async function getGiveawayRowHtml(): Promise<string> {
       ? `<p class="deal-countdown-row"><i class="ri-group-line" aria-hidden="true"></i> ${giveaway.entryCount} entered today</p>`
       : "";
 
-  return `<a href="/giveaway" class="giveaway-card">
+  return `<a href="/giveaway" class="giveaway-card"${soloStyle}>
         <div class="giveaway-icon"><i class="ri-gift-line" aria-hidden="true"></i></div>
         <div class="deal-card-body">
           <p class="deal-eyebrow">Today&rsquo;s Giveaway</p>
