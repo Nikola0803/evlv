@@ -88,6 +88,28 @@ export async function getLiveProducts(): Promise<Product[]> {
 // live product with no static counterpart is appended as-is, generating
 // generic fallback text for any content field the CRM also left blank
 // (Product's shortDescription/description/storage are required strings).
+// Slugs whose photo is a real, curated product shot that must never be
+// swapped out by whatever the CRM happens to have on file for the
+// matching live SKU -- came up when EVLV-1/2/3's real inventory turned
+// out to be duplicated in the CRM under a different (supplier-codename)
+// listing, "GP-1/2/3", that needed its slugs renamed to merge into these
+// exact rows. Renaming the slug is what makes the live price/stock flow
+// in; this is what stops that same merge from also silently swapping the
+// real product photo for whatever generic/placeholder image the GP
+// listing happens to have.
+const PHOTO_LOCKED_SLUGS = new Set([
+  "evlv-1-5mg",
+  "evlv-1-10mg",
+  "evlv-2-10mg",
+  "evlv-2-15mg",
+  "evlv-2-30mg",
+  "evlv-2-60mg",
+  "evlv-3-10mg",
+  "evlv-3-15mg",
+  "evlv-3-30mg",
+  "evlv-3-60mg",
+]);
+
 export function mergeProducts(staticProducts: Product[], liveProducts: Product[]): Product[] {
   if (liveProducts.length === 0) return staticProducts;
   const bySlug = new Map(staticProducts.map((p) => [p.slug, p]));
@@ -100,7 +122,7 @@ export function mergeProducts(staticProducts: Product[], liveProducts: Product[]
         inStock: live.inStock,
         sku: live.sku,
         variants: live.variants,
-        image: live.image || existing.image,
+        image: PHOTO_LOCKED_SLUGS.has(existing.slug) ? existing.image : live.image || existing.image,
         purity: live.purity || existing.purity,
         categoryLabel: live.categoryLabel || existing.categoryLabel,
         shortDescription: live.shortDescription || existing.shortDescription,

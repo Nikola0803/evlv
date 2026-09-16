@@ -34,6 +34,11 @@ export default function ContactPage() {
                   support@evlvpeptides.com
                 </a>
               </ContactRow>
+              <ContactRow icon="ri-mail-line" label="Office">
+                <a href="mailto:office@evlvpeptides.com" className="text-sm text-sage-deep transition hover:underline">
+                  office@evlvpeptides.com
+                </a>
+              </ContactRow>
               <ContactRow icon="ri-time-line" label="Response Time">
                 <p className="text-sm text-charcoal/60">Typically within minutes during business hours</p>
               </ContactRow>

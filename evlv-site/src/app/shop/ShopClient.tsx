@@ -145,6 +145,17 @@ export function ShopClient({ products }: { products: Product[] }) {
 
   const focusOptions = focusGroups.map((g) => ({ value: g.label, label: g.label }));
 
+  // Only offer a format checkbox when a real product actually has that
+  // format -- `formats` (products.ts) is a fixed list of every format the
+  // catalog *could* use, but a filter with zero matching products is a
+  // dead end that just looks broken to a customer. Category doesn't need
+  // this treatment: focusOptions above is already derived from the real
+  // catalog via getShopMenuGroups().
+  const presentFormats = useMemo(() => new Set(products.map((p) => p.format).filter(Boolean)), [products]);
+  const formatOptions = formats.filter(
+    (f): f is { value: ProductFormat; label: string } => f.value !== "all" && presentFormats.has(f.value as ProductFormat)
+  );
+
   const filterBody = (
     <>
       <div className="relative mb-5">
@@ -159,7 +170,9 @@ export function ShopClient({ products }: { products: Product[] }) {
       </div>
 
       <CheckboxGroup title="Category" options={focusOptions} selected={activeFocus} onToggle={(v) => toggle(activeFocus, setActiveFocus, v)} />
-      <CheckboxGroup title="Product Format" options={formats.filter((f) => f.value !== "all") as { value: ProductFormat; label: string }[]} selected={activeFormats} onToggle={(v) => toggle(activeFormats, setActiveFormats, v)} />
+      {formatOptions.length > 0 && (
+        <CheckboxGroup title="Product Format" options={formatOptions} selected={activeFormats} onToggle={(v) => toggle(activeFormats, setActiveFormats, v)} />
+      )}
 
     </>
   );

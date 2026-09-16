@@ -37,6 +37,9 @@ export function Footer() {
           <div>
             <Logo tone="ivory" imgClassName="h-14 w-auto md:h-20" />
             <p className="mt-4 text-sm text-white/50">Supplier of high-purity research peptides for laboratory and analytical use.</p>
+            <a href="mailto:office@evlvpeptides.com" className="mt-2 inline-block text-sm text-white/50 transition hover:text-white">
+              office@evlvpeptides.com
+            </a>
           </div>
 
           <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
