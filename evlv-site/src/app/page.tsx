@@ -4,6 +4,10 @@ import { ReviewsSection } from "@/components/home/ReviewsSection";
 import { PartnerReferralSection } from "@/components/home/PartnerReferralSection";
 import { FaqHomeSection } from "@/components/home/FaqHomeSection";
 import { MOBILE_FIX_CSS } from "./landing-mobile-fix";
+import { getProducts, getShopListProducts } from "@/lib/products";
+import { getLiveProducts, mergeProducts } from "@/lib/product-feed";
+import { applyLiveFeaturedPricing } from "@/lib/featured-products-pricing";
+import { TrustTicker } from "@/components/home/TrustTicker";
 
 /**
  * Homepage content is a direct port of the approved
@@ -72,13 +76,22 @@ import { MOBILE_FIX_CSS } from "./landing-mobile-fix";
  * page.
  */
 export default async function Home() {
-  const [dealRowHtml, giveawayRowHtml] = await Promise.all([getDealRowHtml(), getGiveawayRowHtml()]);
+  const [dealRowHtml, giveawayRowHtml, liveProducts] = await Promise.all([
+    getDealRowHtml(),
+    getGiveawayRowHtml(),
+    getLiveProducts(),
+  ]);
+  const shopProducts = getShopListProducts(mergeProducts(getProducts(), liveProducts));
 
-  const htmlWithRows = data.html
-    .replace("<!-- DEAL_ROW_SLOT -->", dealRowHtml)
-    .replace("<!-- GIVEAWAY_ROW_SLOT -->", giveawayRowHtml);
+  const htmlWithRows = applyLiveFeaturedPricing(
+    data.html
+      .replace("<!-- DEAL_ROW_SLOT -->", dealRowHtml)
+      .replace("<!-- GIVEAWAY_ROW_SLOT -->", giveawayRowHtml),
+    shopProducts
+  );
 
-  const [beforeProof, afterProof] = htmlWithRows.split("<!-- PROOF_SECTION_SLOT -->");
+  const [beforeTicker, afterTicker] = htmlWithRows.split("<!-- TRUST_TICKER_SLOT -->");
+  const [beforeProof, afterProof] = afterTicker.split("<!-- PROOF_SECTION_SLOT -->");
   const [beforePartner, afterPartner] = afterProof.split("<!-- PARTNER_SECTION_SLOT -->");
   const [beforeFaq, afterFaq] = afterPartner.split("<!-- FAQ_SECTION_SLOT -->");
 
@@ -87,6 +100,8 @@ export default async function Home() {
       <style dangerouslySetInnerHTML={{ __html: data.css }} />
       <style dangerouslySetInnerHTML={{ __html: MOBILE_FIX_CSS }} />
       <div id="evlv-landing-content" className="ev-d">
+        <div dangerouslySetInnerHTML={{ __html: beforeTicker }} />
+        <TrustTicker />
         <div dangerouslySetInnerHTML={{ __html: beforeProof }} />
         <ReviewsSection />
         <div dangerouslySetInnerHTML={{ __html: beforePartner }} />
