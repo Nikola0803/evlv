@@ -17,10 +17,43 @@ import { getAnchorPrice } from "./pricing";
  * has nothing to do with pricing, and shouldn't be reconstructed from
  * scratch here (or silently dropped) just to fix a number.
  */
+function escapeAttr(s: string): string {
+  return s.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
+}
+
+// Small pill row for the other doses of a product (5mg/10mg/20mg etc) --
+// same reasoning as the identical addition to ProductCard.tsx: without
+// this, a visitor has to open the product page just to find out other
+// sizes exist. Only the currently-featured size links out; a visitor
+// who wants a different dose clicks through, same as the shop grid.
+function variantPillsHtml(product: Product): string {
+  if (!product.variants || product.variants.length < 2) return "";
+  const pills = product.variants
+    .map((v) => {
+      const active = v.slug === product.slug;
+      const style = active
+        ? "border:1px solid #3E8556;background:#EAF3EC;color:#3E8556;"
+        : "border:1px solid #D8D2C4;background:#fff;color:rgba(28,34,36,.55);";
+      const disabled = v.inStock ? "" : "pointer-events:none;opacity:.4;";
+      return `<a href="/shop/${escapeAttr(v.slug)}" style="display:inline-block;margin:0 4px 4px 0;padding:2px 8px;border-radius:999px;font-size:10px;font-weight:600;text-decoration:none;${style}${disabled}">${escapeAttr(v.label)}</a>`;
+    })
+    .join("");
+  return `<div style="margin:2px 0 4px">${pills}</div>`;
+}
+
 export function applyLiveFeaturedPricing(html: string, products: Product[]): string {
   const bySlug = new Map(products.map((p) => [p.slug, p]));
 
-  return html.replace(
+  const withVariants = html.replace(
+    /(href="\/shop\/([a-z0-9-]+)"[^>]*class="product"[\s\S]*?<h4>[^<]*<\/h4>)(<ul class="pfeat">)/g,
+    (match, prefix, slug, ulOpen) => {
+      const product = bySlug.get(slug);
+      if (!product) return match;
+      return `${prefix}${variantPillsHtml(product)}${ulOpen}`;
+    }
+  );
+
+  return withVariants.replace(
     /(href="\/shop\/([a-z0-9-]+)"[^>]*class="product"[\s\S]*?<div class="pprice">)<span class="amt">[^<]*<\/span><span class="per"><\/span><\/div>/g,
     (match, prefix, slug) => {
       const product = bySlug.get(slug);

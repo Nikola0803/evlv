@@ -91,6 +91,36 @@ export function ProductCard({ product }: { product: Product }) {
       <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-soft-gray">{product.shortDescription}</p>
 
       {/*
+        Other doses of this same product (5mg/10mg/20mg etc) -- without
+        this, the grid only ever shows the one canonical variant per
+        group (see getShopListProducts()) and a visitor has to open the
+        product page to even find out other sizes exist. Small pill row,
+        no prices (keeps the card from getting crowded) -- the product
+        page's own Size selector shown after clicking through is where
+        price-per-size is compared.
+      */}
+      {product.variants && product.variants.length > 1 && (
+        <div className="mt-1.5 flex flex-wrap gap-1">
+          {product.variants.map((v) => {
+            const active = v.slug === product.slug;
+            return (
+              <Link
+                key={v.slug}
+                href={`/shop/${v.slug}`}
+                className={`rounded-full border px-2 py-0.5 text-[10px] font-semibold transition ${
+                  active
+                    ? "border-sage-deep bg-sage-mist text-sage-deep"
+                    : "border-stone bg-white text-charcoal/55 hover:border-charcoal/30"
+                } ${!v.inStock ? "pointer-events-none opacity-40" : ""}`}
+              >
+                {v.label}
+              </Link>
+            );
+          })}
+        </div>
+      )}
+
+      {/*
         Whole product photo, uncropped -- the earlier version cropped out
         the bottom of the image to dodge a purity-badge overlay that
         collided with the copper brand band baked into the photo. That

@@ -1,3 +1,5 @@
+import { crmConfigured, crmGet } from "./crm-proxy";
+
 export interface DealOfTheDay {
   slug: string;
   name: string;
@@ -17,20 +19,15 @@ export interface GiveawayStatus {
   entryCount?: number;
 }
 
-// Hardcoded, not CRM-driven -- there's no live CRM connection wired up for
-// this storefront yet, so pulling these from an unconfigured CRM endpoint
-// silently returned nothing and both rows on the homepage just vanished.
-// Update the values below directly to change the featured deal or run a
-// new giveaway; set DEAL_OF_THE_DAY / GIVEAWAY_STATUS to null to hide a
-// row entirely (same as before, when nothing was configured).
-const DEAL_OF_THE_DAY: DealOfTheDay | null = {
-  slug: "bpc-157-10mg",
-  name: "BPC-157 10MG",
-  imageUrl: "/images/products/bpc-157-10mg.png",
-  dealPriceCents: 5900,
-  regularPriceCents: 7000,
-  endsAt: new Date(new Date().setUTCHours(23, 59, 59, 999)).toISOString(),
-  description:
+// Real research-blurb copy for products that have appeared as Deal of
+// the Day, keyed by slug -- purely cosmetic (the italic sentence under
+// the price on the homepage card), so a slug with no entry here just
+// renders without that line rather than breaking anything. The actual
+// deal (which product, what price, what day) is 100% CRM-driven now --
+// see getDealOfTheDay() below -- staff picks it from the product page's
+// Deal of the Day card in the CRM, never edited here.
+const DEAL_DESCRIPTIONS: Record<string, string> = {
+  "bpc-157-10mg":
     "BPC-157 is a synthetic peptide fragment studied for its interactions with tissue-repair and angiogenesis pathways. Supplied at 99%+ HPLC-verified purity for in vitro and laboratory research only.",
 };
 
@@ -51,8 +48,29 @@ const GIVEAWAY_STATUS: GiveawayStatus | null = {
     "No purchase necessary to enter or win. One free entry per person per day via the entry form on this page. Placing a qualifying order of $50 or more today also earns one automatic entry -- purchasing does not increase your odds of winning beyond that one entry, and is not required to enter or win. Winner is selected at random from that day's entries. Void where prohibited.",
 };
 
+// Pulled live from the CRM's /api/store/deal-of-the-day -- staff sets the
+// product + price + day from that product's Deal of the Day card in the
+// CRM (peptides-crm-app's (app)/promotions page). dealPriceCents there is
+// the SAME price checkout actually charges and the SAME price the live
+// product feed (getLiveProducts()) reports, so this card, the shop page,
+// and every homepage product card all agree with each other by
+// construction -- there's only ever one number to set, in one place.
+// Returns null (row hidden) whenever nothing's scheduled or the CRM
+// isn't configured, same as before.
 export async function getDealOfTheDay(): Promise<DealOfTheDay | null> {
-  return DEAL_OF_THE_DAY;
+  if (!crmConfigured()) return null;
+  const { ok, data } = await crmGet("/api/store/deal-of-the-day", { revalidate: 60 });
+  if (!ok || !data || typeof data.slug !== "string") return null;
+
+  return {
+    slug: data.slug,
+    name: data.name,
+    imageUrl: data.imageUrl,
+    dealPriceCents: data.dealPriceCents,
+    regularPriceCents: data.regularPriceCents,
+    endsAt: data.endsAt,
+    description: DEAL_DESCRIPTIONS[data.slug],
+  };
 }
 
 export async function getGiveawayStatus(): Promise<GiveawayStatus | null> {
