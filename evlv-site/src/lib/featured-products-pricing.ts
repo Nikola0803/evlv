@@ -26,6 +26,16 @@ function escapeAttr(s: string): string {
 // this, a visitor has to open the product page just to find out other
 // sizes exist. Only the currently-featured size links out; a visitor
 // who wants a different dose clicks through, same as the shop grid.
+// Renders as plain <span>s, NOT <a> links -- the whole homepage carousel
+// card (see applyLiveFeaturedPricing below) is already one big <a
+// class="product"> wrapper scraped from the approved mockup. A nested <a>
+// inside an <a> is invalid HTML; browsers silently split the outer anchor
+// where the inner one starts, which is what was breaking these cards
+// (missing price/description/button, or a fragmented empty card) for any
+// product with 2+ variants. These pills are indicator-only here -- picking
+// a different size still works, just from the /shop grid or the product
+// page (both use ProductCard.tsx, which gives each pill its own real
+// non-nested link).
 function variantPillsHtml(product: Product): string {
   if (!product.variants || product.variants.length < 2) return "";
   const pills = product.variants
@@ -34,8 +44,8 @@ function variantPillsHtml(product: Product): string {
       const style = active
         ? "border:1px solid #3E8556;background:#EAF3EC;color:#3E8556;"
         : "border:1px solid #D8D2C4;background:#fff;color:rgba(28,34,36,.55);";
-      const disabled = v.inStock ? "" : "pointer-events:none;opacity:.4;";
-      return `<a href="/shop/${escapeAttr(v.slug)}" style="display:inline-block;margin:0 4px 4px 0;padding:2px 8px;border-radius:999px;font-size:10px;font-weight:600;text-decoration:none;${style}${disabled}">${escapeAttr(v.label)}</a>`;
+      const disabled = v.inStock ? "" : "opacity:.4;";
+      return `<span style="display:inline-block;margin:0 4px 4px 0;padding:2px 8px;border-radius:999px;font-size:10px;font-weight:600;${style}${disabled}">${escapeAttr(v.label)}</span>`;
     })
     .join("");
   return `<div style="margin:2px 0 4px">${pills}</div>`;
