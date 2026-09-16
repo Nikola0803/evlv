@@ -3,22 +3,27 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   allowedDevOrigins: ["192.168.1.83", "localhost", "127.0.0.1"],
   images: {
-    // The CRM's live product feed (see src/lib/product-feed.ts) stores
-    // Product.imageUrl as a full absolute URL back at this same site
-    // (peptide-saas's seed builds it as "https://" + CRM_STORE_DOMAIN +
-    // path) rather than a relative path. next/image refuses to optimize
-    // *any* external absolute URL unless its host is explicitly
-    // allowlisted here -- without this, every product photo the CRM has
-    // an opinion on (which, once the CRM feed is live, is most of them --
+    // The CRM's live product feed (see src/lib/product-feed.ts) hands
+    // back Product.imageUrl / CoaDocument.url as absolute URLs pointing
+    // at the CRM's own domain (peptide-saas's /api/store/products route
+    // absolutizes what's stored as a bare "/uploads/..." path -- see
+    // absoluteMediaUrl there). next/image refuses to optimize *any*
+    // external absolute URL unless its host is explicitly allowlisted
+    // here -- without this, every product photo/COA the CRM has an
+    // opinion on (which, once the CRM feed is live, is most of them --
     // mergeProducts() lets a CRM-set image win over the static catalog's
-    // own working relative path) silently renders as a broken image
-    // icon instead of erroring loudly. Confirmed live: this is why
-    // product photos "went missing" on the storefront once the CRM
-    // feed started actually returning imageUrl values, not a lost-file
-    // problem on either end.
+    // own working relative path) 400s from next/image's optimizer
+    // instead of rendering.
     remotePatterns: [
       { protocol: "https", hostname: "evlvpeptides.com" },
       { protocol: "https", hostname: "www.evlvpeptides.com" },
+      // The CRM (peptide-saas) itself, wherever it's hosted -- admin-
+      // uploaded product photos and COA PDFs are now served as absolute
+      // URLs back to the CRM's own domain (see absoluteMediaUrl in
+      // peptide-saas's /api/store/products route), e.g.
+      // "crm.evlvpeptides.com". Wildcarded to one subdomain level so this
+      // doesn't need editing again if that subdomain changes.
+      { protocol: "https", hostname: "*.evlvpeptides.com" },
     ],
   },
   async redirects() {
