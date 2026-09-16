@@ -56,13 +56,10 @@ const GROUPS: { slug: string; label: string; slugs: string[] }[] = [
       "pt-141-10mg",
       "melanotan-ii-10mg",
       "oxytocin-10mg",
-      "hcg-2000iu",
-      "hcg-5000iu",
       "aod-9604-10mg",
       "cartalax-20mg",
       "igf-1-lr3-1mg",
       "kpv-10mg",
-      "kpv-oral-500mcg",
     ],
   },
 ];
