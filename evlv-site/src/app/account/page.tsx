@@ -10,6 +10,7 @@ import { useCurrency } from "@/lib/currency-context";
 import { AffiliatePanel } from "./AffiliatePanel";
 import { VerificationPanel } from "./VerificationPanel";
 import { WholesalePanel } from "./WholesalePanel";
+import { AccountDeletionPanel } from "./AccountDeletionPanel";
 
 type Tab = "orders" | "addresses" | "profile" | "affiliate" | "verification" | "wholesale";
 
@@ -163,7 +164,12 @@ function AccountPageInner() {
           {tab === "affiliate" && <AffiliatePanel />}
           {tab === "verification" && <VerificationPanel />}
           {tab === "wholesale" && <WholesalePanel />}
-          {tab === "profile" && <ProfilePanel user={user} onUpdate={setUser} />}
+          {tab === "profile" && (
+            <>
+              <ProfilePanel user={user} onUpdate={setUser} />
+              <AccountDeletionPanel />
+            </>
+          )}
         </div>
       </div>
     </div>

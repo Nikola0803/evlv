@@ -151,6 +151,9 @@ export default function CheckoutPage() {
           items: lines.map((l) => ({ slug: l.product.slug, quantity: l.qty })),
           paymentMethod: selectedGateway,
           paymentMemo: memo,
+          // Cents, matching the CRM's convention everywhere else -- this
+          // page computes shipping/total in whole dollars for display.
+          shippingCents: Math.round(shipping * 100),
           couponCode: couponCode.trim() || undefined,
           // Same value doubles as the affiliate ?ref= candidate - the CRM's
           // order engine tries couponCode first, then affiliateRef, against
