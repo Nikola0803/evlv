@@ -4,10 +4,9 @@ import { ReviewsSection } from "@/components/home/ReviewsSection";
 import { PartnerReferralSection } from "@/components/home/PartnerReferralSection";
 import { FaqHomeSection } from "@/components/home/FaqHomeSection";
 import { MOBILE_FIX_CSS } from "./landing-mobile-fix";
-import { getProducts, getShopListProducts } from "@/lib/products";
+import { getProducts } from "@/lib/products";
 import { getLiveProducts, mergeProducts } from "@/lib/product-feed";
 import { applyLiveFeaturedPricing } from "@/lib/featured-products-pricing";
-import { TrustTicker } from "@/components/home/TrustTicker";
 
 /**
  * Homepage content is a direct port of the approved
@@ -81,17 +80,23 @@ export default async function Home() {
     getGiveawayRowHtml(),
     getLiveProducts(),
   ]);
-  const shopProducts = getShopListProducts(mergeProducts(getProducts(), liveProducts));
+  // The FULL merged catalog, not getShopListProducts()'s deduped one --
+  // the featured carousel below intentionally references specific dosage
+  // variants (e.g. evlv-2-30mg, not the canonical evlv-2-10mg card the
+  // shop grid dedupes to), so matching against the deduped list would
+  // silently fail to find them and leave their old hardcoded price in
+  // place. Every entry, canonical or not, still carries its own real
+  // price and its own full `variants` list for the size pills.
+  const allProducts = mergeProducts(getProducts(), liveProducts);
 
   const htmlWithRows = applyLiveFeaturedPricing(
     data.html
       .replace("<!-- DEAL_ROW_SLOT -->", dealRowHtml)
       .replace("<!-- GIVEAWAY_ROW_SLOT -->", giveawayRowHtml),
-    shopProducts
+    allProducts
   );
 
-  const [beforeTicker, afterTicker] = htmlWithRows.split("<!-- TRUST_TICKER_SLOT -->");
-  const [beforeProof, afterProof] = afterTicker.split("<!-- PROOF_SECTION_SLOT -->");
+  const [beforeProof, afterProof] = htmlWithRows.split("<!-- PROOF_SECTION_SLOT -->");
   const [beforePartner, afterPartner] = afterProof.split("<!-- PARTNER_SECTION_SLOT -->");
   const [beforeFaq, afterFaq] = afterPartner.split("<!-- FAQ_SECTION_SLOT -->");
 
@@ -100,8 +105,6 @@ export default async function Home() {
       <style dangerouslySetInnerHTML={{ __html: data.css }} />
       <style dangerouslySetInnerHTML={{ __html: MOBILE_FIX_CSS }} />
       <div id="evlv-landing-content" className="ev-d">
-        <div dangerouslySetInnerHTML={{ __html: beforeTicker }} />
-        <TrustTicker />
         <div dangerouslySetInnerHTML={{ __html: beforeProof }} />
         <ReviewsSection />
         <div dangerouslySetInnerHTML={{ __html: beforePartner }} />
