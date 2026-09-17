@@ -27,12 +27,21 @@ export function ShopMegaMenu({ products }: { products?: Product[] }) {
     .slice(0, 4);
 
   return (
-    <div className="group relative">
+    // No `relative` here on purpose -- the dropdown panel below needs its
+    // `absolute` positioning to resolve against <header> (the nearest
+    // positioned ancestor once this wrapper isn't one itself), which spans
+    // the full page width, so `left-0 right-0 mx-auto` on the panel
+    // actually centers it on the page. Anchoring it to *this* wrapper
+    // instead (a ~50px box hugging the "Shop" link, which sits well
+    // left-of-center in the header) is what made the panel look off-center
+    // before -- centering "on the trigger" put most of a ~1040px-wide
+    // panel hanging off to the right of it instead of straddling it.
+    <div className="group">
       <Link href="/shop" className="whitespace-nowrap transition hover:text-white">
         Shop
       </Link>
 
-      <div className="invisible absolute left-0 top-full w-[min(94vw,1040px)] pt-4 opacity-0 transition duration-150 group-hover:visible group-hover:opacity-100">
+      <div className="invisible absolute left-0 right-0 top-full mx-auto w-[min(94vw,1040px)] pt-4 opacity-0 transition duration-150 group-hover:visible group-hover:opacity-100">
         <div className="overflow-hidden rounded-lg bg-charcoal shadow-2xl shadow-black/40">
           <div className="flex">
             {popular.length > 0 && (
@@ -57,7 +66,13 @@ export function ShopMegaMenu({ products }: { products?: Product[] }) {
                 </Link>
               </div>
 
-              <div className="grid grid-cols-2 gap-x-10 gap-y-8">
+              {/* 3 columns, not 2 -- with the current 6 curated groups, 2
+                  columns leaves the last two (Neuropeptide Class, Specialty
+                  Research Peptides) stranded on their own dangling third
+                  row. 3 columns fits all 6 in exactly 2 full rows instead,
+                  so both end up sharing the second row with Copper &
+                  Metallopeptides rather than trailing beneath everything. */}
+              <div className="grid grid-cols-3 gap-x-8 gap-y-8">
                 {groups.map((group) => (
                   <div key={group.label}>
                     <p className="mb-3.5 text-sm font-semibold text-white">{group.label}</p>
