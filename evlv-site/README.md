@@ -1,36 +1,42 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# EVLV landing — Everlife-style hero
 
-## Getting Started
+Two files changed. Drop them into your project at the same paths, overwriting the originals:
 
-First, run the development server:
+- src/components/home/Hero.tsx
+- src/components/layout/Header.tsx
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## What changed and why
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**Hero.tsx** — rebuilt from a single full-bleed video hero into an Everlife-style layout:
+1. Centered headline + subhead on a light ivory background (was dark charcoal full-bleed).
+2. A trust badge row right under the headline — pulls your real Google rating via
+   `getGoogleReviews()` if it's configured (same helper ReviewsSection already uses), falls back to
+   a generic "Independently Tested & Batch Verified" pill otherwise. Plus the same three claim
+   chips you had (Tested Purity / Batch-Level COAs / Research Use Only).
+3. A bento-style card grid below that — one big tile, one medium tile, two small tiles — each a
+   clickable doorway into a category. This is the actual "Everlife" part: their hero is a grid of
+   big tappable image cards, not one full-screen video.
+   - Big tile: your existing hero video (hero-mobile.mp4 / hero-21by9.mp4 / hero-evlv.mp4), same
+     posters as before.
+   - Medium tile: your existing precision-section.mp4/png (borrowed from AboutSection).
+   - Two small tiles: charcoal / sage-deep panels using the MolecularMotif graphic you already use
+     elsewhere, so nothing new to design — for Peptides and Ancillaries.
+4. A row of small pill quick-links under the grid (Shop All, Peptides, Ancillaries, COAs, Journal)
+   — mirrors Everlife's small link row under their hero grid.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Colors, fonts, and the Reveal/MolecularMotif/font-display system are all your existing tokens —
+nothing new added to globals.css.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+**Header.tsx** — one small necessary fix: the header used to be transparent (`bg-charcoal/20`)
+until scroll, which only worked because the old hero was a dark full-bleed video sitting right
+behind it. Your new hero is light, so a transparent white-text header over it would be hard to
+read. Made the header always solid charcoal — same look it already had once scrolled, just
+all the time now. This also makes the header safe/consistent on every page, not just this one.
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Notes
+- No new npm packages, no new CSS files — just these two components.
+- The video/image paths (`/videos/hero-mobile.mp4`, `/images/hero-vial.png`, etc.) are the exact
+  same ones your old Hero.tsx and AboutSection.tsx already reference, so nothing to re-upload.
+- The rest of the page (FeaturedProducts, ReviewsSection, ShopByCategory, etc.) is untouched —
+  this pass focused on the hero/landing template since that's what you asked about. Happy to do
+  a similar pass on any other section if you want more of the Everlife feel further down the page.

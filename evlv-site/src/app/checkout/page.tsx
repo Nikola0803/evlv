@@ -4,13 +4,14 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useCart, BAC_WATER } from "@/lib/cart-context";
+import { useCart } from "@/lib/cart-context";
 import { useCurrency } from "@/lib/currency-context";
-import { FREE_SHIPPING_THRESHOLD, FLAT_SHIPPING_COST } from "@/components/layout/CartUpsellOffers";
+import { FREE_SHIPPING_THRESHOLD, FLAT_SHIPPING_COST, ShippingProgressBar, BacWaterOffer } from "@/components/layout/CartUpsellOffers";
 import { getStoredUser } from "@/lib/auth";
 import { addOrder } from "@/lib/orders";
 import { PAYMENT_GATEWAYS, type PaymentGatewayId } from "@/lib/payment-config";
 import { getStoredCouponCode, setStoredCouponCode } from "@/lib/referral";
+import { useCouponValidation } from "@/lib/use-coupon-validation";
 import { trackEvent } from "@/lib/pixel";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -56,6 +57,7 @@ export default function CheckoutPage() {
   const [stateCode, setStateCode] = useState("");
   const [zip, setZip] = useState("");
   const [smsConsent, setSmsConsent] = useState(false);
+  const [ruoAttestation, setRuoAttestation] = useState(false);
   const [orderNotes, setOrderNotes] = useState("");
   const [couponCode, setCouponCode] = useState(() => getStoredCouponCode());
 
@@ -67,8 +69,16 @@ export default function CheckoutPage() {
   const [handleCopied, setHandleCopied] = useState(false);
   const [placing, setPlacing] = useState(false);
 
+  const cartItemsForCoupon = lines.map((l) => ({ slug: l.product.slug, quantity: l.qty }));
+  // Prefer the signed-in account's email so a personal lifetime deal
+  // previews immediately on page load; fall back to whatever the shopper
+  // has typed into the email field so far (guest checkout).
+  const storedUserEmail = getStoredUser()?.email;
+  const couponCustomerEmail = storedUserEmail || email.trim() || undefined;
+  const coupon = useCouponValidation(couponCode, cartItemsForCoupon, couponCustomerEmail);
+  const discount = coupon.valid ? coupon.discountUsd : 0;
   const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : FLAT_SHIPPING_COST;
-  const total = subtotal + shipping;
+  const total = Math.max(0, subtotal - discount + shipping);
   const shippingComplete = Boolean(
     firstName.trim() && lastName.trim() && email.trim() && phone.trim() && address1.trim() && city.trim() && stateCode && zip.trim()
   );
@@ -122,15 +132,12 @@ export default function CheckoutPage() {
 
   async function handlePlaceOrder(e: React.FormEvent) {
     e.preventDefault();
-    if (!selectedGateway || expired || !shippingComplete || placing) return;
+    if (!selectedGateway || expired || !shippingComplete || !ruoAttestation || placing) return;
     setPlacing(true);
 
     const user = getStoredUser();
     const gatewayInfo = PAYMENT_GATEWAYS.find((g) => g.id === selectedGateway)!;
-    const localLines = [
-      ...lines.map((l) => ({ name: l.product.name, packLabel: l.packLabel, qty: l.qty, unitPrice: l.unitPrice })),
-      { name: BAC_WATER.name, packLabel: BAC_WATER.note, qty: 1, unitPrice: BAC_WATER.price },
-    ];
+    const localLines = lines.map((l) => ({ name: l.product.name, packLabel: l.packLabel, qty: l.qty, unitPrice: l.unitPrice }));
 
     // Try the real CRM checkout first; fall back to a local order record
     // if the CRM isn't connected yet (see /api/checkout's 503 case), so
@@ -141,18 +148,31 @@ export default function CheckoutPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          items: [
-            ...lines.map((l) => ({ slug: l.product.slug, quantity: l.qty })),
-            { slug: BAC_WATER.slug, quantity: 1 },
-          ],
+          items: lines.map((l) => ({ slug: l.product.slug, quantity: l.qty })),
           paymentMethod: selectedGateway,
           paymentMemo: memo,
+          // Cents, matching the CRM's convention everywhere else -- this
+          // page computes shipping/total in whole dollars for display.
+          shippingCents: Math.round(shipping * 100),
           couponCode: couponCode.trim() || undefined,
-          // Same value doubles as the affiliate ?ref= candidate — the CRM's
+          // Same value doubles as the affiliate ?ref= candidate - the CRM's
           // order engine tries couponCode first, then affiliateRef, against
           // Affiliate.couponCode/slug (see order-engine.ts).
           affiliateRef: couponCode.trim() || undefined,
-          customerNote: orderNotes.trim() || undefined,
+          // A real price-discount coupon (distinct from the affiliate
+          // attribution code above) -- runCheckout() looks this up
+          // separately and no-ops if it does not match a Coupon row, so
+          // it is always safe to send even when the code above is really
+          // just a referral code.
+          discountCode: couponCode.trim() || undefined,
+          customerNote: [
+            `RUO attestation: purchaser confirmed laboratory/research use only at ${new Date().toISOString()}.`,
+            orderNotes.trim() || undefined,
+          ]
+            .filter(Boolean)
+            .join(" | "),
+          ruoAttested: true,
+          ruoAttestedAt: new Date().toISOString(),
           customerId: user && user.user_id !== "local" ? user.user_id : undefined,
           // The deployed CRM's checkout also requires a top-level customerEmail
           // for guest checkout (billing.email alone isn't enough there).
@@ -305,6 +325,13 @@ export default function CheckoutPage() {
               placeholder="Enter a code"
               className="h-12 w-full rounded-md border border-stone bg-white px-4 text-base uppercase tracking-wide text-charcoal outline-none placeholder:text-charcoal/40 placeholder:normal-case focus:border-copper"
             />
+            {coupon.checking && <p className="mt-1.5 text-xs text-charcoal/40">Checking code...</p>}
+            {!coupon.checking && coupon.valid && (
+              <p className="mt-1.5 text-xs font-medium text-sage-deep">
+                {couponCode.trim() ? "Code applied" : "Member reward applied"} -- {formatPrice(coupon.discountUsd)} off
+                {coupon.flooredByMargin ? " (partial, discount limit reached)" : ""}
+              </p>
+            )}
           </section>
 
           <section>
@@ -324,8 +351,9 @@ export default function CheckoutPage() {
         </div>
 
         <div className="h-fit space-y-6">
-          <div className="rounded-lg border border-stone bg-ivory-soft p-6">
-            <h2 className="mb-5 text-sm font-semibold uppercase tracking-wider text-charcoal/50">Order Summary</h2>
+          <div className="rounded-lg border border-stone bg-white p-6 shadow-sm">
+            <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-charcoal/50">Order Summary</h2>
+            <ShippingProgressBar />
             <div className="space-y-5">
               {lines.map((line) => (
                 <div key={`${line.product.id}-${line.packLabel}`} className="flex gap-4">
@@ -340,23 +368,23 @@ export default function CheckoutPage() {
                   <span className="text-base font-semibold text-charcoal">{formatPrice(line.qty * line.unitPrice)}</span>
                 </div>
               ))}
-              <div className="flex items-center gap-4 border-t border-dashed border-stone pt-5">
-                <div className="flex h-20 w-16 shrink-0 items-center justify-center rounded-md bg-sage-deep">
-                  <i className="ri-drop-line text-xl text-ivory" />
-                </div>
-                <div className="flex-1">
-                  <p className="text-base font-medium text-charcoal">{BAC_WATER.name}</p>
-                  <p className="text-sm text-copper">{BAC_WATER.note}</p>
-                </div>
-                <span className="text-base font-semibold text-charcoal">{formatPrice(BAC_WATER.price)}</span>
-              </div>
             </div>
+
+            <BacWaterOffer />
 
             <div className="mt-6 space-y-2 border-t border-stone pt-5 text-base">
               <div className="flex items-center justify-between">
                 <span className="text-charcoal/60">Subtotal</span>
                 <span className="font-medium text-charcoal">{formatPrice(subtotal)}</span>
               </div>
+              {discount > 0 && (
+                <div className="flex items-center justify-between">
+                  <span className="text-sage-deep">
+                    Discount{couponCode.trim() ? ` (${couponCode.trim()})` : " (member reward)"}
+                  </span>
+                  <span className="font-medium text-sage-deep">-{formatPrice(discount)}</span>
+                </div>
+              )}
               <div className="flex items-center justify-between">
                 <span className="text-charcoal/60">Shipping</span>
                 <span className="font-medium text-charcoal">{shipping === 0 ? "Free" : formatPrice(shipping)}</span>
@@ -472,21 +500,28 @@ export default function CheckoutPage() {
             </div>
           </div>
 
-          <div className="flex items-start gap-2 rounded-md border border-stone bg-ivory-soft p-4">
-            <i className="ri-information-line mt-0.5 text-copper" />
-            <p className="text-xs leading-relaxed text-charcoal/60">
-              By placing this order, you confirm that all products are purchased for laboratory research use only,
-              in accordance with our{" "}
+          <label className="flex items-start gap-3 rounded-lg border border-stone bg-ivory-soft p-4">
+            <input
+              type="checkbox"
+              checked={ruoAttestation}
+              onChange={(e) => setRuoAttestation(e.target.checked)}
+              required
+              className="mt-0.5 h-4 w-4 shrink-0 accent-copper"
+            />
+            <span className="text-xs leading-relaxed text-charcoal/60">
+              I confirm I am purchasing these products exclusively for laboratory, analytical, or in-vitro research
+              use by qualified personnel, not for human or animal consumption, administration, or any diagnostic
+              or therapeutic purpose, in accordance with the{" "}
               <Link href="/ruo" className="text-copper hover:underline">
                 Research Use Only Policy
               </Link>
-              .
-            </p>
-          </div>
+              . I understand this order and its attestation are retained as part of the order record.
+            </span>
+          </label>
 
           <button
             type="submit"
-            disabled={!selectedGateway || expired || !shippingComplete || placing}
+            disabled={!selectedGateway || expired || !shippingComplete || !ruoAttestation || placing}
             className="w-full rounded-md bg-copper py-5 text-sm font-semibold uppercase tracking-[0.2em] text-charcoal transition hover:bg-copper-light disabled:cursor-not-allowed disabled:opacity-40"
           >
             {placing ? "Placing Order..." : `Confirm Order (${formatPrice(total)})`}

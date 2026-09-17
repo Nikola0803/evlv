@@ -4,10 +4,10 @@ import { crmConfigured, crmFetch } from "@/lib/crm-proxy";
 export const runtime = "nodejs";
 
 // POST /api/wholesale/settings { token, notificationEmail, businessName? }
-// — proxies to the CRM's /api/store/wholesale/settings, saving where an
+// - proxies to the CRM's /api/store/wholesale/settings, saving where an
 // approved wholesale partner wants order/invoice notifications sent
 // (separate from their login email, in case billing/ops is a different
-// inbox than the account owner's). Doesn't exist on the CRM yet — see
+// inbox than the account owner's). Doesn't exist on the CRM yet - see
 // WHOLESALE-PARTNER-PORTAL.md.
 export async function POST(req: Request) {
   if (!crmConfigured()) {

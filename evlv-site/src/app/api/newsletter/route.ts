@@ -3,7 +3,7 @@ import { crmConfigured, crmFetch } from "@/lib/crm-proxy";
 
 export const runtime = "nodejs";
 
-// POST /api/newsletter { email } — proxies to the CRM's /api/store/newsletter,
+// POST /api/newsletter { email } - proxies to the CRM's /api/store/newsletter,
 // which saves to the CRM's own Contact table (always) and pushes to
 // Mailchimp best-effort.
 export async function POST(req: Request) {

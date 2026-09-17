@@ -6,16 +6,19 @@ export function NewsletterForm() {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [couponCode, setCouponCode] = useState<string | null>(null);
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setSubmitting(true);
     try {
-      await fetch("/api/newsletter", {
+      const res = await fetch("/api/newsletter", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: email.trim() }),
       });
+      const data = await res.json().catch(() => null);
+      if (typeof data?.couponCode === "string") setCouponCode(data.couponCode);
     } catch {
       /* still show success below -- signup isn't worth blocking on a network hiccup */
     } finally {
@@ -28,7 +31,14 @@ export function NewsletterForm() {
     <div id="newsletter">
       <p className="mb-4 text-[11px] font-semibold uppercase tracking-wider text-white/40">Newsletter</p>
       {submitted ? (
-        <p className="text-sm text-white/60">You&apos;re on the list.</p>
+        <div>
+          <p className="text-sm text-white/60">You&apos;re on the list.</p>
+          {couponCode && (
+            <p className="mt-1 text-sm text-white/80">
+              Your 10% off code: <span className="font-semibold tracking-wide text-copper">{couponCode}</span>
+            </p>
+          )}
+        </div>
       ) : (
         <>
           <p className="mb-4 text-sm leading-relaxed text-white/50">Subscribe for 10% off your first order, plus research notes and new SKUs.</p>

@@ -69,7 +69,7 @@ export default async function OrderSuccessPage({
         <div className="mt-6 w-full max-w-md rounded-md border-2 border-copper bg-copper/5 p-5 text-left">
           <p className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.15em] text-copper">
             <i className="ri-error-warning-line text-sm" />
-            Required — Payment Note
+            Required - Payment Note
           </p>
           <p className="mt-2 text-sm leading-relaxed text-charcoal">
             Enter <span className="font-mono text-base font-bold text-copper">{memo}</span> as the entire payment note. Nothing
@@ -88,7 +88,7 @@ export default async function OrderSuccessPage({
 
           {isDemoHandle && (
             <p className="mx-auto mt-2 max-w-xs text-[11px] leading-relaxed text-charcoal/40">
-              Demo handle shown — this store&apos;s real {gatewayLabel} handle isn&apos;t set up yet, so this won&apos;t reach us.
+              Demo handle shown - this store&apos;s real {gatewayLabel} handle isn&apos;t set up yet, so this won&apos;t reach us.
               The scan/tap mechanism itself is fully functional and will work the moment a real handle is configured.
             </p>
           )}
@@ -102,13 +102,13 @@ export default async function OrderSuccessPage({
                 href={quickPay.url}
                 className="mt-4 inline-block w-full rounded-md bg-copper py-3 text-[12px] font-semibold uppercase tracking-[0.2em] text-charcoal transition hover:bg-copper-light"
               >
-                Open {gatewayLabel} — Pay ${amount.toFixed(2)}
+                Open {gatewayLabel} - Pay ${amount.toFixed(2)}
               </a>
               <p className="mt-2 text-[11px] text-charcoal/40">The amount and note are pre-filled for you.</p>
             </>
           ) : (
             <p className="mt-3 text-xs leading-relaxed text-charcoal/50">
-              Zelle doesn&apos;t support one-tap payment links — bank apps don&apos;t allow it. Scan this QR in your banking app&apos;s
+              Zelle doesn&apos;t support one-tap payment links - bank apps don&apos;t allow it. Scan this QR in your banking app&apos;s
               camera to see the handle, amount, and note, then send the payment from there.
             </p>
           )}
@@ -116,6 +116,14 @@ export default async function OrderSuccessPage({
       )}
 
       <p className="mt-4 text-xs text-charcoal/40">Orders are typically dispatched within 24 hours of payment confirmation.</p>
+
+      <p className="mt-6 max-w-md text-[11px] leading-relaxed text-charcoal/40">
+        This order is supplied strictly for laboratory and analytical research use, in accordance with our{" "}
+        <Link href="/ruo" className="text-copper hover:underline">
+          Research Use Only Policy
+        </Link>
+        . Not for human or veterinary use.
+      </p>
 
       <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
         <Link href="/account" className="rounded-md bg-copper px-6 py-3 text-[12px] font-semibold uppercase tracking-[0.2em] text-charcoal transition hover:bg-copper-light">

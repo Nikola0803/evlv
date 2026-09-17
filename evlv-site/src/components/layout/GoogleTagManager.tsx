@@ -1,5 +1,5 @@
 /**
- * GTM. Needs NEXT_PUBLIC_GTM_ID set (a real "GTM-XXXXXXX" container ID) —
+ * GTM. Needs NEXT_PUBLIC_GTM_ID set (a real "GTM-XXXXXXX" container ID) -
  * renders nothing until it is, same "no broken empty snippet" rule as
  * GoogleAnalytics.tsx. Split into two pieces because GTM's own install
  * instructions require it: the script tag as high in <head> as possible,

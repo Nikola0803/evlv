@@ -57,8 +57,8 @@ export function VerificationPanel() {
         <i className="ri-shield-check-fill text-2xl text-sage-deep" />
         <p className="mt-3 font-display text-lg font-semibold text-charcoal">Verified Researcher</p>
         <p className="mx-auto mt-2 max-w-md text-sm text-charcoal/60">
-          Your account has verified researcher/institutional access. Restricted formats — nasal sprays, injector
-          pens — are unlocked across the shop.
+          Your account has verified researcher/institutional access. Restricted formats - nasal delivery and
+          multi-dose cartridge formats - are unlocked across the shop.
         </p>
       </div>
     );
@@ -104,7 +104,7 @@ function VerificationForm({ onApplied }: { onApplied: () => void }) {
       if (!res.ok) {
         throw new Error(
           res.status === 503
-            ? "Verification requests aren't connected yet — check back soon."
+            ? "Verification requests aren't connected yet - check back soon."
             : data?.error || "Something went wrong submitting your request."
         );
       }
@@ -134,8 +134,9 @@ function VerificationForm({ onApplied }: { onApplied: () => void }) {
       <div className="mb-6 rounded-lg border border-stone bg-ivory-soft p-6">
         <p className="font-display text-lg font-semibold text-charcoal">Verified Researcher / Institutional Access</p>
         <p className="mt-2 text-sm text-charcoal/60">
-          Some formats — nasal sprays, injector pens — are restricted to accounts with verified researcher or
-          institutional status. Tell us a bit about your work and we&apos;ll review your request by hand.
+          Some formats - nasal delivery and multi-dose cartridge formats - are restricted to accounts with
+          verified researcher or institutional status. Tell us a bit about your work and we&apos;ll review your
+          request by hand.
         </p>
       </div>
 

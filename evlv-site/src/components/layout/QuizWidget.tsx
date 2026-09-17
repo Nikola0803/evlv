@@ -133,10 +133,16 @@ export function QuizWidget() {
           type="button"
           onClick={() => setOpen(true)}
           aria-label="Not sure what you need? Take the quiz"
-          className="fixed bottom-4 right-4 z-[100] flex h-12 w-12 items-center justify-center rounded-full bg-charcoal text-ivory shadow-lg transition hover:bg-sage-deep sm:bottom-6 sm:right-6 sm:h-auto sm:w-auto sm:gap-2 sm:rounded-full sm:px-5 sm:py-3"
+          // Icon-only on mobile -- the full-text pill used to sit fixed
+          // bottom-right at every scroll position, wide enough on a phone
+          // screen to permanently cover whatever section content ended up
+          // underneath it (product prices, headings, CTAs). It only
+          // expands into the full label once there's enough width (md+)
+          // for it to stop competing with the page for room.
+          className="fixed bottom-4 right-4 z-[100] flex items-center gap-2 rounded-full bg-charcoal p-3.5 text-xs font-semibold uppercase tracking-wide text-ivory shadow-lg transition hover:bg-sage-deep md:bottom-6 md:right-6 md:px-5 md:py-3"
         >
-          <i className="ri-compass-3-line text-lg text-copper sm:text-base" />
-          <span className="hidden text-xs font-semibold uppercase tracking-wide sm:inline">Not sure what you need?</span>
+          <i className="ri-compass-3-line text-base text-copper" />
+          <span className="hidden md:inline">Not sure what you need?</span>
         </button>
       )}
 
@@ -144,7 +150,16 @@ export function QuizWidget() {
         <div className="fixed inset-0 z-[140] flex items-center justify-center p-4">
           <div aria-hidden onClick={closeModal} className="absolute inset-0 bg-charcoal/60 backdrop-blur-sm" />
 
-          <div className="relative w-full max-w-lg rounded-2xl border border-stone bg-ivory p-6 shadow-2xl md:p-8">
+          {/*
+            No max-height/scroll here before meant a step with a lot of
+            content (the goals grid especially) could simply be taller
+            than a phone's viewport -- with the outer wrapper centering
+            via items-center and no scroll escape, anything past the top/
+            bottom edge was just gone, unreachable. Capping at 90vh and
+            scrolling internally keeps every step fully reachable no
+            matter how short the screen is.
+          */}
+          <div className="relative max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-2xl border border-stone bg-ivory p-6 shadow-2xl md:p-8">
             <button
               type="button"
               onClick={closeModal}
@@ -173,7 +188,7 @@ export function QuizWidget() {
 
             {step === "goals" && (
               <div>
-                <h2 className="font-display text-xl font-semibold text-charcoal md:text-2xl">What&apos;s your main research focus?</h2>
+                <h2 className="font-display text-xl font-semibold text-charcoal md:text-2xl">Which compound class are you researching?</h2>
                 <p className="mt-2 text-sm text-charcoal/50">Pick up to {MAX_FOCUS_SELECTIONS}.</p>
 
                 <div className="mt-6 grid gap-3 sm:grid-cols-2">

@@ -7,13 +7,11 @@ const BASE_URL = "https://evlvpeptides.com";
 const STATIC_ROUTES = [
   { path: "/", priority: 1, changeFrequency: "daily" as const },
   { path: "/shop", priority: 0.9, changeFrequency: "daily" as const },
-  { path: "/science", priority: 0.6, changeFrequency: "monthly" as const },
   { path: "/coas", priority: 0.7, changeFrequency: "weekly" as const },
   { path: "/journal", priority: 0.6, changeFrequency: "weekly" as const },
   { path: "/about", priority: 0.5, changeFrequency: "monthly" as const },
   { path: "/faq", priority: 0.4, changeFrequency: "monthly" as const },
   { path: "/contact", priority: 0.3, changeFrequency: "yearly" as const },
-  { path: "/affiliates", priority: 0.3, changeFrequency: "monthly" as const },
   { path: "/wholesale", priority: 0.4, changeFrequency: "monthly" as const },
   { path: "/heroes-discount", priority: 0.3, changeFrequency: "monthly" as const },
   { path: "/plans", priority: 0.3, changeFrequency: "monthly" as const },

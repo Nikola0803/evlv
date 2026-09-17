@@ -1,20 +1,25 @@
 import type { Metadata } from "next";
-import { Poppins, Inter } from "next/font/google";
+import { Poppins, Inter, Newsreader } from "next/font/google";
 import "./globals.css";
 import { AnnouncementBar } from "@/components/layout/AnnouncementBar";
 import { Header } from "@/components/layout/Header";
+import { getProducts } from "@/lib/products";
+import { getLiveProducts, mergeProducts } from "@/lib/product-feed";
 import { Footer } from "@/components/layout/Footer";
 import { CartToast } from "@/components/layout/CartToast";
 import { CartDrawer } from "@/components/layout/CartDrawer";
 import { QuizWidget } from "@/components/layout/QuizWidget";
-import { RecentPurchaseToast } from "@/components/layout/RecentPurchaseToast";
 import { ReferralCapture } from "@/components/layout/ReferralCapture";
 import { VerificationSync } from "@/components/layout/VerificationSync";
+import { MembershipSync } from "@/components/layout/MembershipSync";
 import { AgeGate } from "@/components/layout/AgeGate";
 import { CartProvider } from "@/lib/cart-context";
 import { CurrencyProvider } from "@/lib/currency-context";
 import { GoogleAnalytics } from "@/components/layout/GoogleAnalytics";
 import { GoogleTagManagerHead, GoogleTagManagerBody } from "@/components/layout/GoogleTagManager";
+import { OmnisendSnippet } from "@/components/layout/OmnisendSnippet";
+import { ScrollToTop } from "@/components/layout/ScrollToTop";
+import { ChunkErrorReload } from "@/components/layout/ChunkErrorReload";
 
 const SITE_URL = "https://evlvpeptides.com";
 
@@ -30,14 +35,23 @@ const inter = Inter({
   weight: ["300", "400", "500", "600"],
 });
 
+// Editorial serif used only for the single-product page's headline, to
+// mirror the reference PDP's premium serif title treatment.
+const newsreader = Newsreader({
+  variable: "--font-newsreader",
+  subsets: ["latin"],
+  weight: ["500", "600"],
+  style: ["normal", "italic"],
+});
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "EVLV: Evolve. Become Your Ultimate.",
+    default: "EVLV Peptides: High-Purity Research Peptides for Laboratory Analysis",
     template: "%s | EVLV",
   },
   description:
-    "Premium research peptides, independently tested and batch-verified. Certificates of Analysis published for every lot. Research use only.",
+    "High-purity research peptides supplied for laboratory and in-vitro analytical research. Certificate of Analysis published for every lot. Not for human or animal use.",
   keywords: [
     "research peptides",
     "BPC-157",
@@ -53,14 +67,14 @@ export const metadata: Metadata = {
     type: "website",
     url: SITE_URL,
     siteName: "EVLV",
-    title: "EVLV: Evolve. Become Your Ultimate.",
-    description: "Premium research peptides, independently tested and batch-verified. Research use only.",
+    title: "EVLV Peptides: High-Purity Research Peptides for Laboratory Analysis",
+    description: "High-purity research peptides supplied for laboratory and in-vitro analytical research. Batch-level Certificates of Analysis published. Not for human or animal use.",
     images: [{ url: "/images/hero-vial.png", width: 1200, height: 630, alt: "EVLV research peptides" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "EVLV: Evolve. Become Your Ultimate.",
-    description: "Premium research peptides, independently tested and batch-verified. Research use only.",
+    title: "EVLV Peptides: High-Purity Research Peptides for Laboratory Analysis",
+    description: "High-purity research peptides supplied for laboratory and in-vitro analytical research. Batch-level Certificates of Analysis published. Not for human or animal use.",
     images: ["/images/hero-vial.png"],
   },
   robots: {
@@ -75,7 +89,7 @@ const ORGANIZATION_JSON_LD = {
   name: "EVLV",
   url: SITE_URL,
   logo: `${SITE_URL}/logo/evlv-logo-light.png`,
-  description: "Premium research peptides, independently tested and batch-verified. Research use only.",
+  description: "High-purity research peptides supplied for laboratory and in-vitro analytical research. Batch-level Certificates of Analysis published. Not for human or animal use.",
 };
 
 const WEBSITE_JSON_LD = {
@@ -90,9 +104,14 @@ const WEBSITE_JSON_LD = {
   },
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  // Same CRM-merge pipeline the /shop page uses (see product-feed.ts) --
+  // fetched once here so the header mega menu and every page under it see
+  // the same CRM-aware catalog instead of the header falling back to the
+  // static-only list while /shop shows live CRM stock/pricing.
+  const products = mergeProducts(getProducts(), await getLiveProducts());
   return (
-    <html lang="en" className={`${poppins.variable} ${inter.variable} h-full antialiased`}>
+    <html lang="en" className={`${poppins.variable} ${inter.variable} ${newsreader.variable} h-full antialiased`}>
       <head>
         <GoogleTagManagerHead />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" />
@@ -103,21 +122,24 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         )}
       </head>
       <body className="flex min-h-full flex-col bg-ivory text-charcoal">
+        <ScrollToTop />
+        <ChunkErrorReload />
         <GoogleTagManagerBody />
         <GoogleAnalytics />
+        <OmnisendSnippet />
         <ReferralCapture />
         <VerificationSync />
+        <MembershipSync />
         <CurrencyProvider>
           <CartProvider>
             <AgeGate>
               <AnnouncementBar />
-              <Header />
+              <Header products={products} />
               <main className="flex-1 pt-[90px] md:pt-[100px]">{children}</main>
               <Footer />
               <CartToast />
               <CartDrawer />
               <QuizWidget />
-              <RecentPurchaseToast />
             </AgeGate>
           </CartProvider>
         </CurrencyProvider>

@@ -4,10 +4,12 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useCart, BAC_WATER } from "@/lib/cart-context";
+import { useCart } from "@/lib/cart-context";
 import { useCurrency } from "@/lib/currency-context";
-import { ShippingProgressBar, FeaturedOfferCard, ResearchersAlsoAdd, FREE_SHIPPING_THRESHOLD, FLAT_SHIPPING_COST } from "./CartUpsellOffers";
+import { ShippingProgressBar, BacWaterOffer, FeaturedOfferCard, ResearchersAlsoAdd, FREE_SHIPPING_THRESHOLD, FLAT_SHIPPING_COST } from "./CartUpsellOffers";
 import { getStoredCouponCode, setStoredCouponCode } from "@/lib/referral";
+import { useCouponValidation } from "@/lib/use-coupon-validation";
+import { getStoredUser } from "@/lib/auth";
 
 export function CartDrawer() {
   const { lines, subtotal, isOpen, closeCart, removeLine, setLineQty } = useCart();
@@ -22,8 +24,14 @@ export function CartDrawer() {
     router.push("/checkout");
   }
 
+  const cartItemsForCoupon = lines.map((l) => ({ slug: l.product.slug, quantity: l.qty }));
+  // The cart drawer has no email field of its own -- a personal lifetime
+  // deal can only auto-preview here for a signed-in account.
+  const couponCustomerEmail = getStoredUser()?.email || undefined;
+  const coupon = useCouponValidation(promoCode, cartItemsForCoupon, couponCustomerEmail);
+  const discount = coupon.valid ? coupon.discountUsd : 0;
   const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : FLAT_SHIPPING_COST;
-  const total = subtotal + shipping;
+  const total = Math.max(0, subtotal - discount + shipping);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -104,18 +112,7 @@ export function CartDrawer() {
                 ))}
               </div>
 
-              {/* Mandatory reconstitution add-on — always included, not removable */}
-              <div className="mt-5 flex items-center gap-3 border-t border-dashed border-stone pt-5">
-                <div className="flex h-20 w-16 shrink-0 items-center justify-center rounded-md bg-sage-deep">
-                  <i className="ri-drop-line text-xl text-ivory" />
-                </div>
-                <div className="flex flex-1 flex-col">
-                  <p className="text-sm font-medium text-charcoal">{BAC_WATER.name}</p>
-                  <p className="text-xs text-copper">{BAC_WATER.note}</p>
-                </div>
-                <span className="text-sm font-semibold text-charcoal">{formatPrice(BAC_WATER.price)}</span>
-              </div>
-
+              <BacWaterOffer />
               <FeaturedOfferCard />
               <ResearchersAlsoAdd />
             </>
@@ -148,8 +145,14 @@ export function CartDrawer() {
                     Apply
                   </button>
                 </div>
-                {promoSaved && (
-                  <p className="mt-1.5 text-xs text-sage-deep">Saved — this code will be applied at checkout.</p>
+                {coupon.checking && <p className="mt-1.5 text-xs text-charcoal/40">Checking code...</p>}
+                {!coupon.checking && coupon.valid && (
+                  <p className="mt-1.5 text-xs font-medium text-sage-deep">
+                    {promoCode.trim() ? "Code applied" : "Member reward applied"} -- {formatPrice(coupon.discountUsd)} off
+                  </p>
+                )}
+                {!coupon.checking && !coupon.valid && promoSaved && (
+                  <p className="mt-1.5 text-xs text-charcoal/40">Saved - will still be checked as a referral code at checkout.</p>
                 )}
               </div>
             ) : (
@@ -167,6 +170,12 @@ export function CartDrawer() {
                 <span className="text-charcoal/60">Subtotal</span>
                 <span className="font-medium text-charcoal">{formatPrice(subtotal)}</span>
               </div>
+              {discount > 0 && (
+                <div className="flex items-center justify-between">
+                  <span className="text-sage-deep">Discount</span>
+                  <span className="font-medium text-sage-deep">-{formatPrice(discount)}</span>
+                </div>
+              )}
               <div className="flex items-center justify-between">
                 <span className="text-charcoal/60">Shipping</span>
                 <span className="font-medium text-charcoal">{shipping === 0 ? "Free" : formatPrice(shipping)}</span>
@@ -187,6 +196,9 @@ export function CartDrawer() {
             <Link href="/shop" onClick={closeCart} className="mt-3 block text-center text-xs uppercase tracking-wide text-charcoal/50 transition hover:text-charcoal">
               Continue Shopping
             </Link>
+            <p className="mt-4 text-center text-[10px] leading-relaxed text-charcoal/35">
+              For laboratory and research use only. Not for human or veterinary use.
+            </p>
           </div>
         )}
       </aside>

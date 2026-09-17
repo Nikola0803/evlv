@@ -4,15 +4,17 @@
  * Inline checkout upsells, styled after a competitor reference the founder
  * liked: offers embedded directly in the order summary (a checkbox "add this
  * deal" card + a small "Researchers Also Add" row), not a popup modal.
- * Real EVLV pricing throughout — discounts are applied to actual product.price,
+ * Real EVLV pricing throughout - discounts are applied to actual product.price,
  * never fabricated "was $X" numbers.
  */
 
 import Image from "next/image";
-import { useCart, BAC_WATER } from "@/lib/cart-context";
+import Link from "next/link";
+import { useCart } from "@/lib/cart-context";
 import { useCurrency } from "@/lib/currency-context";
 import { getProductBySlug, getProducts } from "@/lib/products";
 
+const BAC_WATER_SLUG = "bacteriostatic-water-30ml";
 const FEATURED_SLUG = "bpc-157-10mg";
 const FEATURED_DISCOUNT_PERCENT = 25;
 const FEATURED_PACK_LABEL = `1 PCS (${FEATURED_DISCOUNT_PERCENT}% Off Offer)`;
@@ -20,7 +22,7 @@ const FEATURED_PACK_LABEL = `1 PCS (${FEATURED_DISCOUNT_PERCENT}% Off Offer)`;
 const ALSO_ADD_DISCOUNT_PERCENT = 10;
 const ALSO_ADD_PACK_LABEL = `1 PCS (${ALSO_ADD_DISCOUNT_PERCENT}% Off Offer)`;
 
-export const FREE_SHIPPING_THRESHOLD = 300;
+export const FREE_SHIPPING_THRESHOLD = 400;
 export const FLAT_SHIPPING_COST = 15;
 
 export function ShippingProgressBar() {
@@ -28,15 +30,72 @@ export function ShippingProgressBar() {
   const { formatPrice } = useCurrency();
   const remaining = Math.max(0, FREE_SHIPPING_THRESHOLD - subtotal);
   const pct = Math.min(100, (subtotal / FREE_SHIPPING_THRESHOLD) * 100);
+  const unlocked = remaining === 0;
 
   return (
-    <div className="mb-5 rounded-lg border border-stone bg-ivory-soft px-4 py-3">
-      <p className="flex items-center gap-1.5 text-xs font-medium text-charcoal">
-        <i className={`text-sm ${remaining === 0 ? "ri-checkbox-circle-fill text-sage-deep" : "ri-truck-line text-copper"}`} />
-        {remaining === 0 ? "You've unlocked free shipping!" : `Spend ${formatPrice(remaining)} more for free shipping!`}
+    <div
+      className={`mb-5 rounded-lg border p-4 shadow-sm ${
+        unlocked ? "border-sage-deep/40 bg-sage-deep/[0.07]" : "border-copper/30 bg-white"
+      }`}
+    >
+      <p className="flex items-center gap-1.5 text-xs font-semibold text-charcoal">
+        <i className={`text-sm ${unlocked ? "ri-checkbox-circle-fill text-sage-deep" : "ri-truck-line text-copper"}`} />
+        {unlocked ? "You've unlocked free shipping!" : `Spend ${formatPrice(remaining)} more for free shipping!`}
       </p>
-      <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-stone">
-        <div className="h-full rounded-full bg-sage-deep transition-all duration-500" style={{ width: `${pct}%` }} />
+      <div className="mt-2.5 h-2 w-full overflow-hidden rounded-full bg-charcoal/10">
+        <div
+          className={`h-full rounded-full transition-all duration-500 ${unlocked ? "bg-sage-deep" : "bg-copper"}`}
+          style={{ width: `${pct}%` }}
+        />
+      </div>
+    </div>
+  );
+}
+
+/**
+ * "Don't forget BAC Water" -- every peptide in the catalog is a
+ * lyophilized powder that needs bacteriostatic water to reconstitute
+ * (see Product.reconstitution), so a cart full of vials and no BAC
+ * Water is very likely an order that arrives and can't actually be
+ * used yet. Only fires when the cart has a reconstitutable peptide
+ * (anything with a `reconstitution` note) and doesn't already have
+ * BAC Water in it -- never nags on an ancillaries-only or already-
+ * covered order.
+ *
+ * Links to the shop page rather than adding to cart directly: BAC
+ * Water is a real, CRM-managed product (live inventory/price/COA,
+ * slug bacteriostatic-water-30ml) -- there used to be a second,
+ * fabricated static catalog entry here so this could call addToCart()
+ * directly, but that meant two separate "Bacteriostatic Water" cards
+ * on the shop page with two different prices, the exact GP/EVLV
+ * duplicate-listing problem this catalog already got bitten by once.
+ * getProducts()/getProductBySlug() only ever see the static catalog on
+ * the client (the live-merged list is built server-side per request,
+ * see product-feed.ts), so a live-only product's real price/stock
+ * isn't available to reference here at all -- linking to its real
+ * page is the honest option until that plumbing exists.
+ */
+export function BacWaterOffer() {
+  const { lines } = useCart();
+
+  const alreadyInCart = lines.some((l) => l.product.slug === BAC_WATER_SLUG);
+  const needsIt = lines.some((l) => Boolean(l.product.reconstitution));
+  if (alreadyInCart || !needsIt) return null;
+
+  return (
+    <div className="mt-5 flex items-start gap-3 rounded-lg border border-copper/40 bg-copper/5 p-4">
+      <i className="ri-flask-line mt-0.5 shrink-0 text-lg text-copper" />
+      <div className="flex-1">
+        <p className="text-sm font-semibold text-charcoal">Don&apos;t forget BAC Water!</p>
+        <p className="mt-1 text-xs leading-relaxed text-charcoal/60">
+          All peptides are a lyophilized powder and must be reconstituted with Bacteriostatic Water.
+        </p>
+        <Link
+          href={`/shop/${BAC_WATER_SLUG}`}
+          className="mt-2.5 inline-block rounded-md bg-copper px-3.5 py-2 text-[11px] font-semibold uppercase tracking-wide text-charcoal transition hover:bg-copper-light"
+        >
+          Add BAC Water
+        </Link>
       </div>
     </div>
   );
@@ -127,4 +186,3 @@ export function ResearchersAlsoAdd() {
   );
 }
 
-export { BAC_WATER };

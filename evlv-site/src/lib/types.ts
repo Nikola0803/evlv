@@ -20,9 +20,20 @@ export interface Product {
   categoryLabel: string;
   format?: ProductFormat;
   image?: string;
+  /**
+   * Extra gallery media for the product page's rotating media viewer, shown
+   * alongside `image` (which always renders first). Videos loop muted/inline.
+   * No per-product video assets exist yet -- MediaGallery falls back to the
+   * shared /videos/product-hover.mp4 clip when a product has no `gallery`.
+   */
+  gallery?: { type: "image" | "video"; src: string }[];
   price: number;
   bulkOption?: BulkOption;
   purity?: string;
+  /** CAS registry number(s) for this compound -- multiple, comma-separated,
+   * for a pre-combined blend (e.g. BPC-157/TB-500). Shown on the product
+   * card and the product page's spec sheet for research-identity purposes. */
+  casNumber?: string;
   avgMass?: string;
   rating: number;
   reviewCount: number;
@@ -32,13 +43,13 @@ export interface Product {
   storage: string;
   reconstitution?: string;
   badges?: string[];
-  /** Only purchasable by Member-plan accounts (see /plans) — a paid loyalty
+  /** Only purchasable by Member-plan accounts (see /plans) - a paid loyalty
    * tier, unrelated to research-use compliance. */
   memberOnly?: boolean;
   /**
    * Only purchasable by accounts with an APPROVED researcher/institutional
    * verification (see /account's Verification tab and
-   * RESEARCHER-VERIFICATION.md) — a compliance gate for delivery-adjacent
+   * RESEARCHER-VERIFICATION.md) - a compliance gate for delivery-adjacent
    * formats (nasal sprays, injector pens), distinct from memberOnly.
    */
   restricted?: boolean;
@@ -51,7 +62,7 @@ export interface Product {
    * Sibling size/dose options sharing this product's base name (e.g.
    * BPC-157 5mg/10mg/20mg), each its own independently priced/stocked
    * product with its own slug/page. Every sibling in a group carries an
-   * identical `variants` array (including itself) — see the `*_VARIANTS`
+   * identical `variants` array (including itself) - see the `*_VARIANTS`
    * consts in lib/products.ts and `getShopListProducts()`, which uses
    * `variants[0].slug === slug` to show one canonical card per group in
    * the shop grid while every dose still has a real, linkable page.
@@ -77,18 +88,3 @@ export interface FaqItem {
   answer: string;
 }
 
-/**
- * Multi-product research protocol packages, distinct from a single Product
- * (duration-based, not dose-based; no purity/batch of its own since it's a
- * bundle of already-verified individual products).
- */
-export interface Bundle {
-  slug: string;
-  name: string;
-  tagline: string;
-  category: string;
-  duration: string;
-  price: number;
-  compareAtPrice: number;
-  comingSoon?: boolean;
-}

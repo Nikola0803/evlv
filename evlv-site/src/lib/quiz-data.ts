@@ -2,7 +2,7 @@
  * "Find your protocol" quiz content: goals -> a follow-up subgoal question
  * per selected goal -> tiered product recommendations. Ported from a
  * reference project's goals/subgoals/tiers structure, remapped entirely to
- * EVLV's real catalog (src/lib/products.ts) — every product/copy pairing
+ * EVLV's real catalog (src/lib/products.ts) - every product/copy pairing
  * here reflects what EVLV actually carries, not the reference's catalog.
  * RUO framing throughout: "studied for / researched in the context of"
  * language only, no dosing advice, no therapeutic claims.
@@ -14,12 +14,12 @@ export interface FocusArea {
 }
 
 export const FOCUS_AREAS: FocusArea[] = [
-  { key: "recovery", label: "Recovery & Repair Research" },
-  { key: "longevity", label: "Longevity & Cellular Health Research" },
-  { key: "metabolic", label: "Metabolic & Weight Research" },
-  { key: "growth", label: "GHRH & Pituitary Axis Research" },
-  { key: "cognition", label: "Cognition & Mood Research" },
-  { key: "vitality", label: "Sexual Health Research" },
+  { key: "recovery", label: "Synthetic Structural Peptides" },
+  { key: "longevity", label: "Copper & Metallopeptides" },
+  { key: "metabolic", label: "Metabolic Assay Peptides" },
+  { key: "growth", label: "Secretagogue-Class Peptides" },
+  { key: "cognition", label: "Neuropeptide Class" },
+  { key: "vitality", label: "Specialty Research Peptides" },
 ];
 
 export const MAX_FOCUS_SELECTIONS = 2;
@@ -82,30 +82,30 @@ export const QUIZ_PRODUCTS: Record<string, QuizProduct> = {
     tier: "beginner",
     variants: {
       "recovery:injury":
-        "Among the most-studied compounds in the context of tendon, ligament and soft-tissue repair research. A common first single compound when the focus is one specific area.",
+        "Among the most-studied compounds in the context of tendon, ligament and soft-tissue repair research. One of the most-cited starting points in the literature when the focus is one specific area.",
     },
   },
   "thymosin-alpha-1-5mg": {
     tier: "mid",
     variants: {
       "recovery:general":
-        "Studied for immune modulation and systemic recovery support, a common pick when the focus is whole-body rather than one area.",
+        "Studied for immune modulation and systemic recovery support, frequently referenced when the focus is whole-body rather than one area.",
     },
   },
   "bpc-tb-500-blend-10mg": {
     tier: "mid",
     variants: {
       "recovery:injury":
-        "Combines BPC-157 and TB-500 research profiles in one vial. A common choice when the focus is a specific injury and running them separately isn't necessary.",
+        "Combines BPC-157 and TB-500 research profiles in one vial. Frequently referenced when the focus is a specific injury and a combined research profile is preferred.",
       "recovery:general":
-        "Pairs two staple repair-research compounds, which is why it comes up for broad, all-around recovery research.",
+        "Pairs two staple repair-research compounds, which is why it's frequently referenced for broad, all-around recovery research.",
     },
   },
   "mots-c-10mg": {
     tier: "beginner",
     variants: {
       "longevity:cellular":
-        "A mitochondrial-derived peptide studied around cellular energy and how the body uses fuel. The usual first stop here.",
+        "A mitochondrial-derived peptide studied around cellular energy and how the body uses fuel. One of the more established compounds in this area of the literature.",
     },
   },
   "ss-31-10mg": {
@@ -114,17 +114,17 @@ export const QUIZ_PRODUCTS: Record<string, QuizProduct> = {
       "longevity:cellular": "A mitochondria-targeted compound studied in the context of cellular energy research.",
     },
   },
-  "semaglutide-5mg": {
+  "evlv-1-5mg": {
     tier: "beginner",
     variants: {
-      "metabolic:general": "A widely-studied GLP-1 research compound, a common starting point for general metabolic research.",
+      "metabolic:general": "A widely-studied GLP-1 research compound and one of the more established entries in general metabolic research.",
     },
   },
   "ghk-cu-50mg": {
     tier: "beginner",
     variants: {
       "longevity:skin":
-        "A copper peptide among the most-studied compounds for skin, collagen and tissue-remodeling research. A common starting point on the aesthetics side.",
+        "A copper peptide among the most-studied compounds for skin, collagen and tissue-remodeling research. One of the more established compounds on the aesthetics side of the literature.",
     },
   },
   "klow-80mg": {
@@ -133,23 +133,23 @@ export const QUIZ_PRODUCTS: Record<string, QuizProduct> = {
       "longevity:skin": "A pre-combined cellular-support blend researched for tissue- and skin-focused protocols.",
     },
   },
-  "gp-3-10mg": {
+  "evlv-3-10mg": {
     tier: "advanced",
     variants: {
       "metabolic:appetite":
-        "A tri-agonist compound at the frontier of metabolic research. Usually explored once someone's already familiar with the category.",
+        "A tri-agonist compound at the frontier of metabolic research. Typically referenced in more advanced literature within this category.",
     },
   },
-  "tirzepatide-10mg": {
+  "evlv-2-10mg": {
     tier: "mid",
     variants: {
-      "metabolic:appetite": "A dual-agonist GLP-1/GIP research compound, a common middle step before tri-agonist research.",
+      "metabolic:appetite": "A dual-agonist GLP-1/GIP research compound, a frequently-cited midpoint in the literature before tri-agonist research.",
     },
   },
   "cjc-ipa-blend-10mg": {
     tier: "beginner",
     variants: {
-      "growth:gh": "A pre-combined GHRH-analog blend studied for natural pituitary-axis research, a common starting point.",
+      "growth:gh": "A pre-combined GHRH-analog blend studied for natural pituitary-axis research, and one of the more established entries in this category.",
     },
   },
   "tesamorelin-10mg": {
@@ -167,7 +167,7 @@ export const QUIZ_PRODUCTS: Record<string, QuizProduct> = {
   "semax-10mg": {
     tier: "mid",
     variants: {
-      "cognition:stress": "A nootropic peptide studied alongside Selank when the focus extends toward cognitive research.",
+      "cognition:stress": "A nootropic peptide frequently referenced alongside Selank when the focus extends toward cognitive research.",
     },
   },
 };

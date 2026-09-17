@@ -8,22 +8,28 @@
 const TOKEN_KEY = "evlv_auth_token";
 const USER_KEY = "evlv_auth_user";
 
-export type Plan = "standard" | "member";
-export type ResearcherStatus = "NONE" | "PENDING" | "APPROVED";
+export type ResearcherStatus = "NONE" | "PENDING" | "APPROVED" | "REJECTED";
+export type MembershipStatus = "NONE" | "PENDING" | "APPROVED" | "REJECTED";
 
 export interface AuthUser {
   email: string;
   username: string;
   user_id: string;
-  plan?: Plan;
   /**
    * Cached locally, refreshed by VerificationSync.tsx (a background check
    * on app load) and by /account's Verification tab. This is a compliance
    * gate for restricted product formats (nasal sprays, injector pens) --
-   * unlike `plan`, it's never set client-side as a "preview," only ever
-   * synced from what the CRM actually approved.
+   * only ever synced from what the CRM actually approved, never set
+   * client-side as a preview.
    */
   researcherStatus?: ResearcherStatus;
+  /**
+   * Cached locally, refreshed by MembershipSync.tsx and /plans. A
+   * loyalty/pricing tier gate for member-exclusive blends -- manually
+   * reviewed like researcherStatus (see MEMBERSHIP.md), and same rule:
+   * only ever synced from what the CRM actually approved.
+   */
+  membershipStatus?: MembershipStatus;
 }
 
 export function getStoredToken(): string {
@@ -35,27 +41,26 @@ export function getStoredUser(): AuthUser | null {
   if (typeof window === "undefined") return null;
   try {
     const user = JSON.parse(localStorage.getItem(USER_KEY) ?? "null");
-    return user ? { ...user, plan: user.plan ?? "standard", researcherStatus: user.researcherStatus ?? "NONE" } : null;
+    return user
+      ? { ...user, researcherStatus: user.researcherStatus ?? "NONE", membershipStatus: user.membershipStatus ?? "NONE" }
+      : null;
   } catch {
     return null;
   }
 }
 
-/** Synced from the CRM (VerificationSync.tsx, or /account's Verification tab) — never set as a client-side preview. */
+/** Synced from the CRM (VerificationSync.tsx, or /account's Verification tab) - never set as a client-side preview. */
 export function setResearcherStatus(status: ResearcherStatus) {
   const user = getStoredUser();
   if (!user) return;
   localStorage.setItem(USER_KEY, JSON.stringify({ ...user, researcherStatus: status }));
 }
 
-/**
- * Sets the account's plan locally. There's no real billing wired up yet, so this
- * is an honest preview toggle (matches the checkout preview pattern), not a charge.
- */
-export function setPlan(plan: Plan) {
+/** Synced from the CRM (MembershipSync.tsx, or /plans) - never set as a client-side preview; Membership requires manual approval, just like researcherStatus. */
+export function setMembershipStatus(status: MembershipStatus) {
   const user = getStoredUser();
   if (!user) return;
-  localStorage.setItem(USER_KEY, JSON.stringify({ ...user, plan }));
+  localStorage.setItem(USER_KEY, JSON.stringify({ ...user, membershipStatus: status }));
 }
 
 export function saveAuth(data: { token: string; email: string; username: string; user_id: string }) {

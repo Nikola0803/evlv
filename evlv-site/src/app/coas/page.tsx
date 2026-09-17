@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { Suspense } from "react";
 import { CoasClient } from "./CoasClient";
 import { getCoaMap } from "@/lib/coa-data";
 
@@ -10,5 +11,9 @@ export const metadata: Metadata = {
 
 export default async function CoasPage() {
   const coaMap = await getCoaMap();
-  return <CoasClient coaMap={coaMap} />;
+  return (
+    <Suspense fallback={null}>
+      <CoasClient coaMap={coaMap} />
+    </Suspense>
+  );
 }

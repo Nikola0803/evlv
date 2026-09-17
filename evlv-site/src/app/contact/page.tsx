@@ -30,8 +30,13 @@ export default function ContactPage() {
 
             <div className="space-y-4">
               <ContactRow icon="ri-mail-line" label="Email">
-                <a href="mailto:support@altrpeptides.com" className="text-sm text-sage-deep transition hover:underline">
-                  support@altrpeptides.com
+                <a href="mailto:support@evlvpeptides.com" className="text-sm text-sage-deep transition hover:underline">
+                  support@evlvpeptides.com
+                </a>
+              </ContactRow>
+              <ContactRow icon="ri-mail-line" label="Office">
+                <a href="mailto:office@evlvpeptides.com" className="text-sm text-sage-deep transition hover:underline">
+                  office@evlvpeptides.com
                 </a>
               </ContactRow>
               <ContactRow icon="ri-time-line" label="Response Time">

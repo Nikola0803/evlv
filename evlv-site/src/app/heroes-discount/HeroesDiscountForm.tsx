@@ -36,7 +36,7 @@ export function HeroesDiscountForm() {
     const file = e.target.files?.[0] ?? null;
     setError("");
     if (file && file.size > MAX_FILE_BYTES) {
-      setError("File is too large — please upload something under 8MB.");
+      setError("File is too large - please upload something under 8MB.");
       e.target.value = "";
       setProofFile(null);
       return;
@@ -68,7 +68,7 @@ export function HeroesDiscountForm() {
       if (!res.ok) {
         throw new Error(
           res.status === 503
-            ? "This program isn't accepting requests yet — check back soon."
+            ? "This program isn't accepting requests yet - check back soon."
             : data?.error || "Something went wrong submitting your request."
         );
       }

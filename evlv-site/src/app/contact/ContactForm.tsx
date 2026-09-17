@@ -42,7 +42,7 @@ export function ContactForm() {
 
   if (submitted) {
     return (
-      <div className="rounded-md border border-stone bg-ivory p-6 text-center md:p-8">
+      <div className="rounded-md border border-stone bg-ivory-soft p-6 text-center md:p-8">
         <p className="font-display text-lg font-semibold text-charcoal">Message sent</p>
         <p className="mt-2 text-sm text-charcoal/60">Thanks for reaching out. Our team typically responds within minutes during business hours.</p>
       </div>
@@ -50,7 +50,7 @@ export function ContactForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5 rounded-md border border-stone bg-ivory p-6 md:p-8">
+    <form onSubmit={handleSubmit} className="space-y-5 rounded-md border border-stone bg-ivory-soft p-6 md:p-8">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <Field label="Name" name="name" placeholder="Your name" required value={name} onChange={setName} />
         <Field label="Email" name="email" type="email" placeholder="you@example.com" required value={email} onChange={setEmail} />
@@ -62,7 +62,7 @@ export function ContactForm() {
           required
           value={subject}
           onChange={(e) => setSubject(e.target.value)}
-          className="w-full rounded-md border border-stone bg-ivory px-4 py-2.5 text-sm outline-none transition focus:border-sage-deep"
+          className="w-full rounded-md border border-stone bg-white px-4 py-2.5 text-sm outline-none transition focus:border-sage-deep"
         >
           <option value="">Select a topic</option>
           {TOPICS.map((t) => (
@@ -84,7 +84,7 @@ export function ContactForm() {
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           placeholder="How can we help you?"
-          className="w-full resize-none rounded-md border border-stone bg-ivory px-4 py-2.5 text-sm outline-none transition focus:border-sage-deep"
+          className="w-full resize-none rounded-md border border-stone bg-white px-4 py-2.5 text-sm outline-none transition focus:border-sage-deep"
         />
         <div className="mt-1 text-right text-xs text-charcoal/40">Max 500 characters</div>
       </div>
@@ -139,7 +139,7 @@ function Field({
         required={required}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full rounded-md border border-stone bg-ivory px-4 py-2.5 text-sm outline-none transition focus:border-sage-deep"
+        className="w-full rounded-md border border-stone bg-white px-4 py-2.5 text-sm outline-none transition focus:border-sage-deep"
       />
     </div>
   );

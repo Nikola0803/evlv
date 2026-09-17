@@ -3,7 +3,7 @@ import { crmConfigured, crmFetch } from "@/lib/crm-proxy";
 
 export const runtime = "nodejs";
 
-// POST /api/affiliate/click { code } — proxies to the CRM's
+// POST /api/affiliate/click { code } - proxies to the CRM's
 // /api/store/affiliate/click, a fire-and-forget counter. Public, no auth
 // beyond the usual store header pair the proxy already attaches.
 export async function POST(req: Request) {

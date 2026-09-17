@@ -11,14 +11,6 @@ interface CartLine {
   packLabel: string;
 }
 
-/** Required reconstitution add-on, auto-included whenever the cart has items. Seeded as a real CRM product (see prisma/seed-evlv.ts) so it resolves at real checkout too. */
-export const BAC_WATER = {
-  slug: "bacteriostatic-water-30ml",
-  name: "Bacteriostatic Water 30mL",
-  note: "Required for reconstitution",
-  price: 15,
-};
-
 interface CartContextValue {
   lines: CartLine[];
   count: number;
@@ -77,7 +69,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const count = useMemo(() => lines.reduce((sum, l) => sum + l.qty, 0), [lines]);
   const productSubtotal = useMemo(() => lines.reduce((sum, l) => sum + l.qty * l.unitPrice, 0), [lines]);
-  const subtotal = useMemo(() => productSubtotal + (lines.length > 0 ? BAC_WATER.price : 0), [productSubtotal, lines.length]);
+  const subtotal = productSubtotal;
 
   const value = useMemo(
     () => ({ lines, count, subtotal, toastMessage, isOpen, openCart, closeCart, addToCart, removeLine, setLineQty, clearCart }),

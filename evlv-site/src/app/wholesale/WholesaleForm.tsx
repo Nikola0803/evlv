@@ -22,7 +22,7 @@ const EMPTY: FormState = {
   message: "",
 };
 
-const VOLUME_OPTIONS = ["$5,000 – $10,000 / mo", "$10,000 – $25,000 / mo", "$25,000+ / mo", "Not sure yet"];
+const VOLUME_OPTIONS = ["Just getting started", "Growing catalog", "High-volume / multi-SKU", "Not sure yet - let's talk"];
 
 export function WholesaleForm() {
   const [form, setForm] = useState<FormState>(EMPTY);
@@ -48,7 +48,7 @@ export function WholesaleForm() {
       if (!res.ok) {
         throw new Error(
           res.status === 503
-            ? "Wholesale inquiries aren't connected yet — email us directly via Contact in the meantime."
+            ? "Wholesale inquiries aren't connected yet - email us directly via Contact in the meantime."
             : data?.error || "Something went wrong submitting your inquiry."
         );
       }
@@ -74,7 +74,7 @@ export function WholesaleForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 rounded-lg border border-white/10 bg-white/5 p-6 md:p-8">
+    <form onSubmit={handleSubmit} className="space-y-4 rounded-lg border border-white/10 bg-charcoal/40 p-6 md:p-8">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <Field label="Company Name" required value={form.companyName} onChange={(v) => set("companyName", v)} />
         <Field label="Contact Name" required value={form.contactName} onChange={(v) => set("contactName", v)} />
@@ -86,17 +86,19 @@ export function WholesaleForm() {
 
       <div>
         <label className="mb-1.5 block text-sm font-semibold text-white">
-          Estimated Monthly Volume <span className="text-copper">*</span>
+          Expected Order Volume <span className="text-copper">*</span>
         </label>
         <select
           required
           value={form.monthlyVolume}
           onChange={(e) => set("monthlyVolume", e.target.value)}
-          className="w-full rounded-md border border-white/15 bg-charcoal px-4 py-2.5 text-sm text-white outline-none focus:border-copper"
+          className="w-full rounded-md border border-white/15 bg-white/10 px-4 py-2.5 text-sm text-white outline-none focus:border-copper"
         >
-          <option value="">Select a range</option>
+          <option value="" style={{ color: "#0E1113" }}>
+            Select a range
+          </option>
           {VOLUME_OPTIONS.map((v) => (
-            <option key={v} value={v}>
+            <option key={v} value={v} style={{ color: "#0E1113" }}>
               {v}
             </option>
           ))}
@@ -112,8 +114,8 @@ export function WholesaleForm() {
           maxLength={500}
           value={form.message}
           onChange={(e) => set("message", e.target.value)}
-          placeholder="What are you looking to build — dropship, white-label, or a fully custom storefront?"
-          className="w-full resize-none rounded-md border border-white/15 bg-charcoal px-4 py-2.5 text-sm text-white outline-none placeholder:text-white/30 focus:border-copper"
+          placeholder="What are you looking to build - dropship, white-label, or a fully custom storefront?"
+          className="w-full resize-none rounded-md border border-white/15 bg-white/10 px-4 py-2.5 text-sm text-white outline-none placeholder:text-white/30 focus:border-copper"
         />
       </div>
 
@@ -162,7 +164,7 @@ function Field({
         placeholder={placeholder}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full rounded-md border border-white/15 bg-charcoal px-4 py-2.5 text-sm text-white outline-none placeholder:text-white/30 focus:border-copper"
+        className="w-full rounded-md border border-white/15 bg-white/10 px-4 py-2.5 text-sm text-white outline-none placeholder:text-white/30 focus:border-copper"
       />
     </div>
   );

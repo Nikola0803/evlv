@@ -148,7 +148,7 @@ export default function RuoPolicyPage() {
             </p>
             <p className="mt-3 text-sm leading-relaxed text-charcoal/70 md:text-base">
               We can&apos;t answer questions about dosing, administration, injection, reconstitution for personal
-              use, treatment recommendations, human-use protocols, or veterinary use — no matter how the question is
+              use, treatment recommendations, human-use protocols, or veterinary use - no matter how the question is
               worded. Our team is glad to help with orders, product documentation, testing results, and unopened-
               product storage instead.
             </p>
@@ -172,9 +172,9 @@ export default function RuoPolicyPage() {
             <PolicySection num="1" title="Purpose & Scope">
               <p>
                 This policy sets the boundaries of what EVLV, our staff, contractors and representatives can discuss
-                about the products listed on this website. It covers every channel we use to talk to you — product
+                about the products listed on this website. It covers every channel we use to talk to you - product
                 pages, articles, Certificates of Analysis, email, live chat, phone, text, support tickets and social
-                media — and it applies whether a request is framed as hypothetical, personal, professional,
+                media - and it applies whether a request is framed as hypothetical, personal, professional,
                 educational, or on behalf of someone or something else.
               </p>
             </PolicySection>
@@ -194,7 +194,7 @@ export default function RuoPolicyPage() {
                 ))}
               </ul>
               <p className="mt-5 text-sm leading-relaxed text-charcoal/60">
-                A product name, research description, published study, or customer review doesn&apos;t change this —
+                A product name, research description, published study, or customer review doesn&apos;t change this -
                 none of it should be read as an instruction to use a product in humans or animals.
               </p>
             </PolicySection>
@@ -202,7 +202,7 @@ export default function RuoPolicyPage() {
             <PolicySection num="3" title="Guidance We Cannot Provide">
               <p>
                 Our team won&apos;t provide, confirm, calculate, interpret or discuss anything that could reasonably
-                help facilitate human or veterinary use — directly, informally, hypothetically, or through examples.
+                help facilitate human or veterinary use - directly, informally, hypothetically, or through examples.
               </p>
               <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
                 {CANNOT_DISCUSS.map((item) => (
@@ -234,7 +234,7 @@ export default function RuoPolicyPage() {
               <p>
                 We may reference published studies, lab findings, biochemical pathways or other scientific
                 information purely for general research context. None of it is medical advice, and none of it
-                endorses a clinical, therapeutic, diagnostic, cosmetic, veterinary or personal application — studies
+                endorses a clinical, therapeutic, diagnostic, cosmetic, veterinary or personal application - studies
                 involving humans or animals describe third-party research only and don&apos;t change what our
                 products are sold for. Product names, site categories, and search results shouldn&apos;t be read as
                 personal-use instructions either.
@@ -271,7 +271,7 @@ export default function RuoPolicyPage() {
               </ul>
               <p className="mt-5 text-sm leading-relaxed text-charcoal/60">
                 EVLV doesn&apos;t determine whether your proposed research satisfies federal, state, local,
-                institutional or international requirements — that determination is yours to make.
+                institutional or international requirements - that determination is yours to make.
               </p>
             </PolicySection>
 
@@ -290,7 +290,7 @@ export default function RuoPolicyPage() {
             <PolicySection num="9" title="Regulatory Context">
               <p>
                 EVLV operates as a supplier of materials for lawful laboratory research and analytical use.
-                Requirements vary by product, labeling, intended use, and jurisdiction — the references below are
+                Requirements vary by product, labeling, intended use, and jurisdiction - the references below are
                 general context, not a claim that any single rule covers every product, transaction or customer.
               </p>
               <div className="mt-5 space-y-3">

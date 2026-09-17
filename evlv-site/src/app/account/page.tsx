@@ -10,6 +10,7 @@ import { useCurrency } from "@/lib/currency-context";
 import { AffiliatePanel } from "./AffiliatePanel";
 import { VerificationPanel } from "./VerificationPanel";
 import { WholesalePanel } from "./WholesalePanel";
+import { AccountDeletionPanel } from "./AccountDeletionPanel";
 
 type Tab = "orders" | "addresses" | "profile" | "affiliate" | "verification" | "wholesale";
 
@@ -27,7 +28,7 @@ const STATUS_STYLE: Record<Order["status"], string> = {
 const TABS: { key: Tab; label: string; icon: string }[] = [
   { key: "orders", label: "Orders", icon: "ri-file-list-3-line" },
   { key: "addresses", label: "Addresses", icon: "ri-map-pin-line" },
-  { key: "affiliate", label: "Affiliate", icon: "ri-handshake-line" },
+  { key: "affiliate", label: "Ambassador", icon: "ri-handshake-line" },
   { key: "verification", label: "Verification", icon: "ri-shield-check-line" },
   { key: "wholesale", label: "Wholesale", icon: "ri-store-2-line" },
   { key: "profile", label: "Profile", icon: "ri-user-settings-line" },
@@ -58,7 +59,7 @@ function AccountPageInner() {
     setAddresses(getAddressesForUser(u.user_id));
 
     // Real accounts (not the local-only CRM-not-configured bypass) have a
-    // real token — fetch live order history from the CRM and show it
+    // real token - fetch live order history from the CRM and show it
     // alongside any local-only orders placed before the CRM was connected.
     const token = getStoredToken();
     if (u.user_id === "local" || !token) return;
@@ -163,7 +164,12 @@ function AccountPageInner() {
           {tab === "affiliate" && <AffiliatePanel />}
           {tab === "verification" && <VerificationPanel />}
           {tab === "wholesale" && <WholesalePanel />}
-          {tab === "profile" && <ProfilePanel user={user} onUpdate={setUser} />}
+          {tab === "profile" && (
+            <>
+              <ProfilePanel user={user} onUpdate={setUser} />
+              <AccountDeletionPanel />
+            </>
+          )}
         </div>
       </div>
     </div>

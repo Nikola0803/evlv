@@ -6,19 +6,15 @@ import { Logo } from "@/components/ui/Logo";
 import { SearchWidget } from "./SearchWidget";
 import { ShopMegaMenu } from "./ShopMegaMenu";
 import { useCart } from "@/lib/cart-context";
+import type { Product } from "@/lib/types";
 
 const NAV = [
-  { href: "/science", label: "Science" },
-  { href: "/coas", label: "COAs" },
   { href: "/about", label: "About" },
-  { href: "/affiliates", label: "Affiliates" },
-  // Only shown from the lg breakpoint up -- between md and lg there isn't
-  // room for a 6th nav item without overlapping the search/account/cart
-  // icons on the right. Still reachable via the footer and mobile menu.
-  { href: "/wholesale", label: "Wholesale", lgOnly: true },
+  { href: "/coas", label: "COAs" },
+  { href: "/contact", label: "Contact" },
 ];
 
-export function Header() {
+export function Header({ products }: { products?: Product[] } = {}) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { count, openCart } = useCart();
@@ -34,8 +30,8 @@ export function Header() {
 
   return (
     <header
-      className={`fixed top-[32px] right-0 left-0 z-50 backdrop-blur-sm transition-colors duration-300 ${
-        scrolled ? "bg-charcoal/95 shadow-sm shadow-black/20" : "bg-charcoal/20"
+      className={`fixed top-[32px] right-0 left-0 z-50 bg-charcoal/95 backdrop-blur-sm transition-shadow duration-300 ${
+        scrolled ? "shadow-sm shadow-black/20" : ""
       }`}
     >
       <div
@@ -46,12 +42,12 @@ export function Header() {
         <Logo tone="ivory" imgClassName="h-10 w-auto md:h-12" />
 
         <nav className="hidden items-center gap-6 text-[11px] font-medium uppercase tracking-[0.14em] text-white/85 md:flex lg:gap-7">
-          <ShopMegaMenu />
+          <ShopMegaMenu products={products} />
           {NAV.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className={`whitespace-nowrap transition hover:text-white ${item.lgOnly ? "hidden lg:inline-block" : ""}`}
+              className="whitespace-nowrap transition hover:text-white"
             >
               {item.label}
             </Link>

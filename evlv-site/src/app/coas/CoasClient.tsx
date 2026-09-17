@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { getProducts } from "@/lib/products";
 import type { CoaEntry } from "@/lib/coa-data";
@@ -21,7 +22,8 @@ const PROTOCOL = [
 
 export function CoasClient({ coaMap }: { coaMap: Record<string, CoaEntry> }) {
   const products = useMemo(() => getProducts(), []);
-  const [query, setQuery] = useState("");
+  const searchParams = useSearchParams();
+  const [query, setQuery] = useState(() => searchParams.get("search") ?? "");
 
   const filtered = products.filter((p) => {
     const q = query.trim().toLowerCase();
@@ -53,9 +55,9 @@ export function CoasClient({ coaMap }: { coaMap: Record<string, CoaEntry> }) {
       </section>
 
       <section className="border-b border-stone py-14">
-        <div className="mx-auto grid max-w-[1400px] grid-cols-3 gap-6 px-4 md:px-8">
+        <div className="mx-auto grid max-w-[1400px] grid-cols-3 gap-2 px-4 sm:gap-6 md:px-8">
           {stats.map(([value, label]) => (
-            <div key={label} className="p-4 text-center">
+            <div key={label} className="p-1 text-center sm:p-4">
               <div className="font-display text-3xl font-semibold text-sage-deep md:text-4xl">{value}</div>
               <div className="mt-1 text-sm text-charcoal/50">{label}</div>
             </div>

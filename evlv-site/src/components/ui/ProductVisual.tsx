@@ -52,7 +52,7 @@ export function ProductVisual({
         <line x1="64" y1="204" x2="136" y2="204" stroke="#b8875a" strokeWidth="1" opacity="0.6" />
         <circle cx="100" cy="204" r="1.6" fill="#b8875a" />
 
-        {/* wordmark — real EVLV logo, not recreated as text */}
+        {/* wordmark - real EVLV logo, not recreated as text */}
         <image href="/logo/evlv-logo-light.png" x="76" y="165" width="48" height="16" preserveAspectRatio="xMidYMid meet" />
 
         {/* product name */}

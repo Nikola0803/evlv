@@ -56,7 +56,7 @@ export default function SourcingPolicyPage() {
             Sourcing & Quality Policy
           </h1>
           <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-white/60 md:text-base">
-            EVLV is built around analytical quality, documentation and batch integrity — not where a compound was
+            EVLV is built around analytical quality, documentation and batch integrity - not where a compound was
             made. Here&apos;s how we think about sourcing, and why we keep supplier identities confidential.
           </p>
           <p className="mt-4 text-xs text-white/40">Effective date: September 2025</p>
@@ -93,7 +93,7 @@ export default function SourcingPolicyPage() {
                 identities or sourcing locations.
               </p>
               <p className="mt-3">
-                We evaluate products on testing, documentation, batch integrity and release standards — not
+                We evaluate products on testing, documentation, batch integrity and release standards - not
                 marketing claims tied to a country of origin.
               </p>
             </PolicySection>
@@ -129,7 +129,7 @@ export default function SourcingPolicyPage() {
                 partnerships, reduces disruption risk, and helps us keep quality consistent from batch to batch.
               </p>
               <p className="mt-3 text-sm font-semibold text-charcoal">
-                Confidentiality doesn&apos;t replace verification — we still use analytical documentation and batch
+                Confidentiality doesn&apos;t replace verification - we still use analytical documentation and batch
                 review to decide what actually ships.
               </p>
             </PolicySection>
@@ -178,7 +178,7 @@ export default function SourcingPolicyPage() {
             <PolicySection id="regions" num="6" title="Multi-Region Supply & Quality Consistency">
               <p>
                 Depending on availability, production requirements and supply-chain conditions, products may be
-                sourced from more than one region. We don&apos;t treat region of origin as a proxy for quality —
+                sourced from more than one region. We don&apos;t treat region of origin as a proxy for quality -
                 every product goes through the same internal quality expectations, documentation standards and
                 analytical review regardless of where it was sourced.
               </p>
@@ -240,7 +240,7 @@ export default function SourcingPolicyPage() {
             <h3 className="font-display text-xl font-semibold md:text-2xl">Our commitment</h3>
             <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-white/60">
               We believe independent testing, batch traceability, internal review and documentation are the
-              meaningful indicators of quality — not supplier location or country-of-origin marketing. For questions
+              meaningful indicators of quality - not supplier location or country-of-origin marketing. For questions
               about testing, documentation or quality standards, we&apos;re glad to help within the limits above.
             </p>
             <Link

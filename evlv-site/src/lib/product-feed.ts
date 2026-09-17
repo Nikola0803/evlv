@@ -8,6 +8,13 @@ interface FeedVariant {
   priceCents: number;
   inStock: boolean;
   coaUrl?: string;
+  imageUrl?: string;
+  shortDescription?: string;
+  description?: string;
+  purity?: string;
+  categoryLabel?: string;
+  storageInstructions?: string;
+  reconstitutionInstructions?: string;
 }
 
 interface FeedGroup {
@@ -17,7 +24,6 @@ interface FeedGroup {
 }
 
 const STANDARD_STORAGE = "Store lyophilized vials at 2–8°C. After reconstitution, use within 30 days and refrigerate.";
-const STANDARD_RECON = "Reconstitute with bacteriostatic or sterile water appropriate for laboratory use.";
 
 // Real supplier products imported into the CRM (see supplier-import.ts on
 // the CRM side), fetched live so a dropship partner's price list actually
@@ -40,20 +46,30 @@ export async function getLiveProducts(): Promise<Product[]> {
         sku: v.sku,
         name: `${group.name}${group.variants.length > 1 ? ` ${v.label}` : ""}`.toUpperCase(),
         category: "peptides",
-        categoryLabel: "Peptide Research",
-        // No hardcoded placeholder here -- mergeProducts() keeps the static
-        // catalog's real product photo when one exists for this slug. Only
-        // a genuinely new (no static counterpart) live product falls back
-        // to ProductVisual's SVG placeholder, same as any other unphotographed SKU.
-        image: undefined,
+        categoryLabel: v.categoryLabel || "Peptide Research",
+        // CRM-managed photo/content wins when set (see Product.imageUrl
+        // etc. in peptide-saas's schema + the Storefront content card on
+        // its product page) -- mergeProducts() also keeps the static
+        // catalog's own photo as a fallback for a matching slug when the
+        // CRM hasn't been given a photo yet. A genuinely new (no static
+        // counterpart) live product with no CRM photo either falls back
+        // to ProductVisual's SVG placeholder, same as any other
+        // unphotographed SKU.
+        image: v.imageUrl,
         price: v.priceCents / 100,
+        purity: v.purity,
         rating: 0,
         reviewCount: 0,
         inStock: v.inStock,
-        shortDescription: `${group.name} ${v.label} for research protocols.`,
-        description: `${group.name} ${v.label}, supplied for laboratory research use only.`,
-        storage: STANDARD_STORAGE,
-        reconstitution: STANDARD_RECON,
+        // Left empty (not defaulted here) when the CRM hasn't been given
+        // real content yet -- mergeProducts() only overlays these onto a
+        // matching static product when they're actually non-empty, and
+        // fills the generic fallback text itself for a genuinely new,
+        // static-catalog-less product that still has none set.
+        shortDescription: v.shortDescription ?? "",
+        description: v.description ?? "",
+        storage: v.storageInstructions ?? "",
+        reconstitution: v.reconstitutionInstructions,
         variants: group.variants.length > 1 ? variants : undefined,
       });
     }
@@ -61,18 +77,67 @@ export async function getLiveProducts(): Promise<Product[]> {
   return products;
 }
 
-// Merges the live CRM feed into the static demo catalog. When a live
-// product's slug matches a curated static entry, only price/stock/sku/
-// variants are overlaid onto it (real numbers win) -- the static entry's
-// real product photo, purity, description, rating etc. are kept rather
-// than being replaced wholesale. A live product with no static
-// counterpart is appended as-is (falls back to ProductVisual for image).
+// Merges the live CRM feed into the static demo catalog. Price/stock/sku/
+// variants from the CRM always win when a live product matches a curated
+// static entry (real numbers win) -- but so does any storefront content
+// (photo, purity, descriptions, storage/recon copy, category) the CRM has
+// actually been given (see Product.imageUrl etc. in peptide-saas's schema
+// and the Storefront content card on its product page), field by field:
+// a field the CRM hasn't filled in yet just falls through to the static
+// entry's own value instead of overwriting it with something blank. A
+// live product with no static counterpart is appended as-is, generating
+// generic fallback text for any content field the CRM also left blank
+// (Product's shortDescription/description/storage are required strings).
+// Slugs whose photo is a real, curated product shot that must never be
+// swapped out by whatever the CRM happens to have on file for the
+// matching live SKU -- came up when EVLV-1/2/3's real inventory turned
+// out to be duplicated in the CRM under a different (supplier-codename)
+// listing, "GP-1/2/3", that needed its slugs renamed to merge into these
+// exact rows. Renaming the slug is what makes the live price/stock flow
+// in; this is what stops that same merge from also silently swapping the
+// real product photo for whatever generic/placeholder image the GP
+// listing happens to have.
+const PHOTO_LOCKED_SLUGS = new Set([
+  "evlv-1-5mg",
+  "evlv-1-10mg",
+  "evlv-2-10mg",
+  "evlv-2-15mg",
+  "evlv-2-30mg",
+  "evlv-2-60mg",
+  "evlv-3-10mg",
+  "evlv-3-15mg",
+  "evlv-3-30mg",
+  "evlv-3-60mg",
+]);
+
 export function mergeProducts(staticProducts: Product[], liveProducts: Product[]): Product[] {
   if (liveProducts.length === 0) return staticProducts;
   const bySlug = new Map(staticProducts.map((p) => [p.slug, p]));
   for (const live of liveProducts) {
     const existing = bySlug.get(live.slug);
-    bySlug.set(live.slug, existing ? { ...existing, price: live.price, inStock: live.inStock, sku: live.sku, variants: live.variants } : live);
+    if (existing) {
+      bySlug.set(live.slug, {
+        ...existing,
+        price: live.price,
+        inStock: live.inStock,
+        sku: live.sku,
+        variants: live.variants,
+        image: PHOTO_LOCKED_SLUGS.has(existing.slug) ? existing.image : live.image || existing.image,
+        purity: live.purity || existing.purity,
+        categoryLabel: live.categoryLabel || existing.categoryLabel,
+        shortDescription: live.shortDescription || existing.shortDescription,
+        description: live.description || existing.description,
+        storage: live.storage || existing.storage,
+        reconstitution: live.reconstitution || existing.reconstitution,
+      });
+    } else {
+      bySlug.set(live.slug, {
+        ...live,
+        shortDescription: live.shortDescription || `${live.name} for research protocols.`,
+        description: live.description || `${live.name}, supplied for laboratory research use only.`,
+        storage: live.storage || STANDARD_STORAGE,
+      });
+    }
   }
   return [...bySlug.values()];
 }

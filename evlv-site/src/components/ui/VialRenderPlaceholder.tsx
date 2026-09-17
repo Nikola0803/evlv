@@ -24,7 +24,7 @@ export function VialRenderPlaceholder({ className = "" }: { className?: string }
       </svg>
 
       <div className="absolute bottom-4 left-4 text-[10px] uppercase tracking-[0.18em] text-white/35">
-        3D macro render — 3200 × 4000
+        3D macro render - 3200 × 4000
       </div>
     </div>
   );

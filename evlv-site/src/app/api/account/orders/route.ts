@@ -3,7 +3,7 @@ import { crmConfigured, crmFetch } from "@/lib/crm-proxy";
 
 export const runtime = "nodejs";
 
-// POST /api/account/orders { token } — proxies to the CRM's
+// POST /api/account/orders { token } - proxies to the CRM's
 // /api/store/account/orders, which resolves "whose orders" from the token
 // server-side (never trusts a client-supplied customer id/email).
 export async function POST(req: Request) {

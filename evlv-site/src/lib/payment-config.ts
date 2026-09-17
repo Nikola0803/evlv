@@ -8,14 +8,14 @@
  * "we'll email you the details" when a handle is empty, it never invents one.
  */
 export const PAYMENT_HANDLES = {
-  cashapp: "", // e.g. "$EVLVPeptides"
-  zelle: "", // e.g. "payments@evlvpeptides.com" or a phone number
-  venmo: "", // e.g. "@EVLV-Peptides"
+  cashapp: "$VVGOps",
+  zelle: "help@mysecretvitality.com",
+  venmo: "@VVGOps",
 };
 
 /**
  * Placeholder handles used ONLY to render the quick-pay QR/link before real
- * handles are set in PAYMENT_HANDLES above — so the QR-code and deep-link
+ * handles are set in PAYMENT_HANDLES above - so the QR-code and deep-link
  * mechanism is real and testable end-to-end, but visibly not a live payment
  * destination yet. Once PAYMENT_HANDLES has a real value for a gateway,
  * getEffectiveHandle() uses that instead and these stop mattering.
