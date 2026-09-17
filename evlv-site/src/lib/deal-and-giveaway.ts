@@ -1,4 +1,5 @@
 import { crmConfigured, crmGet } from "./crm-proxy";
+import { getProductBySlug } from "./products";
 
 export interface DealOfTheDay {
   slug: string;
@@ -62,9 +63,21 @@ export async function getDealOfTheDay(): Promise<DealOfTheDay | null> {
   const { ok, data } = await crmGet("/api/store/deal-of-the-day", { revalidate: 60 });
   if (!ok || !data || typeof data.slug !== "string") return null;
 
+  // The CRM's own product record can carry a supplier/dropship codename
+  // (e.g. "GP-3 30MG" for what the storefront must only ever call
+  // "EVLV-3 30MG" -- see the PHOTO_LOCKED_SLUGS note in product-feed.ts
+  // for the same GP-1/2/3 supplier-listing situation). mergeProducts()
+  // already protects the shop grid/product pages by never letting the
+  // live feed's name overwrite the static catalog's compliant one, but
+  // this card renders straight from the CRM response, so it needs the
+  // same guard here: prefer the static catalog's name for this slug when
+  // one exists, and only fall back to whatever the CRM sent for a
+  // genuinely new product with no static entry.
+  const staticProduct = getProductBySlug(data.slug);
+
   return {
     slug: data.slug,
-    name: data.name,
+    name: staticProduct?.name ?? data.name,
     imageUrl: data.imageUrl,
     dealPriceCents: data.dealPriceCents,
     regularPriceCents: data.regularPriceCents,
