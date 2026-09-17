@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/lib/cart-context";
 import { useCurrency } from "@/lib/currency-context";
-import { FREE_SHIPPING_THRESHOLD, FLAT_SHIPPING_COST, ShippingProgressBar } from "@/components/layout/CartUpsellOffers";
+import { FREE_SHIPPING_THRESHOLD, FLAT_SHIPPING_COST, ShippingProgressBar, BacWaterOffer } from "@/components/layout/CartUpsellOffers";
 import { getStoredUser } from "@/lib/auth";
 import { addOrder } from "@/lib/orders";
 import { PAYMENT_GATEWAYS, type PaymentGatewayId } from "@/lib/payment-config";
@@ -369,6 +369,8 @@ export default function CheckoutPage() {
                 </div>
               ))}
             </div>
+
+            <BacWaterOffer />
 
             <div className="mt-6 space-y-2 border-t border-stone pt-5 text-base">
               <div className="flex items-center justify-between">

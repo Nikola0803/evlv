@@ -996,6 +996,28 @@ export const products: Product[] = [
     badges: ["Case Pricing Available"],
     batch: { code: "EVLV-SS3110-08", date: "2026-08-23", status: "PASS" },
   },
+
+  // ---- Bacteriostatic Water (reconstitution supply, not a peptide) ----
+  {
+    id: "54",
+    slug: "bac-water-30ml",
+    sku: "BACW-30",
+    name: "Bacteriostatic Water 30ML",
+    category: "ancillaries",
+    categoryLabel: "Lab Supplies",
+    format: "supplies",
+    image: "/images/products/vial-placeholder.png",
+    price: 10,
+    rating: 4.9,
+    reviewCount: 31,
+    inStock: true,
+    shortDescription: "Sterile bacteriostatic water for reconstituting lyophilized peptides.",
+    description:
+      "Every lyophilized peptide vial needs to be reconstituted before use. This 30mL vial of bacteriostatic water (0.9% benzyl alcohol) is the standard diluent for research use, keeping a reconstituted vial stable under refrigeration for its full shelf life.",
+    storage: "Store at room temperature, unopened. Refrigerate after first use.",
+    badges: [],
+    batch: { code: "EVLV-BACW30-08", date: "2026-08-23", status: "PASS" },
+  },
 ];
 
 export function getProducts() {

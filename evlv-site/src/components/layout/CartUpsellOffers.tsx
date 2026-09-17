@@ -13,6 +13,7 @@ import { useCart } from "@/lib/cart-context";
 import { useCurrency } from "@/lib/currency-context";
 import { getProductBySlug, getProducts } from "@/lib/products";
 
+const BAC_WATER_SLUG = "bac-water-30ml";
 const FEATURED_SLUG = "bpc-157-10mg";
 const FEATURED_DISCOUNT_PERCENT = 25;
 const FEATURED_PACK_LABEL = `1 PCS (${FEATURED_DISCOUNT_PERCENT}% Off Offer)`;
@@ -45,6 +46,46 @@ export function ShippingProgressBar() {
           className={`h-full rounded-full transition-all duration-500 ${unlocked ? "bg-sage-deep" : "bg-copper"}`}
           style={{ width: `${pct}%` }}
         />
+      </div>
+    </div>
+  );
+}
+
+/**
+ * "Don't forget BAC Water" -- every peptide in the catalog is a
+ * lyophilized powder that needs bacteriostatic water to reconstitute
+ * (see Product.reconstitution), so a cart full of vials and no BAC
+ * Water is very likely an order that arrives and can't actually be
+ * used yet. Only fires when the cart has a reconstitutable peptide
+ * (anything with a `reconstitution` note) and doesn't already have
+ * BAC Water in it -- never nags on an ancillaries-only or already-
+ * covered order.
+ */
+export function BacWaterOffer() {
+  const { lines, addToCart } = useCart();
+  const { formatPrice } = useCurrency();
+  const product = getProductBySlug(BAC_WATER_SLUG);
+  if (!product) return null;
+
+  const alreadyInCart = lines.some((l) => l.product.slug === BAC_WATER_SLUG);
+  const needsIt = lines.some((l) => Boolean(l.product.reconstitution));
+  if (alreadyInCart || !needsIt) return null;
+
+  return (
+    <div className="mt-5 flex items-start gap-3 rounded-lg border border-copper/40 bg-copper/5 p-4">
+      <i className="ri-flask-line mt-0.5 shrink-0 text-lg text-copper" />
+      <div className="flex-1">
+        <p className="text-sm font-semibold text-charcoal">Don&apos;t forget BAC Water!</p>
+        <p className="mt-1 text-xs leading-relaxed text-charcoal/60">
+          All peptides are a lyophilized powder and must be reconstituted with Bacteriostatic Water.
+        </p>
+        <button
+          type="button"
+          onClick={() => addToCart(product, 1, product.price, "Standard")}
+          className="mt-2.5 rounded-md bg-copper px-3.5 py-2 text-[11px] font-semibold uppercase tracking-wide text-charcoal transition hover:bg-copper-light"
+        >
+          Add BAC Water &mdash; {formatPrice(product.price)}
+        </button>
       </div>
     </div>
   );
