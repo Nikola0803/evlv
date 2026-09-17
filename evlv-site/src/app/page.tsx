@@ -3,6 +3,7 @@ import { getDealOfTheDay, getGiveawayStatus, getDealRowHtml, getGiveawayRowHtml 
 import { ReviewsSection } from "@/components/home/ReviewsSection";
 import { PartnerReferralSection } from "@/components/home/PartnerReferralSection";
 import { FaqHomeSection } from "@/components/home/FaqHomeSection";
+import { HeroTileVideos } from "@/components/home/HeroTileVideos";
 import { MOBILE_FIX_CSS } from "./landing-mobile-fix";
 import { getProducts } from "@/lib/products";
 import { getLiveProducts, mergeProducts } from "@/lib/product-feed";
@@ -122,6 +123,7 @@ export default async function Home() {
         <div dangerouslySetInnerHTML={{ __html: afterFaq }} />
       </div>
       <script dangerouslySetInnerHTML={{ __html: data.script }} />
+      <HeroTileVideos />
     </>
   );
 }
