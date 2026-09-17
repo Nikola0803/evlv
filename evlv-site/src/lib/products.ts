@@ -1055,13 +1055,30 @@ export function getProductBySlug(slug: string) {
 
 /**
  * One card per compound for shop-grid listings: a product with siblings
- * (a `variants` array) only shows up here if it's the canonical/first
- * entry in its own group's array - every dose still has a real page via
+ * (a `variants` array) only shows up here if it's the canonical entry in
+ * its own group's array - every dose still has a real page via
  * getProductBySlug, just not its own card in the grid. A product with no
  * `variants` always shows (nothing to dedupe).
+ *
+ * The canonical entry used to always be variants[0], regardless of
+ * stock - so a compound whose lowest dose sold out would show an
+ * "Out of Stock" card in the grid even when its other doses were still
+ * sellable. Now the canonical slug is the first IN-STOCK variant
+ * instead, so the grid card for that compound surfaces a dose customers
+ * can actually buy (with the rest still reachable via the pill row on
+ * that card). Out-of-stock products are dropped from the grid entirely:
+ * a whole compound with every dose sold out, and a standalone
+ * (no-variants) product that's sold out, both disappear rather than
+ * showing a dead "Out of Stock" card - customers only ever see things
+ * they can add to cart.
  */
 export function getShopListProducts(source: Product[] = products) {
-  return source.filter((p) => !p.variants || p.variants[0]?.slug === p.slug);
+  return source.filter((p) => {
+    if (!p.variants) return p.inStock;
+    const firstInStockSlug = p.variants.find((v) => v.inStock)?.slug;
+    if (!firstInStockSlug) return false;
+    return p.slug === firstInStockSlug;
+  });
 }
 
 export function getRelatedProducts(slug: string, limit = 4) {
