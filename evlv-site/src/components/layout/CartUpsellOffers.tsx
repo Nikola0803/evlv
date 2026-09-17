@@ -9,11 +9,12 @@
  */
 
 import Image from "next/image";
+import Link from "next/link";
 import { useCart } from "@/lib/cart-context";
 import { useCurrency } from "@/lib/currency-context";
 import { getProductBySlug, getProducts } from "@/lib/products";
 
-const BAC_WATER_SLUG = "bac-water-30ml";
+const BAC_WATER_SLUG = "bacteriostatic-water-30ml";
 const FEATURED_SLUG = "bpc-157-10mg";
 const FEATURED_DISCOUNT_PERCENT = 25;
 const FEATURED_PACK_LABEL = `1 PCS (${FEATURED_DISCOUNT_PERCENT}% Off Offer)`;
@@ -60,12 +61,22 @@ export function ShippingProgressBar() {
  * (anything with a `reconstitution` note) and doesn't already have
  * BAC Water in it -- never nags on an ancillaries-only or already-
  * covered order.
+ *
+ * Links to the shop page rather than adding to cart directly: BAC
+ * Water is a real, CRM-managed product (live inventory/price/COA,
+ * slug bacteriostatic-water-30ml) -- there used to be a second,
+ * fabricated static catalog entry here so this could call addToCart()
+ * directly, but that meant two separate "Bacteriostatic Water" cards
+ * on the shop page with two different prices, the exact GP/EVLV
+ * duplicate-listing problem this catalog already got bitten by once.
+ * getProducts()/getProductBySlug() only ever see the static catalog on
+ * the client (the live-merged list is built server-side per request,
+ * see product-feed.ts), so a live-only product's real price/stock
+ * isn't available to reference here at all -- linking to its real
+ * page is the honest option until that plumbing exists.
  */
 export function BacWaterOffer() {
-  const { lines, addToCart } = useCart();
-  const { formatPrice } = useCurrency();
-  const product = getProductBySlug(BAC_WATER_SLUG);
-  if (!product) return null;
+  const { lines } = useCart();
 
   const alreadyInCart = lines.some((l) => l.product.slug === BAC_WATER_SLUG);
   const needsIt = lines.some((l) => Boolean(l.product.reconstitution));
@@ -79,13 +90,12 @@ export function BacWaterOffer() {
         <p className="mt-1 text-xs leading-relaxed text-charcoal/60">
           All peptides are a lyophilized powder and must be reconstituted with Bacteriostatic Water.
         </p>
-        <button
-          type="button"
-          onClick={() => addToCart(product, 1, product.price, "Standard")}
-          className="mt-2.5 rounded-md bg-copper px-3.5 py-2 text-[11px] font-semibold uppercase tracking-wide text-charcoal transition hover:bg-copper-light"
+        <Link
+          href={`/shop/${BAC_WATER_SLUG}`}
+          className="mt-2.5 inline-block rounded-md bg-copper px-3.5 py-2 text-[11px] font-semibold uppercase tracking-wide text-charcoal transition hover:bg-copper-light"
         >
-          Add BAC Water &mdash; {formatPrice(product.price)}
-        </button>
+          Add BAC Water
+        </Link>
       </div>
     </div>
   );
