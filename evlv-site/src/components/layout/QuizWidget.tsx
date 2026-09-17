@@ -150,7 +150,16 @@ export function QuizWidget() {
         <div className="fixed inset-0 z-[140] flex items-center justify-center p-4">
           <div aria-hidden onClick={closeModal} className="absolute inset-0 bg-charcoal/60 backdrop-blur-sm" />
 
-          <div className="relative w-full max-w-lg rounded-2xl border border-stone bg-ivory p-6 shadow-2xl md:p-8">
+          {/*
+            No max-height/scroll here before meant a step with a lot of
+            content (the goals grid especially) could simply be taller
+            than a phone's viewport -- with the outer wrapper centering
+            via items-center and no scroll escape, anything past the top/
+            bottom edge was just gone, unreachable. Capping at 90vh and
+            scrolling internally keeps every step fully reachable no
+            matter how short the screen is.
+          */}
+          <div className="relative max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-2xl border border-stone bg-ivory p-6 shadow-2xl md:p-8">
             <button
               type="button"
               onClick={closeModal}

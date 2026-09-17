@@ -27,6 +27,14 @@ function splitDosage(name: string) {
   return { title: name.slice(0, match.index).trim(), dosage: match[1].toUpperCase() };
 }
 
+// Display-only trim -- every badge in products.ts is literally "Case
+// Pricing Available"; that full phrase force-wraps to 2 lines on a
+// ~150px-wide mobile card. "Available" is implied by the badge existing
+// at all, so it's safe to drop just for the pill's own rendering.
+function shortBadge(label: string) {
+  return label.replace(/\s+Available$/i, "");
+}
+
 export function ProductCard({ product }: { product: Product }) {
   const { packs, selected } = usePackSelection(product);
   const { addToCart } = useCart();
@@ -53,8 +61,8 @@ export function ProductCard({ product }: { product: Product }) {
 
   return (
     <div className="group relative flex flex-col overflow-hidden rounded-2xl border border-stone bg-white p-5 shadow-sm transition hover:shadow-md">
-      <div className="flex flex-wrap items-center gap-1.5">
-        <span className="flex items-center gap-1 rounded-full bg-white px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-sage-deep">
+      <div className="flex flex-wrap items-center gap-1 sm:gap-1.5">
+        <span className="flex items-center gap-1 whitespace-nowrap rounded-full bg-white px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-sage-deep sm:px-2.5 sm:py-1 sm:text-[10px]">
           {product.purity ? (
             <>
               <i className="ri-flask-line" /> {product.purity} Purity
@@ -64,28 +72,29 @@ export function ProductCard({ product }: { product: Product }) {
           )}
         </span>
         {product.format && (
-          <span className="rounded-full bg-white px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-charcoal/60">
+          <span className="whitespace-nowrap rounded-full bg-white px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-charcoal/60 sm:px-2.5 sm:py-1 sm:text-[10px]">
             {FORMAT_LABELS[product.format] ?? product.format}
           </span>
         )}
         {product.badges?.[0] && (
-          <span className="rounded-full bg-copper/15 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-copper-dark">
-            {product.badges[0]}
+          <span className="whitespace-nowrap rounded-full bg-copper/15 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-copper-dark sm:px-2.5 sm:py-1 sm:text-[10px]">
+            <span className="sm:hidden">{shortBadge(product.badges[0])}</span>
+            <span className="hidden sm:inline">{product.badges[0]}</span>
           </span>
         )}
         {!product.inStock && (
-          <span className="rounded-full bg-charcoal/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-charcoal/60">
+          <span className="whitespace-nowrap rounded-full bg-charcoal/10 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-charcoal/60 sm:px-2.5 sm:py-1 sm:text-[10px]">
             Out of Stock
           </span>
         )}
         {locked && (
-          <span className="flex items-center gap-1 rounded-full bg-charcoal/85 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-copper">
+          <span className="flex items-center gap-1 whitespace-nowrap rounded-full bg-charcoal/85 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-copper sm:px-2.5 sm:py-1 sm:text-[10px]">
             <i className="ri-lock-line" /> {restrictedLocked ? "Verified Only" : "Member Only"}
           </span>
         )}
       </div>
 
-      <Link href={`/shop/${product.slug}`} className="mt-2.5 font-display text-lg font-semibold tracking-tight text-charcoal transition hover:opacity-60 md:text-xl">
+      <Link href={`/shop/${product.slug}`} className="mt-2 font-display text-base font-semibold tracking-tight text-charcoal transition hover:opacity-60 sm:mt-2.5 sm:text-lg md:text-xl">
         {title} {dosage}
       </Link>
       <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-soft-gray">{product.shortDescription}</p>
@@ -103,14 +112,14 @@ export function ProductCard({ product }: { product: Product }) {
         price-per-size is compared.
       */}
       {product.variants && product.variants.length > 1 && (
-        <div className="mt-1.5 flex flex-wrap gap-1">
+        <div className="mt-1.5 grid grid-cols-2 gap-1">
           {product.variants.map((v) => {
             const active = v.slug === product.slug;
             return (
               <Link
                 key={v.slug}
                 href={`/shop/${v.slug}`}
-                className={`rounded-full border px-2 py-0.5 text-[10px] font-semibold transition ${
+                className={`rounded-full border px-2 py-0.5 text-center text-[10px] font-semibold transition ${
                   active
                     ? "border-sage-deep bg-sage-mist text-sage-deep"
                     : "border-stone bg-white text-charcoal/55 hover:border-charcoal/30"
@@ -160,17 +169,17 @@ export function ProductCard({ product }: { product: Product }) {
           underneath) removes the squeeze; flex-wrap is a backstop so a
           long price never clips even if this ever renders narrower still.
         */}
-        <div className="flex flex-col gap-1.5 sm:flex-row sm:items-center sm:justify-between sm:gap-2">
+        <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between sm:gap-2">
           <div className="min-w-0">
-            <p className="text-[11px] font-semibold uppercase tracking-wide text-charcoal/55">Price</p>
-            <div className="flex flex-wrap items-baseline gap-x-2">
-              <span className="whitespace-nowrap text-sm font-medium text-charcoal/40 line-through sm:text-base">
+            <p className="text-[10px] font-semibold uppercase tracking-wide text-charcoal/55 sm:text-[11px]">Price</p>
+            <div className="flex flex-wrap items-baseline gap-x-1.5">
+              <span className="whitespace-nowrap text-xs font-medium text-charcoal/40 line-through sm:text-base">
                 {formatPrice(anchorPrice)}
               </span>
-              <p className="whitespace-nowrap font-display text-lg font-semibold text-charcoal sm:text-xl md:text-2xl">{formatPrice(product.price)}</p>
+              <p className="whitespace-nowrap font-display text-base font-semibold text-charcoal sm:text-xl md:text-2xl">{formatPrice(product.price)}</p>
             </div>
             {hasMultiplePrices && (
-              <p className="mt-0.5 text-xs font-medium text-charcoal/65">As low as {formatPrice(lowestUnitPrice)}/vial in bulk</p>
+              <p className="mt-0.5 text-[11px] font-medium text-charcoal/65">As low as {formatPrice(lowestUnitPrice)}/vial in bulk</p>
             )}
           </div>
           <Link href="/coas" className="flex shrink-0 items-center gap-1 text-[10px] font-medium uppercase tracking-[0.15em] text-charcoal/40 transition hover:text-copper">

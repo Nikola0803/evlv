@@ -109,7 +109,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           any visual language with the rest of the site. Copy stays
           distinct from the Key Benefits trust badges above so the two
           don't repeat the same claims. */}
-      <section className="bg-ivory py-16 md:py-24">
+      <section className="bg-ivory py-10 md:py-24">
         <div className="mx-auto max-w-[1200px] px-4 md:px-8">
           <div className="mb-10 flex max-w-[660px] flex-col gap-3">
             <p className="text-[12px] font-semibold uppercase tracking-[0.18em] text-copper">Getting started</p>

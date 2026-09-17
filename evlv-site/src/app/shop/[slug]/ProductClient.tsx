@@ -140,14 +140,22 @@ export function ProductClient({ product, coa }: { product: Product; coa?: CoaEnt
               Starting at {formatPrice(minVariantPrice)}
             </p>
           )}
-          <div className="flex items-baseline gap-3">
-            <span className="whitespace-nowrap text-lg font-medium text-charcoal/25 line-through md:text-xl">
+          {/*
+            In Stock used to sit crammed into the same line as the big
+            price number -- fine on desktop's wider column, but on mobile
+            it read as an odd trailing fragment next to an oversized
+            price. Its own line above the price (stock status first, then
+            the number) is the more standard checkout pattern and stops
+            it competing with the price for space.
+          */}
+          <span className={`flex items-center gap-1 text-xs font-medium ${product.inStock ? "text-sage-deep" : "text-charcoal/40"}`}>
+            <i className="ri-checkbox-circle-line" /> {product.inStock ? "In Stock" : "Out of Stock"}
+          </span>
+          <div className="mt-1 flex items-baseline gap-3">
+            <span className="whitespace-nowrap text-base font-medium text-charcoal/25 line-through sm:text-lg md:text-xl">
               {formatPrice(getAnchorPrice(selected.unitPrice))}
             </span>
-            <div className="font-display text-3xl font-semibold text-charcoal md:text-4xl">{formatPrice(selected.unitPrice)}</div>
-            <span className={`flex items-center gap-1 text-xs font-medium ${product.inStock ? "text-sage-deep" : "text-charcoal/40"}`}>
-              <i className="ri-checkbox-circle-line" /> {product.inStock ? "In Stock" : "Out of Stock"}
-            </span>
+            <div className="font-display text-2xl font-semibold text-charcoal sm:text-3xl md:text-4xl">{formatPrice(selected.unitPrice)}</div>
           </div>
           {product.bulkOption && (
             <p className="mt-1 text-sm text-charcoal/50">
