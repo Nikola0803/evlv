@@ -10,6 +10,7 @@ import type { Product } from "@/lib/types";
 
 const NAV = [
   { href: "/about", label: "About" },
+  { href: "/ambassadors", label: "Lab Ambassador Program" },
   { href: "/coas", label: "COAs" },
   { href: "/contact", label: "Contact" },
 ];
