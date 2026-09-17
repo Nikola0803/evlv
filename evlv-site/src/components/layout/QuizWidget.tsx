@@ -132,10 +132,17 @@ export function QuizWidget() {
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="fixed bottom-6 right-6 z-[100] flex items-center gap-2 rounded-full bg-charcoal px-5 py-3 text-xs font-semibold uppercase tracking-wide text-ivory shadow-lg transition hover:bg-sage-deep"
+          aria-label="Not sure what you need? Take the quiz"
+          // Icon-only on mobile -- the full-text pill used to sit fixed
+          // bottom-right at every scroll position, wide enough on a phone
+          // screen to permanently cover whatever section content ended up
+          // underneath it (product prices, headings, CTAs). It only
+          // expands into the full label once there's enough width (md+)
+          // for it to stop competing with the page for room.
+          className="fixed bottom-4 right-4 z-[100] flex items-center gap-2 rounded-full bg-charcoal p-3.5 text-xs font-semibold uppercase tracking-wide text-ivory shadow-lg transition hover:bg-sage-deep md:bottom-6 md:right-6 md:px-5 md:py-3"
         >
           <i className="ri-compass-3-line text-base text-copper" />
-          Not sure what you need?
+          <span className="hidden md:inline">Not sure what you need?</span>
         </button>
       )}
 

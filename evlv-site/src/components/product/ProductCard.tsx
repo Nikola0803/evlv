@@ -150,20 +150,30 @@ export function ProductCard({ product }: { product: Product }) {
       </Link>
 
       <div className="mt-auto pt-1">
-        <div className="flex items-center justify-between gap-2">
-          <div>
+        {/*
+          Stacked on mobile, side-by-side from sm+ -- at 2-up card widths
+          on a phone, the strikethrough price + real price + this COA
+          link used to all fight for the same ~140px row (all nowrap) and
+          the overflow got silently clipped by the card's own
+          overflow-hidden, showing a real price cut off mid-digit. Giving
+          the price block its own full-width row on mobile (COA drops
+          underneath) removes the squeeze; flex-wrap is a backstop so a
+          long price never clips even if this ever renders narrower still.
+        */}
+        <div className="flex flex-col gap-1.5 sm:flex-row sm:items-center sm:justify-between sm:gap-2">
+          <div className="min-w-0">
             <p className="text-[11px] font-semibold uppercase tracking-wide text-charcoal/55">Price</p>
-            <div className="flex items-baseline gap-2">
-              <span className="whitespace-nowrap text-base font-medium text-charcoal/40 line-through">
+            <div className="flex flex-wrap items-baseline gap-x-2">
+              <span className="whitespace-nowrap text-sm font-medium text-charcoal/40 line-through sm:text-base">
                 {formatPrice(anchorPrice)}
               </span>
-              <p className="whitespace-nowrap font-display text-xl font-semibold text-charcoal md:text-2xl">{formatPrice(product.price)}</p>
+              <p className="whitespace-nowrap font-display text-lg font-semibold text-charcoal sm:text-xl md:text-2xl">{formatPrice(product.price)}</p>
             </div>
             {hasMultiplePrices && (
               <p className="mt-0.5 text-xs font-medium text-charcoal/65">As low as {formatPrice(lowestUnitPrice)}/vial in bulk</p>
             )}
           </div>
-          <Link href="/coas" className="flex items-center gap-1 text-[10px] font-medium uppercase tracking-[0.15em] text-charcoal/40 transition hover:text-copper">
+          <Link href="/coas" className="flex shrink-0 items-center gap-1 text-[10px] font-medium uppercase tracking-[0.15em] text-charcoal/40 transition hover:text-copper">
             COA <i className="ri-arrow-right-up-line" />
           </Link>
         </div>

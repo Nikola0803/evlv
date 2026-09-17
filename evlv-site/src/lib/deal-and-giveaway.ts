@@ -124,7 +124,7 @@ export async function getDealRowHtml(opts?: { solo?: boolean }): Promise<string>
         <div class="deal-card-body">
           <p class="deal-eyebrow">Today&rsquo;s Featured Deal</p>
           <h3>${name}</h3>
-          <p class="deal-price-row"><span class="deal-price-now">$${dealPrice}</span><s class="deal-price-was">$${regularPrice}</s><span class="deal-percent">${percentOff}% OFF</span></p>
+          <p class="deal-price-row"><span class="deal-price-now">$${dealPrice}</span><s class="deal-price-was">$${regularPrice}</s></p>
           ${desc}
           <p class="deal-countdown-row"><i class="ri-time-line" aria-hidden="true"></i> <span class="deal-countdown" data-ends-at="${escapeHtml(deal.endsAt)}">calculating&hellip;</span></p>
           <span class="deal-cta">Shop Today&rsquo;s Deal <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg></span>
