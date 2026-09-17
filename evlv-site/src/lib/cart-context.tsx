@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useCallback, useContext, useMemo, useRef, useState, ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, ReactNode } from "react";
 import { Product } from "./types";
 import { trackEvent } from "./pixel";
 
@@ -27,11 +27,51 @@ interface CartContextValue {
 
 const CartContext = createContext<CartContextValue | null>(null);
 
+const CART_STORAGE_KEY = "evlv_cart_v1";
+
+function loadStoredLines(): CartLine[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const raw = window.localStorage.getItem(CART_STORAGE_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return [];
+    return parsed.filter(
+      (l): l is CartLine =>
+        l && typeof l === "object" && l.product && typeof l.qty === "number" && typeof l.unitPrice === "number"
+    );
+  } catch {
+    return [];
+  }
+}
+
 export function CartProvider({ children }: { children: ReactNode }) {
   const [lines, setLines] = useState<CartLine[]>([]);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const toastTimer = useRef<number | undefined>(undefined);
+  const hasHydrated = useRef(false);
+
+  // Rehydrate cart from localStorage once, after mount (avoids SSR/hydration mismatch).
+  useEffect(() => {
+    const stored = loadStoredLines();
+    if (stored.length > 0) {
+      setLines(stored);
+    }
+    hasHydrated.current = true;
+  }, []);
+
+  // Persist cart to localStorage on every change, but only after the initial
+  // hydration read has happened (otherwise the empty initial state would
+  // immediately overwrite whatever was saved).
+  useEffect(() => {
+    if (!hasHydrated.current) return;
+    try {
+      window.localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(lines));
+    } catch {
+      // ignore storage failures (e.g. private browsing quota)
+    }
+  }, [lines]);
 
   const openCart = useCallback(() => setIsOpen(true), []);
   const closeCart = useCallback(() => setIsOpen(false), []);
