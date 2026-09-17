@@ -339,6 +339,7 @@ export function ProductClient({ product, coa }: { product: Product; coa?: CoaEnt
                       <Row label="Date" value={product.batch.date} />
                       {product.purity && <Row label="Purity" value={product.purity} />}
                       {product.avgMass && <Row label="Avg. Mass" value={product.avgMass} />}
+                      {product.casNumber && <Row label="CAS Number" value={product.casNumber} />}
                       <Row label="Status" value="PASS" accent />
                     </dl>
                     {coa && (

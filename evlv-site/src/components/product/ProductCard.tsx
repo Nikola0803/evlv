@@ -89,6 +89,9 @@ export function ProductCard({ product }: { product: Product }) {
         {title} {dosage}
       </Link>
       <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-soft-gray">{product.shortDescription}</p>
+      {product.casNumber && (
+        <p className="mt-1 text-[10px] font-medium uppercase tracking-wide text-charcoal/40">CAS {product.casNumber}</p>
+      )}
 
       {/*
         Other doses of this same product (5mg/10mg/20mg etc) -- without

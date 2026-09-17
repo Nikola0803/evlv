@@ -30,6 +30,10 @@ export interface Product {
   price: number;
   bulkOption?: BulkOption;
   purity?: string;
+  /** CAS registry number(s) for this compound -- multiple, comma-separated,
+   * for a pre-combined blend (e.g. BPC-157/TB-500). Shown on the product
+   * card and the product page's spec sheet for research-identity purposes. */
+  casNumber?: string;
   avgMass?: string;
   rating: number;
   reviewCount: number;
