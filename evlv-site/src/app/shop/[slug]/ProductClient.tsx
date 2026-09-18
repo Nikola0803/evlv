@@ -191,19 +191,24 @@ export function ProductClient({
         {product.variants && product.variants.length > 1 && (
           <div className="mt-6">
             <label className="mb-2.5 block text-[13px] font-semibold text-charcoal">Size</label>
-            <div className="flex flex-wrap gap-2">
+            {/* One segmented control instead of a row of individually
+                bordered/shadowed pills -- stacked above the Pack Size card
+                grid, two rows of separately-boxed options read as visual
+                clutter. A single outer border with internal dividers and
+                one active "chip" keeps this looking like one control. */}
+            <div className="flex rounded-lg border-[1.5px] border-stone bg-ivory-soft p-1">
               {product.variants.map((v) => {
                 const active = v.slug === product.slug;
                 return (
                   <Link
                     key={v.slug}
                     href={`/shop/${v.slug}`}
-                    className={`flex items-center gap-1.5 rounded-full border-[1.5px] px-3.5 py-2 text-xs font-semibold transition ${
-                      active ? "border-sage-deep bg-white text-sage-deep shadow-sm" : "border-stone bg-white text-charcoal/70 hover:border-charcoal/30"
+                    className={`flex flex-1 flex-col items-center gap-0.5 rounded-md px-2 py-2 text-center transition ${
+                      active ? "bg-white shadow-sm" : "hover:bg-white/60"
                     } ${!v.inStock ? "pointer-events-none opacity-40" : ""}`}
                   >
-                    {v.label}
-                    <span className={active ? "text-sage-deep/70" : "text-charcoal/40"}>{formatPrice(v.price)}</span>
+                    <span className={`text-xs font-semibold ${active ? "text-sage-deep" : "text-charcoal/70"}`}>{v.label}</span>
+                    <span className={`text-[11px] ${active ? "text-charcoal/60" : "text-charcoal/35"}`}>{formatPrice(v.price)}</span>
                   </Link>
                 );
               })}
