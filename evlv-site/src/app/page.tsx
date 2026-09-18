@@ -4,6 +4,7 @@ import { ReviewsSection } from "@/components/home/ReviewsSection";
 import { PartnerReferralSection } from "@/components/home/PartnerReferralSection";
 import { FaqHomeSection } from "@/components/home/FaqHomeSection";
 import { HeroTileVideos } from "@/components/home/HeroTileVideos";
+import { getGoogleRatingBadgeHtml } from "@/lib/google-rating-badge";
 import { MOBILE_FIX_CSS } from "./landing-mobile-fix";
 import { getProducts } from "@/lib/products";
 import { getLiveProducts, mergeProducts } from "@/lib/product-feed";
@@ -45,7 +46,9 @@ import { applyLiveFeaturedPricing } from "@/lib/featured-products-pricing";
  * design-token-driven React component rather than static scraped markup
  * (so these sections visually match the rest of the real-component
  * pages -- ambassadors, checkout, etc. -- not the scraped mockup's own
- * styling):
+ * styling), plus a fourth marker (GOOGLE_RATING_SLOT, spliced in as a
+ * string alongside DEAL_ROW_SLOT/GIVEAWAY_ROW_SLOT below rather than
+ * split out as a sibling -- see google-rating-badge.ts for why):
  *  - "<!-- PROOF_SECTION_SLOT -->" -> <ReviewsSection />, real reviews
  *    pulled live via the site's Google Places integration (never
  *    fabricated placeholder testimonials).
@@ -76,7 +79,12 @@ import { applyLiveFeaturedPricing } from "@/lib/featured-products-pricing";
  * page.
  */
 export default async function Home() {
-  const [deal, giveaway, liveProducts] = await Promise.all([getDealOfTheDay(), getGiveawayStatus(), getLiveProducts()]);
+  const [deal, giveaway, liveProducts, googleRatingBadgeHtml] = await Promise.all([
+    getDealOfTheDay(),
+    getGiveawayStatus(),
+    getLiveProducts(),
+    getGoogleRatingBadgeHtml(),
+  ]);
   // The two cards share a 2-column grid (.hero-rows) -- when only one of
   // them has anything to show (e.g. no Deal of the Day is scheduled in
   // the CRM's Promotions page today), the lone survivor needs to span
@@ -101,7 +109,8 @@ export default async function Home() {
   const htmlWithRows = applyLiveFeaturedPricing(
     data.html
       .replace("<!-- DEAL_ROW_SLOT -->", dealRowHtml)
-      .replace("<!-- GIVEAWAY_ROW_SLOT -->", giveawayRowHtml),
+      .replace("<!-- GIVEAWAY_ROW_SLOT -->", giveawayRowHtml)
+      .replace("<!-- GOOGLE_RATING_SLOT -->", googleRatingBadgeHtml),
     allProducts
   );
 

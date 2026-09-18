@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Logo } from "@/components/ui/Logo";
 import { NewsletterForm } from "./NewsletterForm";
 import { PAYMENT_GATEWAYS } from "@/lib/payment-config";
+import { GoogleRatingBadge } from "@/components/ui/GoogleRatingBadge";
 
 const RESEARCH_NAV = [
   { href: "/shop", label: "Products" },
@@ -40,6 +41,7 @@ export function Footer() {
             <a href="mailto:office@evlvpeptides.com" className="mt-2 inline-block text-sm text-white/50 transition hover:text-white">
               office@evlvpeptides.com
             </a>
+            <GoogleRatingBadge className="mt-4" />
           </div>
 
           <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
