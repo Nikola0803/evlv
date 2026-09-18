@@ -8,7 +8,6 @@ import { MediaGallery } from "@/components/product/MediaGallery";
 import { useCart } from "@/lib/cart-context";
 import { useCurrency } from "@/lib/currency-context";
 import { getStoredUser } from "@/lib/auth";
-import { getAnchorPrice } from "@/lib/pricing";
 import { ResearchUseNotice } from "@/components/product/ResearchUseNotice";
 import { trackEvent } from "@/lib/pixel";
 import type { CoaEntry } from "@/lib/coa-data";
@@ -91,9 +90,6 @@ export function ProductClient({
   ];
 
   const lineTotal = selected.unitPrice * selected.qty;
-  const variantPrices = product.variants?.map((v) => v.price) ?? [];
-  const minVariantPrice = variantPrices.length > 0 ? Math.min(product.price, ...variantPrices) : product.price;
-  const hasCheaperVariant = !!product.variants && product.variants.length > 1 && minVariantPrice < product.price;
   const { title, dosage } = splitDosage(product.name);
 
   return (
@@ -132,40 +128,52 @@ export function ProductClient({
         {product.casNumber && (
           <p className="mt-1 text-xs font-medium uppercase tracking-wide text-charcoal/40">CAS #: {product.casNumber}</p>
         )}
-        <p className="mt-2 text-base leading-relaxed text-charcoal/60 md:text-lg">{product.shortDescription}</p>
 
         {/* Latest verified lot -- surfaced right under the title/CAS# so the
             "is this real / independently tested" question is answered before
-            a visitor even reaches price or Add to Cart. */}
-        <div className="mt-5 overflow-hidden rounded-xl border border-sage-deep/25 bg-white shadow-sm">
-          <div className="flex items-center gap-2 bg-sage-mist px-4 py-2 text-sage-deep">
-            <i className="ri-verified-badge-fill" />
+            a visitor even reaches price or Add to Cart. Deep-mineral header
+            + a PASS chip + icon buttons give it more presence than a plain
+            bordered box, without breaking the restrained-radius/copper-as-
+            accent rules. */}
+        <div className="relative mt-5 overflow-hidden rounded-xl border border-sage-deep/30 bg-white shadow-[0_1px_2px_rgba(20,39,26,0.04),0_8px_24px_-12px_rgba(20,39,26,0.18)]">
+          <div className="flex items-center gap-2 bg-sage-deep px-4 py-2.5 text-ivory">
+            <i className="ri-verified-badge-fill text-copper-light" />
             <span className="text-[11px] font-semibold uppercase tracking-wider">Latest Verified Lot</span>
+            <span className="ml-auto inline-flex items-center gap-1 rounded-full bg-white/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-ivory/90">
+              <i className="ri-checkbox-circle-fill text-sage-light" /> Pass
+            </span>
           </div>
           <div className="p-4">
-            <div className="flex items-center gap-2 text-sm font-semibold text-charcoal">
-              <i className="ri-file-list-3-line text-sage-deep" /> Certificate of Analysis
+            <div className="flex items-center gap-2">
+              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-sage-mist text-sage-deep">
+                <i className="ri-file-list-3-line" />
+              </span>
+              <span className="text-sm font-semibold text-charcoal">Certificate of Analysis</span>
             </div>
-            <p className="mt-1 text-xs text-charcoal/50">
-              {product.batch ? product.batch.code : "COA pending"}
-              {dosage ? ` -- ${dosage}` : ""} -- Third-party tested
+            <p className="mt-2 flex flex-wrap items-center gap-x-1.5 gap-y-1 pl-9 text-xs text-charcoal/55">
+              <span className="rounded bg-stone px-1.5 py-0.5 font-mono text-[11px] font-medium text-charcoal/70">
+                {product.batch ? product.batch.code : "COA pending"}
+              </span>
+              {dosage && <span>{dosage}</span>}
+              <span className="text-charcoal/30">--</span>
+              <span>Third-party tested</span>
             </p>
-            <div className="mt-3 flex flex-wrap gap-2">
+            <div className="mt-3.5 grid grid-cols-2 gap-2">
               <a
                 href={coa?.url ?? "/coas"}
                 target={coa ? "_blank" : undefined}
                 rel={coa ? "noreferrer" : undefined}
-                className="flex-1 whitespace-nowrap rounded-lg border border-stone bg-white px-3 py-2 text-center text-xs font-semibold text-charcoal transition hover:border-sage-deep hover:text-sage-deep"
+                className="flex items-center justify-center gap-1.5 whitespace-nowrap rounded-lg border-[1.5px] border-sage-deep/25 bg-sage-mist/40 px-3 py-2 text-center text-xs font-semibold text-sage-deep transition hover:border-sage-deep hover:bg-sage-mist"
               >
-                View Purity <i className="ri-external-link-line" />
+                <i className="ri-flask-line" /> View Purity
               </a>
               <a
                 href={coa?.endotoxinUrl ?? "/coas"}
                 target={coa?.endotoxinUrl ? "_blank" : undefined}
                 rel={coa?.endotoxinUrl ? "noreferrer" : undefined}
-                className="flex-1 whitespace-nowrap rounded-lg border border-stone bg-white px-3 py-2 text-center text-xs font-semibold text-charcoal transition hover:border-sage-deep hover:text-sage-deep"
+                className="flex items-center justify-center gap-1.5 whitespace-nowrap rounded-lg border-[1.5px] border-sage-deep/25 bg-sage-mist/40 px-3 py-2 text-center text-xs font-semibold text-sage-deep transition hover:border-sage-deep hover:bg-sage-mist"
               >
-                View Endotoxin <i className="ri-external-link-line" />
+                <i className="ri-shield-cross-line" /> View Endotoxin
               </a>
             </div>
           </div>
@@ -175,34 +183,7 @@ export function ProductClient({
       {/* Buy box -- right column, below the hero head */}
       <div className="flex flex-col lg:col-start-2 lg:row-start-2 lg:mt-2.5">
         <div className="mt-1">
-          {hasCheaperVariant && (
-            <p className="mb-0.5 text-[11px] font-semibold uppercase tracking-wide text-charcoal/40">
-              Starting at {formatPrice(minVariantPrice)}
-            </p>
-          )}
-          {/*
-            In Stock used to sit crammed into the same line as the big
-            price number -- fine on desktop's wider column, but on mobile
-            it read as an odd trailing fragment next to an oversized
-            price. Its own line above the price (stock status first, then
-            the number) is the more standard checkout pattern and stops
-            it competing with the price for space.
-          */}
-          <span className={`flex items-center gap-1 text-xs font-medium ${product.inStock ? "text-sage-deep" : "text-charcoal/40"}`}>
-            <i className="ri-checkbox-circle-line" /> {product.inStock ? "In Stock" : "Out of Stock"}
-          </span>
-          <div className="mt-1 flex items-baseline gap-3">
-            <span className="whitespace-nowrap text-base font-medium text-charcoal/25 line-through sm:text-lg md:text-xl">
-              {formatPrice(getAnchorPrice(selected.unitPrice))}
-            </span>
-            <div className="font-display text-2xl font-semibold text-charcoal sm:text-3xl md:text-4xl">{formatPrice(selected.unitPrice)}</div>
-          </div>
-          {product.bulkOption && (
-            <p className="mt-1 text-sm text-charcoal/50">
-              Case pricing available -- {product.bulkOption.qty}-unit case at reduced per-unit cost
-            </p>
-          )}
-          <p className="mt-3 flex items-center gap-1.5 text-xs font-semibold text-copper-dark">
+          <p className="flex items-center gap-1.5 text-xs font-semibold text-copper-dark">
             <i className="ri-fire-line" /> High demand -- 13 people viewing now
           </p>
         </div>
