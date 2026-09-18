@@ -16,11 +16,12 @@ function GoogleLogo() {
   );
 }
 
-function Stars({ rating }: { rating: number }) {
+function Stars({ rating, variant }: { rating: number; variant: "dark" | "light" }) {
+  const emptyClass = variant === "light" ? "text-charcoal/20" : "text-white/30";
   return (
     <span className="inline-flex items-center gap-0.5 text-copper">
       {Array.from({ length: 5 }).map((_, i) => (
-        <i key={i} className={i < Math.round(rating) ? "ri-star-fill text-[11px]" : "ri-star-line text-[11px] text-white/30"} />
+        <i key={i} className={i < Math.round(rating) ? "ri-star-fill text-[11px]" : `ri-star-line text-[11px] ${emptyClass}`} />
       ))}
     </span>
   );
@@ -31,29 +32,47 @@ function Stars({ rating }: { rating: number }) {
  * placeholder fallback as the homepage hero's version (lib/google-rating-
  * badge.ts, spliced into landing-content.json's scraped markup), just
  * rendered as a real React server component for use anywhere that isn't
- * that scraped markup (e.g. the footer).
+ * that scraped markup (footer, product page, ReviewsSection).
+ *
+ * variant "dark" (default) is the translucent-on-charcoal look, for dark
+ * sections (footer, homepage ReviewsSection). variant "light" is a white
+ * chip with charcoal text, for light/white sections (product page).
  */
-export async function GoogleRatingBadge({ className = "" }: { className?: string }) {
+export async function GoogleRatingBadge({
+  className = "",
+  variant = "dark",
+}: {
+  className?: string;
+  variant?: "dark" | "light";
+}) {
   const data = await getGoogleReviews();
   const rating = data && data.rating > 0 ? data.rating : PLACEHOLDER_RATING;
   const reviewCount = data?.reviewCount;
   const href = data?.mapsUrl;
   const label = reviewCount && reviewCount > 0 ? `${reviewCount.toLocaleString()}+ Google reviews` : "Google Reviews";
 
+  const ratingTextClass = variant === "light" ? "text-charcoal" : "text-white";
+  const labelTextClass = variant === "light" ? "text-charcoal/60" : "text-white/60";
+
   const content = (
     <>
       <GoogleLogo />
-      <Stars rating={rating} />
-      <span className="text-xs font-semibold text-white">{rating.toFixed(1)}</span>
-      <span className="text-xs text-white/60">{label}</span>
+      <Stars rating={rating} variant={variant} />
+      <span className={`text-xs font-semibold ${ratingTextClass}`}>{rating.toFixed(1)}</span>
+      <span className={`text-xs ${labelTextClass}`}>{label}</span>
     </>
   );
 
-  const cls = `inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3.5 py-1.5 backdrop-blur-sm ${className}`;
+  const baseCls =
+    variant === "light"
+      ? "inline-flex items-center gap-2 rounded-full border border-charcoal/10 bg-white px-3.5 py-1.5 shadow-sm"
+      : "inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3.5 py-1.5 backdrop-blur-sm";
+  const hoverCls = variant === "light" ? "hover:border-charcoal/20" : "hover:border-white/30";
+  const cls = `${baseCls} ${className}`;
 
   if (href) {
     return (
-      <a href={href} target="_blank" rel="noopener noreferrer" className={`${cls} transition hover:border-white/30`}>
+      <a href={href} target="_blank" rel="noopener noreferrer" className={`${cls} transition ${hoverCls}`}>
         {content}
       </a>
     );

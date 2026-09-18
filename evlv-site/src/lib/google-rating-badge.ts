@@ -6,12 +6,13 @@ import { getGoogleReviews } from "./google-reviews";
 // come back and swap out once that's connected.
 const PLACEHOLDER_RATING = 4.7;
 
-function starsHtml(rating: number): string {
+function starsHtml(rating: number, variant: "dark" | "light"): string {
+  const emptyClass = variant === "light" ? "text-charcoal/20" : "text-white/30";
   return Array.from({ length: 5 })
     .map((_, i) =>
       i < Math.round(rating)
         ? '<i class="ri-star-fill text-[11px]"></i>'
-        : '<i class="ri-star-line text-[11px] text-white/30"></i>'
+        : `<i class="ri-star-line text-[11px] ${emptyClass}"></i>`
     )
     .join("");
 }
@@ -35,8 +36,8 @@ function escapeHtml(value: string): string {
  * string, spliced directly into landing-content.json's scraped markup
  * (see GOOGLE_RATING_SLOT in page.tsx) rather than rendered as a sibling
  * React node. The slot sits inside the hero's still-open markup (header >
- * hero-overlay > wrap > hero-top > hero-copy) -- splitting *that* across
- * a sibling dangerouslySetInnerHTML the way ReviewsSection/
+ * hero-overlay > wrap > hero-top > trust-row.ti-stats) -- splitting *that*
+ * across a sibling dangerouslySetInnerHTML the way ReviewsSection/
  * PartnerReferralSection/FaqHomeSection do would let the browser's
  * fragment parser auto-close those open tags early and break the hero's
  * layout, the same problem DEAL_ROW_SLOT/GIVEAWAY_ROW_SLOT solve by
@@ -45,8 +46,13 @@ function escapeHtml(value: string): string {
  * Uses the site's real Google Places integration (lib/google-reviews.ts)
  * the moment it's configured, falling back to a 4.7 placeholder rating
  * until then so the hero always has this social proof rather than a gap.
+ *
+ * variant "light" renders a white chip with charcoal/black text -- used
+ * on the hero because it sits over a dark photo, where literal black
+ * text on a transparent dark pill would be unreadable. "dark" keeps the
+ * original translucent-on-charcoal look for footer/dark sections.
  */
-export async function getGoogleRatingBadgeHtml(): Promise<string> {
+export async function getGoogleRatingBadgeHtml(variant: "dark" | "light" = "dark"): Promise<string> {
   const data = await getGoogleReviews();
   const rating = data && data.rating > 0 ? data.rating : PLACEHOLDER_RATING;
   const reviewCount = data?.reviewCount;
@@ -54,11 +60,19 @@ export async function getGoogleRatingBadgeHtml(): Promise<string> {
 
   const label = reviewCount && reviewCount > 0 ? `${reviewCount.toLocaleString()}+ Google reviews` : "Google Reviews";
 
-  const inner = `${GOOGLE_LOGO_SVG}<span class="inline-flex items-center gap-0.5 text-copper">${starsHtml(rating)}</span><span class="text-xs font-semibold text-white">${rating.toFixed(1)}</span><span class="text-xs text-white/60">${escapeHtml(label)}</span>`;
+  const ratingTextClass = variant === "light" ? "text-charcoal" : "text-white";
+  const labelTextClass = variant === "light" ? "text-charcoal/60" : "text-white/60";
 
-  const className = "inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3.5 py-1.5 backdrop-blur-sm";
+  const inner = `${GOOGLE_LOGO_SVG}<span class="inline-flex items-center gap-0.5 text-copper">${starsHtml(rating, variant)}</span><span class="text-xs font-semibold ${ratingTextClass}">${rating.toFixed(1)}</span><span class="text-xs ${labelTextClass}">${escapeHtml(label)}</span>`;
+
+  const className =
+    variant === "light"
+      ? "inline-flex items-center gap-2 rounded-full border border-charcoal/10 bg-white px-3.5 py-1.5 shadow-sm"
+      : "inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3.5 py-1.5 backdrop-blur-sm";
+
+  const hoverClass = variant === "light" ? "transition hover:border-charcoal/20" : "transition hover:border-white/30";
 
   return href
-    ? `<a href="${escapeHtml(href)}" target="_blank" rel="noopener noreferrer" class="${className} transition hover:border-white/30">${inner}</a>`
+    ? `<a href="${escapeHtml(href)}" target="_blank" rel="noopener noreferrer" class="${className} ${hoverClass}">${inner}</a>`
     : `<div class="${className}">${inner}</div>`;
 }

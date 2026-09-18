@@ -5,6 +5,7 @@ import { getProductBySlug, getProducts, getRelatedProducts } from "@/lib/product
 import { getLiveProducts, mergeProducts } from "@/lib/product-feed";
 import { getCoaMap } from "@/lib/coa-data";
 import { getGoogleReviews } from "@/lib/google-reviews";
+import { GoogleRatingBadge } from "@/components/ui/GoogleRatingBadge";
 import { FrequentlyBoughtTogether } from "@/components/product/FrequentlyBoughtTogether";
 import { ProductFaq } from "@/components/product/ProductFaq";
 import { ProductClient } from "./ProductClient";
@@ -99,7 +100,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       </div>
 
       <div className="mx-auto max-w-[1400px] px-4 pb-12 md:px-8">
-        <ProductClient product={product} coa={coa} />
+        <ProductClient product={product} coa={coa} ratingBadge={<GoogleRatingBadge variant="light" />} />
       </div>
 
       {/* Three-step process -- rebuilt to match the homepage's own
@@ -149,12 +150,9 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       {featuredReviews.length > 0 && (
         <section id="reviews" className="bg-ivory-soft py-16 md:py-24">
           <div className="mx-auto max-w-[1200px] px-4 md:px-8">
-            {reviews && reviews.rating > 0 && (
-              <p className="mb-3 flex items-center justify-center gap-1.5 text-sm font-semibold text-charcoal">
-                <i className="ri-google-fill text-charcoal/40" /> {reviews.rating.toFixed(1)}
-                <span className="font-normal text-charcoal/50">({reviews.reviewCount.toLocaleString()}+ Google reviews)</span>
-              </p>
-            )}
+            <div className="mb-3 flex justify-center">
+              <GoogleRatingBadge variant="light" />
+            </div>
             <h2 className="mb-8 text-center font-display text-2xl font-semibold text-charcoal md:text-3xl">
               Why researchers choose <em className="text-sage-deep not-italic">{title}</em>
             </h2>

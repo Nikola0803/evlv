@@ -1,4 +1,5 @@
 import { getGoogleReviews } from "@/lib/google-reviews";
+import { GoogleRatingBadge } from "@/components/ui/GoogleRatingBadge";
 import { Reveal } from "@/components/ui/Reveal";
 import { MolecularMotif } from "@/components/ui/MolecularMotif";
 
@@ -83,6 +84,7 @@ export async function ReviewsSection() {
       />
       <div className="relative mx-auto max-w-[1000px] px-4 md:px-8">
         <Reveal className="mb-12 text-center md:mb-14">
+          <GoogleRatingBadge className="mx-auto mb-5" />
           <p className="mb-4 text-[11px] font-medium uppercase tracking-[0.18em] text-white/50">Research-Grade Quality</p>
           <h2
             className="font-normal leading-[1.1] text-white"
@@ -90,13 +92,6 @@ export async function ReviewsSection() {
           >
             Trusted by researchers who <em className="text-sage-light" style={{ fontStyle: "italic" }}>check the data</em>.
           </h2>
-          {data && (
-            <p className="mx-auto mt-4 flex items-center justify-center gap-2 text-sm text-white/60">
-              <Stars rating={data.rating} />
-              <span className="font-semibold text-white">{data.rating.toFixed(1)} / 5</span>
-              {data.reviewCount > 0 && <span>&middot; {data.reviewCount.toLocaleString()}+ verified researcher reviews</span>}
-            </p>
-          )}
         </Reveal>
 
         <Reveal stagger className="mb-16 grid grid-cols-2 gap-3 md:mb-20 md:grid-cols-4 md:gap-4">

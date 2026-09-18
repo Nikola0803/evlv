@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { Product } from "@/lib/types";
 import { PackSelector, usePackSelection } from "@/components/product/PackSelector";
@@ -23,7 +23,15 @@ function splitDosage(name: string) {
   return { title: name.slice(0, match.index).trim(), dosage: match[1].toUpperCase() };
 }
 
-export function ProductClient({ product, coa }: { product: Product; coa?: CoaEntry }) {
+export function ProductClient({
+  product,
+  coa,
+  ratingBadge,
+}: {
+  product: Product;
+  coa?: CoaEntry;
+  ratingBadge?: ReactNode;
+}) {
   const { packIndex, setPackIndex, packs, selected } = usePackSelection(product);
   const [tab, setTab] = useState<(typeof TABS)[number]>("Description");
   const { addToCart } = useCart();
@@ -117,16 +125,8 @@ export function ProductClient({ product, coa }: { product: Product; coa?: CoaEnt
           >
             {title}
           </h1>
-          <div className="flex shrink-0 items-center gap-2">
-            <span className="text-sm tracking-wider text-sage-deep">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <i key={i} className="ri-star-fill" />
-              ))}
-            </span>
-            <span className="text-sm font-semibold text-charcoal">{product.rating}</span>
-            <a href="#reviews" className="text-sm text-charcoal/50 underline underline-offset-2 hover:text-charcoal">
-              ({product.reviewCount} reviews)
-            </a>
+          <div className="flex shrink-0 items-center">
+            {ratingBadge}
           </div>
         </div>
         <p className="mt-2 text-base leading-relaxed text-charcoal/60 md:text-lg">{product.shortDescription}</p>

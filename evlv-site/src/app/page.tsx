@@ -83,7 +83,7 @@ export default async function Home() {
     getDealOfTheDay(),
     getGiveawayStatus(),
     getLiveProducts(),
-    getGoogleRatingBadgeHtml(),
+    getGoogleRatingBadgeHtml("light"),
   ]);
   // The two cards share a 2-column grid (.hero-rows) -- when only one of
   // them has anything to show (e.g. no Deal of the Day is scheduled in

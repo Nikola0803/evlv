@@ -41,17 +41,19 @@ export function Footer() {
             <a href="mailto:office@evlvpeptides.com" className="mt-2 inline-block text-sm text-white/50 transition hover:text-white">
               office@evlvpeptides.com
             </a>
-            <GoogleRatingBadge className="mt-4" />
           </div>
 
-          <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
-            <p className="text-[11px] font-semibold uppercase tracking-wider text-white/40">We Accept</p>
-            {PAYMENT_GATEWAYS.map((gateway) => (
-              <div key={gateway.id} className="flex items-center gap-1.5 text-white/60">
-                <i className={`${gateway.icon} text-base text-copper`} />
-                <span className="text-xs">{gateway.label}</span>
-              </div>
-            ))}
+          <div className="flex flex-col items-start gap-3">
+            <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+              <p className="text-[11px] font-semibold uppercase tracking-wider text-white/40">We Accept</p>
+              {PAYMENT_GATEWAYS.map((gateway) => (
+                <div key={gateway.id} className="flex items-center gap-1.5 text-white/60">
+                  <i className={`${gateway.icon} text-base text-copper`} />
+                  <span className="text-xs">{gateway.label}</span>
+                </div>
+              ))}
+            </div>
+            <GoogleRatingBadge />
           </div>
         </div>
 
