@@ -5,6 +5,10 @@ export interface CoaEntry {
   slug: string;
   url: string;
   label?: string;
+  /** Separate endotoxin/LAL test report PDF, when the lab issues one apart
+   * from the purity COA. Not yet populated for any SKU -- the "View
+   * Endotoxin" link falls back to the COA library until one exists. */
+  endotoxinUrl?: string;
 }
 
 /**

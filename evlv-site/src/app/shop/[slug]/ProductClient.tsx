@@ -129,7 +129,47 @@ export function ProductClient({
             {ratingBadge}
           </div>
         </div>
+        {product.casNumber && (
+          <p className="mt-1 text-xs font-medium uppercase tracking-wide text-charcoal/40">CAS #: {product.casNumber}</p>
+        )}
         <p className="mt-2 text-base leading-relaxed text-charcoal/60 md:text-lg">{product.shortDescription}</p>
+
+        {/* Latest verified lot -- surfaced right under the title/CAS# so the
+            "is this real / independently tested" question is answered before
+            a visitor even reaches price or Add to Cart. */}
+        <div className="mt-5 overflow-hidden rounded-xl border border-sage-deep/25 bg-white shadow-sm">
+          <div className="flex items-center gap-2 bg-sage-mist px-4 py-2 text-sage-deep">
+            <i className="ri-verified-badge-fill" />
+            <span className="text-[11px] font-semibold uppercase tracking-wider">Latest Verified Lot</span>
+          </div>
+          <div className="p-4">
+            <div className="flex items-center gap-2 text-sm font-semibold text-charcoal">
+              <i className="ri-file-list-3-line text-sage-deep" /> Certificate of Analysis
+            </div>
+            <p className="mt-1 text-xs text-charcoal/50">
+              {product.batch ? product.batch.code : "COA pending"}
+              {dosage ? ` -- ${dosage}` : ""} -- Third-party tested
+            </p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              <a
+                href={coa?.url ?? "/coas"}
+                target={coa ? "_blank" : undefined}
+                rel={coa ? "noreferrer" : undefined}
+                className="flex-1 whitespace-nowrap rounded-lg border border-stone bg-white px-3 py-2 text-center text-xs font-semibold text-charcoal transition hover:border-sage-deep hover:text-sage-deep"
+              >
+                View Purity <i className="ri-external-link-line" />
+              </a>
+              <a
+                href={coa?.endotoxinUrl ?? "/coas"}
+                target={coa?.endotoxinUrl ? "_blank" : undefined}
+                rel={coa?.endotoxinUrl ? "noreferrer" : undefined}
+                className="flex-1 whitespace-nowrap rounded-lg border border-stone bg-white px-3 py-2 text-center text-xs font-semibold text-charcoal transition hover:border-sage-deep hover:text-sage-deep"
+              >
+                View Endotoxin <i className="ri-external-link-line" />
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Buy box -- right column, below the hero head */}
@@ -252,58 +292,6 @@ export function ProductClient({
               </div>
             </div>
           ))}
-        </div>
-
-        {/* Always visible -- COA/batch trust signal shouldn't depend on a
-            visitor clicking into a tab. The Lab Report tab below still has
-            the fuller breakdown (avg. mass, etc); this is the "prove it"
-            summary right next to the buy decision. */}
-        <div className="mt-4 overflow-hidden rounded-xl border border-sage-deep/25 bg-white shadow-sm">
-          <div className="flex items-center gap-2 bg-sage-deep px-4 py-2.5 text-white">
-            <i className="ri-verified-badge-fill" />
-            <span className="text-xs font-semibold uppercase tracking-wider">Certificate of Analysis</span>
-          </div>
-          <div className="p-4">
-            {product.batch ? (
-              <div className="flex flex-wrap items-center justify-between gap-3">
-                <div className="min-w-0">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span className="rounded bg-stone px-1.5 py-0.5 font-mono text-[11px] text-charcoal/70">
-                      {product.batch.code}
-                    </span>
-                    <span className="inline-flex items-center gap-1 text-xs font-semibold text-sage-deep">
-                      <i className="ri-checkbox-circle-fill" /> PASS
-                    </span>
-                  </div>
-                  <p className="mt-1 text-xs text-charcoal/50">
-                    Tested {product.batch.date}
-                    {product.purity ? ` -- ${product.purity} purity` : ""}
-                  </p>
-                </div>
-                {coa ? (
-                  <a
-                    href={coa.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-charcoal px-3.5 py-2 text-xs font-semibold uppercase tracking-wide text-ivory transition hover:bg-charcoal/85"
-                  >
-                    View PDF <i className="ri-download-2-line" />
-                  </a>
-                ) : (
-                  <Link href="/coas" className="shrink-0 text-xs font-semibold text-sage-deep underline underline-offset-2">
-                    Find it in the COA library
-                  </Link>
-                )}
-              </div>
-            ) : (
-              <div className="flex flex-wrap items-center justify-between gap-3">
-                <p className="text-xs text-charcoal/60">This batch&apos;s certificate hasn&apos;t been published to this listing yet.</p>
-                <Link href="/coas" className="shrink-0 text-xs font-semibold text-sage-deep underline underline-offset-2">
-                  Browse all COAs
-                </Link>
-              </div>
-            )}
-          </div>
         </div>
 
         <div className="mt-10 border-t border-stone">
