@@ -79,7 +79,10 @@ export const products: Product[] = [
     name: "EVLV-3 10MG",
     category: "peptides",
     categoryLabel: "Peptide Research",
-    image: "/images/products/evlv-3-10mg.png",
+    // Demo product photo swap per request -- real EVLV-labeled vial/box
+    // render supplied for this SKU specifically, not yet extended to any
+    // other product.
+    image: "/images/products/evlv-3-10mg-demo.webp",
     price: 74.99,
     bulkOption: { qty: 10, price: 599.92, savePercent: 20 },
     purity: "99.34%",
@@ -835,7 +838,9 @@ export const products: Product[] = [
     name: "AOD-9604 10MG",
     category: "ancillaries",
     categoryLabel: "Peptide & Ancillary Research",
-    image: "/images/products/aod-9604-10mg.png",
+    // Demo product photo swap per request -- see the same note on
+    // evlv-3-10mg above.
+    image: "/images/products/aod-9604-10mg-demo.webp",
     price: 64.99,
     bulkOption: { qty: 10, price: 519.92, savePercent: 20 },
     purity: "99.1%",
