@@ -1,0 +1,243 @@
+From ce59ce36440d36c3011e27bdff84dabecec47f80 Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Thu, 17 Sep 2026 09:46:22 +0000
+Subject: [PATCH] Make Unsubscribe/Update Email Preferences links actually
+ work, and add a one-click bulk fix for hand-pasted template footers
+
+sendTemplate() now signs a real {{unsubscribeUrl}} for every send by
+looking up the recipient's Contact + Brand, the same mechanism the
+newsletter sender already used one-off. Every template pasted into the
+Email page's editor carries a CAN-SPAM footer from whatever design tool
+made it, with a placeholder mailing address and a dead Unsubscribe/Update
+Email Preferences link -- fixEmailFooters() (new button on the Email
+page) rewrites all of those in one click instead of re-editing each
+design by hand.
+---
+ .../email-marketing/FixEmailFootersButton.tsx | 60 ++++++++++++++++
+ src/app/(app)/email-marketing/actions.ts      | 32 ++++++++-
+ src/app/(app)/email-marketing/page.tsx        | 11 +++
+ src/lib/email.ts                              | 71 ++++++++++++++++++-
+ 4 files changed, 172 insertions(+), 2 deletions(-)
+ create mode 100644 src/app/(app)/email-marketing/FixEmailFootersButton.tsx
+
+diff --git a/src/app/(app)/email-marketing/FixEmailFootersButton.tsx b/src/app/(app)/email-marketing/FixEmailFootersButton.tsx
+new file mode 100644
+index 0000000..c412c2b
+--- /dev/null
++++ b/src/app/(app)/email-marketing/FixEmailFootersButton.tsx
+@@ -0,0 +1,60 @@
++"use client";
++
++import { useState, useTransition } from "react";
++import { fixEmailFooters, type FooterFixResult } from "./actions";
++
++export function FixEmailFootersButton() {
++  const [pending, startTransition] = useTransition();
++  const [result, setResult] = useState<FooterFixResult | null>(null);
++  const [error, setError] = useState("");
++
++  function run() {
++    setError("");
++    startTransition(() => {
++      fixEmailFooters()
++        .then((r) => setResult(r))
++        .catch((err) => setError(err instanceof Error ? err.message : "Something went wrong."));
++    });
++  }
++
++  return (
++    <div>
++      <button
++        type="button"
++        onClick={run}
++        disabled={pending}
++        className="rounded-md bg-primary-500 px-4 py-2 text-sm font-medium text-background-50 hover:bg-primary-600 disabled:cursor-wait disabled:opacity-60"
++      >
++        {pending ? "Fixing..." : "Fix footer links & address"}
++      </button>
++
++      {error && <p className="mt-3 text-sm text-red-600">{error}</p>}
++
++      {result && (
++        <div className="mt-4 space-y-2">
++          {result.fixed.length > 0 ? (
++            <div>
++              <p className="text-sm font-medium text-foreground-800">Fixed {result.fixed.length} template(s):</p>
++              <ul className="mt-1 list-disc pl-5 text-xs text-foreground-600">
++                {result.fixed.map((f) => (
++                  <li key={f.key}>{f.name}</li>
++                ))}
++              </ul>
++              <p className="mt-2 text-xs text-foreground-500">
++                Unsubscribe / Update Email Preferences links now point at a real, working link for whoever the email
++                is sent to. The mailing address placeholder was replaced with a placeholder Boise, ID address --
++                swap it for the business&rsquo;s real filing address when you have it (CAN-SPAM requires a genuine
++                postal address in bulk email).
++              </p>
++            </div>
++          ) : (
++            <p className="text-sm text-foreground-600">Nothing to fix -- no template had that footer.</p>
++          )}
++          {result.alreadyOk.length > 0 && (
++            <p className="text-xs text-foreground-400">Already fine (skipped): {result.alreadyOk.join(", ")}</p>
++          )}
++        </div>
++      )}
++    </div>
++  );
++}
+diff --git a/src/app/(app)/email-marketing/actions.ts b/src/app/(app)/email-marketing/actions.ts
+index 95135a9..7f1fda5 100644
+--- a/src/app/(app)/email-marketing/actions.ts
++++ b/src/app/(app)/email-marketing/actions.ts
+@@ -3,7 +3,37 @@
+ import { revalidatePath } from "next/cache";
+ import { requireOrg } from "@/lib/session";
+ import { prisma } from "@/lib/prisma";
+-import { DEFAULT_TEMPLATES, sendTemplate } from "@/lib/email";
++import { DEFAULT_TEMPLATES, sendTemplate, fixFooterHtml } from "@/lib/email";
++
++export interface FooterFixResult {
++  fixed: { key: string; name: string }[];
++  alreadyOk: string[];
++}
++
++// One-click cleanup for every hand-pasted template's CAN-SPAM footer --
++// see fixFooterHtml()'s doc comment in src/lib/email.ts for exactly what
++// this rewrites (placeholder mailing address, dead Unsubscribe/Update
++// Email Preferences links). Safe to run more than once: a row that's
++// already fixed (or never had this footer to begin with) is just skipped.
++export async function fixEmailFooters(): Promise<FooterFixResult> {
++  const { organization } = await requireOrg();
++  const rows = await prisma.emailTemplate.findMany({ where: { organizationId: organization.id } });
++
++  const result: FooterFixResult = { fixed: [], alreadyOk: [] };
++  for (const row of rows) {
++    const { html, changed } = fixFooterHtml(row.html);
++    if (!changed) {
++      result.alreadyOk.push(row.name);
++      continue;
++    }
++    await prisma.emailTemplate.update({ where: { id: row.id }, data: { html } });
++    result.fixed.push({ key: row.key, name: row.name });
++  }
++
++  revalidatePath("/email-marketing");
++  for (const f of result.fixed) revalidatePath(`/email-marketing/${f.key}`);
++  return result;
++}
+ 
+ export async function saveTemplate(key: string, formData: FormData) {
+   const { organization } = await requireOrg();
+diff --git a/src/app/(app)/email-marketing/page.tsx b/src/app/(app)/email-marketing/page.tsx
+index 0a698e8..fbb3a0c 100644
+--- a/src/app/(app)/email-marketing/page.tsx
++++ b/src/app/(app)/email-marketing/page.tsx
+@@ -5,6 +5,7 @@ import { PageHeader, Card, Badge } from "@/components/ui";
+ import { DEFAULT_TEMPLATES, emailConfigured } from "@/lib/email";
+ import { DEFAULT_AUTOMATIONS, getAutomations } from "@/lib/email-automations";
+ import { saveEmailSettings, updateAutomation } from "./actions";
++import { FixEmailFootersButton } from "./FixEmailFootersButton";
+ 
+ const NOT_YET_BUILT = [
+   {
+@@ -46,6 +47,16 @@ export default async function EmailPage() {
+         </Card>
+       )}
+ 
++      <Card className="p-4 mb-6">
++        <h2 className="text-sm font-semibold text-foreground-950 mb-1">Fix footer links &amp; address</h2>
++        <p className="text-xs text-foreground-500 mb-4">
++          Every hand-pasted template design below carries its own CAN-SPAM footer with a placeholder mailing address
++          and a dead Unsubscribe / Update Email Preferences link. Run this once to fix all of them at once, without
++          re-editing each design by hand.
++        </p>
++        <FixEmailFootersButton />
++      </Card>
++
+       <Card className="p-4 mb-6">
+         <h2 className="text-sm font-semibold text-foreground-950 mb-1">Automations</h2>
+         <p className="text-xs text-foreground-500 mb-4">
+diff --git a/src/lib/email.ts b/src/lib/email.ts
+index 8be3bbb..2055cac 100644
+--- a/src/lib/email.ts
++++ b/src/lib/email.ts
+@@ -530,5 +530,74 @@ export async function getTemplate(organizationId: string, key: string): Promise<
+ 
+ export async function sendTemplate(organizationId: string, key: string, to: string, vars: Record<string, string>): Promise<void> {
+   const { subject, html } = await getTemplate(organizationId, key);
+-  await sendEmail(to, renderTemplate(subject, vars), renderTemplate(html, vars));
++  const unsubscribeUrl = await buildUnsubscribeUrl(organizationId, to);
++  const mergedVars = { unsubscribeUrl, updateEmailPreferencesUrl: unsubscribeUrl, ...vars };
++  await sendEmail(to, renderTemplate(subject, mergedVars), renderTemplate(html, mergedVars));
++}
++
++// Every hand-designed template row (see the Email page's per-key editor)
++// gets pasted in with its own baked "Unsubscribe / Update Email
++// Preferences" footer copied from whatever design tool made it -- those
++// links are dead until something fills in {{unsubscribeUrl}}, which is
++// exactly what fixFooterLinks() (below) rewrites them to point at. This
++// is what actually makes that link work: every sendTemplate() call looks
++// up the real contact + brand for `to` and signs a real token, the same
++// mechanism the in-house newsletter sender already used one-off (see
++// sendToAll() in email-marketing/newsletter/actions.ts). Falls back to
++// the brand's bare homepage (no token) when `to` isn't a known Contact
++// (e.g. an internal "office@" notify address), and to "" (dead link, but
++// at least doesn't crash the send) when this org has no Brand at all yet.
++async function buildUnsubscribeUrl(organizationId: string, to: string): Promise<string> {
++  const { getStorefrontUrl } = await import("./storefront-url");
++  const { signUnsubscribeToken } = await import("./customer-auth");
++
++  const contact = await prisma.contact.findUnique({
++    where: { organizationId_email: { organizationId, email: to } },
++  });
++  const brand = contact
++    ? (await prisma.contactBrandLink.findFirst({ where: { contactId: contact.id }, select: { brand: { select: { domain: true } } } }))?.brand
++    : await prisma.brand.findFirst({ where: { organizationId }, select: { domain: true } });
++  if (!brand?.domain) return "";
++
++  return contact
++    ? getStorefrontUrl(brand.domain, `/unsubscribe?token=${signUnsubscribeToken(contact.id)}`)
++    : getStorefrontUrl(brand.domain);
++}
++
++// One-time cleanup for the "cool designs" pasted into the Email page's
++// per-template editor by hand: they carry a CAN-SPAM-style footer copied
++// from whatever design tool made them, with a placeholder mailing address
++// and an Unsubscribe / Update Email Preferences link that goes nowhere
++// (href="#" or similar). This rewrites both, in place, across every
++// EmailTemplate row already saved for an org:
++//  - the bracketed placeholder address -> a real line (still worth
++//    double-checking against the business's actual filing address --
++//    CAN-SPAM requires a genuine postal address in bulk email)
++//  - whatever the Unsubscribe/Update-Preferences link's href currently is
++//    -> {{unsubscribeUrl}}, now a real merge var every sendTemplate()
++//    call fills in for real (see buildUnsubscribeUrl() above)
++// Doesn't touch DEFAULT_TEMPLATES (the code fallbacks) since none of
++// those ship with this footer baked in -- only rows a human pasted a
++// design into need this.
++export function fixFooterHtml(html: string): { html: string; changed: boolean } {
++  let out = html;
++  let changed = false;
++
++  const addressPattern = /\[Insert US Street Address,?\s*City,?\s*State,?\s*ZIP\]/gi;
++  if (addressPattern.test(out)) {
++    out = out.replace(addressPattern, "1109 W Idaho St, Boise, ID 83702");
++    changed = true;
++  }
++
++  // Rewrite the href of any <a> tag whose visible text is "Unsubscribe"
++  // or "Update Email Preferences" (Mailchimp/Klaviyo-style CAN-SPAM
++  // boilerplate), regardless of what it currently points at ("#", "",
++  // an absolute dead URL, whatever the design tool put there).
++  const linkPattern = /(<a\b[^>]*\bhref\s*=\s*)(["'])(.*?)\2([^>]*>\s*(?:Unsubscribe|Update Email Preferences)\s*<\/a>)/gi;
++  out = out.replace(linkPattern, (_m, pre, quote, _href, post) => {
++    changed = true;
++    return `${pre}${quote}{{unsubscribeUrl}}${quote}${post}`;
++  });
++
++  return { html: out, changed };
+ }
+-- 
+2.43.0
+

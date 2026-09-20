@@ -1,0 +1,65 @@
+From 1da8707f4a9e8a059ffc57ccd8110f5463be1b9e Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Thu, 17 Sep 2026 10:51:15 +0000
+Subject: [PATCH] Fill in the real {{unsubscribeUrl}}/{{preferenceCenterUrl}}
+ vars every template footer already references
+
+Every hand-pasted template's footer was already correctly written with
+{{unsubscribeUrl}}/{{preferenceCenterUrl}} merge tags -- sendTemplate()
+just never supplied them, so they rendered as empty href="" (renderTemplate
+falls back to "" for any var not present, which looks and acts exactly
+like a dead link). Signs a real per-recipient token via the same
+Contact+Brand lookup the newsletter sender already used one-off. No
+separate preference-center page exists yet, so both tags point at the
+same working unsubscribe link for now.
+---
+ src/lib/email.ts | 35 ++++++++++++++++++++++++++++++++++-
+ 1 file changed, 34 insertions(+), 1 deletion(-)
+
+diff --git a/src/lib/email.ts b/src/lib/email.ts
+index 8be3bbb..af8bf56 100644
+--- a/src/lib/email.ts
++++ b/src/lib/email.ts
+@@ -530,5 +530,38 @@ export async function getTemplate(organizationId: string, key: string): Promise<
+ 
+ export async function sendTemplate(organizationId: string, key: string, to: string, vars: Record<string, string>): Promise<void> {
+   const { subject, html } = await getTemplate(organizationId, key);
+-  await sendEmail(to, renderTemplate(subject, vars), renderTemplate(html, vars));
++  const unsubscribeUrl = await buildUnsubscribeUrl(organizationId, to);
++  // Every hand-pasted template's footer (see the Email page's per-key
++  // editor) already references {{unsubscribeUrl}}/{{preferenceCenterUrl}}
++  // correctly -- the bug was just that nothing ever filled them in, so
++  // they rendered as empty href="" (renderTemplate() falls back to ""
++  // for any var not present). There's no separate preference-center page
++  // on evlv-site yet, so both point at the same working unsubscribe link
++  // for now; a caller's own vars still win if it ever passes these explicitly.
++  const mergedVars = { unsubscribeUrl, preferenceCenterUrl: unsubscribeUrl, ...vars };
++  await sendEmail(to, renderTemplate(subject, mergedVars), renderTemplate(html, mergedVars));
++}
++
++// Looks up the real Contact + Brand for `to` and signs a real unsubscribe
++// token, the same mechanism the in-house newsletter sender already used
++// one-off (see sendToAll() in email-marketing/newsletter/actions.ts).
++// Falls back to the brand's bare homepage (no token) when `to` isn't a
++// known Contact (e.g. an internal "office@" notify address), and to ""
++// (renders as href="", same as today, but at least doesn't throw) when
++// this org has no Brand on file yet.
++async function buildUnsubscribeUrl(organizationId: string, to: string): Promise<string> {
++  const { getStorefrontUrl } = await import("./storefront-url");
++  const { signUnsubscribeToken } = await import("./customer-auth");
++
++  const contact = await prisma.contact.findUnique({
++    where: { organizationId_email: { organizationId, email: to } },
++  });
++  const brand = contact
++    ? (await prisma.contactBrandLink.findFirst({ where: { contactId: contact.id }, select: { brand: { select: { domain: true } } } }))?.brand
++    : await prisma.brand.findFirst({ where: { organizationId }, select: { domain: true } });
++  if (!brand?.domain) return "";
++
++  return contact
++    ? getStorefrontUrl(brand.domain, `/unsubscribe?token=${signUnsubscribeToken(contact.id)}`)
++    : getStorefrontUrl(brand.domain);
+ }
+-- 
+2.43.0
+
