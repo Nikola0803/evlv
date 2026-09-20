@@ -191,7 +191,7 @@ export function ProductClient({
         )}
 
         <div className="mt-6">
-          <PackSelector packs={packs} packIndex={packIndex} onSelect={setPackIndex} formatPrice={formatPrice} />
+          <PackSelector packs={packs} packIndex={packIndex} onSelect={setPackIndex} />
         </div>
 
         {locked && (

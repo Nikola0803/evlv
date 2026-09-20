@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Product } from "@/lib/types";
 import { ProductVisual } from "@/components/ui/ProductVisual";
-import { CardPackSelector, useCardPackSelection } from "./CardPackSelector";
+import { PackSelector, usePackSelection } from "./PackSelector";
 import { useCart } from "@/lib/cart-context";
 import { useCurrency } from "@/lib/currency-context";
 import { getStoredUser } from "@/lib/auth";
@@ -19,7 +19,7 @@ function splitDosage(name: string) {
 }
 
 export function ProductCard({ product }: { product: Product }) {
-  const { packIndex, setPackIndex, packs, selected } = useCardPackSelection(product);
+  const { packIndex, setPackIndex, packs, selected } = usePackSelection(product);
   const { addToCart } = useCart();
   const { formatPrice } = useCurrency();
   const { title, dosage } = splitDosage(product.name);
@@ -67,7 +67,7 @@ export function ProductCard({ product }: { product: Product }) {
               width={600}
               height={750}
               sizes="(max-width: 768px) 45vw, 320px"
-              className={`h-full w-full object-cover transition-opacity duration-500 ${hovering ? "opacity-0" : "opacity-100"}`}
+              className={`h-full w-full object-contain transition-opacity duration-500 ${hovering ? "opacity-0" : "opacity-100"}`}
             />
           ) : (
             <ProductVisual
@@ -83,7 +83,7 @@ export function ProductCard({ product }: { product: Product }) {
             loop
             playsInline
             preload="none"
-            className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${hovering ? "opacity-100" : "opacity-0"}`}
+            className={`absolute inset-0 h-full w-full object-contain transition-opacity duration-500 ${hovering ? "opacity-100" : "opacity-0"}`}
           >
             <source src="/videos/product-hover.mp4" type="video/mp4" />
           </video>
@@ -140,7 +140,7 @@ export function ProductCard({ product }: { product: Product }) {
         <div className="mt-auto pt-4">
           {packs.length > 1 && (
             <div className="mb-4">
-              <CardPackSelector packs={packs} packIndex={packIndex} onSelect={setPackIndex} />
+              <PackSelector packs={packs} packIndex={packIndex} onSelect={setPackIndex} />
             </div>
           )}
 
