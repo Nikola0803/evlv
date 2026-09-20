@@ -840,7 +840,7 @@ export const products: Product[] = [
     categoryLabel: "Peptide & Ancillary Research",
     // Demo product photo swap per request -- see the same note on
     // evlv-3-10mg above.
-    image: "/images/products/aod-9604-10mg-demo.webp",
+    image: "/images/products/aod-9604-10mg.png",
     price: 64.99,
     bulkOption: { qty: 10, price: 519.92, savePercent: 20 },
     purity: "99.1%",
