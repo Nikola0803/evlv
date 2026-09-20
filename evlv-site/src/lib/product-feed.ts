@@ -108,6 +108,9 @@ const PHOTO_LOCKED_SLUGS = new Set([
   "evlv-3-15mg",
   "evlv-3-30mg",
   "evlv-3-60mg",
+  // Demo product photo swap (see products.ts) -- must stay locked the same
+  // way or the CRM's own live photo for this SKU silently wins again.
+  "aod-9604-10mg",
 ]);
 
 export function mergeProducts(staticProducts: Product[], liveProducts: Product[]): Product[] {
