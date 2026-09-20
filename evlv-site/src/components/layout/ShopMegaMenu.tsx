@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { getShopMenuGroups } from "@/lib/shop-menu-data";
-import { CategoryArt } from "@/components/home/ShopByCategory";
+import { CategoryArt } from "@/components/ui/CategoryArt";
 import { useCurrency } from "@/lib/currency-context";
 import type { Product } from "@/lib/types";
 
