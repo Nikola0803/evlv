@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Product } from "@/lib/types";
 import { ProductVisual } from "@/components/ui/ProductVisual";
-import { PackSelector, usePackSelection } from "./PackSelector";
+import { CardPackSelector, useCardPackSelection } from "./CardPackSelector";
 import { useCart } from "@/lib/cart-context";
 import { useCurrency } from "@/lib/currency-context";
 import { getStoredUser } from "@/lib/auth";
@@ -19,7 +19,7 @@ function splitDosage(name: string) {
 }
 
 export function ProductCard({ product }: { product: Product }) {
-  const { packIndex, setPackIndex, packs, selected } = usePackSelection(product);
+  const { packIndex, setPackIndex, packs, selected } = useCardPackSelection(product);
   const { addToCart } = useCart();
   const { formatPrice } = useCurrency();
   const { title, dosage } = splitDosage(product.name);
@@ -140,7 +140,7 @@ export function ProductCard({ product }: { product: Product }) {
         <div className="mt-auto pt-4">
           {packs.length > 1 && (
             <div className="mb-4">
-              <PackSelector packs={packs} packIndex={packIndex} onSelect={setPackIndex} formatPrice={formatPrice} />
+              <CardPackSelector packs={packs} packIndex={packIndex} onSelect={setPackIndex} />
             </div>
           )}
 
