@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Product } from "@/lib/types";
@@ -23,10 +23,8 @@ export function ProductCard({ product }: { product: Product }) {
   const { addToCart } = useCart();
   const { formatPrice } = useCurrency();
   const { title, dosage } = splitDosage(product.name);
-  const [hovering, setHovering] = useState(false);
   const [isMember, setIsMember] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     const user = getStoredUser();
@@ -38,27 +36,9 @@ export function ProductCard({ product }: { product: Product }) {
   const restrictedLocked = !!product.restricted && !isVerified;
   const locked = memberLocked || restrictedLocked;
 
-  function handleEnter() {
-    setHovering(true);
-    videoRef.current?.play().catch(() => {});
-  }
-
-  function handleLeave() {
-    setHovering(false);
-    if (videoRef.current) {
-      videoRef.current.pause();
-      videoRef.current.currentTime = 0;
-    }
-  }
-
   return (
     <div className="group flex flex-col">
-      <Link
-        href={`/shop/${product.slug}`}
-        onMouseEnter={handleEnter}
-        onMouseLeave={handleLeave}
-        className="relative block overflow-hidden rounded-lg bg-ivory-soft"
-      >
+      <Link href={`/shop/${product.slug}`} className="relative block overflow-hidden rounded-lg bg-ivory-soft">
         <div className="aspect-[3/4] w-full">
           {product.image ? (
             <Image
@@ -67,26 +47,11 @@ export function ProductCard({ product }: { product: Product }) {
               width={600}
               height={750}
               sizes="(max-width: 768px) 45vw, 320px"
-              className={`h-full w-full object-contain transition-opacity duration-500 ${hovering ? "opacity-0" : "opacity-100"}`}
+              className="h-full w-full object-contain"
             />
           ) : (
-            <ProductVisual
-              name={title}
-              dosage={dosage}
-              floating
-              className={`h-full w-full p-6 transition-opacity duration-500 ${hovering ? "opacity-0" : "opacity-100"}`}
-            />
+            <ProductVisual name={title} dosage={dosage} floating className="h-full w-full p-6" />
           )}
-          <video
-            ref={videoRef}
-            muted
-            loop
-            playsInline
-            preload="none"
-            className={`absolute inset-0 h-full w-full object-contain transition-opacity duration-500 ${hovering ? "opacity-100" : "opacity-0"}`}
-          >
-            <source src="/videos/product-hover.mp4" type="video/mp4" />
-          </video>
         </div>
         {product.badges?.map((badge) => (
           <span key={badge} className="absolute left-3 top-3 border-l-2 border-copper bg-charcoal/80 px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-copper backdrop-blur-sm">

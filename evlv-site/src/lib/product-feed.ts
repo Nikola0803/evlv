@@ -138,7 +138,6 @@ const PHOTO_LOCKED_SLUGS = new Set([
   "igf-1-lr3-1mg",
   "kpv-10mg",
   "kpv-oral-500mcg",
-  "hcg-2000iu",
   "hcg-5000iu",
   "melanotan-ii-10mg",
   "nad-500mg",

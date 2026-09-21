@@ -70,11 +70,6 @@ const EVLV2_VARIANTS: ProductVariant[] = [
   { slug: "evlv-2-60mg", label: "60mg", price: 274.99, inStock: true },
 ];
 
-const HCG_VARIANTS: ProductVariant[] = [
-  { slug: "hcg-2000iu", label: "2000iu", price: 54.99, inStock: true },
-  { slug: "hcg-5000iu", label: "5000iu", price: 94.99, inStock: true },
-];
-
 export const products: Product[] = [
   // ---- EVLV-3 (Retatrutide) ----
   {
@@ -950,29 +945,6 @@ export const products: Product[] = [
     batch: { code: "EVLV-KPVO500-08", date: "2026-08-20", status: "PASS" },
   },
   {
-    id: "55",
-    slug: "hcg-2000iu",
-    sku: "HCG-2",
-    name: "HCG 2000IU",
-    category: "ancillaries",
-    categoryLabel: "Peptide & Ancillary Research",
-    image: "/images/products/hcg-2000iu.png",
-    price: 54.99,
-    bulkOption: { qty: 10, price: 439.92, savePercent: 20 },
-    purity: "99.0%",
-    avgMass: "2,000 iu",
-    rating: 4.6,
-    reviewCount: 18,
-    inStock: true,
-    shortDescription: "Standard-concentration HCG for research protocols.",
-    description: "HCG 2000iu vial for research protocols. 99.0% purity verified by independent third-party testing.",
-    storage: "Store lyophilized vials at 2–8°C. After reconstitution, use within 30 days and refrigerate.",
-    reconstitution: "Reconstitute with bacteriostatic or sterile water appropriate for laboratory use.",
-    badges: ["Case Pricing Available"],
-    batch: { code: "EVLV-HCG2-08", date: "2026-08-19", status: "PASS" },
-    variants: HCG_VARIANTS,
-  },
-  {
     id: "56",
     slug: "hcg-5000iu",
     sku: "HCG-5",
@@ -993,7 +965,6 @@ export const products: Product[] = [
     reconstitution: "Reconstitute with bacteriostatic or sterile water appropriate for laboratory use.",
     badges: ["Case Pricing Available"],
     batch: { code: "EVLV-HCG5-08", date: "2026-08-19", status: "PASS" },
-    variants: HCG_VARIANTS,
   },
   {
     id: "49",
