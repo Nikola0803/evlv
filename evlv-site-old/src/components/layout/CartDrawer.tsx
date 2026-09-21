@@ -1,0 +1,195 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useCart, BAC_WATER } from "@/lib/cart-context";
+import { useCurrency } from "@/lib/currency-context";
+import { ShippingProgressBar, FeaturedOfferCard, ResearchersAlsoAdd, FREE_SHIPPING_THRESHOLD, FLAT_SHIPPING_COST } from "./CartUpsellOffers";
+import { getStoredCouponCode, setStoredCouponCode } from "@/lib/referral";
+
+export function CartDrawer() {
+  const { lines, subtotal, isOpen, closeCart, removeLine, setLineQty } = useCart();
+  const { formatPrice } = useCurrency();
+  const [promoOpen, setPromoOpen] = useState(false);
+  const [promoCode, setPromoCode] = useState(() => getStoredCouponCode());
+  const [promoSaved, setPromoSaved] = useState(false);
+  const router = useRouter();
+
+  function handleCheckoutClick() {
+    closeCart();
+    router.push("/checkout");
+  }
+
+  const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : FLAT_SHIPPING_COST;
+  const total = subtotal + shipping;
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && closeCart();
+    document.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
+  }, [isOpen, closeCart]);
+
+  return (
+    <>
+      <div
+        aria-hidden
+        onClick={closeCart}
+        className={`fixed inset-0 z-[110] bg-charcoal/50 backdrop-blur-sm transition-opacity duration-300 ${
+          isOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
+        }`}
+      />
+
+      <aside
+        className={`fixed right-0 top-0 z-[120] flex h-full w-full max-w-md flex-col bg-ivory shadow-2xl transition-transform duration-300 ${
+          isOpen ? "translate-x-0" : "translate-x-full"
+        }`}
+        aria-hidden={!isOpen}
+      >
+        <div className="flex items-center justify-between border-b border-stone px-5 py-5">
+          <h2 className="font-display text-lg font-semibold text-charcoal">Your Cart</h2>
+          <button type="button" onClick={closeCart} aria-label="Close cart" className="flex h-8 w-8 items-center justify-center text-charcoal/60 transition hover:text-charcoal">
+            <i className="ri-close-line text-lg" />
+          </button>
+        </div>
+
+        <div className="flex-1 overflow-y-auto px-5 py-5">
+          {lines.length === 0 ? (
+            <p className="mt-10 text-center text-sm text-charcoal/50">Your cart is empty.</p>
+          ) : (
+            <>
+              <ShippingProgressBar />
+
+              <div className="space-y-5">
+                {lines.map((line) => (
+                  <div key={`${line.product.id}-${line.packLabel}`} className="flex gap-3">
+                    <div className="h-20 w-16 shrink-0 overflow-hidden rounded-md bg-ivory-soft">
+                      {line.product.image && (
+                        <Image src={line.product.image} alt={line.product.name} width={120} height={150} className="h-full w-full object-cover" />
+                      )}
+                    </div>
+                    <div className="flex flex-1 flex-col">
+                      <div className="flex items-start justify-between gap-2">
+                        <p className="text-sm font-medium text-charcoal">{line.product.name}</p>
+                        <button
+                          type="button"
+                          onClick={() => removeLine(line.product.id, line.packLabel)}
+                          aria-label="Remove"
+                          className="text-charcoal/40 transition hover:text-charcoal"
+                        >
+                          <i className="ri-close-line text-sm" />
+                        </button>
+                      </div>
+                      <p className="text-xs text-charcoal/50">{line.packLabel}</p>
+                      <div className="mt-2 flex items-center justify-between">
+                        <div className="flex items-center gap-2 rounded-md border border-stone px-2 py-1">
+                          <button type="button" onClick={() => setLineQty(line.product.id, line.packLabel, line.qty - 1)} className="text-charcoal/60 hover:text-charcoal">
+                            <i className="ri-subtract-line text-xs" />
+                          </button>
+                          <span className="w-4 text-center text-xs font-medium">{line.qty}</span>
+                          <button type="button" onClick={() => setLineQty(line.product.id, line.packLabel, line.qty + 1)} className="text-charcoal/60 hover:text-charcoal">
+                            <i className="ri-add-line text-xs" />
+                          </button>
+                        </div>
+                        <span className="text-sm font-semibold text-charcoal">{formatPrice(line.qty * line.unitPrice)}</span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Mandatory reconstitution add-on — always included, not removable */}
+              <div className="mt-5 flex items-center gap-3 border-t border-dashed border-stone pt-5">
+                <div className="flex h-20 w-16 shrink-0 items-center justify-center rounded-md bg-sage-deep">
+                  <i className="ri-drop-line text-xl text-ivory" />
+                </div>
+                <div className="flex flex-1 flex-col">
+                  <p className="text-sm font-medium text-charcoal">{BAC_WATER.name}</p>
+                  <p className="text-xs text-copper">{BAC_WATER.note}</p>
+                </div>
+                <span className="text-sm font-semibold text-charcoal">{formatPrice(BAC_WATER.price)}</span>
+              </div>
+
+              <FeaturedOfferCard />
+              <ResearchersAlsoAdd />
+            </>
+          )}
+        </div>
+
+        {lines.length > 0 && (
+          <div className="border-t border-stone px-5 py-5">
+            {promoOpen ? (
+              <div className="mb-4">
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={promoCode}
+                    onChange={(e) => {
+                      setPromoCode(e.target.value);
+                      setPromoSaved(false);
+                    }}
+                    placeholder="Promo code"
+                    className="flex-1 rounded-md border border-stone bg-white px-3 py-2 text-sm text-charcoal outline-none placeholder:text-charcoal/40 focus:border-copper"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setStoredCouponCode(promoCode);
+                      setPromoSaved(true);
+                    }}
+                    className="rounded-md border border-charcoal px-3 py-2 text-xs font-semibold uppercase tracking-wide text-charcoal transition hover:bg-charcoal hover:text-ivory"
+                  >
+                    Apply
+                  </button>
+                </div>
+                {promoSaved && (
+                  <p className="mt-1.5 text-xs text-sage-deep">Saved — this code will be applied at checkout.</p>
+                )}
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={() => setPromoOpen(true)}
+                className="mb-4 text-xs text-charcoal/50 underline decoration-charcoal/30 underline-offset-2 transition hover:text-charcoal"
+              >
+                Have a promo code? Click here
+              </button>
+            )}
+
+            <div className="space-y-1.5 text-sm">
+              <div className="flex items-center justify-between">
+                <span className="text-charcoal/60">Subtotal</span>
+                <span className="font-medium text-charcoal">{formatPrice(subtotal)}</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-charcoal/60">Shipping</span>
+                <span className="font-medium text-charcoal">{shipping === 0 ? "Free" : formatPrice(shipping)}</span>
+              </div>
+            </div>
+            <div className="mb-4 mt-2 flex items-center justify-between border-t border-stone pt-3">
+              <span className="text-sm text-charcoal/60">Total</span>
+              <span className="font-display text-lg font-semibold text-charcoal">{formatPrice(total)}</span>
+            </div>
+
+            <button
+              type="button"
+              onClick={handleCheckoutClick}
+              className="w-full rounded-md bg-copper py-3.5 text-[12px] font-semibold uppercase tracking-[0.2em] text-charcoal transition hover:bg-copper-light"
+            >
+              Checkout
+            </button>
+            <Link href="/shop" onClick={closeCart} className="mt-3 block text-center text-xs uppercase tracking-wide text-charcoal/50 transition hover:text-charcoal">
+              Continue Shopping
+            </Link>
+          </div>
+        )}
+      </aside>
+    </>
+  );
+}
