@@ -97,20 +97,53 @@ export async function getLiveProducts(): Promise<Product[]> {
 // in; this is what stops that same merge from also silently swapping the
 // real product photo for whatever generic/placeholder image the GP
 // listing happens to have.
+//
+// Every product in the static catalog now has a real EVLV-branded shot
+// (see products.ts), so this is just the full slug list -- a curated
+// photo should never lose to a live SKU's own (often blank or generic)
+// imageUrl. Add new slugs here as soon as they're given a real photo.
 const PHOTO_LOCKED_SLUGS = new Set([
+  "evlv-3-10mg",
+  "evlv-3-15mg",
+  "evlv-3-30mg",
+  "evlv-3-60mg",
   "evlv-1-5mg",
   "evlv-1-10mg",
   "evlv-2-10mg",
   "evlv-2-15mg",
   "evlv-2-30mg",
   "evlv-2-60mg",
-  "evlv-3-10mg",
-  "evlv-3-15mg",
-  "evlv-3-30mg",
-  "evlv-3-60mg",
-  // Demo product photo swap (see products.ts) -- must stay locked the same
-  // way or the CRM's own live photo for this SKU silently wins again.
+  "bpc-157-5mg",
+  "bpc-157-10mg",
+  "bpc-157-20mg",
+  "tb-500-5mg",
+  "tb-500-10mg",
+  "tb-500-20mg",
+  "bpc-tb-500-blend-10mg",
+  "bpc-tb-500-blend-20mg",
+  "tesamorelin-10mg",
+  "tesamorelin-20mg",
+  "ghk-cu-50mg",
+  "mots-c-10mg",
+  "mots-c-40mg",
+  "thymosin-alpha-1-5mg",
+  "glow-70mg",
+  "klow-80mg",
+  "selank-10mg",
+  "semax-10mg",
+  "cjc-ipa-blend-10mg",
+  "cjc-ipa-blend-20mg",
   "aod-9604-10mg",
+  "cartalax-20mg",
+  "igf-1-lr3-1mg",
+  "kpv-10mg",
+  "kpv-oral-500mcg",
+  "hcg-5000iu",
+  "melanotan-ii-10mg",
+  "nad-500mg",
+  "oxytocin-10mg",
+  "pt-141-10mg",
+  "ss-31-10mg",
 ]);
 
 export function mergeProducts(staticProducts: Product[], liveProducts: Product[]): Product[] {
