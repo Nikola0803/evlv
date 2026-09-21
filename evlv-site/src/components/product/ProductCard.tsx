@@ -75,7 +75,7 @@ export function ProductCard({ product }: { product: Product }) {
 
       <div className="flex flex-1 flex-col pt-4">
         <div className="flex items-start justify-between gap-2">
-          <Link href={`/shop/${product.slug}`} className="font-display text-xl font-semibold tracking-tight text-charcoal transition hover:opacity-60 md:text-2xl">
+          <Link href={`/shop/${product.slug}`} className="font-display text-base font-semibold tracking-tight text-charcoal transition hover:opacity-60 md:text-lg">
             {title} {dosage}
           </Link>
           <Link
