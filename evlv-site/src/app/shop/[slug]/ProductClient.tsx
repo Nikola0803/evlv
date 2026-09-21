@@ -8,7 +8,6 @@ import { MediaGallery } from "@/components/product/MediaGallery";
 import { useCart } from "@/lib/cart-context";
 import { useCurrency } from "@/lib/currency-context";
 import { getStoredUser } from "@/lib/auth";
-import { getAnchorPrice } from "@/lib/pricing";
 import { ResearchUseNotice } from "@/components/product/ResearchUseNotice";
 import { trackEvent } from "@/lib/pixel";
 import type { CoaEntry } from "@/lib/coa-data";
@@ -33,7 +32,7 @@ export function ProductClient({
   ratingBadge?: ReactNode;
 }) {
   const { packIndex, setPackIndex, packs, selected } = usePackSelection(product);
-  const [tab, setTab] = useState<(typeof TABS)[number]>("Description");
+  const [openSection, setOpenSection] = useState<(typeof TABS)[number] | null>("Description");
   const { addToCart } = useCart();
   const { formatPrice } = useCurrency();
   const [isMember, setIsMember] = useState(false);
@@ -80,20 +79,15 @@ export function ProductClient({
   // bordered "key benefits" block rather than splitting the same trust
   // signals across a bullet list AND a separate badge-card grid.
   const KEY_BENEFITS = [
-    { icon: "ri-shield-check-line", title: "Identity & Purity Verified", subtitle: "Every batch tested by an independent lab" },
-    {
-      icon: "ri-file-list-3-line",
-      title: "Certificate of Analysis",
-      subtitle: `Published per batch, searchable by lot code${product.purity ? ` -- ${product.purity} purity` : ""}`,
-    },
+    { icon: "ri-shield-check-line", title: "Third-Party Tested", subtitle: "Every batch verified by an independent lab" },
+    { icon: "ri-file-list-3-line", title: "Certificate of Analysis", subtitle: product.purity ? `${product.purity} purity, searchable by lot code` : "Published per batch, searchable by lot code" },
     { icon: "ri-truck-line", title: "Ships Same Day", subtitle: "Discreet packaging, before daily cutoff" },
     { icon: "ri-lock-line", title: "Secure Checkout", subtitle: "No membership or subscription required" },
+    { icon: "ri-flask-line", title: "USA Lyophilized", subtitle: "Research-grade, batch-controlled production" },
+    { icon: "ri-customer-service-2-line", title: "Expert Support", subtitle: "Real answers on formulation and storage" },
   ];
 
   const lineTotal = selected.unitPrice * selected.qty;
-  const variantPrices = product.variants?.map((v) => v.price) ?? [];
-  const minVariantPrice = variantPrices.length > 0 ? Math.min(product.price, ...variantPrices) : product.price;
-  const hasCheaperVariant = !!product.variants && product.variants.length > 1 && minVariantPrice < product.price;
   const { title, dosage } = splitDosage(product.name);
 
   return (
@@ -129,60 +123,92 @@ export function ProductClient({
             {ratingBadge}
           </div>
         </div>
-        <p className="mt-2 text-base leading-relaxed text-charcoal/60 md:text-lg">{product.shortDescription}</p>
+        {product.casNumber && (
+          <p className="mt-1 text-xs font-medium uppercase tracking-wide text-charcoal/40">CAS #: {product.casNumber}</p>
+        )}
+        <p className="mt-2 text-sm leading-relaxed text-charcoal/60 md:text-base">{product.shortDescription}</p>
+
+        {/* Latest verified lot -- surfaced right under the title/CAS# so the
+            "is this real / independently tested" question is answered before
+            a visitor even reaches price or Add to Cart. Deep-mineral header
+            + a PASS chip + icon buttons give it more presence than a plain
+            bordered box, without breaking the restrained-radius/copper-as-
+            accent rules. */}
+        <div className="relative mt-5 overflow-hidden rounded-xl border border-sage-deep/30 bg-white shadow-[0_1px_2px_rgba(20,39,26,0.04),0_8px_24px_-12px_rgba(20,39,26,0.18)]">
+          <div className="flex items-center gap-2 bg-sage-deep px-4 py-2.5 text-ivory">
+            <i className="ri-verified-badge-fill text-copper-light" />
+            <span className="text-[11px] font-semibold uppercase tracking-wider">Latest Verified Lot</span>
+            <span className="ml-auto inline-flex items-center gap-1 rounded-full bg-white/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-ivory/90">
+              <i className="ri-checkbox-circle-fill text-sage-light" /> Pass
+            </span>
+          </div>
+          <div className="p-4">
+            <div className="flex items-center gap-2">
+              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-sage-mist text-sage-deep">
+                <i className="ri-file-list-3-line" />
+              </span>
+              <span className="text-sm font-semibold text-charcoal">Certificate of Analysis</span>
+            </div>
+            <p className="mt-2 flex flex-wrap items-center gap-x-1.5 gap-y-1 pl-9 text-xs text-charcoal/55">
+              <span className="rounded bg-stone px-1.5 py-0.5 font-mono text-[11px] font-medium text-charcoal/70">
+                {product.batch ? product.batch.code : "COA pending"}
+              </span>
+              {dosage && <span>{dosage}</span>}
+              <span className="text-charcoal/30">--</span>
+              <span>Third-party tested</span>
+            </p>
+            <div className="mt-3.5 grid grid-cols-2 gap-2">
+              <a
+                href={coa?.url ?? "/coas"}
+                target={coa ? "_blank" : undefined}
+                rel={coa ? "noreferrer" : undefined}
+                className="flex items-center justify-center gap-1.5 whitespace-nowrap rounded-lg border-[1.5px] border-sage-deep/25 bg-sage-mist/40 px-3 py-2 text-center text-xs font-semibold text-sage-deep transition hover:border-sage-deep hover:bg-sage-mist"
+              >
+                <i className="ri-flask-line" /> View Purity
+              </a>
+              <a
+                href={coa?.endotoxinUrl ?? "/coas"}
+                target={coa?.endotoxinUrl ? "_blank" : undefined}
+                rel={coa?.endotoxinUrl ? "noreferrer" : undefined}
+                className="flex items-center justify-center gap-1.5 whitespace-nowrap rounded-lg border-[1.5px] border-sage-deep/25 bg-sage-mist/40 px-3 py-2 text-center text-xs font-semibold text-sage-deep transition hover:border-sage-deep hover:bg-sage-mist"
+              >
+                <i className="ri-shield-cross-line" /> View Endotoxin
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Buy box -- right column, below the hero head */}
       <div className="flex flex-col lg:col-start-2 lg:row-start-2 lg:mt-2.5">
-        <div className="mt-1">
-          {hasCheaperVariant && (
-            <p className="mb-0.5 text-[11px] font-semibold uppercase tracking-wide text-charcoal/40">
-              Starting at {formatPrice(minVariantPrice)}
-            </p>
-          )}
-          {/*
-            In Stock used to sit crammed into the same line as the big
-            price number -- fine on desktop's wider column, but on mobile
-            it read as an odd trailing fragment next to an oversized
-            price. Its own line above the price (stock status first, then
-            the number) is the more standard checkout pattern and stops
-            it competing with the price for space.
-          */}
-          <span className={`flex items-center gap-1 text-xs font-medium ${product.inStock ? "text-sage-deep" : "text-charcoal/40"}`}>
-            <i className="ri-checkbox-circle-line" /> {product.inStock ? "In Stock" : "Out of Stock"}
-          </span>
-          <div className="mt-1 flex items-baseline gap-3">
-            <span className="whitespace-nowrap text-base font-medium text-charcoal/25 line-through sm:text-lg md:text-xl">
-              {formatPrice(getAnchorPrice(selected.unitPrice))}
-            </span>
-            <div className="font-display text-2xl font-semibold text-charcoal sm:text-3xl md:text-4xl">{formatPrice(selected.unitPrice)}</div>
-          </div>
-          {product.bulkOption && (
-            <p className="mt-1 text-sm text-charcoal/50">
-              Case pricing available -- {product.bulkOption.qty}-unit case at reduced per-unit cost
-            </p>
-          )}
-          <p className="mt-3 flex items-center gap-1.5 text-xs font-semibold text-copper-dark">
-            <i className="ri-fire-line" /> High demand -- 13 people viewing now
-          </p>
+        {/* Notice bar instead of a bare line -- gives the urgency signal
+            the same visual weight the reference PDP gives it, rather than
+            letting it get lost as plain text above the buy controls. */}
+        <div className="mt-1 flex items-center gap-2 rounded-lg border border-copper/25 bg-copper/[0.06] px-3.5 py-2.5">
+          <i className="ri-fire-line text-copper-dark" />
+          <p className="text-xs font-semibold text-copper-dark">High demand -- 13 people viewing now</p>
         </div>
 
         {product.variants && product.variants.length > 1 && (
           <div className="mt-6">
             <label className="mb-2.5 block text-[13px] font-semibold text-charcoal">Size</label>
-            <div className="flex flex-wrap gap-2">
+            {/* Larger rectangular tiles, no per-tile price (the price
+                belongs to the Pack Size grid right below, which already
+                reflects the selected size) -- a plain dose label reads
+                cleaner at this size than a small pill trying to carry two
+                lines of text. */}
+            <div className="grid grid-cols-4 gap-2">
               {product.variants.map((v) => {
                 const active = v.slug === product.slug;
                 return (
                   <Link
                     key={v.slug}
                     href={`/shop/${v.slug}`}
-                    className={`flex items-center gap-1.5 rounded-full border-[1.5px] px-3.5 py-2 text-xs font-semibold transition ${
-                      active ? "border-sage-deep bg-white text-sage-deep shadow-sm" : "border-stone bg-white text-charcoal/70 hover:border-charcoal/30"
+                    className={`flex h-14 items-center justify-center rounded-lg border-[1.5px] text-sm font-semibold transition ${
+                      active ? "border-sage-deep bg-sage-deep text-white shadow-sm" : "border-stone bg-white text-charcoal/70 hover:border-charcoal/30"
                     } ${!v.inStock ? "pointer-events-none opacity-40" : ""}`}
                   >
                     {v.label}
-                    <span className={active ? "text-sage-deep/70" : "text-charcoal/40"}>{formatPrice(v.price)}</span>
                   </Link>
                 );
               })}
@@ -228,7 +254,7 @@ export function ProductClient({
               type="button"
               disabled={!product.inStock}
               onClick={() => addToCart(product, selected.qty, selected.unitPrice, selected.label)}
-              className="block w-full rounded-xl bg-copper py-4 text-sm font-semibold uppercase tracking-wide text-charcoal transition hover:bg-copper-light disabled:cursor-not-allowed disabled:bg-stone disabled:text-charcoal/50"
+              className="block w-full rounded-xl bg-charcoal py-4 text-sm font-semibold uppercase tracking-wide text-ivory transition hover:bg-sage-deep disabled:cursor-not-allowed disabled:bg-stone disabled:text-charcoal/50"
             >
               {product.inStock ? `Add to Cart -- ${formatPrice(lineTotal)}` : "Out of Stock"}
             </button>
@@ -237,145 +263,98 @@ export function ProductClient({
 
         <ResearchUseNotice />
 
-        {/* Key benefits -- compact 2x2 grid, icon in a tinted rounded square.
-            Sits below the CTA so it reads as reassurance right after the
-            purchase decision, not as another thing to read before it. */}
-        <div className="mt-6 grid grid-cols-2 gap-x-4 gap-y-3 rounded-xl border border-stone bg-white p-4 shadow-sm">
+        {/* Trust grid -- centered icon-over-label tiles, one bordered
+            container instead of a card-per-item. Sits below the CTA so it
+            reads as reassurance right after the purchase decision. */}
+        <div className="mt-6 grid grid-cols-2 gap-x-3 gap-y-5 rounded-xl border border-stone bg-white p-5 shadow-sm sm:grid-cols-3">
           {KEY_BENEFITS.map((item) => (
-            <div key={item.title} className="flex items-start gap-2">
-              <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-sage-mist/70 text-xs text-sage-deep">
+            <div key={item.title} className="flex flex-col items-center gap-1.5 text-center">
+              <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-sage-mist/70 text-base text-sage-deep">
                 <i className={item.icon} />
               </span>
-              <div className="min-w-0">
-                <div className="text-xs font-semibold leading-tight text-charcoal">{item.title}</div>
-                <div className="mt-0.5 text-[11px] leading-snug text-charcoal/50">{item.subtitle}</div>
-              </div>
+              <div className="text-[11px] font-semibold uppercase tracking-wide leading-tight text-charcoal">{item.title}</div>
+              <div className="text-[11px] leading-snug text-charcoal/50">{item.subtitle}</div>
             </div>
           ))}
         </div>
 
-        {/* Always visible -- COA/batch trust signal shouldn't depend on a
-            visitor clicking into a tab. The Lab Report tab below still has
-            the fuller breakdown (avg. mass, etc); this is the "prove it"
-            summary right next to the buy decision. */}
-        <div className="mt-4 overflow-hidden rounded-xl border border-sage-deep/25 bg-white shadow-sm">
-          <div className="flex items-center gap-2 bg-sage-deep px-4 py-2.5 text-white">
-            <i className="ri-verified-badge-fill" />
-            <span className="text-xs font-semibold uppercase tracking-wider">Certificate of Analysis</span>
-          </div>
-          <div className="p-4">
-            {product.batch ? (
-              <div className="flex flex-wrap items-center justify-between gap-3">
-                <div className="min-w-0">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span className="rounded bg-stone px-1.5 py-0.5 font-mono text-[11px] text-charcoal/70">
-                      {product.batch.code}
-                    </span>
-                    <span className="inline-flex items-center gap-1 text-xs font-semibold text-sage-deep">
-                      <i className="ri-checkbox-circle-fill" /> PASS
-                    </span>
-                  </div>
-                  <p className="mt-1 text-xs text-charcoal/50">
-                    Tested {product.batch.date}
-                    {product.purity ? ` -- ${product.purity} purity` : ""}
-                  </p>
-                </div>
-                {coa ? (
-                  <a
-                    href={coa.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-charcoal px-3.5 py-2 text-xs font-semibold uppercase tracking-wide text-ivory transition hover:bg-charcoal/85"
-                  >
-                    View PDF <i className="ri-download-2-line" />
-                  </a>
-                ) : (
-                  <Link href="/coas" className="shrink-0 text-xs font-semibold text-sage-deep underline underline-offset-2">
-                    Find it in the COA library
-                  </Link>
-                )}
-              </div>
-            ) : (
-              <div className="flex flex-wrap items-center justify-between gap-3">
-                <p className="text-xs text-charcoal/60">This batch&apos;s certificate hasn&apos;t been published to this listing yet.</p>
-                <Link href="/coas" className="shrink-0 text-xs font-semibold text-sage-deep underline underline-offset-2">
-                  Browse all COAs
-                </Link>
-              </div>
-            )}
-          </div>
-        </div>
-
-        <div className="mt-10 border-t border-stone">
-          <div className="flex items-center gap-0 border-b border-stone">
-            {TABS.map((t) => (
-              <button
-                key={t}
-                type="button"
-                onClick={() => setTab(t)}
-                className={`border-b-2 px-4 py-4 text-sm font-semibold uppercase tracking-wide transition md:px-6 ${
-                  tab === t ? "border-sage text-sage-deep" : "border-transparent text-charcoal/50 hover:text-charcoal"
-                }`}
-              >
-                {t}
-              </button>
-            ))}
-          </div>
-
-          <div className="py-8 text-base leading-relaxed text-charcoal/70 md:py-12">
-            {tab === "Description" && (
-              <div className="max-w-3xl">
-                <p className="text-base md:text-lg">{product.description}</p>
-                <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
-                  <InfoCard title="Storage" body={product.storage} />
-                  {product.reconstitution && <InfoCard title="Reconstitution" body={product.reconstitution} />}
-                  <InfoCard title="Testing" body="Every batch is independently tested. View the full lab report in the Lab Report tab." />
-                  <InfoCard title="Shipping" body="Ships domestically in discreet packaging. Tracking provided within 1 business day." />
-                </div>
-              </div>
-            )}
-            {tab === "Lab Report" && (
-              <div className="max-w-sm">
-                {product.batch ? (
-                  <>
-                    <p className="mb-3 text-sm text-charcoal/60">
-                      Every batch is tested by an independent third-party lab before it ships. Certificate of Analysis for batch {product.batch.code}:
-                    </p>
-                    <div className="overflow-hidden rounded-xl border border-stone">
-                    <dl className="divide-y divide-stone text-xs">
-                      <Row label="Batch" value={product.batch.code} />
-                      <Row label="Date" value={product.batch.date} />
-                      {product.purity && <Row label="Purity" value={product.purity} />}
-                      {product.avgMass && <Row label="Avg. Mass" value={product.avgMass} />}
-                      {product.casNumber && <Row label="CAS Number" value={product.casNumber} />}
-                      <Row label="Status" value="PASS" accent />
-                    </dl>
-                    {coa && (
-                      <a
-                        href={coa.url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="flex items-center justify-between gap-2 border-t border-stone bg-white px-4 py-3 text-xs font-semibold text-sage-deep transition hover:bg-sage-mist"
-                      >
-                        View Certificate of Analysis (PDF)
-                        <i className="ri-external-link-line" />
-                      </a>
+        {/* Accordion instead of tabs -- both sections' headings stay
+            visible at once (closer to how the reference PDP presents
+            Overview/COA/Test Results), and only one panel expands at a
+            time via openSection. */}
+        <div className="mt-10 divide-y divide-stone rounded-xl border border-stone">
+          {TABS.map((t) => {
+            const open = openSection === t;
+            return (
+              <div key={t}>
+                <button
+                  type="button"
+                  onClick={() => setOpenSection(open ? null : t)}
+                  aria-expanded={open}
+                  className="flex w-full items-center justify-between px-5 py-4 text-left text-sm font-semibold text-charcoal transition hover:bg-ivory-soft/60"
+                >
+                  {t}
+                  <i className={`ri-arrow-down-s-line text-lg text-charcoal/40 transition-transform ${open ? "rotate-180" : ""}`} />
+                </button>
+                {open && (
+                  <div className="border-t border-stone px-5 pb-6 pt-5 text-base leading-relaxed text-charcoal/70">
+                    {t === "Description" && (
+                      <div className="max-w-3xl">
+                        <p className="text-base md:text-lg">{product.description}</p>
+                        <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                          <InfoCard title="Storage" body={product.storage} />
+                          {product.reconstitution && <InfoCard title="Reconstitution" body={product.reconstitution} />}
+                          <InfoCard title="Testing" body="Every batch is independently tested. View the full lab report below." />
+                          <InfoCard title="Shipping" body="Ships domestically in discreet packaging. Tracking provided within 1 business day." />
+                        </div>
+                      </div>
                     )}
-                    </div>
-                  </>
-                ) : (
-                  <div className="rounded-xl border border-stone bg-white p-5 text-sm text-charcoal/60">
-                    Every batch we ship is independently lab-tested -- this specific listing&apos;s certificate hasn&apos;t
-                    been published here yet.{" "}
-                    <Link href="/coas" className="font-semibold text-sage-deep underline underline-offset-2">
-                      Browse the full COA library
-                    </Link>{" "}
-                    or contact us for the current batch&apos;s report.
+                    {t === "Lab Report" && (
+                      <div className="max-w-sm">
+                        {product.batch ? (
+                          <>
+                            <p className="mb-3 text-sm text-charcoal/60">
+                              Every batch is tested by an independent third-party lab before it ships. Certificate of Analysis for batch {product.batch.code}:
+                            </p>
+                            <div className="overflow-hidden rounded-xl border border-stone">
+                            <dl className="divide-y divide-stone text-xs">
+                              <Row label="Batch" value={product.batch.code} />
+                              <Row label="Date" value={product.batch.date} />
+                              {product.purity && <Row label="Purity" value={product.purity} />}
+                              {product.avgMass && <Row label="Avg. Mass" value={product.avgMass} />}
+                              {product.casNumber && <Row label="CAS Number" value={product.casNumber} />}
+                              <Row label="Status" value="PASS" accent />
+                            </dl>
+                            {coa && (
+                              <a
+                                href={coa.url}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="flex items-center justify-between gap-2 border-t border-stone bg-white px-4 py-3 text-xs font-semibold text-sage-deep transition hover:bg-sage-mist"
+                              >
+                                View Certificate of Analysis (PDF)
+                                <i className="ri-external-link-line" />
+                              </a>
+                            )}
+                            </div>
+                          </>
+                        ) : (
+                          <div className="rounded-xl border border-stone bg-white p-5 text-sm text-charcoal/60">
+                            Every batch we ship is independently lab-tested -- this specific listing&apos;s certificate hasn&apos;t
+                            been published here yet.{" "}
+                            <Link href="/coas" className="font-semibold text-sage-deep underline underline-offset-2">
+                              Browse the full COA library
+                            </Link>{" "}
+                            or contact us for the current batch&apos;s report.
+                          </div>
+                        )}
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
-            )}
-          </div>
+            );
+          })}
         </div>
       </div>
     </section>
@@ -406,7 +385,7 @@ export function ProductClient({
               type="button"
               disabled={!product.inStock}
               onClick={() => addToCart(product, selected.qty, selected.unitPrice, selected.label)}
-              className="flex-1 whitespace-nowrap rounded-xl bg-copper py-3.5 text-sm font-semibold uppercase tracking-wide text-charcoal transition hover:bg-copper-light disabled:cursor-not-allowed disabled:bg-stone disabled:text-charcoal/50 sm:flex-none sm:px-8"
+              className="flex-1 whitespace-nowrap rounded-xl bg-charcoal py-3.5 text-sm font-semibold uppercase tracking-wide text-ivory transition hover:bg-sage-deep disabled:cursor-not-allowed disabled:bg-stone disabled:text-charcoal/50 sm:flex-none sm:px-8"
             >
               {product.inStock ? `Add to Cart -- ${formatPrice(lineTotal)}` : "Out of Stock"}
             </button>

@@ -47,17 +47,21 @@ export function FrequentlyBoughtTogether({ product, related }: { product: Produc
         <h2 className="mb-2 font-display text-2xl font-semibold text-charcoal md:text-3xl">Frequently bought together</h2>
         <p className="mb-8 text-sm text-charcoal/60">Add related research materials to the same order.</p>
 
-        <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:gap-2.5">
+        {/* Every card gets the same border weight/color -- only a subtle
+            background tint (and the checkbox itself) marks the selected
+            state, instead of swapping border color + shadow + opacity,
+            which read as mismatched card styles. sm:items-stretch (not
+            items-center) keeps all cards the same height regardless of
+            name/description length. */}
+        <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:gap-2.5">
           {items.map((p, i) => {
             const isChecked = checked.has(p.id);
             const isCurrent = p.id === product.id;
             return (
-              <div key={p.id} className="flex items-center gap-2.5 sm:flex-1">
+              <div key={p.id} className="flex items-stretch gap-2.5 sm:flex-1">
                 <label
-                  className={`relative flex w-full cursor-pointer flex-col rounded-xl border-[1.5px] p-4 transition ${
-                    isChecked
-                      ? "border-sage-deep bg-white shadow-md"
-                      : "border-stone/70 bg-white/40 opacity-55 hover:opacity-80"
+                  className={`relative flex h-full w-full cursor-pointer flex-col rounded-xl border-[1.5px] border-stone p-4 transition ${
+                    isChecked ? "bg-white" : "bg-white/40 opacity-60 hover:opacity-85"
                   }`}
                 >
                   <input
@@ -77,15 +81,17 @@ export function FrequentlyBoughtTogether({ product, related }: { product: Produc
                     {p.categoryLabel}
                     {p.purity ? ` -- ${p.purity} purity` : ""}
                   </p>
-                  <p className="mt-2 font-display text-base font-semibold text-charcoal">{formatPrice(p.price)}</p>
-                  {isCurrent && (
-                    <span className="mt-1.5 inline-block w-fit rounded-full bg-sage-deep/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-sage-deep">
-                      This item
-                    </span>
-                  )}
+                  <div className="mt-auto flex items-center gap-1.5 pt-2">
+                    <p className="font-display text-base font-semibold text-charcoal">{formatPrice(p.price)}</p>
+                    {isCurrent && (
+                      <span className="inline-block w-fit rounded-full bg-sage-deep/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-sage-deep">
+                        This item
+                      </span>
+                    )}
+                  </div>
                 </label>
                 {i < items.length - 1 && (
-                  <span aria-hidden className="hidden shrink-0 font-display text-2xl font-semibold text-charcoal/25 sm:block">
+                  <span aria-hidden className="hidden shrink-0 self-center font-display text-2xl font-semibold text-charcoal/25 sm:block">
                     +
                   </span>
                 )}
