@@ -84,10 +84,7 @@ export const products: Product[] = [
     name: "EVLV-3 10MG",
     category: "peptides",
     categoryLabel: "Peptide Research",
-    // Demo product photo swap per request -- real EVLV-labeled vial/box
-    // render supplied for this SKU specifically, not yet extended to any
-    // other product.
-    image: "/images/products/evlv-3-10mg-demo.webp",
+    image: "/images/products/evlv-3-10mg.png",
     price: 74.99,
     bulkOption: { qty: 10, price: 599.92, savePercent: 20 },
     purity: "99.34%",
