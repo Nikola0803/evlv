@@ -11,8 +11,9 @@ import { getStoredCouponCode, setStoredCouponCode } from "@/lib/referral";
 import { useCouponValidation } from "@/lib/use-coupon-validation";
 import { getStoredUser } from "@/lib/auth";
 import { getProductImage } from "@/lib/product-images";
+import type { Product } from "@/lib/types";
 
-export function CartDrawer() {
+export function CartDrawer({ products = [] }: { products?: Product[] }) {
   const { lines, subtotal, isOpen, closeCart, removeLine, setLineQty } = useCart();
   const { formatPrice } = useCurrency();
   const [promoOpen, setPromoOpen] = useState(false);
@@ -114,7 +115,7 @@ export function CartDrawer() {
                 ))}
               </div>
 
-              <BacWaterOffer />
+              <BacWaterOffer products={products} />
               <FeaturedOfferCard />
               <ResearchersAlsoAdd />
             </>

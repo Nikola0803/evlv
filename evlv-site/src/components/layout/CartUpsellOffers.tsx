@@ -9,10 +9,10 @@
  */
 
 import Image from "next/image";
-import Link from "next/link";
 import { useCart } from "@/lib/cart-context";
 import { useCurrency } from "@/lib/currency-context";
 import { getProductBySlug, getProducts } from "@/lib/products";
+import type { Product } from "@/lib/types";
 import { getProductImage } from "@/lib/product-images";
 
 const BAC_WATER_SLUG = "bacteriostatic-water-30ml";
@@ -63,25 +63,18 @@ export function ShippingProgressBar() {
  * BAC Water in it -- never nags on an ancillaries-only or already-
  * covered order.
  *
- * Links to the shop page rather than adding to cart directly: BAC
- * Water is a real, CRM-managed product (live inventory/price/COA,
- * slug bacteriostatic-water-30ml) -- there used to be a second,
- * fabricated static catalog entry here so this could call addToCart()
- * directly, but that meant two separate "Bacteriostatic Water" cards
- * on the shop page with two different prices, the exact GP/EVLV
- * duplicate-listing problem this catalog already got bitten by once.
- * getProducts()/getProductBySlug() only ever see the static catalog on
- * the client (the live-merged list is built server-side per request,
- * see product-feed.ts), so a live-only product's real price/stock
- * isn't available to reference here at all -- linking to its real
- * page is the honest option until that plumbing exists.
+ * Uses the live CRM-merged catalog passed down by the root layout, so
+ * the drawer can add the real BAC Water SKU at its current price without
+ * navigating away or maintaining a duplicate static product entry.
  */
-export function BacWaterOffer() {
-  const { lines } = useCart();
+export function BacWaterOffer({ products = [] }: { products?: Product[] }) {
+  const { lines, addToCart } = useCart();
+  const { formatPrice } = useCurrency();
+  const product = products.find((item) => item.slug === BAC_WATER_SLUG) ?? getProductBySlug(BAC_WATER_SLUG);
 
   const alreadyInCart = lines.some((l) => l.product.slug === BAC_WATER_SLUG);
   const needsIt = lines.some((l) => Boolean(l.product.reconstitution));
-  if (alreadyInCart || !needsIt) return null;
+  if (alreadyInCart || !needsIt || !product) return null;
 
   return (
     <div className="mt-5 flex items-start gap-3 rounded-lg border border-copper/40 bg-copper/5 p-4">
@@ -91,12 +84,13 @@ export function BacWaterOffer() {
         <p className="mt-1 text-xs leading-relaxed text-charcoal/60">
           All peptides are a lyophilized powder and must be reconstituted with Bacteriostatic Water.
         </p>
-        <Link
-          href={`/shop/${BAC_WATER_SLUG}`}
+        <button
+          type="button"
+          onClick={() => addToCart(product, 1, product.price, "1 PCS")}
           className="mt-2.5 inline-block rounded-md bg-copper px-3.5 py-2 text-[11px] font-semibold uppercase tracking-wide text-charcoal transition hover:bg-copper-light"
         >
-          Add BAC Water
-        </Link>
+          Add BAC Water · {formatPrice(product.price)}
+        </button>
       </div>
     </div>
   );

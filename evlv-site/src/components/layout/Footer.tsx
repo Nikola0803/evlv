@@ -15,7 +15,7 @@ const SUPPORT = [
 
 const COMPANY = [
   ["About EVLV", "/about"], ["Research Journal", "/journal"],
-  ["FAQ", "/faq"], ["Sourcing & Quality", "/sourcing"],
+  ["Affiliate Program", "/ambassadors"], ["FAQ", "/faq"], ["Sourcing & Quality", "/sourcing"],
 ] as const;
 
 export function Footer() {
