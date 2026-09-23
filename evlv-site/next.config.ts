@@ -2,6 +2,9 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   allowedDevOrigins: ["192.168.1.83", "localhost", "127.0.0.1"],
+  turbopack: {
+    root: process.cwd(),
+  },
   images: {
     // The CRM's live product feed (see src/lib/product-feed.ts) hands
     // back Product.imageUrl / CoaDocument.url as absolute URLs pointing
