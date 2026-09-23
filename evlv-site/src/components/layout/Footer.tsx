@@ -2,126 +2,62 @@ import Link from "next/link";
 import { Logo } from "@/components/ui/Logo";
 import { NewsletterForm } from "./NewsletterForm";
 import { PAYMENT_GATEWAYS } from "@/lib/payment-config";
-import { GoogleRatingBadge } from "@/components/ui/GoogleRatingBadge";
 
-const RESEARCH_NAV = [
-  { href: "/shop", label: "Products" },
-  { href: "/shop", label: "Categories" },
-  { href: "/coas", label: "Documentation" },
-  { href: "/journal", label: "Journal" },
-];
+const SHOP = [
+  ["All Products", "/shop"], ["Peptides", "/shop?category=peptides"],
+  ["COA Library", "/coas"], ["Wholesale", "/wholesale"],
+] as const;
 
-const COMPANY_NAV = [
-  { href: "/about", label: "About" },
-  { href: "/contact", label: "Contact" },
-  { href: "/faq", label: "FAQ" },
-  { href: "/account", label: "Account" },
-  { href: "/wholesale", label: "Dropshipping & Wholesale" },
-];
+const SUPPORT = [
+  ["Contact", "/contact"], ["Track Order", "/track-order"],
+  ["Shipping", "/shipping"], ["Returns", "/returns"],
+] as const;
 
-const POLICIES_NAV = [
-  { href: "/shipping", label: "Shipping" },
-  { href: "/returns", label: "Returns" },
-  { href: "/heroes-discount", label: "Heroes Discount" },
-  { href: "/ruo", label: "Research Use Only" },
-  { href: "/sourcing", label: "Sourcing & Quality" },
-  { href: "/indemnity-waiver", label: "Indemnity Waiver" },
-  { href: "/terms", label: "Terms" },
-  { href: "/privacy", label: "Privacy" },
-];
+const COMPANY = [
+  ["About EVLV", "/about"], ["Research Journal", "/journal"],
+  ["FAQ", "/faq"], ["Sourcing & Quality", "/sourcing"],
+] as const;
 
 export function Footer() {
   return (
-    <footer className="bg-charcoal pb-10 pt-24 text-white md:pt-36">
-      <div className="mx-auto max-w-[1400px] px-4 md:px-8">
-        <div className="flex flex-wrap items-center justify-between gap-6">
-          <div>
-            <Logo tone="ivory" imgClassName="h-14 w-auto md:h-20" />
-            <p className="mt-4 text-sm text-white/50">Supplier of high-purity research peptides for laboratory and analytical use.</p>
-            <a href="mailto:office@evlvpeptides.com" className="mt-2 inline-block text-sm text-white/50 transition hover:text-white">
-              office@evlvpeptides.com
+    <footer className="cp-footer">
+      <div className="cp-footer-inner">
+        <div className="cp-footer-main">
+          <div className="cp-footer-brand">
+            <Logo tone="ivory" imgClassName="cp-footer-logo" />
+            <p>Premium research-use-only peptides backed by transparent batch documentation.</p>
+            <a href="mailto:office@evlvpeptides.com">office@evlvpeptides.com</a>
+            <a className="cp-footer-vpr" href="https://verifiedpeptidereviews.com/vendors/evlv-peptides" target="_blank" rel="noreferrer">
+              <img className="cp-vpr-logo" src="/images/brand/vpr-logo-clean.png" alt="Verified Peptide Reviews" /><span><span className="cp-vpr-stars" aria-label="5 out of 5 stars">★★★★★</span> 4.9 / 5 · 712 verified reviews</span><i>Verify us ↗</i>
             </a>
           </div>
 
-          <div className="flex flex-col items-start gap-3">
-            <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
-              <p className="text-[11px] font-semibold uppercase tracking-wider text-white/40">We Accept</p>
-              {PAYMENT_GATEWAYS.map((gateway) => (
-                <div key={gateway.id} className="flex items-center gap-1.5 text-white/60">
-                  <i className={`${gateway.icon} text-base text-copper`} />
-                  <span className="text-xs">{gateway.label}</span>
-                </div>
-              ))}
-            </div>
-            <GoogleRatingBadge />
+          <FooterColumn title="Shop" links={SHOP} />
+          <FooterColumn title="Support" links={SUPPORT} />
+          <FooterColumn title="Company" links={COMPANY} />
+          <div className="cp-footer-newsletter"><NewsletterForm /></div>
+        </div>
+
+        <div className="cp-footer-meta">
+          <div className="cp-footer-payments"><small>Secure payment options</small>{PAYMENT_GATEWAYS.map(gateway => <span key={gateway.id}><i className={gateway.icon} />{gateway.label}</span>)}</div>
+          <nav aria-label="Legal"><Link href="/ruo">Research Use Only</Link><Link href="/indemnity-waiver">Indemnity</Link><Link href="/terms">Terms</Link><Link href="/privacy">Privacy</Link></nav>
+        </div>
+
+        <details id="legal-disclaimer" className="cp-footer-disclaimer">
+          <summary>Research-use disclaimer <span>+</span></summary>
+          <div>
+            <p>All products sold on this website are intended for research and identification purposes only. They are not intended for human dosing, injection, ingestion, or veterinary use.</p>
+            <p>The statements on this website have not been evaluated by the U.S. Food and Drug Administration. Neither the statements nor the products are intended to diagnose, treat, cure, or prevent disease.</p>
+            <p>EVLV is a chemical supplier, not a compounding pharmacy or outsourcing facility as defined under sections 503A or 503B of the Federal Food, Drug, and Cosmetic Act.</p>
           </div>
-        </div>
+        </details>
 
-        <div className="mt-14 grid grid-cols-2 gap-8 border-t border-white/10 pt-14 md:grid-cols-4">
-          <FooterColumn title="Research">
-            {RESEARCH_NAV.map((item) => (
-              <li key={item.label}>
-                <Link href={item.href} className="text-sm text-white/60 transition hover:text-white">
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-          </FooterColumn>
-
-          <FooterColumn title="Company">
-            {COMPANY_NAV.map((item) => (
-              <li key={item.label}>
-                <Link href={item.href} className="text-sm text-white/60 transition hover:text-white">
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-          </FooterColumn>
-
-          <FooterColumn title="Policies">
-            {POLICIES_NAV.map((item) => (
-              <li key={item.label}>
-                <Link href={item.href} className="text-sm text-white/60 transition hover:text-white">
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-          </FooterColumn>
-
-          <NewsletterForm />
-        </div>
-      </div>
-
-      <div id="legal-disclaimer" className="mx-auto mt-16 max-w-[1400px] scroll-mt-32 border-t border-white/10 px-4 pt-8 md:px-8">
-        <div className="space-y-3 text-xs leading-relaxed text-white/40">
-          <p>
-            All products sold on this website are intended for research and identification purposes only. These
-            products are not intended for human dosing, injection, or ingestion.
-          </p>
-          <p>
-            The statements made on this website have not been evaluated by the US Food and Drug Administration. The
-            statements and the products of this company are not intended to diagnose, treat, cure, or prevent any
-            disease.
-          </p>
-          <p>
-            EVLV is a chemical supplier, not a compounding pharmacy or outsourcing facility as defined under 503A or
-            503B of the Federal Food, Drug, and Cosmetic Act.
-          </p>
-        </div>
-        <div className="mt-6 flex flex-col gap-2 text-xs text-white/40 sm:flex-row sm:items-center sm:justify-between">
-          <span>© EVLV {new Date().getFullYear()}. All rights reserved.</span>
-          <span>EVLVPEPTIDES.COM</span>
-        </div>
+        <div className="cp-footer-bottom"><span>© EVLV {new Date().getFullYear()}. All rights reserved.</span><span>Strictly for laboratory and analytical research.</span></div>
       </div>
     </footer>
   );
 }
 
-function FooterColumn({ title, children }: { title: string; children: React.ReactNode }) {
-  return (
-    <div>
-      <p className="mb-4 text-[11px] font-semibold uppercase tracking-wider text-white/40">{title}</p>
-      <ul className="space-y-3">{children}</ul>
-    </div>
-  );
+function FooterColumn({ title, links }: { title: string; links: ReadonlyArray<readonly [string, string]> }) {
+  return <div className="cp-footer-column"><p>{title}</p>{links.map(([label, href]) => <Link href={href} key={label}>{label}</Link>)}</div>;
 }

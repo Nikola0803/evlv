@@ -34,7 +34,7 @@ export default function AboutPage() {
       <section className="bg-ivory-soft py-16 md:py-24">
         <div className="mx-auto grid max-w-[1400px] grid-cols-1 items-center gap-10 px-4 md:grid-cols-2 md:px-8">
           <div className="aspect-[4/3] w-full overflow-hidden rounded-lg">
-            <Image src="/images/about-lab.jpg" alt="Research peptides in a lab setting" width={800} height={600} className="h-full w-full object-cover" priority />
+            <Image src="/images/certified/evlv-quality-page.png" alt="EVLV quality-control laboratory and research product" width={1600} height={900} className="h-full w-full object-cover" priority />
           </div>
           <div>
             <span className="mb-4 inline-block rounded-full border border-stone bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-charcoal/60">
@@ -62,9 +62,9 @@ export default function AboutPage() {
             exists
           </h2>
           <p className="max-w-xl text-base leading-relaxed text-white/70 md:text-lg">
-            There are plenty of places to buy research peptides. Very few make it easy to trust what you're buying,
+            There are plenty of places to buy research peptides. Very few make it easy to trust what you&apos;re buying,
             or to find the right one. EVLV exists to fix both. We lead with documentation instead of adjectives, and
-            we treat the person on the other end like they're smart enough to want the details. EVLV was built to
+            we treat the person on the other end like they&apos;re smart enough to want the details. EVLV was built to
             bridge that gap.
           </p>
         </div>
@@ -88,7 +88,7 @@ export default function AboutPage() {
         <div className="mx-auto max-w-[1400px] px-4 md:px-8">
           <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">Our Quality Standard</p>
           <h2 className="mb-2 font-display text-3xl font-semibold md:text-4xl">We only list what we can stand behind.</h2>
-          <p className="mb-10 text-sm text-white/50">Here's how every EVLV product is made and verified.</p>
+          <p className="mb-10 text-sm text-white/50">Here&apos;s how every EVLV product is made and verified.</p>
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {STANDARDS.map((s) => (
@@ -113,7 +113,7 @@ export default function AboutPage() {
             <p className="mt-4 max-w-md text-base leading-relaxed text-soft-gray">
               EVLV is a research-use-only supplier. Our products are sold strictly for laboratory and research
               purposes, not for human consumption, not for medical use, and not as treatment for any condition. We
-              don't make therapeutic claims, and we never will.
+              don&apos;t make therapeutic claims, and we never will.
             </p>
           </div>
           <div className="aspect-[4/3] w-full overflow-hidden rounded-lg bg-ivory-soft">

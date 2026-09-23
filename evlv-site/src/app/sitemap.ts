@@ -12,6 +12,7 @@ const STATIC_ROUTES = [
   { path: "/about", priority: 0.5, changeFrequency: "monthly" as const },
   { path: "/faq", priority: 0.4, changeFrequency: "monthly" as const },
   { path: "/contact", priority: 0.3, changeFrequency: "yearly" as const },
+  { path: "/track-order", priority: 0.4, changeFrequency: "monthly" as const },
   { path: "/wholesale", priority: 0.4, changeFrequency: "monthly" as const },
   { path: "/heroes-discount", priority: 0.3, changeFrequency: "monthly" as const },
   { path: "/plans", priority: 0.3, changeFrequency: "monthly" as const },

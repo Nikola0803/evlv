@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Product } from "@/lib/types";
 import { useCart } from "@/lib/cart-context";
 import { useCurrency } from "@/lib/currency-context";
+import { getProductImage } from "@/lib/product-images";
 
 /**
  * Cross-sell: the current product plus up to 2 related items, each its own
@@ -68,7 +69,7 @@ export function FrequentlyBoughtTogether({ product, related }: { product: Produc
                     className="absolute right-3 top-3 h-4 w-4 accent-sage-deep disabled:opacity-70"
                   />
                   <div className="flex h-28 items-center justify-center overflow-hidden rounded-lg border border-stone bg-white p-3">
-                    {p.image && <Image src={p.image} alt={p.name} width={160} height={160} className="h-full w-full object-contain" />}
+                    <Image src={getProductImage(p)} alt={p.name} width={160} height={160} className="h-full w-full object-contain" />
                   </div>
                   <Link href={`/shop/${p.slug}`} className="mt-3 text-sm font-semibold text-charcoal hover:underline">
                     {p.name}

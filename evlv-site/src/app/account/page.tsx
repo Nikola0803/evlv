@@ -11,6 +11,7 @@ import { AffiliatePanel } from "./AffiliatePanel";
 import { VerificationPanel } from "./VerificationPanel";
 import { WholesalePanel } from "./WholesalePanel";
 import { AccountDeletionPanel } from "./AccountDeletionPanel";
+import { AccountAccess } from "./AccountAccess";
 
 type Tab = "orders" | "addresses" | "profile" | "affiliate" | "verification" | "wholesale";
 
@@ -98,15 +99,7 @@ function AccountPageInner() {
   if (!mounted) return null;
 
   if (!user) {
-    return (
-      <div className="mx-auto max-w-lg px-4 py-24 text-center">
-        <h1 className="font-display text-2xl font-semibold text-charcoal">Sign in to view your account</h1>
-        <p className="mt-2 text-sm text-charcoal/50">Your orders and account details live here once you&rsquo;re signed in.</p>
-        <Link href="/" className="mt-6 inline-block rounded-md bg-copper px-6 py-3 text-[12px] font-semibold uppercase tracking-[0.2em] text-charcoal transition hover:bg-copper-light">
-          Back to EVLV
-        </Link>
-      </div>
-    );
+    return <AccountAccess initialMode={searchParams.get("mode") === "register" ? "register" : "signin"} />;
   }
 
   return (

@@ -7,6 +7,7 @@ import { FOCUS_AREAS, SUBGOALS, QUIZ_PRODUCTS, QUIZ_LABELS, TIER_ORDER, MAX_FOCU
 import { getProductBySlug } from "@/lib/products";
 import { useCart } from "@/lib/cart-context";
 import { useCurrency } from "@/lib/currency-context";
+import { getProductImage } from "@/lib/product-images";
 
 
 type Step = "intro" | "goals" | "subgoal" | "results";
@@ -139,7 +140,7 @@ export function QuizWidget() {
           // underneath it (product prices, headings, CTAs). It only
           // expands into the full label once there's enough width (md+)
           // for it to stop competing with the page for room.
-          className="fixed bottom-4 right-4 z-[100] flex items-center gap-2 rounded-full bg-charcoal p-3.5 text-xs font-semibold uppercase tracking-wide text-ivory shadow-lg transition hover:bg-sage-deep md:bottom-6 md:right-6 md:px-5 md:py-3"
+          className="cp-quiz-trigger fixed bottom-4 right-4 z-[100] flex items-center gap-2 rounded-full bg-charcoal p-3.5 text-xs font-semibold uppercase tracking-wide text-ivory shadow-lg transition hover:bg-sage-deep md:bottom-6 md:right-6 md:px-5 md:py-3"
         >
           <i className="ri-compass-3-line text-base text-copper" />
           <span className="hidden md:inline">Not sure what you need?</span>
@@ -279,7 +280,7 @@ export function QuizWidget() {
                               <div key={pick.slug} className="rounded-lg border border-stone p-3">
                                 <div className="flex items-center gap-3">
                                   <div className="h-14 w-11 shrink-0 overflow-hidden rounded-md bg-ivory-soft">
-                                    {product.image && <Image src={product.image} alt={product.name} width={90} height={112} className="h-full w-full object-cover" />}
+                                    <Image src={getProductImage(product)} alt={product.name} width={90} height={112} className="h-full w-full object-cover" />
                                   </div>
                                   <div className="min-w-0 flex-1">
                                     <p className="truncate text-sm font-medium text-charcoal">{product.name}</p>

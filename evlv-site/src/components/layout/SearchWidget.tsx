@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { getProducts } from "@/lib/products";
 import { useCurrency } from "@/lib/currency-context";
+import { getProductImage } from "@/lib/product-images";
 
 export function SearchWidget() {
   const [open, setOpen] = useState(false);
@@ -48,7 +49,7 @@ export function SearchWidget() {
 
   return (
     <>
-      <button type="button" onClick={() => setOpen(true)} className="hidden h-9 w-9 items-center justify-center text-white/85 transition hover:text-white md:flex" aria-label="Search">
+      <button type="button" onClick={() => setOpen(true)} className="flex h-9 w-9 items-center justify-center transition hover:opacity-70" aria-label="Search">
         <i className="ri-search-line text-base" />
       </button>
 
@@ -86,7 +87,7 @@ export function SearchWidget() {
                           className="flex items-center gap-3 rounded-md p-3 transition hover:bg-ivory-soft"
                         >
                           <div className="h-14 w-11 shrink-0 overflow-hidden rounded-md bg-ivory-soft">
-                            {p.image && <Image src={p.image} alt={p.name} width={90} height={112} className="h-full w-full object-cover" />}
+                            <Image src={getProductImage(p)} alt={p.name} width={90} height={112} className="h-full w-full object-cover" />
                           </div>
                           <div className="flex-1">
                             <p className="text-sm font-medium text-charcoal">{p.name}</p>

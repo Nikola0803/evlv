@@ -135,7 +135,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
             <AgeGate>
               <AnnouncementBar />
               <Header products={products} />
-              <main className="flex-1 pt-[90px] md:pt-[100px]">{children}</main>
+              <main className="flex-1 bg-white pt-[90px] md:pt-[100px]">{children}</main>
               <Footer />
               <CartToast />
               <CartDrawer />

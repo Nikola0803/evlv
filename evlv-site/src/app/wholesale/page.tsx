@@ -5,275 +5,189 @@ import { WholesaleForm } from "./WholesaleForm";
 import { Reveal } from "@/components/ui/Reveal";
 
 export const metadata: Metadata = {
-  title: "Dropshipping & Wholesale | EVLV",
-  description: "White-label your own research peptide storefront on EVLV's supply chain - custom CRM/CMS, branded website, and fulfillment included, priced with a personal offer built around your business.",
+  title: "Wholesale, White Label & Dropshipping | EVLV",
+  description:
+    "Build with EVLV through bulk wholesale, private-label product development, or direct-to-customer dropshipping and fulfillment.",
   alternates: { canonical: "/wholesale" },
 };
 
-const HERO_FACTS = [
-  { icon: "ri-money-dollar-circle-line", title: "$0 build cost", subtitle: "Website + CRM included" },
-  { icon: "ri-price-tag-3-line", title: "Market-rate pricing", subtitle: "No markup on product cost" },
-  { icon: "ri-handshake-line", title: "Personal offer", subtitle: "Scoped to your pack, not a tier" },
+const PROGRAMS = [
+  {
+    number: "01",
+    icon: "ri-box-3-line",
+    title: "Bulk Wholesale",
+    eyebrow: "Stock it. Sell it.",
+    body: "Purchase finished EVLV research products at volume pricing and fulfill from your own operation.",
+    points: ["Volume-based pricing", "Batch documentation", "Flexible multi-SKU orders"],
+  },
+  {
+    number: "02",
+    icon: "ri-palette-line",
+    title: "White Label",
+    eyebrow: "Your brand. Built properly.",
+    body: "Launch a distinct research brand with custom packaging and a storefront supported by our infrastructure.",
+    points: ["Custom brand and packaging", "Storefront and CRM options", "Guided launch planning"],
+    featured: true,
+  },
+  {
+    number: "03",
+    icon: "ri-truck-line",
+    title: "Dropshipping",
+    eyebrow: "Sell it. We ship it.",
+    body: "Offer an approved catalog without holding inventory. We pick, pack, and ship eligible orders directly.",
+    points: ["No inventory storage", "Direct U.S. fulfillment", "Tracking and support workflow"],
+  },
 ];
 
-const INCLUDED = [
-  {
-    icon: "ri-dashboard-3-line",
-    title: "Custom CRM/CMS",
-    body: "A dedicated backend for your brand - orders, customers, content, and reporting, built on the same system EVLV runs on.",
-  },
-  {
-    icon: "ri-global-line",
-    title: "Branded Website",
-    body: "A fully designed storefront under your own brand identity, not a reskinned template.",
-  },
-  {
-    icon: "ri-archive-2-line",
-    title: "Fulfillment",
-    body: "Inventory, packing, and shipping handled on our end. You run the brand - we run the warehouse.",
-  },
-  {
-    icon: "ri-headphone-line",
-    title: "Ongoing Support",
-    body: "Hosting, updates, and a direct line to our team after launch - not a one-time handoff.",
-  },
-];
-
-const BUILD_STATS = [
-  { value: "$0", label: "Upfront cost for the website & CRM build" },
-  { value: "Market rate", label: "What you pay for product - no build markup" },
-  { value: "1:1", label: "Personal offer, scoped to your pack selection" },
-  { value: "Ongoing", label: "Hosting, updates, and support after launch" },
+const CAPABILITIES = [
+  { icon: "ri-test-tube-line", title: "Verified catalog", body: "Research products supported by batch-level quality documentation." },
+  { icon: "ri-layout-4-line", title: "Brand development", body: "A coherent identity, packaging system, and customer-ready presentation." },
+  { icon: "ri-dashboard-3-line", title: "Commerce infrastructure", body: "Optional storefront, CRM, content, and order-management capabilities." },
+  { icon: "ri-map-pin-2-line", title: "U.S. fulfillment", body: "Domestic pick, pack, dispatch, and tracked delivery workflows." },
 ];
 
 const STEPS = [
-  { num: "01", title: "Inquire", body: "Tell us about your business, your audience, and the pack sizes you want to sell." },
-  { num: "02", title: "Personal Offer", body: "We scope pricing and build to your business specifically - no flat monthly minimum, no one-size tier." },
-  { num: "03", title: "Launch", body: "We build your CRM/CMS and storefront, and connect fulfillment before you go live." },
-];
-
-const FREE_ITEMS = [
-  "Custom-designed storefront, built for your brand",
-  "Full CRM/CMS - orders, customers, content, reporting",
-  "Hosting, updates, and ongoing support after launch",
-  "Inventory, packing, and shipping on our end",
-];
-
-const REQUIRED_ITEMS = [
-  "Your storefront and CRM run on EVLV's product catalog",
-  "Product pricing to you matches current market rates",
-  "No separate setup fee - the build is funded by the supply relationship",
+  { number: "01", title: "Choose your model", body: "Tell us whether you need wholesale, white label, dropshipping, or a hybrid." },
+  { number: "02", title: "Qualify the opportunity", body: "We review your catalog, audience, expected volume, and launch timeline." },
+  { number: "03", title: "Receive a scoped offer", body: "You get a clear commercial proposal built around your actual operation." },
+  { number: "04", title: "Build and launch", body: "We align products, branding, systems, and fulfillment before go-live." },
 ];
 
 export default function WholesalePage() {
   return (
     <>
-      {/* Top bar */}
-      <div className="border-b border-stone bg-charcoal py-2.5 text-center text-xs text-white/70">
+      <div className="border-b border-stone bg-white py-2.5 text-center text-xs text-charcoal/60">
         Already a partner?{" "}
-        <Link href="/account?tab=wholesale" className="font-semibold text-copper-light underline underline-offset-2 hover:text-copper">
+        <Link href="/account?tab=wholesale" className="font-semibold text-sage-deep underline underline-offset-2 hover:text-charcoal">
           Sign in to your dashboard
         </Link>
       </div>
 
-      {/* Hero */}
-      <section className="relative -mt-px overflow-hidden bg-charcoal py-16 text-white md:py-24">
-        <div className="relative mx-auto grid max-w-[1300px] grid-cols-1 items-center gap-12 px-4 md:px-8 lg:grid-cols-2 lg:gap-16">
-          <div className="text-center lg:text-left">
-            <div className="mb-5 flex items-center justify-center gap-3 text-[11px] font-medium uppercase tracking-[0.3em] text-copper lg:justify-start">
-              <span className="h-px w-8 bg-copper/60" />
-              Partner Program
+      <section className="px-3 pb-12 pt-5 md:px-6 md:pb-16 md:pt-7">
+        <div className="relative mx-auto min-h-[650px] max-w-[1400px] overflow-hidden rounded-[26px] bg-[#062f31] text-white shadow-[0_24px_70px_rgba(7,42,43,0.18)] md:min-h-[690px]">
+          <Image
+            src="/images/wholesale/evlv-b2b-fulfillment.png"
+            alt="EVLV research products and branded fulfillment operation"
+            fill
+            priority
+            sizes="(max-width: 768px) 100vw, 1400px"
+            className="object-cover object-[64%_center] md:object-center"
+          />
+          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(4,36,38,.98)_0%,rgba(4,36,38,.92)_34%,rgba(4,36,38,.42)_61%,rgba(4,36,38,.08)_100%)] md:bg-[linear-gradient(90deg,rgba(4,36,38,.98)_0%,rgba(4,36,38,.92)_35%,rgba(4,36,38,.35)_62%,rgba(4,36,38,.04)_100%)]" />
+          <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#062f31]/70 to-transparent md:hidden" />
+
+          <div className="relative z-10 flex min-h-[650px] items-center px-6 py-14 sm:px-10 md:min-h-[690px] md:px-16 lg:px-20">
+            <div className="max-w-[650px]">
+              <p className="mb-5 flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.24em] text-[#b9d9ce]">
+                <span className="h-px w-8 bg-[#b9d9ce]/70" /> EVLV Partner Programs
+              </p>
+              <h1 className="font-display text-[42px] font-semibold leading-[1.02] tracking-[-0.025em] text-white sm:text-5xl md:text-6xl lg:text-[68px]">
+                Wholesale, white label, and dropshipping - built around you.
+              </h1>
+              <p className="mt-6 max-w-xl text-base leading-relaxed text-white/75 md:text-lg">
+                One reliable partner for quality-led research products, brand development, commerce infrastructure,
+                and U.S. fulfillment.
+              </p>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <a href="#inquire" className="rounded-md bg-white px-6 py-3.5 text-[12px] font-bold uppercase tracking-[0.16em] text-[#07383a] transition hover:bg-[#edf5f2]">
+                  Get partner pricing <i className="ri-arrow-right-line" />
+                </a>
+                <a href="#programs" className="rounded-md border border-white/35 bg-white/5 px-6 py-3.5 text-[12px] font-bold uppercase tracking-[0.16em] text-white backdrop-blur-sm transition hover:bg-white/12">
+                  Compare programs
+                </a>
+              </div>
+              <div className="mt-10 grid max-w-xl grid-cols-1 gap-3 border-t border-white/15 pt-7 text-xs text-white/75 sm:grid-cols-3">
+                <span className="flex items-center gap-2"><i className="ri-shield-check-line text-[#b9d9ce]" /> Batch documentation</span>
+                <span className="flex items-center gap-2"><i className="ri-map-pin-2-line text-[#b9d9ce]" /> U.S. fulfillment</span>
+                <span className="flex items-center gap-2"><i className="ri-git-merge-line text-[#b9d9ce]" /> Flexible models</span>
+              </div>
             </div>
+          </div>
+        </div>
+      </section>
 
-            <h1 className="font-display text-4xl font-semibold leading-[1.05] text-white md:text-5xl lg:text-6xl">
-              Your brand.
-              <br />
-              Our supply chain.
-            </h1>
-
-            <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-white/70 md:text-lg lg:mx-0">
-              White-label a research peptide business on EVLV&apos;s infrastructure - a custom CRM/CMS, a branded
-              website, and fulfillment, built around a personal offer for your business.
+      <section id="programs" className="pb-20 pt-6 md:pb-28 md:pt-10">
+        <div className="mx-auto max-w-[1320px] px-5 md:px-8">
+          <Reveal className="mx-auto mb-11 max-w-3xl text-center">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-sage-deep">Three ways to partner</p>
+            <h2 className="mt-3 font-display text-3xl font-semibold tracking-tight text-charcoal md:text-5xl">Choose the operating model that fits.</h2>
+            <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-charcoal/60 md:text-base">
+              Start with a single model or combine them. Every proposal is scoped around your market, catalog, volume, and fulfillment needs.
             </p>
-            <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-white/50 lg:mx-0">
-              No flat volume commitment. We build the offer around the pack sizes and catalog you actually want to
-              sell.
+          </Reveal>
+
+          <Reveal stagger className="grid grid-cols-1 gap-5 lg:grid-cols-3">
+            {PROGRAMS.map((program) => (
+              <article key={program.title} className={`relative overflow-hidden rounded-2xl border p-7 md:p-8 ${program.featured ? "border-sage-deep bg-[#eef5f2] shadow-[0_16px_45px_rgba(11,65,64,.10)]" : "border-stone bg-white"}`}>
+                {program.featured && <span className="absolute right-5 top-5 rounded-full bg-sage-deep px-3 py-1 text-[9px] font-bold uppercase tracking-[0.15em] text-white">Most flexible</span>}
+                <div className="flex h-11 w-11 items-center justify-center rounded-full bg-sage-deep text-xl text-white"><i className={program.icon} /></div>
+                <p className="mt-7 text-[10px] font-bold uppercase tracking-[0.18em] text-sage-deep">{program.number} · {program.eyebrow}</p>
+                <h3 className="mt-2 font-display text-2xl font-semibold text-charcoal">{program.title}</h3>
+                <p className="mt-3 min-h-[72px] text-sm leading-relaxed text-charcoal/60">{program.body}</p>
+                <ul className="mt-6 space-y-3 border-t border-charcoal/10 pt-5">
+                  {program.points.map((point) => <li key={point} className="flex items-center gap-2.5 text-sm text-charcoal/75"><i className="ri-check-line text-sage-deep" />{point}</li>)}
+                </ul>
+                <a href="#inquire" className="mt-7 inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.15em] text-sage-deep">Discuss this model <i className="ri-arrow-right-line" /></a>
+              </article>
+            ))}
+          </Reveal>
+        </div>
+      </section>
+
+      <section className="bg-[#f2f6f4] py-20 md:py-28">
+        <div className="mx-auto grid max-w-[1320px] grid-cols-1 items-center gap-12 px-5 md:px-8 lg:grid-cols-[1.05fr_.95fr] lg:gap-20">
+          <Reveal className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-white shadow-[0_20px_60px_rgba(10,52,53,.10)]">
+            <Image src="/images/wholesale/evlv-white-label-dropship.png" alt="EVLV white label packaging and dropshipping operation" fill sizes="(max-width: 1024px) 100vw, 650px" className="object-cover" />
+          </Reveal>
+          <Reveal>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-sage-deep">More than product supply</p>
+            <h2 className="mt-3 max-w-xl font-display text-3xl font-semibold leading-tight text-charcoal md:text-5xl">The infrastructure behind your next stage of growth.</h2>
+            <p className="mt-5 max-w-xl text-sm leading-relaxed text-charcoal/60 md:text-base">
+              Whether you need cases delivered to your warehouse or individual orders shipped to your customers, we can assemble the operating model around your business.
             </p>
-
-            <div className="mt-9 flex flex-wrap items-center justify-center gap-3 lg:justify-start">
-              <a
-                href="#inquire"
-                className="rounded-md bg-copper px-7 py-3.5 text-[12px] font-semibold uppercase tracking-[0.2em] text-charcoal transition hover:bg-copper-light"
-              >
-                Start the conversation <i className="ri-arrow-right-line" />
-              </a>
-              <a
-                href="#included"
-                className="rounded-md border border-white/25 px-7 py-3.5 text-[12px] font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-white/10"
-              >
-                See what&apos;s included
-              </a>
-            </div>
-
-            <div className="mt-12 flex flex-wrap items-center justify-center gap-x-8 gap-y-5 border-t border-white/10 pt-9 lg:justify-start">
-              {HERO_FACTS.map((f) => (
-                <div key={f.title} className="flex items-center gap-3">
-                  <i className={`${f.icon} text-xl text-copper`} aria-hidden />
-                  <div className="text-left">
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-white">{f.title}</p>
-                    <p className="text-[11px] uppercase tracking-[0.1em] text-white/50">{f.subtitle}</p>
-                  </div>
+            <div className="mt-8 grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
+              {CAPABILITIES.map((item) => (
+                <div key={item.title} className="border-t border-charcoal/10 pt-4">
+                  <div className="flex items-center gap-2.5"><i className={`${item.icon} text-lg text-sage-deep`} /><h3 className="font-display text-base font-semibold text-charcoal">{item.title}</h3></div>
+                  <p className="mt-2 text-sm leading-relaxed text-charcoal/55">{item.body}</p>
                 </div>
               ))}
             </div>
-          </div>
-
-          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-lg lg:aspect-[5/4]">
-            <Image
-              src="/images/science/coa-vial-banner.png"
-              alt="EVLV research peptide vial with certificate of analysis"
-              fill
-              priority
-              sizes="(max-width: 1024px) 100vw, 600px"
-              className="object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-charcoal/50 via-transparent to-transparent" />
-          </div>
+          </Reveal>
         </div>
       </section>
 
-      {/* What's Included */}
-      <section id="included" className="py-16 md:py-24">
-        <div className="mx-auto max-w-[1400px] px-4 md:px-8">
-          <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">01 / What&apos;s Included</p>
-          <h2 className="mb-10 font-display text-3xl font-semibold text-charcoal md:text-4xl">Everything but the brand name.</h2>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {INCLUDED.map((item) => (
-              <div key={item.title} className="rounded-lg border border-stone bg-ivory-soft p-6">
-                <span className="mb-4 flex h-9 w-9 items-center justify-center rounded-full bg-copper/15 text-copper">
-                  <i className={item.icon} />
-                </span>
-                <h3 className="font-display text-lg font-semibold text-charcoal">{item.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-charcoal/60">{item.body}</p>
+      <section className="py-20 md:py-28">
+        <div className="mx-auto max-w-[1320px] px-5 md:px-8">
+          <Reveal className="mb-10 max-w-2xl">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-sage-deep">A clear path to launch</p>
+            <h2 className="mt-3 font-display text-3xl font-semibold text-charcoal md:text-5xl">From first conversation to fulfillment.</h2>
+          </Reveal>
+          <Reveal stagger className="grid grid-cols-1 border-y border-charcoal/10 sm:grid-cols-2 lg:grid-cols-4">
+            {STEPS.map((step, index) => (
+              <div key={step.number} className={`py-7 sm:p-7 ${index > 0 ? "border-t border-charcoal/10 sm:border-t-0 sm:border-l" : ""} ${index === 2 ? "sm:border-l-0 lg:border-l" : ""}`}>
+                <p className="text-[11px] font-bold tracking-[0.18em] text-sage-deep">{step.number}</p>
+                <h3 className="mt-5 font-display text-xl font-semibold text-charcoal">{step.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-charcoal/55">{step.body}</p>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Stats + photo */}
-      <section className="bg-ivory-soft py-20 md:py-28">
-        <div className="mx-auto max-w-[1200px] px-4 md:px-8">
-          <Reveal className="grid grid-cols-1 items-center gap-14 lg:grid-cols-2 lg:gap-20">
-            <div>
-              <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">The Numbers</p>
-              <h2 className="max-w-md font-display text-3xl font-semibold leading-tight text-charcoal md:text-4xl">
-                A real build, not a plugin storefront.
-              </h2>
-              <div className="mt-8 grid grid-cols-2 gap-x-6 gap-y-6">
-                {BUILD_STATS.map((s) => (
-                  <div key={s.label}>
-                    <p className="font-display text-2xl font-semibold text-sage-deep md:text-3xl">{s.value}</p>
-                    <p className="mt-1.5 text-xs leading-snug text-charcoal/50">{s.label}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="relative mx-auto aspect-[4/5] w-full max-w-sm overflow-hidden rounded-lg">
-              <Image
-                src="/images/proof/ugc-1.webp"
-                alt="EVLV research peptide vial"
-                fill
-                sizes="(max-width: 1024px) 100vw, 400px"
-                className="object-cover"
-              />
-            </div>
           </Reveal>
         </div>
       </section>
 
-      {/* How pricing works / disclosure */}
-      <section className="relative overflow-hidden bg-sage-deep py-20 text-white md:py-28">
-        <div className="relative mx-auto max-w-[1100px] px-4 md:px-8">
-          <Reveal className="mb-12 text-center">
-            <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">How It Works</p>
-            <h2 className="mx-auto max-w-2xl font-display text-3xl font-semibold leading-tight md:text-4xl">
-              We build it. You brand it. One condition keeps it working.
-            </h2>
-            <p className="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-white/70 md:text-base">
-              Every wholesale and dropshipping partner gets a fully built website and a complete CRM system at no
-              additional cost - no setup fee, no dev bill. The one requirement: everything we build for you runs on
-              EVLV&apos;s product catalog, so the build stays tied to the supply relationship that funds it. What you
-              pay us for product matches current market rates - we don&apos;t mark up to cover the build.
-            </p>
-          </Reveal>
-
-          <Reveal stagger className="grid grid-cols-1 gap-6 md:grid-cols-2">
-            <div className="rounded-lg border border-white/10 bg-white/5 p-6 md:p-8">
-              <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">What&apos;s Free</p>
-              <ul className="space-y-3">
-                {FREE_ITEMS.map((item) => (
-                  <li key={item} className="flex items-start gap-3 text-sm leading-relaxed text-white/85">
-                    <i className="ri-checkbox-circle-fill mt-0.5 shrink-0 text-copper" aria-hidden />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="rounded-lg border border-white/10 bg-white/5 p-6 md:p-8">
-              <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">What&apos;s Required</p>
-              <ul className="space-y-3">
-                {REQUIRED_ITEMS.map((item) => (
-                  <li key={item} className="flex items-start gap-3 text-sm leading-relaxed text-white/85">
-                    <i className="ri-shield-check-line mt-0.5 shrink-0 text-copper" aria-hidden />
-                    {item}
-                  </li>
-                ))}
-              </ul>
+      <section id="inquire" className="bg-[#07383a] py-20 text-white md:py-28">
+        <div className="mx-auto grid max-w-[1180px] grid-cols-1 gap-12 px-5 md:px-8 lg:grid-cols-[.78fr_1.22fr] lg:gap-20">
+          <Reveal>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#b9d9ce]">Partner inquiry</p>
+            <h2 className="mt-3 font-display text-4xl font-semibold leading-tight md:text-5xl">Tell us what you want to build.</h2>
+            <p className="mt-5 text-sm leading-relaxed text-white/65 md:text-base">Our team reviews every inquiry and replies with the most suitable program, practical next steps, and a scoped commercial conversation.</p>
+            <div className="mt-8 space-y-4 border-t border-white/15 pt-7 text-sm text-white/70">
+              <p className="flex items-start gap-3"><i className="ri-check-line mt-0.5 text-[#b9d9ce]" /> No generic tier required before we understand your needs.</p>
+              <p className="flex items-start gap-3"><i className="ri-check-line mt-0.5 text-[#b9d9ce]" /> Wholesale, white label, dropshipping, and hybrid models welcome.</p>
+              <p className="flex items-start gap-3"><i className="ri-check-line mt-0.5 text-[#b9d9ce]" /> Clear research-use-only positioning and quality documentation.</p>
             </div>
           </Reveal>
-        </div>
-      </section>
-
-      {/* How it works - steps */}
-      <section className="bg-ivory-soft py-16 md:py-24">
-        <div className="mx-auto max-w-[1400px] px-4 md:px-8">
-          <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">02 / The Process</p>
-          <h2 className="mb-10 font-display text-3xl font-semibold text-charcoal md:text-4xl">A real partnership, not a plugin.</h2>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-            {STEPS.map((s) => (
-              <div key={s.num} className="rounded-lg border border-stone bg-white p-6">
-                <p className="text-[11px] font-semibold uppercase tracking-wider text-copper">{s.num}</p>
-                <h3 className="mt-1 font-display text-lg font-semibold text-charcoal">{s.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-charcoal/60">{s.body}</p>
-              </div>
-            ))}
-          </div>
-          <p className="mt-6 max-w-2xl text-xs leading-relaxed text-charcoal/40">
-            No flat setup fee, no fixed monthly minimum - every offer is scoped to the pack sizes and volume you tell
-            us about during the inquiry conversation.
-          </p>
-        </div>
-      </section>
-
-      {/* Final CTA */}
-      <section className="bg-charcoal py-24 text-center text-white md:py-32">
-        <Reveal className="mx-auto max-w-[1400px] px-4 md:px-8">
-          <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">Start The Conversation</p>
-          <h2 className="mx-auto max-w-2xl font-display text-4xl font-semibold leading-[1.05] md:text-5xl">
-            Ready to build your own storefront?
-          </h2>
-          <p className="mx-auto mt-5 max-w-md text-base text-white/70 md:text-lg">
-            Every inquiry is reviewed by hand before we scope a personal offer and a build.
-          </p>
-        </Reveal>
-      </section>
-
-      {/* Form */}
-      <section id="inquire" className="bg-charcoal py-4 pb-20 md:pb-28">
-        <div className="mx-auto max-w-[600px] px-4 md:px-8">
-          <WholesaleForm />
+          <Reveal><WholesaleForm /></Reveal>
         </div>
       </section>
     </>

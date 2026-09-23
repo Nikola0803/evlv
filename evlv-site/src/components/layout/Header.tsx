@@ -1,105 +1,28 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { Logo } from "@/components/ui/Logo";
 import { SearchWidget } from "./SearchWidget";
-import { ShopMegaMenu } from "./ShopMegaMenu";
 import { useCart } from "@/lib/cart-context";
 import type { Product } from "@/lib/types";
 
-const NAV = [
-  { href: "/about", label: "About" },
-  { href: "/ambassadors", label: "Lab Ambassador Program" },
-  { href: "/coas", label: "COAs" },
-  { href: "/contact", label: "Contact" },
-];
-
 export function Header({ products }: { products?: Product[] } = {}) {
+  void products;
   const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const { count, openCart } = useCart();
-
-  useEffect(() => {
-    function onScroll() {
-      setScrolled(window.scrollY > 24);
-    }
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
   return (
-    <header
-      className={`fixed top-[32px] right-0 left-0 z-50 bg-charcoal/95 backdrop-blur-sm transition-shadow duration-300 ${
-        scrolled ? "shadow-sm shadow-black/20" : ""
-      }`}
-    >
-      <div
-        className={`mx-auto flex max-w-[1400px] items-center justify-between px-4 transition-[padding] duration-300 md:px-8 ${
-          scrolled ? "py-2.5 md:py-3" : "py-4 md:py-5"
-        }`}
-      >
-        <Logo tone="ivory" imgClassName="h-10 w-auto md:h-12" />
-
-        <nav className="hidden items-center gap-6 text-[11px] font-medium uppercase tracking-[0.14em] text-white/85 md:flex lg:gap-7">
-          <ShopMegaMenu products={products} />
-          {NAV.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="whitespace-nowrap transition hover:text-white"
-            >
-              {item.label}
-            </Link>
-          ))}
+    <header className="cp-site-header">
+      <div className="cp-header-inner">
+        <Logo tone="charcoal" imgClassName="cp-logo" />
+        <nav className={open ? "cp-nav cp-nav-open" : "cp-nav"} onClick={() => setOpen(false)}>
+          <div className="cp-nav-dropdown"><button type="button"><i className="ri-menu-2-line" /> Shop All</button><div className="cp-nav-dropdown-menu"><Link href="/shop?category=peptides">Shop Peptides</Link><Link href="/shop?focus=bioregulators">Shop Bioregulators</Link><Link href="/shop?focus=metabolic">Shop Lipotropics</Link><Link href="/shop?format=oral">Shop Capsules</Link><Link href="/shop">Shop All</Link></div></div>
+          <Link href="/track-order">Track Order</Link>
+          <Link href="/coas">COA Library</Link>
+          <div className="cp-nav-dropdown"><button type="button">More <i className="ri-arrow-down-s-line" /></button><div className="cp-nav-dropdown-menu"><Link href="/about">About Us</Link><Link href="/contact">Customer Support</Link><Link href="/faq">FAQ</Link><Link href="/journal">Research Center</Link><Link href="/wholesale">Wholesale</Link><Link href="/shipping">Shipping Policy</Link><Link href="/terms">Terms &amp; Conditions</Link><Link href="/privacy">Privacy Policy</Link></div></div>
         </nav>
-
-        <div className="flex items-center gap-1 md:gap-3">
-          <SearchWidget />
-          <Link href="/account" className="hidden h-9 w-9 items-center justify-center text-white/85 transition hover:text-white md:flex" aria-label="Account">
-            <i className="ri-user-line text-base" />
-          </Link>
-          <button type="button" onClick={openCart} className="relative flex h-9 w-9 items-center justify-center text-white/85 transition hover:text-white" aria-label="Cart">
-            <i className="ri-shopping-bag-line text-base" />
-            {count > 0 && (
-              <span className="absolute right-0 top-0 flex h-4 w-4 items-center justify-center rounded-full bg-copper text-[10px] font-semibold text-charcoal">
-                {count}
-              </span>
-            )}
-          </button>
-          <Link
-            href="/plans"
-            className="hidden shrink-0 whitespace-nowrap rounded-md bg-copper px-4 py-2 text-[11px] font-semibold uppercase tracking-wide text-charcoal transition hover:bg-copper-light md:block"
-          >
-            Get Started
-          </Link>
-          <button
-            type="button"
-            className="flex h-9 w-9 items-center justify-center text-white/85 transition hover:text-white md:hidden"
-            aria-label="Menu"
-            onClick={() => setOpen((v) => !v)}
-          >
-            <i className={open ? "ri-close-line text-base" : "ri-menu-line text-base"} />
-          </button>
-        </div>
+        <div className="cp-header-actions"><SearchWidget /><Link href="/account" aria-label="Account"><i className="ri-user-line" /></Link><button type="button" onClick={openCart} aria-label="Shopping cart"><i className="ri-shopping-bag-line" />{count > 0 && <span>{count}</span>}</button><Link className="cp-header-shop" href="/shop">Shop Now</Link><button className="cp-mobile-menu" type="button" onClick={() => setOpen(v => !v)} aria-label="Menu"><i className={open ? "ri-close-line" : "ri-menu-line"} /></button></div>
       </div>
-
-      {open && (
-        <nav className="flex flex-col gap-1 border-t border-white/10 bg-charcoal px-4 pb-4 pt-2 md:hidden">
-          <Link href="/shop" onClick={() => setOpen(false)} className="py-2.5 text-sm font-medium uppercase tracking-wide text-white">
-            Shop
-          </Link>
-          {NAV.map((item) => (
-            <Link key={item.href} href={item.href} onClick={() => setOpen(false)} className="py-2.5 text-sm font-medium uppercase tracking-wide text-white">
-              {item.label}
-            </Link>
-          ))}
-          <Link href="/account" onClick={() => setOpen(false)} className="py-2.5 text-sm font-medium uppercase tracking-wide text-white">
-            My Account
-          </Link>
-        </nav>
-      )}
     </header>
   );
 }

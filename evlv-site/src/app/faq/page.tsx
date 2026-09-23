@@ -1,7 +1,8 @@
 import { Metadata } from "next";
 import { faqItems } from "@/lib/content";
 import { Accordion } from "@/components/ui/Accordion";
-import { getFeaturedProducts } from "@/lib/products";
+import { getProducts, getShopListProducts } from "@/lib/products";
+import { getLiveProducts, mergeProducts } from "@/lib/product-feed";
 import { ProductCard } from "@/components/product/ProductCard";
 import { ButtonLink } from "@/components/ui/Button";
 
@@ -10,12 +11,12 @@ export const metadata: Metadata = {
   description: "Answers to common questions about EVLV orders, shipping, tracking and lab testing.",
 };
 
-export default function FaqPage() {
-  const products = getFeaturedProducts();
+export default async function FaqPage() {
+  const products = getShopListProducts(mergeProducts(getProducts(), await getLiveProducts())).slice(0, 4);
 
   return (
     <>
-      <section className="-mt-[90px] bg-charcoal pb-20 pt-[150px] text-center text-white md:-mt-[100px] md:pb-32 md:pt-[170px]">
+      <section className="cp-info-hero cp-info-support -mt-[90px] bg-charcoal pb-20 pt-[150px] text-center text-white md:-mt-[100px] md:pb-32 md:pt-[170px]">
         <div className="mx-auto max-w-[1400px] px-4 md:px-8">
           <h1 className="mb-4 font-display text-4xl font-semibold md:text-5xl lg:text-6xl">Popular Questions</h1>
           <p className="mx-auto max-w-xl text-base leading-relaxed text-white/70 md:text-lg">

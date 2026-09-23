@@ -28,10 +28,10 @@ const SECTIONS = [
 export default function ReturnsPage() {
   return (
     <>
-      <section className="-mt-[90px] bg-charcoal pb-20 pt-[150px] text-center text-white md:-mt-[100px] md:pb-32 md:pt-[170px]">
+      <section className="cp-info-hero cp-info-shipping -mt-[90px] bg-charcoal pb-20 pt-[150px] text-center text-white md:-mt-[100px] md:pb-32 md:pt-[170px]">
         <div className="mx-auto max-w-[900px] px-4 md:px-8">
           <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">Returns Policy</p>
-          <h1 className="font-display text-4xl font-semibold md:text-5xl">All sales are final, and here's why.</h1>
+          <h1 className="font-display text-4xl font-semibold md:text-5xl">All sales are final, and here&apos;s why.</h1>
         </div>
       </section>
 
@@ -46,7 +46,7 @@ export default function ReturnsPage() {
 
           <div className="rounded-lg border border-stone bg-ivory-soft p-8 text-center">
             <h3 className="mb-2 font-display text-xl font-semibold text-charcoal">Have a quality concern?</h3>
-            <p className="mb-4 text-sm text-charcoal/50">Reach out and we'll work with you directly.</p>
+            <p className="mb-4 text-sm text-charcoal/50">Reach out and we&apos;ll work with you directly.</p>
             <ButtonLink href="/contact">
               Contact Us <i className="ri-arrow-right-line" />
             </ButtonLink>

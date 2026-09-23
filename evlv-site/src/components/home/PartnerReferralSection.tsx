@@ -58,7 +58,7 @@ export function PartnerReferralSection() {
             <p className="relative mb-1.5 mt-6 text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">Apply</p>
             <h3 className="relative font-display text-2xl font-semibold">Become an EVLV Ambassador</h3>
             <p className="relative mt-3 text-sm leading-relaxed text-white/70">
-              Labs, researchers, and science content creators &mdash; get commission-based partnership, real batch
+              Labs, researchers, and science content creators  -  get commission-based partnership, real batch
               data to share, and direct support from our team.
             </p>
             <ul className="relative mt-6 flex flex-1 flex-col gap-2.5">

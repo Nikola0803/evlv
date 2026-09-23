@@ -3,6 +3,7 @@
 import { FormEvent, useState } from "react";
 
 interface FormState {
+  programType: string;
   companyName: string;
   contactName: string;
   email: string;
@@ -13,6 +14,7 @@ interface FormState {
 }
 
 const EMPTY: FormState = {
+  programType: "",
   companyName: "",
   contactName: "",
   email: "",
@@ -23,6 +25,7 @@ const EMPTY: FormState = {
 };
 
 const VOLUME_OPTIONS = ["Just getting started", "Growing catalog", "High-volume / multi-SKU", "Not sure yet - let's talk"];
+const PROGRAM_OPTIONS = ["Bulk Wholesale", "White Label", "Dropshipping", "Hybrid / Not sure yet"];
 
 export function WholesaleForm() {
   const [form, setForm] = useState<FormState>(EMPTY);
@@ -66,8 +69,8 @@ export function WholesaleForm() {
         <i className="ri-checkbox-circle-fill text-2xl text-copper" />
         <p className="mt-3 font-display text-lg font-semibold text-white">Inquiry received</p>
         <p className="mt-2 text-sm text-white/60">
-          Our team reviews every wholesale application by hand. We&apos;ll follow up by email within a couple of
-          business days to discuss next steps.
+          Our team reviews every partner inquiry by hand. We&apos;ll follow up by email within a couple of business days
+          to discuss the right wholesale, white-label, or dropshipping path.
         </p>
       </div>
     );
@@ -75,6 +78,27 @@ export function WholesaleForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 rounded-lg border border-white/10 bg-charcoal/40 p-6 md:p-8">
+      <div>
+        <label className="mb-1.5 block text-sm font-semibold text-white">
+          Partnership Model <span className="text-copper">*</span>
+        </label>
+        <select
+          required
+          value={form.programType}
+          onChange={(e) => set("programType", e.target.value)}
+          className="w-full rounded-md border border-white/15 bg-white/10 px-4 py-2.5 text-sm text-white outline-none focus:border-copper"
+        >
+          <option value="" style={{ color: "#0E1113" }}>
+            What are you interested in?
+          </option>
+          {PROGRAM_OPTIONS.map((program) => (
+            <option key={program} value={program} style={{ color: "#0E1113" }}>
+              {program}
+            </option>
+          ))}
+        </select>
+      </div>
+
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <Field label="Company Name" required value={form.companyName} onChange={(v) => set("companyName", v)} />
         <Field label="Contact Name" required value={form.contactName} onChange={(v) => set("contactName", v)} />
@@ -131,7 +155,7 @@ export function WholesaleForm() {
         disabled={submitting}
         className="w-full rounded-md bg-copper py-3.5 text-[12px] font-semibold uppercase tracking-[0.15em] text-charcoal transition hover:bg-copper-light disabled:cursor-wait disabled:opacity-60"
       >
-        {submitting ? "Submitting..." : "Submit Inquiry"}
+        {submitting ? "Submitting..." : "Request Partner Review"}
       </button>
     </form>
   );

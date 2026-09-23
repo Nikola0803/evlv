@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 export default function ShippingPage() {
   return (
     <>
-      <section className="-mt-[90px] bg-charcoal pb-16 pt-[150px] text-center text-white md:-mt-[100px] md:pb-24 md:pt-[170px]">
+      <section className="cp-info-hero cp-info-shipping -mt-[90px] bg-charcoal pb-16 pt-[150px] text-center text-white md:-mt-[100px] md:pb-24 md:pt-[170px]">
         <div className="mx-auto max-w-[800px] px-4 md:px-8">
           <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">Legal</p>
           <h1 className="font-display text-3xl font-semibold uppercase leading-tight md:text-5xl">Shipping Policy</h1>

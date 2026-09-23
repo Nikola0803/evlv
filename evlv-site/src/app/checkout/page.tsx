@@ -13,6 +13,7 @@ import { PAYMENT_GATEWAYS, type PaymentGatewayId } from "@/lib/payment-config";
 import { getStoredCouponCode, setStoredCouponCode } from "@/lib/referral";
 import { useCouponValidation } from "@/lib/use-coupon-validation";
 import { trackEvent } from "@/lib/pixel";
+import { getProductImage } from "@/lib/product-images";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -238,12 +239,21 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-10 md:py-16">
-      <h1 className="font-display text-3xl font-semibold uppercase tracking-tight text-charcoal md:text-4xl">Checkout</h1>
+    <div className="cp-checkout mx-auto max-w-6xl px-4 py-10 md:py-16">
+      <header className="cp-checkout-head">
+        <small>Secure checkout</small>
+        <h1>Complete your order</h1>
+        <p>Enter delivery details, choose a payment method, and review your research order before confirming.</p>
+      </header>
+      <div className="cp-checkout-trust" aria-label="Checkout benefits">
+        <span><i className="ri-lock-2-line" /><b>Secure checkout</b><small>Protected order details</small></span>
+        <span><i className="ri-truck-line" /><b>Tracked delivery</b><small>Updates after carrier scan</small></span>
+        <span><i className="ri-file-shield-2-line" /><b>COA-backed batches</b><small>Documentation available</small></span>
+      </div>
 
-      <form onSubmit={handlePlaceOrder} className="mt-10 grid grid-cols-1 gap-12 lg:grid-cols-[1fr_460px]">
-        <div className="space-y-10">
-          <section>
+      <form onSubmit={handlePlaceOrder} className="cp-checkout-form mt-10 grid grid-cols-1 gap-12 lg:grid-cols-[1fr_460px]">
+        <div className="space-y-6">
+          <section className="cp-checkout-panel">
             <h2 className="mb-5 text-sm font-semibold uppercase tracking-wider text-charcoal/50">Shipping Information</h2>
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
               <Field label="First Name" required value={firstName} onChange={setFirstName} placeholder="John" />
@@ -310,7 +320,7 @@ export default function CheckoutPage() {
             </label>
           </section>
 
-          <section>
+          <section className="cp-checkout-panel">
             <label className="mb-3 block text-sm font-semibold uppercase tracking-wider text-charcoal/50">
               Promo / Referral Code <span className="font-normal normal-case text-charcoal/40">(optional)</span>
             </label>
@@ -334,7 +344,7 @@ export default function CheckoutPage() {
             )}
           </section>
 
-          <section>
+          <section className="cp-checkout-panel">
             <label className="mb-3 block text-sm font-semibold uppercase tracking-wider text-charcoal/50">
               Order Notes <span className="font-normal normal-case text-charcoal/40">(optional)</span>
             </label>
@@ -350,15 +360,15 @@ export default function CheckoutPage() {
           </section>
         </div>
 
-        <div className="h-fit space-y-6">
-          <div className="rounded-lg border border-stone bg-white p-6 shadow-sm">
+        <div className="cp-checkout-sidebar h-fit space-y-6">
+          <div className="cp-checkout-summary rounded-lg border border-stone bg-white p-6 shadow-sm">
             <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-charcoal/50">Order Summary</h2>
             <ShippingProgressBar />
             <div className="space-y-5">
               {lines.map((line) => (
                 <div key={`${line.product.id}-${line.packLabel}`} className="flex gap-4">
                   <div className="relative h-20 w-16 shrink-0 overflow-hidden rounded-md bg-white">
-                    {line.product.image && <Image src={line.product.image} alt={line.product.name} width={120} height={150} className="h-full w-full object-cover" />}
+                    <Image src={getProductImage(line.product)} alt={line.product.name} width={120} height={150} className="h-full w-full object-cover" />
                     <span className="absolute -right-1.5 -top-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-charcoal text-[10px] font-semibold text-ivory">{line.qty}</span>
                   </div>
                   <div className="flex-1">
@@ -396,7 +406,7 @@ export default function CheckoutPage() {
             </div>
           </div>
 
-          <div>
+          <div className="cp-checkout-payment">
             <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-charcoal/50">Payment Method</h2>
             <div className="grid grid-cols-3 gap-3">
               {PAYMENT_GATEWAYS.map((gw) => {

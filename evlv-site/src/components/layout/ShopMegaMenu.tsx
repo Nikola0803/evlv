@@ -6,6 +6,7 @@ import { getShopMenuGroups } from "@/lib/shop-menu-data";
 import { CategoryArt } from "@/components/ui/CategoryArt";
 import { useCurrency } from "@/lib/currency-context";
 import type { Product } from "@/lib/types";
+import { getProductImage } from "@/lib/product-images";
 
 function openQuiz() {
   window.dispatchEvent(new Event("evlv:open-quiz"));
@@ -119,17 +120,13 @@ export function PopularCard({ product }: { product: Product }) {
       className="group/pop flex items-center gap-3 rounded-lg bg-white/[0.03] p-2.5 transition hover:bg-white/[0.08]"
     >
       <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-md bg-white/5 p-1.5">
-        {product.image ? (
-          <Image
-            src={product.image}
-            alt={product.name}
-            width={80}
-            height={80}
-            className="h-full w-full object-contain transition duration-300 group-hover/pop:scale-105"
-          />
-        ) : (
-          <CategoryArt variant="particles" className="h-full w-full opacity-70" />
-        )}
+        <Image
+          src={getProductImage(product)}
+          alt={product.name}
+          width={80}
+          height={80}
+          className="h-full w-full object-contain transition duration-300 group-hover/pop:scale-105"
+        />
       </div>
       <div className="min-w-0">
         <p className="line-clamp-2 text-[11px] font-medium leading-tight text-white/80">{product.name}</p>

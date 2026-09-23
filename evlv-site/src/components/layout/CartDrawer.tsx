@@ -10,6 +10,7 @@ import { ShippingProgressBar, BacWaterOffer, FeaturedOfferCard, ResearchersAlsoA
 import { getStoredCouponCode, setStoredCouponCode } from "@/lib/referral";
 import { useCouponValidation } from "@/lib/use-coupon-validation";
 import { getStoredUser } from "@/lib/auth";
+import { getProductImage } from "@/lib/product-images";
 
 export function CartDrawer() {
   const { lines, subtotal, isOpen, closeCart, removeLine, setLineQty } = useCart();
@@ -55,13 +56,16 @@ export function CartDrawer() {
       />
 
       <aside
-        className={`fixed right-0 top-0 z-[120] flex h-full w-full max-w-md flex-col bg-ivory shadow-2xl transition-transform duration-300 ${
+        className={`fixed right-0 top-0 z-[120] flex h-full w-full max-w-md flex-col bg-white shadow-2xl transition-transform duration-300 ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
         aria-hidden={!isOpen}
       >
         <div className="flex items-center justify-between border-b border-stone px-5 py-5">
-          <h2 className="font-display text-lg font-semibold text-charcoal">Your Cart</h2>
+          <div>
+            <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-sage-deep">Secure checkout</p>
+            <h2 className="font-display text-lg font-semibold text-charcoal">Your research cart</h2>
+          </div>
           <button type="button" onClick={closeCart} aria-label="Close cart" className="flex h-8 w-8 items-center justify-center text-charcoal/60 transition hover:text-charcoal">
             <i className="ri-close-line text-lg" />
           </button>
@@ -78,9 +82,7 @@ export function CartDrawer() {
                 {lines.map((line) => (
                   <div key={`${line.product.id}-${line.packLabel}`} className="flex gap-3">
                     <div className="h-20 w-16 shrink-0 overflow-hidden rounded-md bg-ivory-soft">
-                      {line.product.image && (
-                        <Image src={line.product.image} alt={line.product.name} width={120} height={150} className="h-full w-full object-cover" />
-                      )}
+                      <Image src={getProductImage(line.product)} alt={line.product.name} width={120} height={150} className="h-full w-full object-cover" />
                     </div>
                     <div className="flex flex-1 flex-col">
                       <div className="flex items-start justify-between gap-2">
@@ -189,7 +191,7 @@ export function CartDrawer() {
             <button
               type="button"
               onClick={handleCheckoutClick}
-              className="w-full rounded-md bg-copper py-3.5 text-[12px] font-semibold uppercase tracking-[0.2em] text-charcoal transition hover:bg-copper-light"
+              className="w-full rounded-md bg-sage-deep py-3.5 text-[12px] font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-charcoal"
             >
               Checkout
             </button>
