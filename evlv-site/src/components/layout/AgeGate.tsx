@@ -89,6 +89,11 @@ export function AgeGate({ children }: { children: React.ReactNode }) {
       let session = getSession(data, email);
       if (mode === "register" && !session) { data = await request("/api/auth/login", { email, password }); session = getSession(data, email); }
       if (!session) throw new Error("Your account response did not include a valid session. Please contact support.");
+      void fetch("/api/newsletter", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      }).catch(() => undefined);
       saveAuth(session); rememberAccess("account"); setAccepted(true);
     } catch (cause) { setError(cause instanceof Error ? cause.message : "Something went wrong. Please try again."); }
     finally { setSubmitting(false); }
@@ -124,10 +129,14 @@ export function AgeGate({ children }: { children: React.ReactNode }) {
               {mode === "register" && <label><span>Confirm Password</span><input required minLength={8} type={showPassword ? "text" : "password"} placeholder="Repeat your password" value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} autoComplete="new-password" /></label>}
               <div className="cp-ruo-gate-compliance">
                 <strong><i className="ri-shield-check-line" /> Research Use Only</strong>
-                <p>By using this site you acknowledge that all products and information are provided for laboratory research purposes only and are not intended for human dosing, injection or ingestion.</p>
-                <b>You must be 21 years of age or older to use this website.</b>
-                <label className="cp-ruo-gate-check"><input type="checkbox" checked={confirmed} onChange={(event) => { setConfirmed(event.target.checked); setError(""); }} /><span>By logging in or creating an account, you agree to the research-only terms above and confirm you are 21+.</span></label>
-                {mode === "register" && <label className="cp-ruo-gate-marketing"><input type="checkbox" checked readOnly aria-readonly="true" /><span>Yes, I&apos;d like to receive occasional research updates and offers from EVLV. I may unsubscribe at any time.</span></label>}
+                <label className="cp-ruo-gate-check">
+                  <input type="checkbox" checked={confirmed} onChange={(event) => { setConfirmed(event.target.checked); setError(""); }} />
+                  <span>I confirm my information is accurate, I am 21+ and a qualified professional. Products are for in-vitro laboratory research only, not for human consumption or clinical use. Misuse is a material breach and may terminate my account. I agree to indemnify EVLV and accept the <a href="/terms" target="_blank" rel="noreferrer">Full Terms &amp; Conditions</a>.</span>
+                </label>
+                <label className="cp-ruo-gate-marketing">
+                  <input type="checkbox" checked readOnly aria-readonly="true" />
+                  <span>Yes, I agree to receive emails from EVLV. I may unsubscribe at any time.</span>
+                </label>
               </div>
               {error && <p className="cp-ruo-gate-error"><i className="ri-error-warning-line" /> {error}</p>}
               <button className="cp-ruo-gate-submit" type="submit" disabled={submitting}>{submitting ? "Please wait..." : "Continue"}</button>
