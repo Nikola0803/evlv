@@ -1,5 +1,6 @@
 import { Product, ProductVariant } from "./types";
 import { applyInventorySnapshot } from "./inventory-snapshot";
+import { getQuantityUnitPrice } from "./quantity-pricing";
 
 /**
  * Mock catalog shaped to mirror the WooCommerce REST/Store API product
@@ -10,11 +11,10 @@ import { applyInventorySnapshot } from "./inventory-snapshot";
  *
  * Every mg/iu/mcg strength of a compound is still its own Product entry
  * (its own slug, sku, price, real page - needed for direct links, SEO,
- * and per-dose COA/batch data), but siblings sharing a base compound carry
- * an identical `variants` array (see the *_VARIANTS consts below) so the
- * shop grid shows one card per compound with a dose selector, matching
- * `getShopListProducts()`'s dedup logic below instead of listing every
- * dose as a separate card.
+ * and per-dose COA/batch data). Siblings sharing a base compound carry an
+ * identical `variants` array (see the *_VARIANTS consts below) for fast
+ * switching on product pages, while every in-stock dose keeps its own card
+ * in the main shop grid.
  *
  * "EVLV-3" is the site's compliant name for Retatrutide - do not rename to
  * "Retatrutide" anywhere in copy, slugs, or SKUs.
@@ -1094,7 +1094,22 @@ export const products: Product[] = [
 ];
 
 export function getProducts() {
-  return applyInventorySnapshot(products);
+  return applyInventorySnapshot(products).map(withQuantityPricing);
+}
+
+/** Normalize every catalog source to the same public quantity offer. Live
+ * inventory can change a vial price without leaving an old case total behind. */
+export function withQuantityPricing(product: Product): Product {
+  const savePercent = 10;
+  const qty = 10;
+  return {
+    ...product,
+    bulkOption: {
+      qty,
+      savePercent,
+      price: Number((getQuantityUnitPrice(product.price, qty) * qty).toFixed(2)),
+    },
+  };
 }
 
 export function getFeaturedProducts() {

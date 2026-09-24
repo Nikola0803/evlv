@@ -14,7 +14,14 @@ const FILTERS: { value: Filter; label: string }[] = [
 export function ShopClient({ products: initialProducts }: { products: Product[] }) {
   const params = useSearchParams();
   const [products, setProducts] = useState(initialProducts);
-  const [filter,setFilter] = useState<Filter>(() => (params.get("category") as ProductCategory | null) || (params.get("format") as ProductFormat | null) || "all");
+  const [filter,setFilter] = useState<Filter>(() => {
+    // The main "Shop Peptides" entry point is the complete research catalog,
+    // including peptide-adjacent compounds and supplies. Visitors can still
+    // narrow the already-visible catalog with the filter buttons below.
+    const category = params.get("category") as ProductCategory | null;
+    if (category === "peptides") return "all";
+    return category || (params.get("format") as ProductFormat | null) || "all";
+  });
   const [query,setQuery] = useState(() => params.get("q") || "");
   const [sort,setSort] = useState("featured");
   const groups = useMemo(() => getShopMenuGroups(products), [products]);

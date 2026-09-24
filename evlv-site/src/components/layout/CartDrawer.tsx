@@ -97,7 +97,7 @@ export function CartDrawer({ products = [] }: { products?: Product[] }) {
                           <i className="ri-close-line text-sm" />
                         </button>
                       </div>
-                      <p className="text-xs text-charcoal/50">{line.packLabel}</p>
+                      <p className="text-xs text-charcoal/50">{line.qty === 1 ? "1 Vial" : `${line.qty} Pack`}</p>
                       <div className="mt-2 flex items-center justify-between">
                         <div className="flex items-center gap-2 rounded-md border border-stone px-2 py-1">
                           <button type="button" onClick={() => setLineQty(line.product.id, line.packLabel, line.qty - 1)} className="text-charcoal/60 hover:text-charcoal">

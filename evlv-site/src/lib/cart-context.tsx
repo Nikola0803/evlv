@@ -3,6 +3,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, ReactNode } from "react";
 import { Product } from "./types";
 import { trackEvent } from "./pixel";
+import { getQuantityUnitPrice } from "./quantity-pricing";
 
 interface CartLine {
   product: Product;
@@ -100,7 +101,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const setLineQty = useCallback((productId: string, packLabel: string, qty: number) => {
     setLines((prev) =>
       prev
-        .map((l) => (l.product.id === productId && l.packLabel === packLabel ? { ...l, qty: Math.max(1, qty) } : l))
+        .map((l) => {
+          if (l.product.id !== productId || l.packLabel !== packLabel) return l;
+          const nextQty = Math.max(1, qty);
+          return { ...l, qty: nextQty, unitPrice: getQuantityUnitPrice(l.product.price, nextQty) };
+        })
         .filter((l) => l.qty > 0)
     );
   }, []);

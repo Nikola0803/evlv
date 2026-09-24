@@ -65,9 +65,8 @@ export interface Product {
    * BPC-157 5mg/10mg/20mg), each its own independently priced/stocked
    * product with its own slug/page. Every sibling in a group carries an
    * identical `variants` array (including itself) - see the `*_VARIANTS`
-   * consts in lib/products.ts and `getShopListProducts()`, which uses
-   * `variants[0].slug === slug` to show one canonical card per group in
-   * the shop grid while every dose still has a real, linkable page.
+   * consts in lib/products.ts. The variants power dose switching on product
+   * pages; each in-stock dose still appears independently in the shop grid.
    */
   variants?: ProductVariant[];
 }

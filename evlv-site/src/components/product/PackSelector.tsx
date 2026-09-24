@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Product } from "@/lib/types";
+import { getQuantityUnitPrice, QUANTITY_DISCOUNT_TIERS } from "@/lib/quantity-pricing";
 
 export interface Pack {
   label: string;
@@ -11,33 +12,14 @@ export interface Pack {
   savePercent?: number;
 }
 
-/**
- * Builds a tiered price-break ladder (1 / 3 / 5 / the product's real bulk
- * qty) from the single { qty, price, savePercent } bulk option each product
- * defines. Every product's real bulk tier is a flat 20% off at 10 units, so
- * the in-between tiers are derived at the same 2%-per-unit rate that
- * produces exactly that number (3 -> 6%, 5 -> 10%, 10 -> 20%) rather than
- * inventing per-product pricing that doesn't exist in the data yet.
- */
+/** EVLV's store-wide quantity ladder. Keep this aligned with the normalized
+ * bulk option returned by the catalog so product pages and checkout agree. */
 function buildPacks(product: Product): Pack[] {
   if (!product.bulkOption) return [{ label: "1 Vial", qty: 1, unitPrice: product.price }];
 
-  const bulk = product.bulkOption;
-  const tierQtys = [1, 3, 5, bulk.qty].filter((q, i, arr) => q <= bulk.qty && arr.indexOf(q) === i);
-
-  return tierQtys.map((qty) => {
+  return QUANTITY_DISCOUNT_TIERS.map(({ qty, savePercent }) => {
     if (qty === 1) return { label: "1 Vial", qty: 1, unitPrice: product.price };
-    if (qty === bulk.qty) {
-      return {
-        label: `${qty} Pack`,
-        qty,
-        unitPrice: bulk.price / bulk.qty,
-        totalPrice: bulk.price,
-        savePercent: bulk.savePercent,
-      };
-    }
-    const savePercent = Math.round((bulk.savePercent * qty) / bulk.qty);
-    const unitPrice = product.price * (1 - savePercent / 100);
+    const unitPrice = getQuantityUnitPrice(product.price, qty);
     return { label: `${qty} Pack`, qty, unitPrice, totalPrice: unitPrice * qty, savePercent };
   });
 }
