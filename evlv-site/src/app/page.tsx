@@ -22,8 +22,8 @@ const WHY = [
 
 const TICKER = [
   ["USA Tested", 0],
-  ["Made in USA", 0],
   ["Third-Party Tested", 1],
+  ["Made in USA", 0],
   ["cGMP Manufacturing", 2],
   ["Buy More, Save More", 3],
   ["7 days a week support", 4],

@@ -20,6 +20,7 @@ import { GoogleTagManagerHead, GoogleTagManagerBody } from "@/components/layout/
 import { OmnisendSnippet } from "@/components/layout/OmnisendSnippet";
 import { ScrollToTop } from "@/components/layout/ScrollToTop";
 import { ChunkErrorReload } from "@/components/layout/ChunkErrorReload";
+import { ConversionPrompts } from "@/components/layout/ConversionPrompts";
 
 const SITE_URL = "https://evlvpeptides.com";
 
@@ -140,6 +141,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
               <CartToast />
               <CartDrawer products={products} />
               <QuizWidget />
+              <ConversionPrompts />
             </AgeGate>
           </CartProvider>
         </CurrencyProvider>

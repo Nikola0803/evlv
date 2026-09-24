@@ -90,6 +90,15 @@ export default function CheckoutPage() {
   }, []);
 
   useEffect(() => {
+    const syncAppliedCoupon = (event: Event) => {
+      const code = (event as CustomEvent<{ code?: string }>).detail?.code?.trim();
+      if (code) setCouponCode(code);
+    };
+    window.addEventListener("evlv:coupon-applied", syncAppliedCoupon);
+    return () => window.removeEventListener("evlv:coupon-applied", syncAppliedCoupon);
+  }, []);
+
+  useEffect(() => {
     if (lines.length > 0) trackEvent("begin_checkout");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

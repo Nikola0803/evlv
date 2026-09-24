@@ -7,39 +7,60 @@ import { getProducts } from "@/lib/products";
 import type { CoaEntry } from "@/lib/coa-data";
 import { getProductImage } from "@/lib/product-images";
 
-type Filter = "all" | "peptides" | "ancillaries" | "oral" | "available";
+type Filter = "all" | "glp" | "blend" | "peptides" | "ancillaries";
 
 const FILTERS: { value: Filter; label: string }[] = [
-  { value: "all", label: "All products" },
+  { value: "all", label: "All reports" },
+  { value: "glp", label: "GLP series" },
+  { value: "blend", label: "Blends" },
   { value: "peptides", label: "Peptides" },
   { value: "ancillaries", label: "Ancillaries" },
-  { value: "oral", label: "Oral research" },
-  { value: "available", label: "Reports available" },
 ];
 
-export function CoasClient({ coaMap }: { coaMap: Record<string, CoaEntry> }) {
+export function CoasClient({ coaEntries }: { coaEntries: CoaEntry[] }) {
   const products = useMemo(() => getProducts(), []);
+  const productBySlug = useMemo(() => new Map(products.map((product) => [product.slug, product])), [products]);
   const searchParams = useSearchParams();
   const [query, setQuery] = useState(() => searchParams.get("search") ?? "");
   const [filter, setFilter] = useState<Filter>("all");
 
-  const filtered = products.filter((product) => {
+  const filtered = coaEntries.filter((coa) => {
+    const product = productBySlug.get(coa.slug);
     const term = query.trim().toLowerCase();
-    const coa = coaMap[product.slug];
-    const matchesQuery = !term || product.name.toLowerCase().includes(term) || (coa?.label ?? "").toLowerCase().includes(term) || (product.casNumber ?? "").toLowerCase().includes(term);
-    const matchesFilter = filter === "all" || (filter === "available" && Boolean(coa)) || (filter === "oral" && product.format === "oral") || product.category === filter;
+    const searchText = [coa.productName, coa.compound, coa.label, coa.purity, coa.lab, product?.casNumber]
+      .filter(Boolean)
+      .join(" ")
+      .toLowerCase();
+    const matchesQuery = !term || searchText.includes(term);
+    const matchesFilter =
+      filter === "all" ||
+      (filter === "glp" && coa.slug.startsWith("evlv-")) ||
+      (filter === "blend" && product?.format === "blend") ||
+      product?.category === filter;
     return matchesQuery && matchesFilter;
   });
 
-  const availableCount = products.filter((product) => coaMap[product.slug]).length;
+  const lotCount = coaEntries.length;
+  const productCount = new Set(coaEntries.map((coa) => coa.slug)).size;
+  const labCount = new Set(coaEntries.map((coa) => coa.lab).filter(Boolean)).size;
 
   return (
     <main className="bg-white">
       <section className="cp-info-hero cp-info-quality">
         <div>
-          <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">Batch documentation</p>
+          <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">Independent batch documentation</p>
           <h1 className="font-display font-semibold text-white">Certificates of Analysis</h1>
-          <p className="mt-5 text-base leading-relaxed text-white/70">Search product and batch documentation in one place. Reports open directly from the independent laboratory file.</p>
+          <p className="mt-5 max-w-2xl text-base leading-relaxed text-white/70">
+            Search every published EVLV lot, review its purity data, and open the complete third-party laboratory report.
+          </p>
+          <div className="mt-8 flex flex-wrap gap-7 border-t border-white/15 pt-6">
+            {[[lotCount, "lot reports"], [productCount, "product formats"], [labCount, "independent labs"]].map(([value, label]) => (
+              <div key={label}>
+                <p className="font-display text-2xl font-semibold text-white">{value}</p>
+                <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-white/45">{label}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -48,29 +69,86 @@ export function CoasClient({ coaMap }: { coaMap: Record<string, CoaEntry> }) {
           <div className="rounded-2xl border border-stone bg-[#f4f7f5] p-4 md:p-6">
             <div className="relative">
               <i className="ri-search-line absolute left-5 top-1/2 -translate-y-1/2 text-lg text-charcoal/40" />
-              <input type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search product, batch code, or CAS number…" className="h-15 w-full rounded-xl border border-stone bg-white pl-13 pr-5 text-base text-charcoal outline-none transition placeholder:text-charcoal/35 focus:border-sage-deep focus:shadow-[0_0_0_3px_rgba(50,118,87,.08)]" />
+              <input
+                type="search"
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                placeholder="Search product, compound, batch code, purity, or lab..."
+                className="h-15 w-full rounded-xl border border-stone bg-white pl-13 pr-5 text-base text-charcoal outline-none transition placeholder:text-charcoal/35 focus:border-sage-deep focus:shadow-[0_0_0_3px_rgba(50,118,87,.08)]"
+              />
             </div>
-            <div className="mt-4 flex flex-wrap gap-2">{FILTERS.map((item) => <button key={item.value} type="button" onClick={() => setFilter(item.value)} className={`rounded-full border px-4 py-2 text-[11px] font-semibold transition ${filter === item.value ? "border-sage-deep bg-sage-deep text-white" : "border-stone bg-white text-charcoal/65 hover:border-sage-deep hover:text-sage-deep"}`}>{item.label}</button>)}</div>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {FILTERS.map((item) => (
+                <button
+                  key={item.value}
+                  type="button"
+                  onClick={() => setFilter(item.value)}
+                  className={`rounded-full border px-4 py-2 text-[11px] font-semibold transition ${filter === item.value ? "border-sage-deep bg-sage-deep text-white" : "border-stone bg-white text-charcoal/65 hover:border-sage-deep hover:text-sage-deep"}`}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
           </div>
 
           <div className="mb-6 mt-10 flex items-end justify-between gap-4">
-            <div><p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-sage-deep">Document library</p><h2 className="mt-2 font-display text-2xl font-semibold text-charcoal">Batch verification reports</h2></div>
-            <p className="text-xs text-charcoal/45">{availableCount} reports currently on file</p>
+            <div>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-sage-deep">Document library</p>
+              <h2 className="mt-2 font-display text-2xl font-semibold text-charcoal">Published lot reports</h2>
+            </div>
+            <p className="text-xs text-charcoal/45">{filtered.length} {filtered.length === 1 ? "report" : "reports"}</p>
           </div>
 
-          {filtered.length === 0 ? <div className="rounded-xl border border-stone bg-[#f4f7f5] py-16 text-center"><i className="ri-file-search-line text-3xl text-charcoal/25" /><p className="mt-3 text-sm text-charcoal/50">No documentation matches &ldquo;{query}&rdquo;.</p></div> : (
-            <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-              {filtered.map((product) => {
-                const coa = coaMap[product.slug];
-                const body = <><div className="h-20 w-20 shrink-0 overflow-hidden rounded-lg bg-[#f4f7f5]"><Image src={getProductImage(product)} alt={product.name} width={160} height={160} className="h-full w-full object-cover" /></div><div className="min-w-0 flex-1"><p className="truncate text-sm font-semibold text-charcoal">{product.name}</p><p className="mt-1 font-mono text-[11px] text-charcoal/45">{coa?.label || product.casNumber || "Report upload pending"}</p><span className={`mt-3 inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wide ${coa ? "text-sage-deep" : "text-charcoal/35"}`}><i className={coa ? "ri-checkbox-circle-fill" : "ri-time-line"} />{coa ? "View laboratory report" : "Report pending"}</span></div><i className={`shrink-0 text-lg ${coa ? "ri-arrow-right-up-line text-sage-deep" : "ri-lock-line text-charcoal/20"}`} /></>;
-                const className = `flex items-center gap-4 rounded-xl border border-stone bg-white p-4 text-left transition ${coa ? "hover:-translate-y-0.5 hover:border-sage-deep hover:shadow-[0_14px_35px_rgba(11,47,44,.08)]" : "opacity-60"}`;
-                return coa ? <a key={product.id} href={coa.url} target="_blank" rel="noreferrer" className={className}>{body}</a> : <div key={product.id} className={className}>{body}</div>;
+          {filtered.length === 0 ? (
+            <div className="rounded-xl border border-stone bg-[#f4f7f5] py-16 text-center">
+              <i className="ri-file-search-line text-3xl text-charcoal/25" />
+              <p className="mt-3 text-sm text-charcoal/50">No documentation matches &ldquo;{query}&rdquo;.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              {filtered.map((coa) => {
+                const product = productBySlug.get(coa.slug);
+                const image = product ? getProductImage(product) : "/images/products/vial-placeholder.png";
+                return (
+                  <a
+                    key={coa.url}
+                    href={coa.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="group grid min-h-48 grid-cols-[118px_1fr] overflow-hidden rounded-2xl border border-stone bg-white text-left transition hover:-translate-y-0.5 hover:border-sage-deep hover:shadow-[0_18px_44px_rgba(11,47,44,.10)] sm:grid-cols-[150px_1fr]"
+                  >
+                    <div className="relative flex items-center justify-center bg-[#f3f7f4] p-3 sm:p-5">
+                      <Image src={image} alt={`${coa.productName ?? product?.name ?? "EVLV"} vial`} width={240} height={300} className="h-36 w-full object-contain transition duration-300 group-hover:scale-[1.04]" />
+                      <span className="absolute left-3 top-3 rounded-full bg-white/90 px-2 py-1 text-[8px] font-bold uppercase tracking-[0.12em] text-sage-deep shadow-sm">Report on file</span>
+                    </div>
+                    <div className="flex min-w-0 flex-col p-5">
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="min-w-0">
+                          <p className="truncate text-[10px] font-semibold uppercase tracking-[0.14em] text-copper">{coa.compound}</p>
+                          <h3 className="mt-1 text-sm font-semibold leading-snug text-charcoal sm:text-base">{coa.productName ?? product?.name}</h3>
+                        </div>
+                        <i className="ri-arrow-right-up-line shrink-0 text-lg text-sage-deep transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                      </div>
+                      <dl className="mt-4 grid grid-cols-2 gap-x-4 gap-y-3 border-t border-stone pt-4 text-[11px]">
+                        <div><dt className="text-charcoal/40">Lot / report</dt><dd className="mt-0.5 font-mono font-semibold text-charcoal/75">{coa.label}</dd></div>
+                        <div><dt className="text-charcoal/40">Purity</dt><dd className="mt-0.5 font-semibold text-sage-deep">{coa.purity}</dd></div>
+                        <div><dt className="text-charcoal/40">Laboratory</dt><dd className="mt-0.5 font-medium text-charcoal/70">{coa.lab}</dd></div>
+                        <div><dt className="text-charcoal/40">Analyzed</dt><dd className="mt-0.5 font-medium text-charcoal/70">{coa.tested}</dd></div>
+                      </dl>
+                      <span className="mt-auto pt-4 text-[10px] font-bold uppercase tracking-[0.12em] text-sage-deep">Open complete COA packet</span>
+                    </div>
+                  </a>
+                );
               })}
             </div>
           )}
 
-          <div className="mt-14 grid grid-cols-1 gap-4 border-t border-stone pt-10 sm:grid-cols-3">
-            {[["ri-test-tube-line","Independent analysis","Reports from qualified third-party laboratories."],["ri-fingerprint-line","Identity verification","Analytical documentation linked to specific batches."],["ri-links-line","Direct access","Open original reports without hidden request forms."]].map(([icon,title,copy]) => <div key={title} className="flex gap-4 p-3"><i className={`${icon} text-xl text-sage-deep`} /><div><h3 className="text-sm font-semibold text-charcoal">{title}</h3><p className="mt-1 text-xs leading-5 text-charcoal/50">{copy}</p></div></div>)}
+          <div className="mt-14 rounded-2xl border border-stone bg-[#f4f7f5] p-6 md:p-8">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-sage-deep">Document integrity</p>
+            <h2 className="mt-2 font-display text-xl font-semibold text-charcoal">EVLV cover. Original laboratory pages.</h2>
+            <p className="mt-3 max-w-3xl text-sm leading-6 text-charcoal/55">
+              Each download begins with an EVLV Peptides identification cover and matching vial image. The laboratory-issued report pages that follow are preserved unchanged, including the laboratory name, original attribution, dates, measurements, chromatograms, and signatures.
+            </p>
           </div>
         </div>
       </section>

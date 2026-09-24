@@ -49,9 +49,12 @@ export function AgeGate({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const url = new URL(window.location.href);
+    const isLocalPreview = ["localhost", "127.0.0.1", "::1"].includes(url.hostname);
     const bypassed = url.searchParams.get(BYPASS_PARAM) === "1";
     let allowed = false;
-    if (bypassed) {
+    if (isLocalPreview) {
+      allowed = true;
+    } else if (bypassed) {
       rememberAccess("deep-link");
       url.searchParams.delete(BYPASS_PARAM);
       const query = url.searchParams.toString();
