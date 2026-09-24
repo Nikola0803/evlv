@@ -5,18 +5,16 @@ import { usePathname, useRouter } from "next/navigation";
 import { useCart } from "@/lib/cart-context";
 import { setStoredCouponCode } from "@/lib/referral";
 
-type PromptMode = "newsletter" | "availability" | "cart" | "checkout" | null;
+type PromptMode = "newsletter" | "availability" | "checkout" | null;
 
 const NEWSLETTER_KEY = "evlv_newsletter_exit_shown_v2";
 const AVAILABILITY_KEY = "evlv_glp_availability_shown_v2";
-const CART_KEY = "evlv_cart_abandonment_shown_v2";
 const CHECKOUT_KEY = "evlv_checkout_offer_shown_v2";
 const CHECKOUT_OFFER_CODE = process.env.NEXT_PUBLIC_CHECKOUT_URGENCY_CODE?.trim() ?? "";
 const GLP_PROMO_CODE = process.env.NEXT_PUBLIC_GLP_PROMO_CODE?.trim() ?? "";
 const GLP_PROMO_LABEL = process.env.NEXT_PUBLIC_GLP_PROMO_LABEL?.trim() ?? "";
 const CHECKOUT_OFFER_SECONDS = 120;
 const EXIT_INTENT_DELAY = 10000;
-const CART_IDLE_DELAY = 45000;
 
 function wasShown(key: string) {
   try { return sessionStorage.getItem(key) === "1"; } catch { return false; }
@@ -42,7 +40,7 @@ export function ConversionPrompts() {
     enteredAt.current = Date.now();
 
     const preview = new URLSearchParams(window.location.search).get("cro_preview");
-    if (window.location.hostname === "localhost" && ["newsletter", "availability", "cart", "checkout"].includes(preview ?? "")) {
+    if (window.location.hostname === "localhost" && ["newsletter", "availability", "checkout"].includes(preview ?? "")) {
       const previewTimer = window.setTimeout(() => setMode(preview as Exclude<PromptMode, null>), 0);
       return () => window.clearTimeout(previewTimer);
     }
@@ -62,16 +60,13 @@ export function ConversionPrompts() {
       });
     }
 
-    function revealCartPrompt() {
-      if (count === 0) return;
-      if (isCheckout && CHECKOUT_OFFER_CODE) reveal("checkout", CHECKOUT_KEY);
-      else reveal("cart", CART_KEY);
-    }
-
     function revealExitPrompt() {
       if (Date.now() - enteredAt.current < EXIT_INTENT_DELAY) return;
-      if (count > 0) revealCartPrompt();
-      else reveal("newsletter", NEWSLETTER_KEY);
+      if (count > 0) {
+        if (isCheckout && CHECKOUT_OFFER_CODE) reveal("checkout", CHECKOUT_KEY);
+        return;
+      }
+      reveal("newsletter", NEWSLETTER_KEY);
     }
 
     let availabilityTimer = 0;
@@ -89,7 +84,10 @@ export function ConversionPrompts() {
     function handleScroll() {
       if (window.innerWidth > 760 || window.scrollY < document.documentElement.scrollHeight * 0.45) return;
       window.clearTimeout(mobileTimer);
-      mobileTimer = window.setTimeout(() => count > 0 ? revealCartPrompt() : reveal("newsletter", NEWSLETTER_KEY), 30000);
+      mobileTimer = window.setTimeout(() => {
+        if (count === 0) reveal("newsletter", NEWSLETTER_KEY);
+        else if (isCheckout && CHECKOUT_OFFER_CODE) reveal("checkout", CHECKOUT_KEY);
+      }, 30000);
       window.removeEventListener("scroll", handleScroll);
     }
 
@@ -104,7 +102,6 @@ export function ConversionPrompts() {
       else handleReturn();
     }
 
-    const cartTimer = count > 0 ? window.setTimeout(revealCartPrompt, CART_IDLE_DELAY) : 0;
     document.addEventListener("mouseout", handlePointerExit);
     document.addEventListener("pointerout", handlePointerExit);
     document.addEventListener("visibilitychange", handleVisibilityChange);
@@ -114,7 +111,6 @@ export function ConversionPrompts() {
     return () => {
       window.clearTimeout(availabilityTimer);
       window.clearTimeout(mobileTimer);
-      window.clearTimeout(cartTimer);
       window.clearTimeout(resetTimer);
       document.removeEventListener("mouseout", handlePointerExit);
       document.removeEventListener("pointerout", handlePointerExit);
@@ -208,16 +204,6 @@ export function ConversionPrompts() {
               <button type="button" className="cp-cro-secondary" onClick={close}>No thanks</button>
             </div>
             <em>Additional savings are subject to the 30% total order cap.</em>
-          </>
-        ) : mode === "cart" ? (
-          <>
-            <small>Your cart is saved</small>
-            <h2 id="cp-cro-title">You still have research items in your cart.</h2>
-            <p>Return to checkout when you are ready. Your selected products and quantities are waiting for you.</p>
-            <div className="cp-cro-actions">
-              <button type="button" className="cp-cro-primary" onClick={() => { close(); router.push("/checkout"); }}>Continue to Checkout</button>
-              <button type="button" className="cp-cro-secondary" onClick={close}>Keep Browsing</button>
-            </div>
           </>
         ) : couponCode ? (
           <>

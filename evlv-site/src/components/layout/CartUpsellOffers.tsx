@@ -23,7 +23,7 @@ const FEATURED_PACK_LABEL = `1 PCS (${FEATURED_DISCOUNT_PERCENT}% Off Offer)`;
 const ALSO_ADD_DISCOUNT_PERCENT = 10;
 const ALSO_ADD_PACK_LABEL = `1 PCS (${ALSO_ADD_DISCOUNT_PERCENT}% Off Offer)`;
 
-export const FREE_SHIPPING_THRESHOLD = 400;
+export const FREE_SHIPPING_THRESHOLD = 300;
 export const FLAT_SHIPPING_COST = 15;
 
 export function ShippingProgressBar() {
