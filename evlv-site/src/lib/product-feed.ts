@@ -142,6 +142,7 @@ const PHOTO_LOCKED_SLUGS = new Set([
   "hcg-5000iu",
   "melanotan-ii-10mg",
   "nad-500mg",
+  "korean-pink-glutathione-1200mg",
   "oxytocin-10mg",
   "pt-141-10mg",
   "ss-31-10mg",

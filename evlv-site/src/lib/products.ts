@@ -1113,31 +1113,14 @@ export function getProductBySlug(slug: string) {
 }
 
 /**
- * One card per compound for shop-grid listings: a product with siblings
- * (a `variants` array) only shows up here if it's the canonical entry in
- * its own group's array - every dose still has a real page via
- * getProductBySlug, just not its own card in the grid. A product with no
- * `variants` always shows (nothing to dedupe).
- *
- * The canonical entry used to always be variants[0], regardless of
- * stock - so a compound whose lowest dose sold out would show an
- * "Out of Stock" card in the grid even when its other doses were still
- * sellable. Now the canonical slug is the first IN-STOCK variant
- * instead, so the grid card for that compound surfaces a dose customers
- * can actually buy (with the rest still reachable via the pill row on
- * that card). Out-of-stock products are dropped from the grid entirely:
- * a whole compound with every dose sold out, and a standalone
- * (no-variants) product that's sold out, both disappear rather than
- * showing a dead "Out of Stock" card - customers only ever see things
- * they can add to cart.
+ * Every published, in-stock SKU gets its own shop card. Dose variants keep
+ * their own pages and cards instead of being collapsed into one representative
+ * compound. When a resolved catalog is provided, preserve its live Google/CRM
+ * stock state; only the static default needs the bundled inventory snapshot.
  */
-export function getShopListProducts(source: Product[] = products) {
-  return applyInventorySnapshot(source).filter((p) => {
-    if (!p.variants) return p.inStock;
-    const firstInStockSlug = p.variants.find((v) => v.inStock)?.slug;
-    if (!firstInStockSlug) return false;
-    return p.slug === firstInStockSlug;
-  });
+export function getShopListProducts(source?: Product[]) {
+  const catalog = source ?? applyInventorySnapshot(products);
+  return catalog.filter((product) => product.inStock);
 }
 
 export function getRelatedProducts(slug: string, limit = 4) {
