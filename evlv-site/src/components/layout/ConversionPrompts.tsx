@@ -222,8 +222,8 @@ export function ConversionPrompts() {
           <div className="cp-cro-timer" aria-label={`${weekendSeconds} seconds remaining`}>
             {days > 0 ? `${days}d ` : ""}{String(hours).padStart(2, "0")}:{String(minutes).padStart(2, "0")}:{String(seconds).padStart(2, "0")}
           </div>
-          <h2 id="cp-weekend-title">Every third vial is on us.</h2>
-          <p>Stock up on the same product and the savings repeat: buy 3, get 1 free. Buy 6, get 2 free. Buy 9, get 3 free.</p>
+          <h2 id="cp-weekend-title">BUY 2, GET 1 FREE</h2>
+          <p><strong>Every third vial is on us.</strong> Add 3 of the same product and pay for only 2. Add 6 and get 2 free. Add 9 and get 3 free.</p>
           <div className="cp-cro-promo"><b>No code needed</b><span>Same product only</span></div>
           <div className="cp-cro-actions">
             <button type="button" className="cp-cro-primary" onClick={() => { close(); router.push("/shop"); }}>Shop the Weekend Event</button>
