@@ -3,8 +3,7 @@ import { Poppins, Inter, Newsreader } from "next/font/google";
 import "./globals.css";
 import { AnnouncementBar } from "@/components/layout/AnnouncementBar";
 import { Header } from "@/components/layout/Header";
-import { getProducts } from "@/lib/products";
-import { getLiveProducts, mergeProducts } from "@/lib/product-feed";
+import { getCatalogProducts } from "@/lib/catalog";
 import { Footer } from "@/components/layout/Footer";
 import { CartToast } from "@/components/layout/CartToast";
 import { CartDrawer } from "@/components/layout/CartDrawer";
@@ -110,7 +109,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
   // fetched once here so the header mega menu and every page under it see
   // the same CRM-aware catalog instead of the header falling back to the
   // static-only list while /shop shows live CRM stock/pricing.
-  const products = mergeProducts(getProducts(), await getLiveProducts());
+  const products = await getCatalogProducts();
   return (
     <html lang="en" className={`${poppins.variable} ${inter.variable} ${newsreader.variable} h-full antialiased`}>
       <head>

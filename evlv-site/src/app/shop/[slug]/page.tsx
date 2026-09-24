@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getProductBySlug, getProducts, getShopListProducts } from "@/lib/products";
-import { getLiveProducts, mergeProducts } from "@/lib/product-feed";
+import { getCatalogProducts } from "@/lib/catalog";
 import { getCoaMap } from "@/lib/coa-data";
 import { ProductClient } from "./ProductClient";
 import { getProductImage } from "@/lib/product-images";
@@ -13,8 +13,7 @@ export function generateStaticParams() {
 }
 
 async function resolveProduct(slug: string) {
-  const live = await getLiveProducts();
-  return mergeProducts(getProducts(), live).find((product) => product.slug === slug) ?? getProductBySlug(slug);
+  return (await getCatalogProducts()).find((product) => product.slug === slug) ?? getProductBySlug(slug);
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
@@ -37,8 +36,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const liveProducts = await getLiveProducts();
-  const catalog = mergeProducts(getProducts(), liveProducts);
+  const catalog = await getCatalogProducts();
   const product = catalog.find((item) => item.slug === slug) ?? getProductBySlug(slug);
   if (!product) notFound();
 

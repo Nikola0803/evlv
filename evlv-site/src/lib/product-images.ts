@@ -2,6 +2,15 @@ import type { Product } from "./types";
 
 const GENERATED_ROOT = "/images/products/generated-v1";
 
+// These legacy full-scene product shots live outside generated-v1. Keep an
+// explicit slug-level mapping so CRM merges or missing image fields cannot
+// replace them with the generic fallback.
+const CURATED_IMAGE_BY_SLUG: Record<string, string> = {
+  "oxytocin-10mg": "/images/products/oxytocin-10mg.png",
+  "pt-141-10mg": "/images/products/pt-141-10mg.png",
+  "ss-31-10mg": "/images/products/ss-31-10mg.png",
+};
+
 const GENERATED_IMAGE_BY_SLUG: Record<string, string> = {
   "5-amino-1mq-50mg": "5-amino-1mq-50mg.png",
   "aod-9604-10mg": "aod-9604-10mg.png",
@@ -62,6 +71,9 @@ function normalizedProductKey(value: string) {
 }
 
 export function getGeneratedProductImage(product: Pick<Product, "slug" | "name">) {
+  const curatedImage = CURATED_IMAGE_BY_SLUG[product.slug];
+  if (curatedImage) return curatedImage;
+
   const filename =
     GENERATED_IMAGE_BY_SLUG[product.slug] ||
     GENERATED_IMAGE_BY_SLUG[normalizedProductKey(product.name)];

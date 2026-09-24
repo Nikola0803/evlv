@@ -1,4 +1,5 @@
 import { Product, ProductVariant } from "./types";
+import { applyInventorySnapshot } from "./inventory-snapshot";
 
 /**
  * Mock catalog shaped to mirror the WooCommerce REST/Store API product
@@ -1035,22 +1036,80 @@ export const products: Product[] = [
     badges: ["Case Pricing Available"],
     batch: { code: "EVLV-SS3110-08", date: "2026-08-23", status: "PASS" },
   },
+  {
+    id: "54",
+    slug: "cerebrolysin-60mg",
+    sku: "CBL60",
+    name: "CEREBROLYSIN 60MG",
+    category: "peptides",
+    categoryLabel: "Peptide Research",
+    price: 54.99,
+    bulkOption: { qty: 10, price: 439.92, savePercent: 20 },
+    casNumber: "12656-61-0",
+    rating: 0,
+    reviewCount: 0,
+    inStock: true,
+    shortDescription: "Cerebrolysin research material in a 60mg vial format.",
+    description: "Cerebrolysin 60mg, supplied for laboratory research use only.",
+    storage: "Store lyophilized vials at 2–8°C. After reconstitution, use within 30 days and refrigerate.",
+    reconstitution: "Reconstitute with bacteriostatic or sterile water appropriate for laboratory use.",
+    badges: ["Case Pricing Available"],
+  },
+  {
+    id: "55",
+    slug: "korean-pink-glutathione-1200mg",
+    sku: "PG1200",
+    name: "KOREAN PINK GLUTATHIONE 1200MG",
+    category: "peptides",
+    categoryLabel: "Peptide Research",
+    price: 59.99,
+    bulkOption: { qty: 10, price: 479.92, savePercent: 20 },
+    casNumber: "70-18-8",
+    rating: 0,
+    reviewCount: 0,
+    inStock: true,
+    shortDescription: "Glutathione research material in a 1200mg vial format.",
+    description: "Korean Pink Glutathione 1200mg, supplied for laboratory research use only.",
+    storage: "Store lyophilized vials at 2–8°C. After reconstitution, use within 30 days and refrigerate.",
+    reconstitution: "Reconstitute with bacteriostatic or sterile water appropriate for laboratory use.",
+    badges: ["Case Pricing Available"],
+  },
+  {
+    id: "56",
+    slug: "bacteriostatic-water-30ml",
+    sku: "BAC30",
+    name: "HOSPIRA BACTERIOSTATIC WATER 30ML",
+    category: "ancillaries",
+    categoryLabel: "Research Supplies",
+    format: "supplies",
+    image: "/images/products/generated-v1/bacteriostatic-water-30ml.png",
+    price: 25,
+    rating: 0,
+    reviewCount: 0,
+    inStock: true,
+    shortDescription: "30mL bacteriostatic water vial for laboratory preparation workflows.",
+    description: "Hospira bacteriostatic water 30mL, supplied for laboratory research use only.",
+    storage: "Store according to the manufacturer's labeled conditions.",
+  },
 ];
 
 export function getProducts() {
-  return products;
+  return applyInventorySnapshot(products);
 }
 
 export function getFeaturedProducts() {
   // EVLV-3/EVLV-2/EVLV-1 (the metabolic-research trio) lead as top products per
   // request -- order here is deliberate, not just a filter, since
   // FeaturedProducts renders these in array order.
-  const order = ["evlv-3-10mg", "evlv-2-10mg", "evlv-1-5mg", "bpc-157-10mg"];
-  return order.map((slug) => products.find((p) => p.slug === slug)).filter((p): p is Product => Boolean(p));
+  const inventoryProducts = getProducts();
+  const order = ["evlv-3-10mg", "evlv-2-10mg", "evlv-1-5mg", "aod-9604-10mg"];
+  return order
+    .map((slug) => inventoryProducts.find((p) => p.slug === slug))
+    .filter((p): p is Product => Boolean(p?.inStock));
 }
 
 export function getProductBySlug(slug: string) {
-  return products.find((p) => p.slug === slug);
+  return getProducts().find((p) => p.slug === slug);
 }
 
 /**
@@ -1073,7 +1132,7 @@ export function getProductBySlug(slug: string) {
  * they can add to cart.
  */
 export function getShopListProducts(source: Product[] = products) {
-  return source.filter((p) => {
+  return applyInventorySnapshot(source).filter((p) => {
     if (!p.variants) return p.inStock;
     const firstInStockSlug = p.variants.find((v) => v.inStock)?.slug;
     if (!firstInStockSlug) return false;
@@ -1084,7 +1143,9 @@ export function getShopListProducts(source: Product[] = products) {
 export function getRelatedProducts(slug: string, limit = 4) {
   const current = getProductBySlug(slug);
   if (!current) return [];
-  return products.filter((p) => p.slug !== slug && p.category === current.category).slice(0, limit);
+  return getProducts()
+    .filter((p) => p.slug !== slug && p.category === current.category && p.inStock)
+    .slice(0, limit);
 }
 
 export const categories: { value: Product["category"] | "all"; label: string }[] = [

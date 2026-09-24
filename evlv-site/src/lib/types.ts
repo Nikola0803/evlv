@@ -38,6 +38,8 @@ export interface Product {
   rating: number;
   reviewCount: number;
   inStock: boolean;
+  /** Current source-of-truth inventory quantity when supplied by the sheet. */
+  stockQty?: number;
   shortDescription: string;
   description: string;
   storage: string;
@@ -87,4 +89,3 @@ export interface FaqItem {
   question: string;
   answer: string;
 }
-

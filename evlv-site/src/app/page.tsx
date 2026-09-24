@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { getProducts, getShopListProducts } from "@/lib/products";
-import { getLiveProducts, mergeProducts } from "@/lib/product-feed";
+import { getShopListProducts } from "@/lib/products";
+import { getCatalogProducts } from "@/lib/catalog";
 import { ProductCard } from "@/components/product/ProductCard";
 import { VerifiedPeptideReviewsBadge } from "@/components/trust/VerifiedPeptideReviewsBadge";
 
@@ -39,7 +39,7 @@ const FAQ = [
 ] as const;
 
 export default async function Home() {
-  const products = getShopListProducts(mergeProducts(getProducts(), await getLiveProducts())).slice(0, 8);
+  const products = getShopListProducts(await getCatalogProducts()).slice(0, 8);
   return (
     <div className="cp-home">
       <section className="cp-hero cp-wrap">

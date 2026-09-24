@@ -77,9 +77,10 @@ export async function getLiveProducts(): Promise<Product[]> {
   return products;
 }
 
-// Merges the live CRM feed into the static demo catalog. Price/stock/sku/
-// variants from the CRM always win when a live product matches a curated
-// static entry (real numbers win) -- but so does any storefront content
+// Merges the live CRM feed into the static demo catalog. CRM storefront
+// content wins when it is populated, while the owner's inventory snapshot
+// is applied last so sheet price, SKU and availability remain authoritative.
+// A live product still contributes its variants and any storefront content
 // (photo, purity, descriptions, storage/recon copy, category) the CRM has
 // actually been given (see Product.imageUrl etc. in peptide-saas's schema
 // and the Storefront content card on its product page), field by field:

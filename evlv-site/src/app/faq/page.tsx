@@ -1,8 +1,8 @@
 import { Metadata } from "next";
 import { faqItems } from "@/lib/content";
 import { Accordion } from "@/components/ui/Accordion";
-import { getProducts, getShopListProducts } from "@/lib/products";
-import { getLiveProducts, mergeProducts } from "@/lib/product-feed";
+import { getShopListProducts } from "@/lib/products";
+import { getCatalogProducts } from "@/lib/catalog";
 import { ProductCard } from "@/components/product/ProductCard";
 import { ButtonLink } from "@/components/ui/Button";
 
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 export default async function FaqPage() {
-  const products = getShopListProducts(mergeProducts(getProducts(), await getLiveProducts())).slice(0, 4);
+  const products = getShopListProducts(await getCatalogProducts()).slice(0, 4);
 
   return (
     <>

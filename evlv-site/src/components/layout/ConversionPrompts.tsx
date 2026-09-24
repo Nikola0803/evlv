@@ -5,14 +5,18 @@ import { usePathname, useRouter } from "next/navigation";
 import { useCart } from "@/lib/cart-context";
 import { setStoredCouponCode } from "@/lib/referral";
 
-type PromptMode = "newsletter" | "availability" | "checkout" | null;
+type PromptMode = "newsletter" | "availability" | "cart" | "checkout" | null;
 
-const SHOWN_KEY = "evlv_conversion_prompt_shown_v1";
-const AVAILABILITY_KEY = "evlv_glp_availability_shown_v1";
+const NEWSLETTER_KEY = "evlv_newsletter_exit_shown_v2";
+const AVAILABILITY_KEY = "evlv_glp_availability_shown_v2";
+const CART_KEY = "evlv_cart_abandonment_shown_v2";
+const CHECKOUT_KEY = "evlv_checkout_offer_shown_v2";
 const CHECKOUT_OFFER_CODE = process.env.NEXT_PUBLIC_CHECKOUT_URGENCY_CODE?.trim() ?? "";
 const GLP_PROMO_CODE = process.env.NEXT_PUBLIC_GLP_PROMO_CODE?.trim() ?? "";
 const GLP_PROMO_LABEL = process.env.NEXT_PUBLIC_GLP_PROMO_LABEL?.trim() ?? "";
 const CHECKOUT_OFFER_SECONDS = 120;
+const EXIT_INTENT_DELAY = 10000;
+const CART_IDLE_DELAY = 45000;
 
 function wasShown(key: string) {
   try { return sessionStorage.getItem(key) === "1"; } catch { return false; }
@@ -36,81 +40,97 @@ export function ConversionPrompts() {
 
   useEffect(() => {
     enteredAt.current = Date.now();
-    setMode(null);
 
     const preview = new URLSearchParams(window.location.search).get("cro_preview");
-    if (window.location.hostname === "localhost" && ["newsletter", "availability", "checkout"].includes(preview ?? "")) {
-      setMode(preview as Exclude<PromptMode, null>);
-      return;
+    if (window.location.hostname === "localhost" && ["newsletter", "availability", "cart", "checkout"].includes(preview ?? "")) {
+      const previewTimer = window.setTimeout(() => setMode(preview as Exclude<PromptMode, null>), 0);
+      return () => window.clearTimeout(previewTimer);
     }
-
-    if (pathname === "/checkout") {
-      if (count === 0 || !CHECKOUT_OFFER_CODE || wasShown(SHOWN_KEY)) return;
-      const revealOffer = () => {
-        if (wasShown(SHOWN_KEY)) return;
-        rememberShown(SHOWN_KEY);
-        setOfferSeconds(CHECKOUT_OFFER_SECONDS);
-        setMode("checkout");
-      };
-      const timer = window.setTimeout(() => {
-        revealOffer();
-      }, 120000);
-      const exitIntent = (event: MouseEvent) => {
-        if (event.clientY <= 8 && Date.now() - enteredAt.current >= 20000) revealOffer();
-      };
-      document.addEventListener("mouseleave", exitIntent);
-      return () => {
-        window.clearTimeout(timer);
-        document.removeEventListener("mouseleave", exitIntent);
-      };
-    }
+    const resetTimer = window.setTimeout(() => setMode(null), 0);
 
     const isCommercePage = pathname === "/" || pathname === "/shop" || pathname.startsWith("/shop/");
+    const isCheckout = pathname === "/checkout";
+    let pendingExit = false;
+
+    function reveal(nextMode: Exclude<PromptMode, null>, key: string) {
+      if (wasShown(key)) return;
+      setMode((current) => {
+        if (current) return current;
+        rememberShown(key);
+        if (nextMode === "checkout") setOfferSeconds(CHECKOUT_OFFER_SECONDS);
+        return nextMode;
+      });
+    }
+
+    function revealCartPrompt() {
+      if (count === 0) return;
+      if (isCheckout && CHECKOUT_OFFER_CODE) reveal("checkout", CHECKOUT_KEY);
+      else reveal("cart", CART_KEY);
+    }
+
+    function revealExitPrompt() {
+      if (Date.now() - enteredAt.current < EXIT_INTENT_DELAY) return;
+      if (count > 0) revealCartPrompt();
+      else reveal("newsletter", NEWSLETTER_KEY);
+    }
+
     let availabilityTimer = 0;
-    if (isCommercePage && !wasShown(AVAILABILITY_KEY)) {
+    if (isCommercePage && count === 0 && !wasShown(AVAILABILITY_KEY)) {
       availabilityTimer = window.setTimeout(() => {
-        if (wasShown(SHOWN_KEY)) return;
-        rememberShown(AVAILABILITY_KEY);
-        rememberShown(SHOWN_KEY);
-        setMode((current) => current ?? "availability");
+        reveal("availability", AVAILABILITY_KEY);
       }, 35000);
     }
 
-    function showExitOffer() {
-      if (Date.now() - enteredAt.current < 20000 || wasShown(SHOWN_KEY)) return;
-      rememberShown(SHOWN_KEY);
-      setMode("newsletter");
-    }
-
-    function handleMouseLeave(event: MouseEvent) {
-      if (event.clientY <= 8) showExitOffer();
+    function handlePointerExit(event: MouseEvent | PointerEvent) {
+      if (event.relatedTarget === null && event.clientY <= 12) revealExitPrompt();
     }
 
     let mobileTimer = 0;
     function handleScroll() {
       if (window.innerWidth > 760 || window.scrollY < document.documentElement.scrollHeight * 0.45) return;
       window.clearTimeout(mobileTimer);
-      mobileTimer = window.setTimeout(showExitOffer, 70000);
+      mobileTimer = window.setTimeout(() => count > 0 ? revealCartPrompt() : reveal("newsletter", NEWSLETTER_KEY), 30000);
       window.removeEventListener("scroll", handleScroll);
     }
 
-    document.addEventListener("mouseleave", handleMouseLeave);
+    function markPendingExit() { pendingExit = true; }
+    function handleReturn() {
+      if (!pendingExit) return;
+      pendingExit = false;
+      revealExitPrompt();
+    }
+    function handleVisibilityChange() {
+      if (document.visibilityState === "hidden") markPendingExit();
+      else handleReturn();
+    }
+
+    const cartTimer = count > 0 ? window.setTimeout(revealCartPrompt, CART_IDLE_DELAY) : 0;
+    document.addEventListener("mouseout", handlePointerExit);
+    document.addEventListener("pointerout", handlePointerExit);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    window.addEventListener("blur", markPendingExit);
+    window.addEventListener("focus", handleReturn);
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => {
       window.clearTimeout(availabilityTimer);
       window.clearTimeout(mobileTimer);
-      document.removeEventListener("mouseleave", handleMouseLeave);
+      window.clearTimeout(cartTimer);
+      window.clearTimeout(resetTimer);
+      document.removeEventListener("mouseout", handlePointerExit);
+      document.removeEventListener("pointerout", handlePointerExit);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      window.removeEventListener("blur", markPendingExit);
+      window.removeEventListener("focus", handleReturn);
       window.removeEventListener("scroll", handleScroll);
     };
   }, [pathname, count]);
 
   useEffect(() => {
     if (mode !== "checkout") return;
-    if (offerSeconds <= 0) {
-      setMode(null);
-      return;
-    }
-    const timer = window.setTimeout(() => setOfferSeconds((seconds) => seconds - 1), 1000);
+    const timer = window.setTimeout(() => {
+      if (offerSeconds <= 1) setMode(null);
+      else setOfferSeconds((seconds) => seconds - 1);
+    }, 1000);
     return () => window.clearTimeout(timer);
   }, [mode, offerSeconds]);
 
@@ -188,6 +208,16 @@ export function ConversionPrompts() {
               <button type="button" className="cp-cro-secondary" onClick={close}>No thanks</button>
             </div>
             <em>Additional savings are subject to the 30% total order cap.</em>
+          </>
+        ) : mode === "cart" ? (
+          <>
+            <small>Your cart is saved</small>
+            <h2 id="cp-cro-title">You still have research items in your cart.</h2>
+            <p>Return to checkout when you are ready. Your selected products and quantities are waiting for you.</p>
+            <div className="cp-cro-actions">
+              <button type="button" className="cp-cro-primary" onClick={() => { close(); router.push("/checkout"); }}>Continue to Checkout</button>
+              <button type="button" className="cp-cro-secondary" onClick={close}>Keep Browsing</button>
+            </div>
           </>
         ) : couponCode ? (
           <>

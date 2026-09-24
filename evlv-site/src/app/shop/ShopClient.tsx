@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import type { Product, ProductCategory, ProductFormat } from "@/lib/types";
 import { ProductCard } from "@/components/product/ProductCard";
@@ -11,12 +11,29 @@ const FILTERS: { value: Filter; label: string }[] = [
   { value: "all", label: "All products" },{ value: "peptides", label: "Peptides" },{ value: "ancillaries", label: "Bioregulators & Ancillaries" },{ value: "blend", label: "Blends" },{ value: "oral", label: "Capsules" },
 ];
 
-export function ShopClient({ products }: { products: Product[] }) {
+export function ShopClient({ products: initialProducts }: { products: Product[] }) {
   const params = useSearchParams();
+  const [products, setProducts] = useState(initialProducts);
   const [filter,setFilter] = useState<Filter>(() => (params.get("category") as ProductCategory | null) || (params.get("format") as ProductFormat | null) || "all");
   const [query,setQuery] = useState(() => params.get("q") || "");
   const [sort,setSort] = useState("featured");
   const groups = useMemo(() => getShopMenuGroups(products), [products]);
+
+  useEffect(() => {
+    let active = true;
+    async function refreshCatalog() {
+      try {
+        const response = await fetch("/api/catalog", { cache: "no-store" });
+        if (!response.ok) return;
+        const data = (await response.json()) as { products?: Product[] };
+        if (active && Array.isArray(data.products)) setProducts(data.products);
+      } catch {
+        // Keep the last good catalog on screen if Google or the CRM is down.
+      }
+    }
+    const timer = window.setInterval(refreshCatalog, 60_000);
+    return () => { active = false; window.clearInterval(timer); };
+  }, []);
 
   const list=useMemo(() => {
     let next=[...products];
