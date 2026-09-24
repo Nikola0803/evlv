@@ -67,7 +67,7 @@ const usablePrice = (value: number | undefined) => typeof value === "number" && 
 const displayName = (value: string) => value.replace(/\s+[—-]\s+(?=\d)/, " ").toUpperCase();
 const isAvailable = (row: InventoryRow) => row.status.toLowerCase() === "publish" && row.stockStatus.toLowerCase() === "instock" && row.stockQty > 0;
 
-export function applyInventoryRows(source: Product[], rows: InventoryRow[], addMissing = false): Product[] {
+export function applyInventoryRows(source: Product[], rows: InventoryRow[], addMissing = false, preserveUnlisted = false): Product[] {
   const resolvedRows = rows.map((row) => ({ ...row, slug: row.slug || SLUG_BY_INVENTORY_SKU[row.sku.toUpperCase()] || "" }));
   const bySlug = new Map(resolvedRows.filter((row) => row.slug).map((row) => [row.slug, row]));
   const bySku = new Map(resolvedRows.map((row) => [normalizedSku(row.sku), row]));
@@ -77,12 +77,16 @@ export function applyInventoryRows(source: Product[], rows: InventoryRow[], addM
       ...product,
       sku: row?.sku ?? product.sku,
       name: row ? displayName(row.productName) : product.name,
-      stockQty: row?.stockQty ?? 0,
+      stockQty: row?.stockQty ?? (preserveUnlisted ? product.stockQty : 0),
       price: usablePrice(product.price) ? product.price : row?.retailPrice ?? product.price,
-      inStock: row ? isAvailable(row) : false,
+      inStock: row ? isAvailable(row) : preserveUnlisted ? product.inStock : false,
       variants: product.variants?.map((variant) => {
         const variantRow = bySlug.get(variant.slug);
-        return { ...variant, price: usablePrice(variant.price) ? variant.price : variantRow?.retailPrice ?? variant.price, inStock: variantRow ? isAvailable(variantRow) : false };
+        return {
+          ...variant,
+          price: usablePrice(variant.price) ? variant.price : variantRow?.retailPrice ?? variant.price,
+          inStock: variantRow ? isAvailable(variantRow) : preserveUnlisted ? variant.inStock : false,
+        };
       }),
     };
   });
@@ -107,5 +111,8 @@ export function applyInventoryRows(source: Product[], rows: InventoryRow[], addM
 }
 
 export function applyInventorySnapshot(source: Product[]): Product[] {
-  return applyInventoryRows(source, INVENTORY_SNAPSHOT);
+  // The bundled snapshot is deliberately partial. If the live sheet cannot be
+  // reached, use its known stock overrides without hiding the rest of the
+  // locally maintained in-stock catalogue.
+  return applyInventoryRows(source, INVENTORY_SNAPSHOT, false, true);
 }

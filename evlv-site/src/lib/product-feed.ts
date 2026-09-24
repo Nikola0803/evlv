@@ -148,7 +148,7 @@ const PHOTO_LOCKED_SLUGS = new Set([
   "ss-31-10mg",
 ]);
 
-export function mergeProducts(staticProducts: Product[], liveProducts: Product[]): Product[] {
+export function mergeProducts(staticProducts: Product[], liveProducts: Product[], preserveStaticStock = false): Product[] {
   if (liveProducts.length === 0) return staticProducts;
   const bySlug = new Map(staticProducts.map((p) => [p.slug, p]));
   for (const live of liveProducts) {
@@ -157,9 +157,14 @@ export function mergeProducts(staticProducts: Product[], liveProducts: Product[]
       bySlug.set(live.slug, {
         ...existing,
         price: live.price,
-        inStock: live.inStock,
+        inStock: preserveStaticStock ? existing.inStock : live.inStock,
         sku: live.sku,
-        variants: live.variants,
+        variants: preserveStaticStock
+          ? (live.variants ?? existing.variants)?.map((variant) => ({
+              ...variant,
+              inStock: existing.variants?.find((item) => item.slug === variant.slug)?.inStock ?? variant.inStock,
+            }))
+          : live.variants,
         image: PHOTO_LOCKED_SLUGS.has(existing.slug) ? existing.image : live.image || existing.image,
         purity: live.purity || existing.purity,
         categoryLabel: live.categoryLabel || existing.categoryLabel,

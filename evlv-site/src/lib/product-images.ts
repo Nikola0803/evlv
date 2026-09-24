@@ -45,7 +45,7 @@ const GENERATED_IMAGE_BY_SLUG: Record<string, string> = {
   "igf-1-lr3-1mg": "igf-1-lr3-1mg.png",
   "klow-80mg": "klow-80mg.png",
   "kpv-10mg": "kpv-10mg.png",
-  "kpv-oral-500mcg": "kpv-oral-500mcg.png",
+  "kpv-oral-500mcg": "kpv-oral-500mcg-tablets-white.png",
   "korean-pink-glutathione-1200mg": "korean-pink-glutathione-1200mg.png",
   "melanotan-ii-10mg": "melanotan-ii-10mg.png",
   "mots-c-10mg": "mots-c-10mg.png",
