@@ -8,6 +8,8 @@ import { ProductClient } from "./ProductClient";
 import { getProductImage } from "@/lib/product-images";
 import { ProductCard } from "@/components/product/ProductCard";
 
+const SITE_URL = "https://evlvpeptides.com";
+
 export function generateStaticParams() {
   return getProducts().map((product) => ({ slug: product.slug }));
 }
@@ -20,10 +22,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const product = await resolveProduct(slug);
   if (!product) return {};
-  const title = `${product.name}, Research Peptide`;
+  const productType = product.category === "peptides" ? "Research Peptide" : "Research Product";
+  const title = `${product.name} ${productType} | COA & Purity`;
   return {
     title,
-    description: `${product.shortDescription} ${product.purity ? `Purity: ${product.purity}.` : ""} Batch-tested with accessible documentation. Research use only.`.trim(),
+    description: `${product.shortDescription} ${product.purity ? `Reported purity: ${product.purity}.` : ""} Review current batch documentation. Research use only; not for human or veterinary use.`.trim(),
     alternates: { canonical: `/shop/${product.slug}` },
     openGraph: {
       type: "website",
@@ -46,20 +49,38 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
     .slice(0, 4);
 
   const coa = (await getCoaMap())[product.slug];
+  const image = getProductImage(product);
+  const absoluteImage = image.startsWith("http://") || image.startsWith("https://") ? image : `${SITE_URL}${image}`;
+  const productForm = product.slug === "kpv-oral-500mcg"
+    ? "Tablets"
+    : product.format === "oral"
+      ? "Oral research format"
+      : product.format === "supplies"
+        ? "Laboratory supply"
+        : product.format === "nasal" || product.format === "device"
+          ? "Research device"
+          : "Lyophilized powder";
   const productJsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",
+    "@id": `${SITE_URL}/shop/${product.slug}#product`,
+    url: `${SITE_URL}/shop/${product.slug}`,
     name: product.name,
     sku: product.sku,
-    description: product.shortDescription,
-    image: [`https://evlvpeptides.com${getProductImage(product)}`],
+    description: `${product.shortDescription} Research use only; not for human or veterinary use.`,
+    image: [absoluteImage],
     category: product.categoryLabel,
+    brand: { "@type": "Brand", name: "EVLV" },
+    manufacturer: { "@id": `${SITE_URL}/#organization` },
+    audience: { "@type": "BusinessAudience", audienceType: "Qualified laboratory researchers" },
     offers: {
       "@type": "Offer",
-      url: `https://evlvpeptides.com/shop/${product.slug}`,
+      url: `${SITE_URL}/shop/${product.slug}`,
       priceCurrency: "USD",
       price: product.price,
+      itemCondition: "https://schema.org/NewCondition",
       availability: product.inStock ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+      seller: { "@id": `${SITE_URL}/#organization` },
     },
   };
   const breadcrumbJsonLd = {
@@ -74,8 +95,8 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
   return (
     <div className="cp-pdp-page">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd).replace(/</g, "\\u003c") }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd).replace(/</g, "\\u003c") }} />
       <div className="mx-auto max-w-[1400px] px-4 pb-4 pt-8 md:px-8 md:pt-10">
         <nav className="flex flex-wrap items-center gap-2 text-xs text-charcoal/50" aria-label="Breadcrumb">
           <Link href="/" className="transition hover:text-charcoal">Home</Link>
@@ -94,7 +115,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           <h2 id="product-description-heading">Product description</h2>
           <p>{product.description}</p>
           <p>EVLV supplies U.S.-made research products supported by verifiable batch documentation for identity, content, and purity. Testing methods and results are specific to each batch and are available through the COA library.</p>
-          <p>This product is supplied as a lyophilized powder in a sealed research vial.</p>
+          <p>This product is supplied in the format shown on this page: {productForm.toLowerCase()}.</p>
           <p><strong>For laboratory research use only. Not for human or veterinary use.</strong></p>
         </div>
         <div>
@@ -104,7 +125,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             <div><dt>Product</dt><dd>{product.name}</dd></div>
             <div><dt>SKU</dt><dd>{product.sku}</dd></div>
             <div><dt>Purity</dt><dd>{product.purity || "See current COA"}</dd></div>
-            <div><dt>Form</dt><dd>Lyophilized powder</dd></div>
+            <div><dt>Form</dt><dd>{productForm}</dd></div>
             {product.casNumber && <div><dt>CAS number</dt><dd>{product.casNumber}</dd></div>}
             {product.avgMass && <div><dt>Verified content</dt><dd>{product.avgMass}</dd></div>}
           </dl>

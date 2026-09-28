@@ -22,6 +22,8 @@ import { ChunkErrorReload } from "@/components/layout/ChunkErrorReload";
 import { ConversionPrompts } from "@/components/layout/ConversionPrompts";
 
 const SITE_URL = "https://evlvpeptides.com";
+const CRM_PUBLIC_URL = process.env.NEXT_PUBLIC_CRM_URL || "https://crm.evlvpeptides.com";
+const CRM_TRACKING_KEY = process.env.NEXT_PUBLIC_CRM_TRACKING_KEY || "cmtzmexzs002qbeckbre23u9i";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -86,17 +88,29 @@ export const metadata: Metadata = {
 const ORGANIZATION_JSON_LD = {
   "@context": "https://schema.org",
   "@type": "Organization",
+  "@id": `${SITE_URL}/#organization`,
   name: "EVLV",
   url: SITE_URL,
   logo: `${SITE_URL}/logo/evlv-logo-light.png`,
   description: "High-purity research peptides supplied for laboratory and in-vitro analytical research. Batch-level Certificates of Analysis published. Not for human or animal use.",
+  areaServed: ["US", "CA"],
+  contactPoint: {
+    "@type": "ContactPoint",
+    contactType: "customer service",
+    email: "office@evlvpeptides.com",
+    areaServed: ["US", "CA"],
+    availableLanguage: "English",
+  },
 };
 
 const WEBSITE_JSON_LD = {
   "@context": "https://schema.org",
   "@type": "WebSite",
+  "@id": `${SITE_URL}/#website`,
   name: "EVLV",
   url: SITE_URL,
+  inLanguage: "en-US",
+  publisher: { "@id": `${SITE_URL}/#organization` },
   potentialAction: {
     "@type": "SearchAction",
     target: `${SITE_URL}/shop?q={search_term_string}`,
@@ -115,11 +129,9 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
       <head>
         <GoogleTagManagerHead />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ORGANIZATION_JSON_LD) }} />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(WEBSITE_JSON_LD) }} />
-        {process.env.NEXT_PUBLIC_CRM_URL && process.env.NEXT_PUBLIC_CRM_TRACKING_KEY && (
-          <script src={`${process.env.NEXT_PUBLIC_CRM_URL}/pixel.js`} data-key={process.env.NEXT_PUBLIC_CRM_TRACKING_KEY} async />
-        )}
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ORGANIZATION_JSON_LD).replace(/</g, "\\u003c") }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(WEBSITE_JSON_LD).replace(/</g, "\\u003c") }} />
+        <script src={`${CRM_PUBLIC_URL}/pixel.js`} data-key={CRM_TRACKING_KEY} async />
       </head>
       <body className="flex min-h-full flex-col bg-ivory text-charcoal">
         <ScrollToTop />

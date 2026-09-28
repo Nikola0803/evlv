@@ -5,7 +5,7 @@ import Script from "next/script";
  * Google Analytics > Admin > Data Streams) - renders nothing until it is,
  * rather than shipping a broken/empty gtag call.
  */
-const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || "G-N0CMJFWH14";
 
 export function GoogleAnalytics() {
   if (!GA_MEASUREMENT_ID) return null;

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -8,8 +8,7 @@ import { useCart } from "@/lib/cart-context";
 import { useCurrency } from "@/lib/currency-context";
 import { FREE_SHIPPING_THRESHOLD, FLAT_SHIPPING_COST, ShippingProgressBar, BacWaterOffer } from "@/components/layout/CartUpsellOffers";
 import { getStoredUser } from "@/lib/auth";
-import { addOrder } from "@/lib/orders";
-import { PAYMENT_GATEWAYS, type PaymentGatewayId } from "@/lib/payment-config";
+import { PAYMENT_GATEWAYS, PAYMENT_PROCESSOR_NOTE, type PaymentGatewayId } from "@/lib/payment-config";
 import { getStoredCouponCode, setStoredCouponCode } from "@/lib/referral";
 import { useCouponValidation } from "@/lib/use-coupon-validation";
 import { trackEvent } from "@/lib/pixel";
@@ -69,6 +68,8 @@ export default function CheckoutPage() {
   const [copied, setCopied] = useState(false);
   const [handleCopied, setHandleCopied] = useState(false);
   const [placing, setPlacing] = useState(false);
+  const [checkoutError, setCheckoutError] = useState("");
+  const checkoutTracked = useRef(false);
 
   const cartItemsForCoupon = lines.map((l) => ({ slug: l.product.slug, quantity: l.qty }));
   // Prefer the signed-in account's email so a personal lifetime deal
@@ -81,7 +82,7 @@ export default function CheckoutPage() {
   const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : FLAT_SHIPPING_COST;
   const total = Math.max(0, subtotal - discount + shipping);
   const shippingComplete = Boolean(
-    firstName.trim() && lastName.trim() && email.trim() && phone.trim() && address1.trim() && city.trim() && stateCode && zip.trim()
+    firstName.trim() && lastName.trim() && email.trim() && address1.trim() && city.trim() && stateCode && zip.trim()
   );
 
   useEffect(() => {
@@ -99,9 +100,20 @@ export default function CheckoutPage() {
   }, []);
 
   useEffect(() => {
-    if (lines.length > 0) trackEvent("begin_checkout");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    if (checkoutTracked.current || lines.length === 0) return;
+    checkoutTracked.current = true;
+    trackEvent("begin_checkout", {
+      currency,
+      valueCents: Math.round(subtotal * 100),
+      items: lines.map((line) => ({
+        item_id: line.product.sku,
+        item_name: line.product.name,
+        item_category: line.product.category,
+        quantity: line.qty,
+        price: line.unitPrice,
+      })),
+    });
+  }, [currency, lines, subtotal]);
 
   useEffect(() => {
     const trimmed = email.trim();
@@ -143,16 +155,12 @@ export default function CheckoutPage() {
   async function handlePlaceOrder(e: React.FormEvent) {
     e.preventDefault();
     if (!selectedGateway || expired || !shippingComplete || !ruoAttestation || placing) return;
+    setCheckoutError("");
     setPlacing(true);
 
     const user = getStoredUser();
     const gatewayInfo = PAYMENT_GATEWAYS.find((g) => g.id === selectedGateway)!;
-    const localLines = lines.map((l) => ({ name: l.product.name, packLabel: l.packLabel, qty: l.qty, unitPrice: l.unitPrice }));
-
-    // Try the real CRM checkout first; fall back to a local order record
-    // if the CRM isn't connected yet (see /api/checkout's 503 case), so
-    // the flow keeps working during development.
-    let orderId: string | null = null;
+    let orderId = "";
     try {
       const res = await fetch("/api/checkout", {
         method: "POST",
@@ -200,26 +208,14 @@ export default function CheckoutPage() {
           },
         }),
       });
-      if (res.ok) {
-        const data = await res.json();
-        orderId = data.number || data.id;
-      }
-    } catch {
-      /* network error, fall through to local order below */
-    }
-
-    if (!orderId) {
-      const order = addOrder({
-        userId: user?.user_id ?? "guest",
-        currency,
-        subtotal,
-        shipping,
-        total,
-        paymentMethod: selectedGateway,
-        paymentMemo: memo,
-        lines: localLines,
-      });
-      orderId = order.id;
+      const data = (await res.json().catch(() => ({}))) as { number?: string; id?: string; error?: string; message?: string };
+      if (!res.ok) throw new Error(data.error || data.message || "We could not submit your order. Please try again.");
+      orderId = data.number || data.id || "";
+      if (!orderId) throw new Error("The order system did not return a confirmation number. Your cart has not been cleared.");
+    } catch (cause) {
+      setCheckoutError(cause instanceof Error ? cause.message : "We could not submit your order. Please try again.");
+      setPlacing(false);
+      return;
     }
 
     clearCart();
@@ -268,7 +264,7 @@ export default function CheckoutPage() {
               <Field label="First Name" required value={firstName} onChange={setFirstName} placeholder="John" />
               <Field label="Last Name" required value={lastName} onChange={setLastName} placeholder="Doe" />
               <Field label="Email Address" required type="email" value={email} onChange={setEmail} placeholder="you@lab.edu" className="sm:col-span-2" />
-              <Field label="Phone Number" required type="tel" value={phone} onChange={setPhone} placeholder="+1 (555) 000-0000" className="sm:col-span-2" />
+              <Field label="Phone Number (optional)" type="tel" value={phone} onChange={setPhone} placeholder="+1 (555) 000-0000" className="sm:col-span-2" />
               <Field label="Street Address" required value={address1} onChange={setAddress1} placeholder="123 Research Blvd, Suite 100" className="sm:col-span-2" />
 
               <div>
@@ -443,6 +439,7 @@ export default function CheckoutPage() {
 
             {selectedGatewayInfo && (
               <div className="mt-4 rounded-lg border border-stone bg-ivory-soft p-5">
+                <p className="mb-3 text-xs leading-relaxed text-charcoal/55">{PAYMENT_PROCESSOR_NOTE}</p>
                 <p className="mb-3 flex items-center gap-2 text-sm font-medium text-charcoal/70">
                   <i className={`${selectedGatewayInfo.icon} text-copper`} /> Send your {selectedGatewayInfo.label} payment to
                 </p>
@@ -537,6 +534,13 @@ export default function CheckoutPage() {
               . I understand this order and its attestation are retained as part of the order record.
             </span>
           </label>
+
+          {checkoutError && (
+            <div role="alert" className="rounded-lg border border-red-300 bg-red-50 p-4 text-sm leading-relaxed text-red-800">
+              <p className="font-semibold"><i className="ri-error-warning-line mr-1.5" />Order not submitted</p>
+              <p className="mt-1">{checkoutError} Your cart is still saved.</p>
+            </div>
+          )}
 
           <button
             type="submit"

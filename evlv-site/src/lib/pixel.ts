@@ -7,10 +7,20 @@
 declare global {
   interface Window {
     cc?: (action: string, event: string, extra?: Record<string, unknown>) => void;
+    gtag?: (...args: unknown[]) => void;
   }
 }
 
 export function trackEvent(event: string, extra?: Record<string, unknown>) {
-  if (typeof window === "undefined" || !window.cc) return;
-  window.cc("track", event, extra);
+  if (typeof window === "undefined") return;
+  window.cc?.("track", event, extra);
+
+  // Never forward identify/PII calls to Google Analytics. Commerce events
+  // are mirrored to GA4 so email traffic can be measured through purchase.
+  if (event === "identify" || !window.gtag) return;
+  const { valueCents, properties: _properties, ...rest } = extra ?? {};
+  window.gtag("event", event, {
+    ...rest,
+    ...(typeof valueCents === "number" ? { value: valueCents / 100 } : {}),
+  });
 }

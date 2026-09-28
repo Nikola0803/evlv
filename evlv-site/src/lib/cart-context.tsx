@@ -91,7 +91,18 @@ export function CartProvider({ children }: { children: ReactNode }) {
     window.clearTimeout(toastTimer.current);
     toastTimer.current = window.setTimeout(() => setToastMessage(null), 2600);
     setIsOpen(true);
-    trackEvent("add_to_cart", { properties: { name: product.name, slug: product.slug, sku: product.sku }, valueCents: Math.round(unitPrice * qty * 100) });
+    trackEvent("add_to_cart", {
+      currency: "USD",
+      valueCents: Math.round(unitPrice * qty * 100),
+      properties: { name: product.name, slug: product.slug, sku: product.sku },
+      items: [{
+        item_id: product.sku,
+        item_name: product.name,
+        item_category: product.category,
+        quantity: qty,
+        price: unitPrice,
+      }],
+    });
   }, []);
 
   const removeLine = useCallback((productId: string, packLabel: string) => {

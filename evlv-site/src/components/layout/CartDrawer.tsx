@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/lib/cart-context";
 import { useCurrency } from "@/lib/currency-context";
-import { ShippingProgressBar, BacWaterOffer, FeaturedOfferCard, ResearchersAlsoAdd, FREE_SHIPPING_THRESHOLD, FLAT_SHIPPING_COST } from "./CartUpsellOffers";
+import { ShippingProgressBar, BacWaterOffer, FREE_SHIPPING_THRESHOLD, FLAT_SHIPPING_COST } from "./CartUpsellOffers";
 import { getStoredCouponCode, setStoredCouponCode } from "@/lib/referral";
 import { useCouponValidation } from "@/lib/use-coupon-validation";
 import { getStoredUser } from "@/lib/auth";
@@ -116,8 +116,6 @@ export function CartDrawer({ products = [] }: { products?: Product[] }) {
               </div>
 
               <BacWaterOffer products={products} />
-              <FeaturedOfferCard />
-              <ResearchersAlsoAdd />
             </>
           )}
         </div>

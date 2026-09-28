@@ -5,6 +5,7 @@ import { useEffect } from "react";
 declare global {
   interface Window {
     cc?: (action: string, event: string, extra?: Record<string, unknown>) => void;
+    gtag?: (...args: unknown[]) => void;
   }
 }
 
@@ -23,12 +24,20 @@ export function PurchasePixel({ orderNumber, total, currency }: { orderNumber: s
     }
 
     let attempts = 0;
+    let crmFired = false;
+    let gaFired = false;
     const tryFire = () => {
-      if (window.cc) {
+      if (!crmFired && window.cc) {
         window.cc("track", "purchase", { valueCents: Math.round(total * 100), currency, orderNumber });
-      } else if (attempts < 20) {
+        crmFired = true;
+      }
+      if (!gaFired && window.gtag) {
+        window.gtag("event", "purchase", { transaction_id: orderNumber, value: total, currency });
+        gaFired = true;
+      }
+      if ((!crmFired || !gaFired) && attempts < 20) {
         attempts += 1;
-        setTimeout(tryFire, 250); // pixel.js loads async, may not be ready yet
+        setTimeout(tryFire, 250); // analytics scripts load asynchronously
       }
     };
     tryFire();

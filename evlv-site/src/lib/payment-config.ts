@@ -13,6 +13,9 @@ export const PAYMENT_HANDLES = {
   venmo: "@VVGOps",
 };
 
+export const PAYMENT_PROCESSOR_NOTE =
+  "Payments are collected by VVG Operations, EVLV's authorized payment and fulfillment partner.";
+
 /**
  * Placeholder handles used ONLY to render the quick-pay QR/link before real
  * handles are set in PAYMENT_HANDLES above - so the QR-code and deep-link
@@ -71,20 +74,20 @@ export const PAYMENT_GATEWAYS: {
     label: "Cash App",
     icon: "ri-money-dollar-circle-line",
     handle: PAYMENT_HANDLES.cashapp,
-    handleNote: "Send as a personal payment, not \"for goods and services.\"",
+    handleNote: "Include only the EVLV order memo shown below so your payment can be matched quickly.",
   },
   {
     id: "zelle",
     label: "Zelle",
     icon: "ri-bank-line",
     handle: PAYMENT_HANDLES.zelle,
-    handleNote: "Zelle transfers are instant and free between US banks.",
+    handleNote: "Include only the EVLV order memo shown below so your payment can be matched quickly.",
   },
   {
     id: "venmo",
     label: "Venmo",
     icon: "ri-smartphone-line",
     handle: PAYMENT_HANDLES.venmo,
-    handleNote: "Send via Friends & Family. Do not use Goods & Services.",
+    handleNote: "Include only the EVLV order memo shown below so your payment can be matched quickly.",
   },
 ];

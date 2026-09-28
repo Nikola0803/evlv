@@ -7,15 +7,29 @@ import { ProductCard } from "@/components/product/ProductCard";
 import { ButtonLink } from "@/components/ui/Button";
 
 export const metadata: Metadata = {
-  title: "FAQ | EVLV",
-  description: "Answers to common questions about EVLV orders, shipping, tracking and lab testing.",
+  title: "Research Peptide FAQ",
+  description: "Answers about EVLV research-use-only products, lot-specific COAs, U.S. shipping, order tracking, institutional orders, and analytical testing.",
+  alternates: { canonical: "/faq" },
 };
 
 export default async function FaqPage() {
   const products = getShopListProducts(await getCatalogProducts()).slice(0, 4);
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqItems.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: { "@type": "Answer", text: item.answer },
+    })),
+  };
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd).replace(/</g, "\\u003c") }}
+      />
       <section className="cp-info-hero cp-info-support -mt-[90px] bg-charcoal pb-20 pt-[150px] text-center text-white md:-mt-[100px] md:pb-32 md:pt-[170px]">
         <div className="mx-auto max-w-[1400px] px-4 md:px-8">
           <h1 className="mb-4 font-display text-4xl font-semibold md:text-5xl lg:text-6xl">Popular Questions</h1>

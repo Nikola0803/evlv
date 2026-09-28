@@ -5,7 +5,7 @@
  * instructions require it: the script tag as high in <head> as possible,
  * the <noscript> iframe immediately after the opening <body> tag.
  */
-const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
+const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID || "GTM-WHV34TGS";
 
 export function GoogleTagManagerHead() {
   if (!GTM_ID) return null;
