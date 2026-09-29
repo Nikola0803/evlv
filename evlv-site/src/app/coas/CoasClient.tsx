@@ -46,24 +46,6 @@ export function CoasClient({ coaEntries }: { coaEntries: CoaEntry[] }) {
 
   return (
     <main className="bg-white">
-      <section className="cp-info-hero cp-info-quality">
-        <div>
-          <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">Independent batch documentation</p>
-          <h1 className="font-display font-semibold text-white">Certificates of Analysis</h1>
-          <p className="mt-5 max-w-2xl text-base leading-relaxed text-white/70">
-            Search every published EVLV lot, review its purity data, and open the complete third-party laboratory report.
-          </p>
-          <div className="mt-8 flex flex-wrap gap-7 border-t border-white/15 pt-6">
-            {[[lotCount, "lot reports"], [productCount, "product formats"], [labCount, "independent labs"]].map(([value, label]) => (
-              <div key={label}>
-                <p className="font-display text-2xl font-semibold text-white">{value}</p>
-                <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-white/45">{label}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       <section className="py-14 md:py-20">
         <div className="mx-auto max-w-[1240px] px-4 md:px-8">
           <div className="rounded-2xl border border-stone bg-[#f4f7f5] p-4 md:p-6">
