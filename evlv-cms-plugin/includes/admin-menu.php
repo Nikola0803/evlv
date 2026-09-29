@@ -3,8 +3,8 @@ if (!defined('ABSPATH')) exit;
 
 add_action('admin_menu', function () {
     add_menu_page(
-        'ALTR CMS',
-        'ALTR CMS',
+        'EVLV CMS',
+        'EVLV CMS',
         'manage_options',
         'altr-cms-setup',
         'altr_cms_render_setup_page',
@@ -34,8 +34,8 @@ function altr_cms_render_setup_page() {
     $rest_base = rest_url('altr/v1');
     ?>
     <div class="wrap altr-cms-wrap">
-        <h1>ALTR CMS</h1>
-        <p>Single source of truth for every page, product, lab result, and popup on the ALTR storefront. The Next.js frontend reads this data through the REST API below.</p>
+        <h1>EVLV CMS</h1>
+        <p>Single source of truth for every page, product, lab result, and popup on the EVLV storefront. The Next.js frontend reads this data through the REST API below.</p>
 
         <?php if ($import_result): ?>
             <div class="notice notice-success"><p>
@@ -47,7 +47,7 @@ function altr_cms_render_setup_page() {
         <div class="altr-cms-cards">
             <div class="altr-cms-card">
                 <h2>1. Import Current Catalog</h2>
-                <p>One-click import of the 14 live, real-photography products into this CMS. Safe to run more than once — existing slugs are skipped.</p>
+                <p>One-click import of the EVLV product catalog into this CMS. Safe to run more than once — existing slugs are skipped.</p>
                 <p><strong><?php echo esc_html($product_count); ?></strong> products currently in the CMS.</p>
                 <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
                     <?php wp_nonce_field('altr_cms_import_products'); ?>
@@ -81,17 +81,18 @@ function altr_cms_render_setup_page() {
         </div>
 
         <div class="altr-cms-card" style="margin-top:24px">
-            <h2>Frontend Connection</h2>
-            <p>Point the Next.js site at this REST API base:</p>
+            <h2>REST API Endpoints</h2>
+            <p>Point the Next.js site (<code>WORDPRESS_CMS_URL</code>) at this REST API base:</p>
             <code style="display:block;padding:10px;background:#f0f0f1;margin:8px 0"><?php echo esc_html($rest_base); ?></code>
             <ul style="line-height:1.9">
-                <li><code>GET <?php echo esc_html($rest_base); ?>/products</code> — full catalog</li>
-                <li><code>GET <?php echo esc_html($rest_base); ?>/products/{slug}</code> — one product</li>
-                <li><code>GET <?php echo esc_html($rest_base); ?>/coas</code> — all COAs</li>
-                <li><code>GET <?php echo esc_html($rest_base); ?>/content</code> — every page's content fields</li>
-                <li><code>GET <?php echo esc_html($rest_base); ?>/content/{page-key}</code> — one page's content</li>
-                <li><code>GET <?php echo esc_html($rest_base); ?>/popups/active</code> — currently active popups</li>
+                <li><code>GET <?php echo esc_html($rest_base); ?>/products</code> — full catalog (cached 5 min)</li>
+                <li><code>GET <?php echo esc_html($rest_base); ?>/products/{slug}</code> — one product (cached 5 min)</li>
+                <li><code>GET <?php echo esc_html($rest_base); ?>/coas</code> — all COAs (cached 5 min)</li>
+                <li><code>GET <?php echo esc_html($rest_base); ?>/content</code> — every page's content fields (cached 5 min)</li>
+                <li><code>GET <?php echo esc_html($rest_base); ?>/content/{page-key}</code> — one page's content (cached 5 min)</li>
+                <li><code>GET <?php echo esc_html($rest_base); ?>/popups/active</code> — currently active popups (cached 5 min)</li>
             </ul>
+            <p style="margin-top:12px;color:#666">All responses are cached via WP transients and include <code>Cache-Control: public, s-maxage=300</code>. Cache is flushed automatically on any product/content/popup save.</p>
         </div>
     </div>
     <?php
