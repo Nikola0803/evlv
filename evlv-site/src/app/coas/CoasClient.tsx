@@ -112,7 +112,7 @@ export function CoasClient({ coaEntries }: { coaEntries: CoaEntry[] }) {
                 return (
                   <a
                     key={coa.url}
-                    href={coa.url}
+                    href={`${coa.url}#page=2`}
                     target="_blank"
                     rel="noreferrer"
                     className="group grid min-h-48 grid-cols-[118px_1fr] overflow-hidden rounded-2xl border border-stone bg-white text-left transition hover:-translate-y-0.5 hover:border-sage-deep hover:shadow-[0_18px_44px_rgba(11,47,44,.10)] sm:grid-cols-[150px_1fr]"
@@ -135,7 +135,7 @@ export function CoasClient({ coaEntries }: { coaEntries: CoaEntry[] }) {
                         <div><dt className="text-charcoal/40">Laboratory</dt><dd className="mt-0.5 font-medium text-charcoal/70">{coa.lab}</dd></div>
                         <div><dt className="text-charcoal/40">Analyzed</dt><dd className="mt-0.5 font-medium text-charcoal/70">{coa.tested}</dd></div>
                       </dl>
-                      <span className="mt-auto pt-4 text-[10px] font-bold uppercase tracking-[0.12em] text-sage-deep">Open complete COA packet</span>
+                      <span className="mt-auto pt-4 text-[10px] font-bold uppercase tracking-[0.12em] text-sage-deep">Open lab report</span>
                     </div>
                   </a>
                 );
@@ -143,13 +143,6 @@ export function CoasClient({ coaEntries }: { coaEntries: CoaEntry[] }) {
             </div>
           )}
 
-          <div className="mt-14 rounded-2xl border border-stone bg-[#f4f7f5] p-6 md:p-8">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-sage-deep">Document integrity</p>
-            <h2 className="mt-2 font-display text-xl font-semibold text-charcoal">EVLV cover. Original laboratory pages.</h2>
-            <p className="mt-3 max-w-3xl text-sm leading-6 text-charcoal/55">
-              Each download begins with an EVLV Peptides identification cover and matching vial image. The laboratory-issued report pages that follow are preserved unchanged, including the laboratory name, original attribution, dates, measurements, chromatograms, and signatures.
-            </p>
-          </div>
         </div>
       </section>
     </main>
