@@ -9,13 +9,12 @@ declare global {
   }
 }
 
-// Fires the CRM pixel's purchase event once per order -- deduped via
-// localStorage since this page can be revisited/refreshed (order
-// confirmation links, back button) without that meaning a second sale.
+// An order submitted for manual payment is not a paid purchase yet. Track it
+// as its own funnel stage so CRO reporting does not overstate revenue.
 export function PurchasePixel({ orderNumber, total, currency }: { orderNumber: string; total: number; currency: string }) {
   useEffect(() => {
     if (!orderNumber || !Number.isFinite(total)) return;
-    const key = `evlv_purchase_tracked_${orderNumber}`;
+    const key = `evlv_order_submitted_tracked_${orderNumber}`;
     try {
       if (localStorage.getItem(key)) return;
       localStorage.setItem(key, "1");
@@ -28,11 +27,11 @@ export function PurchasePixel({ orderNumber, total, currency }: { orderNumber: s
     let gaFired = false;
     const tryFire = () => {
       if (!crmFired && window.cc) {
-        window.cc("track", "purchase", { valueCents: Math.round(total * 100), currency, orderNumber });
+        window.cc("track", "order_submitted", { valueCents: Math.round(total * 100), currency, orderNumber });
         crmFired = true;
       }
       if (!gaFired && window.gtag) {
-        window.gtag("event", "purchase", { transaction_id: orderNumber, value: total, currency });
+        window.gtag("event", "order_submitted", { transaction_id: orderNumber, value: total, currency });
         gaFired = true;
       }
       if ((!crmFired || !gaFired) && attempts < 20) {

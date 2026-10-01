@@ -12,6 +12,7 @@ import { useCouponValidation } from "@/lib/use-coupon-validation";
 import { getStoredUser } from "@/lib/auth";
 import { getProductImage } from "@/lib/product-images";
 import type { Product } from "@/lib/types";
+import { trackEvent } from "@/lib/pixel";
 
 export function CartDrawer({ products = [] }: { products?: Product[] }) {
   const { lines, subtotal, isOpen, closeCart, removeLine, setLineQty } = useCart();
@@ -22,6 +23,11 @@ export function CartDrawer({ products = [] }: { products?: Product[] }) {
   const router = useRouter();
 
   function handleCheckoutClick() {
+    trackEvent("cart_checkout_click", {
+      currency: "USD",
+      valueCents: Math.round(subtotal * 100),
+      item_count: lines.reduce((sum, line) => sum + line.qty, 0),
+    });
     closeCart();
     router.push("/checkout");
   }
@@ -37,6 +43,16 @@ export function CartDrawer({ products = [] }: { products?: Product[] }) {
 
   useEffect(() => {
     if (!isOpen) return;
+    trackEvent("view_cart", {
+      currency: "USD",
+      valueCents: Math.round(subtotal * 100),
+      items: lines.map((line) => ({
+        item_id: line.product.sku,
+        item_name: line.product.name,
+        quantity: line.qty,
+        price: line.unitPrice,
+      })),
+    });
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && closeCart();
     document.addEventListener("keydown", onKey);
     document.body.style.overflow = "hidden";
@@ -44,7 +60,7 @@ export function CartDrawer({ products = [] }: { products?: Product[] }) {
       document.removeEventListener("keydown", onKey);
       document.body.style.overflow = "";
     };
-  }, [isOpen, closeCart]);
+  }, [isOpen, closeCart, lines, subtotal]);
 
   return (
     <>
@@ -190,9 +206,9 @@ export function CartDrawer({ products = [] }: { products?: Product[] }) {
             <button
               type="button"
               onClick={handleCheckoutClick}
-              className="w-full rounded-md bg-sage-deep py-3.5 text-[12px] font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-charcoal"
+              className="w-full rounded-md bg-sage-deep px-5 py-3.5 text-[12px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-charcoal"
             >
-              Checkout
+              Continue to Secure Checkout
             </button>
             <Link href="/shop" onClick={closeCart} className="mt-3 block text-center text-xs uppercase tracking-wide text-charcoal/50 transition hover:text-charcoal">
               Continue Shopping

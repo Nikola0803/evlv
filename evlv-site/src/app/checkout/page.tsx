@@ -157,6 +157,11 @@ export default function CheckoutPage() {
     if (!selectedGateway || expired || !shippingComplete || !ruoAttestation || placing) return;
     setCheckoutError("");
     setPlacing(true);
+    trackEvent("order_submit_attempt", {
+      currency,
+      valueCents: Math.round(total * 100),
+      payment_method: selectedGateway,
+    });
 
     const user = getStoredUser();
     const gatewayInfo = PAYMENT_GATEWAYS.find((g) => g.id === selectedGateway)!;
@@ -213,10 +218,22 @@ export default function CheckoutPage() {
       orderId = data.number || data.id || "";
       if (!orderId) throw new Error("The order system did not return a confirmation number. Your cart has not been cleared.");
     } catch (cause) {
-      setCheckoutError(cause instanceof Error ? cause.message : "We could not submit your order. Please try again.");
+      const message = cause instanceof Error ? cause.message : "We could not submit your order. Please try again.";
+      setCheckoutError(message);
+      trackEvent("order_submit_error", {
+        payment_method: selectedGateway,
+        error_message: message.slice(0, 180),
+      });
       setPlacing(false);
       return;
     }
+
+    trackEvent("order_created", {
+      currency,
+      valueCents: Math.round(total * 100),
+      order_number: orderId,
+      payment_method: selectedGateway,
+    });
 
     clearCart();
     const params = new URLSearchParams({
@@ -254,6 +271,11 @@ export default function CheckoutPage() {
         <span><i className="ri-lock-2-line" /><b>Secure checkout</b><small>Protected order details</small></span>
         <span><i className="ri-truck-line" /><b>Tracked delivery</b><small>Updates after carrier scan</small></span>
         <span><i className="ri-file-shield-2-line" /><b>COA-backed batches</b><small>Documentation available</small></span>
+      </div>
+      <div className="cp-checkout-steps" aria-label="How checkout and payment work">
+        <span><b>1</b><small>Enter delivery details</small></span>
+        <span><b>2</b><small>Choose Cash App, Zelle, or Venmo</small></span>
+        <span><b>3</b><small>Submit the order, then send payment</small></span>
       </div>
 
       <form onSubmit={handlePlaceOrder} className="cp-checkout-form mt-10 grid grid-cols-1 gap-12 lg:grid-cols-[1fr_460px]">
@@ -423,6 +445,11 @@ export default function CheckoutPage() {
                     onClick={() => {
                       setSelectedGateway(gw.id);
                       setHandleCopied(false);
+                      trackEvent("select_payment_method", {
+                        currency,
+                        valueCents: Math.round(total * 100),
+                        payment_method: gw.id,
+                      });
                     }}
                     aria-pressed={active}
                     className={`relative flex flex-col items-center gap-2.5 rounded-lg border p-5 transition ${
@@ -545,10 +572,13 @@ export default function CheckoutPage() {
           <button
             type="submit"
             disabled={!selectedGateway || expired || !shippingComplete || !ruoAttestation || placing}
-            className="w-full rounded-md bg-copper py-5 text-sm font-semibold uppercase tracking-[0.2em] text-charcoal transition hover:bg-copper-light disabled:cursor-not-allowed disabled:opacity-40"
+            className="w-full rounded-md bg-copper px-5 py-5 text-sm font-semibold uppercase tracking-[0.12em] text-charcoal transition hover:bg-copper-light disabled:cursor-not-allowed disabled:opacity-40"
           >
-            {placing ? "Placing Order..." : `Confirm Order (${formatPrice(total)})`}
+            {placing ? "Submitting Order..." : `Submit Order & Continue to Payment · ${formatPrice(total)}`}
           </button>
+          <p className="-mt-3 text-center text-[11px] leading-relaxed text-charcoal/45">
+            No payment is collected by this button. Your selected payment instructions appear immediately after submission.
+          </p>
         </div>
       </form>
     </div>

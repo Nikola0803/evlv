@@ -401,7 +401,24 @@ body {
 .cp-ruo-gate-check a{color:#0b2f2c;font-weight:700;text-decoration:underline;text-underline-offset:2px}
 .cp-ruo-gate-error{margin:0!important}.cp-ruo-gate-submit{min-height:48px;border-radius:6px;background:#0b2f2c;color:#fff}.cp-ruo-gate-submit:hover{background:#174744}.cp-ruo-gate-switch{display:block;margin:14px auto 0;border:0;background:transparent;color:#65736e;font-size:10px;cursor:pointer}.cp-ruo-gate-switch:hover{color:#0b2f2c;text-decoration:underline}
 .cp-ruo-gate-footer{display:grid;gap:3px;padding:18px 36px;background:#0b2f2c;color:#d7e4df}.cp-ruo-gate-footer b{font-size:10px}.cp-ruo-gate-footer span{font-size:9px;line-height:1.4}
-@media(max-width:760px){.cp-ruo-gate{padding:8px}.cp-ruo-gate-card{grid-template-columns:1fr;max-height:calc(100vh - 16px);border-radius:11px}.cp-ruo-gate-media{min-height:104px;height:104px}.cp-ruo-gate-brand{inset:16px 18px auto}.cp-ruo-gate-brand p{display:block;margin-bottom:7px;font-size:7px}.cp-ruo-gate-brand span{display:none}.cp-ruo-gate-brand img{width:74px}.cp-ruo-gate-proof,.cp-ruo-gate-restriction{display:none}.cp-ruo-gate-content{min-height:0}.cp-ruo-gate-tabs button{min-height:44px}.cp-ruo-gate-body{padding:19px 20px 16px}.cp-ruo-gate-card h2{font-size:25px}.cp-ruo-gate-body>p{font-size:10.5px}.cp-ruo-gate-form{gap:8px;margin-top:13px}.cp-ruo-gate-form input:not([type="checkbox"]){height:38px}.cp-ruo-gate-compliance{padding:11px 12px}.cp-ruo-gate-compliance>strong{margin-bottom:7px}.cp-ruo-gate-compliance>p,.cp-ruo-gate-compliance>b,.cp-ruo-gate-check,.cp-ruo-gate-marketing{font-size:8.8px}.cp-ruo-gate-submit{min-height:42px}.cp-ruo-gate-switch{margin-top:8px}.cp-ruo-gate-footer{padding:10px 20px}.cp-ruo-gate-footer span{font-size:8px}}
+@media(max-width:760px){.cp-ruo-gate{padding:8px}.cp-ruo-gate-card{grid-template-columns:1fr;max-height:calc(100dvh - 16px);border-radius:11px}.cp-ruo-gate-media{min-height:90px;height:90px}.cp-ruo-gate-brand{inset:13px 18px auto}.cp-ruo-gate-brand p{display:block;margin-bottom:6px;font-size:7px}.cp-ruo-gate-brand span{display:none}.cp-ruo-gate-brand img{width:74px}.cp-ruo-gate-proof,.cp-ruo-gate-restriction{display:none}.cp-ruo-gate-content{min-height:0}.cp-ruo-gate-tabs button{min-height:44px}.cp-ruo-gate-body{padding:17px 20px 14px}.cp-ruo-gate-card h2{font-size:25px}.cp-ruo-gate-body>p{font-size:10.5px}.cp-ruo-gate-form{gap:8px;margin-top:12px}.cp-ruo-gate-form input:not([type="checkbox"]){height:42px;font-size:16px}.cp-ruo-gate-compliance{padding:11px 12px}.cp-ruo-gate-compliance>strong{margin-bottom:7px}.cp-ruo-gate-compliance>p,.cp-ruo-gate-compliance>b,.cp-ruo-gate-check,.cp-ruo-gate-marketing{font-size:9.4px}.cp-ruo-gate-submit{min-height:44px}.cp-ruo-gate-switch{margin-top:8px}.cp-ruo-gate-footer{padding:9px 20px}.cp-ruo-gate-footer span{font-size:8px}}
+
+/* One-click RUO acknowledgment: account creation is an optional reward,
+   never a prerequisite to inspect the catalog. */
+.cp-ruo-gate-simple{padding:max(16px,env(safe-area-inset-top)) max(16px,env(safe-area-inset-right)) max(16px,env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left));min-height:100dvh;overflow-y:auto}
+.cp-ruo-entry-card{width:min(520px,100%);margin:auto;padding:34px;border:1px solid rgba(159,199,180,.4);border-radius:16px;background:#fff;color:#152522;box-shadow:0 32px 100px rgba(0,20,19,.55)}
+.cp-ruo-entry-card-campaign{width:min(500px,100%)}
+.cp-ruo-entry-brand{display:flex;justify-content:center;margin-bottom:24px}.cp-ruo-entry-brand img{width:104px;height:auto}
+.cp-ruo-entry-kicker{display:flex;align-items:center;justify-content:center;gap:7px;margin:0 0 10px;color:#327657;font-size:10px;font-weight:800;letter-spacing:.15em;text-transform:uppercase}
+.cp-ruo-entry-card h2{margin:0;color:#102d2a;font-family:var(--font-poppins);font-size:34px;font-weight:600;line-height:1.08;letter-spacing:-.04em;text-align:center}
+.cp-ruo-entry-card>p#cp-ruo-description{margin:10px auto 0;max-width:410px;color:#61706b;font-size:14px;line-height:1.55;text-align:center}
+.cp-ruo-entry-check{display:flex;align-items:flex-start;gap:12px;margin-top:24px;padding:15px;border:1px solid #dce5df;border-radius:8px;background:#f4f7f5;color:#465953;font-size:12px;line-height:1.55;cursor:pointer}
+.cp-ruo-entry-check input{width:19px;height:19px;margin:1px 0 0;flex:0 0 auto;accent-color:#0b2f2c}.cp-ruo-entry-check a{color:#0b2f2c;font-weight:700;text-decoration:underline;text-underline-offset:2px}
+.cp-ruo-entry-error{display:flex;align-items:flex-start;gap:6px;margin:10px 0 0;color:#b42318;font-size:11px;line-height:1.4}
+.cp-ruo-entry-primary,.cp-ruo-entry-offer button{width:100%;min-height:50px;margin-top:15px;padding:0 20px;border:0;border-radius:7px;background:#0b2f2c;color:#fff;font-size:12px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;cursor:pointer}.cp-ruo-entry-primary:hover,.cp-ruo-entry-offer button:hover{background:#174744}
+.cp-ruo-entry-offer{display:grid;gap:4px;margin-top:18px;padding-top:18px;border-top:1px solid #e0e7e3;text-align:center}.cp-ruo-entry-offer b{color:#102d2a;font-size:15px}.cp-ruo-entry-offer span{color:#65746f;font-size:10.5px;line-height:1.45}.cp-ruo-entry-offer button{min-height:44px;margin-top:8px;border:1px solid #0b2f2c;background:#fff;color:#0b2f2c;font-size:10px}.cp-ruo-entry-offer button:hover{background:#edf3f0}
+.cp-ruo-entry-footnote{margin:14px 0 0!important;color:#75817d!important;font-size:10.5px!important;text-align:center}.cp-ruo-entry-footnote button{padding:0;border:0;background:transparent;color:#0b2f2c;font:inherit;font-weight:700;text-decoration:underline;cursor:pointer}
+@media(max-width:600px){.cp-ruo-gate-simple{place-items:start center;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom);background:#fff;backdrop-filter:none}.cp-ruo-entry-card{min-height:100dvh;padding:22px 20px max(22px,env(safe-area-inset-bottom));border:0;border-radius:0;box-shadow:none}.cp-ruo-entry-brand{margin-bottom:18px}.cp-ruo-entry-brand img{width:92px}.cp-ruo-entry-card h2{font-size:30px}.cp-ruo-entry-card>p#cp-ruo-description{font-size:13px}.cp-ruo-entry-check{margin-top:20px;padding:14px;font-size:12px}.cp-ruo-entry-primary{min-height:52px;font-size:12px}.cp-ruo-entry-offer{margin-top:16px;padding-top:16px}.cp-ruo-entry-offer button{min-height:48px}}
 
 /* Session-capped CRO prompts */
 .cp-cro-overlay{position:fixed;inset:0;z-index:8000;display:grid;place-items:center;padding:20px;background:rgba(4,29,29,.72);backdrop-filter:blur(8px)}
@@ -554,6 +571,10 @@ main:not(:has(.cp-home)):not(:has(.cp-shop)):not(:has(.cp-pdp-page)) .bg-ivory-s
 .cp-checkout-trust i{grid-row:1/3;align-self:center;color:#327657;font-size:21px}
 .cp-checkout-trust b{font-size:11px}
 .cp-checkout-trust small{color:#73807b;font-size:9px}
+.cp-checkout-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+.cp-checkout-steps>span{display:flex;align-items:center;gap:10px;min-width:0;padding:12px 14px;border:1px solid #e1e7e3;border-radius:10px;background:#fff}
+.cp-checkout-steps b{display:flex;width:24px;height:24px;flex:0 0 24px;align-items:center;justify-content:center;border-radius:999px;background:#0f5138;color:#fff;font-size:11px}
+.cp-checkout-steps small{color:#53605b;font-size:10px;font-weight:600;line-height:1.35}
 .cp-checkout-form{align-items:start}
 .cp-checkout-panel,.cp-checkout-payment{padding:25px;border:1px solid #dce5df;border-radius:12px;background:#fff;box-shadow:0 8px 26px rgba(11,47,44,.045)}
 .cp-checkout-panel input,.cp-checkout-panel select,.cp-checkout-panel textarea,.cp-checkout-payment input{border-color:#d3dfd8!important;background:#fbfcfb!important}
@@ -567,7 +588,7 @@ main:not(:has(.cp-home)):not(:has(.cp-shop)):not(:has(.cp-pdp-page)) .bg-ivory-s
 .cp-checkout-payment button[aria-pressed="true"]{border-color:#327657!important;background:#eef5f1!important;color:#0b2f2c!important}
 .cp-checkout-payment button[aria-pressed="true"] i,.cp-checkout-payment button[aria-pressed="true"] span{color:#0b2f2c!important}
 @media(max-width:1023px){.cp-checkout-sidebar{position:static}}
-@media(max-width:620px){.cp-checkout{padding-top:34px}.cp-checkout-trust{grid-template-columns:1fr}.cp-checkout-trust>span{padding:13px 15px}.cp-checkout-panel,.cp-checkout-payment{padding:18px}.cp-checkout-form{margin-top:26px;gap:28px}.cp-checkout-head h1{font-size:40px}}
+@media(max-width:620px){.cp-checkout{padding-top:34px}.cp-checkout-trust{grid-template-columns:1fr}.cp-checkout-trust>span{padding:13px 15px}.cp-checkout-steps{grid-template-columns:1fr;gap:7px}.cp-checkout-steps>span{padding:9px 11px}.cp-checkout-panel,.cp-checkout-payment{padding:18px}.cp-checkout-form{margin-top:26px;gap:28px}.cp-checkout-head h1{font-size:40px}}
 
 /* Keep long multi-analyte purity results contained inside product cards. */
 .cp-purity{display:flex;align-items:center;gap:8px;min-height:49px;padding:10px 18px}

@@ -2,21 +2,13 @@ import type { Product } from "./types";
 
 const GENERATED_ROOT = "/images/products/generated-v1";
 
-// These legacy full-scene product shots live outside generated-v1. Keep an
-// explicit slug-level mapping so CRM merges or missing image fields cannot
-// replace them with the generic fallback.
-const CURATED_IMAGE_BY_SLUG: Record<string, string> = {
-  "oxytocin-10mg": "/images/products/oxytocin-10mg.png",
-  "pt-141-10mg": "/images/products/pt-141-10mg.png",
-  "ss-31-10mg": "/images/products/ss-31-10mg.png",
-};
-
 const GENERATED_IMAGE_BY_SLUG: Record<string, string> = {
   "5-amino-1mq-50mg": "5-amino-1mq-50mg.png",
   "aod-9604-10mg": "aod-9604-10mg.png",
   "bacteriostatic-water-30ml": "bacteriostatic-water-30ml.png",
   "bpc-157-5mg": "bpc-157-5mg.png",
   "bpc-157-10mg": "bpc-157-10mg.png",
+  "bpc-157-20mg": "bpc-157-20mg.png",
   "bpc-tb-500-blend-10mg": "bpc-157-tb-500-blend-10mg.png",
   "bpc-tb-500-blend-20mg": "bpc-157-tb-500-blend-20mg.png",
   "bpc-157-tb-500-blend-10mg": "bpc-157-tb-500-blend-10mg.png",
@@ -52,10 +44,16 @@ const GENERATED_IMAGE_BY_SLUG: Record<string, string> = {
   "mots-c-40mg": "mots-c-40mg.png",
   "nad-500mg": "nad-plus-500mg.png",
   "nad-plus-500mg": "nad-plus-500mg.png",
+  "oxytocin-10mg": "oxytocin-10mg.png",
+  "pt-141-10mg": "pt-141-10mg.png",
   "selank-10mg": "selank-10mg.png",
   "semax-10mg": "semax-10mg.png",
+  "ss-31-10mg": "ss-31-10mg.png",
+  "tb-500-5mg": "tb-500-5mg.png",
+  "tb-500-10mg": "tb-500-10mg.png",
   "tb-500-20mg": "tb-500-20mg.png",
   "tesamorelin-10mg": "tesamorelin-10mg.png",
+  "tesamorelin-20mg": "tesamorelin-20mg.png",
   "thymosin-alpha-1-5mg": "thymosin-alpha-1-5mg.png",
 };
 
@@ -72,9 +70,6 @@ function normalizedProductKey(value: string) {
 }
 
 export function getGeneratedProductImage(product: Pick<Product, "slug" | "name">) {
-  const curatedImage = CURATED_IMAGE_BY_SLUG[product.slug];
-  if (curatedImage) return curatedImage;
-
   const filename =
     GENERATED_IMAGE_BY_SLUG[product.slug] ||
     GENERATED_IMAGE_BY_SLUG[normalizedProductKey(product.name)];

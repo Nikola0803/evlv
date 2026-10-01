@@ -11,6 +11,7 @@ const NEWSLETTER_KEY = "evlv_newsletter_exit_shown_v2";
 const AVAILABILITY_KEY = "evlv_glp_availability_shown_v2";
 const CHECKOUT_KEY = "evlv_checkout_offer_shown_v2";
 const WEEKEND_KEY = "evlv_weekend_b2g1_shown_v1";
+const CAMPAIGN_SESSION_KEY = "evlv_campaign_entry";
 const CHECKOUT_OFFER_CODE = process.env.NEXT_PUBLIC_CHECKOUT_URGENCY_CODE?.trim() ?? "";
 const GLP_PROMO_CODE = process.env.NEXT_PUBLIC_GLP_PROMO_CODE?.trim() ?? "";
 const GLP_PROMO_LABEL = process.env.NEXT_PUBLIC_GLP_PROMO_LABEL?.trim() ?? "";
@@ -43,10 +44,16 @@ export function ConversionPrompts() {
   useEffect(() => {
     enteredAt.current = Date.now();
 
-    const preview = new URLSearchParams(window.location.search).get("cro_preview");
+    const searchParams = new URLSearchParams(window.location.search);
+    const preview = searchParams.get("cro_preview");
     if (window.location.hostname === "localhost" && ["newsletter", "availability", "checkout", "weekend"].includes(preview ?? "")) {
       const previewTimer = window.setTimeout(() => setMode(preview as Exclude<PromptMode, null>), 0);
       return () => window.clearTimeout(previewTimer);
+    }
+    const campaignEntry = searchParams.get("age_verified") === "1" || sessionStorage.getItem(CAMPAIGN_SESSION_KEY) === "1";
+    if (campaignEntry) {
+      setMode(null);
+      return;
     }
     const resetTimer = window.setTimeout(() => setMode(null), 0);
 
@@ -256,7 +263,7 @@ export function ConversionPrompts() {
         ) : couponCode ? (
           <>
             <small>Your research welcome offer</small>
-            <h2 id="cp-cro-title">Your 10% code is ready.</h2>
+            <h2 id="cp-cro-title">Your 20% code is ready.</h2>
             <p>The code has been saved and will be checked automatically at checkout.</p>
             <div className="cp-cro-code">{couponCode}</div>
             <button type="button" className="cp-cro-primary" onClick={() => { close(); router.push(count > 0 ? "/checkout" : "/shop"); }}>{count > 0 ? "Use at Checkout" : "Shop Research Products"}</button>
@@ -264,7 +271,7 @@ export function ConversionPrompts() {
         ) : (
           <>
             <small>Before you go</small>
-            <h2 id="cp-cro-title">Take 10% off your first research order.</h2>
+            <h2 id="cp-cro-title">Take 20% off your first purchase.</h2>
             <p>Enter your email to receive a real checkout code plus occasional batch and product updates.</p>
             <form className="cp-cro-form" onSubmit={subscribe}>
               <input required type="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="Email address" aria-label="Email address" />

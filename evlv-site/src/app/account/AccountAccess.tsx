@@ -3,6 +3,7 @@
 import { FormEvent, useState } from "react";
 import Link from "next/link";
 import { saveAuth } from "@/lib/auth";
+import { setStoredCouponCode } from "@/lib/referral";
 
 type Mode = "signin" | "register";
 
@@ -20,6 +21,7 @@ type AuthPayload = {
   data?: AuthPayload;
   error?: string;
   message?: string;
+  couponCode?: string;
 };
 
 function getSession(data: AuthPayload, fallbackEmail: string) {
@@ -34,11 +36,9 @@ function getSession(data: AuthPayload, fallbackEmail: string) {
 
 export function AccountAccess({ initialMode = "signin" }: { initialMode?: Mode }) {
   const [mode, setMode] = useState<Mode>(initialMode);
-  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [marketingOptIn, setMarketingOptIn] = useState(false);
+  const [marketingOptIn, setMarketingOptIn] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
 
@@ -61,10 +61,6 @@ export function AccountAccess({ initialMode = "signin" }: { initialMode?: Mode }
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError("");
-    if (mode === "register" && password !== confirmPassword) {
-      setError("Passwords do not match.");
-      return;
-    }
     if (password.length < 8) {
       setError("Use at least 8 characters for your password.");
       return;
@@ -74,7 +70,7 @@ export function AccountAccess({ initialMode = "signin" }: { initialMode?: Mode }
     try {
       let data = await request(
         mode === "signin" ? "/api/auth/login" : "/api/auth/register",
-        mode === "signin" ? { email, password } : { email, password, name, marketingOptIn },
+        mode === "signin" ? { email, password } : { email, password, marketingOptIn },
       );
       let session = getSession(data, email);
 
@@ -85,7 +81,10 @@ export function AccountAccess({ initialMode = "signin" }: { initialMode?: Mode }
       if (!session) throw new Error("Your account response did not include a valid session. Please contact support.");
 
       saveAuth(session);
-      window.location.href = "/account";
+      if (mode === "register" && typeof data.couponCode === "string") {
+        setStoredCouponCode(data.couponCode);
+      }
+      window.location.href = mode === "register" ? "/shop?welcome=20" : "/account";
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : "Something went wrong. Please try again.");
     } finally {
@@ -120,14 +119,12 @@ export function AccountAccess({ initialMode = "signin" }: { initialMode?: Mode }
             <div className="mt-8">
               <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-sage-deep">{mode === "signin" ? "Welcome back" : "Create your profile"}</p>
               <h2 className="mt-2 font-display text-3xl font-semibold text-charcoal">{mode === "signin" ? "Sign in to EVLV" : "Open an EVLV account"}</h2>
-              <p className="mt-2 text-sm leading-relaxed text-charcoal/50">{mode === "signin" ? "Enter the email and password connected to your account." : "Create one secure login for orders, documentation, and partner access."}</p>
+              <p className="mt-2 text-sm leading-relaxed text-charcoal/50">{mode === "signin" ? "Enter the email and password connected to your account." : "Create one secure login and receive 20% off your first purchase. Your personal reward is applied automatically at checkout."}</p>
             </div>
 
             <form onSubmit={handleSubmit} className="mt-7 space-y-4">
-              {mode === "register" && <Field label="Full Name" value={name} onChange={setName} autoComplete="name" />}
               <Field label="Email Address" type="email" value={email} onChange={setEmail} autoComplete="email" />
               <Field label="Password" type="password" value={password} onChange={setPassword} autoComplete={mode === "signin" ? "current-password" : "new-password"} />
-              {mode === "register" && <Field label="Confirm Password" type="password" value={confirmPassword} onChange={setConfirmPassword} autoComplete="new-password" />}
 
               {mode === "register" && (
                 <label className="flex cursor-pointer items-start gap-3 text-xs leading-relaxed text-charcoal/55">
@@ -139,7 +136,7 @@ export function AccountAccess({ initialMode = "signin" }: { initialMode?: Mode }
               {error && <p className="flex items-start gap-2 rounded-md bg-red-50 px-3 py-2.5 text-xs font-medium text-red-700"><i className="ri-error-warning-line mt-0.5" />{error}</p>}
 
               <button type="submit" disabled={submitting} className="w-full rounded-md bg-[#07383a] py-3.5 text-xs font-bold uppercase tracking-[0.16em] text-white transition hover:bg-[#0b4b4c] disabled:cursor-wait disabled:opacity-60">
-                {submitting ? "Please wait..." : mode === "signin" ? "Sign In Securely" : "Create Account"}
+                {submitting ? "Please wait..." : mode === "signin" ? "Sign In Securely" : "Create Account & Save 20%"}
               </button>
             </form>
 
@@ -157,7 +154,7 @@ function Field({ label, type = "text", value, onChange, autoComplete }: { label:
   return (
     <label className="block">
       <span className="mb-1.5 block text-xs font-semibold text-charcoal">{label}</span>
-      <input required type={type} value={value} onChange={(event) => onChange(event.target.value)} autoComplete={autoComplete} className="w-full rounded-md border border-[#d6e0db] bg-white px-4 py-3 text-sm text-charcoal outline-none transition placeholder:text-charcoal/25 focus:border-sage-deep focus:ring-2 focus:ring-sage-deep/10" />
+      <input required type={type} value={value} onChange={(event) => onChange(event.target.value)} autoComplete={autoComplete} className="w-full rounded-md border border-[#d6e0db] bg-white px-4 py-3 text-base text-charcoal outline-none transition placeholder:text-charcoal/25 focus:border-sage-deep focus:ring-2 focus:ring-sage-deep/10" />
     </label>
   );
 }

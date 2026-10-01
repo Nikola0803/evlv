@@ -2,6 +2,7 @@ import Link from "next/link";
 import QRCode from "qrcode";
 import { buildQuickPayTarget, getEffectiveHandle, PAYMENT_PROCESSOR_NOTE, type PaymentGatewayId } from "@/lib/payment-config";
 import { PurchasePixel } from "./PurchasePixel";
+import { PaymentActionLink } from "./PaymentActionLink";
 
 const GATEWAY_IDS: PaymentGatewayId[] = ["cashapp", "zelle", "venmo"];
 
@@ -48,7 +49,7 @@ export default async function OrderSuccessPage({
       <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-full border border-sage-deep/30 bg-sage-mist">
         <i className="ri-check-line text-3xl text-sage-deep" />
       </div>
-      <h1 className="font-display text-2xl font-semibold text-charcoal md:text-3xl">Order Submitted</h1>
+      <h1 className="font-display text-2xl font-semibold text-charcoal md:text-3xl">Order Submitted — Complete Payment</h1>
 
       {orderNumber && <p className="mt-4 font-mono text-sm tracking-wider text-copper">Order #{orderNumber}</p>}
 
@@ -99,12 +100,9 @@ export default async function OrderSuccessPage({
           {quickPay.kind === "payLink" ? (
             <>
               <p className="mt-3 text-xs text-charcoal/50">Scan on desktop, or tap the button below on your phone.</p>
-              <a
-                href={quickPay.url}
-                className="mt-4 inline-block w-full rounded-md bg-copper py-3 text-[12px] font-semibold uppercase tracking-[0.2em] text-charcoal transition hover:bg-copper-light"
-              >
+              <PaymentActionLink href={quickPay.url} gateway={gateway} orderNumber={orderNumber} amount={amount}>
                 Open {gatewayLabel} - Pay ${amount.toFixed(2)}
-              </a>
+              </PaymentActionLink>
               <p className="mt-2 text-[11px] text-charcoal/40">The amount and note are pre-filled for you.</p>
             </>
           ) : (

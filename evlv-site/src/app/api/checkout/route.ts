@@ -16,17 +16,17 @@ export async function POST(req: Request) {
   const discountCode = typeof body.discountCode === "string" ? body.discountCode : undefined;
   const customerEmail = typeof body.customerEmail === "string" ? body.customerEmail : undefined;
 
-  // Fail closed on any promotion that would reduce the retail subtotal by
-  // more than 30%. The CRM coupon engine carries the same clamp, but this
-  // storefront boundary prevents an older CRM deployment or stale coupon
-  // configuration from ever creating an over-discounted order.
+  // Fail closed above the tier ceiling returned by the CRM: 30% retail,
+  // 40% for an approved wholesale partner. Default to retail if an older
+  // CRM deployment does not yet return the tier value.
   const preview = await crmFetch("/api/store/coupons/validate", { items, code: discountCode, customerEmail });
   if (preview.ok) {
     const result = preview.data as Record<string, unknown>;
     const subtotalCents = typeof result.subtotalCents === "number" ? result.subtotalCents : 0;
     const discountCents = typeof result.discountCents === "number" ? result.discountCents : 0;
-    if (subtotalCents > 0 && discountCents > Math.floor(subtotalCents * 0.3)) {
-      return NextResponse.json({ error: "This promotion exceeds EVLV's 30% maximum discount and cannot be applied." }, { status: 422 });
+    const maximumDiscountPercent = result.maximumDiscountPercent === 40 ? 40 : 30;
+    if (subtotalCents > 0 && discountCents > Math.floor(subtotalCents * (maximumDiscountPercent / 100))) {
+      return NextResponse.json({ error: `This promotion exceeds EVLV's ${maximumDiscountPercent}% maximum discount and cannot be applied.` }, { status: 422 });
     }
   }
   // The CRM sits behind this server, so it can only ever see this

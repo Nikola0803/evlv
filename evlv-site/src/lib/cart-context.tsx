@@ -106,7 +106,23 @@ export function CartProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const removeLine = useCallback((productId: string, packLabel: string) => {
-    setLines((prev) => prev.filter((l) => !(l.product.id === productId && l.packLabel === packLabel)));
+    setLines((prev) => {
+      const removed = prev.find((l) => l.product.id === productId && l.packLabel === packLabel);
+      if (removed) {
+        trackEvent("remove_from_cart", {
+          currency: "USD",
+          valueCents: Math.round(removed.unitPrice * removed.qty * 100),
+          items: [{
+            item_id: removed.product.sku,
+            item_name: removed.product.name,
+            item_category: removed.product.category,
+            quantity: removed.qty,
+            price: removed.unitPrice,
+          }],
+        });
+      }
+      return prev.filter((l) => !(l.product.id === productId && l.packLabel === packLabel));
+    });
   }, []);
 
   const setLineQty = useCallback((productId: string, packLabel: string, qty: number) => {
