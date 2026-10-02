@@ -4,9 +4,8 @@ import { FormEvent, useState } from "react";
 import Link from "next/link";
 import { getStoredToken } from "@/lib/auth";
 
-// EVLV ships US-only right now, so the form only collects a US state --
-// no separate country field (which was also the thing wrapping "Province /
-// State" onto two lines in the 4-column layout).
+// The public application stays intentionally short. Shipping details for
+// merchandise are collected privately after a partner is approved.
 const SHIP_COUNTRY = "US";
 
 interface FormState {
@@ -15,10 +14,6 @@ interface FormState {
   referredBy: string;
   socialLink: string;
   phone: string;
-  address: string;
-  postalCode: string;
-  city: string;
-  province: string;
 }
 
 const EMPTY: FormState = {
@@ -27,10 +22,6 @@ const EMPTY: FormState = {
   referredBy: "",
   socialLink: "",
   phone: "",
-  address: "",
-  postalCode: "",
-  city: "",
-  province: "",
 };
 
 /**
@@ -74,10 +65,6 @@ export function AffiliateForm({ onApplied }: { onApplied?: () => void }) {
           referredBy: form.referredBy.trim() || undefined,
           socialLink: form.socialLink.trim(),
           phone: form.phone.trim(),
-          address: form.address.trim(),
-          postalCode: form.postalCode.trim(),
-          city: form.city.trim(),
-          province: form.province.trim(),
           country: SHIP_COUNTRY,
         }),
       });
@@ -100,55 +87,51 @@ export function AffiliateForm({ onApplied }: { onApplied?: () => void }) {
 
   if (submitted) {
     return (
-      <div className="rounded-lg border border-stone bg-white p-8 text-center">
-        <i className="ri-checkbox-circle-fill text-2xl text-sage-deep" />
-        <p className="mt-3 font-display text-lg font-semibold text-charcoal">Application received</p>
-        <p className="mt-2 text-sm text-charcoal/60">
-          We review every application by hand. We&apos;ll follow up by email within a couple of business days - check
-          your Account page for your status any time.
+      <div className="rounded-2xl border border-white/15 bg-white p-8 text-center text-[#102d28] md:p-10">
+        <i className="ri-checkbox-circle-fill text-3xl text-[#356f60]" />
+        <p className="mt-4 font-display text-2xl font-semibold">Application received</p>
+        <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-[#52645f]">
+          Our partnerships team will review your submission. If there is a strong fit, we&apos;ll contact you directly with the next step.
         </p>
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 rounded-lg border border-stone bg-ivory-soft p-6 md:p-8">
+    <form onSubmit={handleSubmit} className="space-y-5 rounded-2xl border border-white/14 bg-white p-6 text-[#102d28] shadow-[0_24px_80px_rgba(0,0,0,.16)] md:p-9">
+      <div className="border-b border-[#dce5e1] pb-6">
+        <p className="text-[10px] font-bold uppercase tracking-[.16em] text-[#64897f]">Partner application</p>
+        <h3 className="mt-2 font-display text-2xl font-semibold tracking-[-.025em]">Start the conversation.</h3>
+        <p className="mt-2 text-sm leading-6 text-[#60706b]">Share your primary channel and the best way for our team to reach you.</p>
+      </div>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <Field label="Full Name" required value={form.name} onChange={(v) => set("name", v)} />
         <Field label="Email" type="email" required value={form.email} onChange={(v) => set("email", v)} />
       </div>
 
-      <Field label="Who referred you?" value={form.referredBy} onChange={(v) => set("referredBy", v)} placeholder="Optional" />
+      <Field label="Who referred you?" value={form.referredBy} onChange={(v) => set("referredBy", v)} placeholder="Name or organization (optional)" />
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <Field
-          label="Social Media Link"
+          label="Primary Channel or Website"
           required
           value={form.socialLink}
           onChange={(v) => set("socialLink", v)}
           placeholder="https://instagram.com/yourhandle"
         />
-        <Field label="Phone" type="tel" required value={form.phone} onChange={(v) => set("phone", v)} />
+        <Field label="Phone" type="tel" required value={form.phone} onChange={(v) => set("phone", v)} placeholder="Best direct number" />
       </div>
 
-      <Field label="Address" required value={form.address} onChange={(v) => set("address", v)} />
-
-      <div className="grid grid-cols-3 gap-4">
-        <Field label="City" required value={form.city} onChange={(v) => set("city", v)} />
-        <Field label="State" required value={form.province} onChange={(v) => set("province", v)} />
-        <Field label="Postal Code" required value={form.postalCode} onChange={(v) => set("postalCode", v)} />
-      </div>
-
-      <label className="flex items-start gap-2.5 pt-2 text-xs text-charcoal/60">
+      <label className="flex items-start gap-2.5 border-t border-[#dce5e1] pt-5 text-xs leading-5 text-[#60706b]">
         <input
           type="checkbox"
           checked={agreedToTerms}
           onChange={(e) => setAgreedToTerms(e.target.checked)}
-          className="mt-0.5 h-4 w-4 shrink-0 accent-copper"
+          className="mt-0.5 h-4 w-4 shrink-0 accent-[#16483f]"
         />
         <span>
           I accept the{" "}
-          <Link href="/terms" className="text-copper underline hover:text-copper-dark">
+          <Link href="/terms" className="font-semibold text-[#16483f] underline underline-offset-2">
             Terms &amp; Conditions
           </Link>
           .
@@ -165,7 +148,7 @@ export function AffiliateForm({ onApplied }: { onApplied?: () => void }) {
       <button
         type="submit"
         disabled={submitting}
-        className="w-full rounded-md bg-copper py-3.5 text-[12px] font-semibold uppercase tracking-[0.15em] text-charcoal transition hover:bg-copper-light disabled:cursor-wait disabled:opacity-60"
+        className="min-h-14 w-full rounded-lg bg-[#102d28] px-6 text-[11px] font-bold uppercase tracking-[0.14em] text-white transition hover:bg-[#19483f] disabled:cursor-wait disabled:opacity-60"
       >
         {submitting ? "Submitting..." : "Submit Application"}
       </button>
@@ -192,9 +175,9 @@ function Field({
 }) {
   return (
     <div className={className}>
-      <label className="mb-1.5 block text-sm font-semibold text-charcoal">
+      <label className="mb-2 block text-[11px] font-bold uppercase tracking-[.09em] text-[#355f55]">
         {label}
-        {required && <span className="text-copper"> *</span>}
+        {required && <span className="text-[#64897f]"> *</span>}
       </label>
       <input
         type={type}
@@ -202,7 +185,7 @@ function Field({
         placeholder={placeholder}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full rounded-md border border-stone bg-white px-4 py-2.5 text-sm outline-none focus:border-copper"
+        className="h-12 w-full rounded-lg border border-[#cedbd6] bg-[#f7f7f3] px-4 text-sm outline-none transition placeholder:text-[#8b9994] focus:border-[#356f60] focus:bg-white focus:ring-2 focus:ring-[#b9d9ce]/35"
       />
     </div>
   );

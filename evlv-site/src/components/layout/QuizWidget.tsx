@@ -131,7 +131,7 @@ export function QuizWidget() {
 
   return (
     <>
-      {!cartOpen && pathname !== "/checkout" && pathname !== "/order-success" && !pathname.startsWith("/account") && (
+      {!cartOpen && pathname !== "/checkout" && pathname !== "/order-success" && pathname !== "/ambassadors" && !pathname.startsWith("/account") && (
         <button
           type="button"
           onClick={() => setOpen(true)}
