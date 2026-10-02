@@ -6,13 +6,14 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/lib/cart-context";
 import { useCurrency } from "@/lib/currency-context";
-import { FREE_SHIPPING_THRESHOLD, FLAT_SHIPPING_COST, ShippingProgressBar, BacWaterOffer } from "@/components/layout/CartUpsellOffers";
+import { FREE_SHIPPING_THRESHOLD, FLAT_SHIPPING_COST, ShippingProgressBar } from "@/components/layout/CartUpsellOffers";
 import { getStoredUser } from "@/lib/auth";
 import { PAYMENT_GATEWAYS, PAYMENT_PROCESSOR_NOTE, type PaymentGatewayId } from "@/lib/payment-config";
 import { getStoredCouponCode, setStoredCouponCode } from "@/lib/referral";
 import { useCouponValidation } from "@/lib/use-coupon-validation";
 import { trackEvent } from "@/lib/pixel";
 import { getProductImage } from "@/lib/product-images";
+import { formatAttributionNote, getStoredAttribution } from "@/lib/campaign-attribution";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -26,20 +27,10 @@ const US_STATES = [
 const CA_PROVINCES = ["AB","BC","MB","NB","NL","NS","NT","NU","ON","PE","QC","SK","YT"];
 
 const MEMO_CHARS = "ABCDEFGHJKMNPQRSTUVWXYZ23456789"; // avoids ambiguous 0/O/1/I/L
-const RESERVATION_MS = 2 * 60 * 60 * 1000; // 2 hours
-
 function generateMemo() {
   let code = "";
   for (let i = 0; i < 4; i++) code += MEMO_CHARS[Math.floor(Math.random() * MEMO_CHARS.length)];
   return code;
-}
-
-function formatCountdown(ms: number) {
-  const totalSeconds = Math.max(0, Math.floor(ms / 1000));
-  const h = Math.floor(totalSeconds / 3600);
-  const m = Math.floor((totalSeconds % 3600) / 60);
-  const s = totalSeconds % 60;
-  return `${h}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
 }
 
 export default function CheckoutPage() {
@@ -63,8 +54,6 @@ export default function CheckoutPage() {
 
   const [selectedGateway, setSelectedGateway] = useState<PaymentGatewayId | null>(null);
   const [memo, setMemo] = useState(() => generateMemo());
-  const [expiresAt, setExpiresAt] = useState(() => Date.now() + RESERVATION_MS);
-  const [now, setNow] = useState(() => Date.now());
   const [copied, setCopied] = useState(false);
   const [handleCopied, setHandleCopied] = useState(false);
   const [placing, setPlacing] = useState(false);
@@ -84,11 +73,6 @@ export default function CheckoutPage() {
   const shippingComplete = Boolean(
     firstName.trim() && lastName.trim() && email.trim() && address1.trim() && city.trim() && stateCode && zip.trim()
   );
-
-  useEffect(() => {
-    const timer = window.setInterval(() => setNow(Date.now()), 1000);
-    return () => window.clearInterval(timer);
-  }, []);
 
   useEffect(() => {
     const syncAppliedCoupon = (event: Event) => {
@@ -122,14 +106,7 @@ export default function CheckoutPage() {
     return () => window.clearTimeout(timer);
   }, [email]);
 
-  const remainingMs = expiresAt - now;
-  const expired = remainingMs <= 0;
   const selectedGatewayInfo = PAYMENT_GATEWAYS.find((g) => g.id === selectedGateway) ?? null;
-
-  function handleRegenerate() {
-    setMemo(generateMemo());
-    setExpiresAt(Date.now() + RESERVATION_MS);
-  }
 
   async function handleCopyMemo() {
     try {
@@ -154,7 +131,7 @@ export default function CheckoutPage() {
 
   async function handlePlaceOrder(e: React.FormEvent) {
     e.preventDefault();
-    if (!selectedGateway || expired || !shippingComplete || !ruoAttestation || placing) return;
+    if (!selectedGateway || !shippingComplete || !ruoAttestation || placing) return;
     setCheckoutError("");
     setPlacing(true);
     trackEvent("order_submit_attempt", {
@@ -165,6 +142,7 @@ export default function CheckoutPage() {
 
     const user = getStoredUser();
     const gatewayInfo = PAYMENT_GATEWAYS.find((g) => g.id === selectedGateway)!;
+    const attribution = getStoredAttribution();
     let orderId = "";
     try {
       const res = await fetch("/api/checkout", {
@@ -190,6 +168,7 @@ export default function CheckoutPage() {
           discountCode: couponCode.trim() || undefined,
           customerNote: [
             `RUO attestation: purchaser confirmed laboratory/research use only at ${new Date().toISOString()}.`,
+            formatAttributionNote(attribution),
             orderNotes.trim() || undefined,
           ]
             .filter(Boolean)
@@ -233,6 +212,8 @@ export default function CheckoutPage() {
       valueCents: Math.round(total * 100),
       order_number: orderId,
       payment_method: selectedGateway,
+      campaign: attribution?.campaign,
+      source: attribution?.source,
     });
 
     clearCart();
@@ -263,12 +244,12 @@ export default function CheckoutPage() {
   return (
     <div className="cp-checkout mx-auto max-w-6xl px-4 py-10 md:py-16">
       <header className="cp-checkout-head">
-        <small>Secure checkout</small>
+        <small>Order checkout</small>
         <h1>Complete your order</h1>
         <p>Enter delivery details, choose a payment method, and review your research order before confirming.</p>
       </header>
       <div className="cp-checkout-trust" aria-label="Checkout benefits">
-        <span><i className="ri-lock-2-line" /><b>Secure checkout</b><small>Protected order details</small></span>
+        <span><i className="ri-lock-2-line" /><b>Protected form</b><small>Encrypted order details</small></span>
         <span><i className="ri-truck-line" /><b>Tracked delivery</b><small>Updates after carrier scan</small></span>
         <span><i className="ri-file-shield-2-line" /><b>COA-backed batches</b><small>Documentation available</small></span>
       </div>
@@ -276,6 +257,10 @@ export default function CheckoutPage() {
         <span><b>1</b><small>Enter delivery details</small></span>
         <span><b>2</b><small>Choose Cash App, Zelle, or Venmo</small></span>
         <span><b>3</b><small>Submit the order, then send payment</small></span>
+      </div>
+      <div className="cp-checkout-mobile-total" aria-label="Current order total">
+        <span>{lines.reduce((sum, line) => sum + line.qty, 0)} item{lines.reduce((sum, line) => sum + line.qty, 0) === 1 ? "" : "s"} · Shipping {shipping === 0 ? "free" : formatPrice(shipping)}</span>
+        <b>{formatPrice(total)}</b>
       </div>
 
       <form onSubmit={handlePlaceOrder} className="cp-checkout-form mt-10 grid grid-cols-1 gap-12 lg:grid-cols-[1fr_460px]">
@@ -407,8 +392,6 @@ export default function CheckoutPage() {
               ))}
             </div>
 
-            <BacWaterOffer />
-
             <div className="mt-6 space-y-2 border-t border-stone pt-5 text-base">
               <div className="flex items-center justify-between">
                 <span className="text-charcoal/60">Subtotal</span>
@@ -496,51 +479,29 @@ export default function CheckoutPage() {
               </div>
             )}
 
-            <div className="mt-4 rounded-lg border border-copper/30 bg-copper/5 p-5">
+            {selectedGatewayInfo && <div className="mt-4 rounded-lg border border-copper/30 bg-copper/5 p-5">
               <div className="mb-3 flex items-center justify-between">
                 <label className="text-sm font-semibold text-charcoal">Payment Memo</label>
-                {!expired ? (
-                  <span className="flex items-center gap-1.5 font-mono text-xs tracking-wider text-charcoal/50">
-                    <i className="ri-time-line" /> Reserved {formatCountdown(remainingMs)}
-                  </span>
-                ) : (
-                  <span className="flex items-center gap-1.5 font-mono text-xs tracking-wider text-red-600">
-                    <i className="ri-error-warning-line" /> Reservation expired
-                  </span>
-                )}
+                <span className="text-xs text-charcoal/45">Generated for this order</span>
               </div>
               <div className="flex items-center gap-2">
                 <span
-                  className={`flex h-14 flex-1 items-center justify-center rounded-md border bg-white font-mono text-2xl tracking-[0.4em] ${
-                    expired ? "border-stone text-charcoal/30" : "border-copper/40 text-copper"
-                  }`}
+                  className="flex h-14 flex-1 items-center justify-center rounded-md border border-copper/40 bg-white font-mono text-2xl tracking-[0.4em] text-copper"
                 >
                   {memo}
                 </span>
                 <button
                   type="button"
                   onClick={handleCopyMemo}
-                  disabled={expired}
-                  className="h-14 shrink-0 whitespace-nowrap rounded-md border border-stone px-5 text-sm font-medium text-charcoal/70 transition hover:border-copper hover:text-copper disabled:cursor-not-allowed disabled:opacity-30"
+                  className="h-14 shrink-0 whitespace-nowrap rounded-md border border-stone px-5 text-sm font-medium text-charcoal/70 transition hover:border-copper hover:text-copper"
                 >
                   {copied ? "Copied" : "Copy"}
                 </button>
               </div>
               <p className="mt-3 text-xs leading-relaxed text-charcoal/50">
-                Include this exact code in your {selectedGateway ? PAYMENT_GATEWAYS.find((g) => g.id === selectedGateway)?.label : "payment"} note
-                so we can match your payment and dispatch faster. Your items are held for 2 hours. After that, stock
-                releases back to general inventory.
+                Include this exact code in your {selectedGatewayInfo.label} payment note so we can match your payment to this order. Inventory is confirmed after the order is submitted.
               </p>
-              {expired && (
-                <button
-                  type="button"
-                  onClick={handleRegenerate}
-                  className="mt-3 rounded-md border border-copper/40 bg-copper/10 px-4 py-2.5 text-sm font-medium text-copper transition hover:bg-copper/20"
-                >
-                  <i className="ri-refresh-line mr-1.5" /> Generate New Code
-                </button>
-              )}
-            </div>
+            </div>}
           </div>
 
           <label className="flex items-start gap-3 rounded-lg border border-stone bg-ivory-soft p-4">
@@ -571,7 +532,7 @@ export default function CheckoutPage() {
 
           <button
             type="submit"
-            disabled={!selectedGateway || expired || !shippingComplete || !ruoAttestation || placing}
+            disabled={!selectedGateway || !shippingComplete || !ruoAttestation || placing}
             className="w-full rounded-md bg-copper px-5 py-5 text-sm font-semibold uppercase tracking-[0.12em] text-charcoal transition hover:bg-copper-light disabled:cursor-not-allowed disabled:opacity-40"
           >
             {placing ? "Submitting Order..." : `Submit Order & Continue to Payment · ${formatPrice(total)}`}

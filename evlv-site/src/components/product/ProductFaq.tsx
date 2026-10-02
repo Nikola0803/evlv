@@ -14,13 +14,13 @@ export function ProductFaq({ product, title }: { product: Product; title: string
   const items = [
     {
       q: `What is ${title}?`,
-      a: `${title} is a research compound supplied strictly for laboratory and analytical research use. It is independently tested for identity and purity before it ships -- not for human or veterinary consumption.`,
+      a: `${title} is a research compound supplied strictly for laboratory and analytical research use. Product-specific laboratory documentation is shown when a matching report is available -- not for human or veterinary consumption.`,
     },
     {
       q: "What does the Certificate of Analysis verify?",
-      a: `Every batch of ${title} carries its own Certificate of Analysis confirming identity (mass spectrometry) and purity (HPLC)${
-        product.purity ? `, published at ${product.purity} or better` : ""
-      }. You can view the current lab report in the Lab Report tab above, or search the batch code in our public COA archive.`,
+      a: `A matching Certificate of Analysis identifies the tested product and reports the methods and results supplied by the issuing laboratory${
+        product.purity ? `, including a catalog purity value of ${product.purity} where supported` : ""
+      }. Search the product or batch identifier in our public COA archive; if no exact match is listed, contact support before relying on a report.`,
     },
     {
       q: "How should it be stored, and does it need cold-chain shipping?",
@@ -28,7 +28,7 @@ export function ProductFaq({ product, title }: { product: Product; title: string
     },
     {
       q: "What ships with my order?",
-      a: "Your order ships in discreet, unmarked packaging with tracking provided within one business day, along with a copy of the batch-specific documentation for the compound you ordered.",
+      a: "Your order ships in discreet packaging with tracking. Available product-specific documentation can be accessed through the public COA library.",
     },
     {
       q: "Can I order in bulk or for an institution?",

@@ -69,7 +69,7 @@ export function Hero() {
           </div>
 
           <div className="mt-11 flex flex-wrap items-center gap-x-7 gap-y-2">
-            {["99%+ Tested Purity", "Batch-Level COAs", "Research Use Only"].map((label) => (
+            {["Transparent Purity Data", "Exact COAs Labeled", "Research Use Only"].map((label) => (
               <span key={label} className="flex items-center gap-2 text-[11px] uppercase tracking-[0.15em] text-white/70">
                 <i className="ri-check-line text-sm text-copper" />
                 {label}

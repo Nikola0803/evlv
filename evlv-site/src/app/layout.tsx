@@ -53,7 +53,7 @@ export const metadata: Metadata = {
     template: "%s | EVLV",
   },
   description:
-    "High-purity research peptides supplied for laboratory and in-vitro analytical research. Certificate of Analysis published for every lot. Not for human or animal use.",
+    "Research peptides supplied for laboratory and in-vitro analytical research, with exact product and batch reports clearly labeled when available. Not for human or animal use.",
   keywords: [
     "research peptides",
     "BPC-157",
@@ -70,7 +70,7 @@ export const metadata: Metadata = {
     url: SITE_URL,
     siteName: "EVLV",
     title: "EVLV Peptides: High-Purity Research Peptides for Laboratory Analysis",
-    description: "High-purity research peptides supplied for laboratory and in-vitro analytical research. Batch-level Certificates of Analysis published. Not for human or animal use.",
+    description: "Research peptides supplied for laboratory and in-vitro analytical research, with transparent product-specific batch documentation. Not for human or animal use.",
     images: [{ url: "/images/hero-vial.png", width: 1200, height: 630, alt: "EVLV research peptides" }],
   },
   twitter: {

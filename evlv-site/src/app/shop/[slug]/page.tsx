@@ -48,7 +48,8 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
     .filter((item) => item.category === product.category && !siblingSlugs.has(item.slug))
     .slice(0, 4);
 
-  const coa = (await getCoaMap())[product.slug];
+  const coaMap = await getCoaMap();
+  const coa = coaMap[product.slug];
   const image = getProductImage(product);
   const absoluteImage = image.startsWith("http://") || image.startsWith("https://") ? image : `${SITE_URL}${image}`;
   const productForm = product.slug === "kpv-oral-500mcg"
@@ -114,7 +115,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           <small className="cp-pdp-kicker">Product information</small>
           <h2 id="product-description-heading">Product description</h2>
           <p>{product.description}</p>
-          <p>EVLV supplies U.S.-made research products supported by verifiable batch documentation for identity, content, and purity. Testing methods and results are specific to each batch and are available through the COA library.</p>
+          <p>EVLV fulfills research products from the United States and publishes product-specific batch documentation when a matching laboratory report is available. Testing methods and results are specific to the product and batch identified in each report.</p>
           <p>This product is supplied in the format shown on this page: {productForm.toLowerCase()}.</p>
           <p><strong>For laboratory research use only. Not for human or veterinary use.</strong></p>
         </div>
@@ -137,7 +138,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             <div><small>Continue researching</small><h2 id="related-products-heading">Related products</h2></div>
             <Link href={`/shop?category=${product.category}`}>View all products →</Link>
           </header>
-          <div className="cp-product-grid">{relatedProducts.map((item) => <ProductCard key={item.id} product={item} />)}</div>
+          <div className="cp-product-grid">{relatedProducts.map((item) => <ProductCard key={item.id} product={item} coaVerified={Boolean(coaMap[item.slug])} />)}</div>
         </section>
       )}
     </div>

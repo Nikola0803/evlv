@@ -5,19 +5,13 @@ import { usePathname, useRouter } from "next/navigation";
 import { useCart } from "@/lib/cart-context";
 import { setStoredCouponCode } from "@/lib/referral";
 
-type PromptMode = "newsletter" | "availability" | "checkout" | "weekend" | null;
+type PromptMode = "newsletter" | "availability" | null;
 
 const NEWSLETTER_KEY = "evlv_newsletter_exit_shown_v2";
 const AVAILABILITY_KEY = "evlv_glp_availability_shown_v2";
-const CHECKOUT_KEY = "evlv_checkout_offer_shown_v2";
-const WEEKEND_KEY = "evlv_weekend_b2g1_shown_v1";
 const CAMPAIGN_SESSION_KEY = "evlv_campaign_entry";
-const CHECKOUT_OFFER_CODE = process.env.NEXT_PUBLIC_CHECKOUT_URGENCY_CODE?.trim() ?? "";
 const GLP_PROMO_CODE = process.env.NEXT_PUBLIC_GLP_PROMO_CODE?.trim() ?? "";
 const GLP_PROMO_LABEL = process.env.NEXT_PUBLIC_GLP_PROMO_LABEL?.trim() ?? "";
-const WEEKEND_B2G1_ENABLED = process.env.NEXT_PUBLIC_WEEKEND_B2G1_ENABLED === "true";
-const WEEKEND_B2G1_ENDS_AT = "2026-09-29T04:00:00.000Z"; // Monday 11:59 PM ET
-const CHECKOUT_OFFER_SECONDS = 120;
 const EXIT_INTENT_DELAY = 10000;
 
 function wasShown(key: string) {
@@ -37,8 +31,6 @@ export function ConversionPrompts() {
   const [couponCode, setCouponCode] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
-  const [offerSeconds, setOfferSeconds] = useState(CHECKOUT_OFFER_SECONDS);
-  const [weekendSeconds, setWeekendSeconds] = useState(() => Math.max(0, Math.ceil((Date.parse(WEEKEND_B2G1_ENDS_AT) - Date.now()) / 1000)));
   const enteredAt = useRef(0);
 
   useEffect(() => {
@@ -46,7 +38,7 @@ export function ConversionPrompts() {
 
     const searchParams = new URLSearchParams(window.location.search);
     const preview = searchParams.get("cro_preview");
-    if (window.location.hostname === "localhost" && ["newsletter", "availability", "checkout", "weekend"].includes(preview ?? "")) {
+    if (window.location.hostname === "localhost" && ["newsletter", "availability"].includes(preview ?? "")) {
       const previewTimer = window.setTimeout(() => setMode(preview as Exclude<PromptMode, null>), 0);
       return () => window.clearTimeout(previewTimer);
     }
@@ -58,7 +50,6 @@ export function ConversionPrompts() {
     const resetTimer = window.setTimeout(() => setMode(null), 0);
 
     const isCommercePage = pathname === "/" || pathname === "/shop" || pathname.startsWith("/shop/");
-    const isCheckout = pathname === "/checkout";
     let pendingExit = false;
 
     function reveal(nextMode: Exclude<PromptMode, null>, key: string) {
@@ -66,27 +57,18 @@ export function ConversionPrompts() {
       setMode((current) => {
         if (current) return current;
         rememberShown(key);
-        if (nextMode === "checkout") setOfferSeconds(CHECKOUT_OFFER_SECONDS);
         return nextMode;
       });
     }
 
     function revealExitPrompt() {
       if (Date.now() - enteredAt.current < EXIT_INTENT_DELAY) return;
-      if (count > 0) {
-        if (isCheckout && CHECKOUT_OFFER_CODE) reveal("checkout", CHECKOUT_KEY);
-        return;
-      }
+      if (count > 0) return;
       reveal("newsletter", NEWSLETTER_KEY);
     }
 
-    let weekendTimer = 0;
-    if (WEEKEND_B2G1_ENABLED && isCommercePage && !wasShown(WEEKEND_KEY)) {
-      weekendTimer = window.setTimeout(() => reveal("weekend", WEEKEND_KEY), 8000);
-    }
-
     let availabilityTimer = 0;
-    if (!WEEKEND_B2G1_ENABLED && isCommercePage && count === 0 && !wasShown(AVAILABILITY_KEY)) {
+    if (isCommercePage && count === 0 && !wasShown(AVAILABILITY_KEY)) {
       availabilityTimer = window.setTimeout(() => {
         reveal("availability", AVAILABILITY_KEY);
       }, 35000);
@@ -102,7 +84,6 @@ export function ConversionPrompts() {
       window.clearTimeout(mobileTimer);
       mobileTimer = window.setTimeout(() => {
         if (count === 0) reveal("newsletter", NEWSLETTER_KEY);
-        else if (isCheckout && CHECKOUT_OFFER_CODE) reveal("checkout", CHECKOUT_KEY);
       }, 30000);
       window.removeEventListener("scroll", handleScroll);
     }
@@ -126,7 +107,6 @@ export function ConversionPrompts() {
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => {
       window.clearTimeout(availabilityTimer);
-      window.clearTimeout(weekendTimer);
       window.clearTimeout(mobileTimer);
       window.clearTimeout(resetTimer);
       document.removeEventListener("mouseout", handlePointerExit);
@@ -138,35 +118,7 @@ export function ConversionPrompts() {
     };
   }, [pathname, count]);
 
-  useEffect(() => {
-    if (mode !== "checkout") return;
-    const timer = window.setTimeout(() => {
-      if (offerSeconds <= 1) setMode(null);
-      else setOfferSeconds((seconds) => seconds - 1);
-    }, 1000);
-    return () => window.clearTimeout(timer);
-  }, [mode, offerSeconds]);
-
-  useEffect(() => {
-    if (mode !== "weekend") return;
-    const update = () => {
-      const remaining = Math.max(0, Math.ceil((Date.parse(WEEKEND_B2G1_ENDS_AT) - Date.now()) / 1000));
-      setWeekendSeconds(remaining);
-      if (remaining <= 0) setMode(null);
-    };
-    update();
-    const timer = window.setInterval(update, 1000);
-    return () => window.clearInterval(timer);
-  }, [mode]);
-
   function close() { setMode(null); }
-
-  function applyCheckoutOffer() {
-    if (!CHECKOUT_OFFER_CODE || offerSeconds <= 0) return;
-    setStoredCouponCode(CHECKOUT_OFFER_CODE);
-    window.dispatchEvent(new CustomEvent("evlv:coupon-applied", { detail: { code: CHECKOUT_OFFER_CODE } }));
-    close();
-  }
 
   function openGlpProducts() {
     if (GLP_PROMO_CODE) setStoredCouponCode(GLP_PROMO_CODE);
@@ -216,51 +168,11 @@ export function ConversionPrompts() {
     );
   }
 
-  if (mode === "weekend") {
-    const days = Math.floor(weekendSeconds / 86400);
-    const hours = Math.floor((weekendSeconds % 86400) / 3600);
-    const minutes = Math.floor((weekendSeconds % 3600) / 60);
-    const seconds = weekendSeconds % 60;
-    return (
-      <div className="cp-cro-overlay" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) close(); }}>
-        <section className="cp-cro-modal" role="dialog" aria-modal="true" aria-labelledby="cp-weekend-title">
-          <button type="button" className="cp-cro-close" onClick={close} aria-label="Dismiss"><i className="ri-close-line" /></button>
-          <small>Ends Monday at 11:59 PM ET</small>
-          <div className="cp-cro-timer" aria-label={`${weekendSeconds} seconds remaining`}>
-            {days > 0 ? `${days}d ` : ""}{String(hours).padStart(2, "0")}:{String(minutes).padStart(2, "0")}:{String(seconds).padStart(2, "0")}
-          </div>
-          <h2 id="cp-weekend-title">BUY 2, GET 1 FREE</h2>
-          <p><strong>Every third vial is on us.</strong> Add 3 of the same product and pay for only 2. Add 6 and get 2 free. Add 9 and get 3 free.</p>
-          <div className="cp-cro-promo"><b>No code needed</b><span>Same product only</span></div>
-          <div className="cp-cro-actions">
-            <button type="button" className="cp-cro-primary" onClick={() => { close(); router.push("/shop"); }}>Shop the Weekend Event</button>
-            <button type="button" className="cp-cro-secondary" onClick={close}>Keep Browsing</button>
-          </div>
-          <em>Discount repeats in groups of three. Not stackable with quantity pricing or other offers. Free shipping applies at $300 after discounts.</em>
-        </section>
-      </div>
-    );
-  }
-
   return (
     <div className="cp-cro-overlay" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) close(); }}>
       <section className="cp-cro-modal" role="dialog" aria-modal="true" aria-labelledby="cp-cro-title">
         <button type="button" className="cp-cro-close" onClick={close} aria-label="Dismiss"><i className="ri-close-line" /></button>
-        {mode === "checkout" ? (
-          <>
-            <small>Checkout-only offer</small>
-            <div className="cp-cro-timer" aria-label={`${offerSeconds} seconds remaining`}>
-              {String(Math.floor(offerSeconds / 60)).padStart(2, "0")}:{String(offerSeconds % 60).padStart(2, "0")}
-            </div>
-            <h2 id="cp-cro-title">Finish now and take an additional 5% off.</h2>
-            <p>Apply the checkout offer before the timer ends, then complete your order when you are ready.</p>
-            <div className="cp-cro-actions">
-              <button type="button" className="cp-cro-primary" onClick={applyCheckoutOffer}>Apply 5% and Continue</button>
-              <button type="button" className="cp-cro-secondary" onClick={close}>No thanks</button>
-            </div>
-            <em>Additional savings are subject to the 30% total order cap.</em>
-          </>
-        ) : couponCode ? (
+        {couponCode ? (
           <>
             <small>Your research welcome offer</small>
             <h2 id="cp-cro-title">Your 20% code is ready.</h2>

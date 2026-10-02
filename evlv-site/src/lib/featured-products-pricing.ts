@@ -1,5 +1,4 @@
 import type { Product } from "./types";
-import { getAnchorPrice } from "./pricing";
 
 /**
  * The homepage's "Featured products" carousel is scraped static HTML
@@ -7,9 +6,10 @@ import { getAnchorPrice } from "./pricing";
  * hand-typed in at scrape time -- they silently drift from the real,
  * live shop prices whenever a price changes there. This patches each
  * product card's <div class="pprice"> in place with the real current
- * price plus a crossed-out anchor price (same 20%-off convention as
- * ProductCard.tsx's getAnchorPrice()), so the homepage always matches
- * the shop instead of needing a second manual edit on every price change.
+ * price, so the homepage always matches the shop instead of needing a
+ * second manual edit on every price change. Reference prices are not
+ * manufactured here; promotional savings must come from a real coupon or
+ * quantity tier with explicit terms.
  *
  * Deliberately a targeted regex substitution over the scraped markup
  * rather than a rebuilt template -- every product's badge/description/
@@ -68,9 +68,7 @@ export function applyLiveFeaturedPricing(html: string, products: Product[]): str
     (match, prefix, slug) => {
       const product = bySlug.get(slug);
       if (!product) return match; // unknown slug -- leave whatever was scraped alone rather than guess
-      const anchor = getAnchorPrice(product.price);
-      const was = `<span class="amt-was" style="font-size:14px;font-weight:500;text-decoration:line-through;opacity:.45;margin-right:2px">$${anchor.toFixed(0)}</span>`;
-      return `${prefix}${was}<span class="amt">$${product.price.toFixed(0)}</span><span class="per"></span></div>`;
+      return `${prefix}<span class="amt">$${product.price.toFixed(2)}</span><span class="per"></span></div>`;
     }
   );
 }

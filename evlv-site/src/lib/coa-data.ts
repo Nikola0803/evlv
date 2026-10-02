@@ -46,12 +46,6 @@ const PRIMARY_LOCAL_COA_MAP: Record<string, CoaEntry> = {};
 for (const coa of [...LOCAL_COAS].reverse()) PRIMARY_LOCAL_COA_MAP[coa.slug] = coa;
 PRIMARY_LOCAL_COA_MAP["bpc-tb-500-blend-20mg"] = LOCAL_COAS.find((coa) => coa.label === "DPS-4339222")!;
 
-// Blend reports also substantiate the matching single-compound formats.
-PRIMARY_LOCAL_COA_MAP["bpc-157-5mg"] = PRIMARY_LOCAL_COA_MAP["bpc-tb-500-blend-10mg"];
-PRIMARY_LOCAL_COA_MAP["tb-500-5mg"] = PRIMARY_LOCAL_COA_MAP["bpc-tb-500-blend-10mg"];
-PRIMARY_LOCAL_COA_MAP["bpc-157-10mg"] = PRIMARY_LOCAL_COA_MAP["bpc-tb-500-blend-20mg"];
-PRIMARY_LOCAL_COA_MAP["tb-500-10mg"] = PRIMARY_LOCAL_COA_MAP["bpc-tb-500-blend-20mg"];
-
 export async function getCoaMap(): Promise<Record<string, CoaEntry>> {
   if (!crmConfigured()) return PRIMARY_LOCAL_COA_MAP;
 

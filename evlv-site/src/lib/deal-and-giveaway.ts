@@ -29,7 +29,7 @@ export interface GiveawayStatus {
 // Deal of the Day card in the CRM, never edited here.
 const DEAL_DESCRIPTIONS: Record<string, string> = {
   "bpc-157-10mg":
-    "BPC-157 is a synthetic peptide fragment studied for its interactions with tissue-repair and angiogenesis pathways. Supplied at 99%+ HPLC-verified purity for in vitro and laboratory research only.",
+    "BPC-157 is a synthetic peptide fragment used in controlled in-vitro and laboratory research. Review the product page and public COA library for currently available documentation.",
 };
 
 const GIVEAWAY_STATUS: GiveawayStatus | null = {

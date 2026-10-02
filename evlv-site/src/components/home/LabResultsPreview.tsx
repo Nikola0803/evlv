@@ -23,13 +23,13 @@ export function LabResultsPreview() {
             06 / Transparency
           </div>
           <h2 className="font-display text-5xl font-semibold uppercase leading-[0.95] md:text-6xl">
-            Every batch.
+            Exact reports.
             <br />
             Verified.
           </h2>
           <p className="mt-6 max-w-md text-base leading-relaxed text-white/60 md:text-lg">
-            Every order ships with a Certificate of Analysis for its exact lot. Enter a batch code and pull the real
-            result, not a demo.
+            Search the public library by product or batch identifier. Exact matching reports are labeled clearly;
+            unmatched products are never represented by a different compound&apos;s report.
           </p>
           <ButtonLink href="/coas" variant="secondary" size="lg" className="mt-9 !border-white/40 !text-ivory hover:!border-copper hover:!bg-transparent hover:!text-copper">
             View All COAs <i className="ri-arrow-right-line" />

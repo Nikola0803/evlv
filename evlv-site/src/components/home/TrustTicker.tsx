@@ -1,11 +1,9 @@
-const ITEMS = ["Free Shipping $200+", "99%+ HPLC Purity", "Research Use Only", "Not for Human Consumption", "USA Made", "Batch COA Included"];
+const ITEMS = ["Free Shipping $300+", "Exact COAs Clearly Labeled", "Research Use Only", "Not for Human Consumption", "U.S. Fulfillment", "Transparent Batch Data"];
 
 // One continuous marquee row, duplicated once so the CSS animation can
 // scroll a full width and loop seamlessly (see .animate-ticker in
-// globals.css). "USA Made" gets the copper dot like every other item, but
-// its own text is bolded/colored so it reads as the standout claim on
-// this row per the "highlight Made in USA" ask -- without needing a
-// second, visually-competing ticker just for one item.
+// globals.css). The U.S. fulfillment item gets the same visual emphasis
+// without making an unsupported country-of-origin manufacturing claim.
 function TickerRow({ ariaHidden }: { ariaHidden?: boolean }) {
   return (
     <div className="flex flex-shrink-0 items-center" aria-hidden={ariaHidden}>
@@ -14,7 +12,7 @@ function TickerRow({ ariaHidden }: { ariaHidden?: boolean }) {
           <span className="mr-3 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-copper" />
           <span
             className={`font-sans text-[10px] uppercase tracking-widest ${
-              item === "USA Made" ? "font-semibold text-copper-dark" : "font-normal text-charcoal"
+              item === "U.S. Fulfillment" ? "font-semibold text-copper-dark" : "font-normal text-charcoal"
             }`}
           >
             {item}

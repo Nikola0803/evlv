@@ -15,8 +15,8 @@ export function ProofSection() {
           Supplying university, contract-research, and analytical laboratory accounts.
         </h2>
         <p className="mx-auto mt-4 max-w-[640px] text-sm leading-relaxed text-charcoal/60">
-          Certificates of Analysis are published for every batch and available on request. All compounds are supplied
-          strictly for laboratory, in-vitro, and analytical research use.
+          Exact product and batch reports are identified in the public COA library when available. All compounds are
+          supplied strictly for laboratory, in-vitro, and analytical research use.
         </p>
       </div>
     </section>

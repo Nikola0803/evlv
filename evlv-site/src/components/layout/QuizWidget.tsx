@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { FOCUS_AREAS, SUBGOALS, QUIZ_PRODUCTS, QUIZ_LABELS, TIER_ORDER, MAX_FOCUS_SELECTIONS, type Tier } from "@/lib/quiz-data";
@@ -51,6 +52,7 @@ function goalLabel(key: string) {
 }
 
 export function QuizWidget() {
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState<Step>("intro");
   const [selectedGoals, setSelectedGoals] = useState<string[]>([]);
@@ -129,7 +131,7 @@ export function QuizWidget() {
 
   return (
     <>
-      {!cartOpen && (
+      {!cartOpen && pathname !== "/checkout" && pathname !== "/order-success" && !pathname.startsWith("/account") && (
         <button
           type="button"
           onClick={() => setOpen(true)}

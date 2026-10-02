@@ -11,7 +11,7 @@ const FILTERS: { value: Filter; label: string }[] = [
   { value: "all", label: "All products" },{ value: "peptides", label: "Peptides" },{ value: "ancillaries", label: "Bioregulators & Ancillaries" },{ value: "blend", label: "Blends" },{ value: "oral", label: "Capsules" },
 ];
 
-export function ShopClient({ products: initialProducts }: { products: Product[] }) {
+export function ShopClient({ products: initialProducts, verifiedCoaSlugs }: { products: Product[]; verifiedCoaSlugs: string[] }) {
   const params = useSearchParams();
   const [products, setProducts] = useState(initialProducts);
   const [filter,setFilter] = useState<Filter>(() => {
@@ -25,6 +25,7 @@ export function ShopClient({ products: initialProducts }: { products: Product[] 
   const [query,setQuery] = useState(() => params.get("q") || "");
   const [sort,setSort] = useState("featured");
   const groups = useMemo(() => getShopMenuGroups(products), [products]);
+  const verifiedCoas = useMemo(() => new Set(verifiedCoaSlugs), [verifiedCoaSlugs]);
 
   useEffect(() => {
     let active = true;
@@ -62,9 +63,9 @@ export function ShopClient({ products: initialProducts }: { products: Product[] 
         <div className="cp-shop-hero-copy">
           <small>EVLV RESEARCH CATALOGUE</small>
           <h1>{title}</h1>
-          <p>Premium research compounds backed by independent testing and transparent batch documentation.</p>
+          <p>Research compounds with clearly labeled, product-specific batch documentation where available.</p>
           <div className="cp-shop-hero-proof" aria-label="Product quality standards">
-            <span>✓ COA verified</span><span>✓ 99%+ purity</span><span>✓ U.S. dispatch</span>
+            <span>✓ Exact reports labeled</span><span>✓ Transparent purity data</span><span>✓ U.S. dispatch</span>
           </div>
           <a href="#catalogue">Explore products <span aria-hidden="true">→</span></a>
         </div>
@@ -80,7 +81,7 @@ export function ShopClient({ products: initialProducts }: { products: Product[] 
         </div>
         <div className="cp-shop-search"><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search products" /><select value={sort} onChange={e=>setSort(e.target.value)}><option value="featured">Featured</option><option value="az">Name</option><option value="low">Price: low to high</option><option value="high">Price: high to low</option></select></div>
       </div>
-      <div className="cp-shop-status"><span>{list.length} products</span><span>All products include accessible COA documentation</span></div><div className="cp-shop-grid">{list.map(product=><ProductCard key={product.id} product={product}/>)}</div>{list.length===0&&<p className="cp-shop-empty">No products match your search.</p>}
+      <div className="cp-shop-status"><span>{list.length} products</span><span>Exact COA badges appear only when a matching report is available</span></div><div className="cp-shop-grid">{list.map(product=><ProductCard key={product.id} product={product} coaVerified={verifiedCoas.has(product.slug)}/>)}</div>{list.length===0&&<p className="cp-shop-empty">No products match your search.</p>}
     </div>
   </section>;
 }

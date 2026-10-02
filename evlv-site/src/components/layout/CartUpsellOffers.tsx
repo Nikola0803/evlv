@@ -54,11 +54,8 @@ export function ShippingProgressBar() {
 }
 
 /**
- * "Don't forget BAC Water" -- every peptide in the catalog is a
- * lyophilized powder that needs bacteriostatic water to reconstitute
- * (see Product.reconstitution), so a cart full of vials and no BAC
- * Water is very likely an order that arrives and can't actually be
- * used yet. Only fires when the cart has a reconstitutable peptide
+ * Optional BAC Water reminder for products whose catalog entry includes
+ * reconstitution information. Only fires when the cart has a relevant product
  * (anything with a `reconstitution` note) and doesn't already have
  * BAC Water in it -- never nags on an ancillaries-only or already-
  * covered order.
@@ -80,9 +77,9 @@ export function BacWaterOffer({ products = [] }: { products?: Product[] }) {
     <div className="mt-5 flex items-start gap-3 rounded-lg border border-copper/40 bg-copper/5 p-4">
       <i className="ri-flask-line mt-0.5 shrink-0 text-lg text-copper" />
       <div className="flex-1">
-        <p className="text-sm font-semibold text-charcoal">Don&apos;t forget BAC Water!</p>
+        <p className="text-sm font-semibold text-charcoal">Need a laboratory diluent?</p>
         <p className="mt-1 text-xs leading-relaxed text-charcoal/60">
-          All peptides are a lyophilized powder and must be reconstituted with Bacteriostatic Water.
+          This product listing includes reconstitution information. Bacteriostatic Water is available separately for appropriate laboratory workflows.
         </p>
         <button
           type="button"

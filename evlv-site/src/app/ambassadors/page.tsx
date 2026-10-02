@@ -42,7 +42,7 @@ const PARTNER_POINTS = [
   {
     num: "03",
     title: "A Real Research Catalog",
-    body: "Peptides, compounds, and ancillaries - every batch independently lab-verified, so you're standing behind products that hold up to scrutiny.",
+    body: "Peptides, compounds, and ancillaries with exact matching laboratory reports clearly identified in the public COA library.",
   },
   {
     num: "04",

@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 const SECTIONS = [
   {
     title: "All sales are final",
-    body: "Because every batch is independently laboratory-tested before it's sold, and testing results are published for every compound, all sales are final. We don't accept returns for change of mind.",
+    body: "Because these are controlled research materials with chain-of-custody and storage requirements, all sales are final. We don't accept returns for change of mind, but damaged, incorrect, or materially misdescribed shipments remain eligible for review under the sections below.",
   },
   {
     title: "Quality concerns",
@@ -17,7 +17,7 @@ const SECTIONS = [
   },
   {
     title: "Verify before you contact us",
-    body: "Every vial is labeled with a batch code. Before reaching out, match that code against the published report on our COAs page, it's the fastest way to confirm what you received.",
+    body: "Use the product and batch identifiers on the received packaging to search our COA page. If an exact report is not listed, contact us with your order number and clear photos so we can investigate.",
   },
   {
     title: "Damaged or incorrect shipments",

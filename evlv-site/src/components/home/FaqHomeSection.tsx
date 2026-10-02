@@ -22,7 +22,7 @@ export function FaqHomeSection() {
           <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">08 / Common Questions</p>
           <h2 className="font-display text-3xl font-semibold leading-tight text-charcoal md:text-4xl">Answers before you order.</h2>
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-charcoal/60">
-            Clear answers on shipping, testing, and how EVLV verifies every batch.
+            Clear answers on shipping, testing, and how EVLV labels matching batch documentation.
           </p>
           <div className="relative mt-6">
             <i className="ri-search-line pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-charcoal/30" />

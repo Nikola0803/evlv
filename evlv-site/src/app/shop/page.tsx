@@ -3,6 +3,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { getShopListProducts } from "@/lib/products";
 import { getCatalogProducts } from "@/lib/catalog";
+import { getCoaMap } from "@/lib/coa-data";
 import { ShopClient } from "./ShopClient";
 import { TrustIconRow } from "@/components/ui/TrustIconRow";
 
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
 };
 
 const SHOP_TRUST_ITEMS = [
-  { icon: "ri-shield-check-line", label: "Independently Verified", sublabel: "Every batch independently tested" },
+  { icon: "ri-shield-check-line", label: "Transparent Documentation", sublabel: "Exact reports clearly identified" },
   { icon: "ri-truck-line", label: "US & Canada Shipping", sublabel: "1-2 business day delivery" },
   { icon: "ri-lock-line", label: "Secure Payments", sublabel: "Encrypted checkout" },
   { icon: "ri-customer-service-2-line", label: "Expert Support", sublabel: "Response within minutes" },
@@ -21,11 +22,12 @@ const SHOP_TRUST_ITEMS = [
 
 export default async function ShopPage() {
   const products = getShopListProducts(await getCatalogProducts());
+  const verifiedCoaSlugs = Object.keys(await getCoaMap());
 
   return (
     <>
       <Suspense fallback={null}>
-        <ShopClient products={products} />
+        <ShopClient products={products} verifiedCoaSlugs={verifiedCoaSlugs} />
       </Suspense>
       <section className="border-t border-stone bg-ivory-soft py-14 md:py-20" aria-labelledby="shop-research-heading">
         <div className="mx-auto grid max-w-[1180px] gap-8 px-4 md:grid-cols-[1.1fr_0.9fr] md:px-8">

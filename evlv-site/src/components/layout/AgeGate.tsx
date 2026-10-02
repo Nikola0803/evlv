@@ -5,6 +5,7 @@ import Link from "next/link";
 import { saveAuth } from "@/lib/auth";
 import { trackEvent } from "@/lib/pixel";
 import { Logo } from "@/components/ui/Logo";
+import { captureAttributionFromUrl, getStoredAttribution } from "@/lib/campaign-attribution";
 
 const SESSION_KEY = "evlv_research_access_v7";
 const ACCESS_KEY = "evlv_research_access_v7";
@@ -55,6 +56,7 @@ export function AgeGate({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const url = new URL(window.location.href);
+    const attribution = captureAttributionFromUrl(url);
     const isLocalPreview = ["localhost", "127.0.0.1", "::1"].includes(url.hostname);
     const forcePreview = url.searchParams.get("gate_preview") === "1";
     const campaign = url.searchParams.get(CAMPAIGN_PARAM) === "1";
@@ -63,8 +65,8 @@ export function AgeGate({ children }: { children: React.ReactNode }) {
     if (!allowed) {
       trackEvent("research_gate_view", {
         gate_type: campaign ? "campaign" : "account",
-        campaign: url.searchParams.get("utm_campaign") || undefined,
-        source: url.searchParams.get("utm_source") || undefined,
+        campaign: attribution?.campaign,
+        source: attribution?.source,
       });
     }
     queueMicrotask(() => { setCampaignMode(campaign); setAccepted(allowed); setReady(true); });
@@ -92,7 +94,8 @@ export function AgeGate({ children }: { children: React.ReactNode }) {
       return;
     }
     rememberAccess("campaign");
-    trackEvent("research_gate_accept", { gate_type: "campaign" });
+    const attribution = getStoredAttribution();
+    trackEvent("research_gate_accept", { gate_type: "campaign", campaign: attribution?.campaign, source: attribution?.source });
     stripCampaignParam();
     setAccepted(true);
     if (destination) window.location.assign(destination);
@@ -135,7 +138,7 @@ export function AgeGate({ children }: { children: React.ReactNode }) {
           <div className="cp-ruo-entry-brand"><Logo tone="charcoal" /></div>
           <p className="cp-ruo-entry-kicker"><i className="ri-shield-check-line" /> Verified Research Access</p>
           <h2 id="cp-ruo-title">Before you enter</h2>
-          <p id="cp-ruo-description">EVLV supplies products exclusively for qualified laboratory and analytical research.</p>
+          <p id="cp-ruo-description">EVLV supplies products exclusively for qualified laboratory and analytical research. Your campaign selection will remain available after entry.</p>
           <label className="cp-ruo-entry-check">
             <input type="checkbox" checked={confirmed} onChange={(event) => { setConfirmed(event.target.checked); setError(""); }} />
             <span>I confirm that I am 21 or older and a qualified professional. I understand these products are for in-vitro research only—not for human consumption, clinical, or veterinary use—and I accept the <Link href="/terms" target="_blank" rel="noreferrer">Terms &amp; Conditions</Link>.</span>
@@ -153,9 +156,9 @@ export function AgeGate({ children }: { children: React.ReactNode }) {
             <div className="cp-ruo-gate-media-overlay" />
             <div className="cp-ruo-gate-brand"><p>Verified Research Access</p><Logo tone="ivory" /><span>Premium Research Peptides</span></div>
             <div className="cp-ruo-gate-proof">
-              <span><i className="ri-checkbox-circle-fill" /> ≥99% Purity · HPLC-Verified</span>
-              <span><i className="ri-checkbox-circle-fill" /> Every Batch Third-Party Tested</span>
-              <span><i className="ri-checkbox-circle-fill" /> Batch-Level COAs, Publicly Verifiable</span>
+              <span><i className="ri-checkbox-circle-fill" /> Product-Specific Reports Clearly Labeled</span>
+              <span><i className="ri-checkbox-circle-fill" /> Transparent Batch Documentation</span>
+              <span><i className="ri-checkbox-circle-fill" /> Public COA Library</span>
             </div>
             <p className="cp-ruo-gate-restriction">Access to product information is restricted to account holders who confirm the research-only terms.</p>
           </aside>
