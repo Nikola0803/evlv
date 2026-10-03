@@ -7,7 +7,6 @@ const TRACKING_KEY = process.env.NEXT_PUBLIC_CRM_TRACKING_KEY || 'cmtzmexzs002qb
 const STORAGE_KEY = 'evlv_chat';
 const POLL_INTERVAL = 4000;
 
-// EVLV brand palette
 const C = {
   dark: '#0b2f2c',
   green: '#327657',
@@ -39,6 +38,7 @@ export function LiveChat() {
   const [input, setInput] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
   const [firstMsg, setFirstMsg] = useState('');
   const [sending, setSending] = useState(false);
   const [error, setError] = useState('');
@@ -112,6 +112,7 @@ export function LiveChat() {
           publicKey: TRACKING_KEY,
           name: name.trim() || undefined,
           email: email.trim() || undefined,
+          phone: phone.trim() || undefined,
           message: firstMsg.trim(),
           pageUrl: window.location.href,
         }),
@@ -166,13 +167,12 @@ export function LiveChat() {
     <>
       {open && (
         <div style={{
-          position: 'fixed', bottom: '76px', left: '16px', width: '320px', maxHeight: '500px',
+          position: 'fixed', bottom: '84px', left: '16px', width: '320px', maxHeight: '500px',
           zIndex: 9999, display: 'flex', flexDirection: 'column',
           borderRadius: '14px', overflow: 'hidden',
           boxShadow: '0 12px 40px rgba(11,47,44,0.22)',
           background: C.ivory, border: `1px solid ${C.stone}`,
         }}>
-          {/* Header */}
           <div style={{ background: C.dark, padding: '14px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#4ade80' }} />
@@ -201,8 +201,14 @@ export function LiveChat() {
               />
               <input
                 value={email} onChange={(e) => setEmail(e.target.value)}
-                placeholder="Email for reply (optional)"
+                placeholder="Email (optional)"
                 type="email"
+                style={inputStyle}
+              />
+              <input
+                value={phone} onChange={(e) => setPhone(e.target.value)}
+                placeholder="Phone number (optional)"
+                type="tel"
                 style={inputStyle}
               />
               <textarea
@@ -270,24 +276,24 @@ export function LiveChat() {
         </div>
       )}
 
-      {/* Floating bubble — bottom LEFT */}
+      {/* Floating bubble — bottom LEFT, 60px */}
       <button
         onClick={() => { setOpen((o) => !o); if (!open) setUnread(0); }}
         aria-label="Open live chat"
         style={{
           position: 'fixed', bottom: '16px', left: '16px',
-          width: '52px', height: '52px', borderRadius: '50%',
+          width: '60px', height: '60px', borderRadius: '50%',
           background: C.dark, border: 'none', cursor: 'pointer', zIndex: 9998,
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           boxShadow: '0 6px 20px rgba(11,47,44,0.30)',
         }}
       >
         {open ? (
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round">
             <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
           </svg>
         ) : (
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
           </svg>
         )}
