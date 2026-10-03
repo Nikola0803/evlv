@@ -3,26 +3,16 @@
  * CashApp / Zelle / Venmo. Matches the peptides-crm-app Order schema, which
  * models paymentMethod as "zelle" | "cashapp" | "venmo" with a paymentMemo
  * field, so this checkout flow lines up with what the real CRM expects.
- *
- * Left blank until real handles are set. Checkout gracefully falls back to
- * "we'll email you the details" when a handle is empty, it never invents one.
  */
 export const PAYMENT_HANDLES = {
   cashapp: "$VVGOps",
-  zelle: "help@mysecretvitality.com",
+  zelle: "Info@vintagevitalitygroup.com",
   venmo: "@VVGOps",
 };
 
 export const PAYMENT_PROCESSOR_NOTE =
   "Payments are collected by VVG Operations, EVLV's authorized payment and fulfillment partner.";
 
-/**
- * Placeholder handles used ONLY to render the quick-pay QR/link before real
- * handles are set in PAYMENT_HANDLES above - so the QR-code and deep-link
- * mechanism is real and testable end-to-end, but visibly not a live payment
- * destination yet. Once PAYMENT_HANDLES has a real value for a gateway,
- * getEffectiveHandle() uses that instead and these stop mattering.
- */
 const DEMO_HANDLES = {
   cashapp: "$EVLVPeptidesDemo",
   zelle: "payments@evlvpeptides.com",
@@ -81,7 +71,7 @@ export const PAYMENT_GATEWAYS: {
     label: "Zelle",
     icon: "ri-bank-line",
     handle: PAYMENT_HANDLES.zelle,
-    handleNote: "Include only the EVLV order memo shown below so your payment can be matched quickly.",
+    handleNote: "Send to @vintagevitality or Info@vintagevitalitygroup.com — include only the order memo shown below so we can match your payment.",
   },
   {
     id: "venmo",
