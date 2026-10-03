@@ -20,6 +20,7 @@ import { OmnisendSnippet } from "@/components/layout/OmnisendSnippet";
 import { ScrollToTop } from "@/components/layout/ScrollToTop";
 import { ChunkErrorReload } from "@/components/layout/ChunkErrorReload";
 import { ConversionPrompts } from "@/components/layout/ConversionPrompts";
+import { TawkChat } from "@/components/layout/TawkChat";
 
 const SITE_URL = "https://evlvpeptides.com";
 const CRM_PUBLIC_URL = process.env.NEXT_PUBLIC_CRM_URL || "https://crm.evlvpeptides.com";
@@ -139,6 +140,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         <GoogleTagManagerBody />
         <GoogleAnalytics />
         <OmnisendSnippet />
+        <TawkChat />
         <ReferralCapture />
         <VerificationSync />
         <MembershipSync />
