@@ -13,6 +13,6 @@ export async function getCatalogProducts() {
     mergeProducts(getProducts(), liveProducts, !hasLiveInventory),
     inventoryRows,
     true,
-    !hasLiveInventory,
+    false,
   ).map(withQuantityPricing);
 }
