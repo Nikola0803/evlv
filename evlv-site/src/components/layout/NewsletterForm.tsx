@@ -35,13 +35,13 @@ export function NewsletterForm() {
           <p className="text-sm text-white/60">You&apos;re on the list.</p>
           {couponCode && (
             <p className="mt-1 text-sm text-white/80">
-              Your 20% off code: <span className="font-semibold tracking-wide text-copper">{couponCode}</span>
+              Your 10% off code: <span className="font-semibold tracking-wide text-copper">{couponCode}</span>
             </p>
           )}
         </div>
       ) : (
         <>
-          <p className="mb-4 text-sm leading-relaxed text-white/50">Subscribe for 20% off your first purchase, plus research notes and new SKUs.</p>
+          <p className="mb-4 text-sm leading-relaxed text-white/50">Subscribe for 10% off your first purchase, plus research notes and new SKUs.</p>
           <form onSubmit={handleSubmit} className="flex items-center gap-2 border-b border-white/20 pb-2">
             <input
               type="email"

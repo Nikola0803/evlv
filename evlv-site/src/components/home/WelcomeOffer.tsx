@@ -40,7 +40,7 @@ export function WelcomeOffer() {
     <section className="cp-welcome-offer cp-wrap" aria-labelledby="welcome-offer-heading">
       <div className="cp-welcome-offer-copy">
         <small>New researcher?</small>
-        <h2 id="welcome-offer-heading">20% off your first order</h2>
+        <h2 id="welcome-offer-heading">10% off your first order</h2>
         <p>Join the EVLV research list for occasional batch and product updates. We&apos;ll create your personal, single-use checkout code instantly.</p>
       </div>
 
@@ -65,7 +65,7 @@ export function WelcomeOffer() {
                 placeholder="you@example.com"
               />
               <button className="cp-welcome-offer-button" type="submit" disabled={submitting}>
-                {submitting ? "Creating..." : "Get My 20% Code"} <i className="ri-arrow-right-line" />
+                {submitting ? "Creating..." : "Get My 10% Code"} <i className="ri-arrow-right-line" />
               </button>
             </div>
             {error && <p className="cp-welcome-offer-error" role="alert">{error}</p>}

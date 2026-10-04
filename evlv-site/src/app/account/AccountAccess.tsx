@@ -84,7 +84,7 @@ export function AccountAccess({ initialMode = "signin" }: { initialMode?: Mode }
       if (mode === "register" && typeof data.couponCode === "string") {
         setStoredCouponCode(data.couponCode);
       }
-      window.location.href = mode === "register" ? "/shop?welcome=20" : "/account";
+      window.location.href = mode === "register" ? "/shop?welcome=10" : "/account";
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : "Something went wrong. Please try again.");
     } finally {
@@ -119,7 +119,7 @@ export function AccountAccess({ initialMode = "signin" }: { initialMode?: Mode }
             <div className="mt-8">
               <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-sage-deep">{mode === "signin" ? "Welcome back" : "Create your profile"}</p>
               <h2 className="mt-2 font-display text-3xl font-semibold text-charcoal">{mode === "signin" ? "Sign in to EVLV" : "Open an EVLV account"}</h2>
-              <p className="mt-2 text-sm leading-relaxed text-charcoal/50">{mode === "signin" ? "Enter the email and password connected to your account." : "Create one secure login and receive 20% off your first purchase. Your personal reward is applied automatically at checkout."}</p>
+              <p className="mt-2 text-sm leading-relaxed text-charcoal/50">{mode === "signin" ? "Enter the email and password connected to your account." : "Create one secure login and receive 10% off your first purchase. Your personal reward is applied automatically at checkout."}</p>
             </div>
 
             <form onSubmit={handleSubmit} className="mt-7 space-y-4">
@@ -136,7 +136,7 @@ export function AccountAccess({ initialMode = "signin" }: { initialMode?: Mode }
               {error && <p className="flex items-start gap-2 rounded-md bg-red-50 px-3 py-2.5 text-xs font-medium text-red-700"><i className="ri-error-warning-line mt-0.5" />{error}</p>}
 
               <button type="submit" disabled={submitting} className="w-full rounded-md bg-[#07383a] py-3.5 text-xs font-bold uppercase tracking-[0.16em] text-white transition hover:bg-[#0b4b4c] disabled:cursor-wait disabled:opacity-60">
-                {submitting ? "Please wait..." : mode === "signin" ? "Sign In Securely" : "Create Account & Save 20%"}
+                {submitting ? "Please wait..." : mode === "signin" ? "Sign In Securely" : "Create Account & Save 10%"}
               </button>
             </form>
 

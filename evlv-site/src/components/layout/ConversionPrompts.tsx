@@ -175,7 +175,7 @@ export function ConversionPrompts() {
         {couponCode ? (
           <>
             <small>Your research welcome offer</small>
-            <h2 id="cp-cro-title">Your 20% code is ready.</h2>
+            <h2 id="cp-cro-title">Your welcome code is ready.</h2>
             <p>The code has been saved and will be checked automatically at checkout.</p>
             <div className="cp-cro-code">{couponCode}</div>
             <button type="button" className="cp-cro-primary" onClick={() => { close(); router.push(count > 0 ? "/checkout" : "/shop"); }}>{count > 0 ? "Use at Checkout" : "Shop Research Products"}</button>
@@ -183,7 +183,7 @@ export function ConversionPrompts() {
         ) : (
           <>
             <small>Before you go</small>
-            <h2 id="cp-cro-title">Take 20% off your first purchase.</h2>
+            <h2 id="cp-cro-title">Take 10% off your first purchase.</h2>
             <p>Enter your email to receive a real checkout code plus occasional batch and product updates.</p>
             <form className="cp-cro-form" onSubmit={subscribe}>
               <input required type="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="Email address" aria-label="Email address" />

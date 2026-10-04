@@ -169,7 +169,7 @@ export function AgeGate({ children }: { children: React.ReactNode }) {
             </div>
             <div className="cp-ruo-gate-body">
               <h2 id="cp-ruo-title">{mode === "register" ? "Create your account" : "Welcome back"}</h2>
-              <p id="cp-ruo-description">{mode === "register" ? "Create a secure research account and receive 20% off your first purchase." : "Sign in to access product information, order history, and batch-level COAs."}</p>
+              <p id="cp-ruo-description">{mode === "register" ? "Create a secure research account and receive 10% off your first purchase." : "Sign in to access product information, order history, and batch-level COAs."}</p>
               <form className="cp-ruo-gate-form" onSubmit={handleSubmit}>
                 <label><span>Email Address</span><input ref={emailRef} required type="email" inputMode="email" placeholder="you@lab.edu" value={email} onChange={(event) => setEmail(event.target.value)} autoComplete="email" /></label>
                 <label><span>Password</span><span className="cp-ruo-password-field"><input required minLength={8} type={showPassword ? "text" : "password"} placeholder={mode === "register" ? "Min. 8 characters" : "Enter your password"} value={password} onChange={(event) => setPassword(event.target.value)} autoComplete={mode === "signin" ? "current-password" : "new-password"} /><button type="button" onClick={() => setShowPassword((value) => !value)}>{showPassword ? "Hide" : "Show"}</button></span></label>
@@ -185,11 +185,11 @@ export function AgeGate({ children }: { children: React.ReactNode }) {
                   </label>}
                 </div>
                 {error && <p className="cp-ruo-gate-error"><i className="ri-error-warning-line" /> {error}</p>}
-                <button className="cp-ruo-gate-submit" type="submit" disabled={submitting}>{submitting ? "Please wait..." : mode === "register" ? "Create Account & Save 20%" : "Sign In & Enter"}</button>
+                <button className="cp-ruo-gate-submit" type="submit" disabled={submitting}>{submitting ? "Please wait..." : mode === "register" ? "Create Account & Save 10%" : "Sign In & Enter"}</button>
               </form>
               <button className="cp-ruo-gate-switch" type="button" onClick={() => switchMode(mode === "register" ? "signin" : "register")}>{mode === "register" ? "Already have an account? Sign in" : "Need an account? Create account"}</button>
             </div>
-            <footer className="cp-ruo-gate-footer"><b>EVLV</b><span>An account is required to access product information. New accounts receive one personal 20% first-purchase reward.</span></footer>
+            <footer className="cp-ruo-gate-footer"><b>EVLV</b><span>An account is required to access product information. New accounts receive one personal 10% first-purchase reward.</span></footer>
           </section>
         </div>
       </div>
