@@ -44,7 +44,7 @@ export function ShopClient({ products: initialProducts, verifiedCoaSlugs }: { pr
   }, []);
 
   const list=useMemo(() => {
-    let next=[...products];
+    let next=products.filter(p => p.inStock);
     const focus=params.get("focus");
     if(focus){const group=groups.find(g=>g.slug===focus);if(group){const slugs=new Set(group.products.map(p=>p.slug));next=next.filter(p=>slugs.has(p.slug));}}
     if(filter!=="all") next=next.filter(p=>p.category===filter || p.format===filter);
