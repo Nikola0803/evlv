@@ -148,23 +148,6 @@ export const JOURNAL_ARTICLES: JournalArticle[] = [
     ],
   },
   {
-    slug: "why-reconstitution-technique-affects-research-results",
-    label: "Lab Guides",
-    title: "Why Reconstitution Technique Affects Research Results",
-    excerpt:
-      "Bringing a lyophilized compound into solution introduces variables that, left undocumented, make downstream analytical results hard to reproduce. This is a data-quality issue, not a preparation guide.",
-    image: "/images/science/testing.jpg",
-    publishedDate: "2026-09-08",
-    readTime: "4 min read",
-    body: [
-      "A lyophilized compound has to be brought into solution before it can be used in most laboratory workflows, and that step introduces variability that has nothing to do with the compound's underlying purity or identity. Diluent selection, technique, and timing all affect the resulting solution, and none of that variability shows up on a certificate of analysis, which describes the lyophilized material, not what happens to it afterward.",
-      "The practical consequence is a reproducibility problem, not a safety one. Two researchers working from the identical lot can end up with meaningfully different solutions if reconstitution parameters aren't controlled and recorded the same way each time. That is why documentation matters as much as the step itself: without a recorded diluent, volume, and technique, a downstream result is difficult for anyone, including the same researcher later, to reproduce or audit.",
-      "This is general laboratory information about reproducibility, not instructions for administration of any kind. We don't publish preparation, dosing, or protocol guidance, and reconstitution specifics should come from a product's own documentation and whatever institutional or laboratory SOP governs that work, not from a generic outside source.",
-      "Stability after reconstitution also varies by compound and formulation more than researchers often assume, and the usable window for a given solution is compound-specific. A product's own documentation, not a general rule of thumb, is the relevant reference for how that particular solution behaves over time.",
-      "The throughline across all of this is the same one that applies to every other stage discussed on this journal: undocumented variables produce unreliable results, and the fix is recordkeeping and referring to compound-specific documentation, not a shortcut anyone can generalize across every peptide.",
-    ],
-  },
-  {
     slug: "peptide-shipping-warm-conditions",
     label: "Lab Guides",
     title: "What a Warm Package Actually Means for a Lyophilized Peptide",
