@@ -15,7 +15,7 @@ import { getProductBySlug, getProducts } from "@/lib/products";
 import type { Product } from "@/lib/types";
 import { getProductImage } from "@/lib/product-images";
 
-const BAC_WATER_SLUG = "bacteriostatic-water-30ml";
+const BW_H_BRAND_SLUG = "bacteriostatic-water-30ml";
 const FEATURED_SLUG = "bpc-157-10mg";
 const FEATURED_DISCOUNT_PERCENT = 25;
 const FEATURED_PACK_LABEL = `1 PCS (${FEATURED_DISCOUNT_PERCENT}% Off Offer)`;
@@ -54,22 +54,22 @@ export function ShippingProgressBar() {
 }
 
 /**
- * Optional BAC Water reminder for products whose catalog entry includes
+ * Optional BW H-Brand reminder for products whose catalog entry includes
  * reconstitution information. Only fires when the cart has a relevant product
  * (anything with a `reconstitution` note) and doesn't already have
- * BAC Water in it -- never nags on an ancillaries-only or already-
+ * BW H-Brand in it -- never nags on an ancillaries-only or already-
  * covered order.
  *
  * Uses the live CRM-merged catalog passed down by the root layout, so
- * the drawer can add the real BAC Water SKU at its current price without
+ * the drawer can add the real BW H-Brand SKU at its current price without
  * navigating away or maintaining a duplicate static product entry.
  */
-export function BacWaterOffer({ products = [] }: { products?: Product[] }) {
+export function BwHBrandOffer({ products = [] }: { products?: Product[] }) {
   const { lines, addToCart } = useCart();
   const { formatPrice } = useCurrency();
-  const product = products.find((item) => item.slug === BAC_WATER_SLUG) ?? getProductBySlug(BAC_WATER_SLUG);
+  const product = products.find((item) => item.slug === BW_H_BRAND_SLUG) ?? getProductBySlug(BW_H_BRAND_SLUG);
 
-  const alreadyInCart = lines.some((l) => l.product.slug === BAC_WATER_SLUG);
+  const alreadyInCart = lines.some((l) => l.product.slug === BW_H_BRAND_SLUG);
   const needsIt = lines.some((l) => Boolean(l.product.reconstitution));
   if (alreadyInCart || !needsIt || !product) return null;
 
@@ -79,14 +79,14 @@ export function BacWaterOffer({ products = [] }: { products?: Product[] }) {
       <div className="flex-1">
         <p className="text-sm font-semibold text-charcoal">Need a laboratory diluent?</p>
         <p className="mt-1 text-xs leading-relaxed text-charcoal/60">
-          This product listing includes reconstitution information. Bacteriostatic Water is available separately for appropriate laboratory workflows.
+          This product listing includes reconstitution information. BW H-Brand is available separately for appropriate laboratory workflows.
         </p>
         <button
           type="button"
           onClick={() => addToCart(product, 1, product.price, "1 PCS")}
           className="mt-2.5 inline-block rounded-md bg-copper px-3.5 py-2 text-[11px] font-semibold uppercase tracking-wide text-charcoal transition hover:bg-copper-light"
         >
-          Add BAC Water · {formatPrice(product.price)}
+          Add BW H-Brand · {formatPrice(product.price)}
         </button>
       </div>
     </div>

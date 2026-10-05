@@ -10,6 +10,9 @@ export interface CouponValidation {
   // the CRM's coupon engine works in integer cents, so this hook is the
   // one place that does the /100 conversion.
   discountUsd: number;
+  subtotalUsd?: number;
+  automaticPromotion?: string;
+  promotionLabel?: string;
   errors: { code: string; reason: string }[];
   flooredByMargin: boolean;
 }
@@ -27,8 +30,9 @@ const EMPTY: CouponValidation = { checking: false, valid: false, discountUsd: 0,
  * checkout), lets a personal/lifetime-deal coupon (assigned to that one
  * customer -- see the CRM's Coupon.assignedContactId) auto-apply with
  * zero code entry: the CRM merges it in automatically, so this hook
- * still runs the validate call even when `code` is blank, as long as
- * an email is known.
+ * still runs the validate call when `code` is blank. This also lets the
+ * CRM preview server-controlled automatic events without trusting the
+ * browser to decide whether the cart qualifies.
  */
 export function useCouponValidation(
   code: string,
@@ -42,9 +46,7 @@ export function useCouponValidation(
   useEffect(() => {
     const trimmed = code.trim();
     const email = customerEmail?.trim();
-    // Nothing to check unless there's either a typed code or a known
-    // customer who might have a personal deal waiting.
-    if ((!trimmed && !email) || items.length === 0) {
+    if (items.length === 0) {
       setResult(EMPTY);
       return;
     }
@@ -70,6 +72,9 @@ export function useCouponValidation(
           checking: false,
           valid: Boolean(data.valid) && discountCents > 0,
           discountUsd: discountCents / 100,
+          subtotalUsd: typeof data.subtotalCents === "number" ? data.subtotalCents / 100 : undefined,
+          automaticPromotion: typeof data.automaticPromotion === "string" ? data.automaticPromotion : undefined,
+          promotionLabel: typeof data.promotionLabel === "string" ? data.promotionLabel : undefined,
           errors: Array.isArray(data.errors) ? data.errors : [],
           flooredByMargin: Boolean(data.flooredByMargin),
         });

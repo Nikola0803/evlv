@@ -16,15 +16,15 @@ export async function POST(req: Request) {
   const discountCode = typeof body.discountCode === "string" ? body.discountCode : undefined;
   const customerEmail = typeof body.customerEmail === "string" ? body.customerEmail : undefined;
 
-  // Fail closed above the tier ceiling returned by the CRM: 30% retail,
-  // 40% for an approved wholesale partner. Default to retail if an older
-  // CRM deployment does not yet return the tier value.
+  // Fail closed above the tier ceiling returned by the CRM. The named GLP
+  // event is the only retail exception and is still hard-limited to 40%.
   const preview = await crmFetch("/api/store/coupons/validate", { items, code: discountCode, customerEmail });
   if (preview.ok) {
     const result = preview.data as Record<string, unknown>;
     const subtotalCents = typeof result.subtotalCents === "number" ? result.subtotalCents : 0;
     const discountCents = typeof result.discountCents === "number" ? result.discountCents : 0;
-    const maximumDiscountPercent = result.maximumDiscountPercent === 40 ? 40 : 30;
+    const automaticPromotion = result.automaticPromotion === "GLP_PAIR_OCT_2026";
+    const maximumDiscountPercent = automaticPromotion || result.maximumDiscountPercent === 40 ? 40 : 30;
     if (subtotalCents > 0 && discountCents > Math.floor(subtotalCents * (maximumDiscountPercent / 100))) {
       return NextResponse.json({ error: `This promotion exceeds EVLV's ${maximumDiscountPercent}% maximum discount and cannot be applied.` }, { status: 422 });
     }

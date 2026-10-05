@@ -42,7 +42,7 @@ export const INVENTORY_SNAPSHOT: InventoryRow[] = [
   ["evlv-2-15mg", "TIR15", "GLP2-T — 15mg", 30, 89.99],
   ["evlv-2-30mg", "TIR30", "GLP2-T — 30mg", 19, 149.99],
   ["evlv-2-60mg", "TIR60", "GLP2-T — 60mg", 7, 274.99],
-  ["bacteriostatic-water-30ml", "BAC30", "Hospira Bacteriostatic Water — 30mL", 44, 25],
+  ["bacteriostatic-water-30ml", "BAC30", "BW H-Brand — 30mL", 44, 25],
 ].map(([slug, sku, productName, stockQty, retailPrice]) => ({
   slug: String(slug), sku: String(sku), productName: String(productName), status: "publish", stockStatus: "instock",
   stockQty: Number(stockQty), retailPrice: Number(retailPrice),
@@ -65,6 +65,7 @@ export const SLUG_BY_INVENTORY_SKU: Record<string, string> = {
 const normalizedSku = (value: string) => value.toUpperCase().replace(/[^A-Z0-9]/g, "");
 const usablePrice = (value: number | undefined) => typeof value === "number" && Number.isFinite(value) && value > 0;
 const displayName = (value: string) => value.replace(/\s+[—-]\s+(?=\d)/, " ").toUpperCase();
+const publicDisplayName = (row: InventoryRow) => normalizedSku(row.sku) === "BAC30" ? "BW H-BRAND 30ML" : displayName(row.productName);
 const isAvailable = (row: InventoryRow) => row.status.toLowerCase() === "publish" && row.stockStatus.toLowerCase() === "instock" && row.stockQty > 0;
 
 export function applyInventoryRows(source: Product[], rows: InventoryRow[], addMissing = false, preserveUnlisted = false): Product[] {
@@ -76,7 +77,7 @@ export function applyInventoryRows(source: Product[], rows: InventoryRow[], addM
     return {
       ...product,
       sku: row?.sku ?? product.sku,
-      name: row ? displayName(row.productName) : product.name,
+      name: row ? publicDisplayName(row) : product.name,
       stockQty: row?.stockQty ?? (preserveUnlisted ? product.stockQty : 0),
       price: usablePrice(product.price) ? product.price : row?.retailPrice ?? product.price,
       inStock: row ? isAvailable(row) : preserveUnlisted ? product.inStock : false,
@@ -95,7 +96,7 @@ export function applyInventoryRows(source: Product[], rows: InventoryRow[], addM
   const existingSlugs = new Set(products.map((product) => product.slug));
   for (const row of resolvedRows) {
     if (!row.slug || existingSlugs.has(row.slug) || !isAvailable(row) || !usablePrice(row.retailPrice)) continue;
-    const name = displayName(row.productName);
+    const name = publicDisplayName(row);
     products.push({
       id: `sheet-${row.sku}`, slug: row.slug, sku: row.sku, name,
       category: row.slug.includes("water") ? "ancillaries" : "peptides",

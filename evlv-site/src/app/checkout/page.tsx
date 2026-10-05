@@ -68,8 +68,10 @@ export default function CheckoutPage() {
   const couponCustomerEmail = storedUserEmail || email.trim() || undefined;
   const coupon = useCouponValidation(couponCode, cartItemsForCoupon, couponCustomerEmail);
   const discount = coupon.valid ? coupon.discountUsd : 0;
-  const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : FLAT_SHIPPING_COST;
-  const total = Math.max(0, subtotal - discount + shipping);
+  const displaySubtotal = coupon.automaticPromotion && coupon.subtotalUsd != null ? coupon.subtotalUsd : subtotal;
+  const discountedSubtotal = Math.max(0, displaySubtotal - discount);
+  const shipping = discountedSubtotal >= FREE_SHIPPING_THRESHOLD ? 0 : FLAT_SHIPPING_COST;
+  const total = discountedSubtotal + shipping;
   const shippingComplete = Boolean(
     firstName.trim() && lastName.trim() && email.trim() && address1.trim() && city.trim() && stateCode && zip.trim()
   );
@@ -350,7 +352,7 @@ export default function CheckoutPage() {
             {coupon.checking && <p className="mt-1.5 text-xs text-charcoal/40">Checking code...</p>}
             {!coupon.checking && coupon.valid && (
               <p className="mt-1.5 text-xs font-medium text-sage-deep">
-                {couponCode.trim() ? "Code applied" : "Member reward applied"} -- {formatPrice(coupon.discountUsd)} off
+                {coupon.promotionLabel || (couponCode.trim() ? "Code applied" : "Member reward applied")} -- {formatPrice(coupon.discountUsd)} off
                 {coupon.flooredByMargin ? " (partial, discount limit reached)" : ""}
               </p>
             )}
@@ -395,7 +397,7 @@ export default function CheckoutPage() {
             <div className="mt-6 space-y-2 border-t border-stone pt-5 text-base">
               <div className="flex items-center justify-between">
                 <span className="text-charcoal/60">Subtotal</span>
-                <span className="font-medium text-charcoal">{formatPrice(subtotal)}</span>
+                <span className="font-medium text-charcoal">{formatPrice(displaySubtotal)}</span>
               </div>
               {discount > 0 && (
                 <div className="flex items-center justify-between">

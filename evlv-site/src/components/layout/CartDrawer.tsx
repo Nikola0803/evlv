@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/lib/cart-context";
 import { useCurrency } from "@/lib/currency-context";
-import { ShippingProgressBar, BacWaterOffer, FREE_SHIPPING_THRESHOLD, FLAT_SHIPPING_COST } from "./CartUpsellOffers";
+import { ShippingProgressBar, BwHBrandOffer, FREE_SHIPPING_THRESHOLD, FLAT_SHIPPING_COST } from "./CartUpsellOffers";
 import { getStoredCouponCode, setStoredCouponCode } from "@/lib/referral";
 import { useCouponValidation } from "@/lib/use-coupon-validation";
 import { getStoredUser } from "@/lib/auth";
@@ -38,8 +38,10 @@ export function CartDrawer({ products = [] }: { products?: Product[] }) {
   const couponCustomerEmail = getStoredUser()?.email || undefined;
   const coupon = useCouponValidation(promoCode, cartItemsForCoupon, couponCustomerEmail);
   const discount = coupon.valid ? coupon.discountUsd : 0;
-  const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : FLAT_SHIPPING_COST;
-  const total = Math.max(0, subtotal - discount + shipping);
+  const displaySubtotal = coupon.automaticPromotion && coupon.subtotalUsd != null ? coupon.subtotalUsd : subtotal;
+  const discountedSubtotal = Math.max(0, displaySubtotal - discount);
+  const shipping = discountedSubtotal >= FREE_SHIPPING_THRESHOLD ? 0 : FLAT_SHIPPING_COST;
+  const total = discountedSubtotal + shipping;
 
   useEffect(() => {
     if (!isOpen) return;
@@ -131,7 +133,7 @@ export function CartDrawer({ products = [] }: { products?: Product[] }) {
                 ))}
               </div>
 
-              <BacWaterOffer products={products} />
+              <BwHBrandOffer products={products} />
             </>
           )}
         </div>
@@ -165,7 +167,7 @@ export function CartDrawer({ products = [] }: { products?: Product[] }) {
                 {coupon.checking && <p className="mt-1.5 text-xs text-charcoal/40">Checking code...</p>}
                 {!coupon.checking && coupon.valid && (
                   <p className="mt-1.5 text-xs font-medium text-sage-deep">
-                    {promoCode.trim() ? "Code applied" : "Member reward applied"} -- {formatPrice(coupon.discountUsd)} off
+                    {coupon.promotionLabel || (promoCode.trim() ? "Code applied" : "Member reward applied")} -- {formatPrice(coupon.discountUsd)} off
                   </p>
                 )}
                 {!coupon.checking && !coupon.valid && promoSaved && (
@@ -185,7 +187,7 @@ export function CartDrawer({ products = [] }: { products?: Product[] }) {
             <div className="space-y-1.5 text-sm">
               <div className="flex items-center justify-between">
                 <span className="text-charcoal/60">Subtotal</span>
-                <span className="font-medium text-charcoal">{formatPrice(subtotal)}</span>
+                <span className="font-medium text-charcoal">{formatPrice(displaySubtotal)}</span>
               </div>
               {discount > 0 && (
                 <div className="flex items-center justify-between">
