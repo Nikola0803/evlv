@@ -4,10 +4,25 @@
   border-collapse: collapse !important;
   mso-table-lspace: 0 !important;
   mso-table-rspace: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.evlv-email {
+  width: 100% !important;
+  max-width: 100% !important;
+  table-layout: fixed !important;
+}
+
+.evlv-email .shell {
+  width: 100% !important;
+  max-width: 560px !important;
+  table-layout: fixed !important;
 }
 
 .evlv-email img {
   display: block;
+  max-width: 100% !important;
+  height: auto !important;
   border: 0;
   outline: 0;
   text-decoration: none;
