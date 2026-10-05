@@ -1,0 +1,82 @@
+.evlv-email,
+.evlv-email table,
+.evlv-email td {
+  border-collapse: collapse !important;
+  mso-table-lspace: 0 !important;
+  mso-table-rspace: 0 !important;
+}
+
+.evlv-email img {
+  display: block;
+  border: 0;
+  outline: 0;
+  text-decoration: none;
+  -ms-interpolation-mode: bicubic;
+}
+
+.evlv-email a {
+  text-decoration: none;
+}
+
+@media only screen and (max-width: 640px) {
+  .evlv-email .shell {
+    width: 100% !important;
+  }
+
+  .evlv-email .outer {
+    padding: 0 !important;
+  }
+
+  .evlv-email .pad {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+
+  .evlv-email .display {
+    font-size: 48px !important;
+    line-height: 46px !important;
+    letter-spacing: -2px !important;
+  }
+
+  .evlv-email .offer {
+    font-size: 46px !important;
+    line-height: 44px !important;
+    letter-spacing: -2px !important;
+  }
+
+  .evlv-email .three-col,
+  .evlv-email .proof-col {
+    display: block !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .evlv-email .three-col {
+    padding: 7px 0 !important;
+  }
+
+  .evlv-email .three-col img {
+    width: 100% !important;
+    max-width: 520px !important;
+  }
+
+  .evlv-email .proof-col {
+    padding: 8px 0 !important;
+  }
+
+  .evlv-email .button {
+    display: block !important;
+    padding: 18px 20px !important;
+    box-sizing: border-box !important;
+  }
+
+  .evlv-email .mobile-copy {
+    font-size: 15px !important;
+    line-height: 23px !important;
+  }
+
+  .evlv-email .mobile-title {
+    font-size: 32px !important;
+    line-height: 35px !important;
+  }
+}

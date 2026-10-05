@@ -24,11 +24,12 @@
 - Subject A: `Your second GLP research vial is 70% off`
 - Subject B: `EVLV GLP Research Week is live`
 - Preview: `Add two matching eligible GLP Series items. The second is automatically 70% off through October 12.`
-- Use `email.html` with `email.txt` as its plain-text fallback.
+- In Omnisend, paste `email.html` into the HTML field and paste the contents of `email-styles.css` into the separate Styles field. Use `email.txt` as its plain-text fallback.
 
 ## Files
 
-- `email.html`: responsive 720px campaign email with tracked website links.
+- `email.html`: Omnisend-ready, body-only, fluid 600px campaign HTML with tracked website links. It intentionally contains no `<style>` element.
+- `email-styles.css`: scoped responsive CSS for Omnisend's separate Styles field.
 - `email.txt`: plain-text fallback.
 - `teaser.html`: October event-calendar teaser for the evening before launch.
 - `teaser.txt`: teaser plain-text fallback.
@@ -36,6 +37,13 @@
 - V2 hero asset: `/public/images/email/glp-pair-event-oct-6-12-v2.png`.
 - `preview.html`: local-only localhost preview with the undeployed V2 hero resolved.
 - `email-v1.html`: preserved first draft; do not send this version.
+
+## Omnisend import
+
+1. Start with a blank layout or delete every existing content/image block.
+2. Add one Custom HTML block and replace its contents completely with `email.html`.
+3. Paste `email-styles.css` into Omnisend's Styles field without adding `<style>` tags.
+4. The template intentionally shows the EVLV logo followed by one GLP collection hero. If two identical collection images appear, remove the extra Omnisend image block outside the Custom HTML block.
 
 ## Before sending
 
