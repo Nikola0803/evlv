@@ -3,8 +3,8 @@ import "server-only";
 import { createSign } from "node:crypto";
 import { SLUG_BY_INVENTORY_SKU, type InventoryRow } from "./inventory-snapshot";
 
-const DEFAULT_SHEET_ID = "1XqjOT48QardfZ4UDgzWa7u1VFeGR7qjNtWm-n98qpVs";
-const DEFAULT_RANGE = "'VVGcataloguploadsheet20260909v5FINALrounded'!A:P";
+const DEFAULT_SHEET_ID = "1Omlm--Tn0jgqH6h0Mk8t-4hxSofPgbIo";
+const DEFAULT_RANGE = "'Inventory'!A:F";
 
 let cachedToken: { value: string; expiresAt: number } | undefined;
 
@@ -68,20 +68,30 @@ function numeric(value: unknown) {
 
 function rowsFromMatrix(values: unknown[][]): InventoryRow[] {
   if (values.length < 2) return [];
-  const headers = values[0].map((value) => String(value ?? "").trim().toLowerCase());
-  const at = (row: unknown[], name: string) => row[headers.indexOf(name)];
-  return values.slice(1).flatMap((row) => {
+  const normalized = (value: unknown) => String(value ?? "").trim().toLowerCase().replace(/[^a-z0-9]/g, "");
+  const headerIndex = values.findIndex((row) => row.some((value) => normalized(value) === "sku"));
+  if (headerIndex < 0) return [];
+  const headers = values[headerIndex].map(normalized);
+  const at = (row: unknown[], ...names: string[]) => {
+    const index = names.map(normalized).map((name) => headers.indexOf(name)).find((candidate) => candidate >= 0) ?? -1;
+    return index >= 0 ? row[index] : undefined;
+  };
+  const hasDedicatedPublicationStatus = headers.some((header) => ["publicationstatus", "publishstatus", "catalogstatus"].includes(header));
+  return values.slice(headerIndex + 1).flatMap((row) => {
     const sku = String(at(row, "sku") ?? "").trim();
-    const productName = String(at(row, "product_name") ?? "").trim();
+    const productName = String(at(row, "product_name", "product") ?? "").trim();
     if (!sku || !productName) return [];
+    const availability = String(at(row, "stock_status", "availability", "status") ?? "").trim().toLowerCase().replace(/[^a-z0-9]/g, "");
     return [{
       slug: SLUG_BY_INVENTORY_SKU[sku.toUpperCase()] ?? "",
       sku,
       productName,
-      status: String(at(row, "status") ?? "").trim(),
-      stockStatus: String(at(row, "stock_status") ?? "").trim(),
-      stockQty: numeric(at(row, "stock_qty")) ?? 0,
-      retailPrice: numeric(at(row, "price_retail")),
+      status: hasDedicatedPublicationStatus
+        ? String(at(row, "publication_status", "publish_status", "catalog_status") ?? "").trim()
+        : "publish",
+      stockStatus: availability,
+      stockQty: numeric(at(row, "stock_qty", "in_stock_vials", "in_stock", "quantity", "qty")) ?? 0,
+      retailPrice: numeric(at(row, "price_retail", "retail_price")),
     }];
   });
 }

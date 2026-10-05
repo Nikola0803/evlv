@@ -6,6 +6,7 @@ const CRM_URL = process.env.NEXT_PUBLIC_CRM_URL || 'https://crm.evlvpeptides.com
 const TRACKING_KEY = process.env.NEXT_PUBLIC_CRM_TRACKING_KEY || 'cmtzmexzs002qbeckbre23u9i';
 const STORAGE_KEY = 'evlv_chat';
 const POLL_INTERVAL = 4000;
+const CHAT_SESSION_TTL_MS = 60 * 60 * 1000;
 
 const C = {
   dark: '#0b2f2c',
@@ -21,6 +22,7 @@ const C = {
 interface ChatSession {
   conversationId: string;
   chatToken: string;
+  lastActiveAt: number;
 }
 
 interface Message {
@@ -28,6 +30,18 @@ interface Message {
   direction: 'INBOUND' | 'OUTBOUND';
   body: string;
   createdAt: string;
+}
+
+function storeChatSession(session: ChatSession) {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(session)); } catch {}
+}
+
+function touchChatSession(session: ChatSession) {
+  storeChatSession({ ...session, lastActiveAt: Date.now() });
+}
+
+function clearStoredChat() {
+  try { localStorage.removeItem(STORAGE_KEY); } catch {}
 }
 
 export function LiveChat() {
@@ -49,7 +63,16 @@ export function LiveChat() {
   useEffect(() => {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) setSession(JSON.parse(raw) as ChatSession);
+      if (!raw) return;
+      const stored = JSON.parse(raw) as Partial<ChatSession>;
+      const valid = Boolean(
+        stored.conversationId
+        && stored.chatToken
+        && stored.lastActiveAt
+        && Date.now() - stored.lastActiveAt <= CHAT_SESSION_TTL_MS,
+      );
+      if (valid) setSession(stored as ChatSession);
+      else clearStoredChat();
     } catch {}
   }, []);
 
@@ -65,7 +88,14 @@ export function LiveChat() {
         ...(lastSeenAt.current ? { after: lastSeenAt.current } : {}),
       });
       const res = await fetch(`${CRM_URL}/api/chat/messages?${params}`);
+      if (res.status === 404) {
+        clearStoredChat();
+        setSession(null);
+        setMessages([]);
+        return;
+      }
       if (!res.ok) return;
+      touchChatSession(s);
       const data = await res.json();
       const newMsgs: Message[] = data.messages || [];
       if (newMsgs.length > 0) {
@@ -87,7 +117,14 @@ export function LiveChat() {
       try {
         const params = new URLSearchParams({ conversationId: session.conversationId, chatToken: session.chatToken });
         const res = await fetch(`${CRM_URL}/api/chat/messages?${params}`);
+        if (res.status === 404) {
+          clearStoredChat();
+          setSession(null);
+          setMessages([]);
+          return;
+        }
         if (res.ok) {
+          touchChatSession(session);
           const data = await res.json();
           const msgs: Message[] = data.messages || [];
           setMessages(msgs);
@@ -119,8 +156,8 @@ export function LiveChat() {
       });
       if (!res.ok) throw new Error('failed');
       const data = await res.json();
-      const s: ChatSession = { conversationId: data.conversationId, chatToken: data.chatToken };
-      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(s)); } catch {}
+      const s: ChatSession = { conversationId: data.conversationId, chatToken: data.chatToken, lastActiveAt: Date.now() };
+      storeChatSession(s);
       setSession(s);
       setMessages([{ id: 'init', direction: 'INBOUND', body: firstMsg.trim(), createdAt: new Date().toISOString() }]);
       setFirstMsg('');
@@ -145,6 +182,7 @@ export function LiveChat() {
         body: JSON.stringify({ conversationId: session.conversationId, chatToken: session.chatToken, message: body }),
       });
       if (res.ok) {
+        touchChatSession(session);
         const data = await res.json();
         setMessages((prev) => prev.map((m) => m.id === optimistic.id ? { ...m, id: data.messageId, createdAt: data.createdAt } : m));
         lastSeenAt.current = data.createdAt;
