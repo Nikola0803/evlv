@@ -2,9 +2,9 @@
 
 ## Recommended send setup
 
-- Primary subject: `Your second GLP research vial is 80% off`
+- Primary subject: `Your second GLP research vial is 70% off`
 - A/B subject: `EVLV Research Week begins October 6`
-- Preview text: `Add two matching eligible GLP Series items. The second is automatically 80% off through October 12.`
+- Preview text: `Add two matching eligible GLP Series items. The second is automatically 70% off through October 12.`
 - Sender name: `EVLV Research`
 - Reply-to: `office@evlvpeptides.com`
 
@@ -21,9 +21,9 @@
 ### October 6 launch
 
 - Recommended send: `9:15 AM Eastern`
-- Subject A: `Your second GLP research vial is 80% off`
+- Subject A: `Your second GLP research vial is 70% off`
 - Subject B: `EVLV GLP Research Week is live`
-- Preview: `Add two matching eligible GLP Series items. The second is automatically 80% off through October 12.`
+- Preview: `Add two matching eligible GLP Series items. The second is automatically 70% off through October 12.`
 - Use `email.html` with `email.txt` as its plain-text fallback.
 
 ## Files

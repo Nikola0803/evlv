@@ -24,7 +24,7 @@ export async function POST(req: Request) {
     const subtotalCents = typeof result.subtotalCents === "number" ? result.subtotalCents : 0;
     const discountCents = typeof result.discountCents === "number" ? result.discountCents : 0;
     const automaticPromotion = result.automaticPromotion === "GLP_PAIR_OCT_2026";
-    const maximumDiscountPercent = automaticPromotion || result.maximumDiscountPercent === 40 ? 40 : 30;
+    const maximumDiscountPercent = automaticPromotion ? 35 : result.maximumDiscountPercent === 40 ? 40 : 30;
     if (subtotalCents > 0 && discountCents > Math.floor(subtotalCents * (maximumDiscountPercent / 100))) {
       return NextResponse.json({ error: `This promotion exceeds EVLV's ${maximumDiscountPercent}% maximum discount and cannot be applied.` }, { status: 422 });
     }
