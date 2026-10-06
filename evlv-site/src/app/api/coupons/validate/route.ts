@@ -15,11 +15,12 @@ export async function POST(req: Request) {
   }
   const body = (await req.json().catch(() => ({}))) as Record<string, unknown>;
   const items = Array.isArray(body.items) ? body.items : [];
+  const customerEmail = typeof body.customerEmail === "string" ? body.customerEmail : undefined;
 
   // The GLP pair event is automatic and non-stackable. Check it without a
   // customer email or entered code first so a stored member/referral coupon
   // cannot replace or combine with the event preview in the browser.
-  const automatic = await crmFetch("/api/store/coupons/validate", { items });
+  const automatic = await crmFetch("/api/store/coupons/validate", { items, customerEmail });
   if (automatic.ok) {
     const automaticData = automatic.data as Record<string, unknown>;
     if (automaticData.automaticPromotion === "GLP_PAIR_OCT_2026") {

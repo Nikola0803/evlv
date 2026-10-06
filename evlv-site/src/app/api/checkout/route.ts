@@ -20,7 +20,7 @@ export async function POST(req: Request) {
   // qualifying GLP pair owns the discount slot for this order; coupon and
   // affiliate discount fields are removed before the authoritative checkout
   // call so the event cannot stack with another percentage reduction.
-  const automaticPreview = await crmFetch("/api/store/coupons/validate", { items });
+  const automaticPreview = await crmFetch("/api/store/coupons/validate", { items, customerEmail });
   const automaticData = automaticPreview.ok ? automaticPreview.data as Record<string, unknown> : {};
   const glpPairPromotion = automaticData.automaticPromotion === "GLP_PAIR_OCT_2026";
   const checkoutBody = glpPairPromotion
