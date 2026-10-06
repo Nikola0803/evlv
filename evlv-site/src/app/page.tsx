@@ -3,9 +3,9 @@ import Link from "next/link";
 import { getShopListProducts } from "@/lib/products";
 import { getCatalogProducts } from "@/lib/catalog";
 import { ProductCard } from "@/components/product/ProductCard";
-import { VerifiedPeptideReviewsBadge } from "@/components/trust/VerifiedPeptideReviewsBadge";
 import { getCoaMap } from "@/lib/coa-data";
 import { WelcomeOffer } from "@/components/home/WelcomeOffer";
+import { GlpCampaignHomeHero } from "@/components/promotion/GlpPairCampaign";
 
 const CATEGORIES = [
   { title: "Shop Peptides", sub: "Third-party verified", href: "/shop?category=peptides", image: "category-peptides.png" },
@@ -45,15 +45,7 @@ export default async function Home() {
   const coaMap = await getCoaMap();
   return (
     <div className="cp-home">
-      <section className="cp-hero cp-wrap">
-        <div className="cp-hero-copy">
-          <VerifiedPeptideReviewsBadge />
-          <h1>Premium Peptides<br /><span>&amp; BioRegulators</span></h1>
-          <p>EVLV is built for researchers who expect precise documentation, consistent quality, and premium presentation.</p>
-          <Link className="cp-primary" href="/shop?category=peptides">Shop All Peptides</Link>
-        </div>
-        <div className="cp-hero-image" aria-label="EVLV premium peptide vials and matching cartons" />
-      </section>
+      <GlpCampaignHomeHero />
 
       <section className="cp-ticker" aria-label="EVLV trust standards"><div className="cp-ticker-track">{[0,1].map(group => <div className="cp-ticker-group" key={group}>{TICKER.map(([item,icon]) => <span key={item}><i style={{backgroundPosition:`${icon * 25}% center`}} /><b>{item}</b></span>)}</div>)}</div></section>
 

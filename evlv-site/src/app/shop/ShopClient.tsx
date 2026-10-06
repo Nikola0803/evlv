@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import type { Product, ProductCategory, ProductFormat } from "@/lib/types";
 import { ProductCard } from "@/components/product/ProductCard";
 import { getShopMenuGroups } from "@/lib/shop-menu-data";
+import { GlpCampaignShopCallout } from "@/components/promotion/GlpPairCampaign";
 
 type Filter = "all" | ProductCategory | ProductFormat;
 const FILTERS: { value: Filter; label: string }[] = [
@@ -61,6 +62,7 @@ export function ShopClient({ products: initialProducts, verifiedCoaSlugs }: { pr
     <header className="cp-shop-hero">
       <div className="cp-shop-hero-inner">
         <div className="cp-shop-hero-copy">
+          <GlpCampaignShopCallout />
           <small>EVLV RESEARCH CATALOGUE</small>
           <h1>{title}</h1>
           <p>Research compounds with clearly labeled, product-specific batch documentation where available.</p>

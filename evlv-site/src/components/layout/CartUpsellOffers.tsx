@@ -26,9 +26,10 @@ const ALSO_ADD_PACK_LABEL = `1 PCS (${ALSO_ADD_DISCOUNT_PERCENT}% Off Offer)`;
 export const FREE_SHIPPING_THRESHOLD = 300;
 export const FLAT_SHIPPING_COST = 15;
 
-export function ShippingProgressBar() {
-  const { subtotal } = useCart();
+export function ShippingProgressBar({ qualifyingSubtotal }: { qualifyingSubtotal?: number }) {
+  const { subtotal: cartSubtotal } = useCart();
   const { formatPrice } = useCurrency();
+  const subtotal = qualifyingSubtotal ?? cartSubtotal;
   const remaining = Math.max(0, FREE_SHIPPING_THRESHOLD - subtotal);
   const pct = Math.min(100, (subtotal / FREE_SHIPPING_THRESHOLD) * 100);
   const unlocked = remaining === 0;

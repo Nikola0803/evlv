@@ -95,7 +95,7 @@ export function CartDrawer({ products = [] }: { products?: Product[] }) {
             <p className="mt-10 text-center text-sm text-charcoal/50">Your cart is empty.</p>
           ) : (
             <>
-              <ShippingProgressBar />
+              <ShippingProgressBar qualifyingSubtotal={discountedSubtotal} />
 
               <div className="space-y-5">
                 {lines.map((line) => (
