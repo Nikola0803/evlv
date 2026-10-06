@@ -9,6 +9,7 @@
  */
 
 import Image from "next/image";
+import { useState } from "react";
 import { useCart } from "@/lib/cart-context";
 import { useCurrency } from "@/lib/currency-context";
 import { getProductBySlug, getProducts } from "@/lib/products";
@@ -90,6 +91,46 @@ export function BwHBrandOffer({ products = [] }: { products?: Product[] }) {
           Add BW H-Brand · {formatPrice(product.price)}
         </button>
       </div>
+    </div>
+  );
+}
+
+export function CheckoutBwHBrandOffer() {
+  const { lines, addToCart } = useCart();
+  const { formatPrice } = useCurrency();
+  const [justAdded, setJustAdded] = useState(false);
+  const product = getProductBySlug(BW_H_BRAND_SLUG);
+  if (!product) return null;
+
+  const alreadyInCart = lines.some((line) => line.product.slug === BW_H_BRAND_SLUG);
+  const needsIt = lines.some((line) => Boolean(line.product.reconstitution));
+  if (!needsIt || (alreadyInCart && !justAdded)) return null;
+
+  function addSupply() {
+    if (!product || alreadyInCart) return;
+    addToCart(product, 1, product.price, "1 PCS");
+    setJustAdded(true);
+  }
+
+  return (
+    <div className={`mt-5 rounded-lg border p-4 ${justAdded ? "border-sage-deep/35 bg-sage-deep/[0.07]" : "border-copper/35 bg-copper/[0.05]"}`}>
+      <div className="flex items-center gap-4">
+        <div className="h-20 w-16 shrink-0 overflow-hidden rounded-md bg-white">
+          <Image src={getProductImage(product)} alt="BW H-Brand laboratory supply" width={120} height={150} className="h-full w-full object-contain" />
+        </div>
+        <div className="min-w-0 flex-1">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-copper">Laboratory workflow add-on</p>
+          <p className="mt-1 text-sm font-semibold text-charcoal">BW H-Brand · 30mL</p>
+          <p className="mt-1 text-xs leading-relaxed text-charcoal/55">Available for research workflows that require a suitable laboratory diluent.</p>
+        </div>
+      </div>
+      {justAdded ? (
+        <p className="mt-3 flex items-center justify-center gap-2 rounded-md bg-sage-deep px-4 py-3 text-xs font-semibold text-white"><i className="ri-checkbox-circle-fill" /> Added to this order</p>
+      ) : (
+        <button type="button" onClick={addSupply} className="mt-3 flex min-h-12 w-full items-center justify-center rounded-md bg-charcoal px-5 text-xs font-semibold uppercase tracking-[0.1em] text-white transition hover:bg-sage-deep">
+          Add to this order · {formatPrice(product.price)}
+        </button>
+      )}
     </div>
   );
 }

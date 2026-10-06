@@ -16,9 +16,22 @@ export async function POST(req: Request) {
   const discountCode = typeof body.discountCode === "string" ? body.discountCode : undefined;
   const customerEmail = typeof body.customerEmail === "string" ? body.customerEmail : undefined;
 
+  // Resolve the automatic event without any customer/code inputs first. A
+  // qualifying GLP pair owns the discount slot for this order; coupon and
+  // affiliate discount fields are removed before the authoritative checkout
+  // call so the event cannot stack with another percentage reduction.
+  const automaticPreview = await crmFetch("/api/store/coupons/validate", { items });
+  const automaticData = automaticPreview.ok ? automaticPreview.data as Record<string, unknown> : {};
+  const glpPairPromotion = automaticData.automaticPromotion === "GLP_PAIR_OCT_2026";
+  const checkoutBody = glpPairPromotion
+    ? { ...body, couponCode: undefined, discountCode: undefined, affiliateRef: undefined }
+    : body;
+
   // Fail closed above the tier ceiling returned by the CRM. The named GLP
   // event is the only retail exception and is still hard-limited to 40%.
-  const preview = await crmFetch("/api/store/coupons/validate", { items, code: discountCode, customerEmail });
+  const preview = glpPairPromotion
+    ? automaticPreview
+    : await crmFetch("/api/store/coupons/validate", { items, code: discountCode, customerEmail });
   if (preview.ok) {
     const result = preview.data as Record<string, unknown>;
     const subtotalCents = typeof result.subtotalCents === "number" ? result.subtotalCents : 0;
@@ -35,6 +48,6 @@ export async function POST(req: Request) {
   // checkout.
   const ipAddress = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || req.headers.get("x-real-ip") || undefined;
   const userAgent = req.headers.get("user-agent") || undefined;
-  const { ok, status, data } = await crmFetch("/api/store/checkout", { ...body, ipAddress, userAgent });
+  const { ok, status, data } = await crmFetch("/api/store/checkout", { ...checkoutBody, ipAddress, userAgent });
   return NextResponse.json(data, { status: ok ? 200 : status });
 }

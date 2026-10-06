@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/lib/cart-context";
 import { useCurrency } from "@/lib/currency-context";
-import { FREE_SHIPPING_THRESHOLD, FLAT_SHIPPING_COST, ShippingProgressBar } from "@/components/layout/CartUpsellOffers";
+import { CheckoutBwHBrandOffer, FREE_SHIPPING_THRESHOLD, FLAT_SHIPPING_COST, ShippingProgressBar } from "@/components/layout/CartUpsellOffers";
 import { getStoredUser } from "@/lib/auth";
 import { PAYMENT_GATEWAYS, PAYMENT_PROCESSOR_NOTE, type PaymentGatewayId } from "@/lib/payment-config";
 import { getStoredCouponCode, setStoredCouponCode } from "@/lib/referral";
@@ -67,6 +67,7 @@ export default function CheckoutPage() {
   const storedUserEmail = getStoredUser()?.email;
   const couponCustomerEmail = storedUserEmail || email.trim() || undefined;
   const coupon = useCouponValidation(couponCode, cartItemsForCoupon, couponCustomerEmail);
+  const automaticGlpPromotion = coupon.valid && coupon.automaticPromotion === "GLP_PAIR_OCT_2026";
   const discount = coupon.valid ? coupon.discountUsd : 0;
   const displaySubtotal = coupon.automaticPromotion && coupon.subtotalUsd != null ? coupon.subtotalUsd : subtotal;
   const discountedSubtotal = Math.max(0, displaySubtotal - discount);
@@ -157,17 +158,17 @@ export default function CheckoutPage() {
           // Cents, matching the CRM's convention everywhere else -- this
           // page computes shipping/total in whole dollars for display.
           shippingCents: Math.round(shipping * 100),
-          couponCode: couponCode.trim() || undefined,
+          couponCode: automaticGlpPromotion ? undefined : couponCode.trim() || undefined,
           // Same value doubles as the affiliate ?ref= candidate - the CRM's
           // order engine tries couponCode first, then affiliateRef, against
           // Affiliate.couponCode/slug (see order-engine.ts).
-          affiliateRef: couponCode.trim() || undefined,
+          affiliateRef: automaticGlpPromotion ? undefined : couponCode.trim() || undefined,
           // A real price-discount coupon (distinct from the affiliate
           // attribution code above) -- runCheckout() looks this up
           // separately and no-ops if it does not match a Coupon row, so
           // it is always safe to send even when the code above is really
           // just a referral code.
-          discountCode: couponCode.trim() || undefined,
+          discountCode: automaticGlpPromotion ? undefined : couponCode.trim() || undefined,
           customerNote: [
             `RUO attestation: purchaser confirmed laboratory/research use only at ${new Date().toISOString()}.`,
             formatAttributionNote(attribution),
@@ -335,26 +336,35 @@ export default function CheckoutPage() {
           </section>
 
           <section className="cp-checkout-panel">
-            <label className="mb-3 block text-sm font-semibold uppercase tracking-wider text-charcoal/50">
-              Promo / Referral Code <span className="font-normal normal-case text-charcoal/40">(optional)</span>
-            </label>
-            <input
-              type="text"
-              value={couponCode}
-              onChange={(e) => {
-                const next = e.target.value.toUpperCase();
-                setCouponCode(next);
-                setStoredCouponCode(next);
-              }}
-              placeholder="Enter a code"
-              className="h-12 w-full rounded-md border border-stone bg-white px-4 text-base uppercase tracking-wide text-charcoal outline-none placeholder:text-charcoal/40 placeholder:normal-case focus:border-copper"
-            />
-            {coupon.checking && <p className="mt-1.5 text-xs text-charcoal/40">Checking code...</p>}
-            {!coupon.checking && coupon.valid && (
-              <p className="mt-1.5 text-xs font-medium text-sage-deep">
-                {coupon.promotionLabel || (couponCode.trim() ? "Code applied" : "Member reward applied")} -- {formatPrice(coupon.discountUsd)} off
-                {coupon.flooredByMargin ? " (partial, discount limit reached)" : ""}
-              </p>
+            {automaticGlpPromotion ? (
+              <div className="rounded-md border border-sage-deep/30 bg-sage-deep/[0.07] p-4 text-sage-deep">
+                <p className="flex items-center gap-2 text-sm font-semibold"><i className="ri-checkbox-circle-fill" /> GLP Pair Event automatically applied</p>
+                <p className="mt-1 text-xs leading-relaxed">Second matching eligible item is 70% off. You saved {formatPrice(coupon.discountUsd)}. This event cannot be combined with promo or referral discounts.</p>
+              </div>
+            ) : (
+              <>
+                <label className="mb-3 block text-sm font-semibold uppercase tracking-wider text-charcoal/50">
+                  Promo / Referral Code <span className="font-normal normal-case text-charcoal/40">(optional)</span>
+                </label>
+                <input
+                  type="text"
+                  value={couponCode}
+                  onChange={(e) => {
+                    const next = e.target.value.toUpperCase();
+                    setCouponCode(next);
+                    setStoredCouponCode(next);
+                  }}
+                  placeholder="Enter a code"
+                  className="h-12 w-full rounded-md border border-stone bg-white px-4 text-base uppercase tracking-wide text-charcoal outline-none placeholder:text-charcoal/40 placeholder:normal-case focus:border-copper"
+                />
+                {coupon.checking && <p className="mt-1.5 text-xs text-charcoal/40">Checking code...</p>}
+                {!coupon.checking && coupon.valid && (
+                  <p className="mt-1.5 text-xs font-medium text-sage-deep">
+                    {coupon.promotionLabel || (couponCode.trim() ? "Code applied" : "Member reward applied")} -- {formatPrice(coupon.discountUsd)} off
+                    {coupon.flooredByMargin ? " (partial, discount limit reached)" : ""}
+                  </p>
+                )}
+              </>
             )}
           </section>
 
@@ -377,7 +387,7 @@ export default function CheckoutPage() {
         <div className="cp-checkout-sidebar h-fit space-y-6">
           <div className="cp-checkout-summary rounded-lg border border-stone bg-white p-6 shadow-sm">
             <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-charcoal/50">Order Summary</h2>
-            <ShippingProgressBar />
+            <ShippingProgressBar qualifyingSubtotal={discountedSubtotal} />
             <div className="space-y-5">
               {lines.map((line) => (
                 <div key={`${line.product.id}-${line.packLabel}`} className="flex gap-4">
@@ -394,6 +404,8 @@ export default function CheckoutPage() {
               ))}
             </div>
 
+            <CheckoutBwHBrandOffer />
+
             <div className="mt-6 space-y-2 border-t border-stone pt-5 text-base">
               <div className="flex items-center justify-between">
                 <span className="text-charcoal/60">Subtotal</span>
@@ -402,7 +414,7 @@ export default function CheckoutPage() {
               {discount > 0 && (
                 <div className="flex items-center justify-between">
                   <span className="text-sage-deep">
-                    Discount{couponCode.trim() ? ` (${couponCode.trim()})` : " (member reward)"}
+                    {automaticGlpPromotion ? "GLP Pair Event (auto-applied)" : `Discount${couponCode.trim() ? ` (${couponCode.trim()})` : " (member reward)"}`}
                   </span>
                   <span className="font-medium text-sage-deep">-{formatPrice(discount)}</span>
                 </div>

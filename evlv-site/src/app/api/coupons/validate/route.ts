@@ -13,7 +13,20 @@ export async function POST(req: Request) {
   if (!crmConfigured()) {
     return NextResponse.json({ valid: false, discountCents: 0, errors: [{ code: "", reason: "Store not connected" }] });
   }
-  const body = await req.json().catch(() => ({}));
+  const body = (await req.json().catch(() => ({}))) as Record<string, unknown>;
+  const items = Array.isArray(body.items) ? body.items : [];
+
+  // The GLP pair event is automatic and non-stackable. Check it without a
+  // customer email or entered code first so a stored member/referral coupon
+  // cannot replace or combine with the event preview in the browser.
+  const automatic = await crmFetch("/api/store/coupons/validate", { items });
+  if (automatic.ok) {
+    const automaticData = automatic.data as Record<string, unknown>;
+    if (automaticData.automaticPromotion === "GLP_PAIR_OCT_2026") {
+      return NextResponse.json({ ...automaticData, stackingDisabled: true });
+    }
+  }
+
   const { ok, status, data } = await crmFetch("/api/store/coupons/validate", body);
   // The CRM is authoritative because it knows whether this customer is an
   // approved wholesale partner (40% ceiling) or retail (30% ceiling), and
