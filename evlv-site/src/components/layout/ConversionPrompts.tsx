@@ -42,10 +42,15 @@ export function ConversionPrompts() {
       const previewTimer = window.setTimeout(() => setMode(preview as Exclude<PromptMode, null>), 0);
       return () => window.clearTimeout(previewTimer);
     }
-    const campaignEntry = searchParams.get("age_verified") === "1" || sessionStorage.getItem(CAMPAIGN_SESSION_KEY) === "1";
+    const emailSources = searchParams.getAll("utm_source").map((value) => value.toLowerCase());
+    const emailMediums = searchParams.getAll("utm_medium").map((value) => value.toLowerCase());
+    const campaignEntry = searchParams.get("age_verified") === "1"
+      || emailSources.some((source) => source === "email" || source.includes("omnisend"))
+      || emailMediums.some((medium) => medium === "email" || medium.includes("newsletter"))
+      || sessionStorage.getItem(CAMPAIGN_SESSION_KEY) === "1";
     if (campaignEntry) {
-      setMode(null);
-      return;
+      const campaignResetTimer = window.setTimeout(() => setMode(null), 0);
+      return () => window.clearTimeout(campaignResetTimer);
     }
     const resetTimer = window.setTimeout(() => setMode(null), 0);
 

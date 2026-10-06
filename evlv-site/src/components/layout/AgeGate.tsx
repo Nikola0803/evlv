@@ -12,6 +12,21 @@ const ACCESS_TTL_DAYS = 30;
 const CAMPAIGN_PARAM = "age_verified";
 const CAMPAIGN_SESSION_KEY = "evlv_campaign_entry";
 
+function isEmailCampaignVisit(url: URL) {
+  const sources = url.searchParams.getAll("utm_source").map((value) => value.toLowerCase());
+  const mediums = url.searchParams.getAll("utm_medium").map((value) => value.toLowerCase());
+  const knownEmailSource = sources.some((source) => source === "email" || source.includes("omnisend"));
+  const knownEmailMedium = mediums.some((medium) => medium === "email" || medium.includes("newsletter"));
+  const hasOmnisendAttribution = [
+    "omnisendContactID",
+    "omnisendAttributionID",
+    "omnisendScopeID",
+    "omnisendCampaignID",
+  ].some((parameter) => url.searchParams.has(parameter));
+
+  return url.searchParams.get(CAMPAIGN_PARAM) === "1" || knownEmailSource || knownEmailMedium || hasOmnisendAttribution;
+}
+
 function rememberAccess(source: "email" | "campaign") {
   localStorage.setItem(ACCESS_KEY, JSON.stringify({ ts: Date.now(), source }));
   sessionStorage.setItem(SESSION_KEY, "1");
@@ -45,7 +60,11 @@ export function AgeGate({ children }: { children: React.ReactNode }) {
     const attribution = captureAttributionFromUrl(url);
     const isLocalPreview = ["localhost", "127.0.0.1", "::1"].includes(url.hostname);
     const forcePreview = url.searchParams.get("gate_preview") === "1";
-    const campaign = url.searchParams.get(CAMPAIGN_PARAM) === "1";
+    // Existing Omnisend campaigns may already be in inboxes without the
+    // explicit age_verified flag. Their UTM/Omnisend attribution is enough to
+    // use the streamlined confirmation because the address was collected by
+    // the email campaign before the visitor reached this page.
+    const campaign = isEmailCampaignVisit(url);
     if (campaign) sessionStorage.setItem(CAMPAIGN_SESSION_KEY, "1");
     const allowed = forcePreview ? false : isLocalPreview && !campaign ? true : hasStoredAccess();
     if (!allowed) {
