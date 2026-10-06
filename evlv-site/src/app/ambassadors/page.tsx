@@ -37,7 +37,7 @@ export default function AmbassadorsPage() {
     <main className="overflow-hidden bg-[#f7f7f3] text-[#102d28]">
       <div className="hidden border-b border-white/10 bg-[#082a27] py-2.5 text-center text-[10px] font-semibold uppercase tracking-[0.18em] text-white/65 sm:block">
         Existing EVLV partner?{" "}
-        <Link href="/account?tab=affiliate" className="text-[#b9d9ce] underline decoration-white/30 underline-offset-4 transition hover:text-white">Open your partner portal</Link>
+        <Link href="/partner" className="text-[#b9d9ce] underline decoration-white/30 underline-offset-4 transition hover:text-white">Open Partner Command</Link>
       </div>
 
       <section className="relative bg-[#082a27] text-white">

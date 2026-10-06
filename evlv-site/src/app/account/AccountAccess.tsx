@@ -34,7 +34,15 @@ function getSession(data: AuthPayload, fallbackEmail: string) {
   return token && userId ? { token, email, username, user_id: userId } : null;
 }
 
-export function AccountAccess({ initialMode = "signin" }: { initialMode?: Mode }) {
+export function AccountAccess({
+  initialMode = "signin",
+  redirectTo = "/account",
+  partnerMode = false,
+}: {
+  initialMode?: Mode;
+  redirectTo?: string;
+  partnerMode?: boolean;
+}) {
   const [mode, setMode] = useState<Mode>(initialMode);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -84,7 +92,7 @@ export function AccountAccess({ initialMode = "signin" }: { initialMode?: Mode }
       if (mode === "register" && typeof data.couponCode === "string") {
         setStoredCouponCode(data.couponCode);
       }
-      window.location.href = mode === "register" ? "/shop?welcome=10" : "/account";
+      window.location.href = mode === "register" && !partnerMode ? "/shop?welcome=10" : redirectTo;
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : "Something went wrong. Please try again.");
     } finally {
@@ -98,14 +106,28 @@ export function AccountAccess({ initialMode = "signin" }: { initialMode?: Mode }
         <div className="relative flex min-h-[320px] flex-col justify-between overflow-hidden bg-[#07383a] p-8 text-white md:p-12 lg:min-h-[650px]">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_90%_12%,rgba(185,217,206,.22),transparent_38%),linear-gradient(145deg,#07383a,#092825)]" />
           <div className="relative">
-            <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#b9d9ce]">EVLV Research Account</p>
-            <h1 className="mt-5 max-w-md font-display text-4xl font-semibold leading-tight md:text-5xl">Research orders and documentation in one place.</h1>
-            <p className="mt-5 max-w-md text-sm leading-relaxed text-white/65">Sign in to review order history, saved addresses, verification status, wholesale access, and partner tools.</p>
+            <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#b9d9ce]">{partnerMode ? "EVLV Partner Command" : "EVLV Research Account"}</p>
+            <h1 className="mt-5 max-w-md font-display text-4xl font-semibold leading-tight md:text-5xl">
+              {partnerMode ? "Your performance. Your earnings. One command center." : "Research orders and documentation in one place."}
+            </h1>
+            <p className="mt-5 max-w-md text-sm leading-relaxed text-white/65">
+              {partnerMode ? "Sign in with the EVLV account connected to your partner application." : "Sign in to review order history, saved addresses, verification status, wholesale access, and partner tools."}
+            </p>
           </div>
           <div className="relative mt-10 grid gap-4 border-t border-white/15 pt-7 text-sm text-white/75 sm:grid-cols-2 lg:grid-cols-1">
-            <span className="flex items-center gap-3"><i className="ri-file-list-3-line text-[#b9d9ce]" /> View orders and shipping status</span>
-            <span className="flex items-center gap-3"><i className="ri-shield-check-line text-[#b9d9ce]" /> Manage research verification</span>
-            <span className="flex items-center gap-3"><i className="ri-store-2-line text-[#b9d9ce]" /> Access wholesale partner tools</span>
+            {partnerMode ? (
+              <>
+                <span className="flex items-center gap-3"><i className="ri-line-chart-line text-[#b9d9ce]" /> Track clicks and conversions</span>
+                <span className="flex items-center gap-3"><i className="ri-money-dollar-circle-line text-[#b9d9ce]" /> Monitor commission and payouts</span>
+                <span className="flex items-center gap-3"><i className="ri-links-line text-[#b9d9ce]" /> Build attributed campaign links</span>
+              </>
+            ) : (
+              <>
+                <span className="flex items-center gap-3"><i className="ri-file-list-3-line text-[#b9d9ce]" /> View orders and shipping status</span>
+                <span className="flex items-center gap-3"><i className="ri-shield-check-line text-[#b9d9ce]" /> Manage research verification</span>
+                <span className="flex items-center gap-3"><i className="ri-store-2-line text-[#b9d9ce]" /> Access wholesale partner tools</span>
+              </>
+            )}
           </div>
         </div>
 
@@ -117,8 +139,8 @@ export function AccountAccess({ initialMode = "signin" }: { initialMode?: Mode }
             </div>
 
             <div className="mt-8">
-              <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-sage-deep">{mode === "signin" ? "Welcome back" : "Create your profile"}</p>
-              <h2 className="mt-2 font-display text-3xl font-semibold text-charcoal">{mode === "signin" ? "Sign in to EVLV" : "Open an EVLV account"}</h2>
+              <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-sage-deep">{mode === "signin" ? (partnerMode ? "Partner access" : "Welcome back") : "Create your profile"}</p>
+              <h2 className="mt-2 font-display text-3xl font-semibold text-charcoal">{mode === "signin" ? (partnerMode ? "Open Partner Command" : "Sign in to EVLV") : "Open an EVLV account"}</h2>
               <p className="mt-2 text-sm leading-relaxed text-charcoal/50">{mode === "signin" ? "Enter the email and password connected to your account." : "Create one secure login and receive 10% off your first purchase. Your personal reward is applied automatically at checkout."}</p>
             </div>
 

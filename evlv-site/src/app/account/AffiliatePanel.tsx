@@ -133,6 +133,16 @@ export function AffiliatePanel() {
   // APPROVED
   return (
     <div>
+      <div className="mb-8 overflow-hidden rounded-xl bg-[#07383a] p-6 text-white">
+        <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#b9d9ce]">Dedicated partner workspace</p>
+        <div className="mt-3 flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
+          <div>
+            <p className="font-display text-2xl font-semibold">Your full Partner Command Center is ready.</p>
+            <p className="mt-2 max-w-xl text-sm leading-6 text-white/60">Open performance analytics, conversion activity, commission ledgers, payout history, and campaign-link tools.</p>
+          </div>
+          <a href="/partner" className="shrink-0 rounded-lg bg-white px-5 py-3 text-[10px] font-bold uppercase tracking-[.12em] text-[#07383a]">Open Partner Command</a>
+        </div>
+      </div>
       <div className="mb-8 rounded-lg border border-stone bg-white p-6">
         <p className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-charcoal/50">Your Referral Link</p>
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center">

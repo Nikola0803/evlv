@@ -33,7 +33,14 @@ const STANDARD_STORAGE = "Store lyophilized vials at 2–8°C. After reconstitut
 // blank if the CRM is unreachable.
 export async function getLiveProducts(): Promise<Product[]> {
   if (!crmConfigured()) return [];
-  const { ok, data } = await crmGet("/api/store/products", { revalidate: 120 });
+  let response: Awaited<ReturnType<typeof crmGet>>;
+  try {
+    response = await crmGet("/api/store/products", { revalidate: 120 });
+  } catch (error) {
+    console.error("CRM product feed unavailable; rendering the storefront in safe fallback mode", error);
+    return [];
+  }
+  const { ok, data } = response;
   if (!ok || !Array.isArray(data)) return [];
 
   const products: Product[] = [];

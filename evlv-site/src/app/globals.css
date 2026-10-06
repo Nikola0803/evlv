@@ -639,3 +639,6 @@ main:not(:has(.cp-home)):not(:has(.cp-shop)):not(:has(.cp-pdp-page)) .bg-ivory-s
     background-position:center,62% center;
   }
 }
+
+.portal-button{display:inline-flex;min-height:44px;align-items:center;justify-content:center;border-radius:8px;background:#102d28;padding:0 20px;color:#fff;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;transition:background .2s ease}
+.portal-button:hover{background:#19483f}
