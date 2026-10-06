@@ -6,7 +6,7 @@ import { AccountAccess } from "@/app/account/AccountAccess";
 import { PayoutSettings, type PayoutInfo } from "@/app/account/PayoutSettings";
 import { clearAuth, getStoredToken, getStoredUser } from "@/lib/auth";
 
-type View = "overview" | "performance" | "conversions" | "payouts" | "links";
+type View = "overview" | "performance" | "conversions" | "offer" | "payouts" | "links";
 type Status = "NONE" | "PENDING" | "APPROVED" | "REJECTED";
 
 type PerformancePoint = { date: string; clicks: number; conversions: number; commissionCents: number };
@@ -30,7 +30,11 @@ interface PartnerData extends PayoutInfo {
   affiliateName?: string;
   affiliateEmail?: string;
   referralCode?: string;
+  couponCode?: string;
   ratePercent?: number;
+  customerDiscountPercent?: number;
+  effectiveCommissionPercent?: number;
+  level?: { key: string; name: string; nextName?: string | null; progressPercent: number; revenueToNextCents: number };
   clicks30d?: number;
   clicksTotal?: number;
   totalConversions?: number;
@@ -52,6 +56,7 @@ const NAV: { key: View; label: string; icon: string }[] = [
   { key: "overview", label: "Overview", icon: "ri-command-line" },
   { key: "performance", label: "Performance", icon: "ri-line-chart-line" },
   { key: "conversions", label: "Conversions", icon: "ri-shopping-bag-3-line" },
+  { key: "offer", label: "Offer & Code", icon: "ri-coupon-3-line" },
   { key: "payouts", label: "Payouts", icon: "ri-wallet-3-line" },
   { key: "links", label: "Campaign Links", icon: "ri-links-line" },
 ];
@@ -89,6 +94,10 @@ export function PartnerCommandCenter() {
   const [destination, setDestination] = useState(DESTINATIONS[0].path);
   const [requesting, setRequesting] = useState(false);
   const [requestMessage, setRequestMessage] = useState("");
+  const [offerCode, setOfferCode] = useState("");
+  const [customerDiscount, setCustomerDiscount] = useState(0);
+  const [savingOffer, setSavingOffer] = useState(false);
+  const [offerMessage, setOfferMessage] = useState("");
 
   async function load() {
     setLoading(true);
@@ -102,6 +111,8 @@ export function PartnerCommandCenter() {
       const body = await response.json().catch(() => ({}));
       if (!response.ok) throw new Error(body?.error || "Partner Command is temporarily unavailable.");
       setData(body);
+      setOfferCode(body.couponCode || body.referralCode || "");
+      setCustomerDiscount(body.customerDiscountPercent || 0);
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : "Partner Command is temporarily unavailable.");
     } finally {
@@ -153,6 +164,27 @@ export function PartnerCommandCenter() {
     }
   }
 
+  async function saveOffer(event: React.FormEvent) {
+    event.preventDefault();
+    setSavingOffer(true);
+    setOfferMessage("");
+    try {
+      const response = await fetch("/api/affiliate/program-settings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token: getStoredToken(), couponCode: offerCode, customerDiscountPercent: customerDiscount }),
+      });
+      const body = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(body?.error || "Your public offer could not be updated.");
+      setOfferMessage("Your public code and customer reward are live.");
+      await load();
+    } catch (cause) {
+      setOfferMessage(cause instanceof Error ? cause.message : "Your public offer could not be updated.");
+    } finally {
+      setSavingOffer(false);
+    }
+  }
+
   if (!mounted) return null;
   if (!getStoredUser() || !getStoredToken()) {
     return <AccountAccess initialMode="signin" redirectTo="/partner" partnerMode />;
@@ -195,8 +227,8 @@ export function PartnerCommandCenter() {
           </div>
           <div className="mt-6 hidden rounded-xl bg-[#e3efea] p-4 lg:block">
             <p className="text-[9px] font-bold uppercase tracking-[.16em] text-[#567d72]">Private terms</p>
-            <p className="mt-2 font-display text-2xl font-semibold">{data.ratePercent ?? 0}%</p>
-            <p className="mt-1 text-xs leading-5 text-[#60706b]">Current commission rate on eligible confirmed product revenue.</p>
+            <p className="mt-2 font-display text-2xl font-semibold">{data.effectiveCommissionPercent ?? data.ratePercent ?? 0}%</p>
+            <p className="mt-1 text-xs leading-5 text-[#60706b]">Your current commission after the customer reward you selected.</p>
           </div>
         </aside>
 
@@ -235,12 +267,33 @@ export function PartnerCommandCenter() {
                   <button onClick={() => setView("conversions")} className="mt-4 text-[10px] font-bold uppercase tracking-[.12em] text-[#356f60]">View all conversion activity →</button>
                 </Panel>
               </div>
+              <Panel title={`${data.level?.name || "Launch"} partner`} eyebrow="Program level">
+                <div className="flex items-end justify-between gap-4"><p className="text-sm text-[#60706b]">{data.level?.nextName ? `${money(data.level.revenueToNextCents)} in confirmed revenue until ${data.level.nextName}.` : "You have reached the highest program level."}</p><span className="font-display text-2xl font-semibold">{data.level?.progressPercent ?? 0}%</span></div>
+                <div className="mt-4 h-2 overflow-hidden rounded-full bg-[#dce5e1]"><div className="h-full rounded-full bg-[#356f60]" style={{ width: `${data.level?.progressPercent ?? 0}%` }} /></div>
+              </Panel>
             </div>
           )}
 
           {view === "performance" && <Panel title="Performance analytics" eyebrow="Rolling 30 days"><PerformanceChart points={data.performance ?? []} large /><div className="mt-7 grid gap-3 sm:grid-cols-3"><MiniMetric label="Attributed revenue" value={money(data.grossRevenueCents)} /><MiniMetric label="Lifetime clicks" value={String(data.clicksTotal ?? 0)} /><MiniMetric label="Total conversions" value={String(data.totalConversions ?? 0)} /></div></Panel>}
 
           {view === "conversions" && <Panel title="Conversion ledger" eyebrow="Privacy-safe attribution"><p className="mb-6 max-w-2xl text-sm leading-6 text-[#60706b]">Order references, status, revenue, and commission are shown without exposing customer identity or shipping information.</p><ConversionList conversions={data.recentConversions ?? []} /></Panel>}
+
+          {view === "offer" && <div className="grid gap-6 xl:grid-cols-[1fr_.8fr]">
+            <Panel title="Your public offer" eyebrow="Code control">
+              <p className="text-sm leading-6 text-[#60706b]">Choose a clean public code and decide how much of your assigned {data.ratePercent ?? 0}% partner rate to give customers. Your commission is the remainder.</p>
+              <form onSubmit={saveOffer} className="mt-6 space-y-5">
+                <label className="block text-[10px] font-bold uppercase tracking-[.12em] text-[#567d72]">Public code<input value={offerCode} onChange={(event) => setOfferCode(event.target.value.toUpperCase().replace(/\s/g, ""))} minLength={4} maxLength={24} pattern="[A-Z0-9][A-Z0-9_-]{3,23}" required className="mt-2 block w-full rounded-lg border border-[#cedbd6] bg-white px-4 py-3 font-mono text-base uppercase outline-none focus:border-[#356f60]" /></label>
+                <label className="block text-[10px] font-bold uppercase tracking-[.12em] text-[#567d72]">Customer discount: {customerDiscount}%<input type="range" min="0" max={Math.min(30, Math.floor(data.ratePercent ?? 0))} step="1" value={customerDiscount} onChange={(event) => setCustomerDiscount(Number(event.target.value))} className="mt-3 block w-full accent-[#356f60]" /></label>
+                <div className="grid grid-cols-2 gap-3"><MiniMetric label="Customer receives" value={`${customerDiscount}% off`} /><MiniMetric label="You earn" value={`${Math.max(0, (data.ratePercent ?? 0) - customerDiscount)}% commission`} /></div>
+                <p className="rounded-lg bg-[#eef3f0] p-4 text-xs leading-5 text-[#60706b]">This reward cannot stack with another promotion. Checkout also applies EVLV's retail discount cap and minimum-margin protection automatically.</p>
+                <div className="flex flex-wrap items-center gap-3"><button disabled={savingOffer} className="portal-button disabled:opacity-50">{savingOffer ? "Saving…" : "Publish offer"}</button>{offerMessage && <p className="text-xs text-[#567d72]">{offerMessage}</p>}</div>
+              </form>
+            </Panel>
+            <Panel title="Share-ready" eyebrow="Public promotion">
+              <p className="text-sm text-[#60706b]">Customer code</p><code className="mt-2 block rounded-lg bg-[#102d28] p-5 text-center font-mono text-2xl tracking-[.16em] text-white">{offerCode || data.couponCode}</code>
+              <p className="mt-5 text-sm text-[#60706b]">Referral link</p><code className="mt-2 block break-all rounded-lg bg-[#eef3f0] p-4 text-xs text-[#315d53]">{mainLink}</code><button type="button" onClick={() => copy(mainLink, "offer-link")} className="portal-button mt-4 w-full">{copied === "offer-link" ? "Copied" : "Copy public link"}</button>
+            </Panel>
+          </div>}
 
           {view === "payouts" && (
             <div className="space-y-6">
