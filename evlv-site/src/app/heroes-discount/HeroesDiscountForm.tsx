@@ -14,11 +14,6 @@ const STATUS_OPTIONS = [
   "Veteran",
   "Reservist / National Guard",
   "First Responder (Police/Fire/EMS/Dispatch)",
-  "Physician",
-  "Nurse / Nurse Practitioner",
-  "Physician Assistant",
-  "Pharmacist / Pharmacy Staff",
-  "Medical Staff (Clinical/Hospital/Office)",
 ];
 const MAX_FILE_BYTES = 8 * 1024 * 1024; // 8MB
 
@@ -58,7 +53,7 @@ export function HeroesDiscountForm() {
     e.preventDefault();
     setError("");
     if (!proofFile) {
-      setError("Please attach proof of service or current medical employment.");
+      setError("Please attach current proof of service.");
       return;
     }
     setSubmitting(true);
@@ -152,7 +147,7 @@ export function HeroesDiscountForm() {
           required
           value={form.branch}
           onChange={(e) => set("branch", e.target.value)}
-          placeholder="e.g. U.S. Army, Chicago PD, St. Luke's Hospital"
+          placeholder="e.g. U.S. Army, Chicago Fire Department, Boise EMS"
           className="w-full rounded-md border border-stone bg-ivory px-4 py-2.5 text-sm outline-none focus:border-copper"
         />
       </div>
@@ -169,8 +164,8 @@ export function HeroesDiscountForm() {
           className="w-full rounded-md border border-stone bg-ivory px-4 py-2.5 text-sm outline-none file:mr-3 file:rounded file:border-0 file:bg-sage-deep file:px-4 file:py-2 file:text-xs file:font-semibold file:uppercase file:text-white focus:border-copper"
         />
         <p className="mt-1.5 text-xs text-charcoal/40">
-          Military/veteran ID, DD-214, department credential, medical license, employee badge, or a clear photo
-          of your service uniform. Image or PDF, under 8MB. Submit only material you are legally permitted to
+          Military/veteran ID, DD-214, department credential, service ID, or a clear photo of your service
+          uniform. Image or PDF, under 8MB. Submit only material you are legally permitted to
           share, and cover badge numbers, patient information, or unrelated sensitive details.
         </p>
       </div>

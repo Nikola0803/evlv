@@ -6,14 +6,13 @@ import { HeroesDiscountForm } from "./HeroesDiscountForm";
 export const metadata: Metadata = {
   title: "25% Lifetime Service Discount",
   description:
-    "Veterans, active military, first responders, and medical staff can apply for a verified, account-based 25% EVLV discount for life.",
+    "Veterans, active military, and first responders can apply for a verified, account-based 25% EVLV discount for life.",
   alternates: { canonical: "/heroes-discount" },
 };
 
 const ELIGIBLE = [
   { icon: "ri-shield-star-line", title: "Military", body: "Active duty, veterans, reservists, and National Guard." },
   { icon: "ri-alarm-warning-line", title: "First responders", body: "Police, fire, EMS, dispatch, and emergency personnel." },
-  { icon: "ri-nurse-line", title: "Medical staff", body: "Clinical, hospital, pharmacy, and medical-office professionals." },
 ] as const;
 
 const STEPS = [
@@ -36,8 +35,8 @@ const FAQ = [
     answer: "No. The lifetime service discount is non-stackable. Checkout applies the eligible offer under EVLV's discount and margin rules.",
   },
   {
-    question: "What proof can medical staff submit?",
-    answer: "A current employee badge, professional license, employer letter, or similar document showing active medical employment is acceptable. You may redact unrelated sensitive numbers.",
+    question: "Can I use a photo of my service uniform?",
+    answer: "Yes. A clear photo of your service uniform is acceptable if you are legally permitted to share it. Cover badge numbers, restricted identifiers, and unrelated sensitive information.",
   },
 ] as const;
 
@@ -47,8 +46,8 @@ export default function HeroesDiscountPage() {
       <section className="px-3 pb-12 pt-5 md:px-6 md:pb-16 md:pt-7">
         <div className="relative mx-auto min-h-[650px] max-w-[1400px] overflow-hidden rounded-[26px] bg-[#082f30] text-white shadow-[0_24px_70px_rgba(7,42,43,0.18)] md:min-h-[690px]">
           <Image
-            src="/images/heroes-service-banner.png"
-            alt="Veteran, firefighter, EMS professional, and medical professional holding an EVLV Veterans banner"
+            src="/images/heroes-service-banner-v2.png"
+            alt="Veteran, firefighter, and EMS professional holding an EVLV Veterans banner"
             fill
             priority
             sizes="(max-width: 768px) 100vw, 1400px"
@@ -66,7 +65,7 @@ export default function HeroesDiscountPage() {
                 25% off.<br />For life.
               </h1>
               <p className="mt-6 max-w-xl text-base leading-relaxed text-white/75 md:text-lg">
-                A permanent, account-based benefit for verified veterans, active military, first responders, and medical staff.
+                A permanent, account-based benefit for verified veterans, active military, and first responders.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <a href="#apply" className="rounded-md bg-white px-7 py-3.5 text-[12px] font-bold uppercase tracking-[0.16em] text-[#07383a] transition hover:bg-[#edf5f2]">
@@ -92,10 +91,10 @@ export default function HeroesDiscountPage() {
             <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-sage-deep">Who can apply</p>
             <h2 className="mt-3 font-display text-3xl font-semibold tracking-tight md:text-5xl">Service takes many forms.</h2>
             <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-charcoal/60 md:text-base">
-              We built one verification program for the people who serve their country, community, and patients.
+              We built one verification program for the people who serve their country and community.
             </p>
           </div>
-          <div className="mt-10 grid gap-5 md:grid-cols-3">
+          <div className="mx-auto mt-10 grid max-w-4xl gap-5 md:grid-cols-2">
             {ELIGIBLE.map((item) => (
               <article key={item.title} className="rounded-2xl border border-stone bg-ivory-soft p-7 md:p-8">
                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-sage-deep text-xl text-white"><i className={item.icon} /></div>
