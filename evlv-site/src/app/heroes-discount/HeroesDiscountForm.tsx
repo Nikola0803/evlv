@@ -9,7 +9,17 @@ interface FormState {
   status: string;
 }
 
-const STATUS_OPTIONS = ["Active Duty", "Veteran", "Reservist / National Guard", "First Responder (Police/Fire/EMS)"];
+const STATUS_OPTIONS = [
+  "Active Duty",
+  "Veteran",
+  "Reservist / National Guard",
+  "First Responder (Police/Fire/EMS/Dispatch)",
+  "Physician",
+  "Nurse / Nurse Practitioner",
+  "Physician Assistant",
+  "Pharmacist / Pharmacy Staff",
+  "Medical Staff (Clinical/Hospital/Office)",
+];
 const MAX_FILE_BYTES = 8 * 1024 * 1024; // 8MB
 
 function readFileAsDataUrl(file: File): Promise<string> {
@@ -48,7 +58,7 @@ export function HeroesDiscountForm() {
     e.preventDefault();
     setError("");
     if (!proofFile) {
-      setError("Please attach proof of service (ID, discharge paperwork, or a badge/department photo).");
+      setError("Please attach proof of service or current medical employment.");
       return;
     }
     setSubmitting(true);
@@ -86,8 +96,8 @@ export function HeroesDiscountForm() {
         <i className="ri-checkbox-circle-fill text-2xl text-sage-deep" />
         <p className="mt-3 font-display text-lg font-semibold text-charcoal">Request received</p>
         <p className="mt-2 text-sm text-charcoal/60">
-          We verify each request by hand. If approved, your one-time 20% code will be emailed to you within a couple
-          of business days.
+          We verify each request by hand. If approved, your lifetime 25% benefit will be connected to this email and
+          will apply automatically when your account is recognized at checkout.
         </p>
       </div>
     );
@@ -136,20 +146,20 @@ export function HeroesDiscountForm() {
       </div>
 
       <div>
-        <label className="mb-1.5 block text-sm font-semibold text-charcoal">Branch / Agency</label>
+        <label className="mb-1.5 block text-sm font-semibold text-charcoal">Branch / Agency / Employer</label>
         <input
           type="text"
           required
           value={form.branch}
           onChange={(e) => set("branch", e.target.value)}
-          placeholder="e.g. U.S. Army, Chicago PD, County EMS"
+          placeholder="e.g. U.S. Army, Chicago PD, St. Luke's Hospital"
           className="w-full rounded-md border border-stone bg-ivory px-4 py-2.5 text-sm outline-none focus:border-copper"
         />
       </div>
 
       <div>
         <label className="mb-1.5 block text-sm font-semibold text-charcoal">
-          Proof of Service <span className="text-copper">*</span>
+          Verification Document <span className="text-copper">*</span>
         </label>
         <input
           type="file"
@@ -159,14 +169,14 @@ export function HeroesDiscountForm() {
           className="w-full rounded-md border border-stone bg-ivory px-4 py-2.5 text-sm outline-none file:mr-3 file:rounded file:border-0 file:bg-copper file:px-3 file:py-1.5 file:text-xs file:font-semibold file:uppercase file:text-charcoal focus:border-copper"
         />
         <p className="mt-1.5 text-xs text-charcoal/40">
-          Military/veteran ID, DD-214, or a department badge/ID photo. Image or PDF, under 8MB. Used only to verify
-          eligibility.
+          Military/veteran ID, DD-214, department credential, medical license, or employee badge. Image or PDF,
+          under 8MB. You may redact unrelated sensitive numbers.
         </p>
       </div>
 
       <p className="text-xs text-charcoal/50">
-        We may follow up by email to verify eligibility before issuing a code. One code per person, not combinable
-        with other offers.
+        We may follow up by email to verify eligibility. The 25% benefit is tied to one verified account, has no
+        expiration, and cannot be combined with other offers.
       </p>
 
       {error && (
@@ -181,7 +191,7 @@ export function HeroesDiscountForm() {
         disabled={submitting}
         className="w-full rounded-md bg-copper py-3.5 text-[12px] font-semibold uppercase tracking-[0.15em] text-charcoal transition hover:bg-copper-light disabled:cursor-wait disabled:opacity-60"
       >
-        {submitting ? "Submitting..." : "Request My Code"}
+        {submitting ? "Submitting..." : "Apply for 25% Lifetime Access"}
       </button>
     </form>
   );
