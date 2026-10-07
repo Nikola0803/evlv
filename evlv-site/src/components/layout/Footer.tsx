@@ -5,7 +5,7 @@ import { PAYMENT_GATEWAYS } from "@/lib/payment-config";
 
 const SHOP = [
   ["All Products", "/shop"], ["Peptides", "/shop?category=peptides"],
-  ["Research Peptides USA", "/research-peptides-usa"], ["COA Library", "/coas"], ["Wholesale", "/wholesale"], ["Dropshipping", "/dropshipping"],
+  ["Research Peptides USA", "/research-peptides-usa"], ["COA Library", "/coas"], ["Wholesale", "/wholesale"], ["Peptide Dropshipping", "/dropshipping"],
 ] as const;
 
 const SUPPORT = [

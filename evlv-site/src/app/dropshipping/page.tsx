@@ -73,6 +73,16 @@ const FAQ = [
       "EVLV reviews qualified U.S. businesses for direct dropshipping of eligible research-use-only products. Approval, catalog access, pricing, and fulfillment terms depend on the applicant and proposed operating model.",
   },
   {
+    question: "How should a business compare research peptide dropshipping companies?",
+    answer:
+      "Compare product and lot traceability, whether analytical reports match the item and batch shipped, U.S. fulfillment records, catalog controls, returns and support responsibilities, brand options, and research-use-only requirements. A low unit price alone does not establish a dependable supply relationship.",
+  },
+  {
+    question: "Does peptide dropshipping require the partner to hold inventory?",
+    answer:
+      "Not under an approved direct-dropshipping model. EVLV can hold eligible inventory and handle U.S. pick, pack, and tracked dispatch. Partners who want more control can instead begin with starter wholesale inventory or combine both models.",
+  },
+  {
     question: "Can a new partner start with a small wholesale order?",
     answer:
       "A starter wholesale arrangement may be available after review. It is designed for businesses that want to validate their sales operation with a controlled opening inventory before considering larger volume or direct fulfillment.",
@@ -186,7 +196,7 @@ export default function DropshippingPage() {
                 documentation available for its lot. That connection is the operating standard EVLV builds around.
               </p>
               <div className="mt-7 flex flex-wrap gap-5 text-sm font-semibold">
-                <Link className="text-sage-deep underline underline-offset-4" href="/journal/white-label-peptide-dropshipping-done-right">Read the dropshipping guide</Link>
+                <Link className="text-sage-deep underline underline-offset-4" href="/journal/white-label-peptide-dropshipping-done-right">How to compare peptide dropshipping companies</Link>
                 <Link className="text-sage-deep underline underline-offset-4" href="/research-peptides-usa">U.S. sourcing guide</Link>
               </div>
             </div>
