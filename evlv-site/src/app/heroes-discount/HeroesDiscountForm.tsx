@@ -166,11 +166,12 @@ export function HeroesDiscountForm() {
           required
           accept="image/*,.pdf"
           onChange={handleFileChange}
-          className="w-full rounded-md border border-stone bg-ivory px-4 py-2.5 text-sm outline-none file:mr-3 file:rounded file:border-0 file:bg-copper file:px-3 file:py-1.5 file:text-xs file:font-semibold file:uppercase file:text-charcoal focus:border-copper"
+          className="w-full rounded-md border border-stone bg-ivory px-4 py-2.5 text-sm outline-none file:mr-3 file:rounded file:border-0 file:bg-sage-deep file:px-4 file:py-2 file:text-xs file:font-semibold file:uppercase file:text-white focus:border-copper"
         />
         <p className="mt-1.5 text-xs text-charcoal/40">
-          Military/veteran ID, DD-214, department credential, medical license, or employee badge. Image or PDF,
-          under 8MB. You may redact unrelated sensitive numbers.
+          Military/veteran ID, DD-214, department credential, medical license, employee badge, or a clear photo
+          of your service uniform. Image or PDF, under 8MB. Submit only material you are legally permitted to
+          share, and cover badge numbers, patient information, or unrelated sensitive details.
         </p>
       </div>
 
@@ -189,7 +190,7 @@ export function HeroesDiscountForm() {
       <button
         type="submit"
         disabled={submitting}
-        className="w-full rounded-md bg-copper py-3.5 text-[12px] font-semibold uppercase tracking-[0.15em] text-charcoal transition hover:bg-copper-light disabled:cursor-wait disabled:opacity-60"
+        className="w-full rounded-md bg-sage-deep py-3.5 text-[12px] font-semibold uppercase tracking-[0.15em] text-white transition hover:bg-[#0a4748] disabled:cursor-wait disabled:opacity-60"
       >
         {submitting ? "Submitting..." : "Apply for 25% Lifetime Access"}
       </button>

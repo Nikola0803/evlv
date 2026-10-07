@@ -109,13 +109,13 @@ export default function HeroesDiscountPage() {
 
       <section id="how-it-works" className="border-y border-stone bg-[#f2f6f4] py-20 md:py-28">
         <div className="mx-auto grid max-w-[1240px] items-center gap-12 px-5 md:px-8 lg:grid-cols-[.95fr_1.05fr] lg:gap-20">
-          <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-white shadow-[0_20px_60px_rgba(10,52,53,.12)] sm:aspect-[4/3] lg:aspect-[4/5]">
+          <div className="relative aspect-[16/10] overflow-hidden rounded-2xl bg-white shadow-[0_20px_60px_rgba(10,52,53,.12)]">
             <Image
               src="/images/certified/evlv-support-page.png"
               alt="EVLV support team helping verified service-program members"
               fill
               sizes="(max-width: 1024px) 100vw, 560px"
-              className="object-cover object-center"
+              className="object-cover object-[62%_center]"
             />
           </div>
           <div>
