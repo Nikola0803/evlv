@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>EVLV Mid-Sale Surprise Email Preview</title>
+    <style>
+      * { box-sizing: border-box; }
+      body { margin: 0; background: #cfdad5; font-family: Arial, sans-serif; }
+      .preview-bar { position: sticky; top: 0; z-index: 2; display: flex; justify-content: center; gap: 8px; padding: 10px; background: #062c28; }
+      .preview-bar button { border: 1px solid #86a49a; border-radius: 999px; background: #f7faf8; padding: 8px 14px; color: #073d37; font-weight: 800; cursor: pointer; }
+      .stage { display: flex; justify-content: center; padding: 24px 8px 60px; }
+      iframe { width: 660px; height: 3000px; border: 0; background: #e5ebe7; box-shadow: 0 18px 55px rgba(6,41,37,.22); transition: width .2s ease; }
+      iframe.mobile { width: 390px; }
+    </style>
+  </head>
+  <body>
+    <div class="preview-bar"><button type="button" data-width="desktop">Desktop</button><button type="button" data-width="mobile">Mobile</button></div>
+    <div class="stage"><iframe id="email" title="Mid-sale email preview" src="mid-sale.html" scrolling="no"></iframe></div>
+    <script>
+      const frame = document.getElementById("email");
+      frame.addEventListener("load", () => {
+        const viewport = frame.contentDocument.createElement("meta");
+        viewport.name = "viewport";
+        viewport.content = "width=device-width,initial-scale=1";
+        frame.contentDocument.head.appendChild(viewport);
+        frame.contentDocument.querySelectorAll("img").forEach((image) => {
+          image.src = image.src.replace("https://www.evlvpeptides.com", `${window.location.origin}/public`);
+        });
+        window.setTimeout(() => { frame.style.height = `${frame.contentDocument.documentElement.scrollHeight + 24}px`; }, 300);
+      });
+      document.querySelectorAll("[data-width]").forEach((button) => button.addEventListener("click", () => {
+        frame.classList.toggle("mobile", button.dataset.width === "mobile");
+        window.setTimeout(() => { frame.style.height = `${frame.contentDocument.documentElement.scrollHeight + 24}px`; }, 300);
+      }));
+    </script>
+  </body>
+</html>
