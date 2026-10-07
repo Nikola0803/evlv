@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Indemnity & Liability Waiver | EVLV",
+  title: "Indemnity & Liability Waiver",
   description:
     "The Indemnity, Liability Waiver & Assumption of Risk Agreement that applies to every EVLV research peptide order.",
   alternates: { canonical: "/indemnity-waiver" },

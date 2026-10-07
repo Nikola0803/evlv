@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { HeroesDiscountForm } from "./HeroesDiscountForm";
 
 export const metadata: Metadata = {
-  title: "Heroes Discount | EVLV",
+  title: "Heroes Discount",
   description: "Active duty, veterans, reservists, National Guard, and first responders get a 20% discount on EVLV research peptides.",
   alternates: { canonical: "/heroes-discount" },
 };

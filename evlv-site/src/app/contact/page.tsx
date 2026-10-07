@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { ContactForm } from "./ContactForm";
 
 export const metadata: Metadata = {
-  title: "Contact Us | EVLV",
+  title: "Contact Us",
   description: "Get in touch with the EVLV support team.",
 };
 

@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Shipping Policy | EVLV",
+  title: "Shipping Policy",
   description: "How EVLV processes, ships and delivers orders across the US and Canada.",
 };
 

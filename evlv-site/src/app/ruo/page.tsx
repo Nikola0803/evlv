@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Accordion } from "@/components/ui/Accordion";
 
 export const metadata: Metadata = {
-  title: "Research Use Only Policy | EVLV",
+  title: "Research Use Only Policy",
   description:
     "EVLV's Research Use Only policy: what we can and cannot discuss, purchaser responsibilities, regulatory context and how prohibited inquiries are handled.",
   alternates: { canonical: "/ruo" },

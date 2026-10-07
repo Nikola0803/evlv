@@ -3,7 +3,7 @@ import { getGiveawayStatus } from "@/lib/deal-and-giveaway";
 import { GiveawayEntryForm } from "./GiveawayEntryForm";
 
 export const metadata: Metadata = {
-  title: "Giveaway | EVLV",
+  title: "Giveaway",
   description: "Enter EVLV's giveaway for a chance to win -- free entry, no purchase necessary.",
 };
 

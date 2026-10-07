@@ -8,7 +8,7 @@ import { ProductClient } from "./ProductClient";
 import { getProductImage } from "@/lib/product-images";
 import { ProductCard } from "@/components/product/ProductCard";
 
-const SITE_URL = "https://evlvpeptides.com";
+const SITE_URL = "https://www.evlvpeptides.com";
 
 export function generateStaticParams() {
   return getProducts().map((product) => ({ slug: product.slug }));
@@ -88,9 +88,9 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: "https://evlvpeptides.com" },
-      { "@type": "ListItem", position: 2, name: "Shop", item: "https://evlvpeptides.com/shop" },
-      { "@type": "ListItem", position: 3, name: product.name, item: `https://evlvpeptides.com/shop/${product.slug}` },
+      { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+      { "@type": "ListItem", position: 2, name: "Shop", item: `${SITE_URL}/shop` },
+      { "@type": "ListItem", position: 3, name: product.name, item: `${SITE_URL}/shop/${product.slug}` },
     ],
   };
 

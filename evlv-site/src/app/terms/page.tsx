@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Terms & Conditions | EVLV",
+  title: "Terms & Conditions",
   description: "The terms that govern use of the EVLV website and purchase of EVLV products.",
 };
 

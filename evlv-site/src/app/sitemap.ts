@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { getCatalogProducts } from "@/lib/catalog";
 import { getJournalArticles } from "@/lib/journal-data";
 
-const BASE_URL = "https://evlvpeptides.com";
+const BASE_URL = "https://www.evlvpeptides.com";
 
 const STATIC_ROUTES = [
   { path: "/", priority: 1, changeFrequency: "daily" as const },
@@ -15,6 +15,7 @@ const STATIC_ROUTES = [
   { path: "/contact", priority: 0.3, changeFrequency: "yearly" as const },
   { path: "/track-order", priority: 0.4, changeFrequency: "monthly" as const },
   { path: "/wholesale", priority: 0.4, changeFrequency: "monthly" as const },
+  { path: "/dropshipping", priority: 0.6, changeFrequency: "monthly" as const },
   { path: "/heroes-discount", priority: 0.3, changeFrequency: "monthly" as const },
   { path: "/plans", priority: 0.3, changeFrequency: "monthly" as const },
   { path: "/shipping", priority: 0.2, changeFrequency: "yearly" as const },
@@ -25,19 +26,17 @@ const STATIC_ROUTES = [
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const now = new Date();
   const products = await getCatalogProducts();
 
   const staticEntries: MetadataRoute.Sitemap = STATIC_ROUTES.map((r) => ({
     url: `${BASE_URL}${r.path}`,
-    lastModified: now,
     changeFrequency: r.changeFrequency,
     priority: r.priority,
   }));
 
   const productEntries: MetadataRoute.Sitemap = products.map((p) => ({
     url: `${BASE_URL}/shop/${p.slug}`,
-    lastModified: p.batch?.date ? new Date(p.batch.date) : now,
+    ...(p.batch?.date ? { lastModified: new Date(p.batch.date) } : {}),
     changeFrequency: "weekly",
     priority: 0.8,
   }));

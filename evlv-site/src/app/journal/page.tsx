@@ -4,16 +4,35 @@ import Link from "next/link";
 import { getJournalArticles } from "@/lib/journal-data";
 
 export const metadata: Metadata = {
-  title: "Journal | EVLV",
-  description: "Long-form notes on peptide purity, batch testing methodology and the EVLV research standard.",
+  title: "Research Peptide Journal & Laboratory Guides",
+  description: "Evidence-focused guides to research peptide COAs, purity, identity testing, lot traceability, U.S. sourcing, wholesale, and dropshipping.",
   alternates: { canonical: "/journal" },
 };
 
 export default function JournalPage() {
   const articles = getJournalArticles();
+  const collectionJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "@id": "https://www.evlvpeptides.com/journal#collection",
+    url: "https://www.evlvpeptides.com/journal",
+    name: "EVLV Research Peptide Journal",
+    description: "Evidence-focused guides to research peptide documentation, testing, sourcing, and B2B supply.",
+    isPartOf: { "@id": "https://www.evlvpeptides.com/#website" },
+    mainEntity: {
+      "@type": "ItemList",
+      itemListElement: articles.map((article, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        url: `https://www.evlvpeptides.com/journal/${article.slug}`,
+        name: article.title,
+      })),
+    },
+  };
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionJsonLd).replace(/</g, "\\u003c") }} />
       <section className="cp-info-hero cp-info-quality -mt-[90px] bg-charcoal pb-20 pt-[150px] text-center text-white md:-mt-[100px] md:pb-32 md:pt-[170px]">
         <div className="mx-auto max-w-[900px] px-4 md:px-8">
           <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">Journal</p>

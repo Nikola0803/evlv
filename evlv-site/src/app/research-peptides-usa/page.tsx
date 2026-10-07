@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
-const SITE_URL = "https://evlvpeptides.com";
+const SITE_URL = "https://www.evlvpeptides.com";
 
 export const metadata: Metadata = {
   title: "Research Peptides USA | RUO Laboratory Supply & COAs",
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: `${SITE_URL}/research-peptides-usa`,
-    title: "Research Peptides USA | EVLV",
+    title: "Research Peptides USA: COA & U.S. Laboratory Supply",
     description:
       "Research-use-only materials with batch-level documentation, U.S. dispatch, and a searchable COA library.",
     images: [

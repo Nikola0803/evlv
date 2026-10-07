@@ -5,7 +5,7 @@ import { WholesaleForm } from "./WholesaleForm";
 import { Reveal } from "@/components/ui/Reveal";
 
 export const metadata: Metadata = {
-  title: "Wholesale, White Label & Dropshipping | EVLV",
+  title: "Research Peptide Wholesale, White Label & Dropshipping",
   description:
     "Build with EVLV through bulk wholesale, private-label product development, or direct-to-customer dropshipping and fulfillment.",
   alternates: { canonical: "/wholesale" },

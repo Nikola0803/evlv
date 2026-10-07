@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | EVLV",
+  title: "Privacy Policy",
   description: "How EVLV collects, uses, stores and safeguards personal information.",
 };
 

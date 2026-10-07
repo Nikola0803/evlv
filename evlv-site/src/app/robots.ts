@@ -15,8 +15,18 @@ export default function robots(): MetadataRoute.Robots {
         allow: "/",
         disallow: privateRoutes,
       },
+      {
+        userAgent: "GPTBot",
+        allow: "/",
+        disallow: privateRoutes,
+      },
+      {
+        userAgent: "Google-Extended",
+        allow: "/",
+        disallow: privateRoutes,
+      },
     ],
-    sitemap: "https://evlvpeptides.com/sitemap.xml",
-    host: "https://evlvpeptides.com",
+    sitemap: "https://www.evlvpeptides.com/sitemap.xml",
+    host: "www.evlvpeptides.com",
   };
 }

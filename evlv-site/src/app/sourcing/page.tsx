@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Sourcing & Quality Policy | EVLV",
+  title: "Sourcing & Quality Policy",
   description:
     "How EVLV approaches supplier confidentiality, independent testing, batch traceability and quality review across every research peptide we supply.",
   alternates: { canonical: "/sourcing" },

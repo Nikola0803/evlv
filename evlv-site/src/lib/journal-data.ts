@@ -266,7 +266,7 @@ export const JOURNAL_ARTICLES: JournalArticle[] = [
       "The CRM/CMS and storefront side matters too, and it's often the part new brands underestimate. Order tracking, customer accounts, and batch/COA lookup tied to what actually shipped are infrastructure a dropship partner shouldn't have to build from scratch, and shouldn't want to, when it can run on a system already built for exactly this.",
       "The honest pitch here isn't that dropshipping is easy. It's that it's only worth doing on a supply chain you'd be comfortable putting your own name behind. If that's the kind of partnership you're evaluating, our wholesale and white-label program is built around exactly that standard.",
     ],
-    cta: { label: "Explore the Wholesale Program", href: "/wholesale" },
+    cta: { label: "Explore Research Product Dropshipping", href: "/dropshipping" },
   },
 ];
 
