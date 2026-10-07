@@ -4,11 +4,41 @@ import Link from "next/link";
 import { WholesaleForm } from "./WholesaleForm";
 import { Reveal } from "@/components/ui/Reveal";
 
+const SITE_URL = "https://www.evlvpeptides.com";
+
 export const metadata: Metadata = {
   title: "Research Peptide Wholesale, White Label & Dropshipping",
   description:
-    "Build with EVLV through bulk wholesale, private-label product development, or direct-to-customer dropshipping and fulfillment.",
+    "Apply for EVLV bulk research peptide wholesale, volume pricing, reseller supply, private-label development, dropshipping, and direct U.S. fulfillment.",
+  keywords: [
+    "research peptide wholesale",
+    "buy peptides in bulk",
+    "bulk research peptides USA",
+    "peptide wholesale supplier",
+    "peptide reseller program",
+    "peptide white label",
+    "peptide private label",
+    "peptide dropshipping",
+  ],
   alternates: { canonical: "/wholesale" },
+  openGraph: {
+    type: "website",
+    url: `${SITE_URL}/wholesale`,
+    title: "Research Peptide Wholesale, Bulk Supply & Fulfillment | EVLV",
+    description: "Reviewed B2B programs for bulk research peptide purchasing, volume pricing, white label, dropshipping, and U.S. fulfillment.",
+  },
+};
+
+const WHOLESALE_SERVICE_JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "@id": `${SITE_URL}/wholesale#service`,
+  name: "EVLV Research Peptide Wholesale and Bulk Supply",
+  serviceType: "Bulk research peptide wholesale, reseller supply, white label, private label, dropshipping, and U.S. fulfillment",
+  provider: { "@id": `${SITE_URL}/#organization` },
+  areaServed: { "@type": "Country", name: "United States" },
+  audience: { "@type": "BusinessAudience", audienceType: "Qualified research-product businesses and resellers" },
+  url: `${SITE_URL}/wholesale`,
 };
 
 const PROGRAMS = [
@@ -56,6 +86,7 @@ const STEPS = [
 export default function WholesalePage() {
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(WHOLESALE_SERVICE_JSON_LD).replace(/</g, "\\u003c") }} />
       <div className="border-b border-stone bg-white py-2.5 text-center text-xs text-charcoal/60">
         Already a partner?{" "}
         <Link href="/account?tab=wholesale" className="font-semibold text-sage-deep underline underline-offset-2 hover:text-charcoal">

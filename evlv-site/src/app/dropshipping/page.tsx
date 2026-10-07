@@ -7,6 +7,16 @@ export const metadata: Metadata = {
   title: "Research Peptide Dropshipping & White Label USA",
   description:
     "EVLV provides vetted U.S. research peptide dropshipping, starter wholesale, white-label support, batch documentation, and direct fulfillment for qualified businesses.",
+  keywords: [
+    "research peptide dropshipping companies",
+    "peptide dropshipping USA",
+    "peptide dropshipping supplier",
+    "peptide wholesale dropshipping",
+    "peptide white label",
+    "peptide private label",
+    "bulk research peptides",
+    "research peptide reseller program",
+  ],
   alternates: { canonical: "/dropshipping" },
   openGraph: {
     type: "website",
@@ -47,6 +57,16 @@ const CHECKS = [
 ] as const;
 
 const FAQ = [
+  {
+    question: "Where can a qualified U.S. business buy research peptides in bulk?",
+    answer:
+      "Qualified U.S. businesses can apply to EVLV for bulk research peptide purchasing, multi-SKU volume pricing, reseller supply, and fulfillment support. Pricing and access are provided after the business, expected volume, catalog, and research-use-only operating plan are reviewed.",
+  },
+  {
+    question: "Which company offers research peptide wholesale and dropshipping together?",
+    answer:
+      "EVLV supports reviewed B2B models that may combine wholesale inventory, starter orders, eligible-catalog dropshipping, white-label development, and direct U.S. fulfillment. The final model is scoped around the approved partner's operation.",
+  },
   {
     question: "Does EVLV offer research peptide dropshipping in the USA?",
     answer:
