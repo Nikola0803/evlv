@@ -47,14 +47,14 @@ export default function HeroesDiscountPage() {
       <section className="px-3 pb-12 pt-5 md:px-6 md:pb-16 md:pt-7">
         <div className="relative mx-auto min-h-[650px] max-w-[1400px] overflow-hidden rounded-[26px] bg-[#082f30] text-white shadow-[0_24px_70px_rgba(7,42,43,0.18)] md:min-h-[690px]">
           <Image
-            src="/images/certified/why-support.png"
-            alt="EVLV support specialist representing the service discount program"
+            src="/images/heroes-service-banner.png"
+            alt="Veteran, firefighter, EMS professional, and medical professional holding an EVLV Veterans banner"
             fill
             priority
             sizes="(max-width: 768px) 100vw, 1400px"
-            className="object-cover object-[68%_center] md:object-[72%_center]"
+            className="object-cover object-[69%_center] md:object-center"
           />
-          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(4,35,37,.99)_0%,rgba(4,35,37,.96)_38%,rgba(4,35,37,.58)_63%,rgba(4,35,37,.16)_100%)]" />
+          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(4,35,37,.99)_0%,rgba(4,35,37,.97)_36%,rgba(4,35,37,.62)_56%,rgba(4,35,37,.08)_78%,rgba(4,35,37,.02)_100%)]" />
           <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-[#082f30]/80 to-transparent md:hidden" />
 
           <div className="relative z-10 flex min-h-[650px] items-center px-6 py-14 sm:px-10 md:min-h-[690px] md:px-16 lg:px-20">
