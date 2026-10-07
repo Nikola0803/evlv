@@ -44,33 +44,35 @@ const PRINCIPLES = [
 export default function AboutPage() {
   return (
     <main className="overflow-hidden bg-white text-charcoal">
-      <section className="relative isolate min-h-[680px] overflow-hidden bg-sage-deep text-white md:min-h-[720px]">
-        <Image src="/images/certified/evlv-science-wide.png" alt="EVLV analytical research environment" fill priority sizes="100vw" className="object-cover object-[70%_center] opacity-70" />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(4,31,29,.98)_0%,rgba(4,31,29,.94)_38%,rgba(4,31,29,.55)_65%,rgba(4,31,29,.14)_100%)]" />
-        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-sage-deep/80 to-transparent" />
+      <section className="bg-white py-4 md:py-[30px]">
+        <div className="relative isolate mx-auto w-[calc(100%-26px)] max-w-[1320px] overflow-hidden rounded-2xl bg-sage-deep text-white md:w-[calc(100%-64px)] md:rounded-[22px]">
+          <Image src="/images/certified/evlv-science-wide.png" alt="EVLV analytical research environment" fill priority sizes="(min-width:768px) 1320px, 100vw" className="object-cover object-[70%_center] opacity-70" />
+          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(4,31,29,.98)_0%,rgba(4,31,29,.94)_38%,rgba(4,31,29,.55)_65%,rgba(4,31,29,.14)_100%)]" />
+          <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-sage-deep/80 to-transparent" />
 
-        <div className="relative mx-auto flex min-h-[680px] max-w-[1400px] items-center px-5 py-24 md:min-h-[720px] md:px-8">
-          <Reveal className="max-w-[710px]">
-            <p className="mb-5 flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.22em] text-white/65"><span className="h-px w-10 bg-copper" /> About EVLV Research</p>
-            <h1 className="font-display text-[clamp(3.25rem,7vw,6.7rem)] font-semibold leading-[.91] tracking-[-.055em]">A higher standard for <span className="text-white/70">research supply.</span></h1>
-            <p className="mt-7 max-w-[600px] text-base leading-7 text-white/72 md:text-lg md:leading-8">
-              EVLV was built for researchers who want less noise and more evidence: clear product information,
-              batch-linked documentation, straightforward fulfillment and support that answers the actual question.
-            </p>
-            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-              <ButtonLink href="/coas" size="lg" className="!bg-white !text-charcoal hover:!bg-sage-mist">Explore the COA Library <i className="ri-arrow-right-line" /></ButtonLink>
-              <ButtonLink href="/shop" variant="secondary" size="lg" className="!border-white/45 !text-white hover:!bg-white hover:!text-charcoal">View the Catalogue</ButtonLink>
-            </div>
-          </Reveal>
-        </div>
-
-        <div className="relative border-t border-white/15 bg-black/10 backdrop-blur-sm">
-          <div className="mx-auto grid max-w-[1400px] grid-cols-2 px-5 md:grid-cols-4 md:px-8">
-            {["Research use only", "Product-specific COAs", "Independent lab records", "U.S. fulfillment"].map((item, index) => (
-              <div key={item} className={`flex min-h-20 items-center gap-3 py-4 text-[10px] font-semibold uppercase tracking-[.12em] text-white/75 md:px-6 md:text-[11px] ${index % 2 ? "border-l border-white/15" : ""} ${index > 1 ? "border-t border-white/15 md:border-t-0" : ""} ${index > 0 ? "md:border-l" : ""}`}>
-                <i className="ri-checkbox-circle-line text-lg text-copper" /> {item}
+          <div className="relative flex min-h-[550px] items-center px-6 py-14 md:min-h-[580px] md:px-[70px] md:py-16">
+            <Reveal className="max-w-[650px]">
+              <p className="mb-5 flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.22em] text-white/65"><span className="h-px w-10 bg-copper" /> About EVLV Research</p>
+              <h1 className="font-display text-5xl font-semibold leading-[.96] tracking-[-.045em] md:text-6xl lg:text-7xl">A higher standard for <span className="text-white/70">research supply.</span></h1>
+              <p className="mt-6 max-w-[560px] text-base leading-7 text-white/72 md:text-lg md:leading-8">
+                EVLV was built for researchers who want less noise and more evidence: clear product information,
+                batch-linked documentation, straightforward fulfillment and support that answers the actual question.
+              </p>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <ButtonLink href="/coas" size="lg" className="!bg-white !text-charcoal hover:!bg-sage-mist">Explore the COA Library <i className="ri-arrow-right-line" /></ButtonLink>
+                <ButtonLink href="/shop" variant="secondary" size="lg" className="!border-white/45 !text-white hover:!bg-white hover:!text-charcoal">View the Catalogue</ButtonLink>
               </div>
-            ))}
+            </Reveal>
+          </div>
+
+          <div className="relative border-t border-white/15 bg-black/10 backdrop-blur-sm">
+            <div className="grid grid-cols-2 md:grid-cols-4">
+              {["Research use only", "Product-specific COAs", "Independent lab records", "U.S. fulfillment"].map((item, index) => (
+                <div key={item} className={`flex min-h-[70px] items-center gap-2 px-4 py-3 text-[9px] font-semibold uppercase tracking-[.1em] text-white/75 md:min-h-[78px] md:gap-3 md:px-7 md:text-[11px] ${index % 2 ? "border-l border-white/15" : ""} ${index > 1 ? "border-t border-white/15 md:border-t-0" : ""} ${index > 0 ? "md:border-l" : ""}`}>
+                  <i className="ri-checkbox-circle-line text-base text-copper md:text-lg" /> {item}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
