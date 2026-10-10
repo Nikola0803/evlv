@@ -50,7 +50,7 @@ export function AgeGate({ children }: { children: React.ReactNode }) {
   const [accepted, setAccepted] = useState(false);
   const [campaignMode, setCampaignMode] = useState(false);
   const [email, setEmail] = useState("");
-  const [marketingOptIn, setMarketingOptIn] = useState(true);
+  const [marketingOptIn, setMarketingOptIn] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const emailRef = useRef<HTMLInputElement>(null);
@@ -121,12 +121,11 @@ export function AgeGate({ children }: { children: React.ReactNode }) {
     setSubmitting(true);
     try {
       if (marketingOptIn) {
-        const response = await fetch("/api/newsletter", {
+        fetch("/api/newsletter", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email: normalizedEmail, source: "research-access-gate", marketingOptIn: true }),
-        });
-        if (!response.ok) throw new Error("We could not save your email. Please try again.");
+        }).catch(() => {});
       }
       completeAccess("email");
     } catch (cause) {

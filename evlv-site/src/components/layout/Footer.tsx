@@ -42,6 +42,11 @@ export function Footer() {
 
         <div className="cp-footer-meta">
           <div className="cp-footer-payments"><small>Secure payment options</small>{PAYMENT_GATEWAYS.map(gateway => <span key={gateway.id}><i className={gateway.icon} />{gateway.label}</span>)}</div>
+          <div className="cp-footer-contact-meta">
+            <a href="tel:+15417095434">(541) 709-5434</a>
+            <a href="mailto:office@evlvpeptides.com">office@evlvpeptides.com</a>
+            <a href="mailto:orders@evlvpeptides.com">orders@evlvpeptides.com</a>
+          </div>
           <nav aria-label="Legal"><Link href="/ruo">Research Use Only</Link><Link href="/indemnity-waiver">Indemnity</Link><Link href="/terms">Terms</Link><Link href="/privacy">Privacy</Link></nav>
         </div>
 
