@@ -29,14 +29,19 @@ export default function ContactPage() {
             </div>
 
             <div className="space-y-4">
-              <ContactRow icon="ri-mail-line" label="Email">
-                <a href="mailto:support@evlvpeptides.com" className="text-sm text-sage-deep transition hover:underline">
-                  support@evlvpeptides.com
+              <ContactRow icon="ri-phone-line" label="Phone">
+                <a href="tel:+15417095434" className="text-sm text-sage-deep transition hover:underline">
+                  (541) 709-5434
                 </a>
               </ContactRow>
-              <ContactRow icon="ri-mail-line" label="Office">
+              <ContactRow icon="ri-mail-line" label="General">
                 <a href="mailto:office@evlvpeptides.com" className="text-sm text-sage-deep transition hover:underline">
                   office@evlvpeptides.com
+                </a>
+              </ContactRow>
+              <ContactRow icon="ri-shopping-bag-line" label="Orders">
+                <a href="mailto:orders@evlvpeptides.com" className="text-sm text-sage-deep transition hover:underline">
+                  orders@evlvpeptides.com
                 </a>
               </ContactRow>
               <ContactRow icon="ri-time-line" label="Response Time">
