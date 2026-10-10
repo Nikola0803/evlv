@@ -170,7 +170,7 @@ export function AgeGate({ children }: { children: React.ReactNode }) {
               </label>
               {error && <p className="cp-ruo-entry-error"><i className="ri-error-warning-line" /> {error}</p>}
               <button className="cp-ruo-entry-primary" type="submit" disabled={submitting}>{submitting ? "Please wait..." : "I Confirm & Enter"}</button>
-              <p className="cp-ruo-entry-footnote">One step only. This does not create an account.</p>
+              <p className="cp-ruo-entry-footnote">One step only. This does not create an account. Already have one? <Link href="/account" className="cp-ruo-entry-signin">Sign in</Link></p>
             </form>
           )}
         </section>
