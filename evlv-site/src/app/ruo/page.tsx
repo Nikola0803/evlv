@@ -154,6 +154,24 @@ export default function RuoPolicyPage() {
             </p>
           </div>
 
+          <div className="mb-14 rounded-lg border border-stone bg-ivory-soft p-6 md:p-8">
+            <p className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.15em] text-sage-deep">
+              <i className="ri-building-line" /> Business Entity &amp; Documentation Notice
+            </p>
+            <p className="mt-3 text-sm leading-relaxed text-charcoal/70 md:text-base">
+              EVLV is a brand operated by <strong className="text-charcoal">Warrior Distributions LLC</strong>, the
+              registered legal entity. Certificates of Analysis, endotoxin reports, and other official quality
+              documentation for EVLV products are issued in the name of Warrior Distributions LLC. When you receive
+              or request product documentation, the company name shown on those records will be Warrior Distributions
+              LLC — this is the parent entity and issuing company, and the COAs are valid for the corresponding EVLV
+              products.
+            </p>
+            <p className="mt-3 text-xs leading-relaxed text-charcoal/50">
+              This notice is provided for informational purposes only and does not constitute legal or regulatory
+              advice. For questions about documentation, contact our support team.
+            </p>
+          </div>
+
           <div className="mb-14 grid grid-cols-1 gap-4 sm:grid-cols-3">
             {[
               { icon: "ri-flask-line", title: "Research Use Only", body: "Every product is supplied solely for controlled laboratory research and analytical testing." },
@@ -169,7 +187,27 @@ export default function RuoPolicyPage() {
           </div>
 
           <div className="space-y-14">
-            <PolicySection num="1" title="Purpose & Scope">
+            <PolicySection num="1" title="Business Entity &amp; COA Issuance">
+              <p>
+                EVLV is a brand operated by <strong>Warrior Distributions LLC</strong>, the registered legal entity
+                under which this business operates. All commercial activity, including order fulfillment, account
+                management, and issuance of official product documentation, is conducted by Warrior Distributions LLC.
+              </p>
+              <p className="mt-3">
+                Certificates of Analysis (COAs), endotoxin reports, and other analytical documentation for EVLV
+                products are prepared and issued in the name of Warrior Distributions LLC as the parent company.
+                If you receive or request quality documentation for any EVLV product, the issuing entity listed on
+                that record will be Warrior Distributions LLC — this is the same company supplying the product
+                under the EVLV brand, and the documentation is valid for the corresponding product lot.
+              </p>
+              <p className="mt-3 text-sm leading-relaxed text-charcoal/60">
+                This section is provided for transparency only and does not constitute legal, regulatory, or
+                compliance advice. If you have specific questions about documentation for your institution,
+                please contact our support team.
+              </p>
+            </PolicySection>
+
+            <PolicySection num="2" title="Purpose &amp; Scope">
               <p>
                 This policy sets the boundaries of what EVLV, our staff, contractors and representatives can discuss
                 about the products listed on this website. It covers every channel we use to talk to you - product
@@ -179,7 +217,7 @@ export default function RuoPolicyPage() {
               </p>
             </PolicySection>
 
-            <PolicySection num="2" title="What Research Use Only Means for Our Products">
+            <PolicySection num="3" title="What Research Use Only Means for Our Products">
               <p>
                 Unless a product is expressly labeled otherwise, everything EVLV sells is intended exclusively for
                 qualified laboratory, analytical and non-clinical research. Our products are not sold as drugs,
@@ -199,7 +237,7 @@ export default function RuoPolicyPage() {
               </p>
             </PolicySection>
 
-            <PolicySection num="3" title="Guidance We Cannot Provide">
+            <PolicySection num="4" title="Guidance We Cannot Provide">
               <p>
                 Our team won&apos;t provide, confirm, calculate, interpret or discuss anything that could reasonably
                 help facilitate human or veterinary use - directly, informally, hypothetically, or through examples.
@@ -215,7 +253,7 @@ export default function RuoPolicyPage() {
               </div>
             </PolicySection>
 
-            <PolicySection num="4" title="Guidance We Can Provide">
+            <PolicySection num="5" title="Guidance We Can Provide">
               <p>Within these limits, our team is glad to help with the administrative and research-supply side of things:</p>
               <ul className="mt-5 space-y-2.5">
                 {CAN_DISCUSS.map((item) => (
@@ -230,7 +268,7 @@ export default function RuoPolicyPage() {
               </p>
             </PolicySection>
 
-            <PolicySection num="5" title="Scientific Literature & Educational Content">
+            <PolicySection num="6" title="Scientific Literature &amp; Educational Content">
               <p>
                 We may reference published studies, lab findings, biochemical pathways or other scientific
                 information purely for general research context. None of it is medical advice, and none of it
@@ -241,7 +279,7 @@ export default function RuoPolicyPage() {
               </p>
             </PolicySection>
 
-            <PolicySection num="6" title="How We Handle a Prohibited Question">
+            <PolicySection num="7" title="How We Handle a Prohibited Question">
               <p>
                 When a request touches on dosing, administration or another prohibited topic, our team follows the
                 same steps every time:
@@ -256,7 +294,7 @@ export default function RuoPolicyPage() {
               </ol>
             </PolicySection>
 
-            <PolicySection num="7" title="Purchaser Responsibilities">
+            <PolicySection num="8" title="Purchaser Responsibilities">
               <p>
                 By creating an account or purchasing from EVLV, you confirm that you&apos;re obtaining products for
                 lawful research purposes and that you have the knowledge, facilities, training and authority to
@@ -275,7 +313,7 @@ export default function RuoPolicyPage() {
               </p>
             </PolicySection>
 
-            <PolicySection num="8" title="Accidental Exposure or Medical Concerns">
+            <PolicySection num="9" title="Accidental Exposure or Medical Concerns">
               <p>
                 Our support team is not medically trained and can&apos;t diagnose symptoms, assess a reaction, or
                 give emergency instructions. If a product has been ingested, injected, inhaled, absorbed, or
@@ -287,7 +325,7 @@ export default function RuoPolicyPage() {
               </p>
             </PolicySection>
 
-            <PolicySection num="9" title="Regulatory Context">
+            <PolicySection num="10" title="Regulatory Context">
               <p>
                 EVLV operates as a supplier of materials for lawful laboratory research and analytical use.
                 Requirements vary by product, labeling, intended use, and jurisdiction - the references below are
@@ -307,7 +345,7 @@ export default function RuoPolicyPage() {
               </div>
             </PolicySection>
 
-            <PolicySection num="10" title="Compliance Review & Enforcement">
+            <PolicySection num="11" title="Compliance Review &amp; Enforcement">
               <p>
                 We may review orders, communications and account activity for signs of prohibited, unsafe or
                 non-compliant conduct. Where we reasonably believe a product may be diverted away from legitimate
@@ -319,11 +357,11 @@ export default function RuoPolicyPage() {
               </p>
             </PolicySection>
 
-            <PolicySection num="11" title="Questions We Get Often">
+            <PolicySection num="12" title="Questions We Get Often">
               <Accordion items={RUO_FAQ} />
             </PolicySection>
 
-            <PolicySection num="12" title="Updates to This Policy">
+            <PolicySection num="13" title="Updates to This Policy">
               <p>
                 We may update this policy to reflect changes in our operations, regulations, or safety practices.
                 The version published on this page at the time of your order governs, unless the law requires
