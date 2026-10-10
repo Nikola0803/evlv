@@ -60,12 +60,14 @@ export async function getCoaMap(): Promise<Record<string, CoaEntry>> {
 }
 
 export async function getCoaEntries(): Promise<CoaEntry[]> {
-  if (!crmConfigured()) return LOCAL_COAS;
+  if (!crmConfigured()) return Object.values(PRIMARY_LOCAL_COA_MAP);
 
   const { ok, data } = await crmGet("/api/store/coas", { revalidate: 120 });
-  if (!ok || !Array.isArray(data)) return LOCAL_COAS;
+  if (!ok || !Array.isArray(data)) return Object.values(PRIMARY_LOCAL_COA_MAP);
 
-  const knownUrls = new Set(LOCAL_COAS.map((coa) => coa.url));
-  const remote = (data as CoaEntry[]).filter((coa) => coa.slug && coa.url && !knownUrls.has(coa.url));
-  return [...LOCAL_COAS, ...remote];
+  const map: Record<string, CoaEntry> = { ...PRIMARY_LOCAL_COA_MAP };
+  for (const coa of data as CoaEntry[]) {
+    if (coa.slug && coa.url) map[coa.slug] = coa;
+  }
+  return Object.values(map);
 }
