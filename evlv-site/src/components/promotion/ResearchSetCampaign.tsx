@@ -86,7 +86,7 @@ export function ResearchSetCampaignHomeHero() {
         <Link className="cp-primary" href="/shop?utm_source=site&utm_medium=hero&utm_campaign=research_set_oct_13_19">
           {phase === "before" ? "Browse the Catalog" : "Build Your Set"}
         </Link>
-        <small className="cp-campaign-terms">Any 3 or more eligible catalog items. Automatic — no code required. Cannot be combined with other offers. $15 shipping below $300.</small>
+        <small className="cp-campaign-terms">Any 3 or more eligible catalog items. Automatic — no code required. Cannot be combined with other offers.</small>
       </div>
       <div className="cp-hero-image cp-campaign-hero-image" aria-label="EVLV research peptide collection" />
       {!ready && <span className="sr-only">Loading campaign countdown</span>}
