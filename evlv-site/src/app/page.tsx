@@ -5,7 +5,7 @@ import { getCatalogProducts } from "@/lib/catalog";
 import { ProductCard } from "@/components/product/ProductCard";
 import { getCoaMap } from "@/lib/coa-data";
 import { WelcomeOffer } from "@/components/home/WelcomeOffer";
-import { GlpCampaignHomeHero } from "@/components/promotion/GlpPairCampaign";
+import { ResearchSetCampaignHomeHero } from "@/components/promotion/ResearchSetCampaign";
 
 const CATEGORIES = [
   { title: "Shop Peptides", sub: "Third-party verified", href: "/shop?category=peptides", image: "category-peptides.png" },
@@ -45,7 +45,7 @@ export default async function Home() {
   const coaMap = await getCoaMap();
   return (
     <div className="cp-home">
-      <GlpCampaignHomeHero />
+      <ResearchSetCampaignHomeHero />
 
       <section className="cp-ticker" aria-label="EVLV trust standards"><div className="cp-ticker-track">{[0,1].map(group => <div className="cp-ticker-group" key={group}>{TICKER.map(([item,icon]) => <span key={item}><i style={{backgroundPosition:`${icon * 25}% center`}} /><b>{item}</b></span>)}</div>)}</div></section>
 

@@ -38,6 +38,7 @@ export function CartDrawer({ products = [] }: { products?: Product[] }) {
   const couponCustomerEmail = getStoredUser()?.email || undefined;
   const coupon = useCouponValidation(promoCode, cartItemsForCoupon, couponCustomerEmail);
   const automaticGlpPromotion = coupon.valid && coupon.automaticPromotion === "GLP_PAIR_OCT_2026";
+  const automaticResearchSet = coupon.valid && coupon.automaticPromotion === "RESEARCH_SET_OCT_2026";
   const discount = coupon.valid ? coupon.discountUsd : 0;
   const displaySubtotal = coupon.automaticPromotion && coupon.subtotalUsd != null ? coupon.subtotalUsd : subtotal;
   const discountedSubtotal = Math.max(0, displaySubtotal - discount);
@@ -146,6 +147,11 @@ export function CartDrawer({ products = [] }: { products?: Product[] }) {
                 <p className="flex items-center gap-1.5 text-xs font-semibold"><i className="ri-checkbox-circle-fill" /> GLP Pair Event automatically applied</p>
                 <p className="mt-1 text-[10px] leading-relaxed">You saved {formatPrice(discount)}. Promo and referral discounts cannot be combined with this event.</p>
               </div>
+            ) : automaticResearchSet ? (
+              <div className="mb-4 rounded-md border border-sage-deep/30 bg-sage-deep/[0.07] p-3 text-sage-deep">
+                <p className="flex items-center gap-1.5 text-xs font-semibold"><i className="ri-checkbox-circle-fill" /> Research Set — 30% off automatically applied</p>
+                <p className="mt-1 text-[10px] leading-relaxed">You saved {formatPrice(discount)} on your set of 3+. Cannot be combined with other offers.</p>
+              </div>
             ) : promoOpen ? (
               <div className="mb-4">
                 <div className="flex gap-2">
@@ -197,7 +203,9 @@ export function CartDrawer({ products = [] }: { products?: Product[] }) {
               </div>
               {discount > 0 && (
                 <div className="flex items-center justify-between">
-                  <span className="text-sage-deep">{automaticGlpPromotion ? "GLP Pair Event" : "Discount"}</span>
+                  <span className="text-sage-deep">
+                    {automaticGlpPromotion ? "GLP Pair Event" : automaticResearchSet ? "Research Set (30% off)" : "Discount"}
+                  </span>
                   <span className="font-medium text-sage-deep">-{formatPrice(discount)}</span>
                 </div>
               )}

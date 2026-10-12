@@ -16,30 +16,32 @@ export async function POST(req: Request) {
   const discountCode = typeof body.discountCode === "string" ? body.discountCode : undefined;
   const customerEmail = typeof body.customerEmail === "string" ? body.customerEmail : undefined;
 
-  // Resolve the automatic event without any customer/code inputs first. A
-  // qualifying GLP pair owns the discount slot for this order; coupon and
-  // affiliate discount fields are removed before the authoritative checkout
-  // call so the event cannot stack with another percentage reduction.
+  // Resolve automatic non-stackable promotions without any customer/code inputs
+  // first. A qualifying automatic event owns the discount slot for this order;
+  // coupon and affiliate discount fields are stripped before the authoritative
+  // checkout call so the event cannot stack with another percentage reduction.
   const automaticPreview = await crmFetch("/api/store/coupons/validate", { items, customerEmail });
   const automaticData = automaticPreview.ok ? automaticPreview.data as Record<string, unknown> : {};
-  const glpPairPromotion = automaticData.automaticPromotion === "GLP_PAIR_OCT_2026";
-  const checkoutBody = glpPairPromotion
+  const automaticPromoId = typeof automaticData.automaticPromotion === "string" ? automaticData.automaticPromotion : null;
+  const automaticPromotion = automaticPromoId === "GLP_PAIR_OCT_2026" || automaticPromoId === "RESEARCH_SET_OCT_2026";
+  const checkoutBody = automaticPromotion
     ? { ...body, couponCode: undefined, discountCode: undefined, affiliateRef: undefined }
     : body;
 
-  // Fail closed above the tier ceiling returned by the CRM. The named GLP
-  // event is the only retail exception and is still hard-limited to 40%.
-  const preview = glpPairPromotion
+  // Fail closed above the tier ceiling. GLP is hard-limited to 35%; Research
+  // Set and wholesale coupons respect the CRM's own maximumDiscountPercent.
+  const preview = automaticPromotion
     ? automaticPreview
     : await crmFetch("/api/store/coupons/validate", { items, code: discountCode, customerEmail });
   if (preview.ok) {
     const result = preview.data as Record<string, unknown>;
     const subtotalCents = typeof result.subtotalCents === "number" ? result.subtotalCents : 0;
     const discountCents = typeof result.discountCents === "number" ? result.discountCents : 0;
-    const automaticPromotion = result.automaticPromotion === "GLP_PAIR_OCT_2026";
-    const maximumDiscountPercent = automaticPromotion ? 35 : result.maximumDiscountPercent === 40 ? 40 : 30;
-    if (subtotalCents > 0 && discountCents > Math.floor(subtotalCents * (maximumDiscountPercent / 100))) {
-      return NextResponse.json({ error: `This promotion exceeds EVLV's ${maximumDiscountPercent}% maximum discount and cannot be applied.` }, { status: 422 });
+    const maxPct = result.automaticPromotion === "GLP_PAIR_OCT_2026" ? 35
+      : result.automaticPromotion === "RESEARCH_SET_OCT_2026" ? 30
+      : result.maximumDiscountPercent === 40 ? 40 : 30;
+    if (subtotalCents > 0 && discountCents > Math.floor(subtotalCents * (maxPct / 100))) {
+      return NextResponse.json({ error: `This promotion exceeds EVLV's ${maxPct}% maximum discount and cannot be applied.` }, { status: 422 });
     }
   }
   // The CRM sits behind this server, so it can only ever see this
