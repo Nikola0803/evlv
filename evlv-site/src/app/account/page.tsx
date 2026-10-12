@@ -99,7 +99,7 @@ function AccountPageInner() {
   if (!mounted) return null;
 
   if (!user) {
-    return <AccountAccess initialMode={searchParams.get("mode") === "register" ? "register" : "signin"} />;
+    return <AccountAccess initialMode="signin" />;
   }
 
   return (

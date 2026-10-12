@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function RegisterPage() {
-  return <AccountAccess initialMode="register" />;
+  return <AccountAccess initialMode="signin" />;
 }
