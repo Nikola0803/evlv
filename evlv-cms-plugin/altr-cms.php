@@ -1,9 +1,9 @@
 <?php
 /**
- * Plugin Name: ALTR CMS
- * Description: Headless CMS for the ALTR storefront — products, lab results (COAs), every page's copy/images, and front-end popups/offers. Exposes a REST API for the Next.js frontend to consume.
- * Version: 0.1.0
- * Author: ALTR
+ * Plugin Name: EVLV CMS
+ * Description: Headless CMS for the EVLV storefront — products, lab results (COAs), every page's copy/images, and front-end popups/offers. Exposes a REST API for the Next.js frontend to consume.
+ * Version: 1.0.0
+ * Author: EVLV
  * Text Domain: altr-cms
  */
 
