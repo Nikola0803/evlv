@@ -12,8 +12,9 @@ import { VerificationPanel } from "./VerificationPanel";
 import { WholesalePanel } from "./WholesalePanel";
 import { AccountDeletionPanel } from "./AccountDeletionPanel";
 import { AccountAccess } from "./AccountAccess";
+import { ReferralPanel } from "./ReferralPanel";
 
-type Tab = "orders" | "addresses" | "profile" | "affiliate" | "verification" | "wholesale";
+type Tab = "referrals" | "orders" | "addresses" | "profile" | "affiliate" | "verification" | "wholesale";
 
 const STATUS_STYLE: Record<Order["status"], string> = {
   Processing: "bg-copper/15 text-copper",
@@ -27,6 +28,7 @@ const STATUS_STYLE: Record<Order["status"], string> = {
 };
 
 const TABS: { key: Tab; label: string; icon: string }[] = [
+  { key: "referrals", label: "Refer & Earn", icon: "ri-share-forward-line" },
   { key: "orders", label: "Orders", icon: "ri-file-list-3-line" },
   { key: "addresses", label: "Addresses", icon: "ri-map-pin-line" },
   { key: "affiliate", label: "Ambassador", icon: "ri-handshake-line" },
@@ -48,10 +50,12 @@ function AccountPageInner() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [addresses, setAddresses] = useState<Address[]>([]);
   const [mounted, setMounted] = useState(false);
-  const [tab, setTab] = useState<Tab>("orders");
+  const [tab, setTab] = useState<Tab>("referrals");
   const searchParams = useSearchParams();
   const justPlacedId = searchParams.get("order");
   const tabParam = searchParams.get("tab");
+  const campaignParam = searchParams.get("utm_campaign");
+  const campaignContent = searchParams.get("utm_content");
   const { formatPrice } = useCurrency();
 
   async function refresh(u: AuthUser) {
@@ -84,6 +88,7 @@ function AccountPageInner() {
     setUser(stored);
     if (stored) refresh(stored);
     if (justPlacedId) setTab("orders");
+    else if (tabParam === "referrals" || campaignParam === "six_month_referral" || campaignContent === "referral_cta") setTab("referrals");
     else if (tabParam === "affiliate") setTab("affiliate");
     else if (tabParam === "verification") setTab("verification");
     else if (tabParam === "wholesale") setTab("wholesale");
@@ -154,6 +159,7 @@ function AccountPageInner() {
               onChange={() => refresh(user)}
             />
           )}
+          {tab === "referrals" && <ReferralPanel />}
           {tab === "affiliate" && <AffiliatePanel />}
           {tab === "verification" && <VerificationPanel />}
           {tab === "wholesale" && <WholesalePanel />}
