@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { getStoredToken } from "@/lib/auth";
 
 type ReferralData = {
   referralCode: string;
@@ -17,7 +18,11 @@ export function ReferralPanel() {
   const [copied, setCopied] = useState<"link" | "code" | "">("");
 
   useEffect(() => {
-    fetch("/api/account/referral", { method: "POST", headers: { "Content-Type": "application/json" } })
+    fetch("/api/account/referral", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token: getStoredToken() }),
+    })
       .then(async (res) => {
         const body = await res.json().catch(() => ({}));
         if (!res.ok) throw new Error(body.error || "Referral details are temporarily unavailable.");
