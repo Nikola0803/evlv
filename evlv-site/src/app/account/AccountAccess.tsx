@@ -3,7 +3,7 @@
 import { FormEvent, useState } from "react";
 import Link from "next/link";
 import { saveAuth } from "@/lib/auth";
-import { setStoredCouponCode } from "@/lib/referral";
+import { setStoredCouponCode, getStoredReferralCode } from "@/lib/referral";
 
 type Mode = "signin" | "register";
 
@@ -78,7 +78,7 @@ export function AccountAccess({
     try {
       let data = await request(
         mode === "signin" ? "/api/auth/login" : "/api/auth/register",
-        mode === "signin" ? { email, password } : { email, password, marketingOptIn },
+        mode === "signin" ? { email, password } : { email, password, marketingOptIn, referralCode: getStoredReferralCode() || undefined },
       );
       let session = getSession(data, email);
 
