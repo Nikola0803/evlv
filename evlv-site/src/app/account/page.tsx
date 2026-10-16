@@ -12,8 +12,9 @@ import { VerificationPanel } from "./VerificationPanel";
 import { WholesalePanel } from "./WholesalePanel";
 import { AccountDeletionPanel } from "./AccountDeletionPanel";
 import { AccountAccess } from "./AccountAccess";
+import { ReferralPanel } from "./ReferralPanel";
 
-type Tab = "orders" | "addresses" | "profile" | "affiliate" | "verification" | "wholesale";
+type Tab = "orders" | "addresses" | "profile" | "affiliate" | "verification" | "wholesale" | "referral";
 
 const STATUS_STYLE: Record<Order["status"], string> = {
   Processing: "bg-copper/15 text-copper",
@@ -29,6 +30,7 @@ const STATUS_STYLE: Record<Order["status"], string> = {
 const TABS: { key: Tab; label: string; icon: string }[] = [
   { key: "orders", label: "Orders", icon: "ri-file-list-3-line" },
   { key: "addresses", label: "Addresses", icon: "ri-map-pin-line" },
+  { key: "referral", label: "Referrals", icon: "ri-gift-line" },
   { key: "affiliate", label: "Ambassador", icon: "ri-handshake-line" },
   { key: "verification", label: "Verification", icon: "ri-shield-check-line" },
   { key: "wholesale", label: "Wholesale", icon: "ri-store-2-line" },
@@ -87,6 +89,7 @@ function AccountPageInner() {
     else if (tabParam === "affiliate") setTab("affiliate");
     else if (tabParam === "verification") setTab("verification");
     else if (tabParam === "wholesale") setTab("wholesale");
+    else if (tabParam === "referral") setTab("referral");
     setMounted(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -154,6 +157,7 @@ function AccountPageInner() {
               onChange={() => refresh(user)}
             />
           )}
+          {tab === "referral" && <ReferralPanel />}
           {tab === "affiliate" && <AffiliatePanel />}
           {tab === "verification" && <VerificationPanel />}
           {tab === "wholesale" && <WholesalePanel />}
