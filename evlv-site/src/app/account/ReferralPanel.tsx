@@ -51,6 +51,18 @@ export function ReferralPanel() {
           <p className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#D3AD78]">Refer a fellow researcher</p>
           <h2 className="mt-3 font-display text-3xl font-bold tracking-[-0.03em] md:text-4xl">Give {dollars(data.friendRewardCents)}. Get {dollars(data.referrerRewardCents)}.</h2>
           <p className="mt-3 max-w-2xl text-sm leading-6 text-white/70">They receive $15 toward their first qualifying purchase. After that order&rsquo;s payment is confirmed, your one-use $15 reward appears here.</p>
+          <div className="mt-6 grid gap-3 sm:grid-cols-2">
+            <div className="rounded-xl bg-white/10 p-5 ring-1 ring-white/15">
+              <p className="text-3xl font-extrabold text-[#D3AD78]">{dollars(data.friendRewardCents)}</p>
+              <p className="mt-1 text-sm font-bold text-white">Friend&rsquo;s first-order credit</p>
+              <p className="mt-1 text-xs leading-5 text-white/60">Applied to their first qualifying purchase from your link.</p>
+            </div>
+            <div className="rounded-xl bg-white/10 p-5 ring-1 ring-white/15">
+              <p className="text-3xl font-extrabold text-[#D3AD78]">{dollars(data.referrerRewardCents)}</p>
+              <p className="mt-1 text-sm font-bold text-white">Your earned store credit</p>
+              <p className="mt-1 text-xs leading-5 text-white/60">Added after your friend&rsquo;s payment is confirmed.</p>
+            </div>
+          </div>
           <div className="mt-7 rounded-xl bg-white/10 p-4 ring-1 ring-white/15">
             <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-white/50">Your personal link</p>
             <div className="mt-2 flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -62,7 +74,7 @@ export function ReferralPanel() {
       </section>
 
       <div className="grid gap-4 sm:grid-cols-3">
-        {[{ label: "Store credit", value: dollars(data.availableStoreCreditCents) }, { label: "Friends joined", value: data.referrals.length }, { label: "Pending", value: pending }].map((stat) => (
+        {[{ label: "Available store credit", value: dollars(data.availableStoreCreditCents) }, { label: "Friends joined", value: data.referrals.length }, { label: "Pending rewards", value: pending }].map((stat) => (
           <div key={stat.label} className="rounded-xl border border-stone bg-white p-5"><p className="text-2xl font-bold text-charcoal">{stat.value}</p><p className="mt-1 text-[11px] font-semibold uppercase tracking-wide text-charcoal/45">{stat.label}</p></div>
         ))}
       </div>
