@@ -11,7 +11,7 @@ export function VerifiedPeptideReviewsBadge({ variant = "home" }: { variant?: Va
           <small>FEATURED REVIEW RATING</small>
           <strong>
             <span className="cp-vpr-stars" aria-label="5 out of 5 stars">★★★★★</span>{" "}
-            Highest Safety Rating · 4.9 / 5 · 712 reviews
+            Highest Safety Rating · 4.9 / 5 · 721 reviews
           </strong>
         </span>
         <em>
@@ -29,7 +29,7 @@ export function VerifiedPeptideReviewsBadge({ variant = "home" }: { variant?: Va
         <small>Verified Peptide Reviews</small>
         <strong>
           <span className="cp-vpr-stars" aria-label="5 out of 5 stars">★★★★★</span>{" "}
-          4.9 · 712 reviews
+          4.9 · 721 reviews
         </strong>
       </span>
       <em>Verify us ↗</em>
