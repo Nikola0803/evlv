@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
-  const privateRoutes = ["/api/", "/account", "/checkout", "/order-success"];
+  const privateRoutes = ["/api/", "/account", "/checkout", "/order-success", "/trade/apply", "/trade/portal"];
 
   return {
     rules: [
@@ -12,6 +12,11 @@ export default function robots(): MetadataRoute.Robots {
       },
       {
         userAgent: "OAI-SearchBot",
+        allow: "/",
+        disallow: privateRoutes,
+      },
+      {
+        userAgent: "ChatGPT-User",
         allow: "/",
         disallow: privateRoutes,
       },

@@ -9,7 +9,7 @@ const SITE_URL = "https://www.evlvpeptides.com";
 export const metadata: Metadata = {
   title: "Research Peptide Wholesale, White Label & Dropshipping",
   description:
-    "Apply for EVLV bulk research peptide wholesale, volume pricing, reseller supply, private-label development, dropshipping, and direct U.S. fulfillment.",
+    "Launch a research-supply brand with EVLV wholesale, white label, a custom storefront and CRM, eligible inventory, and direct U.S. fulfillment.",
   keywords: [
     "research peptide wholesale",
     "buy peptides in bulk",
@@ -116,8 +116,11 @@ export default function WholesalePage() {
                 Wholesale, white label, and dropshipping - built around you.
               </h1>
               <p className="mt-6 max-w-xl text-base leading-relaxed text-white/75 md:text-lg">
-                One reliable partner for quality-led research products, brand development, commerce infrastructure,
-                and U.S. fulfillment.
+                Launch and sell under your own brand. EVLV provides the custom storefront, CRM, eligible research
+                catalog, inventory, and direct U.S. fulfillment behind it.
+              </p>
+              <p className="mt-3 max-w-xl text-sm leading-relaxed text-white/55">
+                No inventory to store. No separate website or CRM setup fee. No fixed monthly minimum.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <a href="#inquire" className="rounded-md bg-white px-6 py-3.5 text-[12px] font-bold uppercase tracking-[0.16em] text-[#07383a] transition hover:bg-[#edf5f2]">
@@ -128,9 +131,9 @@ export default function WholesalePage() {
                 </a>
               </div>
               <div className="mt-10 grid max-w-xl grid-cols-1 gap-3 border-t border-white/15 pt-7 text-xs text-white/75 sm:grid-cols-3">
-                <span className="flex items-center gap-2"><i className="ri-shield-check-line text-[#b9d9ce]" /> Batch documentation</span>
+                <span className="flex items-center gap-2"><i className="ri-money-dollar-circle-line text-[#b9d9ce]" /> $0 website + CRM build</span>
+                <span className="flex items-center gap-2"><i className="ri-archive-2-line text-[#b9d9ce]" /> No inventory needed</span>
                 <span className="flex items-center gap-2"><i className="ri-map-pin-2-line text-[#b9d9ce]" /> U.S. fulfillment</span>
-                <span className="flex items-center gap-2"><i className="ri-git-merge-line text-[#b9d9ce]" /> Flexible models</span>
               </div>
             </div>
           </div>
@@ -174,7 +177,8 @@ export default function WholesalePage() {
             <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-sage-deep">More than product supply</p>
             <h2 className="mt-3 max-w-xl font-display text-3xl font-semibold leading-tight text-charcoal md:text-5xl">The infrastructure behind your next stage of growth.</h2>
             <p className="mt-5 max-w-xl text-sm leading-relaxed text-charcoal/60 md:text-base">
-              Whether you need cases delivered to your warehouse or individual orders shipped to your customers, we can assemble the operating model around your business.
+              You create demand and own the customer relationship. EVLV can supply the catalog, build the branded
+              storefront and operating system, hold eligible inventory, and ship individual orders from the U.S.
             </p>
             <div className="mt-8 grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
               {CAPABILITIES.map((item) => (
@@ -214,6 +218,7 @@ export default function WholesalePage() {
             <p className="mt-5 text-sm leading-relaxed text-white/65 md:text-base">Our team reviews every inquiry and replies with the most suitable program, practical next steps, and a scoped commercial conversation.</p>
             <div className="mt-8 space-y-4 border-t border-white/15 pt-7 text-sm text-white/70">
               <p className="flex items-start gap-3"><i className="ri-check-line mt-0.5 text-[#b9d9ce]" /> No generic tier required before we understand your needs.</p>
+              <p className="flex items-start gap-3"><i className="ri-check-line mt-0.5 text-[#b9d9ce]" /> No separate website or CRM setup fee and no fixed monthly minimum.</p>
               <p className="flex items-start gap-3"><i className="ri-check-line mt-0.5 text-[#b9d9ce]" /> Wholesale, white label, dropshipping, and hybrid models welcome.</p>
               <p className="flex items-start gap-3"><i className="ri-check-line mt-0.5 text-[#b9d9ce]" /> Clear research-use-only positioning and quality documentation.</p>
             </div>

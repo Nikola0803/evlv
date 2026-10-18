@@ -93,6 +93,16 @@ const FAQ = [
       "White-label projects are scoped individually. Packaging, minimums, catalog selection, documentation, storefront needs, and fulfillment responsibilities are agreed before launch.",
   },
   {
+    question: "Can EVLV build the storefront and operating system too?",
+    answer:
+      "Yes. Approved white-label and dropshipping programs can include a custom-branded storefront and a connected CRM/CMS for products, content, customers, orders, reporting, and batch-documentation access. The website and CRM build has no separate setup fee while the applicable supply relationship remains active.",
+  },
+  {
+    question: "Is there a fixed monthly volume commitment?",
+    answer:
+      "EVLV does not impose one fixed monthly minimum across every partner. Catalog eligibility, pricing, product or order minimums, and operating terms are confirmed in the partner's written scope.",
+  },
+  {
     question: "Can partners market these products for personal use?",
     answer:
       "No. Eligible products are supplied for lawful laboratory, in-vitro, and analytical research only. They are not for human or veterinary use, and partners must preserve that boundary in their listings and customer communications.",
