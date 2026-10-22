@@ -6,8 +6,7 @@ export const runtime = "nodejs";
 // POST /api/affiliate/payout-info { token, payoutMethod, payoutDestination?, bankAccountHolder?,
 // bankRoutingNumber?, bankAccountNumber?, bankAccountType? } - proxies to the CRM's
 // /api/store/affiliate/payout-info, which resolves the affiliate from the token
-// server-side and saves how they want to be paid. Doesn't exist on the CRM
-// yet - see AFFILIATE-PORTAL.md.
+// server-side and saves how they want to be paid.
 export async function POST(req: Request) {
   if (!crmConfigured()) {
     return NextResponse.json({ error: "Payout settings aren't connected yet." }, { status: 503 });

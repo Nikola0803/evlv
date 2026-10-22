@@ -7,10 +7,9 @@ export const runtime = "nodejs";
 // /api/store/wholesale/dashboard, which resolves the Customer from the
 // token server-side and returns their wholesale partner status, notification
 // settings, and invoice history. Always 200s with a `status` field
-// ("NONE" | "PENDING" | "APPROVED") -- a customer who never applied (or
+// ("NONE" | "PENDING" | "APPROVED" | "REJECTED") -- a customer who never applied (or
 // whose inquiry hasn't been linked to their account yet) is a legitimate
-// "NONE" state, not an error. Doesn't exist on the CRM yet - see
-// WHOLESALE-PARTNER-PORTAL.md.
+// "NONE" state, not an error.
 export async function POST(req: Request) {
   if (!crmConfigured()) {
     return NextResponse.json({ status: "NONE" }, { status: 503 });

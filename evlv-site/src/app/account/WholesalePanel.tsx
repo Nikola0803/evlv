@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { getStoredToken } from "@/lib/auth";
 
-type WholesaleStatus = "NONE" | "PENDING" | "APPROVED";
+type WholesaleStatus = "NONE" | "PENDING" | "APPROVED" | "REJECTED";
 
 interface Invoice {
   id: string;
@@ -92,6 +92,27 @@ export function WholesalePanel() {
         <p className="mx-auto mt-2 max-w-md text-sm text-charcoal/60">
           We review every wholesale inquiry by hand. You&apos;ll get an email once we&apos;re ready to move forward.
         </p>
+      </div>
+    );
+  }
+
+  if (data.status === "REJECTED") {
+    return (
+      <div className="rounded-lg border border-stone bg-white p-8 text-center">
+        <i className="ri-information-line text-2xl text-copper" />
+        <p className="mt-3 font-display text-lg font-semibold text-charcoal">Wholesale access is not active</p>
+        <p className="mx-auto mt-2 max-w-md text-sm text-charcoal/60">Contact the EVLV partnerships team if your business circumstances have changed.</p>
+      </div>
+    );
+  }
+
+  if (!Array.isArray(data.invoices) || typeof data.businessName !== "string" || typeof data.notificationEmail !== "string") {
+    return (
+      <div className="rounded-lg border border-stone bg-white p-8 text-center">
+        <i className="ri-refresh-line text-2xl text-copper" />
+        <p className="mt-3 font-display text-lg font-semibold text-charcoal">Wholesale data could not be verified</p>
+        <p className="mx-auto mt-2 max-w-md text-sm text-charcoal/60">We received an incomplete response and will not display substitute account data.</p>
+        <button type="button" onClick={load} className="mt-5 rounded-md bg-copper px-6 py-3 text-xs font-semibold uppercase tracking-wide text-charcoal">Refresh live data</button>
       </div>
     );
   }

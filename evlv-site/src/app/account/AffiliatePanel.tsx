@@ -5,7 +5,7 @@ import { getStoredToken } from "@/lib/auth";
 import { AffiliateForm } from "@/app/ambassadors/AffiliateForm";
 import { PayoutSettings, type PayoutInfo } from "./PayoutSettings";
 
-type AffiliateStatus = "NONE" | "PENDING" | "APPROVED";
+type AffiliateStatus = "NONE" | "PENDING" | "APPROVED" | "REJECTED";
 
 interface DashboardData extends PayoutInfo {
   status: AffiliateStatus;
@@ -20,7 +20,7 @@ interface DashboardData extends PayoutInfo {
 }
 
 function money(cents: number) {
-  return `$${(cents / 100).toFixed(2)}`;
+  return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(cents / 100);
 }
 
 const PAYOUT_LABELS: Record<NonNullable<PayoutInfo["payoutMethod"]>, string> = {
@@ -83,6 +83,7 @@ export function AffiliatePanel() {
       const body = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(body?.error || "Couldn't request a payout.");
       setRequestMsg({ text: `Payout of ${money(body.amountCents ?? data?.commissionAvailableCents ?? 0)} requested.`, ok: true });
+      load();
     } catch (err) {
       setRequestMsg({ text: err instanceof Error ? err.message : "Couldn't request a payout.", ok: false });
     } finally {
@@ -126,6 +127,28 @@ export function AffiliatePanel() {
           We review every affiliate application by hand. You&apos;ll get an email once a decision is made - usually
           within a couple of business days.
         </p>
+      </div>
+    );
+  }
+
+  if (data.status === "REJECTED") {
+    return (
+      <div className="rounded-lg border border-stone bg-white p-8 text-center">
+        <i className="ri-information-line text-2xl text-copper" />
+        <p className="mt-3 font-display text-lg font-semibold text-charcoal">Partner access is not active</p>
+        <p className="mx-auto mt-2 max-w-md text-sm text-charcoal/60">Contact the EVLV partnerships team if your audience or circumstances have changed.</p>
+      </div>
+    );
+  }
+
+  const requiredMetrics: (keyof DashboardData)[] = ["clicks30d", "clicksTotal", "salesConfirmed", "salesPending", "commissionAvailableCents", "commissionPendingCents", "minPayoutCents"];
+  if (!data.referralCode || !requiredMetrics.every((field) => typeof data[field] === "number")) {
+    return (
+      <div className="rounded-lg border border-stone bg-white p-8 text-center">
+        <i className="ri-refresh-line text-2xl text-copper" />
+        <p className="mt-3 font-display text-lg font-semibold text-charcoal">Partner data could not be verified</p>
+        <p className="mx-auto mt-2 max-w-md text-sm text-charcoal/60">We received an incomplete response and will not display substitute figures.</p>
+        <button type="button" onClick={load} className="mt-5 rounded-md bg-copper px-6 py-3 text-xs font-semibold uppercase tracking-wide text-charcoal">Refresh live data</button>
       </div>
     );
   }

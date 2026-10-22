@@ -84,6 +84,23 @@ function shortDate(value: string) {
   return new Date(value).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
 }
 
+function hasCompleteApprovedData(data: PartnerData) {
+  const numericFields: (keyof PartnerData)[] = [
+    "ratePercent", "customerDiscountPercent", "effectiveCommissionPercent", "clicks30d", "clicksTotal",
+    "totalConversions", "conversionRate", "salesConfirmed", "salesPending", "grossRevenueCents",
+    "lifetimeCommissionCents", "paidCommissionCents", "commissionAvailableCents", "commissionPendingCents",
+    "minPayoutCents",
+  ];
+
+  return data.status === "APPROVED"
+    && Boolean(data.referralCode && data.couponCode)
+    && numericFields.every((field) => typeof data[field] === "number")
+    && Boolean(data.level && typeof data.level.name === "string" && typeof data.level.progressPercent === "number")
+    && Array.isArray(data.performance)
+    && Array.isArray(data.recentConversions)
+    && Array.isArray(data.payoutHistory);
+}
+
 export function PartnerCommandCenter() {
   const [mounted, setMounted] = useState(false);
   const [data, setData] = useState<PartnerData | null>(null);
@@ -196,6 +213,7 @@ export function PartnerCommandCenter() {
   }
   if (data.status === "PENDING") return <PortalState icon="ri-time-line" title="Application under review" body="Your application is in the review queue. We will email you as soon as a decision is made." />;
   if (data.status === "REJECTED") return <PortalState icon="ri-information-line" title="Partner access is not active" body="Contact the EVLV partnerships team if your audience or circumstances have changed." />;
+  if (!hasCompleteApprovedData(data)) return <PortalState icon="ri-refresh-line" title="Partner data could not be verified" body="The portal received an incomplete response and will not substitute placeholder figures. Refresh to retrieve your live account data." action={<button onClick={load} className="portal-button">Refresh live data</button>} />;
 
   const available = data.commissionAvailableCents ?? 0;
   const minPayout = data.minPayoutCents ?? 0;
@@ -343,6 +361,7 @@ function MiniMetric({ label, value }: { label: string; value: string }) {
 }
 
 function PerformanceChart({ points, large = false }: { points: PerformancePoint[]; large?: boolean }) {
+  if (!points.length) return <div className={`flex items-center justify-center rounded-xl border border-dashed border-[#cedbd6] bg-[#eef3f0] text-center text-sm text-[#81908b] ${large ? "h-80" : "h-52"}`}>No tracked activity in this period.</div>;
   const visible = points.slice(-14);
   const max = Math.max(1, ...visible.map((point) => point.clicks));
   return <div><div className={`flex items-end gap-2 rounded-xl bg-[#eef3f0] px-4 pb-4 pt-7 ${large ? "h-80" : "h-52"}`}>{visible.map((point) => <div key={point.date} className="group flex h-full min-w-0 flex-1 flex-col justify-end"><div title={`${point.clicks} clicks · ${point.conversions} conversions`} className="relative min-h-[4px] rounded-t bg-[#356f60] transition group-hover:bg-[#c68855]" style={{ height: `${Math.max(3, (point.clicks / max) * 100)}%` }}>{point.conversions > 0 && <span className="absolute -top-2 left-1/2 h-2 w-2 -translate-x-1/2 rounded-full bg-[#c68855]" />}</div></div>)}</div><div className="mt-3 flex items-center justify-between text-[9px] font-bold uppercase tracking-[.12em] text-[#81908b]"><span>{visible[0]?.date ? shortDate(visible[0].date) : "No activity"}</span><span className="flex items-center gap-4"><span><i className="mr-1 inline-block h-2 w-2 rounded-sm bg-[#356f60]" />Clicks</span><span><i className="mr-1 inline-block h-2 w-2 rounded-full bg-[#c68855]" />Conversions</span></span><span>{visible.at(-1)?.date ? shortDate(visible.at(-1)!.date) : ""}</span></div></div>;

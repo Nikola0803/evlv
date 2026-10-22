@@ -7,8 +7,7 @@ export const runtime = "nodejs";
 // - proxies to the CRM's /api/store/wholesale/settings, saving where an
 // approved wholesale partner wants order/invoice notifications sent
 // (separate from their login email, in case billing/ops is a different
-// inbox than the account owner's). Doesn't exist on the CRM yet - see
-// WHOLESALE-PARTNER-PORTAL.md.
+// inbox than the account owner's).
 export async function POST(req: Request) {
   if (!crmConfigured()) {
     return NextResponse.json({ error: "Wholesale settings aren't connected yet." }, { status: 503 });
