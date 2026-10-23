@@ -28,6 +28,7 @@ const BPC_157_VARIANTS: ProductVariant[] = [
 const EVLV3_VARIANTS: ProductVariant[] = [
   { slug: "evlv-3-10mg", label: "10mg", price: 71.25, inStock: true },
   { slug: "evlv-3-15mg", label: "15mg", price: 129.99, inStock: true },
+  { slug: "evlv-3-20mg", label: "20mg", price: 125.99, inStock: true },
   { slug: "evlv-3-30mg", label: "30mg", price: 180.50, inStock: true },
 ];
 
@@ -39,6 +40,7 @@ const CJC_IPA_BLEND_VARIANTS: ProductVariant[] = [
 const EVLV1_VARIANTS: ProductVariant[] = [
   { slug: "evlv-1-5mg", label: "5mg", price: 49.99, inStock: true },
   { slug: "evlv-1-10mg", label: "10mg", price: 66.50, inStock: true },
+  { slug: "evlv-1-30mg", label: "30mg", price: 119.99, inStock: true },
 ];
 
 const EVLV2_VARIANTS: ProductVariant[] = [
@@ -60,6 +62,21 @@ const NAD_VARIANTS: ProductVariant[] = [
 const AOD_VARIANTS: ProductVariant[] = [
   { slug: "aod-9604-5mg", label: "5mg", price: 61.75, inStock: true },
   { slug: "aod-9604-10mg", label: "10mg", price: 64.99, inStock: true },
+];
+
+const DSIP_VARIANTS: ProductVariant[] = [
+  { slug: "dsip-10mg", label: "10mg", price: 42.75, inStock: true },
+  { slug: "dsip-15mg", label: "15mg", price: 57.00, inStock: true },
+];
+
+const OXYTOCIN_VARIANTS: ProductVariant[] = [
+  { slug: "oxytocin-1mg", label: "1mg", price: 19.99, inStock: true },
+  { slug: "oxytocin-5mg", label: "5mg", price: 57.00, inStock: true },
+];
+
+const WOLVERINE_VARIANTS: ProductVariant[] = [
+  { slug: "wolverine-10mg", label: "10mg", price: 57.00, inStock: true },
+  { slug: "wolverine-20mg", label: "20mg", price: 114.00, inStock: true },
 ];
 
 export const products: Product[] = [
@@ -112,6 +129,30 @@ export const products: Product[] = [
     reconstitution: "Reconstitute with BW 10mL or another sterile laboratory diluent appropriate for research use.",
     badges: ["Case Pricing Available"],
     batch: { code: "MSV-5244055-P", date: "2026-06-08", status: "PASS" },
+    variants: EVLV3_VARIANTS,
+  },
+  {
+    id: "82",
+    slug: "evlv-3-20mg",
+    sku: "EVLV3-20",
+    name: "GLP3-R 20MG",
+    category: "peptides",
+    categoryLabel: "Peptide Research",
+    image: "/images/products/evlv-3-20mg.png",
+    price: 125.99,
+    purity: "99.43%",
+    casNumber: "2381089-83-2",
+    avgMass: "19.88 mg",
+    rating: 4.8,
+    reviewCount: 0,
+    inStock: true,
+    shortDescription: "Tri-agonist research peptide, mid-high concentration.",
+    description:
+      "GLP3-R 20mg vial for research protocols. 99.43% purity verified by independent third-party testing.",
+    storage: "Store lyophilized vials at 2–8°C. After reconstitution, use within 30 days and refrigerate.",
+    reconstitution: "Reconstitute with BW 10mL or another sterile laboratory diluent appropriate for research use.",
+    badges: ["Case Pricing Available"],
+    batch: { code: "EVLV-EVLV320-10", date: "2026-10-10", status: "PASS" },
     variants: EVLV3_VARIANTS,
   },
   {
@@ -187,6 +228,29 @@ export const products: Product[] = [
     reconstitution: "Reconstitute with BW 10mL or another sterile laboratory diluent appropriate for research use.",
     badges: ["Case Pricing Available"],
     batch: { code: "EVLV-SEM10-08", date: "2026-08-24", status: "PASS" },
+    variants: EVLV1_VARIANTS,
+  },
+  {
+    id: "83",
+    slug: "evlv-1-30mg",
+    sku: "EVLV1-30",
+    name: "GLP1-S 30MG",
+    category: "peptides",
+    categoryLabel: "Peptide Research",
+    image: "/images/products/semaglutide-30mg.png",
+    price: 119.99,
+    purity: "99.4%",
+    casNumber: "910463-68-2",
+    avgMass: "30.1 mg",
+    rating: 4.8,
+    reviewCount: 0,
+    inStock: true,
+    shortDescription: "GLP-1 receptor agonist research peptide, extra-high concentration.",
+    description: "GLP1-S 30mg vial for research protocols. 99.4% purity verified by independent third-party testing.",
+    storage: "Store lyophilized vials at 2–8°C. After reconstitution, use within 30 days and refrigerate.",
+    reconstitution: "Reconstitute with BW 10mL or another sterile laboratory diluent appropriate for research use.",
+    badges: ["Case Pricing Available"],
+    batch: { code: "EVLV-SEM30-10", date: "2026-10-10", status: "PASS" },
     variants: EVLV1_VARIANTS,
   },
   {
@@ -1099,6 +1163,32 @@ export const products: Product[] = [
     reconstitution: "Reconstitute with BW 10mL or another sterile laboratory diluent appropriate for research use.",
     badges: ["Case Pricing Available"],
     batch: { code: "EVLV-DSIP15-10", date: "2026-10-10", status: "PASS" },
+    variants: DSIP_VARIANTS,
+  },
+
+  // ---- DSIP 10mg ----
+  {
+    id: "84",
+    slug: "dsip-10mg",
+    sku: "DSIP-10",
+    name: "DSIP 10MG",
+    category: "peptides",
+    categoryLabel: "Peptide Research",
+    image: "/images/products/dsip-10mg.png",
+    price: 42.75,
+    purity: "99.3%",
+    casNumber: "62568-57-4",
+    avgMass: "10.0 mg",
+    rating: 4.5,
+    reviewCount: 0,
+    inStock: true,
+    shortDescription: "Delta sleep-inducing peptide research compound, standard concentration.",
+    description: "DSIP 10mg vial for research protocols. 99.3% purity verified by independent third-party testing.",
+    storage: "Store lyophilized vials at 2–8°C. After reconstitution, use within 30 days and refrigerate.",
+    reconstitution: "Reconstitute with BW 10mL or another sterile laboratory diluent appropriate for research use.",
+    badges: ["Case Pricing Available"],
+    batch: { code: "EVLV-DSIP10-10", date: "2026-10-10", status: "PASS" },
+    variants: DSIP_VARIANTS,
   },
 
   // ---- Thymosin Alpha-1 10mg (new size) ----
@@ -1147,6 +1237,32 @@ export const products: Product[] = [
     reconstitution: "Reconstitute with BW 10mL or another sterile laboratory diluent appropriate for research use.",
     badges: ["Case Pricing Available"],
     batch: { code: "EVLV-OXY5-10", date: "2026-10-10", status: "PASS" },
+    variants: OXYTOCIN_VARIANTS,
+  },
+
+  // ---- Oxytocin 1mg ----
+  {
+    id: "85",
+    slug: "oxytocin-1mg",
+    sku: "OXY-1",
+    name: "OXYTOCIN 1MG",
+    category: "peptides",
+    categoryLabel: "Peptide Research",
+    image: "/images/products/oxytocin-1mg.png",
+    price: 19.99,
+    purity: "99.0%",
+    casNumber: "50-56-6",
+    avgMass: "1.01 mg",
+    rating: 4.6,
+    reviewCount: 0,
+    inStock: true,
+    shortDescription: "Neuropeptide research compound, low-dose vial.",
+    description: "Oxytocin 1mg vial for research protocols. 99.0% purity verified by independent third-party testing.",
+    storage: "Store lyophilized vials at 2–8°C. After reconstitution, use within 30 days and refrigerate.",
+    reconstitution: "Reconstitute with BW 10mL or another sterile laboratory diluent appropriate for research use.",
+    badges: ["Case Pricing Available"],
+    batch: { code: "EVLV-OXY1-10", date: "2026-10-10", status: "PASS" },
+    variants: OXYTOCIN_VARIANTS,
   },
 
   // ---- Melanotan I ----
@@ -1244,6 +1360,33 @@ export const products: Product[] = [
     reconstitution: "Reconstitute with BW 10mL or another sterile laboratory diluent appropriate for research use.",
     badges: ["Case Pricing Available"],
     batch: { code: "EVLV-WLV20-10", date: "2026-10-10", status: "PASS" },
+    variants: WOLVERINE_VARIANTS,
+  },
+
+  // ---- Wolverine 10mg ----
+  {
+    id: "86",
+    slug: "wolverine-10mg",
+    sku: "WLV-10",
+    name: "WOLVERINE 10MG",
+    category: "peptides",
+    categoryLabel: "Peptide Research",
+    format: "blend",
+    image: "/images/products/wolverine-10mg.png",
+    price: 57.00,
+    purity: "99.31% BPC-157 / 99.59% TB-500",
+    casNumber: "137525-51-0, 77591-33-4",
+    avgMass: "10.1 mg",
+    rating: 4.8,
+    reviewCount: 0,
+    inStock: true,
+    shortDescription: "Pre-combined recovery peptide blend for research convenience.",
+    description: "WOLVERINE 10mg blend for research protocols, independently tested for identity and mass.",
+    storage: "Store lyophilized vials at 2–8°C. After reconstitution, use within 30 days and refrigerate.",
+    reconstitution: "Reconstitute with BW 10mL or another sterile laboratory diluent appropriate for research use.",
+    badges: ["Case Pricing Available"],
+    batch: { code: "EVLV-WLV10-10", date: "2026-10-10", status: "PASS" },
+    variants: WOLVERINE_VARIANTS,
   },
 ];
 
