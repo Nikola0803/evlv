@@ -5,13 +5,13 @@
  * field, so this checkout flow lines up with what the real CRM expects.
  */
 export const PAYMENT_HANDLES = {
-  cashapp: "$VVGOps",
-  zelle: "Info@vintagevitalitygroup.com",
-  venmo: "@VVGOps",
+  cashapp: "$warriordistributions",
+  zelle: "509-220-5434",
+  venmo: "@warriordistributions",
 };
 
 export const PAYMENT_PROCESSOR_NOTE =
-  "Payments are collected by VVG Operations, EVLV's authorized payment and fulfillment partner.";
+  "Payments are collected by Warrior Distributions LLC, the parent company of EVLV Research.";
 
 const DEMO_HANDLES = {
   cashapp: "$EVLVPeptidesDemo",
@@ -71,7 +71,7 @@ export const PAYMENT_GATEWAYS: {
     label: "Zelle",
     icon: "ri-bank-line",
     handle: PAYMENT_HANDLES.zelle,
-    handleNote: "Send to @vintagevitality or Info@vintagevitalitygroup.com — include only the order memo shown below so we can match your payment.",
+    handleNote: "Send to Warrior Distributions LLC at 509-220-5434 — include only the order memo shown below so we can match your payment.",
   },
   {
     id: "venmo",
