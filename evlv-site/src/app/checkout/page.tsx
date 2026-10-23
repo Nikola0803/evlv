@@ -72,6 +72,9 @@ export default function CheckoutPage() {
   const discountedSubtotal = Math.max(0, displaySubtotal - discount);
   const shipping = discountedSubtotal >= FREE_SHIPPING_THRESHOLD ? 0 : FLAT_SHIPPING_COST;
   const total = discountedSubtotal + shipping;
+  // 5% discount for paying via P2P (no card processor = lower cost, passed to buyer)
+  const p2pDiscount = selectedGateway ? Math.round(total * 0.05 * 100) / 100 : 0;
+  const payTotal = total - p2pDiscount;
   const shippingComplete = Boolean(
     firstName.trim() && lastName.trim() && email.trim() && address1.trim() && city.trim() && stateCode && zip.trim()
   );
@@ -160,6 +163,7 @@ export default function CheckoutPage() {
           discountCode: automaticGlpPromotion ? undefined : couponCode.trim() || undefined,
           customerNote: [
             `RUO attestation: purchaser confirmed laboratory/research use only at ${new Date().toISOString()}.`,
+            `P2P payment discount (5%): customer pays ${payTotal.toFixed(2)} via ${selectedGateway} (original total: ${total.toFixed(2)}).`,
             formatAttributionNote(attribution),
             orderNotes.trim() || undefined,
           ]
@@ -215,7 +219,7 @@ export default function CheckoutPage() {
       label: gatewayInfo.label,
       handle: gatewayInfo.handle || "",
       memo,
-      total: total.toFixed(2),
+      total: payTotal.toFixed(2),
       currency,
     });
     router.push(`/order-success?${params.toString()}`);
@@ -251,8 +255,8 @@ export default function CheckoutPage() {
         <span><b>3</b><small>Submit the order, then send payment</small></span>
       </div>
       <div className="cp-checkout-mobile-total" aria-label="Current order total">
-        <span>{lines.reduce((sum, line) => sum + line.qty, 0)} item{lines.reduce((sum, line) => sum + line.qty, 0) === 1 ? "" : "s"} · Shipping {shipping === 0 ? "free" : formatPrice(shipping)}</span>
-        <b>{formatPrice(total)}</b>
+        <span>{lines.reduce((sum, line) => sum + line.qty, 0)} item{lines.reduce((sum, line) => sum + line.qty, 0) === 1 ? "" : "s"} · Shipping {shipping === 0 ? "free" : formatPrice(shipping)}{p2pDiscount > 0 ? " · 5% off" : ""}</span>
+        <b>{formatPrice(payTotal)}</b>
       </div>
 
       <form onSubmit={handlePlaceOrder} className="cp-checkout-form mt-10 grid grid-cols-1 gap-12 lg:grid-cols-[1fr_460px]">
@@ -412,9 +416,18 @@ export default function CheckoutPage() {
                 <span className="text-charcoal/60">Shipping</span>
                 <span className="font-medium text-charcoal">{shipping === 0 ? "Free" : formatPrice(shipping)}</span>
               </div>
+              {p2pDiscount > 0 && (
+                <div className="flex items-center justify-between rounded-md bg-sage-deep/[0.07] px-2 py-1.5">
+                  <span className="text-sage-deep">P2P discount (5%)</span>
+                  <span className="font-medium text-sage-deep">-{formatPrice(p2pDiscount)}</span>
+                </div>
+              )}
               <div className="flex items-center justify-between border-t border-stone pt-3 text-lg">
                 <span className="font-medium text-charcoal">Total</span>
-                <span className="font-display text-xl font-semibold text-charcoal">{formatPrice(total)}</span>
+                <div className="text-right">
+                  {p2pDiscount > 0 && <p className="text-sm text-charcoal/40 line-through">{formatPrice(total)}</p>}
+                  <span className="font-display text-xl font-semibold text-charcoal">{formatPrice(payTotal)}</span>
+                </div>
               </div>
             </div>
           </div>
@@ -438,11 +451,12 @@ export default function CheckoutPage() {
                       });
                     }}
                     aria-pressed={active}
-                    className={`relative flex flex-col items-center gap-2.5 rounded-lg border p-5 transition ${
+                    className={`relative flex flex-col items-center gap-2.5 rounded-lg border p-5 pt-7 transition ${
                       active ? "border-copper bg-copper/10" : "border-stone bg-ivory-soft hover:border-charcoal/30"
                     }`}
                   >
                     {active && <i className="ri-checkbox-circle-fill absolute right-2.5 top-2.5 text-base text-copper" />}
+                    <span className="absolute left-0 right-0 top-0 rounded-t-lg bg-sage-deep py-0.5 text-center text-[9px] font-semibold uppercase tracking-wide text-ivory">Save 5%</span>
                     <i className={`${gw.icon} text-3xl ${active ? "text-copper" : "text-charcoal/40"}`} />
                     <span className={`text-sm font-medium ${active ? "text-copper" : "text-charcoal/60"}`}>{gw.label}</span>
                   </button>
@@ -452,6 +466,12 @@ export default function CheckoutPage() {
 
             {selectedGatewayInfo && (
               <div className="mt-4 rounded-lg border border-stone bg-ivory-soft p-5">
+                <div className="mb-4 flex items-center gap-2.5 rounded-md border border-sage-deep/20 bg-sage-deep/[0.07] px-3 py-2.5">
+                  <i className="ri-discount-percent-line shrink-0 text-sage-deep" />
+                  <p className="text-xs font-medium leading-snug text-sage-deep">
+                    No card processor fees — we pass the 5% savings directly to you when you pay via {selectedGatewayInfo.label}.
+                  </p>
+                </div>
                 <p className="mb-3 text-xs leading-relaxed text-charcoal/55">{PAYMENT_PROCESSOR_NOTE}</p>
                 <p className="mb-3 flex items-center gap-2 text-sm font-medium text-charcoal/70">
                   <i className={`${selectedGatewayInfo.icon} text-copper`} /> Send your {selectedGatewayInfo.label} payment to
@@ -479,6 +499,13 @@ export default function CheckoutPage() {
                     order, along with your memo code below.
                   </p>
                 )}
+                <div className="mt-4 flex items-center justify-between rounded-md border border-copper/30 bg-white px-4 py-3">
+                  <span className="text-sm text-charcoal/60">Amount to send after order</span>
+                  <div className="flex items-baseline gap-2">
+                    {p2pDiscount > 0 && <span className="text-xs text-charcoal/35 line-through">{formatPrice(total)}</span>}
+                    <span className="font-display text-base font-semibold text-copper">{formatPrice(payTotal)}</span>
+                  </div>
+                </div>
               </div>
             )}
 
@@ -520,7 +547,7 @@ export default function CheckoutPage() {
             disabled={!selectedGateway || !shippingComplete || !ruoAttestation || placing}
             className="w-full rounded-md bg-copper px-5 py-5 text-sm font-semibold uppercase tracking-[0.12em] text-charcoal transition hover:bg-copper-light disabled:cursor-not-allowed disabled:opacity-40"
           >
-            {placing ? "Submitting Order..." : `Submit Order & Continue to Payment · ${formatPrice(total)}`}
+            {placing ? "Submitting Order..." : `Submit Order & Continue to Payment · ${formatPrice(payTotal)}`}
           </button>
           <p className="-mt-3 text-center text-[11px] leading-relaxed text-charcoal/45">
             No payment is collected by this button. Your selected payment instructions appear immediately after submission.
