@@ -21,6 +21,7 @@ import { ScrollToTop } from "@/components/layout/ScrollToTop";
 import { ChunkErrorReload } from "@/components/layout/ChunkErrorReload";
 import { ConversionPrompts } from "@/components/layout/ConversionPrompts";
 import { LiveChat } from "@/components/layout/LiveChat";
+import { LaunchRegistrationPopup } from "@/components/layout/LaunchRegistrationPopup";
 
 const SITE_URL = "https://www.evlvpeptides.com";
 const CRM_PUBLIC_URL = process.env.NEXT_PUBLIC_CRM_URL || "https://crm.evlvpeptides.com";
@@ -135,6 +136,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         <ChunkErrorReload />
         <GoogleTagManagerBody />
         <GoogleAnalytics />
+        <LaunchRegistrationPopup />
         <OmnisendSnippet />
         <LiveChat />
         <ReferralCapture />
