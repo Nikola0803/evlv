@@ -17,6 +17,10 @@ import type { Product } from "@/lib/types";
 import { getProductImage } from "@/lib/product-images";
 
 const BW_SLUG = "bacteriostatic-water-10ml";
+
+// EVLV25 sale — free BW 10ml with every order, ends Oct 26 2026 11:59pm EST
+export const SALE_ENDS = new Date("2026-10-27T04:59:59Z");
+export const isSaleActive = () => Date.now() < SALE_ENDS.getTime();
 const FEATURED_SLUG = "bpc-157-10mg";
 const FEATURED_DISCOUNT_PERCENT = 25;
 const FEATURED_PACK_LABEL = `1 PCS (${FEATURED_DISCOUNT_PERCENT}% Off Offer)`;
@@ -66,6 +70,21 @@ export function ShippingProgressBar({ qualifyingSubtotal }: { qualifyingSubtotal
  * the drawer can add the real BW SKU at its current price without
  * navigating away or maintaining a duplicate static product entry.
  */
+export function SaleFreeBwGiftNotice() {
+  if (!isSaleActive()) return null;
+  return (
+    <div className="mt-5 flex items-start gap-3 rounded-lg border border-sage-deep/40 bg-sage-deep/[0.07] p-4">
+      <i className="ri-gift-line mt-0.5 shrink-0 text-lg text-sage-deep" />
+      <div className="flex-1">
+        <p className="text-sm font-semibold text-sage-deep">Free BW 10mL included</p>
+        <p className="mt-0.5 text-xs leading-relaxed text-charcoal/60">
+          One free BW 10mL (bacteriostatic water) is added to every order through Oct 26 — no code needed.
+        </p>
+      </div>
+    </div>
+  );
+}
+
 export function BwHBrandOffer({ products = [] }: { products?: Product[] }) {
   const { lines, addToCart } = useCart();
   const { formatPrice } = useCurrency();
@@ -73,7 +92,8 @@ export function BwHBrandOffer({ products = [] }: { products?: Product[] }) {
 
   const alreadyInCart = lines.some((l) => l.product.slug === BW_SLUG);
   const needsIt = lines.some((l) => Boolean(l.product.reconstitution));
-  if (alreadyInCart || !needsIt || !product) return null;
+  // During the sale BW is already included free — suppress the paid upsell
+  if (isSaleActive() || alreadyInCart || !needsIt || !product) return null;
 
   return (
     <div className="mt-5 flex items-start gap-3 rounded-lg border border-copper/40 bg-copper/5 p-4">
@@ -104,7 +124,8 @@ export function CheckoutBwHBrandOffer() {
 
   const alreadyInCart = lines.some((line) => line.product.slug === BW_SLUG);
   const needsIt = lines.some((line) => Boolean(line.product.reconstitution));
-  if (!needsIt || (alreadyInCart && !justAdded)) return null;
+  // During the sale BW is free — the SaleFreeBwGiftNotice handles messaging
+  if (isSaleActive() || !needsIt || (alreadyInCart && !justAdded)) return null;
 
   function addSupply() {
     if (!product || alreadyInCart) return;

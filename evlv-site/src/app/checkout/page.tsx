@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/lib/cart-context";
 import { useCurrency } from "@/lib/currency-context";
-import { CheckoutBwHBrandOffer, FREE_SHIPPING_THRESHOLD, FLAT_SHIPPING_COST, ShippingProgressBar } from "@/components/layout/CartUpsellOffers";
+import { CheckoutBwHBrandOffer, SaleFreeBwGiftNotice, isSaleActive, FREE_SHIPPING_THRESHOLD, FLAT_SHIPPING_COST, ShippingProgressBar } from "@/components/layout/CartUpsellOffers";
 import { getStoredUser } from "@/lib/auth";
 import { PAYMENT_GATEWAYS, PAYMENT_PROCESSOR_NOTE, type PaymentGatewayId } from "@/lib/payment-config";
 import { getStoredCouponCode, setStoredCouponCode } from "@/lib/referral";
@@ -288,7 +288,7 @@ export default function CheckoutPage() {
               <label className="mt-5 flex items-start gap-3 rounded-lg border border-stone bg-ivory-soft p-3.5">
                 <input type="checkbox" checked={smsConsent} onChange={(e) => setSmsConsent(e.target.checked)} className="mt-0.5 h-4 w-4 shrink-0 accent-copper" />
                 <span className="text-xs leading-relaxed text-charcoal/55">
-                  Receive order updates by text (optional). Msg & data rates may apply. Reply STOP to cancel.{" "}
+                  Receive order updates by text and email (optional). Msg & data rates may apply. Reply STOP to cancel.{" "}
                   <Link href="/privacy" className="text-copper hover:underline">Privacy Policy</Link>
                 </span>
               </label>
@@ -395,40 +395,6 @@ export default function CheckoutPage() {
                 )}
               </div>
 
-              {/* Promo code */}
-              <div className="cp-checkout-panel">
-                {automaticGlpPromotion ? (
-                  <div className="rounded-md border border-sage-deep/30 bg-sage-deep/[0.07] p-4 text-sage-deep">
-                    <p className="flex items-center gap-2 text-sm font-semibold"><i className="ri-checkbox-circle-fill" /> GLP Pair Event applied</p>
-                    <p className="mt-1 text-xs leading-relaxed">Second eligible item 70% off. You saved {formatPrice(coupon.discountUsd)}.</p>
-                  </div>
-                ) : (
-                  <>
-                    <label className="mb-3 block text-sm font-semibold uppercase tracking-wider text-charcoal/50">
-                      Promo / Referral Code <span className="font-normal normal-case text-charcoal/40">(optional)</span>
-                    </label>
-                    <input
-                      type="text"
-                      value={couponCode}
-                      onChange={(e) => {
-                        const next = e.target.value.toUpperCase();
-                        setCouponCode(next);
-                        setStoredCouponCode(next);
-                      }}
-                      placeholder="Enter a code"
-                      className="h-12 w-full rounded-md border border-stone bg-white px-4 text-base uppercase tracking-wide text-charcoal outline-none placeholder:text-charcoal/40 placeholder:normal-case focus:border-copper"
-                    />
-                    {coupon.checking && <p className="mt-1.5 text-xs text-charcoal/40">Checking...</p>}
-                    {!coupon.checking && coupon.valid && (
-                      <p className="mt-1.5 text-xs font-medium text-sage-deep">
-                        {coupon.promotionLabel || (couponCode.trim() ? "Code applied" : "Member reward applied")} — {formatPrice(coupon.discountUsd)} off
-                        {coupon.flooredByMargin ? " (partial)" : ""}
-                      </p>
-                    )}
-                  </>
-                )}
-              </div>
-
               {/* RUO attestation */}
               <label className="flex items-start gap-3 rounded-lg border border-stone bg-ivory-soft p-4">
                 <input
@@ -481,8 +447,43 @@ export default function CheckoutPage() {
               </div>
 
               <CheckoutBwHBrandOffer />
+              <SaleFreeBwGiftNotice />
 
-              <div className="mt-5 space-y-2 border-t border-stone pt-4 text-sm">
+              {/* Promo code */}
+              <div className="mt-4 border-t border-stone pt-4">
+                {automaticGlpPromotion ? (
+                  <div className="rounded-md border border-sage-deep/30 bg-sage-deep/[0.07] p-3 text-sage-deep">
+                    <p className="flex items-center gap-2 text-xs font-semibold"><i className="ri-checkbox-circle-fill" /> GLP Pair Event applied</p>
+                    <p className="mt-0.5 text-xs leading-relaxed">Second eligible item 70% off. You saved {formatPrice(coupon.discountUsd)}.</p>
+                  </div>
+                ) : (
+                  <>
+                    <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-charcoal/50">
+                      Promo / Referral Code <span className="font-normal normal-case text-charcoal/40">(optional)</span>
+                    </label>
+                    <input
+                      type="text"
+                      value={couponCode}
+                      onChange={(e) => {
+                        const next = e.target.value.toUpperCase();
+                        setCouponCode(next);
+                        setStoredCouponCode(next);
+                      }}
+                      placeholder="Enter a code"
+                      className="h-10 w-full rounded-md border border-stone bg-white px-3 text-sm uppercase tracking-wide text-charcoal outline-none placeholder:text-charcoal/40 placeholder:normal-case focus:border-copper"
+                    />
+                    {coupon.checking && <p className="mt-1 text-xs text-charcoal/40">Checking...</p>}
+                    {!coupon.checking && coupon.valid && (
+                      <p className="mt-1 text-xs font-medium text-sage-deep">
+                        {coupon.promotionLabel || (couponCode.trim() ? "Code applied" : "Member reward applied")} · {formatPrice(coupon.discountUsd)} off
+                        {coupon.flooredByMargin ? " (partial)" : ""}
+                      </p>
+                    )}
+                  </>
+                )}
+              </div>
+
+              <div className="mt-4 space-y-2 border-t border-stone pt-4 text-sm">
                 <div className="flex items-center justify-between">
                   <span className="text-charcoal/60">Subtotal</span>
                   <span className="font-medium text-charcoal">{formatPrice(displaySubtotal)}</span>
@@ -499,6 +500,12 @@ export default function CheckoutPage() {
                   <span className="text-charcoal/60">Shipping</span>
                   <span className="font-medium text-charcoal">{shipping === 0 ? "Free" : formatPrice(shipping)}</span>
                 </div>
+                {isSaleActive() && (
+                  <div className="flex items-center justify-between">
+                    <span className="text-sage-deep">Free gift (BW 10mL)</span>
+                    <span className="font-medium text-sage-deep">Included</span>
+                  </div>
+                )}
                 {p2pDiscount > 0 && (
                   <div className="flex items-center justify-between rounded-md bg-sage-deep/[0.07] px-2 py-1.5">
                     <span className="text-sage-deep">P2P discount (5%)</span>
