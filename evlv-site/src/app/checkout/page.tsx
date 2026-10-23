@@ -239,21 +239,6 @@ export default function CheckoutPage() {
 
   return (
     <div className="cp-checkout mx-auto max-w-6xl px-4 py-10 md:py-16">
-      <header className="cp-checkout-head">
-        <small>Order checkout</small>
-        <h1>Complete your order</h1>
-        <p>Enter delivery details, choose a payment method, and review your research order before confirming.</p>
-      </header>
-      <div className="cp-checkout-trust" aria-label="Checkout benefits">
-        <span><i className="ri-lock-2-line" /><b>Protected form</b><small>Encrypted order details</small></span>
-        <span><i className="ri-truck-line" /><b>Tracked delivery</b><small>Updates after carrier scan</small></span>
-        <span><i className="ri-file-shield-2-line" /><b>COA-backed batches</b><small>Documentation available</small></span>
-      </div>
-      <div className="cp-checkout-steps" aria-label="How checkout and payment work">
-        <span><b>1</b><small>Enter delivery details</small></span>
-        <span><b>2</b><small>Choose Cash App, Zelle, or Venmo</small></span>
-        <span><b>3</b><small>Submit the order, then send payment</small></span>
-      </div>
       <div className="cp-checkout-mobile-total" aria-label="Current order total">
         <span>{lines.reduce((sum, line) => sum + line.qty, 0)} item{lines.reduce((sum, line) => sum + line.qty, 0) === 1 ? "" : "s"} · Shipping {shipping === 0 ? "free" : formatPrice(shipping)}{p2pDiscount > 0 ? " · 5% off" : ""}</span>
         <b>{formatPrice(payTotal)}</b>
