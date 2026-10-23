@@ -59,7 +59,7 @@ export function Footer() {
           </div>
         </details>
 
-        <div className="cp-footer-bottom"><span>© EVLV {new Date().getFullYear()}. All rights reserved.</span><span>Strictly for laboratory and analytical research.</span></div>
+        <div className="cp-footer-bottom"><span>© EVLV {new Date().getFullYear()}. All rights reserved. EVLV is a brand of Warrior Distributions LLC.</span><span>Strictly for laboratory and analytical research.</span></div>
       </div>
     </footer>
   );
