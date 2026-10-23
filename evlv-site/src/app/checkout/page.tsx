@@ -53,8 +53,7 @@ export default function CheckoutPage() {
   const [couponCode, setCouponCode] = useState(() => getStoredCouponCode());
 
   const [selectedGateway, setSelectedGateway] = useState<PaymentGatewayId | null>(null);
-  const [memo, setMemo] = useState(() => generateMemo());
-  const [copied, setCopied] = useState(false);
+  const [memo] = useState(() => generateMemo());
   const [handleCopied, setHandleCopied] = useState(false);
   const [placing, setPlacing] = useState(false);
   const [checkoutError, setCheckoutError] = useState("");
@@ -110,16 +109,6 @@ export default function CheckoutPage() {
   }, [email]);
 
   const selectedGatewayInfo = PAYMENT_GATEWAYS.find((g) => g.id === selectedGateway) ?? null;
-
-  async function handleCopyMemo() {
-    try {
-      await navigator.clipboard.writeText(memo);
-      setCopied(true);
-      window.setTimeout(() => setCopied(false), 1800);
-    } catch {
-      /* clipboard unavailable, code is still visible to copy manually */
-    }
-  }
 
   async function handleCopyGatewayHandle() {
     if (!selectedGatewayInfo?.handle) return;
@@ -493,29 +482,11 @@ export default function CheckoutPage() {
               </div>
             )}
 
-            {selectedGatewayInfo && <div className="mt-4 rounded-lg border border-copper/30 bg-copper/5 p-5">
-              <div className="mb-3 flex items-center justify-between">
-                <label className="text-sm font-semibold text-charcoal">Payment Memo</label>
-                <span className="text-xs text-charcoal/45">Generated for this order</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span
-                  className="flex h-14 flex-1 items-center justify-center rounded-md border border-copper/40 bg-white font-mono text-2xl tracking-[0.4em] text-copper"
-                >
-                  {memo}
-                </span>
-                <button
-                  type="button"
-                  onClick={handleCopyMemo}
-                  className="h-14 shrink-0 whitespace-nowrap rounded-md border border-stone px-5 text-sm font-medium text-charcoal/70 transition hover:border-copper hover:text-copper"
-                >
-                  {copied ? "Copied" : "Copy"}
-                </button>
-              </div>
+            {selectedGatewayInfo && (
               <p className="mt-3 text-xs leading-relaxed text-charcoal/50">
-                Include this exact code in your {selectedGatewayInfo.label} payment note so we can match your payment to this order. Inventory is confirmed after the order is submitted.
+                After submitting your order you will receive an order number to include in your {selectedGatewayInfo.label} payment note.
               </p>
-            </div>}
+            )}
           </div>
 
           <label className="flex items-start gap-3 rounded-lg border border-stone bg-ivory-soft p-4">

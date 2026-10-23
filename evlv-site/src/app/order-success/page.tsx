@@ -34,8 +34,9 @@ export default async function OrderSuccessPage({
   let quickPay: ReturnType<typeof buildQuickPayTarget> | null = null;
   let isDemoHandle = false;
 
-  if (gateway && memo && amount > 0) {
-    quickPay = buildQuickPayTarget(gateway, amount, memo);
+  const payNote = orderNumber ? `Order #${orderNumber}` : memo;
+  if (gateway && payNote && amount > 0) {
+    quickPay = buildQuickPayTarget(gateway, amount, payNote);
     isDemoHandle = getEffectiveHandle(gateway).isDemo;
     const qrContent = quickPay.kind === "payLink" ? quickPay.url : quickPay.text;
     qrDataUrl = await QRCode.toDataURL(qrContent, { margin: 1, width: 240, color: { dark: "#2a2622", light: "#f7f4ef" } });
@@ -67,19 +68,11 @@ export default async function OrderSuccessPage({
       </p>
       <p className="mt-2 max-w-md text-xs leading-relaxed text-charcoal/45">{PAYMENT_PROCESSOR_NOTE}</p>
 
-      {memo && (
-        <div className="mt-6 w-full max-w-md rounded-md border-2 border-copper bg-copper/5 p-5 text-left">
-          <p className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.15em] text-copper">
-            <i className="ri-error-warning-line text-sm" />
-            Required - Payment Note
-          </p>
+      {orderNumber && (
+        <div className="mt-6 w-full max-w-md rounded-md border border-stone bg-ivory-soft p-5 text-left">
+          <p className="text-xs font-semibold uppercase tracking-wider text-charcoal/50">Payment note</p>
           <p className="mt-2 text-sm leading-relaxed text-charcoal">
-            Enter <span className="font-mono text-base font-bold text-copper">{memo}</span> as the entire payment note. Nothing
-            else.
-          </p>
-          <p className="mt-2 text-xs leading-relaxed text-charcoal/60">
-            This code is how our system automatically matches your payment to Order #{orderNumber || "this order"}. Adding your
-            name, a message, or any other text alongside it can prevent the match and delay processing by a day or more.
+            In the payment note, include your order number: <span className="font-mono font-semibold text-copper">#{orderNumber}</span>
           </p>
         </div>
       )}
