@@ -42,7 +42,7 @@ export const INVENTORY_SNAPSHOT: InventoryRow[] = [
   ["evlv-2-15mg", "TIR15", "GLP2-T — 15mg", 30, 89.99],
   ["evlv-2-30mg", "TIR30", "GLP2-T — 30mg", 19, 149.99],
   ["evlv-2-60mg", "TIR60", "GLP2-T — 60mg", 7, 274.99],
-  ["bacteriostatic-water-30ml", "BAC30", "BW H-Brand — 30mL", 44, 25],
+  ["bacteriostatic-water-10ml", "BAC10", "BW — 10mL", 44, 10],
 ].map(([slug, sku, productName, stockQty, retailPrice]) => ({
   slug: String(slug), sku: String(sku), productName: String(productName), status: "publish", stockStatus: "instock",
   stockQty: Number(stockQty), retailPrice: Number(retailPrice),
@@ -58,14 +58,14 @@ export const SLUG_BY_INVENTORY_SKU: Record<string, string> = {
   RET10: "evlv-3-10mg", RET15: "evlv-3-15mg", RET30: "evlv-3-30mg", RET60: "evlv-3-60mg", SEM10: "evlv-1-10mg", SEM5: "evlv-1-5mg",
   SLK10: "selank-10mg", SMX10: "semax-10mg", SS3110: "ss-31-10mg", SS3150: "ss-31-50mg", TA15: "thymosin-alpha-1-5mg",
   TB10: "tb-500-10mg", TB20: "tb-500-20mg", TB5: "tb-500-5mg", TES10: "tesamorelin-10mg", TES20: "tesamorelin-20mg",
-  TIR10: "evlv-2-10mg", TIR15: "evlv-2-15mg", TIR30: "evlv-2-30mg", TIR60: "evlv-2-60mg", BAC30: "bacteriostatic-water-30ml",
+  TIR10: "evlv-2-10mg", TIR15: "evlv-2-15mg", TIR30: "evlv-2-30mg", TIR60: "evlv-2-60mg", BAC10: "bacteriostatic-water-10ml",
   "5AM": "5-amino-1mq-5mg", "10AM": "5-amino-1mq-10mg", "50AM": "5-amino-1mq-50mg",
 };
 
 const normalizedSku = (value: string) => value.toUpperCase().replace(/[^A-Z0-9]/g, "");
 const usablePrice = (value: number | undefined) => typeof value === "number" && Number.isFinite(value) && value > 0;
 const displayName = (value: string) => value.replace(/\s+[—-]\s+(?=\d)/, " ").toUpperCase();
-const publicDisplayName = (row: InventoryRow) => normalizedSku(row.sku) === "BAC30" ? "BW H-BRAND 30ML" : displayName(row.productName);
+const publicDisplayName = (row: InventoryRow) => normalizedSku(row.sku) === "BAC10" ? "BW 10ML" : displayName(row.productName);
 const isAvailable = (row: InventoryRow) => row.status.toLowerCase() === "publish" && row.stockStatus.toLowerCase() === "instock" && row.stockQty > 0;
 
 export function applyInventoryRows(source: Product[], rows: InventoryRow[], addMissing = false, preserveUnlisted = false): Product[] {

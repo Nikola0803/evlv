@@ -5,7 +5,7 @@ const GENERATED_ROOT = "/images/products/generated-v1";
 const GENERATED_IMAGE_BY_SLUG: Record<string, string> = {
   "5-amino-1mq-50mg": "5-amino-1mq-50mg.png",
   "aod-9604-10mg": "aod-9604-10mg.png",
-  "bacteriostatic-water-30ml": "bacteriostatic-water-30ml.png",
+  "bacteriostatic-water-10ml": "bacteriostatic-water-10ml.png",
   "bpc-157-5mg": "bpc-157-5mg.png",
   "bpc-157-10mg": "bpc-157-10mg.png",
   "bpc-157-20mg": "bpc-157-20mg.png",

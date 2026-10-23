@@ -16,7 +16,7 @@ import { getProductBySlug, getProducts } from "@/lib/products";
 import type { Product } from "@/lib/types";
 import { getProductImage } from "@/lib/product-images";
 
-const BW_H_BRAND_SLUG = "bacteriostatic-water-30ml";
+const BW_SLUG = "bacteriostatic-water-10ml";
 const FEATURED_SLUG = "bpc-157-10mg";
 const FEATURED_DISCOUNT_PERCENT = 25;
 const FEATURED_PACK_LABEL = `1 PCS (${FEATURED_DISCOUNT_PERCENT}% Off Offer)`;
@@ -56,22 +56,22 @@ export function ShippingProgressBar({ qualifyingSubtotal }: { qualifyingSubtotal
 }
 
 /**
- * Optional BW H-Brand reminder for products whose catalog entry includes
+ * Optional BW reminder for products whose catalog entry includes
  * reconstitution information. Only fires when the cart has a relevant product
  * (anything with a `reconstitution` note) and doesn't already have
- * BW H-Brand in it -- never nags on an ancillaries-only or already-
+ * BW in it -- never nags on an ancillaries-only or already-
  * covered order.
  *
  * Uses the live CRM-merged catalog passed down by the root layout, so
- * the drawer can add the real BW H-Brand SKU at its current price without
+ * the drawer can add the real BW SKU at its current price without
  * navigating away or maintaining a duplicate static product entry.
  */
 export function BwHBrandOffer({ products = [] }: { products?: Product[] }) {
   const { lines, addToCart } = useCart();
   const { formatPrice } = useCurrency();
-  const product = products.find((item) => item.slug === BW_H_BRAND_SLUG) ?? getProductBySlug(BW_H_BRAND_SLUG);
+  const product = products.find((item) => item.slug === BW_SLUG) ?? getProductBySlug(BW_SLUG);
 
-  const alreadyInCart = lines.some((l) => l.product.slug === BW_H_BRAND_SLUG);
+  const alreadyInCart = lines.some((l) => l.product.slug === BW_SLUG);
   const needsIt = lines.some((l) => Boolean(l.product.reconstitution));
   if (alreadyInCart || !needsIt || !product) return null;
 
@@ -81,14 +81,14 @@ export function BwHBrandOffer({ products = [] }: { products?: Product[] }) {
       <div className="flex-1">
         <p className="text-sm font-semibold text-charcoal">Need a laboratory diluent?</p>
         <p className="mt-1 text-xs leading-relaxed text-charcoal/60">
-          This product listing includes reconstitution information. BW H-Brand is available separately for appropriate laboratory workflows.
+          This product listing includes reconstitution information. BW 10mL is available separately for appropriate laboratory workflows.
         </p>
         <button
           type="button"
           onClick={() => addToCart(product, 1, product.price, "1 PCS")}
           className="mt-2.5 inline-block rounded-md bg-copper px-3.5 py-2 text-[11px] font-semibold uppercase tracking-wide text-charcoal transition hover:bg-copper-light"
         >
-          Add BW H-Brand · {formatPrice(product.price)}
+          Add BW 10mL · {formatPrice(product.price)}
         </button>
       </div>
     </div>
@@ -99,10 +99,10 @@ export function CheckoutBwHBrandOffer() {
   const { lines, addToCart } = useCart();
   const { formatPrice } = useCurrency();
   const [justAdded, setJustAdded] = useState(false);
-  const product = getProductBySlug(BW_H_BRAND_SLUG);
+  const product = getProductBySlug(BW_SLUG);
   if (!product) return null;
 
-  const alreadyInCart = lines.some((line) => line.product.slug === BW_H_BRAND_SLUG);
+  const alreadyInCart = lines.some((line) => line.product.slug === BW_SLUG);
   const needsIt = lines.some((line) => Boolean(line.product.reconstitution));
   if (!needsIt || (alreadyInCart && !justAdded)) return null;
 
@@ -116,11 +116,11 @@ export function CheckoutBwHBrandOffer() {
     <div className={`mt-5 rounded-lg border p-4 ${justAdded ? "border-sage-deep/35 bg-sage-deep/[0.07]" : "border-copper/35 bg-copper/[0.05]"}`}>
       <div className="flex items-center gap-4">
         <div className="h-20 w-16 shrink-0 overflow-hidden rounded-md bg-white">
-          <Image src={getProductImage(product)} alt="BW H-Brand laboratory supply" width={120} height={150} className="h-full w-full object-contain" />
+          <Image src={getProductImage(product)} alt="BW 10mL laboratory supply" width={120} height={150} className="h-full w-full object-contain" />
         </div>
         <div className="min-w-0 flex-1">
           <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-copper">Laboratory workflow add-on</p>
-          <p className="mt-1 text-sm font-semibold text-charcoal">BW H-Brand · 30mL</p>
+          <p className="mt-1 text-sm font-semibold text-charcoal">BW · 10mL</p>
           <p className="mt-1 text-xs leading-relaxed text-charcoal/55">Available for research workflows that require a suitable laboratory diluent.</p>
         </div>
       </div>
