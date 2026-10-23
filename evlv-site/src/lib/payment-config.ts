@@ -64,20 +64,20 @@ export const PAYMENT_GATEWAYS: {
     label: "Cash App",
     icon: "ri-money-dollar-circle-line",
     handle: PAYMENT_HANDLES.cashapp,
-    handleNote: "Include only the EVLV order memo shown below so your payment can be matched quickly.",
+    handleNote: "Include your order number in the payment note so we can match your payment quickly.",
   },
   {
     id: "zelle",
     label: "Zelle",
     icon: "ri-bank-line",
     handle: PAYMENT_HANDLES.zelle,
-    handleNote: "Send to Warrior Distributions LLC at 509-220-5434 — include only the order memo shown below so we can match your payment.",
+    handleNote: "Send to Warrior Distributions LLC at 509-220-5434 — include your order number in the payment note so we can match your payment.",
   },
   {
     id: "venmo",
     label: "Venmo",
     icon: "ri-smartphone-line",
     handle: PAYMENT_HANDLES.venmo,
-    handleNote: "Include only the EVLV order memo shown below so your payment can be matched quickly.",
+    handleNote: "Include your order number in the payment note so we can match your payment quickly.",
   },
 ];

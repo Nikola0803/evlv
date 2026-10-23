@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { Poppins, Inter, Newsreader } from "next/font/google";
+import { headers } from "next/headers";
+import Link from "next/link";
+import Image from "next/image";
 import "./globals.css";
 import { AnnouncementBar } from "@/components/layout/AnnouncementBar";
 import { Header } from "@/components/layout/Header";
@@ -119,8 +122,15 @@ const WEBSITE_JSON_LD = {
   },
 };
 
+const CHECKOUT_ROUTES = ["/checkout", "/order-success"];
+
 export default async function RootLayout({ children }: LayoutProps<"/">) {
-  const products = await getCatalogProducts();
+  const hdrs = await headers();
+  const pathname = hdrs.get("x-pathname") ?? "";
+  const isCheckoutRoute = CHECKOUT_ROUTES.some((r) => pathname.startsWith(r));
+
+  const products = isCheckoutRoute ? [] : await getCatalogProducts();
+
   return (
     <html lang="en" className={`${poppins.variable} ${inter.variable} ${newsreader.variable} h-full antialiased`}>
       <head>
@@ -136,22 +146,41 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         <GoogleTagManagerBody />
         <GoogleAnalytics />
         <OmnisendSnippet />
-        <LiveChat />
         <ReferralCapture />
         <VerificationSync />
         <MembershipSync />
         <CurrencyProvider>
           <CartProvider>
-            <AgeGate>
-              <AnnouncementBar />
-              <Header products={products} />
-              <main className="flex-1 bg-white pt-[90px] md:pt-[100px]">{children}</main>
-              <Footer />
-              <CartToast />
-              <CartDrawer products={products} />
-              <QuizWidget />
-              <ConversionPrompts />
-            </AgeGate>
+            {isCheckoutRoute ? (
+              <>
+                <header className="border-b border-stone bg-ivory">
+                  <div className="flex h-16 items-center justify-center px-4">
+                    <Link href="/" className="inline-flex shrink-0 items-center">
+                      <Image src="/logo/evlv-logo-dark.png" alt="EVLV" width={2172} height={724} className="h-6 w-auto" priority />
+                    </Link>
+                  </div>
+                </header>
+                <main className="flex-1 bg-white">{children}</main>
+                <footer className="border-t border-stone py-5 text-center">
+                  <p className="text-[11px] text-charcoal/40">
+                    © EVLV {new Date().getFullYear()} · Warrior Distributions LLC ·{" "}
+                    <Link href="/ruo" className="hover:underline">Research Use Only</Link>
+                  </p>
+                </footer>
+              </>
+            ) : (
+              <AgeGate>
+                <AnnouncementBar />
+                <Header products={products} />
+                <main className="flex-1 bg-white pt-[90px] md:pt-[100px]">{children}</main>
+                <Footer />
+                <CartToast />
+                <CartDrawer products={products} />
+                <QuizWidget />
+                <ConversionPrompts />
+                <LiveChat />
+              </AgeGate>
+            )}
           </CartProvider>
         </CurrencyProvider>
       </body>
