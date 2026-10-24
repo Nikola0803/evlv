@@ -778,7 +778,7 @@ export const products: Product[] = [
     categoryLabel: "Research Supplies",
     format: "supplies",
     image: "/images/products/generated-v1/bacteriostatic-water-10ml.png",
-    price: 9.5,
+    price: 9.99,
     rating: 0,
     reviewCount: 0,
     inStock: true,
