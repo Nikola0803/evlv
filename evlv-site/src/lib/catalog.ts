@@ -60,23 +60,33 @@ const INVENTORY_SHEET_SLUGS = new Set([
   "tesamorelin-10mg",
 ]);
 
-const applyStorefrontRules = <T extends { slug: string; price: number }>(product: T): T => ({
+const applyStorefrontRules = <T extends { slug: string; price: number }>(
+  product: T,
+  approvedPriceBySlug: Map<string, number>,
+): T => ({
   ...product,
-  // Explicit owner-set storefront price. Do not let the stale BAC30 CRM row
-  // or the old BAC10 price overwrite this again.
-  price: product.slug === "bacteriostatic-water-10ml" ? 9.99 : product.price,
+  // The maintained storefront prices are 5% below the matching comparison
+  // catalog supplied by the owner. CRM remains stock/SKU authority, but must
+  // not overwrite this pricing schedule. BW is an explicit exception and
+  // stays at its owner-set $9.99 price.
+  price: product.slug === "bacteriostatic-water-10ml"
+    ? 9.99
+    : approvedPriceBySlug.get(product.slug) ?? product.price,
 });
 
 export async function getCatalogProducts() {
   const liveProducts = await getLiveProducts();
   const sheetProducts = getProducts().filter((product) => INVENTORY_SHEET_SLUGS.has(product.slug));
+  const approvedPriceBySlug = new Map(sheetProducts.map((product) => [product.slug, product.price]));
 
   if (crmConfigured()) {
     const approvedLiveProducts = liveProducts.filter((product) => INVENTORY_SHEET_SLUGS.has(product.slug));
     return mergeProducts(sheetProducts, approvedLiveProducts, true)
-      .map(applyStorefrontRules)
+      .map((product) => applyStorefrontRules(product, approvedPriceBySlug))
       .map(withQuantityPricing);
   }
 
-  return sheetProducts.map(applyStorefrontRules).map(withQuantityPricing);
+  return sheetProducts
+    .map((product) => applyStorefrontRules(product, approvedPriceBySlug))
+    .map(withQuantityPricing);
 }
