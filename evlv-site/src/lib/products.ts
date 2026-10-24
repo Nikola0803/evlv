@@ -79,36 +79,28 @@ const WOLVERINE_VARIANTS: ProductVariant[] = [
   { slug: "wolverine-20mg", label: "20mg", price: 114.00, inStock: true },
 ];
 
-// Owner-approved storefront schedule. Exact comparison products are 5% below
-// Valkyrie's listed retail. Where Valkyrie lists only one strength, sibling
-// strengths use that family's cost-to-retail rate from the shared 10-vial kit
-// cost in Inventory Sheet Nikola.xlsx. Rows without a usable kit cost inherit
-// the closest listed family price rather than retaining an unrelated old CRM
-// price. BW is explicitly fixed at $9.99.
+// Owner-approved storefront schedule. Exact product + strength matches are 5%
+// below Valkyrie's listed retail. A strength Valkyrie does not list uses the
+// workbook's Retail Vial value; it must never inherit another strength's price.
+// BW is explicitly fixed at $9.99.
 const STOREFRONT_PRICE_OVERRIDES = new Map<string, number>([
-  ["evlv-3-15mg", 149.56],
-  ["evlv-3-20mg", 170.19],
+  ["evlv-3-15mg", 96.67],
+  ["evlv-3-20mg", 110.00],
   ["evlv-3-30mg", 180.50],
-  ["evlv-1-5mg", 66.50],
+  ["evlv-1-5mg", 40.00],
   ["evlv-1-10mg", 66.50],
-  ["evlv-1-30mg", 66.50],
-  ["bpc-157-5mg", 44.33],
+  ["bpc-157-5mg", 46.67],
   ["bpc-157-10mg", 57.00],
   ["tb-500-10mg", 71.25],
-  ["ghk-cu-50mg", 66.37],
+  ["ghk-cu-50mg", 40.00],
   ["ghk-cu-100mg", 80.75],
   ["aod-9604-5mg", 61.75],
-  ["aod-9604-10mg", 61.75],
-  ["dsip-10mg", 57.00],
-  ["dsip-15mg", 57.00],
-  ["epitalon-10mg", 93.26],
-  ["hexarelin-2mg", 85.50],
-  ["ghrp-6-5mg", 57.00],
-  ["ll-37-10mg", 97.82],
-  ["oxytocin-1mg", 57.00],
+  ["dsip-15mg", 73.33],
+  ["epitalon-10mg", 63.33],
+  ["ghrp-6-5mg", 120.00],
+  ["ll-37-10mg", 93.33],
+  ["oxytocin-1mg", 46.67],
   ["oxytocin-5mg", 57.00],
-  ["pinealon-2mg", 76.00],
-  ["sermorelin-5mg", 71.25],
   ["sermorelin-10mg", 71.25],
   ["bacteriostatic-water-10ml", 9.99],
 ]);

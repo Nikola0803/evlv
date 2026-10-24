@@ -60,6 +60,18 @@ const INVENTORY_SHEET_SLUGS = new Set([
   "tesamorelin-10mg",
 ]);
 
+// These spreadsheet rows have inventory but neither an exact Valkyrie price
+// nor a Retail Vial value. Keep their pages/catalog records, but do not accept
+// orders until the owner supplies a verified price.
+const MISSING_VERIFIED_PRICE = new Set([
+  "aod-9604-10mg",
+  "dsip-10mg",
+  "evlv-1-30mg",
+  "hexarelin-2mg",
+  "pinealon-2mg",
+  "sermorelin-5mg",
+]);
+
 const applyStorefrontRules = <T extends { slug: string; price: number }>(
   product: T,
   approvedPriceBySlug: Map<string, number>,
@@ -74,6 +86,11 @@ const applyStorefrontRules = <T extends { slug: string; price: number }>(
     : approvedPriceBySlug.get(product.slug) ?? product.price,
 });
 
+const preventUnpricedOrders = <T extends { slug: string; inStock: boolean }>(product: T): T => ({
+  ...product,
+  inStock: !MISSING_VERIFIED_PRICE.has(product.slug) && product.inStock,
+});
+
 export async function getCatalogProducts() {
   const liveProducts = await getLiveProducts();
   const sheetProducts = getProducts().filter((product) => INVENTORY_SHEET_SLUGS.has(product.slug));
@@ -83,10 +100,12 @@ export async function getCatalogProducts() {
     const approvedLiveProducts = liveProducts.filter((product) => INVENTORY_SHEET_SLUGS.has(product.slug));
     return mergeProducts(sheetProducts, approvedLiveProducts, true)
       .map((product) => applyStorefrontRules(product, approvedPriceBySlug))
+      .map(preventUnpricedOrders)
       .map(withQuantityPricing);
   }
 
   return sheetProducts
     .map((product) => applyStorefrontRules(product, approvedPriceBySlug))
+    .map(preventUnpricedOrders)
     .map(withQuantityPricing);
 }
