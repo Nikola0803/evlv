@@ -79,6 +79,49 @@ const WOLVERINE_VARIANTS: ProductVariant[] = [
   { slug: "wolverine-20mg", label: "20mg", price: 114.00, inStock: true },
 ];
 
+// Owner-approved storefront schedule. Exact product + strength matches are 5%
+// below Valkyrie's listed retail. A strength Valkyrie does not list uses the
+// workbook's Retail Vial value; it must never inherit another strength's price.
+// Where both were blank, exact-strength public market references approved by
+// the owner are used. BW is explicitly fixed at $9.99.
+const STOREFRONT_PRICE_OVERRIDES = new Map<string, number>([
+  ["evlv-3-15mg", 96.67],
+  ["evlv-3-20mg", 110.00],
+  ["evlv-3-30mg", 180.50],
+  ["evlv-1-5mg", 40.00],
+  ["evlv-1-10mg", 66.50],
+  ["evlv-1-30mg", 79.80],
+  ["bpc-157-5mg", 46.67],
+  ["bpc-157-10mg", 57.00],
+  ["tb-500-10mg", 71.25],
+  ["ghk-cu-50mg", 40.00],
+  ["ghk-cu-100mg", 80.75],
+  ["aod-9604-5mg", 61.75],
+  ["aod-9604-10mg", 65.55],
+  ["dsip-10mg", 42.75],
+  ["dsip-15mg", 73.33],
+  ["epitalon-10mg", 63.33],
+  ["hexarelin-2mg", 19.94],
+  ["ghrp-6-5mg", 120.00],
+  ["ll-37-10mg", 93.33],
+  ["oxytocin-1mg", 46.67],
+  ["oxytocin-5mg", 57.00],
+  ["sermorelin-10mg", 71.25],
+  ["sermorelin-5mg", 37.05],
+  ["bacteriostatic-water-10ml", 9.99],
+]);
+
+function applyStorefrontPrice(product: Product): Product {
+  return {
+    ...product,
+    price: STOREFRONT_PRICE_OVERRIDES.get(product.slug) ?? product.price,
+    variants: product.variants?.map((variant) => ({
+      ...variant,
+      price: STOREFRONT_PRICE_OVERRIDES.get(variant.slug) ?? variant.price,
+    })),
+  };
+}
+
 export const products: Product[] = [
   // ---- EVLV-3 (Retatrutide) ----
   {
@@ -489,7 +532,7 @@ export const products: Product[] = [
     category: "peptides",
     categoryLabel: "Peptide Research",
     format: "blend",
-    image: "/images/products/glow-70mg.png",
+    image: "/images/products/glow-70mg.webp",
     price: 147.25,
     bulkOption: { qty: 10, price: 1119.92, savePercent: 20 },
     purity: "99.45% BPC-157 / 99.16% TB-500 / 99.54% GHK-Cu",
@@ -586,7 +629,7 @@ export const products: Product[] = [
     category: "peptides",
     categoryLabel: "Peptide Research",
     format: "blend",
-    image: "/images/products/cjc-ipa-blend-10mg.png",
+    image: "/images/products/cjc-ipa-blend-10mg.webp",
     price: 90.25,
     bulkOption: { qty: 10, price: 599.92, savePercent: 20 },
     purity: "99.28% Ipamorelin / 99.36% CJC-1295",
@@ -778,7 +821,7 @@ export const products: Product[] = [
     categoryLabel: "Research Supplies",
     format: "supplies",
     image: "/images/products/generated-v1/bacteriostatic-water-10ml.png",
-    price: 9.5,
+    price: 9.99,
     rating: 0,
     reviewCount: 0,
     inStock: true,
@@ -987,7 +1030,7 @@ export const products: Product[] = [
     name: "GHRP-6 5MG",
     category: "peptides",
     categoryLabel: "Peptide Research",
-    image: "/images/products/ghrp-6-10mg.png",
+    image: "/images/products/ghrp-6-5mg.png",
     price: 57.00,
     purity: "99.3%",
     casNumber: "87616-84-0",
@@ -1126,7 +1169,7 @@ export const products: Product[] = [
     name: "PINEALON 2MG",
     category: "peptides",
     categoryLabel: "Peptide Research",
-    image: "/images/products/pinealon-20mg.png",
+    image: "/images/products/pinealon-2mg.png",
     price: 76.00,
     purity: "99.3%",
     avgMass: "2.0 mg",
@@ -1149,7 +1192,7 @@ export const products: Product[] = [
     name: "DSIP 15MG",
     category: "peptides",
     categoryLabel: "Peptide Research",
-    image: "/images/products/dsip-5mg.png",
+    image: "/images/products/dsip-15mg.png",
     price: 57.00,
     purity: "99.3%",
     casNumber: "62568-57-4",
@@ -1388,10 +1431,77 @@ export const products: Product[] = [
     batch: { code: "EVLV-WLV10-10", date: "2026-10-10", status: "PASS" },
     variants: WOLVERINE_VARIANTS,
   },
+  {
+    id: "sheet-epitalon-10mg",
+    slug: "epitalon-10mg",
+    sku: "EPI-10",
+    name: "EPITALON 10MG",
+    category: "peptides",
+    categoryLabel: "Peptide Research",
+    image: "/images/products/vial-placeholder.png",
+    price: 93.26,
+    rating: 0,
+    reviewCount: 0,
+    inStock: false,
+    shortDescription: "Epitalon research peptide, standard concentration.",
+    description: "Epitalon 10mg vial supplied for laboratory research use only.",
+    storage: "Store lyophilized vials at 2–8°C. After reconstitution, refrigerate.",
+  },
+  {
+    id: "sheet-hexarelin-2mg",
+    slug: "hexarelin-2mg",
+    sku: "HEX-2",
+    name: "HEXARELIN 2MG",
+    category: "peptides",
+    categoryLabel: "Peptide Research",
+    image: "/images/products/vial-placeholder.png",
+    price: 85.50,
+    rating: 0,
+    reviewCount: 0,
+    inStock: true,
+    stockQty: 9,
+    shortDescription: "Hexarelin research peptide, low concentration.",
+    description: "Hexarelin 2mg vial supplied for laboratory research use only.",
+    storage: "Store lyophilized vials at 2–8°C. After reconstitution, refrigerate.",
+  },
+  {
+    id: "sheet-ll-37-10mg",
+    slug: "ll-37-10mg",
+    sku: "LL37-10",
+    name: "LL-37 10MG",
+    category: "peptides",
+    categoryLabel: "Peptide Research",
+    image: "/images/products/vial-placeholder.png",
+    price: 97.82,
+    rating: 0,
+    reviewCount: 0,
+    inStock: true,
+    stockQty: 8,
+    shortDescription: "LL-37 research peptide, standard concentration.",
+    description: "LL-37 10mg vial supplied for laboratory research use only.",
+    storage: "Store lyophilized vials at 2–8°C. After reconstitution, refrigerate.",
+  },
+  {
+    id: "sheet-sermorelin-5mg",
+    slug: "sermorelin-5mg",
+    sku: "SER-5",
+    name: "SERMORELIN 5MG",
+    category: "peptides",
+    categoryLabel: "Peptide Research",
+    image: "/images/products/vial-placeholder.png",
+    price: 71.25,
+    rating: 0,
+    reviewCount: 0,
+    inStock: true,
+    stockQty: 20,
+    shortDescription: "Sermorelin research peptide, low concentration.",
+    description: "Sermorelin 5mg vial supplied for laboratory research use only.",
+    storage: "Store lyophilized vials at 2–8°C. After reconstitution, refrigerate.",
+  },
 ];
 
 export function getProducts() {
-  return applyInventorySnapshot(products).map(withQuantityPricing);
+  return applyInventorySnapshot(products).map(applyStorefrontPrice).map(withQuantityPricing);
 }
 
 /** Normalize every catalog source to the same public quantity offer. Live
@@ -1431,7 +1541,7 @@ export function getProductBySlug(slug: string) {
  * stock state; only the static default needs the bundled inventory snapshot.
  */
 export function getShopListProducts(source?: Product[]) {
-  const catalog = source ?? applyInventorySnapshot(products);
+  const catalog = source ?? getProducts();
   return catalog.filter((product) => product.inStock);
 }
 

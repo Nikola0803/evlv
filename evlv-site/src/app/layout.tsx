@@ -10,7 +10,6 @@ import { getCatalogProducts } from "@/lib/catalog";
 import { Footer } from "@/components/layout/Footer";
 import { CartToast } from "@/components/layout/CartToast";
 import { CartDrawer } from "@/components/layout/CartDrawer";
-import { QuizWidget } from "@/components/layout/QuizWidget";
 import { ReferralCapture } from "@/components/layout/ReferralCapture";
 import { VerificationSync } from "@/components/layout/VerificationSync";
 import { MembershipSync } from "@/components/layout/MembershipSync";
@@ -176,7 +175,6 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
                 <Footer />
                 <CartToast />
                 <CartDrawer products={products} />
-                <QuizWidget />
                 <ConversionPrompts />
                 <LiveChat />
               </AgeGate>

@@ -2,7 +2,10 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { getStoredToken } from "@/lib/auth";
+import { useCart } from "@/lib/cart-context";
+import type { Product } from "@/lib/types";
 
 type WholesaleStatus = "NONE" | "PENDING" | "APPROVED" | "REJECTED";
 
@@ -21,6 +24,17 @@ interface DashboardData {
   businessName?: string;
   notificationEmail?: string;
   invoices?: Invoice[];
+  products?: WholesaleProduct[];
+}
+
+interface WholesaleProduct {
+  slug: string;
+  sku: string;
+  name: string;
+  imageUrl?: string;
+  caseSize: 10;
+  casePriceCents: number;
+  availableCases: number;
 }
 
 function money(cents: number) {
@@ -125,7 +139,65 @@ export function WholesalePanel() {
         notificationEmail={data.notificationEmail ?? ""}
         onSaved={load}
       />
+      <WholesaleCatalog products={data.products ?? []} />
       <InvoiceList invoices={data.invoices ?? []} />
+    </div>
+  );
+}
+
+function WholesaleCatalog({ products }: { products: WholesaleProduct[] }) {
+  const { addToCart } = useCart();
+
+  function addCase(item: WholesaleProduct) {
+    const unitPrice = item.casePriceCents / item.caseSize / 100;
+    const product: Product = {
+      id: `wholesale-${item.sku}`,
+      slug: item.slug,
+      sku: item.sku,
+      name: item.name,
+      category: "peptides",
+      categoryLabel: "Wholesale Research",
+      image: item.imageUrl,
+      price: unitPrice,
+      rating: 0,
+      reviewCount: 0,
+      inStock: item.availableCases > 0,
+      shortDescription: "Approved wholesale 10-vial case.",
+      description: "Approved wholesale 10-vial case.",
+      storage: "See product documentation.",
+    };
+    addToCart(product, item.caseSize, unitPrice, "Wholesale · 10-vial case");
+  }
+
+  return (
+    <div className="rounded-lg border border-stone bg-white p-6">
+      <p className="text-[11px] font-semibold uppercase tracking-wider text-charcoal/50">Approved wholesale catalog</p>
+      <h3 className="mt-1 font-display text-xl font-semibold text-charcoal">10-vial cases</h3>
+      <p className="mt-1 text-xs text-charcoal/50">Prices are per case. Orders must contain 10, 20, 30, or more vials of each product.</p>
+      {products.length === 0 ? (
+        <p className="mt-5 rounded-md border border-dashed border-stone bg-ivory-soft p-5 text-sm text-charcoal/50">No wholesale case prices are currently published.</p>
+      ) : (
+        <div className="mt-5 grid gap-3 sm:grid-cols-2">
+          {products.map((item) => (
+            <div key={item.slug} className="flex items-center gap-3 rounded-md border border-stone p-3">
+              {item.imageUrl ? <Image src={item.imageUrl} alt="" width={64} height={64} className="h-16 w-16 shrink-0 object-contain" /> : null}
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-sm font-semibold text-charcoal">{item.name}</p>
+                <p className="text-xs text-charcoal/50">10 vials · {money(item.casePriceCents)}</p>
+                <p className="text-[11px] text-charcoal/40">{item.availableCases} cases available</p>
+              </div>
+              <button
+                type="button"
+                disabled={item.availableCases < 1}
+                onClick={() => addCase(item)}
+                className="rounded-md bg-copper px-3 py-2 text-[10px] font-semibold uppercase tracking-wide text-charcoal disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                Add case
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
