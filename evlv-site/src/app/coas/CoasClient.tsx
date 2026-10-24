@@ -81,6 +81,11 @@ export function CoasClient({ coaEntries }: { coaEntries: CoaEntry[] }) {
             <p className="text-xs text-charcoal/45">{filtered.length} {filtered.length === 1 ? "report" : "reports"}</p>
           </div>
 
+          <div className="mb-6 flex items-start gap-3 rounded-xl border border-stone bg-[#f4f7f5] px-4 py-3 text-xs text-charcoal/60">
+            <i className="ri-information-line mt-0.5 shrink-0 text-base text-sage-deep" />
+            <p>Our Certificates of Analysis are issued to <span className="font-semibold text-charcoal/80">Warrior Distributions LLC</span>, the legal entity behind EVLV Peptides. All lab reports, batch codes, and chain-of-custody documentation reference that name — they are the same products sold under the EVLV brand.</p>
+          </div>
+
           {filtered.length === 0 ? (
             <div className="rounded-xl border border-stone bg-[#f4f7f5] py-16 text-center">
               <i className="ri-file-search-line text-3xl text-charcoal/25" />
