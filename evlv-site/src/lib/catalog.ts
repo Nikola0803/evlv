@@ -64,12 +64,7 @@ const INVENTORY_SHEET_SLUGS = new Set([
 // nor a Retail Vial value. Keep their pages/catalog records, but do not accept
 // orders until the owner supplies a verified price.
 const MISSING_VERIFIED_PRICE = new Set([
-  "aod-9604-10mg",
-  "dsip-10mg",
-  "evlv-1-30mg",
-  "hexarelin-2mg",
   "pinealon-2mg",
-  "sermorelin-5mg",
 ]);
 
 const applyStorefrontRules = <T extends { slug: string; price: number }>(

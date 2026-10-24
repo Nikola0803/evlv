@@ -82,26 +82,32 @@ const WOLVERINE_VARIANTS: ProductVariant[] = [
 // Owner-approved storefront schedule. Exact product + strength matches are 5%
 // below Valkyrie's listed retail. A strength Valkyrie does not list uses the
 // workbook's Retail Vial value; it must never inherit another strength's price.
-// BW is explicitly fixed at $9.99.
+// Where both were blank, exact-strength public market references approved by
+// the owner are used. BW is explicitly fixed at $9.99.
 const STOREFRONT_PRICE_OVERRIDES = new Map<string, number>([
   ["evlv-3-15mg", 96.67],
   ["evlv-3-20mg", 110.00],
   ["evlv-3-30mg", 180.50],
   ["evlv-1-5mg", 40.00],
   ["evlv-1-10mg", 66.50],
+  ["evlv-1-30mg", 79.80],
   ["bpc-157-5mg", 46.67],
   ["bpc-157-10mg", 57.00],
   ["tb-500-10mg", 71.25],
   ["ghk-cu-50mg", 40.00],
   ["ghk-cu-100mg", 80.75],
   ["aod-9604-5mg", 61.75],
+  ["aod-9604-10mg", 65.55],
+  ["dsip-10mg", 42.75],
   ["dsip-15mg", 73.33],
   ["epitalon-10mg", 63.33],
+  ["hexarelin-2mg", 19.94],
   ["ghrp-6-5mg", 120.00],
   ["ll-37-10mg", 93.33],
   ["oxytocin-1mg", 46.67],
   ["oxytocin-5mg", 57.00],
   ["sermorelin-10mg", 71.25],
+  ["sermorelin-5mg", 37.05],
   ["bacteriostatic-water-10ml", 9.99],
 ]);
 
