@@ -61,6 +61,20 @@ export default async function Home() {
 
       <section className="cp-section cp-why"><div className="cp-wrap"><h2>Why Choose Us?</h2><div>{WHY.map(([title,copy,image]) => <article key={title}><Image src={`/images/certified/${image}`} alt="" width={300} height={300} /><h3>{title}</h3><p>{copy}</p></article>)}</div></div></section>
 
+      <section className="cp-heroes-banner">
+        <div className="cp-wrap">
+          <div className="cp-heroes-banner-inner">
+            <div className="cp-heroes-banner-icon"><i className="ri-shield-star-line" /></div>
+            <div className="cp-heroes-banner-copy">
+              <p className="cp-heroes-banner-eyebrow">Service Recognition Program</p>
+              <h2 className="cp-heroes-banner-headline">Veterans &amp; First Responders — 25% Off, For Life</h2>
+              <p className="cp-heroes-banner-body">We offer a permanent 25% lifetime discount to verified military, first responders, and frontline healthcare professionals. Verify once — it stays on your account forever, no codes needed.</p>
+            </div>
+            <Link href="/heroes-discount" className="cp-heroes-banner-cta">Claim Your Discount <i className="ri-arrow-right-line" /></Link>
+          </div>
+        </div>
+      </section>
+
       <section className="cp-section cp-faq cp-wrap"><h2>Want to learn more?</h2>{FAQ.map(([q,a]) => <details key={q}><summary>{q}<span>+</span></summary><p>{a}</p></details>)}</section>
 
       <WelcomeOffer />

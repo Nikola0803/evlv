@@ -11,35 +11,59 @@ export const metadata: Metadata = {
 };
 
 const WHO_QUALIFIES = [
-  { icon: "ri-shield-star-line", label: "U.S. Military", detail: "Active duty, veterans, reservists, and National Guard members of any branch." },
-  { icon: "ri-alarm-warning-line", label: "First Responders", detail: "Law enforcement, firefighters, EMS, paramedics, and dispatch personnel." },
-  { icon: "ri-nurse-line", label: "Medical Professionals", detail: "Nurses, physicians, and frontline healthcare workers." },
+  {
+    icon: "ri-medal-line",
+    label: "Active Duty Military",
+    detail: "Currently serving members of the Army, Navy, Marine Corps, Air Force, Space Force, and Coast Guard.",
+  },
+  {
+    icon: "ri-shield-star-line",
+    label: "Veterans",
+    detail: "Honorably discharged service members who have served our nation with distinction.",
+  },
+  {
+    icon: "ri-alarm-warning-line",
+    label: "First Responders",
+    detail: "Law enforcement, firefighters, EMS, paramedics, and emergency dispatch personnel.",
+  },
+  {
+    icon: "ri-nurse-line",
+    label: "Healthcare Workers",
+    detail: "Nurses, physicians, and frontline medical staff in hospitals, clinics, and military-affiliated facilities.",
+  },
+] as const;
+
+const STEPS = [
+  { n: "01", title: "Submit the form", body: "Enter your name, email, service type, and branch or department below." },
+  { n: "02", title: "Upload your proof", body: "Military ID, DD-214, department credential, badge photo, or uniform photo. PDF or image, under 8MB." },
+  { n: "03", title: "We review", body: "Our team manually reviews every submission — typically within 1–2 business days. You'll get a confirmation email." },
+  { n: "04", title: "25% on every order", body: "Your discount is tied to your account email. No codes, no renewals — it applies automatically at checkout, for life." },
 ] as const;
 
 const FAQ = [
   {
-    q: "Is the 25% discount really permanent?",
-    a: "Yes. Once you're verified, the benefit lives on your account with no expiration date — as long as your eligibility was obtained honestly.",
+    q: "Do I need to verify my status every time I order?",
+    a: "No. Once verified, the benefit is permanently tied to your account email. It applies automatically at every checkout — no code, no repeat verification.",
   },
   {
-    q: "Do I need a coupon code every time?",
-    a: "No. The discount is tied to your account email. It applies automatically every time that account checks out — no code entry, no hassle.",
+    q: "Can I share my discount?",
+    a: "No. The benefit is non-transferable and tied to one verified account email. One discount per individual.",
   },
   {
-    q: "Can it stack with other promotions?",
-    a: "No. The lifetime service discount is non-stackable. If another offer gives you a better deal at checkout, that one will apply instead.",
-  },
-  {
-    q: "What counts as proof of service?",
-    a: "Military ID, DD-214, department-issued credential, agency badge, or a clear photo of a service uniform. Image or PDF under 8MB. Cover badge numbers, patient info, or any unrelated sensitive identifiers before uploading.",
+    q: "What documents are accepted for verification?",
+    a: "Military/veteran ID, DD-214, department-issued credential, agency badge, or a photo of a service uniform. Cover badge numbers, patient info, or any unrelated sensitive identifiers before uploading.",
   },
   {
     q: "How long does verification take?",
-    a: "We review every submission by hand, typically within 1–2 business days. You'll receive a confirmation email as soon as your account benefit is activated.",
+    a: "We review every submission by hand, typically within 1–2 business days. You'll receive a confirmation email as soon as your discount is activated.",
   },
   {
-    q: "Can I apply without an EVLV account?",
-    a: "Yes. Submit with the email you plan to use. If your account doesn't exist yet, create one with that same email — the benefit will connect automatically.",
+    q: "Is there a limit on how many times I can use my discount?",
+    a: "No. The 25% lifetime discount applies to every order you place — no usage limit, no expiration, and no minimum spend.",
+  },
+  {
+    q: "What if I have trouble submitting verification?",
+    a: "Contact our support team at office@evlvpeptides.com or (541) 709-5434 — we're available 7 days a week and can assist with manual verification.",
   },
 ] as const;
 
@@ -47,135 +71,233 @@ export default function HeroesDiscountPage() {
   return (
     <div className="bg-white text-charcoal">
 
-      {/* ── HERO + FORM ─────────────────────────────────────── */}
-      <section className="px-3 pb-10 pt-5 md:px-6 md:pb-14 md:pt-7">
-        <div className="mx-auto max-w-[1300px] overflow-hidden rounded-[22px] border border-stone shadow-[0_16px_50px_rgba(8,40,41,.09)]">
-          <div className="grid lg:grid-cols-[1fr_500px]">
+      {/* ── HERO ─────────────────────────────────────────────────────── */}
+      <section className="relative overflow-hidden bg-[#06202a] py-24 text-white md:py-36">
+        <div className="absolute inset-0">
+          <Image
+            src="/images/heroes-service-banner-v2.png"
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-[69%_center] opacity-25"
+          />
+          <div className="absolute inset-0 bg-[#06202a]/55" />
+        </div>
+        <div className="relative mx-auto max-w-[1100px] px-5 text-center md:px-8">
+          <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-[#c7a06d]">
+            EVLV · Service Appreciation
+          </p>
+          <h1 className="mt-5 font-display text-5xl font-semibold leading-[1.02] tracking-[-0.025em] md:text-[64px] lg:text-[76px]">
+            Honoring Military<br />&amp; First Responders
+          </h1>
+          <p className="mx-auto mt-6 max-w-[560px] text-base leading-relaxed text-white/65 md:text-lg">
+            Active Military, Veterans &amp; First Responders receive an{" "}
+            <strong className="font-semibold text-white">exclusive 25% lifetime discount</strong> on all EVLV products. American-made peptides for America's heroes.
+          </p>
+          <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+            <a
+              href="#form"
+              className="inline-flex h-13 items-center justify-center rounded-lg bg-[#c7a06d] px-9 text-[13px] font-bold uppercase tracking-[0.13em] text-white transition hover:bg-[#b58e5d]"
+            >
+              Claim My 25% Discount
+            </a>
+            <Link
+              href="/shop"
+              className="inline-flex h-13 items-center justify-center rounded-lg border border-white/30 px-9 text-[13px] font-bold uppercase tracking-[0.13em] text-white/80 transition hover:border-white/60 hover:text-white"
+            >
+              Browse Products
+            </Link>
+          </div>
+        </div>
+      </section>
 
-            {/* Left — image + copy */}
-            <div className="relative min-h-[280px] overflow-hidden lg:min-h-[700px]">
-              <Image
-                src="/images/heroes-service-banner-v2.png"
-                alt="Veteran, firefighter, and EMS professional"
-                fill
-                priority
-                sizes="(max-width: 1024px) 100vw, 800px"
-                className="object-cover object-[69%_center] lg:object-center"
-              />
-              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(4,35,37,.10)_0%,rgba(4,35,37,.72)_100%)] lg:bg-[linear-gradient(100deg,rgba(4,35,37,.96)_0%,rgba(4,35,37,.85)_42%,rgba(4,35,37,.30)_75%,transparent_100%)]" />
-
-              <div className="absolute inset-0 flex flex-col justify-end p-7 text-white lg:justify-center lg:p-12 lg:pr-0">
-                <p className="flex items-center gap-2.5 text-[10px] font-bold uppercase tracking-[0.26em] text-[#c7a06d]">
-                  <span className="h-px w-6 bg-[#c7a06d]/60" /> EVLV Service Recognition Program
-                </p>
-
-                <h1 className="mt-4 font-display text-4xl font-semibold leading-[1.03] tracking-[-0.025em] sm:text-5xl lg:text-[60px]">
-                  You served.<br />We've got you.
-                </h1>
-
-                <p className="mt-4 max-w-[440px] text-sm leading-relaxed text-white/72 md:text-base">
-                  EVLV offers a permanent <strong className="font-semibold text-white">25% lifetime discount</strong> to verified veterans, active military, first responders, and healthcare professionals. Verify once — the benefit stays on your account forever.
-                </p>
-
-                <div className="mt-7 grid max-w-[380px] grid-cols-3 gap-3 border-t border-white/15 pt-6 text-center">
-                  {[
-                    { icon: "ri-percent-line", stat: "25%", label: "Off every order" },
-                    { icon: "ri-infinity-line", stat: "Lifetime", label: "No expiration" },
-                    { icon: "ri-shield-check-line", stat: "Auto", label: "Applies at checkout" },
-                  ].map((item) => (
-                    <div key={item.stat}>
-                      <i className={`${item.icon} text-[#c7a06d] text-lg`} />
-                      <p className="mt-1 font-display text-base font-semibold text-white">{item.stat}</p>
-                      <p className="mt-0.5 text-[10px] text-white/50">{item.label}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
+      {/* ── COMMITMENT ───────────────────────────────────────────────── */}
+      <section className="border-b border-stone py-16 md:py-20">
+        <div className="mx-auto max-w-[1100px] px-5 md:px-8">
+          <div className="grid gap-12 md:grid-cols-2 md:gap-16">
+            <div>
+              <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-sage-deep">Our Commitment</p>
+              <h2 className="mt-2 font-display text-2xl font-semibold leading-snug md:text-3xl">
+                American-Made Peptides<br />for America's Heroes
+              </h2>
+              <p className="mt-4 text-sm leading-relaxed text-charcoal/60">
+                At EVLV, we believe that those who serve our country deserve our very best — and our support. That's why we're proud to offer an{" "}
+                <strong className="font-semibold text-charcoal">exclusive 25% lifetime discount</strong> to all active military, veterans, and first responders.
+              </p>
+              <p className="mt-3 text-sm leading-relaxed text-charcoal/60">
+                As a 100% American company, we are deeply grateful for the sacrifices made by our military and first responder communities. Your courage, dedication, and selfless service inspires us to give back in every way we can.
+              </p>
             </div>
-
-            {/* Right — form */}
-            <div className="flex flex-col justify-center bg-[#f4f7f5] p-7 lg:p-10">
-              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-sage-deep">Apply now — it&apos;s free</p>
-              <h2 className="mt-1.5 font-display text-2xl font-semibold text-charcoal">Claim your discount</h2>
-              <p className="mt-2 text-sm text-charcoal/55">Fill in your details and upload proof of service. We review every application personally.</p>
-              <div className="mt-5">
-                <HeroesDiscountForm />
-              </div>
-              <p className="mt-4 text-center text-[11px] text-charcoal/35">
-                Reviewed within 1–2 business days · Documents kept private
+            <div>
+              <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-sage-deep">Our Promise</p>
+              <h2 className="mt-2 font-display text-2xl font-semibold leading-snug md:text-3xl">
+                Our Commitment<br />to You
+              </h2>
+              <p className="mt-4 text-sm leading-relaxed text-charcoal/60">
+                Our peptides are proudly manufactured and tested in the United States, with the same rigorous quality standards and dedication to excellence that you demonstrate in your service to our nation.
+              </p>
+              <p className="mt-3 text-sm leading-relaxed text-charcoal/60">
+                Every vial is independently third-party tested for purity, identity, and composition — because you deserve nothing less than the best.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── WHO QUALIFIES ───────────────────────────────────── */}
+      {/* ── WHO QUALIFIES ────────────────────────────────────────────── */}
+      <section className="bg-[#f4f7f5] py-16 md:py-20">
+        <div className="mx-auto max-w-[1100px] px-5 md:px-8">
+          <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-sage-deep">Eligibility</p>
+          <h2 className="mt-2 font-display text-2xl font-semibold md:text-3xl">Who Qualifies for Our 25% Discount?</h2>
+          <p className="mt-3 max-w-xl text-sm leading-relaxed text-charcoal/55">
+            We're honored to extend this exclusive lifetime discount to those who have dedicated their lives to protecting and serving our nation and communities.
+          </p>
+          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {WHO_QUALIFIES.map((item) => (
+              <div key={item.label} className="rounded-2xl border border-stone bg-white p-6">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-sage-deep text-white">
+                  <i className={`${item.icon} text-base`} />
+                </div>
+                <h3 className="mt-4 font-display text-sm font-semibold">{item.label}</h3>
+                <p className="mt-2 text-xs leading-relaxed text-charcoal/55">{item.detail}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── HOW TO CLAIM ─────────────────────────────────────────────── */}
       <section className="py-16 md:py-20">
         <div className="mx-auto max-w-[1100px] px-5 md:px-8">
-          <div className="text-center">
-            <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-sage-deep">Eligibility</p>
-            <h2 className="mt-2 font-display text-3xl font-semibold md:text-4xl">Who qualifies?</h2>
-            <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-charcoal/55 md:text-base">
-              If you serve or have served your country or community, this program was built for you.
-            </p>
-          </div>
-          <div className="mt-10 grid gap-5 sm:grid-cols-3">
-            {WHO_QUALIFIES.map((item) => (
-              <div key={item.label} className="rounded-2xl border border-stone bg-ivory-soft p-7">
-                <div className="flex h-11 w-11 items-center justify-center rounded-full bg-sage-deep text-lg text-white">
-                  <i className={item.icon} />
-                </div>
-                <h3 className="mt-5 font-display text-xl font-semibold">{item.label}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-charcoal/55">{item.detail}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── HOW IT WORKS ────────────────────────────────────── */}
-      <section className="border-y border-stone bg-[#07383a] py-16 text-white md:py-20">
-        <div className="mx-auto max-w-[1000px] px-5 text-center md:px-8">
-          <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#c7a06d]">Simple process</p>
-          <h2 className="mt-2 font-display text-3xl font-semibold md:text-4xl">Verify once. Save forever.</h2>
-          <div className="mt-10 grid gap-6 sm:grid-cols-3">
-            {[
-              { n: "01", title: "Apply above", body: "Enter your name, email, service status, and branch. Upload one document proving your eligibility." },
-              { n: "02", title: "We verify", body: "Our team manually reviews every submission — typically within 1–2 business days. You'll get a confirmation email." },
-              { n: "03", title: "25% every order", body: "Your discount is attached to your account. No codes. No renewals. It just works at checkout, automatically, for life." },
-            ].map((step) => (
-              <div key={step.n} className="rounded-2xl border border-white/10 bg-white/5 p-7 text-left">
+          <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-sage-deep">Simple process</p>
+          <h2 className="mt-2 font-display text-2xl font-semibold md:text-3xl">How to Claim Your 25% Discount</h2>
+          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {STEPS.map((step) => (
+              <div key={step.n} className="rounded-2xl border border-stone bg-[#f4f7f5] p-6">
                 <span className="font-mono text-2xl font-bold text-[#c7a06d]">{step.n}</span>
-                <h3 className="mt-4 font-display text-lg font-semibold">{step.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-white/60">{step.body}</p>
+                <h3 className="mt-3 font-display text-sm font-semibold">{step.title}</h3>
+                <p className="mt-2 text-xs leading-relaxed text-charcoal/55">{step.body}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── FAQ ─────────────────────────────────────────────── */}
-      <section className="py-16 md:py-24">
-        <div className="mx-auto max-w-[860px] px-5 md:px-8">
-          <p className="text-center text-[11px] font-bold uppercase tracking-[0.2em] text-sage-deep">Common questions</p>
-          <h2 className="mt-2 text-center font-display text-3xl font-semibold md:text-4xl">Everything you need to know</h2>
-          <div className="mt-8 space-y-3">
-            {FAQ.map((item) => (
-              <details key={item.q} className="group rounded-xl border border-stone bg-ivory-soft p-5">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-semibold">
-                  {item.q}
-                  <i className="ri-add-line shrink-0 text-sage-deep transition group-open:rotate-45" />
-                </summary>
-                <p className="mt-3 text-sm leading-relaxed text-charcoal/60">{item.a}</p>
-              </details>
-            ))}
+      {/* ── FORM ─────────────────────────────────────────────────────── */}
+      <section id="form" className="bg-[#f4f7f5] py-16 md:py-20">
+        <div className="mx-auto max-w-[1100px] px-5 md:px-8">
+          <div className="grid gap-12 lg:grid-cols-[1fr_520px]">
+
+            {/* Left — copy */}
+            <div className="flex flex-col justify-center">
+              <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-sage-deep">Get Your Code</p>
+              <h2 className="mt-2 font-display text-2xl font-semibold leading-snug md:text-3xl">
+                Ready to Claim<br />Your 25% Off?
+              </h2>
+              <p className="mt-4 text-sm leading-relaxed text-charcoal/60">
+                Upload your proof of service and get your permanent lifetime discount — verified manually, no delay.
+              </p>
+              <div className="mt-7 flex items-center gap-5 rounded-xl border border-[#c7a06d]/25 bg-[#07383a] px-6 py-5 text-white">
+                <i className="ri-percent-line text-4xl text-[#c7a06d]" />
+                <div>
+                  <p className="font-display text-2xl font-semibold">25% OFF</p>
+                  <p className="mt-0.5 text-xs text-white/55">Lifetime · No expiration · Auto-applied at checkout</p>
+                </div>
+              </div>
+              <div className="mt-6 space-y-2.5 text-sm text-charcoal/60">
+                <p className="flex items-center gap-2.5">
+                  <i className="ri-phone-line text-sage-deep" /> (541) 709-5434
+                </p>
+                <p className="flex items-center gap-2.5">
+                  <i className="ri-mail-line text-sage-deep" /> office@evlvpeptides.com
+                </p>
+              </div>
+              <p className="mt-6 rounded-lg border border-stone bg-white p-4 text-xs leading-relaxed text-charcoal/45">
+                <strong className="font-semibold text-charcoal/60">Your privacy matters.</strong> We only use your contact information to verify and confirm data and send your discount. We will never sell or share your information.
+              </p>
+            </div>
+
+            {/* Right — form */}
+            <div className="rounded-2xl border border-stone bg-white p-7 lg:p-9">
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-sage-deep">
+                Military, First Responder &amp; Healthcare Discount Request
+              </p>
+              <div className="mt-5">
+                <HeroesDiscountForm />
+              </div>
+            </div>
+
           </div>
-          <p className="mt-8 text-center text-sm text-charcoal/50">
-            Still have questions?{" "}
-            <Link href="/contact" className="font-semibold text-sage-deep underline underline-offset-4">
-              Contact our support team
-            </Link>.
+        </div>
+      </section>
+
+      {/* ── FAQ ──────────────────────────────────────────────────────── */}
+      <section className="py-16 md:py-24">
+        <div className="mx-auto max-w-[1100px] px-5 md:px-8">
+          <div className="grid gap-12 lg:grid-cols-[280px_1fr]">
+
+            {/* Left */}
+            <div>
+              <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-sage-deep">Common Questions</p>
+              <h2 className="mt-2 font-display text-2xl font-semibold leading-snug md:text-3xl">
+                Frequently<br />Asked
+              </h2>
+              <p className="mt-4 text-sm leading-relaxed text-charcoal/55">
+                Have questions? Our team is available 7 days a week to help.
+              </p>
+              <div className="mt-6 space-y-2.5 text-sm text-charcoal/60">
+                <p className="flex items-center gap-2.5">
+                  <i className="ri-phone-line text-sage-deep" /> (541) 709-5434
+                </p>
+                <p className="flex items-center gap-2.5">
+                  <i className="ri-mail-line text-sage-deep" />
+                  <Link href="/contact" className="underline underline-offset-2 hover:text-sage-deep">Contact support</Link>
+                </p>
+              </div>
+            </div>
+
+            {/* Right */}
+            <div className="space-y-3">
+              {FAQ.map((item) => (
+                <details key={item.q} className="group rounded-xl border border-stone bg-[#f4f7f5] p-5">
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-sm font-semibold">
+                    {item.q}
+                    <i className="ri-add-line shrink-0 text-sage-deep transition group-open:rotate-45" />
+                  </summary>
+                  <p className="mt-3 text-sm leading-relaxed text-charcoal/60">{item.a}</p>
+                </details>
+              ))}
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* ── CLOSING STRIP ────────────────────────────────────────────── */}
+      <section className="bg-[#07383a] py-16 text-white md:py-20">
+        <div className="mx-auto max-w-[1100px] px-5 text-center md:px-8">
+          <h2 className="font-display text-3xl font-semibold leading-tight md:text-4xl lg:text-5xl">
+            American Made.<br />
+            <span className="text-[#c7a06d]">Veteran Approved.</span>
+          </h2>
+          <p className="mx-auto mt-5 max-w-md text-sm leading-relaxed text-white/60">
+            From everyone at EVLV, we express our heartfelt gratitude for your service and sacrifice. This discount is our small way of giving back to those who have given so much.
           </p>
+          <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+            <a
+              href="#form"
+              className="inline-flex h-12 items-center justify-center rounded-lg bg-[#c7a06d] px-9 text-[13px] font-bold uppercase tracking-[0.13em] text-white transition hover:bg-[#b58e5d]"
+            >
+              Get Your Discount Code
+            </a>
+            <Link
+              href="/shop"
+              className="inline-flex h-12 items-center justify-center rounded-lg border border-white/30 px-9 text-[13px] font-bold uppercase tracking-[0.13em] text-white/80 transition hover:border-white/60 hover:text-white"
+            >
+              Shop All Products
+            </Link>
+          </div>
         </div>
       </section>
 
