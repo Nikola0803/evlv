@@ -8,11 +8,11 @@ import { WelcomeOffer } from "@/components/home/WelcomeOffer";
 import { ResearchSetCampaignHomeHero } from "@/components/promotion/ResearchSetCampaign";
 
 const CATEGORIES = [
-  { title: "Shop Peptides", sub: "Third-party verified", href: "/shop?category=peptides", image: "category-peptides.png" },
-  { title: "Bioregulators", sub: "Research precision", href: "/shop?focus=bioregulators", image: "category-bioregulators.png" },
-  { title: "Lipotropics", sub: "Science inspired", href: "/shop?focus=metabolic", image: "category-lipotropics.png" },
-  { title: "Peptide Capsules", sub: "Research products", href: "/shop?format=oral", image: "category-capsules.png" },
-  { title: "Shop Sales", sub: "Limited-time savings", href: "/shop", image: "category-sale.png" },
+  { title: "Shop Peptides", sub: "Third-party verified", href: "/shop?category=peptides", image: "category-peptides.webp" },
+  { title: "Bioregulators", sub: "Research precision", href: "/shop?focus=bioregulators", image: "category-bioregulators.webp" },
+  { title: "Lipotropics", sub: "Science inspired", href: "/shop?focus=metabolic", image: "category-lipotropics.webp" },
+  { title: "Peptide Capsules", sub: "Research products", href: "/shop?format=oral", image: "category-capsules.webp" },
+  { title: "Shop Sales", sub: "Limited-time savings", href: "/shop", image: "category-sale.webp" },
 ];
 
 const WHY = [
