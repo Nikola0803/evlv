@@ -18,16 +18,15 @@ const CONFIRMED_UNAVAILABLE = new Set([
 export async function getCatalogProducts() {
   const liveProducts = await getLiveProducts();
 
-  // Once the CRM is connected it is the only authority for availability.
-  // Static product records still supply curated copy and imagery, but a SKU
-  // absent from the CRM feed must not remain purchasable from stale bundled
-  // inventory or a Google Sheet snapshot.
+  // Let the CRM override matching SKUs, but keep deliberately published
+  // static catalogue entries visible when the CRM has not imported them yet.
+  // Otherwise adding a product to products.ts deploys its page and imagery
+  // while silently removing its card from the shop whenever CRM is enabled.
   if (crmConfigured()) {
-    const liveSlugs = new Set(liveProducts.map((product) => product.slug));
-    return mergeProducts(getProducts(), liveProducts).map((product) =>
+    return mergeProducts(getProducts(), liveProducts, true).map((product) =>
       withQuantityPricing({
         ...product,
-        inStock: !CONFIRMED_UNAVAILABLE.has(product.slug) && liveSlugs.has(product.slug) && product.inStock,
+        inStock: !CONFIRMED_UNAVAILABLE.has(product.slug) && product.inStock,
       }),
     );
   }
