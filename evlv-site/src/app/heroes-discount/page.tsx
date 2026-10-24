@@ -71,43 +71,45 @@ export default function HeroesDiscountPage() {
   return (
     <div className="bg-white text-charcoal">
 
-      {/* ── HERO ─────────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-[#06202a] py-24 text-white md:py-36">
-        <div className="absolute inset-0">
-          <Image
-            src="/images/heroes-service-banner-v2.png"
-            alt=""
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover object-[69%_center] opacity-25"
-          />
-          <div className="absolute inset-0 bg-[#06202a]/55" />
-        </div>
-        <div className="relative mx-auto max-w-[1100px] px-5 text-center md:px-8">
-          <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-[#c7a06d]">
-            EVLV · Service Appreciation
-          </p>
-          <h1 className="mt-5 font-display text-5xl font-semibold leading-[1.02] tracking-[-0.025em] md:text-[64px] lg:text-[76px]">
-            Honoring Military<br />&amp; First Responders
-          </h1>
-          <p className="mx-auto mt-6 max-w-[560px] text-base leading-relaxed text-white/65 md:text-lg">
-            Active Military, Veterans &amp; First Responders receive an{" "}
-            <strong className="font-semibold text-white">exclusive 25% lifetime discount</strong> on all EVLV products. American-made peptides for America's heroes.
-          </p>
-          <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-            <a
-              href="#form"
-              className="inline-flex h-13 items-center justify-center rounded-lg bg-[#c7a06d] px-9 text-[13px] font-bold uppercase tracking-[0.13em] text-white transition hover:bg-[#b58e5d]"
-            >
-              Claim My 25% Discount
-            </a>
-            <Link
-              href="/shop"
-              className="inline-flex h-13 items-center justify-center rounded-lg border border-white/30 px-9 text-[13px] font-bold uppercase tracking-[0.13em] text-white/80 transition hover:border-white/60 hover:text-white"
-            >
-              Browse Products
-            </Link>
+      {/* ── HERO — rounded card with outer padding ───────────────────── */}
+      <section className="px-3 pb-8 pt-5 md:px-6 md:pb-12 md:pt-7">
+        <div className="mx-auto max-w-[1300px] overflow-hidden rounded-[22px] shadow-[0_16px_50px_rgba(8,40,41,.12)]">
+          <div className="relative min-h-[360px] bg-[#0b2f2c] text-white md:min-h-[480px]">
+            <Image
+              src="/images/heroes-service-banner-v2.png"
+              alt=""
+              fill
+              priority
+              sizes="(max-width: 1300px) 100vw, 1300px"
+              className="object-cover object-[69%_center] opacity-20"
+            />
+            <div className="absolute inset-0 bg-[#0b2f2c]/60" />
+            <div className="relative flex h-full min-h-[360px] flex-col items-center justify-center px-5 py-16 text-center md:min-h-[480px] md:py-20">
+              <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-white/55">
+                EVLV · Service Appreciation
+              </p>
+              <h1 className="mt-5 font-display text-4xl font-semibold leading-[1.02] tracking-[-0.025em] sm:text-5xl md:text-[60px] lg:text-[72px]">
+                Honoring Military<br />&amp; First Responders
+              </h1>
+              <p className="mx-auto mt-5 max-w-[520px] text-sm leading-relaxed text-white/60 md:text-base">
+                Active Military, Veterans &amp; First Responders receive an{" "}
+                <strong className="font-semibold text-white">exclusive 25% lifetime discount</strong> on all EVLV products. American-made peptides for America's heroes.
+              </p>
+              <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+                <a
+                  href="#form"
+                  className="inline-flex h-12 items-center justify-center rounded-lg bg-white px-8 text-[12px] font-bold uppercase tracking-[0.13em] text-[#0b2f2c] transition hover:bg-white/90"
+                >
+                  Claim My 25% Discount
+                </a>
+                <Link
+                  href="/shop"
+                  className="inline-flex h-12 items-center justify-center rounded-lg border border-white/30 px-8 text-[12px] font-bold uppercase tracking-[0.13em] text-white/75 transition hover:border-white/60 hover:text-white"
+                >
+                  Browse Products
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -156,7 +158,7 @@ export default function HeroesDiscountPage() {
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {WHO_QUALIFIES.map((item) => (
               <div key={item.label} className="rounded-2xl border border-stone bg-white p-6">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-sage-deep text-white">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#0b2f2c] text-white">
                   <i className={`${item.icon} text-base`} />
                 </div>
                 <h3 className="mt-4 font-display text-sm font-semibold">{item.label}</h3>
@@ -175,7 +177,7 @@ export default function HeroesDiscountPage() {
           <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {STEPS.map((step) => (
               <div key={step.n} className="rounded-2xl border border-stone bg-[#f4f7f5] p-6">
-                <span className="font-mono text-2xl font-bold text-[#c7a06d]">{step.n}</span>
+                <span className="font-mono text-2xl font-bold text-charcoal/25">{step.n}</span>
                 <h3 className="mt-3 font-display text-sm font-semibold">{step.title}</h3>
                 <p className="mt-2 text-xs leading-relaxed text-charcoal/55">{step.body}</p>
               </div>
@@ -198,11 +200,11 @@ export default function HeroesDiscountPage() {
               <p className="mt-4 text-sm leading-relaxed text-charcoal/60">
                 Upload your proof of service and get your permanent lifetime discount — verified manually, no delay.
               </p>
-              <div className="mt-7 flex items-center gap-5 rounded-xl border border-[#c7a06d]/25 bg-[#07383a] px-6 py-5 text-white">
-                <i className="ri-percent-line text-4xl text-[#c7a06d]" />
+              <div className="mt-7 flex items-center gap-5 rounded-xl bg-[#0b2f2c] px-6 py-5 text-white">
+                <i className="ri-shield-check-line text-4xl text-white/40" />
                 <div>
                   <p className="font-display text-2xl font-semibold">25% OFF</p>
-                  <p className="mt-0.5 text-xs text-white/55">Lifetime · No expiration · Auto-applied at checkout</p>
+                  <p className="mt-0.5 text-xs text-white/50">Lifetime · No expiration · Auto-applied at checkout</p>
                 </div>
               </div>
               <div className="mt-6 space-y-2.5 text-sm text-charcoal/60">
@@ -275,25 +277,25 @@ export default function HeroesDiscountPage() {
       </section>
 
       {/* ── CLOSING STRIP ────────────────────────────────────────────── */}
-      <section className="bg-[#07383a] py-16 text-white md:py-20">
+      <section className="bg-[#0b2f2c] py-16 text-white md:py-20">
         <div className="mx-auto max-w-[1100px] px-5 text-center md:px-8">
           <h2 className="font-display text-3xl font-semibold leading-tight md:text-4xl lg:text-5xl">
             American Made.<br />
-            <span className="text-[#c7a06d]">Veteran Approved.</span>
+            <span className="text-white/50">Veteran Approved.</span>
           </h2>
-          <p className="mx-auto mt-5 max-w-md text-sm leading-relaxed text-white/60">
+          <p className="mx-auto mt-5 max-w-md text-sm leading-relaxed text-white/55">
             From everyone at EVLV, we express our heartfelt gratitude for your service and sacrifice. This discount is our small way of giving back to those who have given so much.
           </p>
           <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
             <a
               href="#form"
-              className="inline-flex h-12 items-center justify-center rounded-lg bg-[#c7a06d] px-9 text-[13px] font-bold uppercase tracking-[0.13em] text-white transition hover:bg-[#b58e5d]"
+              className="inline-flex h-12 items-center justify-center rounded-lg bg-white px-9 text-[12px] font-bold uppercase tracking-[0.13em] text-[#0b2f2c] transition hover:bg-white/90"
             >
               Get Your Discount Code
             </a>
             <Link
               href="/shop"
-              className="inline-flex h-12 items-center justify-center rounded-lg border border-white/30 px-9 text-[13px] font-bold uppercase tracking-[0.13em] text-white/80 transition hover:border-white/60 hover:text-white"
+              className="inline-flex h-12 items-center justify-center rounded-lg border border-white/25 px-9 text-[12px] font-bold uppercase tracking-[0.13em] text-white/70 transition hover:border-white/50 hover:text-white"
             >
               Shop All Products
             </Link>
