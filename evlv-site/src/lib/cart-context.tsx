@@ -130,8 +130,13 @@ export function CartProvider({ children }: { children: ReactNode }) {
       prev
         .map((l) => {
           if (l.product.id !== productId || l.packLabel !== packLabel) return l;
-          const nextQty = Math.max(1, qty);
-          return { ...l, qty: nextQty, unitPrice: getQuantityUnitPrice(l.product.price, nextQty) };
+          const wholesaleCase = l.packLabel === "Wholesale · 10-vial case";
+          const nextQty = wholesaleCase ? Math.max(10, Math.round(qty / 10) * 10) : Math.max(1, qty);
+          return {
+            ...l,
+            qty: nextQty,
+            unitPrice: wholesaleCase ? l.unitPrice : getQuantityUnitPrice(l.product.price, nextQty),
+          };
         })
         .filter((l) => l.qty > 0)
     );
