@@ -5,6 +5,7 @@ import { FormEvent, useState } from "react";
 interface FormState {
   name: string;
   email: string;
+  phone: string;
   branch: string;
   status: string;
 }
@@ -13,9 +14,30 @@ const STATUS_OPTIONS = [
   "Active Duty",
   "Veteran",
   "Reservist / National Guard",
-  "First Responder (Police/Fire/EMS/Dispatch)",
+  "Police / Law Enforcement",
+  "Firefighter",
+  "EMS / Paramedic",
+  "Dispatch / Emergency Personnel",
+  "Other First Responder",
 ];
-const MAX_FILE_BYTES = 8 * 1024 * 1024; // 8MB
+
+const BRANCH_OPTIONS = [
+  "U.S. Army",
+  "U.S. Navy",
+  "U.S. Marine Corps",
+  "U.S. Air Force",
+  "U.S. Space Force",
+  "U.S. Coast Guard",
+  "National Guard",
+  "Police Department",
+  "Sheriff's Office",
+  "Fire Department",
+  "EMS / Ambulance Service",
+  "Federal Law Enforcement",
+  "Other",
+];
+
+const MAX_FILE_BYTES = 8 * 1024 * 1024;
 
 function readFileAsDataUrl(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -26,8 +48,11 @@ function readFileAsDataUrl(file: File): Promise<string> {
   });
 }
 
+const inputClass =
+  "w-full rounded-lg border border-stone bg-[#f4f7f5] px-4 py-3 text-sm text-charcoal outline-none transition placeholder:text-charcoal/35 focus:border-sage-deep focus:bg-white focus:shadow-[0_0_0_3px_rgba(50,118,87,.08)]";
+
 export function HeroesDiscountForm() {
-  const [form, setForm] = useState<FormState>({ name: "", email: "", branch: "", status: "" });
+  const [form, setForm] = useState<FormState>({ name: "", email: "", phone: "", branch: "", status: "" });
   const [proofFile, setProofFile] = useState<File | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -41,7 +66,7 @@ export function HeroesDiscountForm() {
     const file = e.target.files?.[0] ?? null;
     setError("");
     if (file && file.size > MAX_FILE_BYTES) {
-      setError("File is too large - please upload something under 8MB.");
+      setError("File is too large — please upload something under 8MB.");
       e.target.value = "";
       setProofFile(null);
       return;
@@ -73,7 +98,7 @@ export function HeroesDiscountForm() {
       if (!res.ok) {
         throw new Error(
           res.status === 503
-            ? "This program isn't accepting requests yet - check back soon."
+            ? "This program isn't accepting requests yet — check back soon."
             : data?.error || "Something went wrong submitting your request."
         );
       }
@@ -87,97 +112,106 @@ export function HeroesDiscountForm() {
 
   if (submitted) {
     return (
-      <div className="rounded-lg border border-stone bg-white p-8 text-center">
-        <i className="ri-checkbox-circle-fill text-2xl text-sage-deep" />
-        <p className="mt-3 font-display text-lg font-semibold text-charcoal">Request received</p>
-        <p className="mt-2 text-sm text-charcoal/60">
-          We verify each request by hand. If approved, your lifetime 25% benefit will be connected to this email and
-          will apply automatically when your account is recognized at checkout.
+      <div className="rounded-xl border border-stone bg-[#f4f7f5] p-8 text-center">
+        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-sage-deep text-white">
+          <i className="ri-checkbox-circle-line text-2xl" />
+        </div>
+        <p className="mt-4 font-display text-lg font-semibold text-charcoal">Application received</p>
+        <p className="mt-2 text-sm leading-relaxed text-charcoal/60">
+          We verify every request by hand. If approved, your 25% lifetime benefit will be connected to <span className="font-medium text-charcoal">{form.email}</span> and apply automatically at checkout.
         </p>
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 rounded-lg border border-stone bg-white p-6 md:p-8">
+    <form onSubmit={handleSubmit} className="space-y-4">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
-          <label className="mb-1.5 block text-sm font-semibold text-charcoal">Full Name</label>
+          <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.1em] text-charcoal/60">Full Name</label>
           <input
             type="text"
             required
             value={form.name}
             onChange={(e) => set("name", e.target.value)}
-            className="w-full rounded-md border border-stone bg-ivory px-4 py-2.5 text-sm outline-none focus:border-copper"
+            placeholder="William Smith"
+            className={inputClass}
           />
         </div>
         <div>
-          <label className="mb-1.5 block text-sm font-semibold text-charcoal">Email</label>
+          <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.1em] text-charcoal/60">Email</label>
           <input
             type="email"
             required
             value={form.email}
             onChange={(e) => set("email", e.target.value)}
-            className="w-full rounded-md border border-stone bg-ivory px-4 py-2.5 text-sm outline-none focus:border-copper"
+            placeholder="william@example.com"
+            className={inputClass}
           />
         </div>
       </div>
 
       <div>
-        <label className="mb-1.5 block text-sm font-semibold text-charcoal">Status</label>
-        <select
-          required
-          value={form.status}
-          onChange={(e) => set("status", e.target.value)}
-          className="w-full rounded-md border border-stone bg-ivory px-4 py-2.5 text-sm outline-none focus:border-copper"
-        >
-          <option value="">Select one</option>
-          {STATUS_OPTIONS.map((s) => (
-            <option key={s} value={s}>
-              {s}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      <div>
-        <label className="mb-1.5 block text-sm font-semibold text-charcoal">Branch / Agency / Employer</label>
+        <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.1em] text-charcoal/60">Phone Number</label>
         <input
-          type="text"
-          required
-          value={form.branch}
-          onChange={(e) => set("branch", e.target.value)}
-          placeholder="e.g. U.S. Army, Chicago Fire Department, Boise EMS"
-          className="w-full rounded-md border border-stone bg-ivory px-4 py-2.5 text-sm outline-none focus:border-copper"
+          type="tel"
+          value={form.phone}
+          onChange={(e) => set("phone", e.target.value)}
+          placeholder="+1 (555) 000-0000"
+          className={inputClass}
         />
       </div>
 
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div>
+          <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.1em] text-charcoal/60">Service Status</label>
+          <select
+            required
+            value={form.status}
+            onChange={(e) => set("status", e.target.value)}
+            className={inputClass}
+          >
+            <option value="">Select status</option>
+            {STATUS_OPTIONS.map((s) => (
+              <option key={s} value={s}>{s}</option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.1em] text-charcoal/60">Branch / Agency</label>
+          <select
+            required
+            value={form.branch}
+            onChange={(e) => set("branch", e.target.value)}
+            className={inputClass}
+          >
+            <option value="">Select branch</option>
+            {BRANCH_OPTIONS.map((b) => (
+              <option key={b} value={b}>{b}</option>
+            ))}
+          </select>
+        </div>
+      </div>
+
       <div>
-        <label className="mb-1.5 block text-sm font-semibold text-charcoal">
-          Verification Document <span className="text-copper">*</span>
+        <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.1em] text-charcoal/60">
+          Proof of Service <span className="text-copper normal-case tracking-normal">*</span>
         </label>
         <input
           type="file"
           required
           accept="image/*,.pdf"
           onChange={handleFileChange}
-          className="w-full rounded-md border border-stone bg-ivory px-4 py-2.5 text-sm outline-none file:mr-3 file:rounded file:border-0 file:bg-sage-deep file:px-4 file:py-2 file:text-xs file:font-semibold file:uppercase file:text-white focus:border-copper"
+          className="w-full rounded-lg border border-stone bg-[#f4f7f5] px-4 py-2.5 text-sm outline-none file:mr-3 file:rounded-md file:border-0 file:bg-sage-deep file:px-3 file:py-1.5 file:text-[11px] file:font-semibold file:uppercase file:text-white focus:border-sage-deep"
         />
-        <p className="mt-1.5 text-xs text-charcoal/40">
-          Military/veteran ID, DD-214, department credential, service ID, or a clear photo of your service
-          uniform. Image or PDF, under 8MB. Submit only material you are legally permitted to
-          share, and cover badge numbers, patient information, or unrelated sensitive details.
+        <p className="mt-1.5 text-[11px] text-charcoal/40">
+          Military/veteran ID, DD-214, department credential, or uniform photo. Image or PDF, under 8MB. Cover any unrelated sensitive info.
         </p>
       </div>
 
-      <p className="text-xs text-charcoal/50">
-        We may follow up by email to verify eligibility. The 25% benefit is tied to one verified account, has no
-        expiration, and cannot be combined with other offers.
-      </p>
-
       {error && (
         <p className="flex items-center gap-1.5 text-xs font-medium text-red-600">
-          <i className="ri-error-warning-line text-sm shrink-0" />
+          <i className="ri-error-warning-line shrink-0 text-sm" />
           {error}
         </p>
       )}
@@ -185,10 +219,14 @@ export function HeroesDiscountForm() {
       <button
         type="submit"
         disabled={submitting}
-        className="w-full rounded-md bg-sage-deep py-3.5 text-[12px] font-semibold uppercase tracking-[0.15em] text-white transition hover:bg-[#0a4748] disabled:cursor-wait disabled:opacity-60"
+        className="w-full rounded-lg bg-sage-deep py-3.5 text-[11px] font-bold uppercase tracking-[0.16em] text-white transition hover:bg-[#0a4748] disabled:cursor-wait disabled:opacity-60"
       >
-        {submitting ? "Submitting..." : "Apply for 25% Lifetime Access"}
+        {submitting ? "Submitting…" : "Apply for 25% Lifetime Access"}
       </button>
+
+      <p className="text-center text-[11px] text-charcoal/40">
+        Non-stackable · One benefit per person · No expiration
+      </p>
     </form>
   );
 }
