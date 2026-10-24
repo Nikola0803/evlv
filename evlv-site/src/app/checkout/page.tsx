@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { useCart } from "@/lib/cart-context";
 import { useCurrency } from "@/lib/currency-context";
 import { CheckoutBwHBrandOffer, SaleFreeBwGiftNotice, isSaleActive, FREE_SHIPPING_THRESHOLD, FLAT_SHIPPING_COST, ShippingProgressBar } from "@/components/layout/CartUpsellOffers";
-import { getStoredUser } from "@/lib/auth";
+import { getStoredToken, getStoredUser } from "@/lib/auth";
 import { PAYMENT_GATEWAYS, PAYMENT_PROCESSOR_NOTE, type PaymentGatewayId } from "@/lib/payment-config";
 import { getStoredCouponCode, setStoredCouponCode } from "@/lib/referral";
 import { useCouponValidation } from "@/lib/use-coupon-validation";
@@ -164,6 +164,7 @@ export default function CheckoutPage() {
           ruoAttested: true,
           ruoAttestedAt: new Date().toISOString(),
           customerId: user && user.user_id !== "local" ? user.user_id : undefined,
+          token: getStoredToken() || undefined,
           customerEmail: email.trim(),
           billing: {
             firstName: firstName.trim(),
