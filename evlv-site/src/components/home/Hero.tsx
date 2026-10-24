@@ -66,6 +66,9 @@ export function Hero() {
             <ButtonLink href="/shop" variant="secondary" size="lg" className="!border-white/40 !text-ivory hover:!bg-white/10 hover:!border-white/60">
               View Compounds
             </ButtonLink>
+            <ButtonLink href="/coas" variant="secondary" size="lg" className="!border-copper/50 !text-copper hover:!bg-copper/10 hover:!border-copper/80 gap-2">
+              <i className="ri-file-text-line" /> View COAs
+            </ButtonLink>
           </div>
 
           <div className="mt-11 flex flex-wrap items-center gap-x-7 gap-y-2">
