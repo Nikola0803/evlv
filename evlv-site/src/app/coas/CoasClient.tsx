@@ -17,6 +17,18 @@ const FILTERS: { value: Filter; label: string }[] = [
   { value: "ancillaries", label: "Ancillaries" },
 ];
 
+// Some archived reports use a legacy strength or pre-catalog slug. Keep the
+// report slug intact for exact-COA matching, but render the corresponding
+// current product packaging instead of an unrelated legacy placeholder.
+const COA_IMAGE_PRODUCT_SLUG: Record<string, string> = {
+  "bpc-tb-500-blend-10mg": "wolverine-10mg",
+  "bpc-tb-500-blend-20mg": "wolverine-20mg",
+  "cagrilintide-5mg": "cagrilintide-10mg",
+  "dsip-5mg": "dsip-10mg",
+  "semax-5mg": "semax-10mg",
+  "selank-5mg": "selank-10mg",
+};
+
 export function CoasClient({ coaEntries }: { coaEntries: CoaEntry[] }) {
   const products = useMemo(() => getProducts(), []);
   const productBySlug = useMemo(() => new Map(products.map((product) => [product.slug, product])), [products]);
@@ -90,7 +102,8 @@ export function CoasClient({ coaEntries }: { coaEntries: CoaEntry[] }) {
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               {filtered.map((coa) => {
                 const product = productBySlug.get(coa.slug);
-                const image = product ? getProductImage(product) : "/images/products/vial-placeholder.png";
+                const imageProduct = product ?? productBySlug.get(COA_IMAGE_PRODUCT_SLUG[coa.slug]);
+                const image = imageProduct ? getProductImage(imageProduct) : "/images/products/vial-placeholder.png";
                 return (
                   <a
                     key={coa.url}
