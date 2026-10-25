@@ -17,6 +17,18 @@ const FILTERS: { value: Filter; label: string }[] = [
   { value: "ancillaries", label: "Ancillaries" },
 ];
 
+// Some archived reports use a legacy strength or pre-catalog slug. Keep the
+// report slug intact for exact-COA matching, but render the corresponding
+// current product packaging instead of an unrelated legacy placeholder.
+const COA_IMAGE_PRODUCT_SLUG: Record<string, string> = {
+  "bpc-tb-500-blend-10mg": "wolverine-10mg",
+  "bpc-tb-500-blend-20mg": "wolverine-20mg",
+  "cagrilintide-5mg": "cagrilintide-10mg",
+  "dsip-5mg": "dsip-10mg",
+  "semax-5mg": "semax-10mg",
+  "selank-5mg": "selank-10mg",
+};
+
 export function CoasClient({ coaEntries }: { coaEntries: CoaEntry[] }) {
   const products = useMemo(() => getProducts(), []);
   const productBySlug = useMemo(() => new Map(products.map((product) => [product.slug, product])), [products]);
@@ -81,9 +93,11 @@ export function CoasClient({ coaEntries }: { coaEntries: CoaEntry[] }) {
             <p className="text-xs text-charcoal/45">{filtered.length} {filtered.length === 1 ? "report" : "reports"}</p>
           </div>
 
-          <div className="mb-6 flex items-start gap-3 rounded-xl border border-stone bg-[#f4f7f5] px-4 py-3 text-xs text-charcoal/60">
-            <i className="ri-information-line mt-0.5 shrink-0 text-base text-sage-deep" />
-            <p>Our Certificates of Analysis are issued to <span className="font-semibold text-charcoal/80">Warrior Distributions LLC</span>, the legal entity behind EVLV Peptides. All lab reports, batch codes, and chain-of-custody documentation reference that name — they are the same products sold under the EVLV brand.</p>
+          <div className="mb-6 rounded-xl border border-stone bg-[#f4f7f5] px-5 py-4 text-xs leading-relaxed text-charcoal/65">
+            <p className="font-semibold text-charcoal">Legal entity and report attribution</p>
+            <p className="mt-1">
+              EVLV is a brand of Warrior Distributions LLC, its parent company and registered legal entity. Certificates of Analysis may therefore be issued to or maintained under Warrior Distributions LLC, while the laboratory field identifies the independent laboratory that performed the analysis.
+            </p>
           </div>
 
           {filtered.length === 0 ? (
@@ -95,7 +109,8 @@ export function CoasClient({ coaEntries }: { coaEntries: CoaEntry[] }) {
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               {filtered.map((coa) => {
                 const product = productBySlug.get(coa.slug);
-                const image = product ? getProductImage(product) : "/images/products/vial-placeholder.png";
+                const imageProduct = product ?? productBySlug.get(COA_IMAGE_PRODUCT_SLUG[coa.slug]);
+                const image = imageProduct ? getProductImage(imageProduct) : "/images/products/vial-placeholder.png";
                 return (
                   <a
                     key={coa.url}
