@@ -172,7 +172,12 @@ export function mergeProducts(staticProducts: Product[], liveProducts: Product[]
               inStock: existing.variants?.find((item) => item.slug === variant.slug)?.inStock ?? variant.inStock,
             }))
           : live.variants,
-        image: PHOTO_LOCKED_SLUGS.has(existing.slug) ? existing.image : live.image || existing.image,
+        // Every product admitted to the storefront inventory has a curated,
+        // deploy-local image. Keep that known-good asset authoritative. CRM
+        // imageUrl values are still used for genuinely CRM-only products,
+        // but must never replace a matching storefront image (or a malformed
+        // synced absolute URL can make next/image return 400 for the card).
+        image: (PHOTO_LOCKED_SLUGS.has(existing.slug) || existing.image) ? existing.image : live.image,
         purity: live.purity || existing.purity,
         categoryLabel: live.categoryLabel || existing.categoryLabel,
         shortDescription: live.shortDescription || existing.shortDescription,
