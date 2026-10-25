@@ -93,6 +93,13 @@ export function CoasClient({ coaEntries }: { coaEntries: CoaEntry[] }) {
             <p className="text-xs text-charcoal/45">{filtered.length} {filtered.length === 1 ? "report" : "reports"}</p>
           </div>
 
+          <div className="mb-6 rounded-xl border border-stone bg-[#f4f7f5] px-5 py-4 text-xs leading-relaxed text-charcoal/65">
+            <p className="font-semibold text-charcoal">Legal entity and report attribution</p>
+            <p className="mt-1">
+              EVLV is a brand of Warrior Distributions LLC, its parent company and registered legal entity. Certificates of Analysis may therefore be issued to or maintained under Warrior Distributions LLC, while the laboratory field identifies the independent laboratory that performed the analysis.
+            </p>
+          </div>
+
           {filtered.length === 0 ? (
             <div className="rounded-xl border border-stone bg-[#f4f7f5] py-16 text-center">
               <i className="ri-file-search-line text-3xl text-charcoal/25" />

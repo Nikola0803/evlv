@@ -13,21 +13,23 @@ export interface CoaEntry {
 }
 
 /**
- * Public COA library. All reports are issued by Warrior Distributions.
- * Purity analysis by Horizon Analytical (DPS-series) or Warrior Distributions QC.
+ * Public COA library. Reports may be issued under Warrior Distributions LLC,
+ * the registered parent entity of the EVLV brand. Laboratory attribution is
+ * kept separate: DPS-series reports are analyzed by Horizon Analytical and
+ * OPT-series reports are analyzed by OPTIQ.
  * Multiple entries for one slug represent distinct lots.
  */
 export const LOCAL_COAS: CoaEntry[] = [
   // === RETATRUTIDE ===
-  { slug: "evlv-3-10mg", url: "/coas/warrior-reta-10mg.pdf", label: "1190.OPT.260901", productName: "GLP3-R 10MG", compound: "Retatrutide", purity: "99.8%", tested: "Sep 2026", lab: "Warrior Distributions" },
+  { slug: "evlv-3-10mg", url: "/coas/warrior-reta-10mg.pdf", label: "1190.OPT.260901", productName: "GLP3-R 10MG", compound: "Retatrutide", purity: "99.8%", tested: "Sep 2026", lab: "OPTIQ" },
   { slug: "evlv-3-10mg", url: "/coas/evlv-dps-3733528.pdf", label: "DPS-3733528", productName: "GLP3-R 10MG", compound: "Retatrutide", purity: "99.41%", tested: "Sep 15, 2026", lab: "Horizon Analytical" },
   { slug: "evlv-3-15mg", url: "/coas/evlv-dps-9173749.pdf", label: "DPS-9173749", productName: "GLP3-R 15MG", compound: "Retatrutide", purity: "99.35%", tested: "Sep 15, 2026", lab: "Horizon Analytical" },
-  { slug: "evlv-3-30mg", url: "/coas/warrior-reta-30mg.pdf", label: "1189.OPT.260901", productName: "GLP3-R 30MG", compound: "Retatrutide", purity: "99.3%", tested: "Sep 2026", lab: "Warrior Distributions" },
+  { slug: "evlv-3-30mg", url: "/coas/warrior-reta-30mg.pdf", label: "1189.OPT.260901", productName: "GLP3-R 30MG", compound: "Retatrutide", purity: "99.3%", tested: "Sep 2026", lab: "OPTIQ" },
   { slug: "evlv-3-30mg", url: "/coas/evlv-dps-9041738.pdf", label: "DPS-9041738", productName: "GLP3-R 30MG", compound: "Retatrutide", purity: "99.16%", tested: "Sep 15, 2026", lab: "Horizon Analytical" },
 
   // === TIRZEPATIDE ===
-  { slug: "evlv-2-10mg", url: "/coas/warrior-tirz-10mg.pdf", label: "0330.OPT.260729", productName: "GLP2-T 10MG", compound: "Tirzepatide", purity: "99.99%", tested: "Jul 31, 2026", lab: "Warrior Distributions" },
-  { slug: "evlv-2-30mg", url: "/coas/warrior-tirz-30mg.pdf", label: "0332.OPT.260729", productName: "GLP2-T 30MG", compound: "Tirzepatide", purity: "99.99%", tested: "Jul 31, 2026", lab: "Warrior Distributions" },
+  { slug: "evlv-2-10mg", url: "/coas/warrior-tirz-10mg.pdf", label: "0330.OPT.260729", productName: "GLP2-T 10MG", compound: "Tirzepatide", purity: "99.99%", tested: "Jul 31, 2026", lab: "OPTIQ" },
+  { slug: "evlv-2-30mg", url: "/coas/warrior-tirz-30mg.pdf", label: "0332.OPT.260729", productName: "GLP2-T 30MG", compound: "Tirzepatide", purity: "99.99%", tested: "Jul 31, 2026", lab: "OPTIQ" },
 
   // === TESAMORELIN ===
   { slug: "tesamorelin-10mg", url: "/coas/evlv-dps-1572576.pdf", label: "DPS-1572576", productName: "TESAMORELIN 10MG", compound: "Tesamorelin", purity: "99.61%", tested: "Sep 24, 2026", lab: "Horizon Analytical" },
@@ -37,7 +39,7 @@ export const LOCAL_COAS: CoaEntry[] = [
   { slug: "nad-500mg", url: "/coas/evlv-dps-1640102.pdf", label: "DPS-1640102", productName: "NAD+ 500MG", compound: "NAD+", purity: "99.51%", tested: "Sep 15, 2026", lab: "Horizon Analytical" },
 
   // === CJC-1295 / IPAMORELIN ===
-  { slug: "cjc-ipa-blend-10mg", url: "/coas/warrior-cjc-ipa-20mg.pdf", label: "0585.OPT.260804", productName: "CJC-1295 / IPAMORELIN", compound: "CJC-1295 no DAC / Ipamorelin", purity: "99.08%", tested: "Aug 7, 2026", lab: "Warrior Distributions" },
+  { slug: "cjc-ipa-blend-10mg", url: "/coas/warrior-cjc-ipa-20mg.pdf", label: "0585.OPT.260804", productName: "CJC-1295 / IPAMORELIN", compound: "CJC-1295 no DAC / Ipamorelin", purity: "99.08%", tested: "Aug 7, 2026", lab: "OPTIQ" },
   { slug: "cjc-ipa-blend-10mg", url: "/coas/evlv-dps-6465415.pdf", label: "DPS-6465415", productName: "CJC-1295 / IPAMORELIN 10MG", compound: "CJC-1295 no DAC / Ipamorelin", purity: "99.21% / 99.28%", tested: "Sep 15, 2026", lab: "Horizon Analytical" },
 
   // === BPC-157 + TB-500 BLEND ===
@@ -51,18 +53,18 @@ export const LOCAL_COAS: CoaEntry[] = [
   { slug: "kpv-10mg", url: "/coas/evlv-dps-4673660.pdf", label: "DPS-4673660", productName: "KPV 10MG", compound: "KPV", purity: "99.45%", tested: "Sep 24, 2026", lab: "Horizon Analytical" },
 
   // === MOTS-c ===
-  { slug: "mots-c-10mg", url: "/coas/warrior-mots-c-10mg.pdf", label: "0588.OPT.260804", productName: "MOTS-C 10MG", compound: "MOTS-c", purity: "99.51%", tested: "Aug 7, 2026", lab: "Warrior Distributions" },
+  { slug: "mots-c-10mg", url: "/coas/warrior-mots-c-10mg.pdf", label: "0588.OPT.260804", productName: "MOTS-C 10MG", compound: "MOTS-c", purity: "99.51%", tested: "Aug 7, 2026", lab: "OPTIQ" },
   { slug: "mots-c-10mg", url: "/coas/evlv-dps-6246893.pdf", label: "DPS-6246893", productName: "MOTS-C 10MG", compound: "MOTS-c", purity: "99.45%", tested: "Sep 15, 2026", lab: "Horizon Analytical" },
 
   // === PT-141 ===
   { slug: "pt-141-10mg", url: "/coas/evlv-dps-9050324.pdf", label: "DPS-9050324", productName: "PT-141 10MG", compound: "PT-141", purity: "99.28%", tested: "Sep 15, 2026", lab: "Horizon Analytical" },
 
   // === GLOW ===
-  { slug: "glow-70mg", url: "/coas/warrior-glow-70mg.pdf", label: "0977.OPT.260825", productName: "GLOW 70MG", compound: "GHK-Cu / BPC-157 / TB-500", purity: "99.1%", tested: "Sep 3, 2026", lab: "Warrior Distributions" },
+  { slug: "glow-70mg", url: "/coas/warrior-glow-70mg.pdf", label: "0977.OPT.260825", productName: "GLOW 70MG", compound: "GHK-Cu / BPC-157 / TB-500", purity: "99.1%", tested: "Sep 3, 2026", lab: "OPTIQ" },
   { slug: "glow-70mg", url: "/coas/evlv-dps-7777201.pdf", label: "DPS-7777201", productName: "GLOW 70MG", compound: "GHK-Cu / BPC-157 / TB-500", purity: "See analyte results", tested: "Sep 15, 2026", lab: "Horizon Analytical" },
 
   // === KLOW ===
-  { slug: "klow-80mg", url: "/coas/warrior-klow-80mg.pdf", label: "0846.OPT.260817", productName: "KLOW 80MG", compound: "GHK-Cu / KPV / TB-500 / BPC-157", purity: "99.5%", tested: "Sep 3, 2026", lab: "Warrior Distributions" },
+  { slug: "klow-80mg", url: "/coas/warrior-klow-80mg.pdf", label: "0846.OPT.260817", productName: "KLOW 80MG", compound: "GHK-Cu / KPV / TB-500 / BPC-157", purity: "99.5%", tested: "Sep 3, 2026", lab: "OPTIQ" },
   { slug: "klow-80mg", url: "/coas/evlv-dps-8243101.pdf", label: "DPS-8243101", productName: "KLOW 80MG", compound: "GHK-Cu / KPV / TB-500 / BPC-157", purity: "See analyte results", tested: "Sep 15, 2026", lab: "Horizon Analytical" },
 
   // === BPC-157 (standalone) ===
