@@ -3,6 +3,7 @@
 import { FormEvent, useState } from "react";
 import Link from "next/link";
 import { getStoredToken } from "@/lib/auth";
+import { trackEvent } from "@/lib/pixel";
 
 // The public application stays intentionally short. Shipping details for
 // merchandise are collected privately after a partner is approved.
@@ -77,6 +78,7 @@ export function AffiliateForm({ onApplied }: { onApplied?: () => void }) {
         );
       }
       setSubmitted(true);
+      trackEvent("evlv_lead", { lead_type: "affiliate" });
       onApplied?.();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");

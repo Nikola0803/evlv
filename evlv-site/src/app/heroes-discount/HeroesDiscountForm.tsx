@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import { trackEvent } from "@/lib/pixel";
 
 interface FormState {
   name: string;
@@ -78,6 +79,7 @@ export function HeroesDiscountForm() {
         );
       }
       setSubmitted(true);
+      trackEvent("evlv_lead", { lead_type: "heroes_discount", properties: { status: form.status } });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
     } finally {
