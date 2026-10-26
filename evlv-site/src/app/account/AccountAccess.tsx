@@ -38,10 +38,14 @@ export function AccountAccess({
   initialMode = "signin",
   redirectTo = "/account",
   partnerMode = false,
+  offer,
+  welcomePercent = 10,
 }: {
   initialMode?: Mode;
   redirectTo?: string;
   partnerMode?: boolean;
+  offer?: "join25";
+  welcomePercent?: number;
 }) {
   const [mode, setMode] = useState<Mode>(initialMode);
   const [email, setEmail] = useState("");
@@ -78,8 +82,11 @@ export function AccountAccess({
     try {
       let data = await request(
         mode === "signin" ? "/api/auth/login" : "/api/auth/register",
-        mode === "signin" ? { email, password } : { email, password, marketingOptIn },
+        mode === "signin"
+          ? { email, password }
+          : { email, password, marketingOptIn, ...(offer === "join25" ? { offer: "JOIN25" } : {}) },
       );
+      const registrationCouponCode = mode === "register" && typeof data.couponCode === "string" ? data.couponCode : undefined;
       let session = getSession(data, email);
 
       if (mode === "register" && !session) {
@@ -89,10 +96,12 @@ export function AccountAccess({
       if (!session) throw new Error("Your account response did not include a valid session. Please contact support.");
 
       saveAuth(session);
-      if (mode === "register" && typeof data.couponCode === "string") {
-        setStoredCouponCode(data.couponCode);
+      if (registrationCouponCode) {
+        setStoredCouponCode(registrationCouponCode);
       }
-      window.location.href = mode === "register" && !partnerMode ? "/shop?welcome=10" : redirectTo;
+      window.location.href = mode === "register" && !partnerMode
+        ? offer === "join25" ? "/shop?join=25" : "/shop?welcome=10"
+        : redirectTo;
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : "Something went wrong. Please try again.");
     } finally {
@@ -106,12 +115,12 @@ export function AccountAccess({
         <div className="relative flex min-h-[320px] flex-col justify-between overflow-hidden bg-[#07383a] p-8 text-white md:p-12 lg:min-h-[650px]">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_90%_12%,rgba(185,217,206,.22),transparent_38%),linear-gradient(145deg,#07383a,#092825)]" />
           <div className="relative">
-            <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#b9d9ce]">{partnerMode ? "EVLV Partner Command" : "EVLV Research Account"}</p>
+            <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#b9d9ce]">{partnerMode ? "EVLV Partner Command" : offer === "join25" ? "Gym flyer access" : "EVLV Research Account"}</p>
             <h1 className="mt-5 max-w-md font-display text-4xl font-semibold leading-tight md:text-5xl">
-              {partnerMode ? "Your performance. Your earnings. One command center." : "Research orders and documentation in one place."}
+              {partnerMode ? "Your performance. Your earnings. One command center." : offer === "join25" ? "Create your account. Save 25% on your first order." : "Research orders and documentation in one place."}
             </h1>
             <p className="mt-5 max-w-md text-sm leading-relaxed text-white/65">
-              {partnerMode ? "Sign in with the EVLV account connected to your partner application." : "Sign in to review order history, saved addresses, verification status, wholesale access, and partner tools."}
+              {partnerMode ? "Sign in with the EVLV account connected to your partner application." : offer === "join25" ? "Your single-use reward is connected to this account and applied automatically in cart and checkout." : "Sign in to review order history, saved addresses, verification status, wholesale access, and partner tools."}
             </p>
           </div>
           <div className="relative mt-10 grid gap-4 border-t border-white/15 pt-7 text-sm text-white/75 sm:grid-cols-2 lg:grid-cols-1">
@@ -123,9 +132,19 @@ export function AccountAccess({
               </>
             ) : (
               <>
-                <span className="flex items-center gap-3"><i className="ri-file-list-3-line text-[#b9d9ce]" /> View orders and shipping status</span>
-                <span className="flex items-center gap-3"><i className="ri-shield-check-line text-[#b9d9ce]" /> Manage research verification</span>
-                <span className="flex items-center gap-3"><i className="ri-store-2-line text-[#b9d9ce]" /> Access wholesale partner tools</span>
+                {offer === "join25" ? (
+                  <>
+                    <span className="flex items-center gap-3"><i className="ri-checkbox-circle-line text-[#b9d9ce]" /> 25% applied automatically</span>
+                    <span className="flex items-center gap-3"><i className="ri-user-line text-[#b9d9ce]" /> One use per account</span>
+                    <span className="flex items-center gap-3"><i className="ri-lock-line text-[#b9d9ce]" /> Cannot combine with other offers</span>
+                  </>
+                ) : (
+                  <>
+                    <span className="flex items-center gap-3"><i className="ri-file-list-3-line text-[#b9d9ce]" /> View orders and shipping status</span>
+                    <span className="flex items-center gap-3"><i className="ri-shield-check-line text-[#b9d9ce]" /> Manage research verification</span>
+                    <span className="flex items-center gap-3"><i className="ri-store-2-line text-[#b9d9ce]" /> Access wholesale partner tools</span>
+                  </>
+                )}
               </>
             )}
           </div>
@@ -141,7 +160,7 @@ export function AccountAccess({
             <div className="mt-8">
               <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-sage-deep">{mode === "signin" ? (partnerMode ? "Partner access" : "Welcome back") : "Create your profile"}</p>
               <h2 className="mt-2 font-display text-3xl font-semibold text-charcoal">{mode === "signin" ? (partnerMode ? "Open Partner Command" : "Sign in to EVLV") : "Open an EVLV account"}</h2>
-              <p className="mt-2 text-sm leading-relaxed text-charcoal/50">{mode === "signin" ? "Enter the email and password connected to your account." : "Create one secure login and receive 10% off your first purchase. Your personal reward is applied automatically at checkout."}</p>
+              <p className="mt-2 text-sm leading-relaxed text-charcoal/50">{mode === "signin" ? "Enter the email and password connected to your account." : `Create one secure login and receive ${welcomePercent}% off your first purchase. Your personal reward is applied automatically at checkout.`}</p>
             </div>
 
             <form onSubmit={handleSubmit} className="mt-7 space-y-4">
@@ -158,7 +177,7 @@ export function AccountAccess({
               {error && <p className="flex items-start gap-2 rounded-md bg-red-50 px-3 py-2.5 text-xs font-medium text-red-700"><i className="ri-error-warning-line mt-0.5" />{error}</p>}
 
               <button type="submit" disabled={submitting} className="w-full rounded-md bg-[#07383a] py-3.5 text-xs font-bold uppercase tracking-[0.16em] text-white transition hover:bg-[#0b4b4c] disabled:cursor-wait disabled:opacity-60">
-                {submitting ? "Please wait..." : mode === "signin" ? "Sign In Securely" : "Create Account & Save 10%"}
+                {submitting ? "Please wait..." : mode === "signin" ? "Sign In Securely" : `Create Account & Save ${welcomePercent}%`}
               </button>
             </form>
 

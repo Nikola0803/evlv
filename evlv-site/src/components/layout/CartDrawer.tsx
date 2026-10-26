@@ -37,6 +37,7 @@ export function CartDrawer({ products = [] }: { products?: Product[] }) {
   // deal can only auto-preview here for a signed-in account.
   const couponCustomerEmail = getStoredUser()?.email || undefined;
   const coupon = useCouponValidation(promoCode, cartItemsForCoupon, couponCustomerEmail);
+  const automaticJoin25 = coupon.valid && coupon.automaticPromotion === "JOIN25_FIRST_ORDER";
   const automaticGlpPromotion = coupon.valid && coupon.automaticPromotion === "GLP_PAIR_OCT_2026";
   const automaticResearchSet = coupon.valid && coupon.automaticPromotion === "RESEARCH_SET_OCT_2026";
   const discount = coupon.valid ? coupon.discountUsd : 0;
@@ -143,7 +144,12 @@ export function CartDrawer({ products = [] }: { products?: Product[] }) {
 
         {lines.length > 0 && (
           <div className="border-t border-stone px-5 py-5">
-            {automaticGlpPromotion ? (
+            {automaticJoin25 ? (
+              <div className="mb-4 rounded-md border border-sage-deep/30 bg-sage-deep/[0.07] p-3 text-sage-deep">
+                <p className="flex items-center gap-1.5 text-xs font-semibold"><i className="ri-checkbox-circle-fill" /> 25% first-order reward automatically applied</p>
+                <p className="mt-1 text-[10px] leading-relaxed">You saved {formatPrice(discount)}. This personal reward cannot be combined with another offer.</p>
+              </div>
+            ) : automaticGlpPromotion ? (
               <div className="mb-4 rounded-md border border-sage-deep/30 bg-sage-deep/[0.07] p-3 text-sage-deep">
                 <p className="flex items-center gap-1.5 text-xs font-semibold"><i className="ri-checkbox-circle-fill" /> GLP Pair Event automatically applied</p>
                 <p className="mt-1 text-[10px] leading-relaxed">You saved {formatPrice(discount)}. Promo and referral discounts cannot be combined with this event.</p>

@@ -15,7 +15,7 @@ const CAMPAIGN_PARAM = "age_verified";
 const CAMPAIGN_SESSION_KEY = "evlv_campaign_entry";
 
 // These pages ARE the auth UI — no overlay on top of them
-const GATE_BYPASS_PATHS = ["/login", "/register", "/account"];
+const GATE_BYPASS_PATHS = ["/login", "/register", "/account", "/join25"];
 
 function isEmailCampaignVisit(url: URL) {
   const sources = url.searchParams.getAll("utm_source").map((v) => v.toLowerCase());

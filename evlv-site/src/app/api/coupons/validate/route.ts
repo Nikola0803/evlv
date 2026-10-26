@@ -24,7 +24,8 @@ export async function POST(req: Request) {
     const automaticData = automatic.data as Record<string, unknown>;
     if (
       automaticData.automaticPromotion === "GLP_PAIR_OCT_2026" ||
-      automaticData.automaticPromotion === "RESEARCH_SET_OCT_2026"
+      automaticData.automaticPromotion === "RESEARCH_SET_OCT_2026" ||
+      automaticData.automaticPromotion === "JOIN25_FIRST_ORDER"
     ) {
       return NextResponse.json({ ...automaticData, stackingDisabled: true });
     }

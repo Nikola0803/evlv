@@ -65,7 +65,10 @@ export default function CheckoutPage() {
   const storedUserEmail = getStoredUser()?.email;
   const couponCustomerEmail = storedUserEmail || email.trim() || undefined;
   const coupon = useCouponValidation(couponCode, cartItemsForCoupon, couponCustomerEmail);
+  const automaticJoin25 = coupon.valid && coupon.automaticPromotion === "JOIN25_FIRST_ORDER";
   const automaticGlpPromotion = coupon.valid && coupon.automaticPromotion === "GLP_PAIR_OCT_2026";
+  const automaticResearchSet = coupon.valid && coupon.automaticPromotion === "RESEARCH_SET_OCT_2026";
+  const exclusiveAutomaticPromotion = automaticJoin25 || automaticGlpPromotion || automaticResearchSet;
   const discount = coupon.valid ? coupon.discountUsd : 0;
   const displaySubtotal = coupon.automaticPromotion && coupon.subtotalUsd != null ? coupon.subtotalUsd : subtotal;
   const discountedSubtotal = Math.max(0, displaySubtotal - discount);
@@ -156,9 +159,9 @@ export default function CheckoutPage() {
           paymentMethod: selectedGateway,
           paymentMemo: memo,
           shippingCents: Math.round(shipping * 100),
-          couponCode: automaticGlpPromotion ? undefined : couponCode.trim() || undefined,
-          affiliateRef: automaticGlpPromotion ? undefined : couponCode.trim() || undefined,
-          discountCode: automaticGlpPromotion ? undefined : couponCode.trim() || undefined,
+          couponCode: exclusiveAutomaticPromotion ? undefined : couponCode.trim() || undefined,
+          affiliateRef: exclusiveAutomaticPromotion ? undefined : couponCode.trim() || undefined,
+          discountCode: exclusiveAutomaticPromotion ? undefined : couponCode.trim() || undefined,
           customerNote: [
             `RUO attestation: purchaser confirmed laboratory/research use only at ${new Date().toISOString()}.`,
             `P2P payment discount (5%): customer pays ${payTotal.toFixed(2)} via ${selectedGateway} (original total: ${total.toFixed(2)}).`,
@@ -457,7 +460,12 @@ export default function CheckoutPage() {
 
               {/* Promo code */}
               <div className="mt-4 border-t border-stone pt-4">
-                {automaticGlpPromotion ? (
+                {automaticJoin25 ? (
+                  <div className="rounded-md border border-sage-deep/30 bg-sage-deep/[0.07] p-3 text-sage-deep">
+                    <p className="flex items-center gap-2 text-xs font-semibold"><i className="ri-checkbox-circle-fill" /> 25% first-order reward applied</p>
+                    <p className="mt-0.5 text-xs leading-relaxed">You saved {formatPrice(coupon.discountUsd)}. No code is needed, and this reward cannot be combined with another offer.</p>
+                  </div>
+                ) : automaticGlpPromotion ? (
                   <div className="rounded-md border border-sage-deep/30 bg-sage-deep/[0.07] p-3 text-sage-deep">
                     <p className="flex items-center gap-2 text-xs font-semibold"><i className="ri-checkbox-circle-fill" /> GLP Pair Event applied</p>
                     <p className="mt-0.5 text-xs leading-relaxed">Second eligible item 70% off. You saved {formatPrice(coupon.discountUsd)}.</p>
@@ -497,7 +505,7 @@ export default function CheckoutPage() {
                 {discount > 0 && (
                   <div className="flex items-center justify-between">
                     <span className="text-sage-deep">
-                      {automaticGlpPromotion ? "GLP Pair Event" : `Discount${couponCode.trim() ? ` (${couponCode.trim()})` : " (member)"}`}
+                      {automaticJoin25 ? "25% first-order reward" : automaticGlpPromotion ? "GLP Pair Event" : automaticResearchSet ? "Research Set" : `Discount${couponCode.trim() ? ` (${couponCode.trim()})` : " (member)"}`}
                     </span>
                     <span className="font-medium text-sage-deep">-{formatPrice(discount)}</span>
                   </div>
