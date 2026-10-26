@@ -66,9 +66,10 @@ export default function CheckoutPage() {
   const couponCustomerEmail = storedUserEmail || email.trim() || undefined;
   const coupon = useCouponValidation(couponCode, cartItemsForCoupon, couponCustomerEmail);
   const automaticJoin25 = coupon.valid && coupon.automaticPromotion === "JOIN25_FIRST_ORDER";
+  const automaticHalloween = coupon.valid && coupon.automaticPromotion === "HALLOWEEN_BOGO_2026";
   const automaticGlpPromotion = coupon.valid && coupon.automaticPromotion === "GLP_PAIR_OCT_2026";
   const automaticResearchSet = coupon.valid && coupon.automaticPromotion === "RESEARCH_SET_OCT_2026";
-  const exclusiveAutomaticPromotion = automaticJoin25 || automaticGlpPromotion || automaticResearchSet;
+  const exclusiveAutomaticPromotion = automaticJoin25 || automaticHalloween || automaticGlpPromotion || automaticResearchSet;
   const discount = coupon.valid ? coupon.discountUsd : 0;
   const displaySubtotal = coupon.automaticPromotion && coupon.subtotalUsd != null ? coupon.subtotalUsd : subtotal;
   const discountedSubtotal = Math.max(0, displaySubtotal - discount);
@@ -460,7 +461,12 @@ export default function CheckoutPage() {
 
               {/* Promo code */}
               <div className="mt-4 border-t border-stone pt-4">
-                {automaticJoin25 ? (
+                {automaticHalloween ? (
+                  <div className="rounded-md border border-orange-500/40 bg-[#1a0b20] p-3 text-orange-200">
+                    <p className="flex items-center gap-2 text-xs font-semibold"><i className="ri-checkbox-circle-fill" /> Halloween BOGO applied</p>
+                    <p className="mt-0.5 text-xs leading-relaxed">Every second matching item is free. You saved {formatPrice(coupon.discountUsd)}. No code and no stacking.</p>
+                  </div>
+                ) : automaticJoin25 ? (
                   <div className="rounded-md border border-sage-deep/30 bg-sage-deep/[0.07] p-3 text-sage-deep">
                     <p className="flex items-center gap-2 text-xs font-semibold"><i className="ri-checkbox-circle-fill" /> 25% first-order reward applied</p>
                     <p className="mt-0.5 text-xs leading-relaxed">You saved {formatPrice(coupon.discountUsd)}. No code is needed, and this reward cannot be combined with another offer.</p>
@@ -505,7 +511,7 @@ export default function CheckoutPage() {
                 {discount > 0 && (
                   <div className="flex items-center justify-between">
                     <span className="text-sage-deep">
-                      {automaticJoin25 ? "25% first-order reward" : automaticGlpPromotion ? "GLP Pair Event" : automaticResearchSet ? "Research Set" : `Discount${couponCode.trim() ? ` (${couponCode.trim()})` : " (member)"}`}
+                      {automaticHalloween ? "Halloween BOGO" : automaticJoin25 ? "25% first-order reward" : automaticGlpPromotion ? "GLP Pair Event" : automaticResearchSet ? "Research Set" : `Discount${couponCode.trim() ? ` (${couponCode.trim()})` : " (member)"}`}
                     </span>
                     <span className="font-medium text-sage-deep">-{formatPrice(discount)}</span>
                   </div>

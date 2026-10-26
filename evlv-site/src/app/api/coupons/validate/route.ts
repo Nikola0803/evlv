@@ -25,7 +25,8 @@ export async function POST(req: Request) {
     if (
       automaticData.automaticPromotion === "GLP_PAIR_OCT_2026" ||
       automaticData.automaticPromotion === "RESEARCH_SET_OCT_2026" ||
-      automaticData.automaticPromotion === "JOIN25_FIRST_ORDER"
+      automaticData.automaticPromotion === "JOIN25_FIRST_ORDER" ||
+      automaticData.automaticPromotion === "HALLOWEEN_BOGO_2026"
     ) {
       return NextResponse.json({ ...automaticData, stackingDisabled: true });
     }
