@@ -10,6 +10,7 @@ import { useCart } from "@/lib/cart-context";
 import { useCurrency } from "@/lib/currency-context";
 import { getStoredUser } from "@/lib/auth";
 import { trackEvent } from "@/lib/pixel";
+import { trackOmnisendViewedProduct } from "@/lib/omnisend";
 import { getProductImage } from "@/lib/product-images";
 import { VerifiedPeptideReviewsBadge } from "@/components/trust/VerifiedPeptideReviewsBadge";
 
@@ -23,7 +24,14 @@ export function ProductClient({ product, coa }: { product: Product; coa?: CoaEnt
   useEffect(() => { const user = getStoredUser();
     // Authorization is intentionally read after hydration because it lives in localStorage.
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    setAuthorized(user?.membershipStatus === "APPROVED" || user?.researcherStatus === "APPROVED"); trackEvent("view_content", { properties: { name: product.name, slug: product.slug, sku: product.sku } }); }, [product]);
+    setAuthorized(user?.membershipStatus === "APPROVED" || user?.researcherStatus === "APPROVED");
+    trackEvent("view_content", {
+      currency: "USD",
+      valueCents: Math.round(product.price * 100),
+      properties: { name: product.name, slug: product.slug, sku: product.sku },
+    });
+    trackOmnisendViewedProduct(product);
+  }, [product]);
   const locked = (!!product.memberOnly || !!product.restricted) && !authorized;
   const total = selected.unitPrice * selected.qty;
   const add = () => addToCart(product, selected.qty, selected.unitPrice, selected.label);

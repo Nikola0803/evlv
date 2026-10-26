@@ -3,6 +3,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, ReactNode } from "react";
 import { Product } from "./types";
 import { trackEvent } from "./pixel";
+import { trackOmnisendAddedToCart } from "./omnisend";
 import { getQuantityUnitPrice } from "./quantity-pricing";
 
 interface CartLine {
@@ -103,6 +104,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
         price: unitPrice,
       }],
     });
+    trackOmnisendAddedToCart(product, qty, unitPrice);
   }, []);
 
   const removeLine = useCallback((productId: string, packLabel: string) => {

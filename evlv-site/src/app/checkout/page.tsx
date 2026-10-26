@@ -12,6 +12,7 @@ import { PAYMENT_GATEWAYS, PAYMENT_PROCESSOR_NOTE, type PaymentGatewayId } from 
 import { getStoredCouponCode, setStoredCouponCode } from "@/lib/referral";
 import { useCouponValidation } from "@/lib/use-coupon-validation";
 import { trackEvent } from "@/lib/pixel";
+import { identifyOmnisendContact, trackOmnisendStartedCheckout } from "@/lib/omnisend";
 import { getProductImage } from "@/lib/product-images";
 import { formatAttributionNote, getStoredAttribution } from "@/lib/campaign-attribution";
 
@@ -99,12 +100,16 @@ export default function CheckoutPage() {
         price: line.unitPrice,
       })),
     });
+    trackOmnisendStartedCheckout(lines, subtotal, currency);
   }, [currency, lines, subtotal]);
 
   useEffect(() => {
     const trimmed = email.trim();
     if (!EMAIL_RE.test(trimmed)) return;
-    const timer = window.setTimeout(() => trackEvent("identify", { email: trimmed }), 800);
+    const timer = window.setTimeout(() => {
+      trackEvent("identify", { email: trimmed });
+      identifyOmnisendContact(trimmed);
+    }, 800);
     return () => window.clearTimeout(timer);
   }, [email]);
 
