@@ -12,6 +12,7 @@ import { PAYMENT_GATEWAYS, PAYMENT_PROCESSOR_NOTE, type PaymentGatewayId } from 
 import { getStoredCouponCode, setStoredCouponCode } from "@/lib/referral";
 import { useCouponValidation } from "@/lib/use-coupon-validation";
 import { trackEvent } from "@/lib/pixel";
+import { identifyOmnisendContact, trackOmnisendStartedCheckout } from "@/lib/omnisend";
 import { getProductImage } from "@/lib/product-images";
 import { formatAttributionNote, getStoredAttribution } from "@/lib/campaign-attribution";
 
@@ -61,10 +62,15 @@ export default function CheckoutPage() {
   const checkoutTracked = useRef(false);
 
   const cartItemsForCoupon = lines.map((l) => ({ slug: l.product.slug, quantity: l.qty }));
+  const wholesaleCheckout = lines.some((line) => line.packLabel === "Wholesale · 10-vial case");
   const storedUserEmail = getStoredUser()?.email;
   const couponCustomerEmail = storedUserEmail || email.trim() || undefined;
-  const coupon = useCouponValidation(couponCode, cartItemsForCoupon, couponCustomerEmail);
+  const coupon = useCouponValidation(couponCode, cartItemsForCoupon, couponCustomerEmail, wholesaleCheckout);
+  const automaticJoin25 = coupon.valid && coupon.automaticPromotion === "JOIN25_FIRST_ORDER";
+  const automaticHalloween = coupon.valid && coupon.automaticPromotion === "HALLOWEEN_BOGO_2026";
   const automaticGlpPromotion = coupon.valid && coupon.automaticPromotion === "GLP_PAIR_OCT_2026";
+  const automaticResearchSet = coupon.valid && coupon.automaticPromotion === "RESEARCH_SET_OCT_2026";
+  const exclusiveAutomaticPromotion = automaticJoin25 || automaticHalloween || automaticGlpPromotion || automaticResearchSet;
   const discount = coupon.valid ? coupon.discountUsd : 0;
   const displaySubtotal = coupon.automaticPromotion && coupon.subtotalUsd != null ? coupon.subtotalUsd : subtotal;
   const discountedSubtotal = Math.max(0, displaySubtotal - discount);
@@ -99,12 +105,16 @@ export default function CheckoutPage() {
         price: line.unitPrice,
       })),
     });
+    trackOmnisendStartedCheckout(lines, subtotal, currency);
   }, [currency, lines, subtotal]);
 
   useEffect(() => {
     const trimmed = email.trim();
     if (!EMAIL_RE.test(trimmed)) return;
-    const timer = window.setTimeout(() => trackEvent("identify", { email: trimmed }), 800);
+    const timer = window.setTimeout(() => {
+      trackEvent("identify", { email: trimmed });
+      identifyOmnisendContact(trimmed);
+    }, 800);
     return () => window.clearTimeout(timer);
   }, [email]);
 
@@ -148,12 +158,13 @@ export default function CheckoutPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           items: lines.map((l) => ({ slug: l.product.slug, quantity: l.qty })),
+          wholesaleCheckout,
           paymentMethod: selectedGateway,
           paymentMemo: memo,
           shippingCents: Math.round(shipping * 100),
-          couponCode: automaticGlpPromotion ? undefined : couponCode.trim() || undefined,
-          affiliateRef: automaticGlpPromotion ? undefined : couponCode.trim() || undefined,
-          discountCode: automaticGlpPromotion ? undefined : couponCode.trim() || undefined,
+          couponCode: exclusiveAutomaticPromotion ? undefined : couponCode.trim() || undefined,
+          affiliateRef: exclusiveAutomaticPromotion ? undefined : couponCode.trim() || undefined,
+          discountCode: exclusiveAutomaticPromotion ? undefined : couponCode.trim() || undefined,
           customerNote: [
             `RUO attestation: purchaser confirmed laboratory/research use only at ${new Date().toISOString()}.`,
             `P2P payment discount (5%): customer pays ${payTotal.toFixed(2)} via ${selectedGateway} (original total: ${total.toFixed(2)}).`,
@@ -452,7 +463,17 @@ export default function CheckoutPage() {
 
               {/* Promo code */}
               <div className="mt-4 border-t border-stone pt-4">
-                {automaticGlpPromotion ? (
+                {automaticHalloween ? (
+                  <div className="rounded-md border border-orange-500/40 bg-[#1a0b20] p-3 text-orange-200">
+                    <p className="flex items-center gap-2 text-xs font-semibold"><i className="ri-checkbox-circle-fill" /> Halloween BOGO applied</p>
+                    <p className="mt-0.5 text-xs leading-relaxed">Every second matching item is free. You saved {formatPrice(coupon.discountUsd)}. No code and no stacking.</p>
+                  </div>
+                ) : automaticJoin25 ? (
+                  <div className="rounded-md border border-sage-deep/30 bg-sage-deep/[0.07] p-3 text-sage-deep">
+                    <p className="flex items-center gap-2 text-xs font-semibold"><i className="ri-checkbox-circle-fill" /> 25% first-order reward applied</p>
+                    <p className="mt-0.5 text-xs leading-relaxed">You saved {formatPrice(coupon.discountUsd)}. No code is needed, and this reward cannot be combined with another offer.</p>
+                  </div>
+                ) : automaticGlpPromotion ? (
                   <div className="rounded-md border border-sage-deep/30 bg-sage-deep/[0.07] p-3 text-sage-deep">
                     <p className="flex items-center gap-2 text-xs font-semibold"><i className="ri-checkbox-circle-fill" /> GLP Pair Event applied</p>
                     <p className="mt-0.5 text-xs leading-relaxed">Second eligible item 70% off. You saved {formatPrice(coupon.discountUsd)}.</p>
@@ -492,7 +513,7 @@ export default function CheckoutPage() {
                 {discount > 0 && (
                   <div className="flex items-center justify-between">
                     <span className="text-sage-deep">
-                      {automaticGlpPromotion ? "GLP Pair Event" : `Discount${couponCode.trim() ? ` (${couponCode.trim()})` : " (member)"}`}
+                      {automaticHalloween ? "Halloween BOGO" : automaticJoin25 ? "25% first-order reward" : automaticGlpPromotion ? "GLP Pair Event" : automaticResearchSet ? "Research Set" : `Discount${couponCode.trim() ? ` (${couponCode.trim()})` : " (member)"}`}
                     </span>
                     <span className="font-medium text-sage-deep">-{formatPrice(discount)}</span>
                   </div>

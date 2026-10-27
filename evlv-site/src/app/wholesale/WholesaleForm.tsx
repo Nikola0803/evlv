@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import { trackEvent } from "@/lib/pixel";
 
 interface FormState {
   programType: string;
@@ -56,6 +57,7 @@ export function WholesaleForm() {
         );
       }
       setSubmitted(true);
+      trackEvent("evlv_lead", { lead_type: "wholesale", properties: { programType: form.programType } });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
     } finally {

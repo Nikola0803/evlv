@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { trackEvent } from "@/lib/pixel";
 
 declare global {
   interface Window {
@@ -21,6 +22,10 @@ export function PurchasePixel({ orderNumber, total, currency }: { orderNumber: s
     } catch {
       /* localStorage unavailable -- fire anyway rather than silently drop the event */
     }
+
+    // GTM-managed tags (Meta Pixel Purchase, etc.) -- dataLayer queues
+    // immediately, no need for the retry loop below that waits on window.cc/gtag.
+    trackEvent("evlv_purchase", { valueCents: Math.round(total * 100), currency, orderNumber });
 
     let attempts = 0;
     let crmFired = false;

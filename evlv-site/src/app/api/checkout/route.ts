@@ -15,15 +15,16 @@ export async function POST(req: Request) {
   const items = Array.isArray(body.items) ? body.items : [];
   const discountCode = typeof body.discountCode === "string" ? body.discountCode : undefined;
   const customerEmail = typeof body.customerEmail === "string" ? body.customerEmail : undefined;
+  const wholesaleCheckout = body.wholesaleCheckout === true;
 
   // Resolve automatic non-stackable promotions without any customer/code inputs
   // first. A qualifying automatic event owns the discount slot for this order;
   // coupon and affiliate discount fields are stripped before the authoritative
   // checkout call so the event cannot stack with another percentage reduction.
-  const automaticPreview = await crmFetch("/api/store/coupons/validate", { items, customerEmail });
+  const automaticPreview = await crmFetch("/api/store/coupons/validate", { items, customerEmail, wholesaleCheckout });
   const automaticData = automaticPreview.ok ? automaticPreview.data as Record<string, unknown> : {};
   const automaticPromoId = typeof automaticData.automaticPromotion === "string" ? automaticData.automaticPromotion : null;
-  const automaticPromotion = automaticPromoId === "GLP_PAIR_OCT_2026" || automaticPromoId === "RESEARCH_SET_OCT_2026";
+  const automaticPromotion = automaticPromoId === "GLP_PAIR_OCT_2026" || automaticPromoId === "RESEARCH_SET_OCT_2026" || automaticPromoId === "HALLOWEEN_BOGO_2026";
   const checkoutBody = automaticPromotion
     ? { ...body, couponCode: undefined, discountCode: undefined, affiliateRef: undefined }
     : body;
@@ -37,7 +38,8 @@ export async function POST(req: Request) {
     const result = preview.data as Record<string, unknown>;
     const subtotalCents = typeof result.subtotalCents === "number" ? result.subtotalCents : 0;
     const discountCents = typeof result.discountCents === "number" ? result.discountCents : 0;
-    const maxPct = result.automaticPromotion === "GLP_PAIR_OCT_2026" ? 35
+    const maxPct = result.automaticPromotion === "HALLOWEEN_BOGO_2026" ? 50
+      : result.automaticPromotion === "GLP_PAIR_OCT_2026" ? 35
       : result.automaticPromotion === "RESEARCH_SET_OCT_2026" ? 30
       : result.maximumDiscountPercent === 40 ? 40 : 30;
     if (subtotalCents > 0 && discountCents > Math.floor(subtotalCents * (maxPct / 100))) {

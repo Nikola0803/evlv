@@ -37,6 +37,8 @@ export function CartDrawer({ products = [] }: { products?: Product[] }) {
   // deal can only auto-preview here for a signed-in account.
   const couponCustomerEmail = getStoredUser()?.email || undefined;
   const coupon = useCouponValidation(promoCode, cartItemsForCoupon, couponCustomerEmail);
+  const automaticJoin25 = coupon.valid && coupon.automaticPromotion === "JOIN25_FIRST_ORDER";
+  const automaticHalloween = coupon.valid && coupon.automaticPromotion === "HALLOWEEN_BOGO_2026";
   const automaticGlpPromotion = coupon.valid && coupon.automaticPromotion === "GLP_PAIR_OCT_2026";
   const automaticResearchSet = coupon.valid && coupon.automaticPromotion === "RESEARCH_SET_OCT_2026";
   const discount = coupon.valid ? coupon.discountUsd : 0;
@@ -77,7 +79,7 @@ export function CartDrawer({ products = [] }: { products?: Product[] }) {
       />
 
       <aside
-        className={`fixed right-0 top-0 z-[120] flex h-full w-full max-w-md flex-col bg-white shadow-2xl transition-transform duration-300 ${
+        className={`cp-cart-drawer fixed right-0 top-0 z-[120] flex h-full w-full max-w-md flex-col bg-white shadow-2xl transition-transform duration-300 ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
         aria-hidden={!isOpen}
@@ -143,7 +145,17 @@ export function CartDrawer({ products = [] }: { products?: Product[] }) {
 
         {lines.length > 0 && (
           <div className="border-t border-stone px-5 py-5">
-            {automaticGlpPromotion ? (
+            {automaticHalloween ? (
+              <div className="mb-4 rounded-md border border-orange-500/40 bg-[#1a0b20] p-3 text-orange-200">
+                <p className="flex items-center gap-1.5 text-xs font-semibold"><i className="ri-checkbox-circle-fill" /> Halloween BOGO automatically applied</p>
+                <p className="mt-1 text-[10px] leading-relaxed">You saved {formatPrice(discount)}. Add more matching pairs to unlock more free items. No stacking.</p>
+              </div>
+            ) : automaticJoin25 ? (
+              <div className="mb-4 rounded-md border border-sage-deep/30 bg-sage-deep/[0.07] p-3 text-sage-deep">
+                <p className="flex items-center gap-1.5 text-xs font-semibold"><i className="ri-checkbox-circle-fill" /> 25% first-order reward automatically applied</p>
+                <p className="mt-1 text-[10px] leading-relaxed">You saved {formatPrice(discount)}. This personal reward cannot be combined with another offer.</p>
+              </div>
+            ) : automaticGlpPromotion ? (
               <div className="mb-4 rounded-md border border-sage-deep/30 bg-sage-deep/[0.07] p-3 text-sage-deep">
                 <p className="flex items-center gap-1.5 text-xs font-semibold"><i className="ri-checkbox-circle-fill" /> GLP Pair Event automatically applied</p>
                 <p className="mt-1 text-[10px] leading-relaxed">You saved {formatPrice(discount)}. Promo and referral discounts cannot be combined with this event.</p>
@@ -205,7 +217,7 @@ export function CartDrawer({ products = [] }: { products?: Product[] }) {
               {discount > 0 && (
                 <div className="flex items-center justify-between">
                   <span className="text-sage-deep">
-                    {automaticGlpPromotion ? "GLP Pair Event" : automaticResearchSet ? "Research Set (30% off)" : "Discount"}
+                    {automaticHalloween ? "Halloween BOGO" : automaticGlpPromotion ? "GLP Pair Event" : automaticResearchSet ? "Research Set (30% off)" : "Discount"}
                   </span>
                   <span className="font-medium text-sage-deep">-{formatPrice(discount)}</span>
                 </div>

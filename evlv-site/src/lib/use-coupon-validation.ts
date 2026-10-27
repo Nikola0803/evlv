@@ -37,7 +37,8 @@ const EMPTY: CouponValidation = { checking: false, valid: false, discountUsd: 0,
 export function useCouponValidation(
   code: string,
   items: { slug: string; quantity: number }[],
-  customerEmail?: string
+  customerEmail?: string,
+  wholesaleCheckout = false,
 ): CouponValidation {
   const [result, setResult] = useState<CouponValidation>(EMPTY);
   const requestId = useRef(0);
@@ -59,7 +60,7 @@ export function useCouponValidation(
         const res = await fetch("/api/coupons/validate", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ items, code: trimmed || undefined, customerEmail: email || undefined }),
+          body: JSON.stringify({ items, code: trimmed || undefined, customerEmail: email || undefined, wholesaleCheckout }),
         });
         if (id !== requestId.current) return; // a newer request already superseded this one
         if (!res.ok) {
@@ -85,7 +86,7 @@ export function useCouponValidation(
 
     return () => window.clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [code, itemsKey, customerEmail]);
+  }, [code, itemsKey, customerEmail, wholesaleCheckout]);
 
   return result;
 }

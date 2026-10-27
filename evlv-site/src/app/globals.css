@@ -661,3 +661,86 @@ main:not(:has(.cp-home)):not(:has(.cp-shop)):not(:has(.cp-pdp-page)) .bg-ivory-s
 
 .portal-button{display:inline-flex;min-height:44px;align-items:center;justify-content:center;border-radius:8px;background:#102d28;padding:0 20px;color:#fff;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;transition:background .2s ease}
 .portal-button:hover{background:#19483f}
+/* Halloween BOGO takeover ------------------------------------------------ */
+.evlv-halloween { --hw-orange:#ff7a18; --hw-purple:#9b5cff; }
+body.evlv-halloween{background-image:radial-gradient(circle at 8% 18%,rgba(155,92,255,.035),transparent 24%),radial-gradient(circle at 94% 72%,rgba(255,122,24,.035),transparent 22%)}
+.hw-site-haunt{position:fixed;inset:0;z-index:64;overflow:hidden;pointer-events:none;contain:layout paint}
+.hw-global-web{position:absolute;width:220px;height:220px;opacity:.085;background:repeating-radial-gradient(circle at 0 0,transparent 0 25px,rgba(20,14,25,.8) 26px 27px),repeating-conic-gradient(from 0deg at 0 0,rgba(20,14,25,.7) 0 1deg,transparent 1deg 29deg);-webkit-mask-image:radial-gradient(circle at 0 0,#000 0 28%,rgba(0,0,0,.78) 55%,transparent 82%);mask-image:radial-gradient(circle at 0 0,#000 0 28%,rgba(0,0,0,.78) 55%,transparent 82%)}
+.hw-global-web-left{left:0;top:0}.hw-global-web-right{right:0;bottom:0;transform:rotate(180deg)}
+.hw-roaming-spider{position:absolute;display:block;color:#111;font-size:19px;line-height:1;filter:grayscale(1) contrast(1.5) drop-shadow(0 2px 2px rgba(0,0,0,.2));will-change:transform}
+.hw-roaming-spider-one{left:-42px;top:24%;animation:hw-cross-right 19s linear 1s infinite}
+.hw-roaming-spider-two{right:-42px;top:66%;font-size:16px;animation:hw-cross-left 27s linear 7s infinite}
+.hw-roaming-spider-three{left:-42px;top:86%;font-size:14px;animation:hw-cross-diagonal 31s linear 13s infinite}
+.hw-hanging-spider{position:absolute;left:72%;top:-155px;display:flex;height:210px;flex-direction:column;align-items:center;animation:hw-spider-drop 16s ease-in-out 4s infinite;will-change:transform}
+.hw-hanging-spider i{display:block;width:1px;height:175px;background:linear-gradient(rgba(20,14,25,0),rgba(20,14,25,.35))}
+.hw-hanging-spider-icon{font-size:18px;filter:grayscale(1) contrast(1.5) drop-shadow(0 2px 2px rgba(0,0,0,.18))}
+@keyframes hw-cross-right{0%{transform:translateX(0) rotate(-10deg)}18%{transform:translateX(18vw) translateY(7px) rotate(7deg)}48%{transform:translateX(51vw) translateY(-5px) rotate(-8deg)}78%{transform:translateX(83vw) translateY(8px) rotate(8deg)}100%{transform:translateX(calc(100vw + 84px)) rotate(-8deg)}}
+@keyframes hw-cross-left{0%{transform:translateX(0) rotate(12deg)}25%{transform:translateX(-26vw) translateY(-8px) rotate(-7deg)}63%{transform:translateX(-66vw) translateY(6px) rotate(9deg)}100%{transform:translateX(calc(-100vw - 84px)) rotate(-10deg)}}
+@keyframes hw-cross-diagonal{0%{transform:translateX(0) translateY(0) rotate(-10deg)}50%{transform:translateX(52vw) translateY(-19vh) rotate(9deg)}100%{transform:translateX(calc(100vw + 84px)) translateY(-34vh) rotate(-8deg)}}
+@keyframes hw-spider-drop{0%,12%,100%{transform:translateY(0)}35%,64%{transform:translateY(210px)}82%{transform:translateY(72px)}}
+.evlv-halloween .cp-announcement { background:#16091f; color:#ffd9a3; }
+.hw-hero,.hw-shop-banner{position:relative;overflow:hidden;width:min(1320px,calc(100% - 64px));margin:28px auto 0;border:1px solid rgba(255,122,24,.28);border-radius:22px;background:radial-gradient(circle at 75% 35%,rgba(155,92,255,.24),transparent 28%),radial-gradient(circle at 18% 70%,rgba(255,122,24,.17),transparent 30%),linear-gradient(115deg,#0a0710,#1b0925 55%,#08070c);color:#fff;box-shadow:0 22px 70px rgba(18,5,28,.28)}
+.hw-hero{min-height:520px;display:flex;align-items:center;padding:70px 24px}.hw-shop-banner{padding:34px 24px}
+.hw-promo-inner{position:relative;z-index:2;width:min(1180px,100%);margin:auto;display:grid;grid-template-columns:1.35fr .65fr;gap:64px;align-items:center}
+.hw-copy>p:first-child{font-size:11px;font-weight:700;letter-spacing:.25em;color:#ffb15f}.hw-copy h2{margin:14px 0 0;font-size:clamp(44px,6vw,88px);line-height:.92;letter-spacing:-.055em;font-weight:700}.hw-copy h2 span{display:block;color:#ff8b2c;text-shadow:0 0 34px rgba(255,122,24,.28)}.hw-copy h3{margin:18px 0 0;font-size:clamp(20px,2vw,30px);font-weight:500;color:#dcc8ff}.hw-detail{max-width:720px;margin-top:14px;font-size:14px;line-height:1.7;color:rgba(255,255,255,.7)}
+.hw-actions{display:flex;align-items:center;gap:20px;margin-top:25px;flex-wrap:wrap}.hw-actions a,.hw-popup>a{display:inline-flex;align-items:center;justify-content:center;border-radius:999px;background:linear-gradient(90deg,#ff7622,#ff9d2e);padding:14px 24px;color:#130915;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;box-shadow:0 10px 35px rgba(255,104,20,.28)}.hw-actions>span{font-size:12px;color:rgba(255,255,255,.62)}
+.hw-timer-wrap{border:1px solid rgba(255,255,255,.13);border-radius:22px;background:rgba(12,7,17,.62);padding:24px;box-shadow:0 24px 70px rgba(0,0,0,.35);backdrop-filter:blur(12px)}.hw-timer-wrap>small{display:block;margin-bottom:12px;font-size:9px;font-weight:700;letter-spacing:.22em;color:#ffb15f}.hw-timer-wrap>p{margin-top:12px;font-size:11px;color:rgba(255,255,255,.55)}
+.hw-countdown{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.hw-countdown span{display:flex;min-width:54px;flex-direction:column;align-items:center;border:1px solid rgba(255,255,255,.12);border-radius:10px;background:rgba(255,255,255,.06);padding:10px 5px}.hw-countdown b{font-size:22px;line-height:1}.hw-countdown small{margin-top:5px;font-size:7px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.5)}
+.hw-shop-banner .hw-promo-inner{grid-template-columns:1fr auto}.hw-shop-banner .hw-copy h2{font-size:clamp(36px,4vw,60px)}.hw-shop-banner .hw-copy h3{display:none}.hw-shop-banner .hw-detail{max-width:760px}.hw-shop-banner .hw-timer-wrap{min-width:330px}
+.hw-web{position:absolute;width:360px;height:360px;opacity:.14;background:repeating-radial-gradient(circle at 0 0,transparent 0 36px,rgba(255,255,255,.75) 37px 38px),repeating-conic-gradient(from 0deg at 0 0,rgba(255,255,255,.65) 0 1deg,transparent 1deg 29deg);-webkit-mask-image:radial-gradient(circle at 0 0,#000 0 32%,rgba(0,0,0,.72) 57%,transparent 84%);mask-image:radial-gradient(circle at 0 0,#000 0 32%,rgba(0,0,0,.72) 57%,transparent 84%)}.hw-web-left{left:0;top:0}.hw-web-right{right:0;bottom:0;transform:rotate(180deg)}
+.hw-spider{position:absolute;z-index:3;font-size:28px;filter:grayscale(1);animation:hw-crawl 8s ease-in-out infinite}.hw-spider-one{right:12%;top:7%}.hw-spider-two{left:4%;bottom:8%;animation-delay:-4s}@keyframes hw-crawl{0%,100%{transform:translate(0,0) rotate(-8deg)}50%{transform:translate(28px,18px) rotate(10deg)}}
+.hw-popup{position:fixed;z-index:90;right:22px;bottom:22px;width:min(390px,calc(100vw - 28px));overflow:hidden;border:1px solid rgba(255,132,40,.55);border-radius:20px;background:radial-gradient(circle at 100% 0,rgba(155,92,255,.32),transparent 35%),#120918;padding:28px;color:white;box-shadow:0 30px 90px rgba(0,0,0,.5)}.hw-popup>button{position:absolute;right:12px;top:9px;border:0;background:transparent;color:rgba(255,255,255,.55);font-size:26px}.hw-popup>small{font-size:9px;font-weight:800;letter-spacing:.2em;color:#ff9b43}.hw-popup h3{margin:8px 0 5px;font-size:29px;line-height:1.05}.hw-popup p{margin-bottom:16px;font-size:12px;line-height:1.55;color:rgba(255,255,255,.63)}.hw-popup .hw-countdown{margin-bottom:15px}.hw-popup>a{width:100%}.hw-popup-spider{position:absolute;right:44px;top:5px;font-size:25px}
+@media(max-width:760px){.hw-hero{min-height:0;padding:46px 18px}.hw-shop-banner{padding:28px 18px}.hw-promo-inner,.hw-shop-banner .hw-promo-inner{grid-template-columns:1fr;gap:25px}.hw-copy h2,.hw-shop-banner .hw-copy h2{font-size:43px}.hw-detail{font-size:13px}.hw-shop-banner .hw-timer-wrap{min-width:0}.hw-timer-wrap{padding:16px}.hw-countdown b{font-size:18px}.hw-countdown span{min-width:0}.hw-spider-two,.hw-roaming-spider-three,.hw-global-web-right{display:none}.hw-roaming-spider{font-size:15px}.hw-hanging-spider{left:82%}.hw-popup{right:14px;bottom:14px;padding:23px}}
+@media(prefers-reduced-motion:reduce){.hw-spider{animation:none}.hw-roaming-spider,.hw-hanging-spider{display:none}}
+
+/* Halloween is a seasonal skin, not a second layer stacked above the site. */
+body.evlv-halloween .cp-home>.cp-hero:first-child,
+body.evlv-halloween .cp-shop>.cp-shop-hero{display:none}
+body.evlv-halloween .cp-site-header{border-color:rgba(155,92,255,.2);box-shadow:0 8px 30px rgba(27,9,38,.07)}
+body.evlv-halloween .cp-header-actions .cp-header-shop{background:linear-gradient(90deg,#ff7622,#ff9d2e);color:#16091f}
+body.evlv-halloween .cp-ticker{border-color:rgba(155,92,255,.14);background:#fbf9fd}
+body.evlv-halloween .cp-ticker-group>span+span:before{background:rgba(255,139,44,.2)}
+body.evlv-halloween .cp-categories{padding-top:48px}
+body.evlv-halloween .cp-category{border:1px solid rgba(155,92,255,.13);box-shadow:0 14px 32px rgba(27,9,38,.08)}
+body.evlv-halloween .cp-section-head>div>small,
+body.evlv-halloween .cp-quality small,
+body.evlv-halloween .cp-manufacturing small{color:#ff9b43}
+body.evlv-halloween .cp-proof-title h2 span{color:#ff8b2c}
+body.evlv-halloween .cp-faq summary span{color:#ff8b2c}
+body.evlv-halloween .cp-shop-tools button.active,
+body.evlv-halloween .cp-shop-tools button:hover{border-color:#ff8b2c;background:#ff8b2c;color:#1a0a20}
+body.evlv-halloween .cp-primary,
+body.evlv-halloween .cp-card-add,
+body.evlv-halloween .cp-pdp-add,
+body.evlv-halloween .cp-coa-cta,
+body.evlv-halloween .cp-welcome-offer-button,
+body.evlv-halloween .cp-cro-primary,
+body.evlv-halloween .cp-mobile-buy button,
+body.evlv-halloween .cp-cart-drawer button.bg-sage-deep{border-color:#ff8b2c!important;background:linear-gradient(90deg,#ff7622,#ff9d2e)!important;color:#1a0a20!important;box-shadow:0 10px 26px rgba(255,104,20,.2)}
+body.evlv-halloween .cp-primary:hover,
+body.evlv-halloween .cp-card-add:hover,
+body.evlv-halloween .cp-pdp-add:hover,
+body.evlv-halloween .cp-coa-cta:hover,
+body.evlv-halloween .cp-welcome-offer-button:hover,
+body.evlv-halloween .cp-cro-primary:hover{background:linear-gradient(90deg,#ff8b2c,#ffad4d)!important;transform:translateY(-1px)}
+body.evlv-halloween .cp-pack-option:hover{border-color:#ff8b2c;background:#fff8f1}
+body.evlv-halloween .cp-pack-option.active{border-color:#ff8b2c;background:linear-gradient(145deg,#ff7622,#ff9d2e);color:#1a0a20;box-shadow:0 9px 22px rgba(255,104,20,.2)}
+body.evlv-halloween .cp-pack-option.active .cp-pack-heading i,
+body.evlv-halloween .cp-pack-option.active .cp-pack-saving,
+body.evlv-halloween .cp-pack-option.active .cp-pack-price small{color:#351423}
+body.evlv-halloween #newsletter button{border-color:#ff8b2c;background:#ff8b2c;color:#1a0a20;box-shadow:0 7px 18px rgba(255,104,20,.2)}
+body.evlv-halloween #newsletter button:hover{border-color:#ffad4d;background:#ffad4d}
+body.evlv-halloween .cp-footer-column>p,
+body.evlv-halloween .cp-footer-newsletter>div>p:first-child{color:#ffad68!important}
+body.evlv-halloween .cp-footer-payments i{color:#ff9b43}
+body.evlv-halloween .cp-quality,
+body.evlv-halloween .cp-welcome-offer,
+body.evlv-halloween .cp-footer,
+body.evlv-halloween section.bg-sage-forest,
+body.evlv-halloween section.bg-sage-deep{background:radial-gradient(circle at 82% 14%,rgba(155,92,255,.2),transparent 30%),linear-gradient(120deg,#120918,#2b1238 60%,#100713)!important}
+body.evlv-halloween .text-sage-deep{color:#e96f18!important}
+body.evlv-halloween .border-sage-deep{border-color:#ff8b2c!important}
+body.evlv-halloween .bg-sage-mist{background-color:#fff4e8!important}
+body.evlv-halloween button.bg-sage-deep,
+body.evlv-halloween a.bg-sage-deep{background:linear-gradient(90deg,#ff7622,#ff9d2e)!important;color:#1a0a20!important}
+@media(max-width:760px){.hw-hero,.hw-shop-banner{width:calc(100% - 26px);margin-top:14px;border-radius:16px}}
