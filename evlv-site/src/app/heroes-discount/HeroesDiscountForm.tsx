@@ -14,7 +14,14 @@ const STATUS_OPTIONS = [
   "Active Duty",
   "Veteran",
   "Reservist / National Guard",
-  "First Responder (Police/Fire/EMS/Dispatch)",
+  "Firefighter",
+  "EMS / EMT / Paramedic",
+  "Police / Law Enforcement",
+  "Sheriff / Deputy Sheriff",
+  "Corrections / Detention Officer",
+  "911 Dispatcher / Emergency Communications",
+  "Search & Rescue",
+  "Other Verified First Responder",
 ];
 const MAX_FILE_BYTES = 8 * 1024 * 1024; // 8MB
 

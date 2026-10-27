@@ -11,8 +11,14 @@ export const metadata: Metadata = {
 };
 
 const ELIGIBLE = [
-  { icon: "ri-shield-star-line", title: "Military", body: "Active duty, veterans, reservists, and National Guard." },
-  { icon: "ri-alarm-warning-line", title: "First responders", body: "Police, fire, EMS, dispatch, and emergency personnel." },
+  { icon: "ri-medal-line", eyebrow: "Military service", title: "Veterans", body: "Honorably discharged veterans of the Army, Navy, Air Force, Marine Corps, Coast Guard, and Space Force." },
+  { icon: "ri-shield-star-line", eyebrow: "Military service", title: "Active Duty", body: "Currently serving members of every branch of the United States Armed Forces." },
+  { icon: "ri-star-line", eyebrow: "Military service", title: "Guard & Reserve", body: "National Guard members and reservists—past and present—across all service branches." },
+  { icon: "ri-fire-line", eyebrow: "Fire service", title: "Firefighters", body: "Career, volunteer, wildland, airport, and industrial firefighters with verifiable service." },
+  { icon: "ri-heart-pulse-line", eyebrow: "Emergency medical", title: "EMS & Paramedics", body: "EMTs, paramedics, flight medics, and other credentialed emergency medical professionals." },
+  { icon: "ri-police-badge-line", eyebrow: "Law enforcement", title: "Police Officers", body: "Sworn local, state, tribal, campus, transit, and federal law-enforcement officers." },
+  { icon: "ri-government-line", eyebrow: "Law enforcement", title: "Sheriffs & Deputies", body: "Elected sheriffs, deputy sheriffs, corrections officers, and verified detention personnel." },
+  { icon: "ri-radio-line", eyebrow: "Emergency response", title: "Dispatch & Rescue", body: "911 dispatchers, emergency communications staff, search-and-rescue, and other verified first responders." },
 ] as const;
 
 const STEPS = [
@@ -66,10 +72,10 @@ export default function HeroesDiscountPage() {
                 <span className="h-px w-8 bg-[#c7a06d]/80" /> EVLV service recognition
               </p>
               <h1 className="mt-5 font-display text-[43px] font-semibold leading-[1.02] tracking-[-0.03em] sm:text-5xl md:text-6xl lg:text-[70px]">
-                25% off.<br />For life.
+                For those who<br />answered the call.
               </h1>
               <p className="mt-6 max-w-xl text-base leading-relaxed text-white/75 md:text-lg">
-                A permanent, account-based benefit for verified veterans, active military, and first responders.
+                A permanent 25% account benefit for verified veterans, active military, firefighters, EMS, law enforcement, and first responders.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <a href="#apply" className="rounded-md bg-white px-7 py-3.5 text-[12px] font-bold uppercase tracking-[0.16em] text-[#07383a] transition hover:bg-[#edf5f2]">
@@ -89,23 +95,37 @@ export default function HeroesDiscountPage() {
         </div>
       </section>
 
-      <section className="pb-20 pt-5 md:pb-28 md:pt-10">
-        <div className="mx-auto max-w-[1240px] px-5 md:px-8">
-          <div className="mx-auto max-w-3xl text-center">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-sage-deep">Who can apply</p>
-            <h2 className="mt-3 font-display text-3xl font-semibold tracking-tight md:text-5xl">Service takes many forms.</h2>
-            <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-charcoal/60 md:text-base">
-              We built one verification program for the people who serve their country and community.
+      <section className="relative overflow-hidden bg-[#071f20] py-20 text-white md:py-28">
+        <div className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full border border-white/5" />
+        <div className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full border border-[#c7a06d]/15" />
+        <div className="relative mx-auto max-w-[1280px] px-5 md:px-8">
+          <div className="grid gap-7 border-b border-white/10 pb-10 md:grid-cols-[1fr_.75fr] md:items-end">
+            <div>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.26em] text-[#c7a06d]">Who qualifies</p>
+              <h2 className="mt-4 max-w-3xl font-display text-4xl font-semibold leading-[1.08] tracking-tight md:text-6xl">Every uniform represents a promise to serve.</h2>
+            </div>
+            <p className="max-w-xl text-sm leading-7 text-white/60 md:justify-self-end md:text-base">
+              EVLV recognizes verified military service and the professionals who protect, rescue, respond, and keep their communities moving when it matters most.
             </p>
           </div>
-          <div className="mx-auto mt-10 grid max-w-4xl gap-5 md:grid-cols-2">
-            {ELIGIBLE.map((item) => (
-              <article key={item.title} className="rounded-2xl border border-stone bg-ivory-soft p-7 md:p-8">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-sage-deep text-xl text-white"><i className={item.icon} /></div>
-                <h3 className="mt-6 font-display text-2xl font-semibold">{item.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-charcoal/60">{item.body}</p>
+
+          <div className="mt-10 grid gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-2 lg:grid-cols-4">
+            {ELIGIBLE.map((item, index) => (
+              <article key={item.title} className="group relative min-h-[270px] bg-[#0a2a2b] p-7 transition duration-300 hover:bg-[#103637] md:p-8">
+                <div className="flex items-start justify-between">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full border border-[#c7a06d]/35 bg-[#c7a06d]/10 text-xl text-[#d7b27e] transition group-hover:border-[#c7a06d]/70 group-hover:bg-[#c7a06d]/15"><i className={item.icon} /></div>
+                  <span className="font-mono text-[10px] tracking-[0.2em] text-white/25">{String(index + 1).padStart(2, "0")}</span>
+                </div>
+                <p className="mt-8 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#c7a06d]">{item.eyebrow}</p>
+                <h3 className="mt-2 font-display text-2xl font-semibold text-white">{item.title}</h3>
+                <p className="mt-3 text-sm leading-6 text-white/55">{item.body}</p>
               </article>
             ))}
+          </div>
+
+          <div className="mt-8 flex flex-col gap-5 rounded-2xl border border-white/10 bg-white/[0.04] px-6 py-6 sm:flex-row sm:items-center sm:justify-between md:px-8">
+            <div><p className="font-display text-xl font-semibold">Not sure whether your role qualifies?</p><p className="mt-1 text-sm text-white/55">Submit your credentials and our team will review your service category personally.</p></div>
+            <a href="#apply" className="inline-flex shrink-0 items-center justify-center rounded-md bg-white px-6 py-3 text-[11px] font-bold uppercase tracking-[0.15em] text-[#07383a] transition hover:bg-[#edf5f2]">Start verification <i className="ri-arrow-right-line ml-2" /></a>
           </div>
         </div>
       </section>
