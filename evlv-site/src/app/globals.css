@@ -733,4 +733,14 @@ body.evlv-halloween #newsletter button:hover{border-color:#ffad4d;background:#ff
 body.evlv-halloween .cp-footer-column>p,
 body.evlv-halloween .cp-footer-newsletter>div>p:first-child{color:#ffad68!important}
 body.evlv-halloween .cp-footer-payments i{color:#ff9b43}
+body.evlv-halloween .cp-quality,
+body.evlv-halloween .cp-welcome-offer,
+body.evlv-halloween .cp-footer,
+body.evlv-halloween section.bg-sage-forest,
+body.evlv-halloween section.bg-sage-deep{background:radial-gradient(circle at 82% 14%,rgba(155,92,255,.2),transparent 30%),linear-gradient(120deg,#120918,#2b1238 60%,#100713)!important}
+body.evlv-halloween .text-sage-deep{color:#e96f18!important}
+body.evlv-halloween .border-sage-deep{border-color:#ff8b2c!important}
+body.evlv-halloween .bg-sage-mist{background-color:#fff4e8!important}
+body.evlv-halloween button.bg-sage-deep,
+body.evlv-halloween a.bg-sage-deep{background:linear-gradient(90deg,#ff7622,#ff9d2e)!important;color:#1a0a20!important}
 @media(max-width:760px){.hw-hero,.hw-shop-banner{width:calc(100% - 26px);margin-top:14px;border-radius:16px}}
