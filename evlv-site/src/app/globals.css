@@ -709,4 +709,28 @@ body.evlv-halloween .cp-proof-title h2 span{color:#ff8b2c}
 body.evlv-halloween .cp-faq summary span{color:#ff8b2c}
 body.evlv-halloween .cp-shop-tools button.active,
 body.evlv-halloween .cp-shop-tools button:hover{border-color:#ff8b2c;background:#ff8b2c;color:#1a0a20}
+body.evlv-halloween .cp-primary,
+body.evlv-halloween .cp-card-add,
+body.evlv-halloween .cp-pdp-add,
+body.evlv-halloween .cp-coa-cta,
+body.evlv-halloween .cp-welcome-offer-button,
+body.evlv-halloween .cp-cro-primary,
+body.evlv-halloween .cp-mobile-buy button,
+body.evlv-halloween .cp-cart-drawer button.bg-sage-deep{border-color:#ff8b2c!important;background:linear-gradient(90deg,#ff7622,#ff9d2e)!important;color:#1a0a20!important;box-shadow:0 10px 26px rgba(255,104,20,.2)}
+body.evlv-halloween .cp-primary:hover,
+body.evlv-halloween .cp-card-add:hover,
+body.evlv-halloween .cp-pdp-add:hover,
+body.evlv-halloween .cp-coa-cta:hover,
+body.evlv-halloween .cp-welcome-offer-button:hover,
+body.evlv-halloween .cp-cro-primary:hover{background:linear-gradient(90deg,#ff8b2c,#ffad4d)!important;transform:translateY(-1px)}
+body.evlv-halloween .cp-pack-option:hover{border-color:#ff8b2c;background:#fff8f1}
+body.evlv-halloween .cp-pack-option.active{border-color:#ff8b2c;background:linear-gradient(145deg,#ff7622,#ff9d2e);color:#1a0a20;box-shadow:0 9px 22px rgba(255,104,20,.2)}
+body.evlv-halloween .cp-pack-option.active .cp-pack-heading i,
+body.evlv-halloween .cp-pack-option.active .cp-pack-saving,
+body.evlv-halloween .cp-pack-option.active .cp-pack-price small{color:#351423}
+body.evlv-halloween #newsletter button{border-color:#ff8b2c;background:#ff8b2c;color:#1a0a20;box-shadow:0 7px 18px rgba(255,104,20,.2)}
+body.evlv-halloween #newsletter button:hover{border-color:#ffad4d;background:#ffad4d}
+body.evlv-halloween .cp-footer-column>p,
+body.evlv-halloween .cp-footer-newsletter>div>p:first-child{color:#ffad68!important}
+body.evlv-halloween .cp-footer-payments i{color:#ff9b43}
 @media(max-width:760px){.hw-hero,.hw-shop-banner{width:calc(100% - 26px);margin-top:14px;border-radius:16px}}
