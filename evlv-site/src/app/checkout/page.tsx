@@ -62,9 +62,10 @@ export default function CheckoutPage() {
   const checkoutTracked = useRef(false);
 
   const cartItemsForCoupon = lines.map((l) => ({ slug: l.product.slug, quantity: l.qty }));
+  const wholesaleCheckout = lines.some((line) => line.packLabel === "Wholesale · 10-vial case");
   const storedUserEmail = getStoredUser()?.email;
   const couponCustomerEmail = storedUserEmail || email.trim() || undefined;
-  const coupon = useCouponValidation(couponCode, cartItemsForCoupon, couponCustomerEmail);
+  const coupon = useCouponValidation(couponCode, cartItemsForCoupon, couponCustomerEmail, wholesaleCheckout);
   const automaticJoin25 = coupon.valid && coupon.automaticPromotion === "JOIN25_FIRST_ORDER";
   const automaticHalloween = coupon.valid && coupon.automaticPromotion === "HALLOWEEN_BOGO_2026";
   const automaticGlpPromotion = coupon.valid && coupon.automaticPromotion === "GLP_PAIR_OCT_2026";
@@ -157,6 +158,7 @@ export default function CheckoutPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           items: lines.map((l) => ({ slug: l.product.slug, quantity: l.qty })),
+          wholesaleCheckout,
           paymentMethod: selectedGateway,
           paymentMemo: memo,
           shippingCents: Math.round(shipping * 100),

@@ -15,12 +15,13 @@ export async function POST(req: Request) {
   const items = Array.isArray(body.items) ? body.items : [];
   const discountCode = typeof body.discountCode === "string" ? body.discountCode : undefined;
   const customerEmail = typeof body.customerEmail === "string" ? body.customerEmail : undefined;
+  const wholesaleCheckout = body.wholesaleCheckout === true;
 
   // Resolve automatic non-stackable promotions without any customer/code inputs
   // first. A qualifying automatic event owns the discount slot for this order;
   // coupon and affiliate discount fields are stripped before the authoritative
   // checkout call so the event cannot stack with another percentage reduction.
-  const automaticPreview = await crmFetch("/api/store/coupons/validate", { items, customerEmail });
+  const automaticPreview = await crmFetch("/api/store/coupons/validate", { items, customerEmail, wholesaleCheckout });
   const automaticData = automaticPreview.ok ? automaticPreview.data as Record<string, unknown> : {};
   const automaticPromoId = typeof automaticData.automaticPromotion === "string" ? automaticData.automaticPromotion : null;
   const automaticPromotion = automaticPromoId === "GLP_PAIR_OCT_2026" || automaticPromoId === "RESEARCH_SET_OCT_2026" || automaticPromoId === "HALLOWEEN_BOGO_2026";

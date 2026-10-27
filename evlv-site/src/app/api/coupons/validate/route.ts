@@ -16,10 +16,11 @@ export async function POST(req: Request) {
   const body = (await req.json().catch(() => ({}))) as Record<string, unknown>;
   const items = Array.isArray(body.items) ? body.items : [];
   const customerEmail = typeof body.customerEmail === "string" ? body.customerEmail : undefined;
+  const wholesaleCheckout = body.wholesaleCheckout === true;
 
   // Automatic non-stackable promotions (GLP pair, Research Set). Check without
   // a code first so a stored coupon can't combine with or replace the event.
-  const automatic = await crmFetch("/api/store/coupons/validate", { items, customerEmail });
+  const automatic = await crmFetch("/api/store/coupons/validate", { items, customerEmail, wholesaleCheckout });
   if (automatic.ok) {
     const automaticData = automatic.data as Record<string, unknown>;
     if (
