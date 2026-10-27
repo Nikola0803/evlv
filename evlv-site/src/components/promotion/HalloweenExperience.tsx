@@ -61,7 +61,7 @@ export function HalloweenExperience() {
 
   if (!config?.live || !config.themeActive) return null;
   const isHome = pathname === "/";
-  const isShop = pathname === "/shop" || pathname.startsWith("/shop/");
+  const isShop = pathname === "/shop";
 
   const timer = (
     <div className="hw-countdown" aria-label={`${countdown.days} days ${countdown.hours} hours ${countdown.minutes} minutes remaining`}>
