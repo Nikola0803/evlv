@@ -67,11 +67,11 @@ export default function HeroesDiscountPage() {
               <p className="mt-6 max-w-lg text-base leading-relaxed text-white/70 md:text-lg">
                 A permanent 25% account benefit for verified veterans, active military, firefighters, EMS, law enforcement, and first responders.
               </p>
-              <div className="mt-8 flex flex-wrap gap-2.5">
-                <a href="#apply" className="whitespace-nowrap rounded-md bg-white px-5 py-3.5 text-[11px] font-bold uppercase tracking-[0.14em] text-[#07383a] transition hover:bg-[#edf5f2] xl:px-6">
+              <div className="mt-8 flex flex-wrap gap-3">
+                <a href="#apply" className="rounded-md bg-white px-7 py-3.5 text-[12px] font-bold uppercase tracking-[0.16em] text-[#07383a] transition hover:bg-[#edf5f2]">
                   Apply for verification <i className="ri-arrow-right-line" />
                 </a>
-                <a href="#how-it-works" className="whitespace-nowrap rounded-md border border-white/35 bg-white/5 px-5 py-3.5 text-[11px] font-bold uppercase tracking-[0.14em] text-white backdrop-blur-sm transition hover:bg-white/10 xl:px-6">
+                <a href="#how-it-works" className="rounded-md border border-white/35 bg-white/5 px-7 py-3.5 text-[12px] font-bold uppercase tracking-[0.16em] text-white backdrop-blur-sm transition hover:bg-white/10">
                   How it works
                 </a>
               </div>
