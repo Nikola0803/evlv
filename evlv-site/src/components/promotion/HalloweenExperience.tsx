@@ -62,7 +62,6 @@ export function HalloweenExperience() {
   if (!config?.live || !config.themeActive) return null;
   const isHome = pathname === "/";
   const isShop = pathname === "/shop" || pathname.startsWith("/shop/");
-  if (!isHome && !isShop && !showPopup) return null;
 
   const timer = (
     <div className="hw-countdown" aria-label={`${countdown.days} days ${countdown.hours} hours ${countdown.minutes} minutes remaining`}>
@@ -72,6 +71,14 @@ export function HalloweenExperience() {
 
   return (
     <>
+      <div className="hw-site-haunt" aria-hidden="true">
+        <div className="hw-global-web hw-global-web-left" />
+        <div className="hw-global-web hw-global-web-right" />
+        <Spider className="hw-roaming-spider hw-roaming-spider-one" />
+        <Spider className="hw-roaming-spider hw-roaming-spider-two" />
+        <Spider className="hw-roaming-spider hw-roaming-spider-three" />
+        <span className="hw-hanging-spider"><i /><Spider className="hw-hanging-spider-icon" /></span>
+      </div>
       {(isHome || isShop) && (
         <section className={isHome ? "hw-hero" : "hw-shop-banner"} aria-label="Halloween sale">
           <div className="hw-web hw-web-left" /><div className="hw-web hw-web-right" />
