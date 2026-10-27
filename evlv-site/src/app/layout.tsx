@@ -50,44 +50,46 @@ const newsreader = Newsreader({
   style: ["normal", "italic"],
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL(SITE_URL),
-  title: {
-    default: "EVLV Peptides: High-Purity Research Peptides for Laboratory Analysis",
-    template: "%s | EVLV",
-  },
-  description:
-    "Research peptides supplied for laboratory and in-vitro analytical research, with exact product and batch reports clearly labeled when available. Not for human or animal use.",
-  keywords: [
-    "research peptides",
-    "BPC-157",
-    "research use only peptides",
-    "peptide COA",
-    "third-party tested peptides",
-    "research chemicals",
-  ],
-  alternates: {
-    canonical: "/",
-  },
-  openGraph: {
-    type: "website",
-    url: SITE_URL,
-    siteName: "EVLV",
-    title: "EVLV Peptides: High-Purity Research Peptides for Laboratory Analysis",
-    description: "Research peptides supplied for laboratory and in-vitro analytical research, with transparent product-specific batch documentation. Not for human or animal use.",
-    images: [{ url: "/images/hero-vial.png", width: 1200, height: 630, alt: "EVLV research peptides" }],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "EVLV Peptides: High-Purity Research Peptides for Laboratory Analysis",
-    description: "High-purity research peptides supplied for laboratory and in-vitro analytical research. Batch-level Certificates of Analysis published. Not for human or animal use.",
-    images: ["/images/hero-vial.png"],
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
-};
+export function generateMetadata(): Metadata {
+  const halloweenLive = Date.now() < new Date("2026-11-01T06:00:00.000Z").getTime();
+  const title = halloweenLive
+    ? "EVLV Halloween BOGO | Buy 1, Get 1 Free Research Peptides"
+    : "EVLV Peptides: High-Purity Research Peptides for Laboratory Analysis";
+  const description = halloweenLive
+    ? "EVLV Halloween BOGO is live. Buy one and get one matching research product free, with no pair limit. Automatic discount and free priority shipping at $300. Research use only."
+    : "Research peptides supplied for laboratory and in-vitro analytical research, with exact product and batch reports clearly labeled when available. Not for human or animal use.";
+  const socialImage = halloweenLive ? "/images/social/evlv-halloween-bogo-og-v1.jpg" : "/images/hero-vial.png";
+
+  return {
+    metadataBase: new URL(SITE_URL),
+    title: { default: title, template: "%s | EVLV" },
+    description,
+    keywords: [
+      "research peptides",
+      "BPC-157",
+      "research use only peptides",
+      "peptide COA",
+      "third-party tested peptides",
+      "research chemicals",
+    ],
+    alternates: { canonical: "/" },
+    openGraph: {
+      type: "website",
+      url: SITE_URL,
+      siteName: "EVLV",
+      title,
+      description,
+      images: [{ url: socialImage, width: 1200, height: 630, alt: halloweenLive ? "EVLV Halloween BOGO buy one get one free event" : "EVLV research peptides" }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [socialImage],
+    },
+    robots: { index: true, follow: true },
+  };
+}
 
 const ORGANIZATION_JSON_LD = {
   "@context": "https://schema.org",
