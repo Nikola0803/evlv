@@ -54,17 +54,27 @@ export default function HeroesDiscountPage() {
   return (
     <div className="bg-white text-charcoal">
       <section className="px-3 pb-12 pt-5 md:px-6 md:pb-16 md:pt-7">
-        <div className="mx-auto grid max-w-[1380px] overflow-hidden rounded-[26px] bg-[#082f30] text-white shadow-[0_24px_70px_rgba(7,42,43,0.18)] lg:min-h-[680px] lg:grid-cols-2">
-          <div className="relative flex items-center px-6 py-14 sm:px-10 md:px-14 lg:px-16 xl:px-20">
-            <div className="pointer-events-none absolute -left-28 -top-28 h-72 w-72 rounded-full border border-white/[0.04]" />
-            <div className="relative z-10 max-w-[570px]">
+        <div className="relative mx-auto min-h-[650px] max-w-[1400px] overflow-hidden rounded-[26px] bg-[#082f30] text-white shadow-[0_24px_70px_rgba(7,42,43,0.18)] md:min-h-[690px]">
+          <Image
+            src="/images/heroes-service-banner-v2.png"
+            alt="Veteran, firefighter, and EMS professional holding an EVLV Veterans banner"
+            fill
+            priority
+            sizes="(max-width: 768px) 100vw, 1400px"
+            className="object-cover object-[69%_center] md:object-center"
+          />
+          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(4,35,37,.99)_0%,rgba(4,35,37,.97)_36%,rgba(4,35,37,.62)_56%,rgba(4,35,37,.08)_78%,rgba(4,35,37,.02)_100%)]" />
+          <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-[#082f30]/80 to-transparent md:hidden" />
+
+          <div className="relative z-10 flex min-h-[650px] items-center px-6 py-14 sm:px-10 md:min-h-[690px] md:px-16 lg:px-20">
+            <div className="max-w-[650px]">
               <p className="flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.24em] text-[#c7a06d]">
                 <span className="h-px w-8 bg-[#c7a06d]/80" /> EVLV service recognition
               </p>
-              <h1 className="mt-5 font-display text-[43px] font-semibold leading-[1.02] tracking-[-0.03em] sm:text-5xl md:text-6xl xl:text-[66px]">
+              <h1 className="mt-5 font-display text-[43px] font-semibold leading-[1.02] tracking-[-0.03em] sm:text-5xl md:text-6xl lg:text-[70px]">
                 For those who<br />answered the call.
               </h1>
-              <p className="mt-6 max-w-lg text-base leading-relaxed text-white/70 md:text-lg">
+              <p className="mt-6 max-w-xl text-base leading-relaxed text-white/75 md:text-lg">
                 A permanent 25% account benefit for verified veterans, active military, firefighters, EMS, law enforcement, and first responders.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
@@ -75,24 +85,12 @@ export default function HeroesDiscountPage() {
                   How it works
                 </a>
               </div>
-              <div className="mt-10 grid grid-cols-1 gap-3 border-t border-white/15 pt-7 text-xs text-white/70 sm:grid-cols-3">
+              <div className="mt-10 grid max-w-xl grid-cols-1 gap-3 border-t border-white/15 pt-7 text-xs text-white/75 sm:grid-cols-3">
                 <span className="flex items-center gap-2"><i className="ri-user-heart-line text-[#c7a06d]" /> Account based</span>
                 <span className="flex items-center gap-2"><i className="ri-infinity-line text-[#c7a06d]" /> No expiration</span>
                 <span className="flex items-center gap-2"><i className="ri-shield-check-line text-[#c7a06d]" /> Manually verified</span>
               </div>
             </div>
-          </div>
-          <div className="relative min-h-[430px] overflow-hidden lg:min-h-full">
-            <Image
-              src="/images/heroes-service-banner-v2.png"
-              alt="Veteran, firefighter, and EMS professional holding an EVLV Veterans banner"
-              fill
-              priority
-              sizes="(max-width: 1024px) 100vw, 50vw"
-              className="object-cover object-[69%_center] lg:object-[68%_center]"
-            />
-            <div className="pointer-events-none absolute inset-y-0 left-0 hidden w-20 bg-gradient-to-r from-[#082f30]/30 to-transparent lg:block" />
-            <div className="absolute bottom-6 right-6 rounded-full border border-white/25 bg-[#082f30]/55 px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/85 backdrop-blur-md">Service recognized</div>
           </div>
         </div>
       </section>
@@ -100,20 +98,20 @@ export default function HeroesDiscountPage() {
       <section className="relative overflow-hidden bg-[#071f20] py-20 text-white md:py-28">
         <div className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full border border-white/5" />
         <div className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full border border-[#c7a06d]/15" />
-        <div className="relative mx-auto max-w-[1120px] px-5 md:px-8">
-          <div className="grid gap-7 border-b border-white/10 pb-10 md:grid-cols-[1fr_.8fr] md:items-end">
+        <div className="relative mx-auto max-w-[1280px] px-5 md:px-8">
+          <div className="grid gap-7 border-b border-white/10 pb-10 md:grid-cols-[1fr_.75fr] md:items-end">
             <div>
               <p className="text-[11px] font-semibold uppercase tracking-[0.26em] text-[#c7a06d]">Who qualifies</p>
-              <h2 className="mt-4 max-w-2xl font-display text-4xl font-semibold leading-[1.08] tracking-tight md:text-5xl">Every uniform represents a promise to serve.</h2>
+              <h2 className="mt-4 max-w-3xl font-display text-4xl font-semibold leading-[1.08] tracking-tight md:text-6xl">Every uniform represents a promise to serve.</h2>
             </div>
             <p className="max-w-xl text-sm leading-7 text-white/60 md:justify-self-end md:text-base">
               EVLV recognizes verified military service and the professionals who protect, rescue, respond, and keep their communities moving when it matters most.
             </p>
           </div>
 
-          <div className="mx-auto mt-10 grid max-w-[1040px] gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-10 grid gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-2 lg:grid-cols-4">
             {ELIGIBLE.map((item, index) => (
-              <article key={item.title} className="group relative min-h-[260px] bg-[#0a2a2b] p-7 transition duration-300 hover:bg-[#103637]">
+              <article key={item.title} className="group relative min-h-[270px] bg-[#0a2a2b] p-7 transition duration-300 hover:bg-[#103637] md:p-8">
                 <div className="flex items-start justify-between">
                   <div className="flex h-12 w-12 items-center justify-center rounded-full border border-[#c7a06d]/35 bg-[#c7a06d]/10 text-xl text-[#d7b27e] transition group-hover:border-[#c7a06d]/70 group-hover:bg-[#c7a06d]/15"><i className={item.icon} /></div>
                   <span className="font-mono text-[10px] tracking-[0.2em] text-white/25">{String(index + 1).padStart(2, "0")}</span>
@@ -125,7 +123,7 @@ export default function HeroesDiscountPage() {
             ))}
           </div>
 
-          <div className="mx-auto mt-8 flex max-w-[1040px] flex-col gap-5 rounded-2xl border border-white/10 bg-white/[0.04] px-6 py-6 sm:flex-row sm:items-center sm:justify-between md:px-8">
+          <div className="mt-8 flex flex-col gap-5 rounded-2xl border border-white/10 bg-white/[0.04] px-6 py-6 sm:flex-row sm:items-center sm:justify-between md:px-8">
             <div><p className="font-display text-xl font-semibold">Not sure whether your role qualifies?</p><p className="mt-1 text-sm text-white/55">Submit your credentials and our team will review your service category personally.</p></div>
             <a href="#apply" className="inline-flex shrink-0 items-center justify-center rounded-md bg-white px-6 py-3 text-[11px] font-bold uppercase tracking-[0.15em] text-[#07383a] transition hover:bg-[#edf5f2]">Start verification <i className="ri-arrow-right-line ml-2" /></a>
           </div>
