@@ -4,7 +4,7 @@ import Link from "next/link";
 import { HeroesDiscountForm } from "./HeroesDiscountForm";
 
 export const metadata: Metadata = {
-  title: "25% Lifetime Service Discount",
+  title: "Military, Veteran & First Responder Discount",
   description:
     "Veterans, active military, and first responders can apply for a verified, account-based 25% EVLV discount for life.",
   alternates: { canonical: "/heroes-discount" },
@@ -22,6 +22,10 @@ const STEPS = [
 ] as const;
 
 const FAQ = [
+  {
+    question: "What proof is accepted for veterans and military members?",
+    answer: "We accept a DD-214, military or veteran ID, a state driver's license or state ID showing veteran status, or another official service document. You may cover or redact Social Security numbers, service numbers, dates of birth, and other unrelated sensitive information. ID.me is not required; applications are reviewed directly by EVLV.",
+  },
   {
     question: "Is the 25% discount really permanent?",
     answer: "Yes. Once approved, the benefit remains attached to the verified EVLV account unless eligibility was obtained using inaccurate or fraudulent information.",
@@ -146,6 +150,7 @@ export default function HeroesDiscountPage() {
             <div className="mt-7 rounded-xl border border-stone bg-ivory-soft p-5 text-sm leading-relaxed text-charcoal/65">
               <p className="font-semibold text-charcoal"><i className="ri-lock-2-line mr-2 text-sage-deep" />Your documents stay private.</p>
               <p className="mt-2">Proof is stored outside the public site and reviewed only by authorized staff. Redact unrelated ID numbers before uploading.</p>
+              <p className="mt-2">Accepted veteran proof includes a DD-214, military or veteran ID, or a state driver&apos;s license/ID with a veteran designation. ID.me is not required.</p>
             </div>
             <p className="mt-5 text-xs leading-relaxed text-charcoal/45">Non-stackable. One verified benefit per person and account. EVLV may request updated documentation if eligibility cannot be confirmed.</p>
           </div>

@@ -164,8 +164,9 @@ export function HeroesDiscountForm() {
           className="w-full rounded-md border border-stone bg-ivory px-4 py-2.5 text-sm outline-none file:mr-3 file:rounded file:border-0 file:bg-sage-deep file:px-4 file:py-2 file:text-xs file:font-semibold file:uppercase file:text-white focus:border-copper"
         />
         <p className="mt-1.5 text-xs text-charcoal/40">
-          Military/veteran ID, DD-214, department credential, service ID, or a clear photo of your service
-          uniform. Image or PDF, under 8MB. Submit only material you are legally permitted to
+          Military/veteran ID, DD-214, state driver&apos;s license or ID showing veteran status, department
+          credential, service ID, or a clear photo of your service uniform. ID.me is not required. Image or PDF,
+          under 8MB. Submit only material you are legally permitted to
           share, and cover badge numbers, patient information, or unrelated sensitive details.
         </p>
       </div>
