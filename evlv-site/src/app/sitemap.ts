@@ -34,6 +34,7 @@ const STATIC_ROUTES = [
   { path: "/5-amino-1mq-research", priority: 0.8, changeFrequency: "weekly" as const },
   { path: "/fat-loss-peptide-research", priority: 0.9, changeFrequency: "weekly" as const },
   { path: "/high-purity-research-peptides", priority: 0.9, changeFrequency: "weekly" as const },
+  { path: "/thymosin-alpha-1-research", priority: 0.8, changeFrequency: "weekly" as const },
   { path: "/coas", priority: 0.7, changeFrequency: "weekly" as const },
   { path: "/verify-your-vial", priority: 0.7, changeFrequency: "weekly" as const },
   { path: "/journal", priority: 0.6, changeFrequency: "weekly" as const },

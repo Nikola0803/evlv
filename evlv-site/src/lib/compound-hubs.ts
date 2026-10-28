@@ -393,6 +393,32 @@ export const COMPOUND_HUBS = {
       { question: "Is EVLV 5-Amino-1MQ supplied for human or veterinary use?", answer: "No. It is supplied strictly for lawful laboratory and analytical research." },
     ],
   },
+  thymosinalpha1: {
+    path: "/thymosin-alpha-1-research",
+    shortName: "Thymosin Alpha-1",
+    title: "Thymosin Alpha-1 Research: Identity, Strengths & COAs",
+    metaTitle: "Thymosin Alpha-1 Research Peptide | Strengths, COAs & Purity",
+    description: "Review EVLV Thymosin Alpha-1 (Tα1) research product identity, labeled strength, CAS reference, analytical documentation, and U.S. laboratory supply information.",
+    eyebrow: "Bioregulator research hub",
+    classification: "Thymic peptide — immune research compound",
+    overview: "Thymosin Alpha-1 (Tα1, TA-1) is a 28-amino-acid research peptide originally identified in thymic extracts. EVLV lists the available strength as a discrete product with its own identity fields, labeled quantity, and documentation status separate from other thymosin-class compounds.",
+    identityContext: "The catalogue CAS reference for Thymosin Alpha-1 is 62304-98-7. Tα1 and thymosin beta-4 (TB-500) are different compounds with different sequences, molecular weights, and research contexts. Do not transfer analytical documentation between them. A name or CAS reference identifies the intended compound but does not verify the contents of a specific lot.",
+    analyticalFocus: "For Thymosin Alpha-1, review the sample name, labeled strength, purity method, identity method where reported (mass spectrometry is appropriate for sequence confirmation), reported result, lot or sample identifier, and test date. Confirm the documented product matches the one being evaluated.",
+    slugs: ["thymosin-alpha-1-10mg"],
+    categoryPaths: ["/research-peptides", "/bioregulators"],
+    journalLinks: [
+      { href: "/journal/understanding-peptide-purity", label: "Understanding peptide purity", description: "Why purity and identity are separate analytical measurements." },
+      { href: "/journal/batch-testing-explained", label: "Batch testing explained", description: "How to evaluate a certificate of analysis for the specific lot in hand." },
+      { href: "/journal/inside-the-evlv-standard", label: "Inside the EVLV standard", description: "How EVLV structures third-party testing and publishes documentation." },
+    ],
+    faq: [
+      { question: "What is Thymosin Alpha-1 (Tα1)?", answer: "Thymosin Alpha-1 is a synthetic 28-amino-acid research peptide. It is supplied for controlled laboratory and analytical research only and is not for human or veterinary use." },
+      { question: "Is Thymosin Alpha-1 the same as TB-500?", answer: "No. Thymosin Alpha-1 (CAS 62304-98-7) and TB-500 (a thymosin beta-4 fragment) are distinct compounds with different amino acid sequences, molecular weights, and research contexts. Their documentation is not interchangeable." },
+      { question: "What strength does EVLV list for Thymosin Alpha-1?", answer: "EVLV currently lists Thymosin Alpha-1 at 10mg. Current availability is shown on the active product listing." },
+      { question: "Does one COA apply to multiple Thymosin Alpha-1 lots?", answer: "No. A certificate of analysis is specific to the tested sample and lot. Results from one lot cannot be assumed to apply to a different one." },
+      { question: "Is EVLV Thymosin Alpha-1 supplied for personal use?", answer: "No. All EVLV products are supplied strictly for lawful laboratory and analytical research and are not for human or veterinary use." },
+    ],
+  },
 } satisfies Record<string, CompoundHubDefinition>;
 
 export const COMPOUND_HUB_LIST = Object.values(COMPOUND_HUBS);
