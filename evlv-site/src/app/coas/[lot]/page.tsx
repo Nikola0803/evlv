@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getCoaEntries } from "@/lib/coa-data";
@@ -105,6 +106,11 @@ export default async function CoaLotPage({ params }: { params: Promise<{ lot: st
             </ol>
             {product && <Link href={`/shop/${product.slug}`} className="mt-7 inline-flex text-sm font-semibold text-sage-deep underline decoration-sage-deep/30 underline-offset-4">View {product.name}</Link>}
             <Link href="/coas" className="mt-4 block text-sm font-semibold text-sage-deep underline decoration-sage-deep/30 underline-offset-4">Search the COA library</Link>
+            <div className="mt-7 border-t border-stone pt-6 text-center">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-sage-deep">Vial QR destination</p>
+              <Image src={`/api/coas/${lot}/qr`} alt={`QR code for ${coa.label ?? productName} lot record`} width={180} height={180} unoptimized className="mx-auto mt-3 h-36 w-36 rounded-lg border border-stone bg-white p-2" />
+              <a href={`/api/coas/${lot}/qr`} download={`evlv-${lot}-coa-qr.svg`} className="mt-3 inline-block text-xs font-semibold text-sage-deep underline decoration-sage-deep/30 underline-offset-4">Download print-ready QR</a>
+            </div>
           </aside>
         </div>
         <p className="mt-10 rounded-xl border border-stone bg-ivory-soft p-5 text-xs leading-6 text-soft-gray">Research use only. This documentation is supplied to support laboratory and analytical review. It does not establish safety, efficacy, clinical suitability, or human or veterinary use.</p>

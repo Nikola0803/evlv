@@ -7,6 +7,7 @@ import Link from "next/link";
 import { getProducts } from "@/lib/products";
 import type { CoaEntry } from "@/lib/coa-data";
 import { getCoaLotPath } from "@/lib/coa-lots";
+import { CoaScanner } from "./CoaScanner";
 import { getProductImage } from "@/lib/product-images";
 
 type Filter = "all" | "glp" | "blend" | "peptides" | "ancillaries";
@@ -80,6 +81,10 @@ export function CoasClient({ coaEntries }: { coaEntries: CoaEntry[] }) {
                   {item.label}
                 </button>
               ))}
+            </div>
+            <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-stone pt-4">
+              <p className="max-w-xl text-xs leading-5 text-charcoal/55">Have an EVLV vial in hand? Scan its QR to open the matching public lot record, then compare the label before reviewing the PDF.</p>
+              <CoaScanner />
             </div>
           </div>
 
