@@ -42,7 +42,7 @@ export const INVENTORY_SNAPSHOT: InventoryRow[] = [
   ["evlv-2-15mg", "TIR15", "GLP2-T — 15mg", 30, 89.99],
   ["evlv-2-30mg", "TIR30", "GLP2-T — 30mg", 19, 149.99],
   ["evlv-2-60mg", "TIR60", "GLP2-T — 60mg", 7, 274.99],
-  ["bacteriostatic-water-10ml", "BAC10", "BW — 10mL", 44, 10],
+  ["bacteriostatic-water-10ml", "BAC10", "BW - 10ML", 44, 10],
 ].map(([slug, sku, productName, stockQty, retailPrice]) => ({
   slug: String(slug), sku: String(sku), productName: String(productName), status: "publish", stockStatus: "instock",
   stockQty: Number(stockQty), retailPrice: Number(retailPrice),
@@ -65,7 +65,7 @@ export const SLUG_BY_INVENTORY_SKU: Record<string, string> = {
 const normalizedSku = (value: string) => value.toUpperCase().replace(/[^A-Z0-9]/g, "");
 const usablePrice = (value: number | undefined) => typeof value === "number" && Number.isFinite(value) && value > 0;
 const displayName = (value: string) => value.replace(/\s+[—-]\s+(?=\d)/, " ").toUpperCase();
-const publicDisplayName = (row: InventoryRow) => normalizedSku(row.sku) === "BAC10" ? "BW 10ML" : displayName(row.productName);
+const publicDisplayName = (row: InventoryRow) => normalizedSku(row.sku) === "BAC10" ? "BW - 10ML" : displayName(row.productName);
 const isAvailable = (row: InventoryRow) => row.status.toLowerCase() === "publish" && row.stockStatus.toLowerCase() === "instock" && row.stockQty > 0;
 
 export function applyInventoryRows(source: Product[], rows: InventoryRow[], addMissing = false, preserveUnlisted = false): Product[] {

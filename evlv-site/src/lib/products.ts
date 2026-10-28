@@ -816,7 +816,7 @@ export const products: Product[] = [
     id: "56",
     slug: "bacteriostatic-water-10ml",
     sku: "BAC10",
-    name: "BW 10ML",
+    name: "BW - 10ML",
     category: "ancillaries",
     categoryLabel: "Research Supplies",
     format: "supplies",
@@ -826,7 +826,7 @@ export const products: Product[] = [
     reviewCount: 0,
     inStock: true,
     shortDescription: "10mL BW vial for laboratory preparation workflows.",
-    description: "BW 10mL, supplied for laboratory research use only.",
+    description: "BW - 10ML, supplied for laboratory research use only.",
     storage: "Store according to the manufacturer's labeled conditions.",
   },
   // ---- GHK-Cu 100mg (new size) ----

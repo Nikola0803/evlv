@@ -9,8 +9,10 @@ import { GlpCampaignShopCallout } from "@/components/promotion/GlpPairCampaign";
 
 type Filter = "all" | ProductCategory | ProductFormat;
 const FILTERS: { value: Filter; label: string }[] = [
-  { value: "all", label: "All products" },{ value: "peptides", label: "Peptides" },{ value: "ancillaries", label: "Bioregulators & Ancillaries" },{ value: "blend", label: "Blends" },{ value: "oral", label: "Capsules" },
+  { value: "all", label: "All products" },{ value: "peptides", label: "Peptides" },{ value: "ancillaries", label: "Bioregulators & Ancillaries" },{ value: "blend", label: "Blends" },{ value: "supplies", label: "Lab supplies" },{ value: "oral", label: "Capsules" },
 ];
+
+const FEATURED_PRIORITY = new Map([["bacteriostatic-water-10ml", 0]]);
 
 export function ShopClient({ products: initialProducts, verifiedCoaSlugs }: { products: Product[]; verifiedCoaSlugs: string[] }) {
   const params = useSearchParams();
@@ -50,6 +52,7 @@ export function ShopClient({ products: initialProducts, verifiedCoaSlugs }: { pr
     if(focus){const group=groups.find(g=>g.slug===focus);if(group){const slugs=new Set(group.products.map(p=>p.slug));next=next.filter(p=>slugs.has(p.slug));}}
     if(filter!=="all") next=next.filter(p=>p.category===filter || p.format===filter);
     if(query.trim()) next=next.filter(p=>p.name.toLowerCase().includes(query.trim().toLowerCase()));
+    if(sort==="featured") next.sort((a,b)=>(FEATURED_PRIORITY.get(a.slug) ?? 1)-(FEATURED_PRIORITY.get(b.slug) ?? 1));
     if(sort==="az") next.sort((a,b)=>a.name.localeCompare(b.name));
     if(sort==="low") next.sort((a,b)=>a.price-b.price);
     if(sort==="high") next.sort((a,b)=>b.price-a.price);

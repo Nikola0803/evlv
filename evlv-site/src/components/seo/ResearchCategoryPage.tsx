@@ -60,8 +60,8 @@ export async function ResearchCategoryPage({ definition }: { definition: Researc
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(breadcrumb) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(faq) }} />
 
-      <section className="-mt-[90px] bg-charcoal pb-14 pt-[145px] text-white md:-mt-[100px] md:pb-18 md:pt-[165px]">
-        <div className="mx-auto max-w-[1180px] px-4 md:px-8">
+      <section className="cp-info-hero cp-info-quality text-white">
+        <div>
           <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">{definition.eyebrow}</p>
           <h1 className="mt-3 max-w-4xl font-display text-4xl font-semibold leading-[1.08] md:text-5xl">{definition.title}</h1>
           <p className="mt-4 max-w-3xl text-base leading-7 text-white/70">{definition.intro}</p>
@@ -110,30 +110,48 @@ export async function ResearchCategoryPage({ definition }: { definition: Researc
         </section>
       )}
 
-      <section className="border-y border-stone bg-ivory-soft py-14 md:py-20">
-        <div className="mx-auto grid max-w-[1180px] gap-8 px-4 md:grid-cols-[0.78fr_1.22fr] md:px-8">
-          <div>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-sage-deep">Documentation first</p>
-            <h2 className="mt-3 font-display text-3xl font-semibold leading-tight md:text-4xl">{definition.scopeTitle}</h2>
-          </div>
-          <div>
-            <p className="text-base leading-8 text-soft-gray">{definition.scope}</p>
-            <div className="mt-6 flex flex-wrap gap-x-6 gap-y-3 text-sm font-semibold">
-              <Link href="/sourcing" className="text-sage-deep underline decoration-sage-deep/30 underline-offset-4">Testing standards</Link>
-              <Link href="/research-peptides-usa" className="text-sage-deep underline decoration-sage-deep/30 underline-offset-4">U.S. sourcing guide</Link>
-              <Link href="/journal" className="text-sage-deep underline decoration-sage-deep/30 underline-offset-4">Research Center</Link>
+      <section className="bg-white px-4 py-14 md:px-8 md:py-24">
+        <div className="mx-auto max-w-[1320px] overflow-hidden rounded-[22px] border border-stone bg-ivory-soft shadow-[0_18px_48px_rgba(11,47,44,0.08)]">
+          <div className="grid gap-10 p-7 md:grid-cols-[0.86fr_1.14fr] md:p-12 lg:p-16">
+            <div>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-copper">Documentation first</p>
+              <h2 className="mt-3 max-w-md font-display text-3xl font-semibold leading-tight md:text-4xl">{definition.scopeTitle}</h2>
+              <p className="mt-5 max-w-xl text-base leading-8 text-soft-gray">{definition.scope}</p>
+            </div>
+            <div className="grid gap-3 self-start">
+              {[
+                { href: "/sourcing", eyebrow: "Quality system", title: "Testing standards", copy: "How EVLV labels exact reports, methods, and product-specific documentation." },
+                { href: "/research-peptides-usa", eyebrow: "Research guide", title: "U.S. sourcing guide", copy: "A practical framework for evaluating identity, traceability, and fulfillment." },
+                { href: "/journal", eyebrow: "Research Center", title: "Laboratory reading library", copy: "Evidence-led articles covering purity, identity, lots, and analytical records." },
+              ].map((resource) => (
+                <Link key={resource.href} href={resource.href} className="group grid grid-cols-[1fr_auto] items-center gap-5 rounded-xl border border-stone bg-white p-5 transition hover:-translate-y-0.5 hover:border-sage-deep/35 hover:shadow-md">
+                  <span>
+                    <small className="block text-[9px] font-semibold uppercase tracking-[0.15em] text-sage-deep">{resource.eyebrow}</small>
+                    <strong className="mt-1 block font-display text-xl">{resource.title}</strong>
+                    <span className="mt-1 block text-xs leading-5 text-soft-gray">{resource.copy}</span>
+                  </span>
+                  <i className="ri-arrow-right-line text-xl text-copper transition group-hover:translate-x-1" />
+                </Link>
+              ))}
             </div>
           </div>
-        </div>
-      </section>
 
-      <section className="border-b border-stone bg-white py-16 md:py-20">
-        <div className="mx-auto max-w-[1180px] px-4 md:px-8">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-sage-deep">Explore by research class</p>
-          <div className="mt-5 flex flex-wrap gap-3">
-            {RESEARCH_CATEGORY_LINKS.filter((item) => item.path !== definition.path).map((item) => (
-              <Link key={item.path} href={item.path} className="rounded-full border border-stone bg-white px-5 py-2.5 text-sm font-semibold transition hover:border-sage-deep hover:text-sage-deep">{item.title}</Link>
-            ))}
+          <div className="border-t border-stone bg-white p-7 md:p-12 lg:px-16">
+            <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+              <div>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-sage-deep">Explore by research class</p>
+                <h2 className="mt-2 font-display text-2xl font-semibold md:text-3xl">Find the right catalogue path.</h2>
+              </div>
+              <p className="max-w-md text-sm leading-6 text-soft-gray">Browse focused collections without losing product-level documentation and availability.</p>
+            </div>
+            <div className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {RESEARCH_CATEGORY_LINKS.filter((item) => item.path !== definition.path).map((item, index) => (
+                <Link key={item.path} href={item.path} className="group flex min-h-24 items-center justify-between rounded-xl border border-stone bg-ivory-soft p-5 transition hover:border-sage-deep/40 hover:bg-white hover:shadow-md">
+                  <span><small className="mb-2 block text-[9px] font-semibold uppercase tracking-[0.15em] text-copper">0{index + 1}</small><strong className="font-display text-lg leading-tight">{item.title}</strong></span>
+                  <i className="ri-arrow-right-up-line ml-4 text-lg text-sage-deep transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
       </section>
