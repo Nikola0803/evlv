@@ -745,3 +745,7 @@ body.evlv-halloween .bg-sage-mist{background-color:#fff4e8!important}
 body.evlv-halloween button.bg-sage-deep,
 body.evlv-halloween a.bg-sage-deep{background:linear-gradient(90deg,#ff7622,#ff9d2e)!important;color:#1a0a20!important}
 @media(max-width:760px){.hw-hero,.hw-shop-banner{width:calc(100% - 26px);margin-top:14px;border-radius:16px}}
+
+/* Brand contrast rule: green actions always carry white label text. */
+:is(a,button,input[type="submit"]).bg-sage-deep{color:#fff!important}
+:is(a,button,input[type="submit"])[class*="hover:bg-sage-deep"]:hover{color:#fff!important}

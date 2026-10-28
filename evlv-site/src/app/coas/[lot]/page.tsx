@@ -94,14 +94,13 @@ export default async function CoaLotPage({ params }: { params: Promise<{ lot: st
               <div><dt className="text-xs text-soft-gray">Analyzed</dt><dd className="mt-1 text-lg font-semibold">{coa.tested ?? "See source report"}</dd></div>
             </dl>
             <div className="mt-8 border-t border-stone pt-7">
-              <a href={coa.url} target="_blank" rel="noreferrer" className="inline-flex items-center rounded-md bg-sage-deep px-6 py-3 text-xs font-semibold uppercase tracking-wide text-white transition hover:bg-charcoal">Open original PDF <i className="ri-external-link-line ml-2" /></a>
-              <p className="mt-4 text-sm leading-6 text-soft-gray">The original PDF is the controlling source for methods, results, scope, sample identification, and report limitations.</p>
+              <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-sage-deep">Published report bundle</p>
+              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                <a href={coa.url} target="_blank" rel="noreferrer" className="rounded-xl border border-sage-deep/20 bg-white p-4 transition hover:border-sage-deep hover:shadow-sm"><span className="flex items-center justify-between gap-3"><b className="text-sm">COA / purity record</b><i className="ri-external-link-line text-sage-deep" /></span><small className="mt-2 block leading-5 text-soft-gray">Open the original record for its stated method, result, sample identification, and scope.</small></a>
+                {endotoxinUrl ? <a href={endotoxinUrl} target="_blank" rel="noreferrer" className="rounded-xl border border-sage-deep/20 bg-[#f4f8f5] p-4 transition hover:border-sage-deep hover:shadow-sm"><span className="flex items-center justify-between gap-3"><b className="text-sm">Endotoxin report</b><i className="ri-test-tube-line text-lg text-sage-deep" /></span><small className="mt-2 block leading-5 text-soft-gray">Published for this same DPS lot. Read it as a separate analytical record.</small></a> : <div className="rounded-xl border border-stone bg-ivory-soft p-4"><span className="flex items-center justify-between gap-3"><b className="text-sm text-charcoal/65">Endotoxin report</b><i className="ri-file-forbid-line text-charcoal/35" /></span><small className="mt-2 block leading-5 text-soft-gray">No matching endotoxin report is currently published for this identified lot.</small></div>}
+              </div>
+              <p className="mt-4 text-xs leading-6 text-soft-gray">An endotoxin record is not a sterility or clinical-use claim. Results remain limited to the identified sample and report scope.</p>
             </div>
-            {endotoxinUrl && <div className="mt-6 rounded-xl border border-sage-deep/20 bg-white p-5">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-sage-deep">Separate endotoxin report</p>
-              <p className="mt-2 text-sm leading-6 text-soft-gray">An endotoxin document is published for this same DPS lot. Read its stated method, result, and scope in the source PDF. It is not a sterility or clinical-use claim.</p>
-              <a href={endotoxinUrl} target="_blank" rel="noreferrer" className="mt-4 inline-flex items-center text-sm font-semibold text-sage-deep underline decoration-sage-deep/30 underline-offset-4">Open endotoxin report <i className="ri-external-link-line ml-1" /></a>
-            </div>}
           </article>
           <aside className="h-fit rounded-2xl border border-stone bg-white p-6 md:sticky md:top-28">
             <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-copper">Verify before use</p>
