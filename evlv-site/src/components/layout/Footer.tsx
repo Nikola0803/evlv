@@ -29,8 +29,8 @@ export function Footer() {
             <Logo tone="ivory" imgClassName="cp-footer-logo" />
             <p>Premium research-use-only peptides backed by transparent batch documentation.</p>
             <a href="tel:+15417095434">(541) 709-5434</a>
-            <a href="mailto:office@evlvpeptides.com">office@evlvpeptides.com</a>
-            <a href="mailto:orders@evlvpeptides.com">orders@evlvpeptides.com</a>
+            <a href="mailto:office@evlvpeptides.com" data-cfasync="false">office@evlvpeptides.com</a>
+            <a href="mailto:orders@evlvpeptides.com" data-cfasync="false">orders@evlvpeptides.com</a>
             <a className="cp-footer-vpr" href="https://verifiedpeptidereviews.com/vendors/evlv-peptides" target="_blank" rel="noreferrer">
               <img className="cp-vpr-logo" src="/images/brand/vpr-logo-clean.png" alt="Verified Peptide Reviews" /><span><span className="cp-vpr-stars" aria-label="5 out of 5 stars">★★★★★</span> 4.9 / 5 · 748 verified reviews</span><i>Verify us ↗</i>
             </a>
@@ -46,8 +46,8 @@ export function Footer() {
           <div className="cp-footer-payments"><small>Secure payment options</small>{PAYMENT_GATEWAYS.map(gateway => <span key={gateway.id}><i className={gateway.icon} />{gateway.label}</span>)}</div>
           <div className="cp-footer-contact-meta">
             <a href="tel:+15417095434">(541) 709-5434</a>
-            <a href="mailto:office@evlvpeptides.com">office@evlvpeptides.com</a>
-            <a href="mailto:orders@evlvpeptides.com">orders@evlvpeptides.com</a>
+            <a href="mailto:office@evlvpeptides.com" data-cfasync="false">office@evlvpeptides.com</a>
+            <a href="mailto:orders@evlvpeptides.com" data-cfasync="false">orders@evlvpeptides.com</a>
           </div>
           <nav aria-label="Legal"><Link href="/ruo">Research Use Only</Link><Link href="/indemnity-waiver">Indemnity</Link><Link href="/terms">Terms</Link><Link href="/privacy">Privacy</Link></nav>
         </div>

@@ -34,6 +34,17 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "*.evlvpeptides.com" },
     ],
   },
+  async headers() {
+    return [
+      {
+        // API output is operational data or an asset, never a search landing
+        // page. This lets crawlers read a referenced QR SVG without indexing
+        // it as a duplicate/blocked page.
+        source: "/api/:path*",
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow, noarchive" }],
+      },
+    ];
+  },
   async redirects() {
     return [
       // Renamed to /heroes-discount (broader umbrella covering active

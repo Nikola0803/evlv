@@ -22,6 +22,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ lot
       "Content-Type": "image/svg+xml; charset=utf-8",
       "Cache-Control": "public, max-age=3600, s-maxage=86400",
       "Content-Disposition": `inline; filename="evlv-${lot}-coa-qr.svg"`,
+      "X-Robots-Tag": "noindex, nofollow, noarchive",
     },
   });
 }

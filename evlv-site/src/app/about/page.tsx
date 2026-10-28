@@ -221,7 +221,7 @@ export default function AboutPage() {
 
 function ContactLine({ icon, label, value, href }: { icon: string; label: string; value: string; href: string }) {
   return (
-    <Link href={href} className="group flex items-center gap-4 rounded-xl border border-stone p-4 transition hover:border-sage-deep hover:bg-sage-mist">
+    <Link href={href} data-cfasync={href.startsWith("mailto:") ? "false" : undefined} className="group flex items-center gap-4 rounded-xl border border-stone p-4 transition hover:border-sage-deep hover:bg-sage-mist">
       <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-sage-mist text-lg text-sage-deep"><i className={icon} /></span>
       <span className="min-w-0 flex-1"><small className="block text-[9px] font-semibold uppercase tracking-[.15em] text-soft-gray">{label}</small><strong className="mt-1 block truncate text-sm font-semibold text-charcoal">{value}</strong></span>
       <i className="ri-arrow-right-line text-soft-gray transition-transform group-hover:translate-x-1" />

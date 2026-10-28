@@ -27,14 +27,15 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!product) return {};
   const productType = product.category === "peptides" ? "Research Peptide" : "Research Product";
   const title = `${product.name} ${productType} | COA & Purity`;
+  const description = `${product.name}: ${product.shortDescription} ${product.purity ? `Reported purity: ${product.purity}.` : ""} Review current batch documentation. Research use only; not for human or veterinary use.`.trim();
   return {
     title,
-    description: `${product.shortDescription} ${product.purity ? `Reported purity: ${product.purity}.` : ""} Review current batch documentation. Research use only; not for human or veterinary use.`.trim(),
+    description,
     alternates: { canonical: `/shop/${product.slug}` },
     openGraph: {
       type: "website",
       title,
-      description: product.shortDescription,
+      description,
       images: [{ url: getProductImage(product), width: 800, height: 800, alt: product.name }],
     },
   };

@@ -23,7 +23,8 @@ export async function generateMetadata({ params }: { params: Promise<{ lot: stri
   if (!coa) return {};
   const name = coa.productName ?? coa.compound ?? "EVLV research product";
   const title = `${name} COA | ${coa.label ?? "Lot report"}`;
-  const description = `Review the published ${coa.lab ?? "laboratory"} record for ${name}, including the identified lot, reported result, and analysis date.`;
+  const reportReference = coa.label ? `report ${coa.label}` : "identified report";
+  const description = `Review the published ${coa.lab ?? "laboratory"} ${reportReference} for ${name}, including the identified lot, reported result, and analysis date.`;
   return {
     title,
     description,

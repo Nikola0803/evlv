@@ -35,12 +35,12 @@ export default function ContactPage() {
                 </a>
               </ContactRow>
               <ContactRow icon="ri-mail-line" label="General">
-                <a href="mailto:office@evlvpeptides.com" className="text-sm text-sage-deep transition hover:underline">
+                <a href="mailto:office@evlvpeptides.com" data-cfasync="false" className="text-sm text-sage-deep transition hover:underline">
                   office@evlvpeptides.com
                 </a>
               </ContactRow>
               <ContactRow icon="ri-shopping-bag-line" label="Orders">
-                <a href="mailto:orders@evlvpeptides.com" className="text-sm text-sage-deep transition hover:underline">
+                <a href="mailto:orders@evlvpeptides.com" data-cfasync="false" className="text-sm text-sage-deep transition hover:underline">
                   orders@evlvpeptides.com
                 </a>
               </ContactRow>
