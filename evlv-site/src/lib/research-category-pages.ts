@@ -9,6 +9,7 @@ export interface ResearchCategoryDefinition {
   intro: string;
   scopeTitle: string;
   scope: string;
+  heroImage: string;
   selector: (product: Product) => boolean;
   faq: readonly { question: string; answer: string }[];
 }
@@ -43,6 +44,7 @@ export const RESEARCH_CATEGORY_PAGES = {
     intro: "Research compounds with clearly labeled, product-specific batch documentation where available.",
     scopeTitle: "A catalogue built around traceability",
     scope: "Compare compound identity, labeled quantity, available strengths, current availability, storage information, and exact COA status before ordering. When a matching report is published, the product page connects directly to it. When it is not, EVLV says so rather than presenting unrelated documentation as an exact match.",
+    heroImage: "/images/certified/evlv-hero-multi-vials.png",
     selector: (product) => product.category === "peptides" && product.format !== "supplies",
     faq: [
       { question: "What does research use only mean?", answer: "Research use only means the material is supplied for controlled laboratory, in-vitro, and analytical work. It is not intended or approved for human or veterinary use." },
@@ -59,6 +61,7 @@ export const RESEARCH_CATEGORY_PAGES = {
     intro: "Multi-analyte research products require especially clear labeling. EVLV blend listings identify the named components and total labeled amount while keeping documentation claims tied to the analytes and lot actually reported.",
     scopeTitle: "Read blend documentation analyte by analyte",
     scope: "A single headline purity number can conceal important differences between components. Where a blend report is available, review each named analyte, the reported result, sample identifier, method, and test date. Results for one blend or strength should not be transferred to another.",
+    heroImage: "/images/certified/category-peptides.png",
     selector: (product) => product.format === "blend",
     faq: [
       { question: "What is a research peptide blend?", answer: "A research peptide blend is a single labeled product containing more than one named research compound. Its listing should identify the composition and total labeled amount." },
@@ -75,6 +78,7 @@ export const RESEARCH_CATEGORY_PAGES = {
     intro: "This collection brings together compounds commonly classified within bioregulator and short-peptide research. Listings focus on chemical identity, labeled quantity, storage, and available analytical records without making clinical or therapeutic claims.",
     scopeTitle: "Classification is not a use claim",
     scope: "Category placement describes how products are organized for catalogue discovery. It does not establish safety, efficacy, clinical suitability, or an approved use. Qualified researchers should evaluate the identity and current lot documentation for each individual product.",
+    heroImage: "/images/certified/category-bioregulators.png",
     selector: (product) => BIOREGULATOR_SLUGS.has(product.slug),
     faq: [
       { question: "Why are these products grouped as bioregulators?", answer: "The grouping is a catalogue classification used to organize related research compounds. It is not a statement of an approved application or outcome." },
@@ -91,6 +95,7 @@ export const RESEARCH_CATEGORY_PAGES = {
     intro: "EVLV's metabolic research collection includes single-, dual-, and triple-receptor research classes alongside other laboratory compounds organized within this field. Product pages separate identity, strength, purity reporting, and COA availability.",
     scopeTitle: "Compare the research class, then verify the lot",
     scope: "Compounds grouped in metabolic research can differ in sequence, receptor classification, molecular characteristics, and analytical requirements. Category-level similarities do not make products interchangeable. Evaluate each listing and its current documentation independently.",
+    heroImage: "/images/certified/category-lipotropics.png",
     selector: (product) => METABOLIC_SLUGS.has(product.slug),
     faq: [
       { question: "What is the EVLV GLP research series?", answer: "The GLP research series is EVLV's catalogue naming system for single-, dual-, and triple-receptor research classes. Individual product pages identify the specific listing and labeled strength." },
@@ -107,6 +112,7 @@ export const RESEARCH_CATEGORY_PAGES = {
     intro: "This collection organizes peptide and non-peptide materials commonly discussed in mitochondrial and cellular-energy research. EVLV presents them as laboratory materials with product-specific identity and documentation, not as wellness or medical products.",
     scopeTitle: "Different material classes need different evidence",
     scope: "A category may include chemically different materials, so the most useful evidence remains product specific: compound identity, labeled amount, sample or lot code, analytical method, reported result, and test date. Purity does not by itself establish identity, content, sterility, or suitability for a particular experiment.",
+    heroImage: "/images/certified/evlv-quality-page.png",
     selector: (product) => MITOCHONDRIAL_SLUGS.has(product.slug),
     faq: [
       { question: "Does this category imply a medical benefit?", answer: "No. It is a research catalogue classification only. EVLV does not market these products for diagnosis, treatment, prevention, or personal use." },
@@ -123,6 +129,7 @@ export const RESEARCH_CATEGORY_PAGES = {
     intro: "Supporting materials are listed separately from research compounds so laboratories can identify product type, container size, stock status, and storage information without confusing supplies with peptide documentation.",
     scopeTitle: "Keep supporting materials clearly separated",
     scope: "A supporting supply is not a peptide COA, does not validate another product, and should be evaluated according to its own label and intended laboratory function. Review the individual listing before adding it to an order.",
+    heroImage: "/images/certified/evlv-manufacturing-lab.png",
     selector: (product) => product.format === "supplies" || product.category === "ancillaries",
     faq: [
       { question: "Are laboratory supplies covered by peptide COAs?", answer: "No. Supporting supplies and peptide research products are different product classes and carry different documentation." },

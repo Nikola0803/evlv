@@ -60,16 +60,20 @@ export async function ResearchCategoryPage({ definition }: { definition: Researc
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(breadcrumb) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(faq) }} />
 
-      <section className="cp-info-hero cp-info-quality text-white">
-        <div>
+      <section className="mx-auto mt-4 grid min-h-[460px] w-[calc(100%-26px)] max-w-[1320px] overflow-hidden rounded-2xl border border-white/10 bg-sage-deep text-white shadow-[0_18px_48px_rgba(11,47,44,0.11)] md:mt-7 md:min-h-[520px] md:w-[calc(100%-64px)] md:grid-cols-[0.9fr_1.1fr] md:rounded-[22px]">
+        <div className="flex flex-col justify-center px-6 py-12 md:px-10 md:py-16 lg:px-14 xl:px-16">
           <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">{definition.eyebrow}</p>
-          <h1 className="mt-3 max-w-4xl font-display text-4xl font-semibold leading-[1.08] md:text-5xl">{definition.title}</h1>
-          <p className="mt-4 max-w-3xl text-base leading-7 text-white/70">{definition.intro}</p>
+          <h1 className="mt-4 max-w-xl font-display text-4xl font-semibold leading-[1.04] md:text-[40px] lg:text-5xl xl:text-6xl">{definition.title}</h1>
+          <p className="mt-5 max-w-xl text-base leading-7 text-white/70">{definition.intro}</p>
           <div className="mt-6 flex flex-wrap gap-3">
-            <Link href="#catalogue" className="rounded-md bg-copper px-7 py-3 text-xs font-semibold uppercase tracking-wide text-charcoal">Browse products</Link>
+            <Link href="#catalogue" className="rounded-md bg-white px-7 py-3 text-xs font-semibold uppercase tracking-wide text-sage-deep">Browse products</Link>
             <Link href="/coas" className="rounded-md border border-white/25 px-7 py-3 text-xs font-semibold uppercase tracking-wide text-white">Search COA library</Link>
           </div>
           <p className="mt-5 text-xs font-medium text-white/45">Strictly for laboratory and analytical research. Not for human or veterinary use.</p>
+        </div>
+        <div className="relative min-h-[300px] md:min-h-full" aria-hidden="true">
+          <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url('${definition.heroImage}')` }} />
+          <div className="absolute inset-0 bg-gradient-to-b from-sage-deep via-transparent to-transparent md:bg-gradient-to-r md:from-sage-deep md:via-sage-deep/20 md:to-transparent" />
         </div>
       </section>
 
