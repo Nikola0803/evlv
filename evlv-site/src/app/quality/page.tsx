@@ -4,7 +4,7 @@ import Link from "next/link";
 const SITE_URL = "https://www.evlvpeptides.com";
 
 export const metadata: Metadata = {
-  title: "Quality & Documentation",
+  title: "High-Purity Research Peptides: Quality & COAs | EVLV",
   description: "Learn how EVLV presents lot-specific laboratory documentation, COA records, verification paths, and research-use-only boundaries.",
   alternates: { canonical: "/quality" },
   openGraph: {
@@ -12,6 +12,13 @@ export const metadata: Metadata = {
     url: `${SITE_URL}/quality`,
     title: "Quality & Documentation | EVLV",
     description: "A clear guide to EVLV lot records, COA matching, and research-use-only documentation.",
+    images: [{ url: "/images/certified/evlv-quality-page.png", width: 1600, height: 900, alt: "EVLV quality and COA documentation" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "High-Purity Research Peptides: Quality & COAs | EVLV",
+    description: "Review EVLV lot records, COA matching, and research-use-only documentation.",
+    images: ["/images/certified/evlv-quality-page.png"],
   },
 };
 
@@ -70,6 +77,10 @@ export default function QualityPage() {
     name: "EVLV Quality & Documentation",
     description: "A guide to EVLV lot-specific COA records, supplemental documentation, and research-use-only boundaries.",
     isPartOf: { "@id": `${SITE_URL}/#website` },
+    primaryImageOfPage: {
+      "@type": "ImageObject",
+      url: `${SITE_URL}/images/certified/evlv-quality-page.png`,
+    },
   };
   const faqSchema = {
     "@context": "https://schema.org",

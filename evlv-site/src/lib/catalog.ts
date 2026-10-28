@@ -87,6 +87,16 @@ const preventUnpricedOrders = <T extends { slug: string; inStock: boolean }>(pro
   inStock: !MISSING_VERIFIED_PRICE.has(product.slug) && product.inStock,
 });
 
+// The CRM can return every strength inside a supplier product group. A live
+// group may include strengths that are deliberately absent from the approved
+// storefront inventory. Keep those rows out of variant navigation as well as
+// the shop grid, otherwise an active product page links visitors and crawlers
+// to a strength that cannot resolve in this storefront catalogue.
+const restrictVariantsToStorefront = <T extends { variants?: Array<{ slug: string }> }>(product: T): T => ({
+  ...product,
+  variants: product.variants?.filter((variant) => INVENTORY_SHEET_SLUGS.has(variant.slug)),
+});
+
 async function resolveCatalogProducts() {
   const liveProducts = await getLiveProducts();
   const sheetProducts = getProducts().filter((product) => INVENTORY_SHEET_SLUGS.has(product.slug));
@@ -97,12 +107,14 @@ async function resolveCatalogProducts() {
     return mergeProducts(sheetProducts, approvedLiveProducts, true)
       .map((product) => applyStorefrontRules(product, approvedPriceBySlug))
       .map(preventUnpricedOrders)
+      .map(restrictVariantsToStorefront)
       .map(withQuantityPricing);
   }
 
   return sheetProducts
     .map((product) => applyStorefrontRules(product, approvedPriceBySlug))
     .map(preventUnpricedOrders)
+    .map(restrictVariantsToStorefront)
     .map(withQuantityPricing);
 }
 

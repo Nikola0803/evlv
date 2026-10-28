@@ -7,7 +7,7 @@ import { Reveal } from "@/components/ui/Reveal";
 const SITE_URL = "https://www.evlvpeptides.com";
 
 export const metadata: Metadata = {
-  title: "Research Peptide Wholesale, White Label & Dropshipping",
+  title: "Wholesale Peptides for Approved U.S. Businesses | EVLV",
   description:
     "Launch a research-supply brand with EVLV wholesale, white label, a custom storefront and CRM, eligible inventory, and direct U.S. fulfillment.",
   keywords: [
@@ -26,6 +26,18 @@ export const metadata: Metadata = {
     url: `${SITE_URL}/wholesale`,
     title: "Research Peptide Wholesale, Bulk Supply & Fulfillment | EVLV",
     description: "Reviewed B2B programs for bulk research peptide purchasing, volume pricing, white label, dropshipping, and U.S. fulfillment.",
+    images: [{
+      url: "/images/wholesale/evlv-b2b-fulfillment.png",
+      width: 1600,
+      height: 900,
+      alt: "EVLV wholesale research-product fulfillment operation",
+    }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Wholesale Peptides for Approved U.S. Businesses | EVLV",
+    description: "Reviewed wholesale, white-label, dropshipping, and U.S. fulfillment programs.",
+    images: ["/images/wholesale/evlv-b2b-fulfillment.png"],
   },
 };
 
@@ -39,6 +51,19 @@ const WHOLESALE_SERVICE_JSON_LD = {
   areaServed: { "@type": "Country", name: "United States" },
   audience: { "@type": "BusinessAudience", audienceType: "Qualified research-product businesses and resellers" },
   url: `${SITE_URL}/wholesale`,
+  image: `${SITE_URL}/images/wholesale/evlv-b2b-fulfillment.png`,
+};
+
+const WHOLESALE_PAGE_JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": `${SITE_URL}/wholesale#webpage`,
+  url: `${SITE_URL}/wholesale`,
+  name: "Wholesale Peptides for Approved U.S. Businesses",
+  primaryImageOfPage: {
+    "@type": "ImageObject",
+    url: `${SITE_URL}/images/wholesale/evlv-b2b-fulfillment.png`,
+  },
 };
 
 const PROGRAMS = [
@@ -87,6 +112,7 @@ export default function WholesalePage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(WHOLESALE_SERVICE_JSON_LD).replace(/</g, "\\u003c") }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(WHOLESALE_PAGE_JSON_LD).replace(/</g, "\\u003c") }} />
       <div className="border-b border-stone bg-white py-2.5 text-center text-xs text-charcoal/60">
         Already a partner?{" "}
         <Link href="/account?tab=wholesale" className="font-semibold text-sage-deep underline underline-offset-2 hover:text-charcoal">

@@ -4,7 +4,7 @@ import Link from "next/link";
 const SITE_URL = "https://www.evlvpeptides.com";
 
 export const metadata: Metadata = {
-  title: "Research Peptide Dropshipping & White Label USA",
+  title: "Peptide Dropshipping for Approved U.S. Businesses | EVLV",
   description:
     "EVLV provides vetted U.S. research peptide dropshipping, starter wholesale, white-label support, batch documentation, and direct fulfillment for qualified businesses.",
   keywords: [
@@ -24,6 +24,18 @@ export const metadata: Metadata = {
     title: "Research Peptide Dropshipping & White Label USA | EVLV",
     description:
       "A documentation-first U.S. dropshipping and wholesale program for qualified research-product businesses.",
+    images: [{
+      url: "/images/wholesale/evlv-white-label-dropship.png",
+      width: 1600,
+      height: 900,
+      alt: "EVLV research product dropshipping and white-label fulfillment",
+    }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Peptide Dropshipping for Approved U.S. Businesses | EVLV",
+    description: "Documentation-first research-product dropshipping and fulfillment for qualified U.S. businesses.",
+    images: ["/images/wholesale/evlv-white-label-dropship.png"],
   },
 };
 
@@ -119,6 +131,19 @@ const serviceJsonLd = {
   areaServed: { "@type": "Country", name: "United States" },
   audience: { "@type": "BusinessAudience", audienceType: "Qualified research-product businesses" },
   url: `${SITE_URL}/dropshipping`,
+  image: `${SITE_URL}/images/wholesale/evlv-white-label-dropship.png`,
+};
+
+const pageJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": `${SITE_URL}/dropshipping#webpage`,
+  url: `${SITE_URL}/dropshipping`,
+  name: "Peptide Dropshipping for Approved U.S. Businesses",
+  primaryImageOfPage: {
+    "@type": "ImageObject",
+    url: `${SITE_URL}/images/wholesale/evlv-white-label-dropship.png`,
+  },
 };
 
 const faqJsonLd = {
@@ -148,6 +173,7 @@ export default function DropshippingPage() {
   return (
     <div className="bg-white text-charcoal">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(serviceJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(pageJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(faqJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(breadcrumbJsonLd) }} />
 
