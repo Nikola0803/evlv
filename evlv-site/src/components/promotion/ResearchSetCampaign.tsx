@@ -29,7 +29,7 @@ function useCampaignClock() {
     return () => window.clearInterval(timer);
   }, []);
 
-  const effectiveNow = now ?? STARTS_AT - 1;
+  const effectiveNow = now ?? ENDS_AT + 1;
   const phase: CampaignPhase = effectiveNow < STARTS_AT ? "before" : effectiveNow < ENDS_AT ? "live" : "ended";
   const target = phase === "before" ? STARTS_AT : ENDS_AT;
   return { phase, remaining: Math.max(0, target - effectiveNow), ready: now !== null };
@@ -60,7 +60,10 @@ function StandardHero() {
         <VerifiedPeptideReviewsBadge />
         <h1>Premium Peptides<br /><span>&amp; BioRegulators</span></h1>
         <p>EVLV is built for researchers who expect precise documentation, consistent quality, and premium presentation.</p>
-        <Link className="cp-primary" href="/shop?category=peptides">Shop All Peptides</Link>
+        <div className="cp-hero-actions">
+          <Link className="cp-primary" href="/shop?category=peptides">Shop All Peptides</Link>
+          <Link className="cp-hero-coas" href="/coas"><i className="ri-file-text-line" /> View COAs</Link>
+        </div>
       </div>
       <div className="cp-hero-image" aria-label="EVLV premium peptide vials and matching cartons" />
     </section>

@@ -13,6 +13,7 @@ const SHOP = [
 const SUPPORT = [
   ["Contact", "/contact"], ["Track Order", "/track-order"],
   ["Shipping", "/shipping"], ["Returns", "/returns"],
+  ["Service Discount", "/heroes-discount"],
 ] as const;
 
 const COMPANY = [
