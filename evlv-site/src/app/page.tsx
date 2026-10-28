@@ -8,10 +8,10 @@ import { WelcomeOffer } from "@/components/home/WelcomeOffer";
 import { ResearchSetCampaignHomeHero } from "@/components/promotion/ResearchSetCampaign";
 
 const CATEGORIES = [
-  { title: "Shop Peptides", sub: "Third-party verified", href: "/shop?category=peptides", image: "category-peptides.png" },
-  { title: "Bioregulators", sub: "Research precision", href: "/shop?focus=bioregulators", image: "category-bioregulators.png" },
-  { title: "Lipotropics", sub: "Science inspired", href: "/shop?focus=metabolic", image: "category-lipotropics.png" },
-  { title: "Peptide Capsules", sub: "Research products", href: "/shop?format=oral", image: "category-capsules.png" },
+  { title: "Shop Peptides", sub: "Browse the research catalogue", href: "/research-peptides", image: "category-peptides.png" },
+  { title: "Bioregulators", sub: "Research catalogue and documentation", href: "/bioregulators", image: "category-bioregulators.png" },
+  { title: "Metabolic Research", sub: "Single, dual, and triple receptor classes", href: "/metabolic-research-peptides", image: "category-lipotropics.png" },
+  { title: "Peptide Blends", sub: "Multi-analyte research catalogue", href: "/peptide-blends", image: "category-capsules.png" },
   { title: "Shop Sales", sub: "Limited-time savings", href: "/shop", image: "category-sale.png" },
 ];
 

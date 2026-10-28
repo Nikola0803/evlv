@@ -52,13 +52,13 @@ const newsreader = Newsreader({
 
 export function generateMetadata(): Metadata {
   const halloweenLive = Date.now() < new Date("2026-11-01T06:00:00.000Z").getTime();
-  const title = halloweenLive
-    ? "EVLV Halloween BOGO | Buy 1, Get 1 Free Research Peptides"
-    : "EVLV Peptides: High-Purity Research Peptides for Laboratory Analysis";
-  const description = halloweenLive
-    ? "EVLV Halloween BOGO is live. Buy one and get one matching research product free, with no pair limit. Automatic discount and free priority shipping at $300. Research use only."
-    : "Research peptides supplied for laboratory and in-vitro analytical research, with exact product and batch reports clearly labeled when available. Not for human or animal use.";
+  const title = "Research Peptides for Sale in the USA | Verified COAs | EVLV";
+  const description = "U.S.-dispatched research peptides for laboratory and in-vitro analytical research, with exact product and batch COAs clearly labeled when available. Research use only.";
   const socialImage = halloweenLive ? "/images/social/evlv-halloween-bogo-og-v1.jpg" : "/images/hero-vial.png";
+  const socialTitle = halloweenLive ? "EVLV Halloween BOGO | Buy 1, Get 1 Free" : title;
+  const socialDescription = halloweenLive
+    ? "Buy one and get one matching research product free, with no pair limit. Automatic discount and free priority shipping at $300. Research use only."
+    : description;
 
   return {
     metadataBase: new URL(SITE_URL),
@@ -77,14 +77,14 @@ export function generateMetadata(): Metadata {
       type: "website",
       url: SITE_URL,
       siteName: "EVLV",
-      title,
-      description,
+      title: socialTitle,
+      description: socialDescription,
       images: [{ url: socialImage, width: 1200, height: 630, alt: halloweenLive ? "EVLV Halloween BOGO buy one get one free event" : "EVLV research peptides" }],
     },
     twitter: {
       card: "summary_large_image",
-      title,
-      description,
+      title: socialTitle,
+      description: socialDescription,
       images: [socialImage],
     },
     robots: { index: true, follow: true },

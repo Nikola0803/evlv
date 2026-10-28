@@ -3,11 +3,18 @@ import { getCatalogProducts } from "@/lib/catalog";
 import { getJournalArticles } from "@/lib/journal-data";
 
 const BASE_URL = "https://www.evlvpeptides.com";
+const CONTENT_RELEASE = new Date("2026-10-28T00:00:00.000Z");
 
 const STATIC_ROUTES = [
   { path: "/", priority: 1, changeFrequency: "daily" as const },
   { path: "/shop", priority: 0.9, changeFrequency: "daily" as const },
   { path: "/research-peptides-usa", priority: 0.9, changeFrequency: "weekly" as const },
+  { path: "/research-peptides", priority: 0.9, changeFrequency: "weekly" as const },
+  { path: "/peptide-blends", priority: 0.8, changeFrequency: "weekly" as const },
+  { path: "/bioregulators", priority: 0.8, changeFrequency: "weekly" as const },
+  { path: "/metabolic-research-peptides", priority: 0.8, changeFrequency: "weekly" as const },
+  { path: "/mitochondrial-research-peptides", priority: 0.8, changeFrequency: "weekly" as const },
+  { path: "/research-lab-supplies", priority: 0.6, changeFrequency: "weekly" as const },
   { path: "/coas", priority: 0.7, changeFrequency: "weekly" as const },
   { path: "/journal", priority: 0.6, changeFrequency: "weekly" as const },
   { path: "/about", priority: 0.5, changeFrequency: "monthly" as const },
@@ -30,6 +37,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const staticEntries: MetadataRoute.Sitemap = STATIC_ROUTES.map((r) => ({
     url: `${BASE_URL}${r.path}`,
+    lastModified: CONTENT_RELEASE,
     changeFrequency: r.changeFrequency,
     priority: r.priority,
   }));

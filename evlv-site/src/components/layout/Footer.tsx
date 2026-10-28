@@ -4,7 +4,9 @@ import { NewsletterForm } from "./NewsletterForm";
 import { PAYMENT_GATEWAYS } from "@/lib/payment-config";
 
 const SHOP = [
-  ["All Products", "/shop"], ["Peptides", "/shop?category=peptides"],
+  ["All Products", "/shop"], ["Research Peptides", "/research-peptides"],
+  ["Peptide Blends", "/peptide-blends"], ["Bioregulators", "/bioregulators"],
+  ["Metabolic Research", "/metabolic-research-peptides"], ["Mitochondrial Research", "/mitochondrial-research-peptides"],
   ["Research Peptides USA", "/research-peptides-usa"], ["COA Library", "/coas"], ["Wholesale", "/wholesale"], ["Peptide Dropshipping", "/dropshipping"],
 ] as const;
 
