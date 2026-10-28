@@ -49,7 +49,7 @@ export function ProductClient({ product, coa, coaPath, hasEndotoxinReport = fals
         <PackSelector packs={packs} packIndex={packIndex} onSelect={setPackIndex} formatPrice={formatPrice} />
         {locked ? <Link className="cp-pdp-add" href="/account?tab=verification">Apply for verification</Link> : <button className="cp-pdp-add" type="button" disabled={!product.inStock} onClick={add}>{product.inStock ? `Add to cart · ${formatPrice(total)}` : "Out of stock"}</button>}
         <div className="cp-urgency"><i className="ri-time-line" /><span><b>Order before 2 PM ET for same-day processing.</b> Tracked U.S. delivery and free priority shipping over $300.</span></div>
-        {coa ? <Link className="cp-coa-cta" href={coaPath ?? "/coas"}>✓ View exact product COA</Link> : <Link className="cp-coa-cta" href="/coas">Search the COA library</Link>}
+        {coa ? <><Link className="cp-coa-cta" href={coaPath ?? "/coas"}>✓ View exact product COA</Link><Link href="/verify-your-vial" className="mt-3 inline-flex text-xs font-semibold text-sage-deep underline decoration-sage-deep/30 underline-offset-4">How to verify the vial and lot <i className="ri-arrow-right-line ml-1" /></Link></> : <Link className="cp-coa-cta" href="/coas">Search the COA library</Link>}
         <p className="cp-pdp-mobile-description">{product.shortDescription}</p>
         <div className="cp-pdp-trust">
           {coa && <><div><i className="ri-checkbox-circle-line" />Third-Party Report</div><div><i className="ri-file-shield-2-line" />Exact Product COA</div>{hasEndotoxinReport && <div><i className="ri-test-tube-line" />Endotoxin Report</div>}</>}

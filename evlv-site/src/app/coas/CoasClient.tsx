@@ -84,7 +84,7 @@ export function CoasClient({ coaEntries }: { coaEntries: CoaEntry[] }) {
             </div>
             <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-stone pt-4">
               <p className="max-w-xl text-xs leading-5 text-charcoal/55">Have an EVLV vial in hand? Scan its QR to open the matching public lot record, then compare the label before reviewing the PDF.</p>
-              <CoaScanner />
+              <div className="flex flex-wrap gap-2"><CoaScanner /><Link href="/verify-your-vial" className="rounded-xl border border-stone bg-white px-4 py-3 text-xs font-semibold text-sage-deep transition hover:border-sage-deep hover:bg-sage-deep hover:text-white">How verification works</Link></div>
             </div>
           </div>
 

@@ -33,6 +33,7 @@ const STATIC_ROUTES = [
   { path: "/wolverine-blend-research", priority: 0.8, changeFrequency: "weekly" as const },
   { path: "/5-amino-1mq-research", priority: 0.8, changeFrequency: "weekly" as const },
   { path: "/coas", priority: 0.7, changeFrequency: "weekly" as const },
+  { path: "/verify-your-vial", priority: 0.7, changeFrequency: "weekly" as const },
   { path: "/journal", priority: 0.6, changeFrequency: "weekly" as const },
   { path: "/about", priority: 0.5, changeFrequency: "monthly" as const },
   { path: "/faq", priority: 0.4, changeFrequency: "monthly" as const },
