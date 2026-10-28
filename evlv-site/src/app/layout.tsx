@@ -71,7 +71,7 @@ export function generateMetadata(): Metadata {
       "third-party tested peptides",
       "research chemicals",
     ],
-    alternates: { canonical: "/" },
+    alternates: { canonical: "/", languages: { "en-US": "/" } },
     openGraph: {
       type: "website",
       url: SITE_URL,
@@ -98,6 +98,7 @@ const ORGANIZATION_JSON_LD = {
   url: SITE_URL,
   logo: `${SITE_URL}/logo/evlv-logo-light.png`,
   description: "High-purity research peptides supplied for laboratory and in-vitro analytical research. Batch-level Certificates of Analysis published. Not for human or animal use.",
+  legalName: "Warrior Distributions LLC",
   areaServed: ["US", "CA"],
   contactPoint: {
     "@type": "ContactPoint",
@@ -106,6 +107,7 @@ const ORGANIZATION_JSON_LD = {
     areaServed: ["US", "CA"],
     availableLanguage: "English",
   },
+  sameAs: ["https://verifiedpeptidereviews.com/vendors/evlv-peptides"],
 };
 
 const WEBSITE_JSON_LD = {
