@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import { getProductBySlug, getProducts, getShopListProducts } from "@/lib/products";
 import { getCatalogProducts } from "@/lib/catalog";
 import { getCoaMap } from "@/lib/coa-data";
-import { getCoaLotPath } from "@/lib/coa-lots";
+import { getCoaLotPath, getEndotoxinReport } from "@/lib/coa-lots";
 import { ProductClient } from "./ProductClient";
 import { getProductImage } from "@/lib/product-images";
 import { ProductCard } from "@/components/product/ProductCard";
@@ -122,7 +122,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         </nav>
       </div>
       <div className="mx-auto max-w-[1400px] px-4 pb-5 md:px-8">
-        <ProductClient product={product} coa={coa} coaPath={coa ? getCoaLotPath(coa) : undefined} />
+        <ProductClient product={product} coa={coa} coaPath={coa ? getCoaLotPath(coa) : undefined} hasEndotoxinReport={Boolean(coa && getEndotoxinReport(coa.label))} />
       </div>
       <section className="cp-pdp-details" aria-labelledby="product-description-heading">
         <div>

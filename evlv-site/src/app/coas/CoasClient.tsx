@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { getProducts } from "@/lib/products";
 import type { CoaEntry } from "@/lib/coa-data";
-import { getCoaLotPath } from "@/lib/coa-lots";
+import { getCoaLotPath, getEndotoxinReport } from "@/lib/coa-lots";
 import { CoaScanner } from "./CoaScanner";
 import { getProductImage } from "@/lib/product-images";
 
@@ -112,6 +112,7 @@ export function CoasClient({ coaEntries }: { coaEntries: CoaEntry[] }) {
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               {filtered.map((coa) => {
                 const product = productBySlug.get(coa.slug);
+                const endotoxinUrl = getEndotoxinReport(coa.label);
                 const imageProduct = product ?? productBySlug.get(COA_IMAGE_PRODUCT_SLUG[coa.slug]);
                 const image = imageProduct ? getProductImage(imageProduct) : "/images/products/vial-placeholder.png";
                 return (
@@ -129,6 +130,7 @@ export function CoasClient({ coaEntries }: { coaEntries: CoaEntry[] }) {
                         <div className="min-w-0">
                           <p className="truncate text-[10px] font-semibold uppercase tracking-[0.14em] text-copper">{coa.compound}</p>
                           <h3 className="mt-1 text-sm font-semibold leading-snug text-charcoal sm:text-base">{coa.productName ?? product?.name}</h3>
+                          {endotoxinUrl && <p className="mt-2 inline-flex items-center gap-1 text-[9px] font-semibold uppercase tracking-[0.12em] text-sage-deep"><i className="ri-test-tube-line" /> Endotoxin report on file</p>}
                         </div>
                         <i className="ri-arrow-right-up-line shrink-0 text-lg text-sage-deep transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                       </div>

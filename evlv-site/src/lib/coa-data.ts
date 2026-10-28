@@ -92,8 +92,17 @@ export const LOCAL_COAS: CoaEntry[] = [
   { slug: "selank-5mg", url: "/coas/evlv-dps-4692745.pdf", label: "DPS-4692745", productName: "SELANK", compound: "Selank", purity: "99.42%", tested: "Sep 15, 2026", lab: "Horizon Analytical" },
 ];
 
+
 const PRIMARY_LOCAL_COA_MAP: Record<string, CoaEntry> = {};
-for (const coa of [...LOCAL_COAS].reverse()) PRIMARY_LOCAL_COA_MAP[coa.slug] = coa;
+for (const coa of LOCAL_COAS) {
+  const current = PRIMARY_LOCAL_COA_MAP[coa.slug];
+  // Current DPS reports have paired endotoxin documentation in this release.
+  // Prefer them over an older Warrior/OPTIQ record while retaining the latter
+  // in the public lot-history library.
+  const incomingIsDps = coa.label?.startsWith("DPS-");
+  const currentIsDps = current?.label?.startsWith("DPS-");
+  if (!current || (incomingIsDps && !currentIsDps)) PRIMARY_LOCAL_COA_MAP[coa.slug] = coa;
+}
 PRIMARY_LOCAL_COA_MAP["bpc-tb-500-blend-20mg"] = LOCAL_COAS.find((coa) => coa.slug === "bpc-tb-500-blend-20mg")!;
 
 export async function getCoaMap(): Promise<Record<string, CoaEntry>> {

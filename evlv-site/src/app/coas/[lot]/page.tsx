@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getCoaEntries } from "@/lib/coa-data";
-import { getCoaLotId } from "@/lib/coa-lots";
+import { getCoaLotId, getEndotoxinReport } from "@/lib/coa-lots";
 import { getProductBySlug } from "@/lib/products";
 
 const SITE_URL = "https://www.evlvpeptides.com";
@@ -39,6 +39,7 @@ export default async function CoaLotPage({ params }: { params: Promise<{ lot: st
   if (!coa) notFound();
 
   const product = getProductBySlug(coa.slug);
+  const endotoxinUrl = getEndotoxinReport(coa.label);
   const productName = coa.productName ?? product?.name ?? coa.compound ?? "Research product";
   const pageUrl = `${SITE_URL}/coas/${lot}`;
   const schema = {
@@ -96,6 +97,11 @@ export default async function CoaLotPage({ params }: { params: Promise<{ lot: st
               <a href={coa.url} target="_blank" rel="noreferrer" className="inline-flex items-center rounded-md bg-sage-deep px-6 py-3 text-xs font-semibold uppercase tracking-wide text-white transition hover:bg-charcoal">Open original PDF <i className="ri-external-link-line ml-2" /></a>
               <p className="mt-4 text-sm leading-6 text-soft-gray">The original PDF is the controlling source for methods, results, scope, sample identification, and report limitations.</p>
             </div>
+            {endotoxinUrl && <div className="mt-6 rounded-xl border border-sage-deep/20 bg-white p-5">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-sage-deep">Separate endotoxin report</p>
+              <p className="mt-2 text-sm leading-6 text-soft-gray">An endotoxin document is published for this same DPS lot. Read its stated method, result, and scope in the source PDF. It is not a sterility or clinical-use claim.</p>
+              <a href={endotoxinUrl} target="_blank" rel="noreferrer" className="mt-4 inline-flex items-center text-sm font-semibold text-sage-deep underline decoration-sage-deep/30 underline-offset-4">Open endotoxin report <i className="ri-external-link-line ml-1" /></a>
+            </div>}
           </article>
           <aside className="h-fit rounded-2xl border border-stone bg-white p-6 md:sticky md:top-28">
             <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-copper">Verify before use</p>

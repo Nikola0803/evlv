@@ -16,7 +16,7 @@ import { VerifiedPeptideReviewsBadge } from "@/components/trust/VerifiedPeptideR
 
 const FULFILLMENT_TRUST = ["U.S. Dispatch","Same-Day Processing","Tracked Delivery","Expert Support"];
 
-export function ProductClient({ product, coa, coaPath }: { product: Product; coa?: CoaEntry; coaPath?: string }) {
+export function ProductClient({ product, coa, coaPath, hasEndotoxinReport = false }: { product: Product; coa?: CoaEntry; coaPath?: string; hasEndotoxinReport?: boolean }) {
   const { packIndex, setPackIndex, packs, selected } = usePackSelection(product);
   const { addToCart } = useCart();
   const { formatPrice } = useCurrency();
@@ -52,7 +52,7 @@ export function ProductClient({ product, coa, coaPath }: { product: Product; coa
         {coa ? <Link className="cp-coa-cta" href={coaPath ?? "/coas"}>✓ View exact product COA</Link> : <Link className="cp-coa-cta" href="/coas">Search the COA library</Link>}
         <p className="cp-pdp-mobile-description">{product.shortDescription}</p>
         <div className="cp-pdp-trust">
-          {coa && <><div><i className="ri-checkbox-circle-line" />Third-Party Report</div><div><i className="ri-file-shield-2-line" />Exact Product COA</div></>}
+          {coa && <><div><i className="ri-checkbox-circle-line" />Third-Party Report</div><div><i className="ri-file-shield-2-line" />Exact Product COA</div>{hasEndotoxinReport && <div><i className="ri-test-tube-line" />Endotoxin Report</div>}</>}
           {FULFILLMENT_TRUST.map((item, i) => <div key={item}><i className={i === 0 ? "ri-map-pin-line" : i === 1 ? "ri-time-line" : i === 2 ? "ri-send-plane-line" : "ri-customer-service-2-line"} />{item}</div>)}
         </div>
         <div className="cp-wholesale"><span><b>Need wholesale research pricing?</b><small>Volume options for qualified laboratories and research organizations.</small></span><Link href="/wholesale">View wholesale options ↗</Link></div>
