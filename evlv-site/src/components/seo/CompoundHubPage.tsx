@@ -72,7 +72,7 @@ export async function CompoundHubPage({ hub }: { hub: CompoundHubDefinition }) {
           <p className="mt-4 text-sm font-semibold uppercase tracking-[0.12em] text-white/50">{hub.classification}</p>
           <p className="mt-6 max-w-3xl text-base leading-8 text-white/70 md:text-lg">{hub.overview}</p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <Link href="#products" className="rounded-md bg-copper px-7 py-3 text-xs font-semibold uppercase tracking-wide text-charcoal">View available strengths</Link>
+            <Link href="#products" className="rounded-md bg-copper px-7 py-3 text-xs font-semibold uppercase tracking-wide text-white transition hover:bg-sage-deep">View available strengths</Link>
             <Link href="/coas" className="rounded-md border border-white/25 px-7 py-3 text-xs font-semibold uppercase tracking-wide text-white">Search exact COAs</Link>
           </div>
           <p className="mt-6 text-xs font-medium text-white/45">Research use only. Not for human or veterinary use.</p>

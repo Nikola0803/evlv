@@ -106,7 +106,7 @@ export function BwHBrandOffer({ products = [] }: { products?: Product[] }) {
         <button
           type="button"
           onClick={() => addToCart(product, 1, product.price, "1 PCS")}
-          className="mt-2.5 inline-block rounded-md bg-copper px-3.5 py-2 text-[11px] font-semibold uppercase tracking-wide text-charcoal transition hover:bg-copper-light"
+          className="mt-2.5 inline-block rounded-md bg-copper px-3.5 py-2 text-[11px] font-semibold uppercase tracking-wide text-white transition hover:bg-sage-deep"
         >
           Add BW 10mL · {formatPrice(product.price)}
         </button>
