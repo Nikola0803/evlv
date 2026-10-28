@@ -7,7 +7,7 @@ import { Reveal } from "@/components/ui/Reveal";
 const SITE_URL = "https://www.evlvpeptides.com";
 
 export const metadata: Metadata = {
-  title: "Research Peptide Wholesale, White Label & Dropshipping",
+  title: "Wholesale Peptides | Bulk Supply, White Label & Dropshipping",
   description:
     "Launch a research-supply brand with EVLV wholesale, white label, a custom storefront and CRM, eligible inventory, and direct U.S. fulfillment.",
   keywords: [
@@ -113,7 +113,7 @@ export default function WholesalePage() {
                 <span className="h-px w-8 bg-[#b9d9ce]/70" /> EVLV Partner Programs
               </p>
               <h1 className="font-display text-[42px] font-semibold leading-[1.02] tracking-[-0.025em] text-white sm:text-5xl md:text-6xl lg:text-[68px]">
-                Wholesale, white label, and dropshipping - built around you.
+                Wholesale Peptides, White Label & Dropshipping — Built Around You.
               </h1>
               <p className="mt-6 max-w-xl text-base leading-relaxed text-white/75 md:text-lg">
                 Launch and sell under your own brand. EVLV provides the custom storefront, CRM, eligible research
