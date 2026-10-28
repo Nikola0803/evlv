@@ -43,6 +43,19 @@ export default function JournalPage() {
         </div>
       </section>
 
+      <section className="bg-white py-14 md:py-20">
+        <div className="mx-auto max-w-[900px] px-4 md:px-8 text-center">
+          <p className="text-sm leading-7 text-charcoal/60 md:text-base md:leading-8">
+            The EVLV Journal covers the science, sourcing, and documentation practices that define responsible research-peptide supply.
+            Each piece is written to help qualified researchers evaluate compounds, verify batch documentation, and understand the regulatory
+            framing around research-use-only chemicals in the United States.
+            Topics span purity methodology, identity confirmation by mass spectrometry, lot traceability, freeze-drying and vial integrity,
+            endotoxin testing, U.S. sourcing standards, wholesale supply, and dropshipping infrastructure.
+            All content is written for laboratory and analytical research contexts — not for human or veterinary use guidance.
+          </p>
+        </div>
+      </section>
+
       <section className="bg-ivory py-20 md:py-32">
         <div className="mx-auto max-w-[1400px] px-4 md:px-8">
           <div className="grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-8">

@@ -10,6 +10,7 @@ export function Hero() {
         loop
         muted
         playsInline
+        preload="none"
         className="absolute inset-0 h-full w-full object-cover md:hidden"
         poster="/images/hero-vial-mobile.png"
       >
@@ -20,6 +21,7 @@ export function Hero() {
         loop
         muted
         playsInline
+        preload="none"
         className="absolute inset-0 h-full w-full object-cover max-md:hidden"
         poster="/images/hero-vial.png"
       >

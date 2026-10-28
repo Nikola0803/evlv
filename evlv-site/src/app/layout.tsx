@@ -136,6 +136,10 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
     <html lang="en" className={`${poppins.variable} ${inter.variable} ${newsreader.variable} h-full antialiased`}>
       <head>
         <GoogleTagManagerHead />
+        {/* Preload hero poster images so the browser can paint them immediately as LCP elements,
+            rather than waiting for video metadata. The media queries mirror Hero.tsx breakpoints. */}
+        <link rel="preload" as="image" href="/images/hero-vial.png" fetchPriority="high" media="(min-width: 768px)" />
+        <link rel="preload" as="image" href="/images/hero-vial-mobile.png" fetchPriority="high" media="(max-width: 767px)" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ORGANIZATION_JSON_LD).replace(/</g, "\\u003c") }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(WEBSITE_JSON_LD).replace(/</g, "\\u003c") }} />

@@ -7,7 +7,7 @@ import { ProductCard } from "@/components/product/ProductCard";
 import { ButtonLink } from "@/components/ui/Button";
 
 export const metadata: Metadata = {
-  title: "Research Peptide FAQ",
+  title: "Research Peptide Questions & Answers",
   description: "Answers about EVLV research-use-only products, lot-specific COAs, U.S. shipping, order tracking, institutional orders, and analytical testing.",
   alternates: { canonical: "/faq" },
 };
