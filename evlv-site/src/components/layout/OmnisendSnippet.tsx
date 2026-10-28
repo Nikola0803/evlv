@@ -12,7 +12,7 @@ const OMNISEND_BRAND_ID = process.env.NEXT_PUBLIC_OMNISEND_BRAND_ID || "6aa90340
 
 export function OmnisendSnippet() {
   return (
-    <Script id="omnisend-snippet" strategy="afterInteractive">
+    <Script id="omnisend-snippet" strategy="lazyOnload">
       {`
         window.omnisend = window.omnisend || [];
         omnisend.push(["brandID", "${OMNISEND_BRAND_ID}"]);

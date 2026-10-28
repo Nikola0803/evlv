@@ -21,8 +21,9 @@ import { GoogleTagManagerHead, GoogleTagManagerBody } from "@/components/layout/
 import { OmnisendSnippet } from "@/components/layout/OmnisendSnippet";
 import { ScrollToTop } from "@/components/layout/ScrollToTop";
 import { ChunkErrorReload } from "@/components/layout/ChunkErrorReload";
-import { LiveChat } from "@/components/layout/LiveChat";
+import { DeferredLiveChat } from "@/components/layout/DeferredLiveChat";
 import { HalloweenExperience } from "@/components/promotion/HalloweenExperience";
+import Script from "next/script";
 
 const SITE_URL = "https://www.evlvpeptides.com";
 const CRM_PUBLIC_URL = process.env.NEXT_PUBLIC_CRM_URL || "https://crm.evlvpeptides.com";
@@ -141,7 +142,6 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ORGANIZATION_JSON_LD).replace(/</g, "\\u003c") }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(WEBSITE_JSON_LD).replace(/</g, "\\u003c") }} />
-        <script src={`${CRM_PUBLIC_URL}/pixel.js`} data-key={CRM_TRACKING_KEY} async />
       </head>
       <body className="flex min-h-full flex-col bg-ivory text-charcoal">
         <ScrollToTop />
@@ -149,6 +149,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         <GoogleTagManagerBody />
         <GoogleAnalytics />
         <OmnisendSnippet />
+        <Script src={`${CRM_PUBLIC_URL}/pixel.js`} data-key={CRM_TRACKING_KEY} strategy="lazyOnload" />
         <ReferralCapture />
         <VerificationSync />
         <MembershipSync />
@@ -179,7 +180,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
                 <Footer />
                 <CartToast />
                 <CartDrawer products={products} />
-                <LiveChat />
+                <DeferredLiveChat />
               </AgeGate>
             )}
           </CartProvider>

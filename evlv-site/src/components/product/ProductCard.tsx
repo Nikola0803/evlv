@@ -28,7 +28,13 @@ export function ProductCard({ product, coaVerified = false }: { product: Product
     <article className="cp-product-card">
       {coaVerified && <span className="cp-coa-badge">✓ Exact COA Available</span>}
       <Link href={`/shop/${product.slug}`} className="cp-product-shot">
-        <Image src={getProductImage(product)} alt={`${product.name} EVLV research product`} width={1200} height={1200} />
+        <Image
+          src={getProductImage(product)}
+          alt={`${product.name} EVLV research product`}
+          width={1200}
+          height={1200}
+          sizes="(max-width: 620px) 50vw, (max-width: 980px) 33vw, 25vw"
+        />
       </Link>
       <div className="cp-purity">{coaVerified ? <>Reported purity <b>{product.purity || "See COA"}</b></> : <>Documentation <b>See product page</b></>}</div>
       <div className="cp-product-copy">

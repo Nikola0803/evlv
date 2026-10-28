@@ -6,6 +6,11 @@ const nextConfig: NextConfig = {
     root: process.cwd(),
   },
   images: {
+    // Serve responsive assets in modern formats and keep Vercel's optimized
+    // copies available long enough that repeat visits avoid re-encoding the
+    // large source photography in /public/images.
+    formats: ["image/avif", "image/webp"],
+    minimumCacheTTL: 31_536_000,
     // The CRM's live product feed (see src/lib/product-feed.ts) hands
     // back Product.imageUrl / CoaDocument.url as absolute URLs pointing
     // at the CRM's own domain (peptide-saas's /api/store/products route
