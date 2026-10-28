@@ -21,7 +21,6 @@ import { GoogleTagManagerHead, GoogleTagManagerBody } from "@/components/layout/
 import { OmnisendSnippet } from "@/components/layout/OmnisendSnippet";
 import { ScrollToTop } from "@/components/layout/ScrollToTop";
 import { ChunkErrorReload } from "@/components/layout/ChunkErrorReload";
-import { ConversionPrompts } from "@/components/layout/ConversionPrompts";
 import { LiveChat } from "@/components/layout/LiveChat";
 import { HalloweenExperience } from "@/components/promotion/HalloweenExperience";
 
@@ -178,7 +177,6 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
                 <Footer />
                 <CartToast />
                 <CartDrawer products={products} />
-                <ConversionPrompts />
                 <LiveChat />
               </AgeGate>
             )}

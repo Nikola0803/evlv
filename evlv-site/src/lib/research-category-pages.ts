@@ -40,7 +40,7 @@ export const RESEARCH_CATEGORY_PAGES = {
     title: "Research Peptides for Laboratory Analysis",
     metaTitle: "Research Peptides for Sale in the USA | COAs & Purity",
     description: "Browse EVLV research peptides for laboratory and in-vitro analysis, with U.S. dispatch and exact product COAs clearly labeled when available.",
-    intro: "EVLV organizes its research catalogue around identifiable compounds, labeled strengths, and product-specific documentation. Every listing is supplied strictly for lawful laboratory and analytical research, never for human or veterinary use.",
+    intro: "Research compounds with clearly labeled, product-specific batch documentation where available.",
     scopeTitle: "A catalogue built around traceability",
     scope: "Compare compound identity, labeled quantity, available strengths, current availability, storage information, and exact COA status before ordering. When a matching report is published, the product page connects directly to it. When it is not, EVLV says so rather than presenting unrelated documentation as an exact match.",
     selector: (product) => product.category === "peptides" && product.format !== "supplies",

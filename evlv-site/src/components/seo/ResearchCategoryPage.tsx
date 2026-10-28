@@ -58,37 +58,20 @@ export async function ResearchCategoryPage({ definition }: { definition: Researc
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(breadcrumb) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(faq) }} />
 
-      <section className="-mt-[90px] bg-charcoal pb-18 pt-[150px] text-white md:-mt-[100px] md:pb-24 md:pt-[175px]">
+      <section className="-mt-[90px] bg-charcoal pb-14 pt-[145px] text-white md:-mt-[100px] md:pb-18 md:pt-[165px]">
         <div className="mx-auto max-w-[1180px] px-4 md:px-8">
           <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">{definition.eyebrow}</p>
-          <h1 className="mt-4 max-w-4xl font-display text-4xl font-semibold leading-[1.08] md:text-6xl">{definition.title}</h1>
-          <p className="mt-6 max-w-3xl text-base leading-8 text-white/70 md:text-lg">{definition.intro}</p>
-          <div className="mt-8 flex flex-wrap gap-3">
+          <h1 className="mt-3 max-w-4xl font-display text-4xl font-semibold leading-[1.08] md:text-5xl">{definition.title}</h1>
+          <p className="mt-4 max-w-3xl text-base leading-7 text-white/70">{definition.intro}</p>
+          <div className="mt-6 flex flex-wrap gap-3">
             <Link href="#catalogue" className="rounded-md bg-copper px-7 py-3 text-xs font-semibold uppercase tracking-wide text-charcoal">Browse products</Link>
             <Link href="/coas" className="rounded-md border border-white/25 px-7 py-3 text-xs font-semibold uppercase tracking-wide text-white">Search COA library</Link>
           </div>
-          <p className="mt-6 text-xs font-medium text-white/45">Strictly for laboratory and analytical research. Not for human or veterinary use.</p>
+          <p className="mt-5 text-xs font-medium text-white/45">Strictly for laboratory and analytical research. Not for human or veterinary use.</p>
         </div>
       </section>
 
-      <section className="border-b border-stone bg-ivory-soft py-14 md:py-20">
-        <div className="mx-auto grid max-w-[1180px] gap-8 px-4 md:grid-cols-[0.78fr_1.22fr] md:px-8">
-          <div>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-sage-deep">Documentation first</p>
-            <h2 className="mt-3 font-display text-3xl font-semibold leading-tight md:text-4xl">{definition.scopeTitle}</h2>
-          </div>
-          <div>
-            <p className="text-base leading-8 text-soft-gray">{definition.scope}</p>
-            <div className="mt-6 flex flex-wrap gap-x-6 gap-y-3 text-sm font-semibold">
-              <Link href="/sourcing" className="text-sage-deep underline decoration-sage-deep/30 underline-offset-4">Testing standards</Link>
-              <Link href="/research-peptides-usa" className="text-sage-deep underline decoration-sage-deep/30 underline-offset-4">U.S. sourcing guide</Link>
-              <Link href="/journal" className="text-sage-deep underline decoration-sage-deep/30 underline-offset-4">Research Center</Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="catalogue" className="mx-auto max-w-[1400px] px-4 py-16 md:px-8 md:py-24">
+      <section id="catalogue" className="mx-auto max-w-[1400px] px-4 py-14 md:px-8 md:py-20">
         <header className="mb-10 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
             <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-copper">Current catalogue</p>
@@ -105,7 +88,24 @@ export async function ResearchCategoryPage({ definition }: { definition: Researc
         )}
       </section>
 
-      <section className="border-y border-stone bg-ivory-soft py-16 md:py-20">
+      <section className="border-y border-stone bg-ivory-soft py-14 md:py-20">
+        <div className="mx-auto grid max-w-[1180px] gap-8 px-4 md:grid-cols-[0.78fr_1.22fr] md:px-8">
+          <div>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-sage-deep">Documentation first</p>
+            <h2 className="mt-3 font-display text-3xl font-semibold leading-tight md:text-4xl">{definition.scopeTitle}</h2>
+          </div>
+          <div>
+            <p className="text-base leading-8 text-soft-gray">{definition.scope}</p>
+            <div className="mt-6 flex flex-wrap gap-x-6 gap-y-3 text-sm font-semibold">
+              <Link href="/sourcing" className="text-sage-deep underline decoration-sage-deep/30 underline-offset-4">Testing standards</Link>
+              <Link href="/research-peptides-usa" className="text-sage-deep underline decoration-sage-deep/30 underline-offset-4">U.S. sourcing guide</Link>
+              <Link href="/journal" className="text-sage-deep underline decoration-sage-deep/30 underline-offset-4">Research Center</Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b border-stone bg-white py-16 md:py-20">
         <div className="mx-auto max-w-[1180px] px-4 md:px-8">
           <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-sage-deep">Explore by research class</p>
           <div className="mt-5 flex flex-wrap gap-3">
