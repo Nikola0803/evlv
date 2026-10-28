@@ -1,0 +1,114 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { getCoaEntries } from "@/lib/coa-data";
+import { getCoaLotId } from "@/lib/coa-lots";
+import { getProductBySlug } from "@/lib/products";
+
+const SITE_URL = "https://www.evlvpeptides.com";
+
+function jsonLd(value: object) {
+  return JSON.stringify(value).replace(/</g, "\\u003c");
+}
+
+async function getLot(lot: string) {
+  const entries = await getCoaEntries();
+  return entries.find((entry) => getCoaLotId(entry) === lot);
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ lot: string }> }): Promise<Metadata> {
+  const { lot } = await params;
+  const coa = await getLot(lot);
+  if (!coa) return {};
+  const name = coa.productName ?? coa.compound ?? "EVLV research product";
+  const title = `${name} COA | ${coa.label ?? "Lot report"}`;
+  const description = `Review the published ${coa.lab ?? "laboratory"} record for ${name}, including the identified lot, reported result, and analysis date.`;
+  return {
+    title,
+    description,
+    alternates: { canonical: `/coas/${lot}` },
+    robots: { index: true, follow: true },
+    openGraph: { title: `${title} | EVLV`, description, url: `/coas/${lot}`, type: "article" },
+  };
+}
+
+export default async function CoaLotPage({ params }: { params: Promise<{ lot: string }> }) {
+  const { lot } = await params;
+  const coa = await getLot(lot);
+  if (!coa) notFound();
+
+  const product = getProductBySlug(coa.slug);
+  const productName = coa.productName ?? product?.name ?? coa.compound ?? "Research product";
+  const pageUrl = `${SITE_URL}/coas/${lot}`;
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "@id": `${pageUrl}#report`,
+    url: pageUrl,
+    name: `${productName} laboratory report ${coa.label ?? ""}`.trim(),
+    description: `Published laboratory documentation for ${productName}.`,
+    about: { "@type": "Thing", name: coa.compound ?? productName },
+    datePublished: coa.tested,
+    publisher: { "@type": "Organization", name: "EVLV", url: SITE_URL },
+    isBasedOn: coa.url,
+  };
+  const breadcrumb = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+      { "@type": "ListItem", position: 2, name: "COA Library", item: `${SITE_URL}/coas` },
+      { "@type": "ListItem", position: 3, name: coa.label ?? productName, item: pageUrl },
+    ],
+  };
+
+  return (
+    <main className="bg-white text-charcoal">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(schema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(breadcrumb) }} />
+      <section className="bg-charcoal pb-16 pt-24 text-white md:pb-20 md:pt-28">
+        <div className="mx-auto max-w-[1080px] px-4 md:px-8">
+          <nav className="flex items-center gap-2 text-xs text-white/55" aria-label="Breadcrumb">
+            <Link href="/">Home</Link><i className="ri-arrow-right-s-line" />
+            <Link href="/coas">COA Library</Link><i className="ri-arrow-right-s-line" />
+            <span className="truncate text-white/80">{coa.label ?? "Lot report"}</span>
+          </nav>
+          <p className="mt-9 text-[11px] font-semibold uppercase tracking-[0.18em] text-copper">Published lot record</p>
+          <h1 className="mt-3 max-w-3xl font-display text-4xl font-semibold leading-tight md:text-5xl">{productName} COA</h1>
+          <p className="mt-5 max-w-2xl text-base leading-7 text-white/70">This page identifies the exact published record before opening the source document. Results apply only to the named sample or lot.</p>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-[1080px] px-4 py-12 md:px-8 md:py-16">
+        <div className="grid gap-8 lg:grid-cols-[1fr_0.42fr]">
+          <article className="rounded-2xl border border-stone bg-ivory-soft p-6 md:p-9">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-sage-deep">Record details</p>
+            <dl className="mt-6 grid gap-x-6 gap-y-6 sm:grid-cols-2">
+              <div><dt className="text-xs text-soft-gray">Product</dt><dd className="mt-1 font-display text-xl font-semibold">{productName}</dd></div>
+              <div><dt className="text-xs text-soft-gray">Compound</dt><dd className="mt-1 text-lg font-semibold">{coa.compound ?? "See source report"}</dd></div>
+              <div><dt className="text-xs text-soft-gray">Lot / report number</dt><dd className="mt-1 font-mono text-sm font-semibold">{coa.label ?? "See source report"}</dd></div>
+              <div><dt className="text-xs text-soft-gray">Issuing laboratory</dt><dd className="mt-1 text-lg font-semibold">{coa.lab ?? "See source report"}</dd></div>
+              <div><dt className="text-xs text-soft-gray">Reported purity</dt><dd className="mt-1 text-lg font-semibold text-sage-deep">{coa.purity ?? "See source report"}</dd></div>
+              <div><dt className="text-xs text-soft-gray">Analyzed</dt><dd className="mt-1 text-lg font-semibold">{coa.tested ?? "See source report"}</dd></div>
+            </dl>
+            <div className="mt-8 border-t border-stone pt-7">
+              <a href={coa.url} target="_blank" rel="noreferrer" className="inline-flex items-center rounded-md bg-sage-deep px-6 py-3 text-xs font-semibold uppercase tracking-wide text-white transition hover:bg-charcoal">Open original PDF <i className="ri-external-link-line ml-2" /></a>
+              <p className="mt-4 text-sm leading-6 text-soft-gray">The original PDF is the controlling source for methods, results, scope, sample identification, and report limitations.</p>
+            </div>
+          </article>
+          <aside className="h-fit rounded-2xl border border-stone bg-white p-6 md:sticky md:top-28">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-copper">Verify before use</p>
+            <ol className="mt-5 space-y-4 text-sm leading-6 text-soft-gray">
+              <li><strong className="text-charcoal">1. Match identity.</strong> Confirm the named compound and product match the item being reviewed.</li>
+              <li><strong className="text-charcoal">2. Match the record.</strong> Compare the lot or sample identifier, laboratory, and test date.</li>
+              <li><strong className="text-charcoal">3. Read the method.</strong> Interpret results only within the methods and scope stated in the PDF.</li>
+            </ol>
+            {product && <Link href={`/shop/${product.slug}`} className="mt-7 inline-flex text-sm font-semibold text-sage-deep underline decoration-sage-deep/30 underline-offset-4">View {product.name}</Link>}
+            <Link href="/coas" className="mt-4 block text-sm font-semibold text-sage-deep underline decoration-sage-deep/30 underline-offset-4">Search the COA library</Link>
+          </aside>
+        </div>
+        <p className="mt-10 rounded-xl border border-stone bg-ivory-soft p-5 text-xs leading-6 text-soft-gray">Research use only. This documentation is supplied to support laboratory and analytical review. It does not establish safety, efficacy, clinical suitability, or human or veterinary use.</p>
+      </section>
+    </main>
+  );
+}

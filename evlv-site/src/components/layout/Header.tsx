@@ -16,7 +16,7 @@ export function Header({ products }: { products?: Product[] } = {}) {
       <div className="cp-header-inner">
         <Logo tone="charcoal" imgClassName="cp-logo" />
         <nav className={open ? "cp-nav cp-nav-open" : "cp-nav"} onClick={() => setOpen(false)}>
-          <div className="cp-nav-dropdown"><button type="button"><i className="ri-menu-2-line" /> Shop All</button><div className="cp-nav-dropdown-menu"><Link href="/shop?category=peptides">Shop All Peptides</Link><Link href="/research-peptides">Research Peptides</Link><Link href="/metabolic-research-peptides">Metabolic Research</Link><Link href="/mitochondrial-research-peptides">Mitochondrial Research</Link><Link href="/bioregulators">Bioregulators</Link><Link href="/peptide-blends">Peptide Blends</Link><Link href="/research-lab-supplies">Lab Supplies</Link></div></div>
+          <div className="cp-nav-dropdown"><button type="button"><i className="ri-menu-2-line" /> Shop All</button><div className="cp-nav-dropdown-menu"><Link href="/shop?category=peptides">Shop All Peptides</Link><Link href="/research-peptides">Research Peptides</Link><Link href="/metabolic-research-peptides">Metabolic Research</Link><Link href="/mitochondrial-research-peptides">Mitochondrial Research</Link><Link href="/bioregulators">Bioregulators</Link><Link href="/peptide-blends">Peptide Blends</Link><Link href="/research-lab-supplies">Lab Supplies</Link><Link href="/kpv-research">KPV Research</Link><Link href="/nad-research">NAD+ Research</Link></div></div>
           <Link href="/track-order">Track Order</Link>
           <Link href="/coas">COA Library</Link>
           <Link href="/journal">Research Center</Link>

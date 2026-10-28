@@ -3,8 +3,10 @@
 import { useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 import { getProducts } from "@/lib/products";
 import type { CoaEntry } from "@/lib/coa-data";
+import { getCoaLotPath } from "@/lib/coa-lots";
 import { getProductImage } from "@/lib/product-images";
 
 type Filter = "all" | "glp" | "blend" | "peptides" | "ancillaries";
@@ -51,10 +53,6 @@ export function CoasClient({ coaEntries }: { coaEntries: CoaEntry[] }) {
       product?.category === filter;
     return matchesQuery && matchesFilter;
   });
-
-  const lotCount = coaEntries.length;
-  const productCount = new Set(coaEntries.map((coa) => coa.slug)).size;
-  const labCount = new Set(coaEntries.map((coa) => coa.lab).filter(Boolean)).size;
 
   return (
     <main className="bg-white">
@@ -112,11 +110,9 @@ export function CoasClient({ coaEntries }: { coaEntries: CoaEntry[] }) {
                 const imageProduct = product ?? productBySlug.get(COA_IMAGE_PRODUCT_SLUG[coa.slug]);
                 const image = imageProduct ? getProductImage(imageProduct) : "/images/products/vial-placeholder.png";
                 return (
-                  <a
+                  <Link
                     key={coa.url}
-                    href={`${coa.url}#page=2`}
-                    target="_blank"
-                    rel="noreferrer"
+                    href={getCoaLotPath(coa)}
                     className="group grid min-h-48 grid-cols-[118px_1fr] overflow-hidden rounded-2xl border border-stone bg-white text-left transition hover:-translate-y-0.5 hover:border-sage-deep hover:shadow-[0_18px_44px_rgba(11,47,44,.10)] sm:grid-cols-[150px_1fr]"
                   >
                     <div className="relative flex items-center justify-center bg-[#f3f7f4] p-3 sm:p-5">
@@ -137,9 +133,9 @@ export function CoasClient({ coaEntries }: { coaEntries: CoaEntry[] }) {
                         <div><dt className="text-charcoal/40">Laboratory</dt><dd className="mt-0.5 font-medium text-charcoal/70">{coa.lab}</dd></div>
                         <div><dt className="text-charcoal/40">Analyzed</dt><dd className="mt-0.5 font-medium text-charcoal/70">{coa.tested}</dd></div>
                       </dl>
-                      <span className="mt-auto pt-4 text-[10px] font-bold uppercase tracking-[0.12em] text-sage-deep">Open lab report</span>
+                      <span className="mt-auto pt-4 text-[10px] font-bold uppercase tracking-[0.12em] text-sage-deep">Review report record</span>
                     </div>
-                  </a>
+                  </Link>
                 );
               })}
             </div>

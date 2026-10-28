@@ -1,6 +1,8 @@
 import type { MetadataRoute } from "next";
 import { getCatalogProducts } from "@/lib/catalog";
 import { getJournalArticles } from "@/lib/journal-data";
+import { LOCAL_COAS } from "@/lib/coa-data";
+import { getCoaLotPath } from "@/lib/coa-lots";
 
 const BASE_URL = "https://www.evlvpeptides.com";
 const CONTENT_RELEASE = new Date("2026-10-28T00:00:00.000Z");
@@ -26,6 +28,8 @@ const STATIC_ROUTES = [
   { path: "/glow-blend-research", priority: 0.8, changeFrequency: "weekly" as const },
   { path: "/klow-blend-research", priority: 0.8, changeFrequency: "weekly" as const },
   { path: "/cjc-ipamorelin-research", priority: 0.8, changeFrequency: "weekly" as const },
+  { path: "/kpv-research", priority: 0.8, changeFrequency: "weekly" as const },
+  { path: "/nad-research", priority: 0.8, changeFrequency: "weekly" as const },
   { path: "/coas", priority: 0.7, changeFrequency: "weekly" as const },
   { path: "/journal", priority: 0.6, changeFrequency: "weekly" as const },
   { path: "/about", priority: 0.5, changeFrequency: "monthly" as const },
@@ -67,5 +71,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.5,
   }));
 
-  return [...staticEntries, ...productEntries, ...journalEntries];
+  const coaEntries: MetadataRoute.Sitemap = LOCAL_COAS.map((coa) => ({
+    url: `${BASE_URL}${getCoaLotPath(coa)}`,
+    lastModified: CONTENT_RELEASE,
+    changeFrequency: "monthly",
+    priority: 0.5,
+  }));
+
+  return [...staticEntries, ...productEntries, ...journalEntries, ...coaEntries];
 }
