@@ -7,6 +7,8 @@ import { getCoaMap } from "@/lib/coa-data";
 import { ProductClient } from "./ProductClient";
 import { getProductImage } from "@/lib/product-images";
 import { ProductCard } from "@/components/product/ProductCard";
+import { CompoundProductAuthority } from "@/components/seo/CompoundProductAuthority";
+import { getCompoundHubForProduct } from "@/lib/compound-hubs";
 
 const SITE_URL = "https://www.evlvpeptides.com";
 
@@ -51,6 +53,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
   const coaMap = await getCoaMap();
   const coa = coaMap[product.slug];
   const image = getProductImage(product);
+  const compoundHub = getCompoundHubForProduct(product);
   const absoluteImage = image.startsWith("http://") || image.startsWith("https://") ? image : `${SITE_URL}${image}`;
   const productForm = product.slug === "kpv-oral-500mcg"
     ? "Tablets"
@@ -93,11 +96,21 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       { "@type": "ListItem", position: 3, name: product.name, item: `${SITE_URL}/shop/${product.slug}` },
     ],
   };
+  const productFaqJsonLd = compoundHub ? {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: compoundHub.faq.slice(0, 3).map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: { "@type": "Answer", text: item.answer },
+    })),
+  } : null;
 
   return (
     <div className="cp-pdp-page">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd).replace(/</g, "\\u003c") }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd).replace(/</g, "\\u003c") }} />
+      {productFaqJsonLd && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productFaqJsonLd).replace(/</g, "\\u003c") }} />}
       <div className="mx-auto max-w-[1400px] px-4 pb-4 pt-8 md:px-8 md:pt-10">
         <nav className="flex flex-wrap items-center gap-2 text-xs text-charcoal/50" aria-label="Breadcrumb">
           <Link href="/" className="transition hover:text-charcoal">Home</Link>
@@ -132,6 +145,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           </dl>
         </div>
       </section>
+      {compoundHub && <CompoundProductAuthority product={product} hub={compoundHub} />}
       {relatedProducts.length > 0 && (
         <section className="cp-related" aria-labelledby="related-products-heading">
           <header>

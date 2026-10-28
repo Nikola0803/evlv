@@ -4,6 +4,7 @@ import { getCatalogProducts } from "@/lib/catalog";
 import { getCoaMap } from "@/lib/coa-data";
 import { getShopListProducts } from "@/lib/products";
 import { RESEARCH_CATEGORY_LINKS, type ResearchCategoryDefinition } from "@/lib/research-category-pages";
+import { COMPOUND_HUB_LIST } from "@/lib/compound-hubs";
 
 const SITE_URL = "https://www.evlvpeptides.com";
 
@@ -14,6 +15,7 @@ function jsonLd(value: object) {
 export async function ResearchCategoryPage({ definition }: { definition: ResearchCategoryDefinition }) {
   const [catalog, coaMap] = await Promise.all([getCatalogProducts(), getCoaMap()]);
   const products = getShopListProducts(catalog).filter(definition.selector);
+  const compoundHubs = COMPOUND_HUB_LIST.filter((hub) => hub.categoryPaths.includes(definition.path));
   const pageUrl = `${SITE_URL}${definition.path}`;
   const schema = {
     "@context": "https://schema.org",
@@ -87,6 +89,26 @@ export async function ResearchCategoryPage({ definition }: { definition: Researc
           <div className="rounded-lg border border-stone bg-ivory-soft p-8 text-soft-gray">Current inventory in this category is being updated. <Link href="/shop" className="font-semibold text-sage-deep underline">Browse the full catalogue.</Link></div>
         )}
       </section>
+
+      {compoundHubs.length > 0 && (
+        <section className="border-y border-stone bg-white py-14 md:py-20">
+          <div className="mx-auto max-w-[1180px] px-4 md:px-8">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-copper">Compound research hubs</p>
+            <h2 className="mt-3 font-display text-3xl font-semibold md:text-4xl">Go deeper than a product card.</h2>
+            <p className="mt-4 max-w-3xl text-sm leading-7 text-soft-gray">Compare identities, strengths, exact-documentation requirements, and relevant laboratory guides before opening an individual listing.</p>
+            <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {compoundHubs.map((hub) => (
+                <Link key={hub.path} href={hub.path} className="rounded-xl border border-stone bg-ivory-soft p-6 transition hover:-translate-y-0.5 hover:border-sage-deep/40 hover:shadow-lg">
+                  <small className="text-[10px] font-semibold uppercase tracking-[0.15em] text-sage-deep">{hub.classification}</small>
+                  <h3 className="mt-3 font-display text-2xl font-semibold">{hub.shortName}</h3>
+                  <p className="mt-3 text-sm leading-6 text-soft-gray">Identity, available strengths, analytical context, COAs, and related lab guides.</p>
+                  <span className="mt-5 inline-flex text-xs font-semibold uppercase tracking-wide text-sage-deep">Open research hub <i className="ri-arrow-right-line ml-1" /></span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       <section className="border-y border-stone bg-ivory-soft py-14 md:py-20">
         <div className="mx-auto grid max-w-[1180px] gap-8 px-4 md:grid-cols-[0.78fr_1.22fr] md:px-8">
