@@ -59,6 +59,11 @@ export function CoasClient({ coaEntries }: { coaEntries: CoaEntry[] }) {
     <main className="bg-white">
       <section className="py-14 md:py-20">
         <div className="mx-auto max-w-[1240px] px-4 md:px-8">
+          <div className="mb-8 max-w-3xl">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-sage-deep">EVLV documentation</p>
+            <h1 className="mt-2 font-display text-3xl font-semibold text-charcoal md:text-5xl">Certificate of Analysis Library</h1>
+            <p className="mt-3 text-sm leading-6 text-charcoal/60 md:text-base">Search published lot records, analytical reports, and separately identified endotoxin documentation where available.</p>
+          </div>
           <div className="rounded-2xl border border-stone bg-[#f4f7f5] p-4 md:p-6">
             <div className="relative">
               <i className="ri-search-line absolute left-5 top-1/2 -translate-y-1/2 text-lg text-charcoal/40" />

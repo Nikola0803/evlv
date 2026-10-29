@@ -5,7 +5,7 @@ import { CoaScanner } from "@/app/coas/CoaScanner";
 const SITE_URL = "https://www.evlvpeptides.com";
 
 export const metadata: Metadata = {
-  title: "How to Verify Your EVLV Vial | Lot, COA & Endotoxin Records",
+  title: "Verify Your EVLV Vial: COA & Lot Records",
   description: "Use the lot code or vial QR to verify an EVLV research product against its exact COA and, where published, separate endotoxin documentation.",
   alternates: { canonical: "/verify-your-vial" },
   openGraph: {
