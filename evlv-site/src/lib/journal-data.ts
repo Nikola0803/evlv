@@ -15,6 +15,77 @@ export interface JournalArticle {
 
 export const JOURNAL_ARTICLES: JournalArticle[] = [
   {
+    slug: "wolverine-peptide-blend-research-guide",
+    label: "Blend research",
+    title: "What Is the WOLVERINE Peptide Blend? Components, COAs, and Research Documentation",
+    excerpt:
+      "A documentation-first guide to the WOLVERINE peptide blend, its named BPC-157 and TB-500 components, and how qualified researchers can evaluate exact product and lot records.",
+    image: "/images/science/testing.jpg",
+    publishedDate: "2026-10-29",
+    readTime: "7 min read",
+    relatedLinks: [
+      { label: "WOLVERINE Blend research hub", href: "/wolverine-blend-research", description: "View current WOLVERINE listings, available strengths, and the documentation path." },
+      { label: "BPC-157 research hub", href: "/bpc-157-research", description: "Review standalone BPC-157 research products and their separate COA records." },
+      { label: "TB-500 research hub", href: "/tb-500-research", description: "Review standalone TB-500 research products and their separate COA records." },
+    ],
+    body: [
+      "WOLVERINE is a dual-analyte research blend. The EVLV catalogue identifies BPC-157 and TB-500 as its two named components. That combination describes the intended formulation, but it does not make the blend interchangeable with either standalone component or establish an analytical result for a particular lot. The product listing and the laboratory record must be evaluated together.",
+      "Start with the exact listing. Review the product name, total labeled strength, named components, and lot or sample identifier. These are the fields that connect the item being evaluated to its documentation. A product-family statement, a similarly named blend, or a generic specification cannot replace an exact match.",
+      "WOLVERINE is analytically distinct from standalone BPC-157 and standalone TB-500. A report for one standalone product does not verify a multi-analyte blend. The same rule applies in reverse: a WOLVERINE report does not establish the result for a standalone component. Every identified material needs its own record.",
+      "For a dual-analyte product, read the stated analytical method and result in context. Purity, molecular identity, measured content, and endotoxin status are separate questions. Where a report provides component-level data, evaluate the BPC-157 and TB-500 findings separately rather than turning a single reported value into a universal claim about the full blend.",
+      "The practical record-review sequence is to match the WOLVERINE product name and strength, confirm the lot or sample identifier, note the laboratory and analysis date, then read the methods and results reported for that named sample. If a record identifies another product or lot, it may provide general background but is not lot-specific evidence for the item under review.",
+      "EVLV supplies WOLVERINE strictly for lawful laboratory and analytical research. The catalogue and related documentation do not provide dosing, administration, treatment, veterinary, or outcome guidance. Their role is to make product identity and available analytical records easier to review before an order is placed.",
+    ],
+    cta: { label: "Review WOLVERINE products and COAs", href: "/wolverine-blend-research" },
+  },
+  {
+    slug: "how-to-review-a-wolverine-blend-coa",
+    label: "Documentation guide",
+    title: "How to Review a WOLVERINE Blend COA: Product, Lot, Method, and Result",
+    excerpt:
+      "A practical documentation checklist for reviewing a WOLVERINE Blend COA, including product matching, strength, lot identifiers, analytical methods, and evidence boundaries.",
+    image: "/images/science/standard.jpg",
+    publishedDate: "2026-10-29",
+    readTime: "5 min read",
+    relatedLinks: [
+      { label: "WOLVERINE Blend research hub", href: "/wolverine-blend-research", description: "See the current WOLVERINE listings and their product-specific documentation route." },
+      { label: "Search exact COAs", href: "/coas", description: "Locate published records using the product and batch identifiers shown on the item." },
+    ],
+    body: [
+      "A WOLVERINE Blend COA should identify the multi-analyte material under review. Begin with the product name, total labeled strength, and named BPC-157 and TB-500 components. A report that identifies only one standalone component cannot be treated as an exact blend record.",
+      "Match the lot or sample identifier next. This is the field that makes documentation specific to the material being evaluated. A result associated with another lot, strength, or blend is not a substitute, even where the product family or component names look similar.",
+      "Then note the issuing laboratory and analysis date. Those fields establish the stated scope and timing of the report. They do not make a result transferable, but they allow a reviewer to understand which named sample was analyzed and when.",
+      "Read the method before relying on the result. HPLC can describe relative purity, while molecular identity, measured content, and endotoxin status require separate stated methods. A complete review keeps those analytical questions separate instead of treating one result as proof of every product attribute.",
+      "For a dual-analyte blend, component-level context is essential. Where the record reports BPC-157 and TB-500 results separately, evaluate each against its stated method and the identified sample. Do not extend a finding from one component into a conclusion about another product or lot.",
+      "A COA documents the identified sample, methods, analysis date, and reported result. It does not supply medical, veterinary, dosing, administration, or outcome information. WOLVERINE is supplied by EVLV strictly for lawful laboratory and analytical research.",
+    ],
+    cta: { label: "Open the WOLVERINE documentation path", href: "/wolverine-blend-research" },
+  },
+  {
+    slug: "wolverine-blend-vs-standalone-bpc-157-tb-500",
+    label: "Research comparison",
+    title: "WOLVERINE Blend vs Standalone BPC-157 and TB-500: Documentation Differences",
+    excerpt:
+      "How to distinguish a WOLVERINE peptide blend from standalone BPC-157 and TB-500 research products, with a focus on product identity, strength, and exact COA matching.",
+    image: "/images/science/purity.jpg",
+    publishedDate: "2026-10-29",
+    readTime: "6 min read",
+    relatedLinks: [
+      { label: "WOLVERINE Blend research hub", href: "/wolverine-blend-research", description: "Review current blend listings and their available records." },
+      { label: "BPC-157 research hub", href: "/bpc-157-research", description: "Review the standalone BPC-157 catalogue and documentation path." },
+      { label: "TB-500 research hub", href: "/tb-500-research", description: "Review the standalone TB-500 catalogue and documentation path." },
+    ],
+    body: [
+      "WOLVERINE, standalone BPC-157, and standalone TB-500 are separate research materials. WOLVERINE identifies BPC-157 and TB-500 as named components within a single dual-analyte blend. Standalone products identify only one compound at a specified labeled strength. Shared ingredient names do not make the products analytically interchangeable.",
+      "The first comparison point is product identity. Review the exact product name, product format, total labeled quantity, and named components. A blend has its own identity even when its ingredients appear elsewhere in the catalogue as standalone products.",
+      "The next comparison point is documentation. A WOLVERINE COA should apply to the identified blended sample. A standalone BPC-157 or TB-500 COA applies only to the standalone material and sample it identifies. No report should be transferred between those product types without an explicit match.",
+      "Analytical results must also stay within their stated scope. Purity, identity, measured content, and endotoxin records each answer different questions. For a blend, component-level findings should be reviewed alongside the exact product and sample identifiers, not generalized to another product that shares one of the same names.",
+      "This distinction is practical for catalogue evaluation. It prevents a reviewer from relying on a record that looks relevant but does not actually document the material in hand. The appropriate route is always product page, exact lot or sample identifier, original report, then stated methods and results.",
+      "EVLV supplies every product discussed here strictly for lawful laboratory and analytical research. This comparison is limited to product identity and documentation. It is not dosing, administration, medical, veterinary, or outcome guidance.",
+    ],
+    cta: { label: "Compare the current research catalogue", href: "/research-peptides" },
+  },
+  {
     slug: "glow-peptide-blend-research-guide",
     label: "Blend research",
     title: "What Is the GLOW Peptide Blend? Components, COAs, and Research Documentation",
