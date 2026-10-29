@@ -15,6 +15,77 @@ export interface JournalArticle {
 
 export const JOURNAL_ARTICLES: JournalArticle[] = [
   {
+    slug: "bpc-157-peptide-research-documentation-guide",
+    label: "Compound research",
+    title: "BPC-157 Peptide: Product Identity, COAs, and Lot-Specific Research Documentation",
+    excerpt:
+      "A documentation-first guide to reviewing BPC-157 peptide research products, labeled strengths, COAs, analytical methods, and exact lot matching.",
+    image: "/images/science/testing.jpg",
+    publishedDate: "2026-10-29",
+    readTime: "7 min read",
+    relatedLinks: [
+      { label: "BPC-157 research hub", href: "/bpc-157-research", description: "Review current BPC-157 listings, labeled strengths, and documentation paths." },
+      { label: "Search exact COAs", href: "/coas", description: "Locate published records by product name, batch, or sample identifier." },
+      { label: "Verify a vial", href: "/verify-your-vial", description: "Use the on-site verification route to connect an item to its published record." },
+    ],
+    body: [
+      "BPC-157 is a synthetic 15-amino-acid research compound. For catalogue review, the important distinction is between a compound name and the specific material being evaluated. The product name or CAS reference describes the intended material. An exact laboratory report documents only the sample and lot it identifies.",
+      "Begin with the individual product record. Confirm the listed strength, product format, lot or sample identifier, and current documentation status. These details connect the item under review to the report. A generic specification, a report for another strength, or a certificate from a different lot is not an exact substitute.",
+      "Then read the analytical method in context. HPLC can report relative purity for the identified sample. Molecular identity, measured content, and endotoxin status are different analytical questions and require their own stated methods and results. Keeping those categories separate prevents one headline figure from being treated as proof of every attribute.",
+      "A useful BPC-157 COA review includes the material name, sample or lot identifier, issuing laboratory, analysis date, method, and reported result. The document should be evaluated against the matching product record, rather than against a broad claim made about BPC-157 as a category.",
+      "Where a listing offers more than one strength, each strength should be treated as its own item. Its label, availability, price, and documentation status may differ. The researcher should evaluate the exact product page and its linked report instead of assuming that information transfers across the family.",
+      "EVLV supplies BPC-157 strictly for lawful laboratory and analytical research. This guide concerns product identity and evidence review only. It does not provide dosing, administration, medical, veterinary, or outcome guidance.",
+    ],
+    cta: { label: "Review BPC-157 products and COAs", href: "/bpc-157-research" },
+  },
+  {
+    slug: "how-to-review-a-bpc-157-coa",
+    label: "Documentation guide",
+    title: "How to Review a BPC-157 COA: Sample Identity, Method, and Reported Result",
+    excerpt:
+      "A practical checklist for reading a BPC-157 COA: product match, lot identifier, laboratory, date, method, and the boundary of the reported result.",
+    image: "/images/science/standard.jpg",
+    publishedDate: "2026-10-29",
+    readTime: "5 min read",
+    relatedLinks: [
+      { label: "BPC-157 research hub", href: "/bpc-157-research", description: "See the current catalogue and the documentation route for each BPC-157 item." },
+      { label: "COA library", href: "/coas", description: "Find a report by product, batch, or sample identifier." },
+    ],
+    body: [
+      "A BPC-157 COA begins with the identity of the sample. Match the product name, labeled strength, and lot or sample identifier to the item under review. If one of those fields differs, the record may provide general context but is not lot-specific evidence for that item.",
+      "Next, note the issuing laboratory and the analysis date. These fields establish who issued the report and when the named sample was analyzed. They are important context, but they do not extend the scope of the report to another strength, later lot, or differently named product.",
+      "Read the method before interpreting the result. A stated HPLC method can report relative purity. Identity, measured content, and endotoxin findings answer separate questions and should be considered only where the report states the applicable method and result for the identified sample.",
+      "The reported value must remain attached to the named sample. A result is not a universal statement about BPC-157, every product on a catalogue page, or a later batch. This is why the lot or sample identifier is the central field in an evidence-first review.",
+      "The final check is source continuity. A clear path from the product listing to the exact report, plus a searchable product or lot reference, lets a reviewer assess the material without relying on a generic marketing claim. If an exact record is not published, that limitation should be stated plainly.",
+      "EVLV supplies BPC-157 strictly for lawful laboratory and analytical research. A COA is a record of the identified sample and stated methods. It is not medical, veterinary, dosing, administration, or outcome information.",
+    ],
+    cta: { label: "Search BPC-157 COA records", href: "/coas" },
+  },
+  {
+    slug: "bpc-157-vs-tb-500-research-documentation",
+    label: "Research comparison",
+    title: "BPC-157 vs TB-500 Research Products: Identity, Strength, and Documentation",
+    excerpt:
+      "A product-documentation comparison of standalone BPC-157 and TB-500 research materials, focusing on product identity, labeled strength, and exact COA matching.",
+    image: "/images/science/purity.jpg",
+    publishedDate: "2026-10-29",
+    readTime: "6 min read",
+    relatedLinks: [
+      { label: "BPC-157 research hub", href: "/bpc-157-research", description: "Review BPC-157 products and their available documentation." },
+      { label: "TB-500 research hub", href: "/tb-500-research", description: "Review standalone TB-500 products and their separate records." },
+      { label: "WOLVERINE Blend research hub", href: "/wolverine-blend-research", description: "See why a dual-analyte blend has its own documentation path." },
+    ],
+    body: [
+      "BPC-157 and TB-500 are distinct research materials. Similar catalogue placement or a shared research context does not make their labels, strengths, or laboratory documentation interchangeable. Each standalone product needs to be evaluated against the record that identifies that exact material.",
+      "Start with product identity. Review the compound name, stated CAS reference where listed, labeled quantity, product format, and lot or sample identifier. Those fields determine which report can meaningfully be connected to the material under review.",
+      "The same rule applies to analytical results. A BPC-157 report is evidence for the BPC-157 sample it identifies. A TB-500 report is evidence for the TB-500 sample it identifies. One cannot be used to establish the result of the other, even if the two products appear in the same catalogue or order.",
+      "Multi-analyte products add another distinction. A WOLVERINE blend names both BPC-157 and TB-500, but it is a separate material with its own product identity and report path. Standalone records do not verify a blended sample, and a blend record does not replace a standalone record.",
+      "For every item, follow the same evidence route: exact product listing, labeled strength, lot or sample identifier, original report, stated method, and reported result. This order helps keep product-specific facts separate from broad assertions about a compound name.",
+      "EVLV supplies the materials discussed here strictly for lawful laboratory and analytical research. This comparison covers documentation and product identity only. It does not provide dosing, administration, medical, veterinary, or outcome guidance.",
+    ],
+    cta: { label: "Compare current research products", href: "/research-peptides" },
+  },
+  {
     slug: "wolverine-peptide-blend-research-guide",
     label: "Blend research",
     title: "What Is the WOLVERINE Peptide Blend? Components, COAs, and Research Documentation",
