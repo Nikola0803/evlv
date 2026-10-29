@@ -15,6 +15,100 @@ export interface JournalArticle {
 
 export const JOURNAL_ARTICLES: JournalArticle[] = [
   {
+    slug: "semaglutide-peptide-research-documentation-guide",
+    label: "Compound research",
+    title: "Semaglutide Peptide: Product Identity, COAs, and Lot-Specific Research Documentation",
+    excerpt:
+      "A documentation-first guide to Semaglutide peptide research products, the EVLV GLP1-S catalogue class, labeled strengths, and exact lot-matched analytical records.",
+    image: "/images/science/testing.jpg",
+    publishedDate: "2026-10-29",
+    readTime: "7 min read",
+    relatedLinks: [
+      { label: "Semaglutide research hub", href: "/semaglutide-research", description: "Review GLP1-S catalogue listings, labeled strengths, and available documentation." },
+      { label: "GLP research series", href: "/glp-research-series", description: "Compare the distinct EVLV GLP research classes by product identity and documentation." },
+      { label: "Search exact COAs", href: "/coas", description: "Locate published records by product name, batch, or sample identifier." },
+    ],
+    body: [
+      "Semaglutide is a synthetic peptide studied in GLP-1 receptor research. EVLV uses the GLP1-S catalogue class for its Semaglutide research listings. That catalogue name organizes the product family, but each listed strength remains a separate item with its own identity, stock, price, and documentation status.",
+      "For a documentation-first review, begin with the exact product record. Confirm the Semaglutide identity, GLP1-S class, labeled strength, and lot or sample identifier. These fields connect the material being evaluated to its analytical report. A generic certificate or a result from another strength does not create an exact product match.",
+      "Then read the stated analytical method alongside the result. HPLC can describe relative purity for the identified sample. Molecular identity, measured content, and endotoxin status are separate questions that require their own stated methods and results. One analytical value should not be treated as a universal claim about the whole catalogue family.",
+      "The core evidence fields on a Semaglutide report are sample identity, lot or sample identifier, laboratory, analysis date, method, and reported result. The report's scope ends with the named material. It cannot be transferred to another lot or a chemically distinct GLP research class.",
+      "The EVLV GLP1-S and GLP2-T classes should also remain distinct. Semaglutide and Tirzepatide have different compound identities and require separate product-specific documentation. The appropriate review route is product listing, labeled strength, exact lot or sample identifier, original report, then the stated methods and results.",
+      "EVLV supplies Semaglutide research products strictly for lawful laboratory and analytical research. This guide covers product identity and evidence review only. It does not provide dosing, administration, medical, veterinary, or outcome guidance.",
+    ],
+    cta: { label: "Review Semaglutide products and COAs", href: "/semaglutide-research" },
+  },
+  {
+    slug: "how-to-review-a-semaglutide-coa",
+    label: "Documentation guide",
+    title: "How to Review a Semaglutide COA: GLP1-S Product Match, Method, and Result",
+    excerpt:
+      "A practical guide to reading a Semaglutide COA, including the GLP1-S product match, labeled strength, lot or sample identifier, method, and evidence limits.",
+    image: "/images/science/standard.jpg",
+    publishedDate: "2026-10-29",
+    readTime: "5 min read",
+    relatedLinks: [
+      { label: "Semaglutide research hub", href: "/semaglutide-research", description: "See current GLP1-S listings and the product-specific documentation route." },
+      { label: "COA library", href: "/coas", description: "Find published records using the product and batch information on the item." },
+    ],
+    body: [
+      "A Semaglutide COA is meaningful only when it identifies the same GLP1-S product being evaluated. Match the product name, labeled strength, and lot or sample identifier before reading the reported result. A report for another strength, another lot, or a different GLP research class is not an exact record for the item in hand.",
+      "Note the issuing laboratory and analysis date next. These establish the source and timing of the report for the identified material. They do not extend the result to a later lot or related product, so every newly identified material needs its own documentation path.",
+      "Read the method before interpreting the result. Relative purity, molecular identity, measured content, and endotoxin status are distinct analytical questions. Each requires an applicable stated method and finding for the named sample. A single percentage should not be used to imply attributes that the report did not measure.",
+      "The sample or lot identifier is the report's boundary. It ties the stated method and result to one material. This protects the reviewer from treating a generic Semaglutide certificate as lot-specific evidence or treating documentation for GLP1-S as evidence for another GLP research class.",
+      "A clear product-to-report path is the useful standard: exact listing, labeled strength, identifier, original record, and stated analytical scope. If a matching report is not available, that limitation should be clear rather than obscured by an unmatched certificate.",
+      "EVLV supplies Semaglutide research products strictly for lawful laboratory and analytical research. A COA documents an identified sample and its stated analysis. It is not medical, veterinary, dosing, administration, or outcome information.",
+    ],
+    cta: { label: "Search Semaglutide COA records", href: "/coas" },
+  },
+  {
+    slug: "tirzepatide-peptide-research-documentation-guide",
+    label: "Compound research",
+    title: "Tirzepatide Peptide: Product Identity, COAs, and Lot-Specific Research Documentation",
+    excerpt:
+      "A documentation-first guide to Tirzepatide peptide research products, the EVLV GLP2-T catalogue class, labeled strengths, and exact lot-matched analytical records.",
+    image: "/images/science/purity.jpg",
+    publishedDate: "2026-10-29",
+    readTime: "7 min read",
+    relatedLinks: [
+      { label: "Tirzepatide research hub", href: "/tirzepatide-research", description: "Review GLP2-T catalogue listings, labeled strengths, and available documentation." },
+      { label: "GLP research series", href: "/glp-research-series", description: "Compare the distinct EVLV GLP research classes by product identity and documentation." },
+      { label: "Search exact COAs", href: "/coas", description: "Locate published records by product name, batch, or sample identifier." },
+    ],
+    body: [
+      "Tirzepatide is a synthetic peptide studied in dual GIP and GLP-1 receptor research. EVLV uses the GLP2-T catalogue class for Tirzepatide research listings. The class name organizes a product family, while every listed strength remains a separate research item with its own label, inventory, and documentation status.",
+      "Start with the exact product record. Confirm the Tirzepatide identity, GLP2-T class, labeled strength, and lot or sample identifier. These fields define which analytical record can be connected to the material under review. A report for another strength or lot is not an exact substitute, even where the product family looks similar.",
+      "Analytical methods must be read in context. HPLC may report relative purity for the named sample. Molecular identity, measured content, and endotoxin status are separate questions that require their own methods and findings. A report should be read as evidence for the measurement it actually describes, not as a broad claim about the entire product family.",
+      "A strong Tirzepatide record review traces the product listing to the exact lot or sample identifier, issuing laboratory, analysis date, stated method, and reported result. That chain preserves the difference between an intended compound name and the analytical information available for one identified material.",
+      "Tirzepatide and Semaglutide must remain distinct in catalogue review. The GLP2-T and GLP1-S classes identify different compounds. Their product labels, strengths, lots, and COAs are not interchangeable. The same separation applies to the GLP3-R class, which is a separate catalogue family.",
+      "EVLV supplies Tirzepatide research products strictly for lawful laboratory and analytical research. This guide covers product identity and evidence review only. It does not provide dosing, administration, medical, veterinary, or outcome guidance.",
+    ],
+    cta: { label: "Review Tirzepatide products and COAs", href: "/tirzepatide-research" },
+  },
+  {
+    slug: "how-to-review-a-tirzepatide-coa",
+    label: "Documentation guide",
+    title: "How to Review a Tirzepatide COA: GLP2-T Product Match, Method, and Result",
+    excerpt:
+      "A practical guide to reading a Tirzepatide COA, including the GLP2-T product match, labeled strength, lot or sample identifier, method, and evidence limits.",
+    image: "/images/science/standard.jpg",
+    publishedDate: "2026-10-29",
+    readTime: "5 min read",
+    relatedLinks: [
+      { label: "Tirzepatide research hub", href: "/tirzepatide-research", description: "See current GLP2-T listings and the product-specific documentation route." },
+      { label: "COA library", href: "/coas", description: "Find published records using the product and batch information on the item." },
+    ],
+    body: [
+      "A Tirzepatide COA should identify the same GLP2-T material being evaluated. Begin by matching the product name, labeled strength, and lot or sample identifier. If the certificate describes another strength, later batch, or different GLP research class, it is not lot-specific evidence for the item under review.",
+      "The issuing laboratory and analysis date provide the stated source and timing of the record. They do not make the result portable to related products, so an exact material match remains necessary before relying on a result.",
+      "Read each analytical method before relying on its reported value. Relative purity, molecular identity, measured content, and endotoxin status answer different questions. They should remain separate unless the record states the relevant method and result for the identified Tirzepatide sample.",
+      "The lot or sample identifier ties the report to a specific material. That identifier is what prevents an otherwise similar product certificate from being used as a generic substitute. It also distinguishes a GLP2-T record from Semaglutide, GLP3-R, or another product family.",
+      "The cleanest verification path is the exact product listing, labeled strength, identifier, original report, and stated scope. When an exact record is unavailable, the documentation status should state that plainly rather than relying on a certificate for a nearby product.",
+      "EVLV supplies Tirzepatide research products strictly for lawful laboratory and analytical research. A COA documents an identified sample and its stated analysis. It is not medical, veterinary, dosing, administration, or outcome information.",
+    ],
+    cta: { label: "Search Tirzepatide COA records", href: "/coas" },
+  },
+  {
     slug: "tb-500-peptide-research-documentation-guide",
     label: "Compound research",
     title: "TB-500 Peptide: Product Identity, COAs, and Lot-Specific Research Documentation",
