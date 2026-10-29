@@ -1,31 +1,11 @@
 import { ButtonLink } from "@/components/ui/Button";
+import { HeroVideoBackground } from "./HeroVideoBackground";
 
 export function Hero() {
   return (
     <section className="relative -mt-[90px] flex min-h-[80vh] items-center overflow-hidden bg-charcoal md:min-h-[88vh] md:-mt-[100px]">
-      {/* Mobile: real EVLV footage (portrait cut), poster fallback is the static portrait shot.
-          Desktop: real EVLV footage — a 21:9 cut on ultra-wide viewports, the standard 16:9 cut otherwise. */}
-      <video
-        autoPlay
-        loop
-        muted
-        playsInline
-        className="absolute inset-0 h-full w-full object-cover md:hidden"
-        poster="/images/hero-vial-mobile.png"
-      >
-        <source src="/videos/hero-mobile.mp4" type="video/mp4" />
-      </video>
-      <video
-        autoPlay
-        loop
-        muted
-        playsInline
-        className="absolute inset-0 h-full w-full object-cover max-md:hidden"
-        poster="/images/hero-vial.png"
-      >
-        <source src="/videos/hero-21by9.mp4" media="(min-aspect-ratio: 21/9)" type="video/mp4" />
-        <source src="/videos/hero-evlv.mp4" type="video/mp4" />
-      </video>
+      {/* Next.js Image poster (serves WebP, priority-fetched) fades into video once it's ready to play. */}
+      <HeroVideoBackground />
 
       {/* Light dark-wash for text legibility only — the footage itself is already on-brand, no color correction needed */}
       <div aria-hidden className="pointer-events-none absolute inset-0 bg-charcoal/25" />
