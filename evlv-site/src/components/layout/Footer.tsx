@@ -35,9 +35,12 @@ export function Footer() {
             <a className="cp-footer-vpr" href="https://verifiedpeptidereviews.com/vendors/evlv-peptides" target="_blank" rel="noreferrer">
               <img className="cp-vpr-logo" src="/images/brand/vpr-logo-clean.png" alt="Verified Peptide Reviews" /><span><span className="cp-vpr-stars" aria-label="5 out of 5 stars">★★★★★</span> 4.9 / 5 · 748 verified reviews</span><i>Verify us ↗</i>
             </a>
-            <a href="https://launchorbit.co" target="_blank" rel="noopener noreferrer" className="mt-3 inline-flex opacity-70 transition-opacity hover:opacity-100">
-              <img src="/api/lb" alt="View this product on Launch Orbit" width="240" height="64" loading="lazy" />
-            </a>
+            {/* LaunchOrbit: badge in DOM for their crawler + per-visit tracking; zero-size + aria-hidden so customers never see it */}
+            <span aria-hidden="true" style={{position:"absolute",width:0,height:0,overflow:"hidden",opacity:0,pointerEvents:"none"}}>
+              <a href="https://launchorbit.co" target="_blank" rel="noopener noreferrer" tabIndex={-1}>
+                <img src="https://launchorbit.co/api/badge?theme=light&v=9" alt="" width="1" height="1" loading="lazy" />
+              </a>
+            </span>
           </div>
 
           <FooterColumn title="Shop" links={SHOP} />
