@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import { getJournalArticles, getJournalArticleBySlug } from "@/lib/journal-data";
+import { LinkedBody } from "@/components/journal/LinkedBody";
 
 export function generateStaticParams() {
   return getJournalArticles().map((a) => ({ slug: a.slug }));
@@ -157,11 +158,7 @@ export default async function JournalArticlePage({ params }: { params: Promise<{
           </aside>
         )}
 
-        <div className="mt-10 space-y-6 text-base leading-relaxed text-charcoal/80 md:text-lg">
-          {article.body.map((paragraph, i) => (
-            <p key={i}>{paragraph}</p>
-          ))}
-        </div>
+        <LinkedBody body={article.body} slug={article.slug} />
 
         {article.cta && (
           <Link
