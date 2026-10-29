@@ -257,9 +257,9 @@ export const COMPOUND_HUBS = {
     slugs: ["klow-80mg"],
     categoryPaths: ["/research-peptides", "/peptide-blends"],
     journalLinks: [
+      { href: "/journal/klow-peptide-blend-research-guide", label: "KLOW Blend research guide", description: "How to review the listed components, batch documentation, and evidence boundaries." },
       { href: "/journal/batch-testing-explained", label: "Batch testing explained", description: "How to match a multi-analyte report to the product in hand." },
       { href: "/journal/understanding-peptide-purity", label: "Understanding purity data", description: "How to read multiple analyte results without overgeneralizing." },
-      { href: "/journal/mg-versus-powder-amount", label: "Milligrams vs powder volume", description: "Why visible material does not verify total content." },
     ],
     faq: [
       { question: "What is listed in the KLOW Blend?", answer: "The KLOW research listing identifies GHK-Cu, KPV, TB-500, and BPC-157 as its four named components." },

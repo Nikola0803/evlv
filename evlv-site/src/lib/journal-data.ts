@@ -13,6 +13,27 @@ export interface JournalArticle {
 
 export const JOURNAL_ARTICLES: JournalArticle[] = [
   {
+    slug: "klow-peptide-blend-research-guide",
+    label: "Blend research",
+    title: "KLOW Peptide Blend: Components, COA Review, and Research Documentation",
+    excerpt:
+      "A documentation-first guide to evaluating a KLOW peptide blend for laboratory research: named components, labeled quantity, lot matching, and the analytical questions a published COA can answer.",
+    image: "/images/science/testing.jpg",
+    publishedDate: "2026-10-29",
+    readTime: "7 min read",
+    body: [
+      "KLOW is a multi-analyte research blend. In the EVLV catalogue, the KLOW 80MG listing identifies four named components: GHK-Cu, KPV, TB-500, and BPC-157. That combination is the starting point for research catalogue review, not a conclusion about a sample's identity, purity, performance, or intended use. A blend should be evaluated as the identified material on its own listing and against the report that names that same blended sample.",
+      "The first question is simple: what does the product actually list? For KLOW, review the named components, total labeled quantity, product name, available strength, and lot or sample identifier. These are the fields that allow a laboratory to connect a vial, listing, and report. A similar formulation name, an image of a vial, or a generic specification sheet is not an exact batch match.",
+      "A KLOW peptide blend is different from a standalone component. A COA for standalone BPC-157, TB-500, KPV, or GHK-Cu does not verify a KLOW blend. Likewise, a report for one KLOW lot should not be transferred to a later lot or another strength without an explicit sample match. The report must identify the blended material being evaluated, not merely one ingredient that appears in its formula.",
+      "For multi-analyte material, one headline purity percentage is not enough context on its own. Read the stated method, the sample identity, the test date, the issuing laboratory, and the result associated with each named analyte where the report provides component-level information. HPLC purity, molecular identity, measured content, and endotoxin testing are separate analytical questions. A result in one category does not automatically answer the others.",
+      "The practical KLOW COA review sequence is: match the product name and strength, confirm the lot or sample identifier, check the laboratory and analysis date, then read the stated method and result in the original record. If the record does not identify the same material, treat it as background information rather than proof for the vial under review. This approach prevents a common mistake in research-catalogue comparison: treating a broad product-family claim as lot-specific evidence.",
+      "Documentation also has limits. A published laboratory report can describe the identified sample and the methods and results it contains. It does not establish a medical use, personal-use protocol, clinical outcome, or suitability for human or veterinary administration. EVLV supplies KLOW strictly for lawful laboratory and analytical research, and does not provide dosing, administration, treatment, or veterinary guidance.",
+      "Researchers comparing KLOW listings should prioritize records that are available before purchase, product-specific rather than generic, and readable alongside the catalogue item. The most useful path is direct: review the current KLOW product listing, open the exact published COA where available, and compare the identifiers. That is more meaningful than a broad marketing statement because it keeps the decision anchored to a named material and documented lot.",
+      "For a related comparison, GLOW is a separate blend with its own named components and its own documentation path. The two should not be treated as interchangeable, and a KLOW record should never be used to support GLOW or a standalone component. Each product and lot needs its own analytical evidence.",
+    ],
+    cta: { label: "Review KLOW Blend products and COAs", href: "/klow-blend-research" },
+  },
+  {
     slug: "understanding-peptide-purity",
     label: "Purity",
     title: "Understanding peptide purity",
