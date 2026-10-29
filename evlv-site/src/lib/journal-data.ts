@@ -15,6 +15,53 @@ export interface JournalArticle {
 
 export const JOURNAL_ARTICLES: JournalArticle[] = [
   {
+    slug: "tb-500-peptide-research-documentation-guide",
+    label: "Compound research",
+    title: "TB-500 Peptide: Product Identity, COAs, and Lot-Specific Research Documentation",
+    excerpt:
+      "A documentation-first guide to TB-500 peptide research products, labeled strengths, exact COA matching, and how to interpret analytical records by their stated scope.",
+    image: "/images/science/testing.jpg",
+    publishedDate: "2026-10-29",
+    readTime: "7 min read",
+    relatedLinks: [
+      { label: "TB-500 research hub", href: "/tb-500-research", description: "Review current standalone TB-500 listings and available documentation." },
+      { label: "Search exact COAs", href: "/coas", description: "Locate published reports by product name, batch, or sample identifier." },
+      { label: "Verify a vial", href: "/verify-your-vial", description: "Connect an item to its published record through the verification route." },
+    ],
+    body: [
+      "TB-500 is a synthetic research peptide associated with thymosin beta-4 fragment research. In an evidence-first catalogue review, the compound name is only the starting point. The specific product, labeled strength, and lot or sample identifier determine which analytical record can be used to evaluate the material.",
+      "Review the individual product listing first. Confirm the product name, labeled quantity, product format, and current documentation status. A report for another strength, lot, or similarly named material may be useful background, but it does not document the exact item under review.",
+      "Read the stated analytical method alongside the reported result. Relative purity, molecular identity, measured content, and endotoxin status are separate analytical questions. A single result should not be treated as proof of every product attribute unless the report identifies both the applicable method and the named sample.",
+      "The key fields on a TB-500 COA are the sample identity, lot or sample identifier, issuing laboratory, analysis date, method, and result. Those fields establish what material was assessed and the limited scope of the document. The lot or sample identifier is especially important because it prevents a generic certificate from being treated as batch-specific evidence.",
+      "Standalone TB-500 items and multi-analyte blends that include TB-500 must be reviewed separately. A blend has a distinct product identity and needs a report that identifies the blended material. A standalone TB-500 result does not verify a blend, and a blend record does not replace a standalone TB-500 record.",
+      "EVLV supplies TB-500 strictly for lawful laboratory and analytical research. This guide covers product identity and documentation review only. It does not provide dosing, administration, medical, veterinary, or outcome guidance.",
+    ],
+    cta: { label: "Review TB-500 products and COAs", href: "/tb-500-research" },
+  },
+  {
+    slug: "how-to-review-a-tb-500-coa",
+    label: "Documentation guide",
+    title: "How to Review a TB-500 COA: Strength, Sample Match, Method, and Result",
+    excerpt:
+      "A practical checklist for reviewing a TB-500 COA, from exact product and lot matching to analytical methods, reported results, and documentation limits.",
+    image: "/images/science/standard.jpg",
+    publishedDate: "2026-10-29",
+    readTime: "5 min read",
+    relatedLinks: [
+      { label: "TB-500 research hub", href: "/tb-500-research", description: "See active TB-500 listings and their product-specific documentation route." },
+      { label: "COA library", href: "/coas", description: "Find published records using the relevant product and batch information." },
+    ],
+    body: [
+      "A TB-500 COA is useful only when it identifies the same material being evaluated. Start by matching the product name, labeled strength, and lot or sample identifier. If the certificate applies to another item, another strength, or another lot, it cannot be treated as an exact record for the material in hand.",
+      "The issuing laboratory and analysis date provide the report's stated source and timing. They help a reviewer understand the scope of the evidence, but they do not transfer a result to subsequent lots or related products. Every newly identified sample needs its own matching documentation path.",
+      "Method matters. HPLC can report relative purity for the sample named in the report. Molecular identity, measured content, and endotoxin status require their own stated methods and results. Read each result as an answer to its specific analytical question, not as a broad guarantee about the product family.",
+      "The report's result must remain connected to its sample identifier. A high reported purity on one TB-500 sample does not establish the same result for another strength, lot, or product that contains TB-500 as one component. This boundary is what makes a COA a useful record instead of a generic claim.",
+      "A strong review trail runs from the individual product listing to the exact report and the stated methods and results. If an exact report is unavailable, the documentation status should be clear rather than replaced by a nearby but unmatched certificate.",
+      "EVLV supplies TB-500 strictly for lawful laboratory and analytical research. A COA documents an identified sample and its stated analysis. It is not dosing, administration, medical, veterinary, or outcome information.",
+    ],
+    cta: { label: "Search TB-500 COA records", href: "/coas" },
+  },
+  {
     slug: "bpc-157-peptide-research-documentation-guide",
     label: "Compound research",
     title: "BPC-157 Peptide: Product Identity, COAs, and Lot-Specific Research Documentation",
