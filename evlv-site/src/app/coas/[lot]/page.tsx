@@ -22,9 +22,11 @@ export async function generateMetadata({ params }: { params: Promise<{ lot: stri
   const coa = await getLot(lot);
   if (!coa) return {};
   const name = coa.productName ?? coa.compound ?? "EVLV research product";
-  const title = `${name} Certificate of Analysis | ${coa.label ?? "Lot report"}`;
-  const lotRef = coa.label ? ` lot ${coa.label}` : "";
-  const description = `Review the published ${coa.lab ?? "laboratory"} record for ${name}${lotRef}, including the identified lot, reported result, and analysis date.`;
+  const title = name === "DSIP"
+    ? `DSIP Certificate of Analysis | ${coa.label ?? "Lot report"}`
+    : `${name} COA | ${coa.label ?? "Lot report"}`;
+  const reportReference = coa.label ? `report ${coa.label}` : "identified report";
+  const description = `Review the published ${coa.lab ?? "laboratory"} ${reportReference} for ${name}, including the identified lot, reported result, and analysis date.`;
   return {
     title,
     description,

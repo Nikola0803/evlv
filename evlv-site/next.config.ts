@@ -6,6 +6,11 @@ const nextConfig: NextConfig = {
     root: process.cwd(),
   },
   images: {
+    // Serve responsive assets in modern formats and keep Vercel's optimized
+    // copies available long enough that repeat visits avoid re-encoding the
+    // large source photography in /public/images.
+    formats: ["image/avif", "image/webp"],
+    minimumCacheTTL: 31_536_000,
     // The CRM's live product feed (see src/lib/product-feed.ts) hands
     // back Product.imageUrl / CoaDocument.url as absolute URLs pointing
     // at the CRM's own domain (peptide-saas's /api/store/products route
@@ -29,6 +34,17 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "*.evlvpeptides.com" },
     ],
   },
+  async headers() {
+    return [
+      {
+        // API output is operational data or an asset, never a search landing
+        // page. This lets crawlers read a referenced QR SVG without indexing
+        // it as a duplicate/blocked page.
+        source: "/api/:path*",
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow, noarchive" }],
+      },
+    ];
+  },
   async redirects() {
     return [
       // Renamed to /heroes-discount (broader umbrella covering active
@@ -49,6 +65,13 @@ const nextConfig: NextConfig = {
       { source: "/shop/tb-500-20mg", destination: "/shop/tb-500-10mg", permanent: true },
       { source: "/shop/tb-500-5mg", destination: "/shop/tb-500-10mg", permanent: true },
       { source: "/shop/tesamorelin-20mg", destination: "/shop/tesamorelin-10mg", permanent: true },
+      // Legacy public product names remain in backlinks, old campaigns, and
+      // historical search results. Preserve that equity instead of returning
+      // a 404 after the customer-facing catalogue names changed.
+      { source: "/shop/gp-3-10mg", destination: "/shop/evlv-3-10mg", permanent: true },
+      { source: "/shop/tirzepatide-10mg", destination: "/shop/evlv-2-10mg", permanent: true },
+      { source: "/shop/tirzepatide-15mg", destination: "/shop/evlv-2-15mg", permanent: true },
+      { source: "/shop/tirzepatide-30mg", destination: "/shop/evlv-2-30mg", permanent: true },
     ];
   },
 };

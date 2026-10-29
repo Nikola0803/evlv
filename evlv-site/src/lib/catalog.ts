@@ -1,5 +1,6 @@
 import "server-only";
 
+import { unstable_cache } from "next/cache";
 import { crmConfigured } from "./crm-proxy";
 import { getLiveProducts, mergeProducts } from "./product-feed";
 import { getProducts, withQuantityPricing } from "./products";
@@ -86,7 +87,17 @@ const preventUnpricedOrders = <T extends { slug: string; inStock: boolean }>(pro
   inStock: !MISSING_VERIFIED_PRICE.has(product.slug) && product.inStock,
 });
 
-export async function getCatalogProducts() {
+// The CRM can return every strength inside a supplier product group. A live
+// group may include strengths that are deliberately absent from the approved
+// storefront inventory. Keep those rows out of variant navigation as well as
+// the shop grid, otherwise an active product page links visitors and crawlers
+// to a strength that cannot resolve in this storefront catalogue.
+const restrictVariantsToStorefront = <T extends { variants?: Array<{ slug: string }> }>(product: T): T => ({
+  ...product,
+  variants: product.variants?.filter((variant) => INVENTORY_SHEET_SLUGS.has(variant.slug)),
+});
+
+async function resolveCatalogProducts() {
   const liveProducts = await getLiveProducts();
   const sheetProducts = getProducts().filter((product) => INVENTORY_SHEET_SLUGS.has(product.slug));
   const approvedPriceBySlug = new Map(sheetProducts.map((product) => [product.slug, product.price]));
@@ -96,11 +107,28 @@ export async function getCatalogProducts() {
     return mergeProducts(sheetProducts, approvedLiveProducts, true)
       .map((product) => applyStorefrontRules(product, approvedPriceBySlug))
       .map(preventUnpricedOrders)
+      .map(restrictVariantsToStorefront)
       .map(withQuantityPricing);
   }
 
   return sheetProducts
     .map((product) => applyStorefrontRules(product, approvedPriceBySlug))
     .map(preventUnpricedOrders)
+    .map(restrictVariantsToStorefront)
     .map(withQuantityPricing);
+}
+
+// The catalog is used by the global header, cart drawer, shop routes, and
+// homepage. Keep one shared, short-lived server result so an intermittent CRM
+// request cannot make every visitor wait for the same inventory response.
+// Live inventory still refreshes frequently enough for the storefront, while
+// the static catalog remains the safe fallback if the CRM is slow or down.
+const getCachedCatalogProducts = unstable_cache(
+  resolveCatalogProducts,
+  ["evlv-storefront-catalog-v1"],
+  { revalidate: 120, tags: ["storefront-catalog"] },
+);
+
+export async function getCatalogProducts() {
+  return getCachedCatalogProducts();
 }

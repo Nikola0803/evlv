@@ -10,13 +10,53 @@ export function generateStaticParams() {
 
 const SITE_URL = "https://www.evlvpeptides.com";
 
+// Keep SERP titles concise while preserving the complete editorial headline
+// on-page, in structured data, and in social cards.
+const SEO_TITLES: Record<string, string> = {
+  "5-amino-1mq-research-documentation-guide": "5-Amino-1MQ: COA & Research Guide",
+  "are-research-peptides-legal-in-the-us-2026": "Research Peptides in the US: 2026 Guide",
+  "bpc-157-peptide-research-documentation-guide": "BPC-157: COA & Research Guide",
+  "bpc-157-us-research-guide-2026": "BPC-157 in the US: 2026 Research Guide",
+  "bpc-157-vs-tb-500-research-documentation": "BPC-157 vs TB-500: Documentation Guide",
+  "cjc-ipamorelin-peptide-blend-documentation-guide": "CJC/Ipamorelin: COA & Research Guide",
+  "evlv-1-vs-evlv-2-receptor-selectivity-research": "EVLV-1 vs EVLV-2: Research Comparison",
+  "evlv-3-us-research-guide-2026": "EVLV-3 in the US: 2026 Research Guide",
+  "ghk-cu-peptide-research-documentation-guide": "GHK-Cu: COA & Research Guide",
+  "glow-peptide-blend-research-guide": "GLOW Blend: COA & Research Guide",
+  "glow-vs-klow-peptide-blend-research": "GLOW vs KLOW: Documentation Differences",
+  "how-to-review-a-bpc-157-coa": "BPC-157 COA: How to Review a Report",
+  "how-to-review-a-glow-blend-coa": "GLOW Blend COA: How to Review a Report",
+  "how-to-review-a-semaglutide-coa": "Semaglutide COA: How to Review a Report",
+  "how-to-review-a-tb-500-coa": "TB-500 COA: How to Review a Report",
+  "how-to-review-a-tirzepatide-coa": "Tirzepatide COA: How to Review a Report",
+  "how-to-review-a-wolverine-blend-coa": "WOLVERINE Blend COA: How to Review",
+  "how-to-review-an-ss-31-coa": "SS-31 COA: How to Review a Report",
+  "identifying-lyophilized-peptides": "Lyophilized Peptide Cake: Appearance Guide",
+  "klow-peptide-blend-research-guide": "KLOW Blend: COA & Research Guide",
+  "mg-versus-powder-amount": "Milligrams vs Powder Volume: Vial Guide",
+  "nad-research-compound-documentation-guide": "NAD+: COA & Research Guide",
+  "peptide-shipping-warm-conditions": "Lyophilized Peptide Shipping: Research Guide",
+  "research-peptides-us-sourcing-guide-2026": "Research Peptides in the US: Sourcing Guide",
+  "semaglutide-peptide-research-documentation-guide": "Semaglutide: COA & Research Guide",
+  "ss-31-peptide-research-documentation-guide": "SS-31: COA & Research Guide",
+  "ss-31-vs-mots-c-research-documentation": "SS-31 vs MOTS-C: Documentation Differences",
+  "tb-500-peptide-research-documentation-guide": "TB-500: COA & Research Guide",
+  "tirzepatide-peptide-research-documentation-guide": "Tirzepatide: COA & Research Guide",
+  "whats-inside-a-lyophilized-peptide-vial": "Inside a Lyophilized Peptide Vial",
+  "white-label-peptide-dropshipping-done-right": "Research Peptide Dropshipping: Evaluation Guide",
+  "why-endotoxin-testing-matters": "Endotoxin Testing: Research Documentation Guide",
+  "why-wholesale-partners-choose-batch-verified-supply": "Wholesale Peptides: Batch Documentation Guide",
+  "wolverine-blend-vs-standalone-bpc-157-tb-500": "WOLVERINE vs BPC-157 and TB-500: Documentation",
+  "wolverine-peptide-blend-research-guide": "WOLVERINE Blend: COA & Research Guide",
+};
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const article = getJournalArticleBySlug(slug);
   if (!article) return {};
   const url = `${SITE_URL}/journal/${article.slug}`;
   return {
-    title: article.title,
+    title: SEO_TITLES[article.slug] ?? article.title,
     description: article.excerpt,
     alternates: { canonical: `/journal/${article.slug}` },
     openGraph: {
@@ -102,6 +142,20 @@ export default async function JournalArticlePage({ params }: { params: Promise<{
         <div className="mt-8 aspect-[16/9] w-full overflow-hidden rounded-lg bg-sage-mist">
           <Image src={article.image} alt={article.title} width={1200} height={675} className="h-full w-full object-cover" priority />
         </div>
+
+        {article.relatedLinks && article.relatedLinks.length > 0 && (
+          <aside className="mt-8 rounded-xl border border-stone bg-ivory-soft p-5" aria-label="Related research paths">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-sage-deep">Related research paths</p>
+            <div className="mt-4 grid gap-3 sm:grid-cols-2">
+              {article.relatedLinks.map((link) => (
+                <Link key={link.href} href={link.href} className="rounded-lg border border-stone bg-white p-4 transition hover:border-sage-deep/40">
+                  <strong className="text-sm text-charcoal">{link.label}</strong>
+                  <span className="mt-1 block text-xs leading-5 text-soft-gray">{link.description}</span>
+                </Link>
+              ))}
+            </div>
+          </aside>
+        )}
 
         <div className="mt-10 space-y-6 text-base leading-relaxed text-charcoal/80 md:text-lg">
           {article.body.map((paragraph, i) => (

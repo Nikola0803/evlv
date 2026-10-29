@@ -3,7 +3,7 @@ import Link from "next/link";
 import { TrackOrderForm } from "./TrackOrderForm";
 
 export const metadata: Metadata = {
-  title: "Track Your Research Order",
+  title: "Track Your EVLV Research Order & Shipment",
   description: "Check the processing and shipping status of an EVLV research order.",
   alternates: { canonical: "/track-order" },
 };

@@ -1,7 +1,10 @@
 import type { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
-  const privateRoutes = ["/api/", "/account", "/checkout", "/order-success", "/research-guide", "/trade/apply", "/trade/portal"];
+  // Keep only genuinely private journey routes out of crawler requests. API
+  // responses carry X-Robots-Tag instead, so public QR image assets are not
+  // reported as "blocked" while still remaining ineligible for indexing.
+  const privateRoutes = ["/checkout", "/order-success", "/research-guide", "/trade/apply", "/trade/portal"];
 
   return {
     rules: [

@@ -21,8 +21,9 @@ import { GoogleTagManagerHead, GoogleTagManagerBody } from "@/components/layout/
 import { OmnisendSnippet } from "@/components/layout/OmnisendSnippet";
 import { ScrollToTop } from "@/components/layout/ScrollToTop";
 import { ChunkErrorReload } from "@/components/layout/ChunkErrorReload";
-import { LiveChat } from "@/components/layout/LiveChat";
+import { DeferredLiveChat } from "@/components/layout/DeferredLiveChat";
 import { HalloweenExperience } from "@/components/promotion/HalloweenExperience";
+import Script from "next/script";
 
 const SITE_URL = "https://www.evlvpeptides.com";
 const CRM_PUBLIC_URL = process.env.NEXT_PUBLIC_CRM_URL || "https://crm.evlvpeptides.com";
@@ -71,7 +72,7 @@ export function generateMetadata(): Metadata {
       "third-party tested peptides",
       "research chemicals",
     ],
-    alternates: { canonical: "/" },
+    alternates: { canonical: "/", languages: { "en-US": "/" } },
     openGraph: {
       type: "website",
       url: SITE_URL,
@@ -98,6 +99,7 @@ const ORGANIZATION_JSON_LD = {
   url: SITE_URL,
   logo: `${SITE_URL}/logo/evlv-logo-light.png`,
   description: "High-purity research peptides supplied for laboratory and in-vitro analytical research. Batch-level Certificates of Analysis published. Not for human or animal use.",
+  legalName: "Warrior Distributions LLC",
   areaServed: ["US", "CA"],
   contactPoint: {
     "@type": "ContactPoint",
@@ -106,6 +108,7 @@ const ORGANIZATION_JSON_LD = {
     areaServed: ["US", "CA"],
     availableLanguage: "English",
   },
+  sameAs: ["https://verifiedpeptidereviews.com/vendors/evlv-peptides"],
 };
 
 const WEBSITE_JSON_LD = {
@@ -136,14 +139,21 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
     <html lang="en" className={`${poppins.variable} ${inter.variable} ${newsreader.variable} h-full antialiased`}>
       <head>
         <GoogleTagManagerHead />
-        {/* Preload hero poster images so the browser can paint them immediately as LCP elements,
-            rather than waiting for video metadata. The media queries mirror Hero.tsx breakpoints. */}
-        <link rel="preload" as="image" href="/images/hero-vial.png" fetchPriority="high" media="(min-width: 768px)" />
-        <link rel="preload" as="image" href="/images/hero-vial-mobile.png" fetchPriority="high" media="(max-width: 767px)" />
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" />
+        {/* The homepage LCP visual is a CSS background, so preload its compact
+            source here. CSS backgrounds are otherwise discovered only after
+            the stylesheet is parsed and cannot receive fetchPriority. */}
+        <link
+          rel="preload"
+          as="image"
+          href="/images/certified/evlv-hero-multi-vials-optimized.webp"
+          type="image/webp"
+          fetchPriority="high"
+        />
+        {/* Non-render-blocking: fetched in background, applied when ready. Eliminates ~200ms+ CSS block on first load. */}
+        <link rel="preload" href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" as="style" />
+        <script dangerouslySetInnerHTML={{ __html: `(function(){var l=document.createElement('link');l.rel='stylesheet';l.href='https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css';document.head.appendChild(l)})()` }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ORGANIZATION_JSON_LD).replace(/</g, "\\u003c") }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(WEBSITE_JSON_LD).replace(/</g, "\\u003c") }} />
-        <script src={`${CRM_PUBLIC_URL}/pixel.js`} data-key={CRM_TRACKING_KEY} async />
       </head>
       <body className="flex min-h-full flex-col bg-ivory text-charcoal">
         <ScrollToTop />
@@ -151,6 +161,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         <GoogleTagManagerBody />
         <GoogleAnalytics />
         <OmnisendSnippet />
+        <Script src={`${CRM_PUBLIC_URL}/pixel.js`} data-key={CRM_TRACKING_KEY} strategy="lazyOnload" />
         <ReferralCapture />
         <VerificationSync />
         <MembershipSync />
@@ -181,7 +192,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
                 <Footer />
                 <CartToast />
                 <CartDrawer products={products} />
-                <LiveChat />
+                <DeferredLiveChat />
               </AgeGate>
             )}
           </CartProvider>
