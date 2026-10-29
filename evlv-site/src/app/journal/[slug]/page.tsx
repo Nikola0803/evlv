@@ -103,6 +103,20 @@ export default async function JournalArticlePage({ params }: { params: Promise<{
           <Image src={article.image} alt={article.title} width={1200} height={675} className="h-full w-full object-cover" priority />
         </div>
 
+        {article.relatedLinks && article.relatedLinks.length > 0 && (
+          <aside className="mt-8 rounded-xl border border-stone bg-ivory-soft p-5" aria-label="Related research paths">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-sage-deep">Related research paths</p>
+            <div className="mt-4 grid gap-3 sm:grid-cols-2">
+              {article.relatedLinks.map((link) => (
+                <Link key={link.href} href={link.href} className="rounded-lg border border-stone bg-white p-4 transition hover:border-sage-deep/40">
+                  <strong className="text-sm text-charcoal">{link.label}</strong>
+                  <span className="mt-1 block text-xs leading-5 text-soft-gray">{link.description}</span>
+                </Link>
+              ))}
+            </div>
+          </aside>
+        )}
+
         <div className="mt-10 space-y-6 text-base leading-relaxed text-charcoal/80 md:text-lg">
           {article.body.map((paragraph, i) => (
             <p key={i}>{paragraph}</p>

@@ -7,11 +7,83 @@ export interface JournalArticle {
   publishedDate: string;
   readTime: string;
   body: string[];
+  /** Contextual research paths displayed before the article body. */
+  relatedLinks?: { label: string; href: string; description: string }[];
   /** Optional end-of-article CTA (e.g. wholesale/dropshipping posts linking to /wholesale). */
   cta?: { label: string; href: string };
 }
 
 export const JOURNAL_ARTICLES: JournalArticle[] = [
+  {
+    slug: "glow-peptide-blend-research-guide",
+    label: "Blend research",
+    title: "What Is the GLOW Peptide Blend? Components, COAs, and Research Documentation",
+    excerpt:
+      "A documentation-first guide to the EVLV GLOW peptide blend: named components, lot matching, component-level analytical results, and the evidence a product-specific COA can provide.",
+    image: "/images/science/testing.jpg",
+    publishedDate: "2026-10-29",
+    readTime: "7 min read",
+    relatedLinks: [
+      { label: "GLOW Blend research hub", href: "/glow-blend-research", description: "View the current GLOW 70MG listing, product-specific documentation, and active catalogue status." },
+      { label: "COA library", href: "/coas", description: "Search published reports by product and batch identifier." },
+    ],
+    body: [
+      "GLOW is a multi-analyte research blend. The EVLV GLOW 70MG listing identifies GHK-Cu, BPC-157, and TB-500 as its three named components. That formulation describes the intended material, but it does not replace the analytical review required for a specific lot. A laboratory should evaluate the product listing and the report that identifies the same blended sample together.",
+      "The first review step is to match the product name, total labeled quantity, and lot or sample identifier. These fields create the connection between the material being considered, the catalogue listing, and the laboratory record. A visually similar vial, a generic composition statement, or a report that names only one standalone ingredient is not equivalent to an exact GLOW Blend match.",
+      "A GLOW peptide blend should be treated as its own material. Documentation for standalone GHK-Cu, BPC-157, or TB-500 can provide background about those individual materials, but it does not verify the composition or analytical result of the GLOW blend. Likewise, a report for one GLOW lot should not be generalized to another lot unless the report explicitly identifies that material.",
+      "For a multi-analyte record, it is important to read the stated method and result in context. Purity, identity, measured content, and endotoxin status are different analytical questions. When a report provides component-level results, review GHK-Cu, BPC-157, and TB-500 separately rather than treating one headline number as complete proof for every named component.",
+      "The practical review sequence is straightforward: confirm the GLOW product name and labeled quantity, match the lot or sample identifier, note the issuing laboratory and analysis date, then read the methods and reported results in the original record. If a record does not identify the same material, it may be useful background, but it is not lot-specific evidence for the item under review.",
+      "GLOW and KLOW are separate blends. GLOW lists three named components, while KLOW adds KPV to the GHK-Cu, BPC-157, and TB-500 combination. Their product identities, total labeled quantities, and documentation paths remain separate. A report associated with one blend should never be used as a substitute for the other.",
+      "EVLV supplies GLOW strictly for lawful laboratory and analytical research. The catalogue and documentation are not medical, veterinary, dosing, administration, or outcome guidance. The purpose of the published record is to help qualified researchers evaluate the identified product and lot using the information the report actually contains.",
+    ],
+    cta: { label: "Review GLOW Blend products and COAs", href: "/glow-blend-research" },
+  },
+  {
+    slug: "glow-vs-klow-peptide-blend-research",
+    label: "Blend comparison",
+    title: "GLOW vs KLOW Peptide Blends: Components and Documentation Differences",
+    excerpt:
+      "A research-catalogue comparison of GLOW and KLOW peptide blends, covering listed components, separate product identity, and how to evaluate the correct COA for each material.",
+    image: "/images/science/purity.jpg",
+    publishedDate: "2026-10-29",
+    readTime: "6 min read",
+    relatedLinks: [
+      { label: "GLOW Blend research hub", href: "/glow-blend-research", description: "Review the current GLOW 70MG listing and its available documentation." },
+      { label: "KLOW Blend research hub", href: "/klow-blend-research", description: "Review the separate KLOW listing, named components, and COA path." },
+    ],
+    body: [
+      "GLOW and KLOW are different multi-analyte research blends. Their names are sometimes discussed together, but a useful comparison begins with the catalogue identity of each material rather than an assumed shared purpose. Each blend has its own named components, labeled quantity, lot history, and analytical documentation requirements.",
+      "The EVLV GLOW Blend listing identifies GHK-Cu, BPC-157, and TB-500. The EVLV KLOW Blend listing identifies those same three components plus KPV. That component difference is enough to make the materials analytically distinct. A report for GLOW is not a KLOW report, and a KLOW report is not evidence for GLOW.",
+      "Total labeled quantity is also product-specific. A comparison should preserve the exact product name and strength shown on each listing, rather than reducing either blend to an ingredient list. The listed total amount, product label, sample identifier, and report date are the details that make a record usable for the item under review.",
+      "The strongest comparison is documentation-led. For each blend, locate the matching COA and confirm the material named by the issuing laboratory. Then review the reported methods and results for the identified sample. Where component-level information is published, read every named analyte in that context. Do not carry a result from one ingredient or product into another blend.",
+      "This approach also avoids a common catalogue error: treating blends as interchangeable because several components overlap. Overlap is not identity. A multi-analyte material can only be evaluated through the record for that multi-analyte material, its listed quantity, and its identified lot or sample.",
+      "Neither GLOW nor KLOW is supplied for human or veterinary use. EVLV provides catalogue identity, ordering, and documentation information for lawful laboratory and analytical research only. It does not provide administration, dosing, treatment, or personal-use guidance for either blend.",
+    ],
+    cta: { label: "Compare current GLOW and KLOW documentation", href: "/peptide-blends" },
+  },
+  {
+    slug: "how-to-review-a-glow-blend-coa",
+    label: "Documentation guide",
+    title: "How to Review a GLOW Blend COA: Product, Lot, Method, and Result",
+    excerpt:
+      "A step-by-step documentation checklist for reviewing a GLOW Blend COA: exact product matching, lot identity, analytical methods, component-level results, and the limits of a published record.",
+    image: "/images/science/standard.jpg",
+    publishedDate: "2026-10-29",
+    readTime: "5 min read",
+    relatedLinks: [
+      { label: "GLOW Blend research hub", href: "/glow-blend-research", description: "See the current GLOW 70MG listing and its published documentation path." },
+      { label: "Search exact COAs", href: "/coas", description: "Locate published reports using the product and batch identifiers shown on the item." },
+    ],
+    body: [
+      "A certificate of analysis is only useful when it can be connected to the material under review. For a GLOW Blend COA, begin with the product name and total labeled quantity. The record should identify the multi-analyte blend, not only a standalone component such as GHK-Cu, BPC-157, or TB-500.",
+      "Next, compare the lot or sample identifier on the product and the report. That identifier is what makes documentation lot-specific. A result for an earlier lot, a different strength, or a similarly named blend should not be treated as an exact match for the item being evaluated.",
+      "Then check the issuing laboratory and analysis date. These fields provide the context for when the named sample was analyzed and who produced the report. They do not make a result transferable to a different sample, but they help establish the scope of the record that is actually available.",
+      "Read the analytical method before relying on the result. HPLC can report relative purity, while molecular identity and other measurements require their own stated methods. Endotoxin testing is also distinct from purity or identity. A report should be read according to the question each method answers, rather than as a single universal quality score.",
+      "For GLOW, component-level context matters. The listing identifies GHK-Cu, BPC-157, and TB-500. If the report provides separate analyte results, evaluate each result against the named component and method. A single value for one component does not automatically establish the result for the complete blend.",
+      "Finally, keep the evidence boundary clear. A COA can document the identified sample, method, date, and reported laboratory result. It does not provide dosing, administration, medical, veterinary, or outcome guidance. EVLV supplies GLOW strictly for lawful laboratory and analytical research.",
+    ],
+    cta: { label: "Open the GLOW Blend documentation path", href: "/glow-blend-research" },
+  },
   {
     slug: "klow-peptide-blend-research-guide",
     label: "Blend research",

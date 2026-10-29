@@ -221,9 +221,9 @@ export const COMPOUND_HUBS = {
   glow: {
     path: "/glow-blend-research",
     shortName: "GLOW Blend",
-    title: "GLOW Blend Peptide Research Products and COAs",
-    metaTitle: "GLOW Blend Peptide | COAs & Research Details",
-    description: "Review EVLV GLOW Blend peptide research products, labeled amount, component-specific analytical results, and exact COA status. Strictly for laboratory and analytical research.",
+    title: "GLOW Peptide Blend 70MG: Products, COAs, and Research Details",
+    metaTitle: "GLOW Peptide Blend 70MG | COAs & Research Details",
+    description: "Review EVLV GLOW peptide blend 70MG, listed GHK-Cu, BPC-157, and TB-500 components, exact COA status, and component-level analytical documentation.",
     eyebrow: "Multi-analyte research hub",
     classification: "GHK-Cu, BPC-157, and TB-500 research blend",
     overview: "GLOW is a multi-analyte EVLV research blend containing labeled GHK-Cu, BPC-157, and TB-500 components. It is a distinct product, not a substitute for the analytical records of its standalone ingredients.",
@@ -232,12 +232,13 @@ export const COMPOUND_HUBS = {
     slugs: ["glow-70mg"],
     categoryPaths: ["/research-peptides", "/peptide-blends"],
     journalLinks: [
-      { href: "/journal/batch-testing-explained", label: "Batch testing explained", description: "How an exact report connects to a specific blended product." },
-      { href: "/journal/understanding-peptide-purity", label: "Understanding purity data", description: "Why each analyte needs its own analytical context." },
-      { href: "/journal/whats-inside-a-lyophilized-peptide-vial", label: "Inside a lyophilized vial", description: "Why physical appearance is not composition evidence." },
+      { href: "/journal/glow-peptide-blend-research-guide", label: "GLOW Blend research guide", description: "What the GLOW Blend listing identifies and how to evaluate an exact record." },
+      { href: "/journal/glow-vs-klow-peptide-blend-research", label: "GLOW vs KLOW", description: "Compare the named components and documentation paths for both blends." },
+      { href: "/journal/how-to-review-a-glow-blend-coa", label: "How to review a GLOW COA", description: "A practical checklist for product, lot, method, and result matching." },
     ],
     faq: [
       { question: "What compounds are listed in the GLOW Blend?", answer: "The EVLV GLOW Blend listing identifies GHK-Cu, BPC-157, and TB-500 as its named research components." },
+      { question: "How does GLOW differ from KLOW?", answer: "GLOW identifies GHK-Cu, BPC-157, and TB-500. KLOW is a separate blend that adds KPV. Their product records and analytical documentation should be evaluated separately." },
       { question: "Can one purity result verify the complete GLOW Blend?", answer: "A multi-analyte blend is best evaluated component by component using the methods and results stated in the exact report." },
       { question: "Does a GLOW COA cover standalone GHK-Cu or BPC-157?", answer: "No. The blend report applies to its identified blended sample and should not be transferred to standalone products." },
       { question: "Is the GLOW Blend supplied for personal use?", answer: "No. It is supplied strictly for laboratory and analytical research, not for human or veterinary use." },
@@ -258,8 +259,8 @@ export const COMPOUND_HUBS = {
     categoryPaths: ["/research-peptides", "/peptide-blends"],
     journalLinks: [
       { href: "/journal/klow-peptide-blend-research-guide", label: "KLOW Blend research guide", description: "How to review the listed components, batch documentation, and evidence boundaries." },
+      { href: "/journal/glow-vs-klow-peptide-blend-research", label: "GLOW vs KLOW", description: "Compare the named components and documentation paths for both blends." },
       { href: "/journal/batch-testing-explained", label: "Batch testing explained", description: "How to match a multi-analyte report to the product in hand." },
-      { href: "/journal/understanding-peptide-purity", label: "Understanding purity data", description: "How to read multiple analyte results without overgeneralizing." },
     ],
     faq: [
       { question: "What is listed in the KLOW Blend?", answer: "The KLOW research listing identifies GHK-Cu, KPV, TB-500, and BPC-157 as its four named components." },
