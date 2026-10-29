@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import { VerifiedPeptideReviewsBadge } from "@/components/trust/VerifiedPeptideReviewsBadge";
 
@@ -63,15 +62,7 @@ function StandardHero() {
         <p>EVLV is built for researchers who expect precise documentation, consistent quality, and premium presentation.</p>
         <Link className="cp-primary" href="/shop?category=peptides">Shop All Peptides</Link>
       </div>
-      <div className="cp-hero-image">
-        <Image
-          src="/images/certified/evlv-hero-multi-vials.webp"
-          alt="EVLV premium research vials and matching cartons"
-          fill
-          priority
-          sizes="(max-width: 620px) 100vw, 55vw"
-        />
-      </div>
+      <div className="cp-hero-image" aria-label="EVLV premium peptide vials and matching cartons" />
     </section>
   );
 }
@@ -97,15 +88,7 @@ export function ResearchSetCampaignHomeHero() {
         </Link>
         <small className="cp-campaign-terms">Any 3 or more eligible catalog items. Automatic — no code required. Cannot be combined with other offers. $15 shipping below $300.</small>
       </div>
-      <div className="cp-hero-image cp-campaign-hero-image">
-        <Image
-          src="/images/certified/evlv-hero-multi-vials.webp"
-          alt="EVLV research vial collection"
-          fill
-          priority
-          sizes="(max-width: 620px) 100vw, 55vw"
-        />
-      </div>
+      <div className="cp-hero-image cp-campaign-hero-image" aria-label="EVLV research peptide collection" />
       {!ready && <span className="sr-only">Loading campaign countdown</span>}
     </section>
   );
