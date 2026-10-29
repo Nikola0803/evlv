@@ -109,6 +109,15 @@ export default function AboutPage() {
               <p className="text-[11px] font-semibold uppercase tracking-[.18em] text-copper">What customers can expect</p>
               <h2 className="mt-4 font-display text-4xl font-semibold leading-tight md:text-5xl">Proof built into the experience.</h2>
               <p className="mt-5 max-w-md text-base leading-7 text-soft-gray">Trust is not one badge. It is the combined result of transparent information, traceable documentation, dependable fulfillment and reachable support.</p>
+              <a
+                href="https://launchorbit.co"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-6 inline-flex opacity-75 transition-opacity hover:opacity-100"
+                aria-label="View EVLV Peptides on LaunchOrbit"
+              >
+                <img src="https://launchorbit.co/api/badge?theme=light&v=9" alt="View EVLV Peptides on LaunchOrbit" width="180" height="48" loading="lazy" />
+              </a>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               {PROOF_POINTS.map((point) => (
