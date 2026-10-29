@@ -15,6 +15,77 @@ export interface JournalArticle {
 
 export const JOURNAL_ARTICLES: JournalArticle[] = [
   {
+    slug: "ss-31-peptide-research-documentation-guide",
+    label: "Compound research",
+    title: "SS-31 Peptide: Product Identity, COAs, and Research Documentation",
+    excerpt:
+      "A documentation-first guide to SS-31 peptide research products, labeled strengths, lot matching, and the analytical records that belong to an identified sample.",
+    image: "/images/science/testing.jpg",
+    publishedDate: "2026-10-29",
+    readTime: "7 min read",
+    relatedLinks: [
+      { label: "SS-31 research hub", href: "/ss-31-research", description: "Review current SS-31 listings, labeled strengths, and available documentation." },
+      { label: "Mitochondrial research compounds", href: "/mitochondrial-research-peptides", description: "Browse related EVLV research materials by product identity and documentation." },
+      { label: "Search exact COAs", href: "/coas", description: "Locate published records by product name, batch, or sample identifier." },
+    ],
+    body: [
+      "SS-31 is a synthetic tetrapeptide also referred to as elamipretide in published literature. In a research catalogue, the compound name is only a starting point. The exact product record, labeled strength, and identified lot or sample are what connect a material under review to an analytical document.",
+      "Begin with the individual SS-31 product listing. Confirm the intended compound identity, labeled quantity, product format, current stock status, and documentation status. Each available strength is a separate product record, so a reported result for one strength or lot should not automatically be applied to another.",
+      "Read any analytical method together with its stated result. Relative purity, molecular identity, measured content, and endotoxin status answer different analytical questions. A result is useful only for the named sample and method, and one headline purity value does not establish unreported attributes of the material.",
+      "A useful SS-31 record review includes the sample name, lot or sample identifier, labeled strength, issuing laboratory, analysis date, method, and reported result. The listing and document should align on the material being assessed. A report from a different strength, lot, or supplier is not an exact substitute.",
+      "SS-31 is often grouped with other mitochondrial-research compounds in search results. That grouping does not make the compounds interchangeable. SS-31 and MOTS-C, for example, have distinct identities, product records, and documentation paths. Each needs evidence that identifies its own sample.",
+      "EVLV supplies SS-31 strictly for lawful laboratory and analytical research. This guide covers product identity and evidence review only. It does not provide dosing, administration, medical, veterinary, safety, or outcome guidance.",
+    ],
+    cta: { label: "Review SS-31 products and COAs", href: "/ss-31-research" },
+  },
+  {
+    slug: "how-to-review-an-ss-31-coa",
+    label: "Analytical review",
+    title: "How to Review an SS-31 COA: Product, Lot, Method, and Result",
+    excerpt:
+      "A practical checklist for reviewing an SS-31 certificate of analysis by matching the named product, labeled strength, sample identifier, method, and stated result.",
+    image: "/images/science/purity.jpg",
+    publishedDate: "2026-10-29",
+    readTime: "6 min read",
+    relatedLinks: [
+      { label: "SS-31 research hub", href: "/ss-31-research", description: "Compare current SS-31 product listings and their documentation paths." },
+      { label: "Verify a vial", href: "/verify-your-vial", description: "Use the EVLV verification route to locate the applicable published record." },
+      { label: "Testing and sourcing standards", href: "/sourcing", description: "Understand the roles of identity, purity, and lot-specific record matching." },
+    ],
+    body: [
+      "A certificate of analysis is meaningful only when it can be connected to the exact material being reviewed. For SS-31, begin by matching the product name, labeled strength, and lot or sample identifier between the vial or product record and the document itself.",
+      "Next, confirm the issuing laboratory and analysis date. These fields establish who reported the result and when. A current product page may show a different lot from a historical report, so the lot or sample identifier remains the decisive match point rather than the compound name alone.",
+      "Read the stated analytical method before interpreting the result. A purity result is not an identity result, and neither is automatically a measured-content or endotoxin result. Each method answers a distinct question for the sample named on the report.",
+      "Keep the document's scope narrow. An SS-31 COA for one identified sample does not verify another strength, later lot, or different product. This is why product-specific documentation is more useful than a generic certificate attached to an entire category.",
+      "If a listing does not have an exact published record, that status should be visible rather than replaced with an adjacent result. Transparent limitations allow researchers to distinguish available evidence from evidence that has not been published for the current material.",
+      "EVLV supplies SS-31 strictly for lawful laboratory and analytical research. This checklist addresses evidence review only and does not provide medical, veterinary, personal-use, dosing, or administration guidance.",
+    ],
+    cta: { label: "Search SS-31 documentation", href: "/coas?search=SS-31" },
+  },
+  {
+    slug: "ss-31-vs-mots-c-research-documentation",
+    label: "Research comparison",
+    title: "SS-31 vs MOTS-C: Why Their Research Documentation Is Not Interchangeable",
+    excerpt:
+      "SS-31 and MOTS-C may appear in the same research category, but they are distinct materials requiring separate product identity, lot matching, and analytical documentation.",
+    image: "/images/science/standard.jpg",
+    publishedDate: "2026-10-29",
+    readTime: "6 min read",
+    relatedLinks: [
+      { label: "SS-31 research hub", href: "/ss-31-research", description: "Review active SS-31 products and their documentation path." },
+      { label: "MOTS-C research hub", href: "/mots-c-research", description: "Review active MOTS-C products and their separate documentation path." },
+      { label: "Understanding purity reporting", href: "/journal/understanding-peptide-purity", description: "Separate a stated purity result from identity, content, and lot matching." },
+    ],
+    body: [
+      "SS-31 and MOTS-C are both discussed in mitochondrial research, but category proximity is not product equivalence. They are distinct peptide materials with different identities, labeled strengths, and separate analytical-documentation requirements.",
+      "The practical documentation rule is simple: start with the exact product record. Confirm the compound name, labeled strength, sample or lot identifier, and available report. A certificate associated with one compound cannot be transferred to another because the name of a broader research category is shared.",
+      "The same principle applies to analytical values. A reported purity result belongs to the identified sample and method. It should not be generalized from SS-31 to MOTS-C, from MOTS-C to SS-31, or from one strength or lot to another.",
+      "A documentation-first catalogue makes these boundaries visible. Separate products have separate pages, current stock information, labels, and report links where published. This lets a researcher evaluate the material under consideration rather than relying on a broad category label.",
+      "EVLV supplies both materials strictly for lawful laboratory and analytical research. This comparison covers catalogue identity and documentation boundaries only. It does not provide medical, veterinary, dosing, administration, or outcome guidance.",
+    ],
+    cta: { label: "Compare mitochondrial research products", href: "/mitochondrial-research-peptides" },
+  },
+  {
     slug: "ghk-cu-peptide-research-documentation-guide",
     label: "Compound research",
     title: "GHK-Cu Peptide: Product Identity, COAs, and Research Documentation",

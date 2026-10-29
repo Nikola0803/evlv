@@ -21,6 +21,7 @@ const STATIC_ROUTES = [
   { path: "/glp-research-series", priority: 0.9, changeFrequency: "weekly" as const },
   { path: "/ghk-cu-research", priority: 0.8, changeFrequency: "weekly" as const },
   { path: "/mots-c-research", priority: 0.8, changeFrequency: "weekly" as const },
+  { path: "/ss-31-research", priority: 0.8, changeFrequency: "weekly" as const },
   { path: "/tesamorelin-research", priority: 0.8, changeFrequency: "weekly" as const },
   { path: "/semaglutide-research", priority: 0.9, changeFrequency: "weekly" as const },
   { path: "/tirzepatide-research", priority: 0.9, changeFrequency: "weekly" as const },
