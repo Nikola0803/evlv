@@ -57,6 +57,14 @@ const nextConfig: NextConfig = {
       { source: "/affiliate-program", destination: "/ambassadors", permanent: true },
       { source: "/ambassador", destination: "/ambassadors", permanent: true },
       { source: "/ambassador-program", destination: "/ambassadors", permanent: true },
+      // Discontinued SKUs — redirect to nearest available size
+      { source: "/shop/bpc-157-20mg", destination: "/shop/bpc-157-10mg", permanent: true },
+      { source: "/shop/mots-c-40mg", destination: "/shop/mots-c-10mg", permanent: true },
+      { source: "/shop/oxytocin-10mg", destination: "/shop/oxytocin-5mg", permanent: true },
+      { source: "/shop/ss-31-10mg", destination: "/shop/ss-31-50mg", permanent: true },
+      { source: "/shop/tb-500-20mg", destination: "/shop/tb-500-10mg", permanent: true },
+      { source: "/shop/tb-500-5mg", destination: "/shop/tb-500-10mg", permanent: true },
+      { source: "/shop/tesamorelin-20mg", destination: "/shop/tesamorelin-10mg", permanent: true },
       // Legacy public product names remain in backlinks, old campaigns, and
       // historical search results. Preserve that equity instead of returning
       // a 404 after the customer-facing catalogue names changed.

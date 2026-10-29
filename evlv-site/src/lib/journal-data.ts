@@ -776,6 +776,25 @@ export const JOURNAL_ARTICLES: JournalArticle[] = [
     ],
   },
   {
+    slug: "where-to-buy-research-peptides-with-coa",
+    label: "Sourcing",
+    title: "Where to Buy Research Peptides With a Third-Party Certificate of Analysis",
+    excerpt:
+      "A practical checklist for locating research-peptide vendors that publish independent COAs, and how to verify the documentation before placing an order.",
+    image: "/images/science/purity.jpg",
+    publishedDate: "2026-10-28",
+    readTime: "7 min read",
+    body: [
+      "The question 'where can I buy research peptides with a certificate of analysis' contains two questions inside it: where to find a supplier that produces COAs, and how to verify that the documentation they provide is genuine and lot-specific rather than a reused file with a batch number typed in. Both matter equally, and a procurement checklist that skips the second is incomplete.",
+      "Start with what a real COA actually contains. An independent third-party certificate of analysis is tied to a specific lot code, names the laboratory that performed the analysis, and reports at minimum: an HPLC purity result with a percentage, a mass-spectrometry identity result confirming the compound's molecular weight matches the target sequence, the test date, and a pass or fail conclusion. A document missing any of those fields is not a third-party COA — it is a product spec sheet, a supplier's internal test report, or in the worst case a graphic file with numbers chosen to look persuasive.",
+      "Common red flags in documentation: a batch number that appears typed over a template rather than embedded in the original lab output; a laboratory logo that cannot be matched to a real, searchable laboratory with a verifiable address and contact; a purity result with no retention-time data or chromatogram attached; a single COA presented as valid for multiple products or SKUs. Any of these is a reason to request the original source document and verify the lab directly.",
+      "A practical pre-order verification workflow starts with the lot code on the product listing. Search that code against the supplier's public COA library — it should return exactly one matching record tied to that compound and that batch. Open the original PDF, not a summary page. Confirm the lab name is a real, independent analytical facility you can look up. Check the test date is recent enough to be relevant to current inventory. Match the compound listed to what you ordered. If any step fails, the documentation does not support the purchase.",
+      "EVLV's COA library is searchable by lot code at evlvpeptides.com/coas. Every published record identifies the compound, the specific batch, the independent laboratory, the reported purity from HPLC, the identity result from mass spectrometry, and the test date. Where a separate endotoxin report exists for a batch, it is published as its own document rather than folded into the purity record. Documentation is published when it clears — not held back or issued selectively.",
+      "For institutional and independent researchers, the practical standard is the same regardless of who is sourcing: independent HPLC and mass-spec data for the specific lot in hand, from a named laboratory, with a result you can look up before the order ships. A supplier that makes that documentation freely searchable is one whose quality claims are checkable. A supplier that provides documentation only on request, only after purchase, or only in summary form without a traceable original is asking for trust it hasn't demonstrated.",
+    ],
+    cta: { label: "Search the EVLV COA Library", href: "/coas" },
+  },
+  {
     slug: "why-wholesale-partners-choose-batch-verified-supply",
     label: "Wholesale",
     title: "Why Wholesale Partners Choose Batch-Verified Peptide Supply",

@@ -96,7 +96,7 @@ export function CoasClient({ coaEntries }: { coaEntries: CoaEntry[] }) {
           <div className="mb-6 mt-10 flex items-end justify-between gap-4">
             <div>
               <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-sage-deep">Document library</p>
-              <h2 className="mt-2 font-display text-2xl font-semibold text-charcoal">Published lot reports</h2>
+              <h1 className="mt-2 font-display text-2xl font-semibold text-charcoal">Certificates of Analysis</h1>
             </div>
             <p className="text-xs text-charcoal/45">{filtered.length} {filtered.length === 1 ? "report" : "reports"}</p>
           </div>

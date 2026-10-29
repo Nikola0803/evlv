@@ -29,6 +29,14 @@ const METABOLIC_SLUGS = new Set([
   "aod-9604-5mg", "aod-9604-10mg", "cagrilintide-10mg", "5-amino-1mq-30mg", "slu-pp-332-10mg",
 ]);
 
+const FAT_LOSS_RESEARCH_SLUGS = new Set([
+  "aod-9604-5mg", "aod-9604-10mg",
+  "evlv-1-5mg", "evlv-1-10mg", "evlv-1-30mg",
+  "evlv-2-10mg", "evlv-2-15mg", "evlv-2-30mg", "evlv-2-60mg",
+  "evlv-3-10mg", "evlv-3-15mg", "evlv-3-20mg", "evlv-3-30mg", "evlv-3-60mg",
+  "5-amino-1mq-30mg",
+]);
+
 const MITOCHONDRIAL_SLUGS = new Set([
   "mots-c-10mg", "mots-c-40mg", "ss-31-10mg", "ss-31-50mg",
   "nad-500mg", "nad-1000mg", "glutathione-1500mg",
@@ -118,6 +126,23 @@ export const RESEARCH_CATEGORY_PAGES = {
       { question: "Does this category imply a medical benefit?", answer: "No. It is a research catalogue classification only. EVLV does not market these products for diagnosis, treatment, prevention, or personal use." },
       { question: "What should I check before ordering?", answer: "Review chemical identity, labeled amount, storage information, stock status, and whether an exact current product report is available." },
       { question: "Is a purity result the same as identity confirmation?", answer: "No. Purity and identity answer different analytical questions. Review the actual methods and scope stated in the report." },
+    ],
+  },
+  fatLossResearch: {
+    path: "/fat-loss-peptide-research",
+    eyebrow: "Research classification",
+    title: "Fat Loss Peptide Research",
+    metaTitle: "Fat Loss Peptide Research | Lipolysis & Metabolic Compounds",
+    description: "Explore EVLV research compounds studied in lipolysis, lipid metabolism, and metabolic signaling research, including hGH-fragment and GLP-receptor classes.",
+    intro: "This page organises the EVLV research compounds most commonly evaluated in preclinical lipolysis and lipid-metabolism studies. Each compound is supplied as a research-use-only laboratory material — not for human or veterinary use — and the documentation for every listed lot is published and searchable before purchase.",
+    scopeTitle: "What 'fat loss peptide' means in a research context",
+    scope: "In laboratory research, 'fat loss peptide' typically refers to compounds studied for their interaction with lipolytic signaling pathways: the hGH fragment 176–191 (AOD-9604), which has been investigated for fat-cell receptor activity in preclinical models; GLP-1 receptor agonist classes (EVLV-1, EVLV-2, EVLV-3), studied for metabolic and energy homeostasis signaling in vitro; and NNMT inhibitors such as 5-amino-1MQ, examined in preclinical adipocyte research. None of these compounds has an FDA-approved indication, and none is supplied or intended for human use. The term 'fat loss' as used here describes the research context, not a claimed outcome.",
+    heroImage: "/images/certified/category-lipotropics.png",
+    selector: (product) => FAT_LOSS_RESEARCH_SLUGS.has(product.slug),
+    faq: [
+      { question: "What is AOD-9604 studied for?", answer: "AOD-9604 is the C-terminal hGH fragment 176–191, investigated in preclinical research for its interaction with fat-cell receptors and lipolytic signaling pathways. It is supplied for laboratory and in vitro research only." },
+      { question: "Are GLP-1 agonist class compounds included here?", answer: "Yes. EVLV-1, EVLV-2, and EVLV-3 are EVLV's catalogue designations for GLP-1-class research compounds (single, dual, and triple receptor classes), which are studied in metabolic and energy-homeostasis research. None is approved for human use." },
+      { question: "Are these compounds intended for personal weight-loss use?", answer: "No. All products on this page are research-use-only laboratory materials. They are not for human or veterinary use and are not intended as weight-loss aids, supplements, or treatments of any kind." },
     ],
   },
   labSupplies: {
