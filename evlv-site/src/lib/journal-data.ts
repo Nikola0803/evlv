@@ -15,6 +15,102 @@ export interface JournalArticle {
 
 export const JOURNAL_ARTICLES: JournalArticle[] = [
   {
+    slug: "ghk-cu-peptide-research-documentation-guide",
+    label: "Compound research",
+    title: "GHK-Cu Peptide: Product Identity, COAs, and Research Documentation",
+    excerpt:
+      "A documentation-first guide to GHK-Cu peptide research products, copper-complex identity, labeled strengths, lot matching, and exact analytical records.",
+    image: "/images/science/testing.jpg",
+    publishedDate: "2026-10-29",
+    readTime: "7 min read",
+    relatedLinks: [
+      { label: "GHK-Cu research hub", href: "/ghk-cu-research", description: "Review standalone GHK-Cu products, available strengths, and documentation paths." },
+      { label: "GLOW Blend research hub", href: "/glow-blend-research", description: "See why a multi-analyte product containing GHK-Cu needs its own record." },
+      { label: "Search exact COAs", href: "/coas", description: "Locate published records by product name, batch, or sample identifier." },
+    ],
+    body: [
+      "GHK-Cu is the copper complex of the glycyl-L-histidyl-L-lysine tripeptide. For product review, the compound name is only the beginning. The individual listing, labeled strength, and lot or sample identifier are what connect the material being evaluated to an analytical record.",
+      "Begin with the standalone product record. Confirm the GHK-Cu identity, labeled quantity, product format, and documentation status. GHK-Cu may also appear as a named component in multi-analyte blends, but those blends are distinct products with their own composition and record path.",
+      "Review analytical methods in their stated scope. Relative purity, copper-complex identity, measured content, and endotoxin status are separate questions. One method or value should not be extended beyond the named sample and analytical question it addresses.",
+      "A useful GHK-Cu COA review includes the product name, labeled strength, lot or sample identifier, issuing laboratory, analysis date, method, and reported result. The lot match is essential because a report for another strength or another product cannot establish the analytical status of the material in hand.",
+      "For blends such as GLOW or KLOW, a standalone GHK-Cu report does not verify the blended sample. A blend must be assessed using documentation that identifies the exact multi-analyte material and, where reported, provides component-level context for its named analytes.",
+      "EVLV supplies GHK-Cu strictly for lawful laboratory and analytical research. This guide covers product identity and evidence review only. It does not provide cosmetic, medical, veterinary, dosing, administration, or outcome guidance.",
+    ],
+    cta: { label: "Review GHK-Cu products and COAs", href: "/ghk-cu-research" },
+  },
+  {
+    slug: "nad-research-compound-documentation-guide",
+    label: "Compound research",
+    title: "NAD+ Research Compound: Product Identity, COAs, and Lot Records",
+    excerpt:
+      "A documentation-first guide to NAD+ research materials, labeled strengths, exact lot matching, and how to read published analytical records by their stated scope.",
+    image: "/images/science/standard.jpg",
+    publishedDate: "2026-10-29",
+    readTime: "6 min read",
+    relatedLinks: [
+      { label: "NAD+ research hub", href: "/nad-research", description: "Review current NAD+ listings, strengths, and available documentation." },
+      { label: "Mitochondrial research compounds", href: "/mitochondrial-research-peptides", description: "Browse the wider EVLV research-material category." },
+      { label: "Search exact COAs", href: "/coas", description: "Locate published records by product name, batch, or sample identifier." },
+    ],
+    body: [
+      "NAD+ is a non-peptide research compound. It belongs in its own documentation path rather than being treated as interchangeable with peptide products elsewhere in a research catalogue. The product name, labeled strength, and identified lot or sample determine what record can be connected to the material under review.",
+      "Start with the individual NAD+ listing. Confirm the labeled quantity, product format, current stock status, and available documentation. Each strength is a separate product record, so a result from one strength should not automatically be applied to another.",
+      "Read the stated method with the reported result. Identity, relative purity, measured content, and endotoxin status are separate analytical questions. The relevant evidence is the method and result stated for the named sample, not a generalized statement about NAD+ as a compound category.",
+      "A product-specific NAD+ COA should identify the material, its lot or sample identifier, issuing laboratory, analysis date, method, and reported result. The lot or sample field limits the evidence to a particular material and stops a generic certificate from being mistaken for a current batch record.",
+      "The appropriate verification path is simple: exact product listing, labeled strength, lot or sample identifier, original report, then stated methods and results. Where an exact report is unavailable, the listing should make that documentation status clear instead of substituting a nearby but unmatched certificate.",
+      "EVLV supplies NAD+ strictly for lawful laboratory and analytical research. This guide covers product identity and documentation review only. It does not provide medical, veterinary, dosing, administration, or outcome guidance.",
+    ],
+    cta: { label: "Review NAD+ products and COAs", href: "/nad-research" },
+  },
+  {
+    slug: "5-amino-1mq-research-documentation-guide",
+    label: "Compound research",
+    title: "5-Amino-1MQ: Product Identity, COAs, and Research Documentation",
+    excerpt:
+      "A documentation-first guide to 5-Amino-1MQ research material, labeled strength, lot-specific analytical records, and the limits of a published result.",
+    image: "/images/science/purity.jpg",
+    publishedDate: "2026-10-29",
+    readTime: "6 min read",
+    relatedLinks: [
+      { label: "5-Amino-1MQ research hub", href: "/5-amino-1mq-research", description: "Review the active product record and its current documentation status." },
+      { label: "Search exact COAs", href: "/coas", description: "Locate published records by product name, batch, or sample identifier." },
+      { label: "Verify a vial", href: "/verify-your-vial", description: "Use the verification route to connect an item with a published record." },
+    ],
+    body: [
+      "5-Amino-1MQ is a small-molecule research compound, not a peptide. That distinction matters when reviewing a catalogue because its product identity and analytical records should be evaluated on their own terms rather than inferred from peptide-product conventions.",
+      "Begin with the exact 5-Amino-1MQ product record. Confirm the compound name, labeled quantity, product format, and lot or sample identifier. These fields are what connect a listing to an analytical report and distinguish the specific material from a generic compound description.",
+      "Analytical results should stay within their stated scope. Relative purity, molecular identity, measured content, and endotoxin status are different questions. Each finding is meaningful only for the identified sample and stated method, so one headline value should not be used to imply unreported attributes.",
+      "A useful record review includes the sample name, lot or sample identifier, laboratory, analysis date, method, and reported result. The product page and document must match. A report from another product, lot, or material format is not an exact substitute.",
+      "The value of an evidence-first catalogue is clarity: a researcher can see the active product record, identify whether a matching document is published, and distinguish what that document does and does not establish. If an exact report is not available, that limitation should be transparent.",
+      "EVLV supplies 5-Amino-1MQ strictly for lawful laboratory and analytical research. This guide covers product identity and documentation review only. It does not provide medical, veterinary, dosing, administration, or outcome guidance.",
+    ],
+    cta: { label: "Review 5-Amino-1MQ product information", href: "/5-amino-1mq-research" },
+  },
+  {
+    slug: "cjc-ipamorelin-peptide-blend-documentation-guide",
+    label: "Blend research",
+    title: "CJC/Ipamorelin Peptide Blend: Components, COAs, and Research Documentation",
+    excerpt:
+      "A documentation-first guide to CJC/Ipamorelin peptide blend research products, named components, labeled strengths, and exact blend-specific analytical records.",
+    image: "/images/science/testing.jpg",
+    publishedDate: "2026-10-29",
+    readTime: "7 min read",
+    relatedLinks: [
+      { label: "CJC/Ipamorelin research hub", href: "/cjc-ipamorelin-research", description: "Review current blend listings, labeled strengths, and documentation paths." },
+      { label: "Research peptide blends", href: "/peptide-blends", description: "Browse other multi-analyte products as distinct catalogue items." },
+      { label: "Search exact COAs", href: "/coas", description: "Locate published records by product name, batch, or sample identifier." },
+    ],
+    body: [
+      "The EVLV CJC/Ipamorelin research blend identifies CJC-1295 no DAC and Ipamorelin as its two named components. A dual-analyte label describes the intended composition, but it does not make the blend interchangeable with either standalone component or establish the analytical status of a particular lot.",
+      "Start with the exact blend record. Review the product name, labeled total strength, named components, and lot or sample identifier. These are the fields that connect the material to its documentation. A standalone record for CJC-1295 or Ipamorelin is not an exact record for the multi-analyte product.",
+      "For a blend, analytical methods and results need component-level context. Relative purity, molecular identity, measured content, and endotoxin status are separate questions. Where a report states findings for the named components, assess each result against its stated method and the identified blended sample.",
+      "A CJC/Ipamorelin COA should identify the blend, not only one component. Match the product, strength, and sample or lot identifier, then note the laboratory, analysis date, methods, and results. The evidence remains limited to the material named in that report.",
+      "Different blend strengths must be evaluated independently unless a report explicitly identifies the applicable product and sample. The same applies to other blends: a document for one blend cannot be used as evidence for another simply because they share an ingredient name.",
+      "EVLV supplies CJC/Ipamorelin strictly for lawful laboratory and analytical research. This guide covers product identity and documentation review only. It does not provide dosing, administration, medical, veterinary, or outcome guidance.",
+    ],
+    cta: { label: "Review CJC/Ipamorelin products and COAs", href: "/cjc-ipamorelin-research" },
+  },
+  {
     slug: "semaglutide-peptide-research-documentation-guide",
     label: "Compound research",
     title: "Semaglutide Peptide: Product Identity, COAs, and Lot-Specific Research Documentation",
