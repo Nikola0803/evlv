@@ -6,6 +6,7 @@ import { ProductCard } from "@/components/product/ProductCard";
 import { getCoaMap } from "@/lib/coa-data";
 import { WelcomeOffer } from "@/components/home/WelcomeOffer";
 import { ResearchSetCampaignHomeHero } from "@/components/promotion/ResearchSetCampaign";
+import { DeferredBackgrounds } from "@/components/performance/DeferredBackgrounds";
 
 const CATEGORIES = [
   { title: "Shop Peptides", sub: "Browse the research catalogue", href: "/research-peptides", image: "category-peptides.webp" },
@@ -45,17 +46,18 @@ export default async function Home() {
   const coaMap = await getCoaMap();
   return (
     <div className="cp-home">
+      <DeferredBackgrounds />
       <ResearchSetCampaignHomeHero />
 
-      <section className="cp-ticker" aria-label="EVLV trust standards"><div className="cp-ticker-track">{[0,1].map(group => <div className="cp-ticker-group" key={group}>{TICKER.map(([item,icon]) => <span key={item}><i style={{backgroundPosition:`${icon * 25}% center`}} /><b>{item}</b></span>)}</div>)}</div></section>
+      <section className="cp-ticker" data-defer-background aria-label="EVLV trust standards"><div className="cp-ticker-track">{[0,1].map(group => <div className="cp-ticker-group" key={group}>{TICKER.map(([item,icon]) => <span key={item}><i style={{backgroundPosition:`${icon * 25}% center`}} /><b>{item}</b></span>)}</div>)}</div></section>
 
-      <section className="cp-categories cp-wrap">{CATEGORIES.map(card => <Link key={card.title} href={card.href} className="cp-category" style={{backgroundImage:`url('/images/certified/${card.image}')`}}><span><b>{card.title}</b><small>{card.sub}</small></span></Link>)}</section>
+      <section className="cp-categories cp-wrap">{CATEGORIES.map(card => <Link key={card.title} href={card.href} className="cp-category" data-defer-background data-background-key={card.image}><span><b>{card.title}</b><small>{card.sub}</small></span></Link>)}</section>
 
       <section className="cp-section cp-wrap" id="products"><header className="cp-section-head"><div><small>Transparent documentation</small><h2>Our Featured Collection</h2></div><p>Research-ready products with exact COA availability clearly identified.</p></header><div className="cp-product-grid">{products.map(product => <ProductCard key={product.id} product={product} coaVerified={Boolean(coaMap[product.slug])} />)}</div><div className="cp-center"><Link className="cp-primary" href="/shop">Discover All Products</Link></div></section>
 
       <section className="cp-quality"><div className="cp-wrap"><div><small>Quality assurance</small><h2>Documented Products.<br />Transparent Results.</h2><p>Exact product and batch reports are published when available, with unmatched documentation clearly distinguished.</p><div className="cp-quality-links"><Link href="/coas">View COA Reports</Link><Link href="/sourcing">Our testing standards</Link><Link href="/research-peptides-usa">Research peptides USA guide</Link></div></div><Image src="/images/certified/evlv-quality-transparency-v2.png" alt="EVLV GLP3-R research vial with transparent label detail" width={1536} height={1024} sizes="(max-width: 980px) 100vw, 58vw" /></div></section>
 
-      <section className="cp-section cp-proof cp-wrap"><header className="cp-proof-title"><h2>Driven by science, we deliver<br /><span>trusted results</span></h2></header><div className="cp-proof-grid"><article className="cp-proof-main"><small>DOCUMENTATION-FIRST QUALITY</small><h3>Published reports</h3><div><b>EXACT MATCHES, CLEARLY LABELED</b><p>Product, batch, purity, identity, and content details where reported.</p><Link href="/coas">View reports →</Link></div></article><article className="cp-proof-review"><small>VERIFIED CUSTOMER REVIEWS</small><h3>Top Rated Peptides Online</h3><p>Read what researchers say.</p></article><article className="cp-proof-ship"><small>NEXT-DAY DISPATCH</small><h3>Shipped Priority Fast</h3></article><article className="cp-proof-science"><small>PREMIUM QUALITY</small><h3>Science-Driven Innovation</h3><p>Precision-led research products with transparent batch documentation where available.</p><Link href="/sourcing">Explore testing standards →</Link></article></div></section>
+      <section className="cp-section cp-proof cp-wrap"><header className="cp-proof-title"><h2>Driven by science, we deliver<br /><span>trusted results</span></h2></header><div className="cp-proof-grid"><article className="cp-proof-main" data-defer-background><small>DOCUMENTATION-FIRST QUALITY</small><h3>Published reports</h3><div><b>EXACT MATCHES, CLEARLY LABELED</b><p>Product, batch, purity, identity, and content details where reported.</p><Link href="/coas">View reports →</Link></div></article><article className="cp-proof-review" data-defer-background><small>VERIFIED CUSTOMER REVIEWS</small><h3>Top Rated Peptides Online</h3><p>Read what researchers say.</p></article><article className="cp-proof-ship" data-defer-background><small>NEXT-DAY DISPATCH</small><h3>Shipped Priority Fast</h3></article><article className="cp-proof-science" data-defer-background><small>PREMIUM QUALITY</small><h3>Science-Driven Innovation</h3><p>Precision-led research products with transparent batch documentation where available.</p><Link href="/sourcing">Explore testing standards →</Link></article></div></section>
 
       <section className="cp-section cp-manufacturing cp-wrap"><Image src="/images/certified/evlv-manufacturing-lab.png" alt="EVLV laboratory quality process" width={1000} height={1000} sizes="(max-width: 980px) 100vw, 50vw" /><div><small>PRECISION AT EVERY STEP</small><h2>Documentation-First Quality</h2><p>Our catalog emphasizes identifiable products, published reports, and traceable batch records rather than unsupported blanket claims.</p><Link className="cp-primary" href="/about">Read More About Us</Link></div></section>
 

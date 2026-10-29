@@ -6,7 +6,7 @@ export function VerifiedPeptideReviewsBadge({ variant = "home" }: { variant?: Va
   if (variant === "product") {
     return (
       <a className="cp-pdp-vpr" href={VPR_URL} target="_blank" rel="noreferrer">
-        <img className="cp-vpr-logo" src="/images/brand/vpr-logo-clean.png" alt="Verified Peptide Reviews" />
+        <img className="cp-vpr-logo" src="/images/brand/vpr-logo-clean.webp" alt="Verified Peptide Reviews" />
         <span>
           <small>FEATURED REVIEW RATING</small>
           <strong>
@@ -24,7 +24,7 @@ export function VerifiedPeptideReviewsBadge({ variant = "home" }: { variant?: Va
 
   return (
     <a className="cp-vpr" href={VPR_URL} target="_blank" rel="noreferrer">
-      <img className="cp-vpr-logo" src="/images/brand/vpr-logo-clean.png" alt="Verified Peptide Reviews" />
+      <img className="cp-vpr-logo" src="/images/brand/vpr-logo-clean.webp" alt="Verified Peptide Reviews" />
       <span>
         <small>Verified Peptide Reviews</small>
         <strong>
