@@ -44,7 +44,7 @@ export const RESEARCH_CATEGORY_PAGES = {
     intro: "Research compounds with clearly labeled, product-specific batch documentation where available.",
     scopeTitle: "A catalogue built around traceability",
     scope: "Compare compound identity, labeled quantity, available strengths, current availability, storage information, and exact COA status before ordering. When a matching report is published, the product page connects directly to it. When it is not, EVLV says so rather than presenting unrelated documentation as an exact match.",
-    heroImage: "/images/certified/evlv-hero-multi-vials.png",
+    heroImage: "/images/certified/evlv-hero-multi-vials.webp",
     selector: (product) => product.category === "peptides" && product.format !== "supplies",
     faq: [
       { question: "What does research use only mean?", answer: "Research use only means the material is supplied for controlled laboratory, in-vitro, and analytical work. It is not intended or approved for human or veterinary use." },
