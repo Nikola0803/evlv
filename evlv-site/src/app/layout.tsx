@@ -139,6 +139,16 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
     <html lang="en" className={`${poppins.variable} ${inter.variable} ${newsreader.variable} h-full antialiased`}>
       <head>
         <GoogleTagManagerHead />
+        {/* The homepage LCP visual is a CSS background, so preload its compact
+            source here. CSS backgrounds are otherwise discovered only after
+            the stylesheet is parsed and cannot receive fetchPriority. */}
+        <link
+          rel="preload"
+          as="image"
+          href="/images/certified/evlv-hero-multi-vials-optimized.webp"
+          type="image/webp"
+          fetchPriority="high"
+        />
         {/* Non-render-blocking: fetched in background, applied when ready. Eliminates ~200ms+ CSS block on first load. */}
         <link rel="preload" href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" as="style" />
         <script dangerouslySetInnerHTML={{ __html: `(function(){var l=document.createElement('link');l.rel='stylesheet';l.href='https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css';document.head.appendChild(l)})()` }} />

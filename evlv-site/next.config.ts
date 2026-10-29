@@ -57,6 +57,13 @@ const nextConfig: NextConfig = {
       { source: "/affiliate-program", destination: "/ambassadors", permanent: true },
       { source: "/ambassador", destination: "/ambassadors", permanent: true },
       { source: "/ambassador-program", destination: "/ambassadors", permanent: true },
+      // Legacy public product names remain in backlinks, old campaigns, and
+      // historical search results. Preserve that equity instead of returning
+      // a 404 after the customer-facing catalogue names changed.
+      { source: "/shop/gp-3-10mg", destination: "/shop/evlv-3-10mg", permanent: true },
+      { source: "/shop/tirzepatide-10mg", destination: "/shop/evlv-2-10mg", permanent: true },
+      { source: "/shop/tirzepatide-15mg", destination: "/shop/evlv-2-15mg", permanent: true },
+      { source: "/shop/tirzepatide-30mg", destination: "/shop/evlv-2-30mg", permanent: true },
     ];
   },
 };
