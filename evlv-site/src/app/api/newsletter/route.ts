@@ -14,12 +14,12 @@ export async function POST(req: Request) {
   const body = await req.json().catch(() => ({}));
   const { ok, status, data } = await crmFetch("/api/store/newsletter", body);
   if (ok && body.email) {
-    upsertContact({
+    void upsertContact({
       email: body.email as string,
       subscribed: true,
       consentTimestamp: new Date().toISOString(),
       tags: [(body.source as string | undefined) ?? "footer-subscriber"],
-    }).catch(() => { /* non-blocking */ });
+    }).catch(() => undefined);
   }
   return NextResponse.json(data, { status: ok ? 200 : status });
 }

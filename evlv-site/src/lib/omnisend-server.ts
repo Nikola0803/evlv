@@ -1,3 +1,5 @@
+import "server-only";
+
 const BASE = "https://api.omnisend.com/v3";
 const VERSION = "2026-03-15";
 
