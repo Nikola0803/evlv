@@ -51,7 +51,7 @@ const newsreader = Newsreader({
 });
 
 export function generateMetadata(): Metadata {
-  const halloweenLive = Date.now() < new Date("2026-11-01T06:00:00.000Z").getTime();
+  const halloweenLive = Date.now() < new Date("2026-11-02T07:59:59.000Z").getTime();
   const title = "Research Peptides for Sale in the USA | Verified COAs | EVLV";
   const description = "U.S.-dispatched research peptides for laboratory and in-vitro analytical research, with exact product and batch COAs clearly labeled when available. Research use only.";
   const socialImage = halloweenLive ? "/images/social/evlv-halloween-bogo-og-v1.jpg" : "/images/hero-vial.png";

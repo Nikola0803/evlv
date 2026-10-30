@@ -44,7 +44,7 @@ export function HalloweenExperience() {
 
   useEffect(() => {
     if (new URLSearchParams(window.location.search).get("halloween_preview") === "1") {
-      const previewTimer = window.setTimeout(() => setConfig({ live: true, themeActive: true, endsAt: "2026-11-01T06:00:00.000Z", freeShippingThresholdCents: 30000, headline: "Buy one, get one free", detail: "Buy any two, the cheaper one is free. No pair limit." }), 0);
+      const previewTimer = window.setTimeout(() => setConfig({ live: true, themeActive: true, endsAt: "2026-11-02T07:59:59.000Z", freeShippingThresholdCents: 30000, headline: "Buy one, get one free", detail: "Buy any two, the cheaper one is free. No pair limit." }), 0);
       return () => window.clearTimeout(previewTimer);
     }
     fetch("/api/promotions/active", { cache: "no-store" })

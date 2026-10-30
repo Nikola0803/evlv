@@ -4,7 +4,7 @@ import { crmConfigured, crmGet } from "@/lib/crm-proxy";
 export const dynamic = "force-dynamic";
 
 const HALLOWEEN_STARTS_AT = "2026-10-26T06:00:00.000Z";
-const HALLOWEEN_ENDS_AT = "2026-11-01T06:00:00.000Z";
+const HALLOWEEN_ENDS_AT = "2026-11-02T07:59:59.000Z";
 
 function forcedHalloweenCampaign() {
   const now = Date.now();
