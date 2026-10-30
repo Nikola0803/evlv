@@ -19,6 +19,25 @@ add_action('admin_menu', function () {
     add_submenu_page('altr-cms-setup', 'Popups & Offers', 'Popups & Offers', 'edit_posts', 'edit.php?post_type=altr_popup');
 });
 
+add_action('admin_post_altr_cms_save_settings', function () {
+    if (!current_user_can('manage_options')) wp_die('Forbidden');
+    check_admin_referer('altr_cms_save_settings');
+
+    if (isset($_POST['altr_omnisend_api_key'])) {
+        $key = sanitize_text_field(wp_unslash($_POST['altr_omnisend_api_key']));
+        // Preserve existing value when the field is left blank (password field).
+        if ($key !== '') {
+            update_option('altr_omnisend_api_key', $key);
+        }
+    }
+    if (isset($_POST['altr_store_url'])) {
+        update_option('altr_store_url', esc_url_raw(wp_unslash($_POST['altr_store_url'])));
+    }
+
+    wp_safe_redirect(admin_url('admin.php?page=altr-cms-setup&settings-saved=1'));
+    exit;
+});
+
 function altr_cms_render_setup_page() {
     if (!current_user_can('manage_options')) return;
 
@@ -31,6 +50,8 @@ function altr_cms_render_setup_page() {
     $import_result = $just_imported ? get_transient('altr_cms_import_result') : null;
     if ($just_imported) delete_transient('altr_cms_import_result');
 
+    $settings_saved = isset($_GET['settings-saved']);
+
     $rest_base = rest_url('altr/v1');
     ?>
     <div class="wrap altr-cms-wrap">
@@ -42,6 +63,10 @@ function altr_cms_render_setup_page() {
                 Import complete — <strong><?php echo esc_html($import_result['imported']); ?></strong> products imported,
                 <strong><?php echo esc_html($import_result['skipped']); ?></strong> already existed and were skipped.
             </p></div>
+        <?php endif; ?>
+
+        <?php if ($settings_saved): ?>
+            <div class="notice notice-success is-dismissible"><p>Settings saved.</p></div>
         <?php endif; ?>
 
         <div class="altr-cms-cards">
@@ -92,6 +117,36 @@ function altr_cms_render_setup_page() {
                 <li><code>GET <?php echo esc_html($rest_base); ?>/content/{page-key}</code> — one page's content</li>
                 <li><code>GET <?php echo esc_html($rest_base); ?>/popups/active</code> — currently active popups</li>
             </ul>
+        </div>
+
+        <div class="altr-cms-card" style="margin-top:24px">
+            <h2>Omnisend &amp; Store Settings</h2>
+            <p>Omnisend syncs products and contacts for email automation. The store URL is used to build product links in Omnisend.</p>
+            <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
+                <?php wp_nonce_field('altr_cms_save_settings'); ?>
+                <input type="hidden" name="action" value="altr_cms_save_settings" />
+                <table class="form-table"><tbody>
+                    <tr>
+                        <th style="width:220px;text-align:left"><label for="altr_omnisend_api_key">Omnisend API Key</label></th>
+                        <td>
+                            <input type="password" id="altr_omnisend_api_key" name="altr_omnisend_api_key"
+                                style="width:420px" autocomplete="new-password"
+                                placeholder="<?php echo get_option('altr_omnisend_api_key') ? '(saved — leave blank to keep)' : 'Paste your Omnisend API key'; ?>" />
+                            <p class="description">Found in Omnisend under Account &rarr; API keys. Server-only — never expose to the browser.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th style="text-align:left"><label for="altr_store_url">Store URL</label></th>
+                        <td>
+                            <input type="url" id="altr_store_url" name="altr_store_url"
+                                style="width:420px"
+                                value="<?php echo esc_attr(get_option('altr_store_url', 'https://evlvpeptides.com')); ?>" />
+                            <p class="description">Base URL of the storefront, used to build product links sent to Omnisend (e.g. https://evlvpeptides.com).</p>
+                        </td>
+                    </tr>
+                </tbody></table>
+                <p><button type="submit" class="button button-primary">Save Settings</button></p>
+            </form>
         </div>
     </div>
     <?php

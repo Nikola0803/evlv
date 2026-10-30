@@ -64,6 +64,21 @@ export function identifyOmnisendContact(email: string) {
   }
 }
 
+const CLIENT_CATEGORY_MAP: Array<[RegExp, string]> = [
+  [/semaglutide|tirzepatide|5-amino-1mq|mots-c|aod-9604/i, "Metabolic"],
+  [/bpc-157|tb-500|kpv|wolverine|glow-blend/i, "Recovery"],
+  [/cjc|ipamorelin|tesamorelin|ghrp|sermorelin|growth-hormone/i, "Growth"],
+  [/nad|epithalon|ghk-cu|ss-31|longevity/i, "Longevity"],
+  [/pt-141|semax|selank|testosterone/i, "Hormonal & Cognitive"],
+];
+
+export function omnisendCategoriesForSlug(slug: string): string[] {
+  for (const [pattern, category] of CLIENT_CATEGORY_MAP) {
+    if (pattern.test(slug)) return [category];
+  }
+  return [];
+}
+
 interface ProductLike {
   sku: string;
   name: string;
@@ -71,6 +86,7 @@ interface ProductLike {
   price: number;
   image?: string;
   categoryLabel?: string;
+  omnisendCategories?: string[];
 }
 
 function productUrl(slug: string) {
@@ -87,11 +103,13 @@ export function trackOmnisendViewedProduct(product: ProductLike) {
       url: productUrl(product.slug),
       imageUrl: product.image,
       status: "inStock",
+      categories: product.omnisendCategories ?? omnisendCategoriesForSlug(product.slug),
     },
   });
 }
 
 export function trackOmnisendAddedToCart(product: ProductLike, qty: number, unitPrice: number) {
+  const categories = product.omnisendCategories ?? omnisendCategoriesForSlug(product.slug);
   const lineItem = {
     productID: product.sku,
     productTitle: product.name,
@@ -99,6 +117,7 @@ export function trackOmnisendAddedToCart(product: ProductLike, qty: number, unit
     productQuantity: qty,
     productURL: productUrl(product.slug),
     productImageURL: product.image,
+    productCategories: categories,
   };
   push("added product to cart", {
     cartID: getOrCreateCartId(),
@@ -127,6 +146,7 @@ export function trackOmnisendStartedCheckout(
       productQuantity: l.qty,
       productURL: productUrl(l.product.slug),
       productImageURL: l.product.image,
+      productCategories: l.product.omnisendCategories ?? omnisendCategoriesForSlug(l.product.slug),
     })),
   });
 }
