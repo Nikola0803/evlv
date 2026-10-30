@@ -44,7 +44,7 @@ export function HalloweenExperience() {
 
   useEffect(() => {
     if (new URLSearchParams(window.location.search).get("halloween_preview") === "1") {
-      const previewTimer = window.setTimeout(() => setConfig({ live: true, themeActive: true, endsAt: "2026-11-01T06:00:00.000Z", freeShippingThresholdCents: 30000, headline: "Buy one, get one free", detail: "Every second matching product and strength is free. No pair limit." }), 0);
+      const previewTimer = window.setTimeout(() => setConfig({ live: true, themeActive: true, endsAt: "2026-11-01T06:00:00.000Z", freeShippingThresholdCents: 30000, headline: "Buy one, get one free", detail: "Buy any two, the cheaper one is free. No pair limit." }), 0);
       return () => window.clearTimeout(previewTimer);
     }
     fetch("/api/promotions/active", { cache: "no-store" })
@@ -82,8 +82,8 @@ export function HalloweenExperience() {
             <Spider className="hw-popup-spider" />
             <small>HALLOWEEN BOGO IS LIVE</small>
             <h3>Buy one. Get one free.</h3>
-            <p>Add 2 matching products and pay for 1. Add 4 and pay for 2. Every matching pair unlocks another free item.</p>
-            <strong>Unlimited matching pairs · Applied automatically</strong>
+            <p>Add any 2 products and the cheaper one is free. Add 4 and the cheaper 2 are free. Every pair unlocks another free item.</p>
+            <strong>Unlimited pairs · Applied automatically</strong>
             <div className="hw-popup-timer-label">EVENT ENDS IN</div>
             {timer}
             <Link href="/shop?utm_source=popup&utm_medium=site&utm_campaign=halloween_bogo_2026" onClick={() => window.sessionStorage.setItem("evlv_halloween_seen", "1")}>Shop the Halloween BOGO</Link>

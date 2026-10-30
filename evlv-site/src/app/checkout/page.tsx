@@ -466,7 +466,7 @@ export default function CheckoutPage() {
                 {automaticHalloween ? (
                   <div className="rounded-md border border-orange-500/40 bg-[#1a0b20] p-3 text-orange-200">
                     <p className="flex items-center gap-2 text-xs font-semibold"><i className="ri-checkbox-circle-fill" /> Halloween BOGO applied</p>
-                    <p className="mt-0.5 text-xs leading-relaxed">Every second matching item is free. You saved {formatPrice(coupon.discountUsd)}. No code and no stacking.</p>
+                    <p className="mt-0.5 text-xs leading-relaxed">The cheaper item in every pair is free. You saved {formatPrice(coupon.discountUsd)}. No code and no stacking.</p>
                   </div>
                 ) : automaticJoin25 ? (
                   <div className="rounded-md border border-sage-deep/30 bg-sage-deep/[0.07] p-3 text-sage-deep">

@@ -18,7 +18,7 @@ function forcedHalloweenCampaign() {
       freeShippingThresholdCents: 30000,
       promotionId: "HALLOWEEN_BOGO_2026",
       headline: "Buy one, get one free",
-      detail: "Every second matching product and strength is free. No pair limit.",
+      detail: "Buy any two, the cheaper one is free. No pair limit.",
     },
   };
 }

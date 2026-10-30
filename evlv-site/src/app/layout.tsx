@@ -57,7 +57,7 @@ export function generateMetadata(): Metadata {
   const socialImage = halloweenLive ? "/images/social/evlv-halloween-bogo-og-v1.jpg" : "/images/hero-vial.png";
   const socialTitle = halloweenLive ? "EVLV Halloween BOGO | Buy 1, Get 1 Free" : title;
   const socialDescription = halloweenLive
-    ? "Buy one and get one matching research product free, with no pair limit. Automatic discount and free priority shipping at $300. Research use only."
+    ? "Buy any two eligible research products and the cheaper one is free, with no pair limit. Automatic discount and free priority shipping at $300. Research use only."
     : description;
 
   return {

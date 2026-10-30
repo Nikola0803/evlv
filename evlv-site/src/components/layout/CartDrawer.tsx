@@ -148,7 +148,7 @@ export function CartDrawer({ products = [] }: { products?: Product[] }) {
             {automaticHalloween ? (
               <div className="mb-4 rounded-md border border-orange-500/40 bg-[#1a0b20] p-3 text-orange-200">
                 <p className="flex items-center gap-1.5 text-xs font-semibold"><i className="ri-checkbox-circle-fill" /> Halloween BOGO automatically applied</p>
-                <p className="mt-1 text-[10px] leading-relaxed">You saved {formatPrice(discount)}. Add more matching pairs to unlock more free items. No stacking.</p>
+                <p className="mt-1 text-[10px] leading-relaxed">You saved {formatPrice(discount)}. Add more pairs to unlock more free items. No stacking.</p>
               </div>
             ) : automaticJoin25 ? (
               <div className="mb-4 rounded-md border border-sage-deep/30 bg-sage-deep/[0.07] p-3 text-sage-deep">
