@@ -26,6 +26,7 @@ function altr_cms_product_fields() {
         'batch_code'       => 'Batch — code',
         'batch_date'       => 'Batch — date',
         'batch_status'     => 'Batch — status (PASS / PENDING)',
+        'omnisend_category'=> 'Omnisend category (Metabolic / Recovery / Growth / Longevity / Hormonal & Cognitive — blank to auto-detect)',
     ];
 }
 
@@ -49,6 +50,13 @@ function altr_cms_render_product_meta_box($post) {
             echo '<input type="text" style="width:70%" id="altr_' . esc_attr($key) . '" name="altr_' . esc_attr($key) . '" value="' . esc_attr($value) . '" /> ';
             echo '<button type="button" class="button altr-media-picker" data-target="altr_' . esc_attr($key) . '">Choose Image</button>';
             if ($value) echo '<div style="margin-top:8px"><img src="' . esc_url($value) . '" style="max-width:120px;height:auto;border:1px solid #ddd" /></div>';
+        } elseif ($key === 'omnisend_category') {
+            $options = ['', 'Metabolic', 'Recovery', 'Growth', 'Longevity', 'Hormonal & Cognitive'];
+            echo '<select id="altr_' . esc_attr($key) . '" name="altr_' . esc_attr($key) . '">';
+            foreach ($options as $opt) {
+                echo '<option value="' . esc_attr($opt) . '" ' . selected($value, $opt, false) . '>' . esc_html($opt ?: '— auto-detect —') . '</option>';
+            }
+            echo '</select>';
         } else {
             echo '<input type="text" style="width:100%" id="altr_' . esc_attr($key) . '" name="altr_' . esc_attr($key) . '" value="' . esc_attr($value) . '" />';
         }

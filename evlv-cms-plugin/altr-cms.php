@@ -25,6 +25,7 @@ require_once ALTR_CMS_PATH . 'includes/rest-api.php';
 require_once ALTR_CMS_PATH . 'includes/importer-data.php';
 require_once ALTR_CMS_PATH . 'includes/importer.php';
 require_once ALTR_CMS_PATH . 'includes/admin-menu.php';
+require_once ALTR_CMS_PATH . 'includes/omnisend.php';
 
 /**
  * On activation: register post types (so rewrite rules pick them up), seed
