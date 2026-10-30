@@ -63,7 +63,7 @@ export async function POST(req: Request) {
       }
 
       case "order.placed": {
-        const order = data as OmnisendOrderInput & {
+        const order = data as unknown as OmnisendOrderInput & {
           code_second?: string;
           code_winback?: string;
         };
