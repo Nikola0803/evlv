@@ -21,6 +21,8 @@
 // completed checkout. See PROJECT.md / ask Nik for the Omnisend API key to
 // close that gap server-side.
 
+import { getProductImage } from "./product-images";
+
 declare global {
   interface Window {
     omnisend?: unknown[];
@@ -93,6 +95,13 @@ function productUrl(slug: string) {
   return typeof window !== "undefined" ? `${window.location.origin}/shop/${slug}` : `/shop/${slug}`;
 }
 
+function absoluteImageUrl(product: ProductLike): string {
+  const path = getProductImage(product);
+  if (path.startsWith("http")) return path;
+  if (typeof window !== "undefined") return `${window.location.origin}${path}`;
+  return path;
+}
+
 export function trackOmnisendViewedProduct(product: ProductLike) {
   push("viewed product", {
     product: {
@@ -101,7 +110,7 @@ export function trackOmnisendViewedProduct(product: ProductLike) {
       price: Math.round(product.price * 100),
       currency: "USD",
       url: productUrl(product.slug),
-      imageUrl: product.image,
+      imageUrl: absoluteImageUrl(product),
       status: "inStock",
       categories: product.omnisendCategories ?? omnisendCategoriesForSlug(product.slug),
     },
@@ -116,7 +125,7 @@ export function trackOmnisendAddedToCart(product: ProductLike, qty: number, unit
     productPrice: unitPrice,
     productQuantity: qty,
     productURL: productUrl(product.slug),
-    productImageURL: product.image,
+    productImageURL: absoluteImageUrl(product),
     productCategories: categories,
   };
   push("added product to cart", {
@@ -145,7 +154,7 @@ export function trackOmnisendStartedCheckout(
       productPrice: l.unitPrice,
       productQuantity: l.qty,
       productURL: productUrl(l.product.slug),
-      productImageURL: l.product.image,
+      productImageURL: absoluteImageUrl(l.product),
       productCategories: l.product.omnisendCategories ?? omnisendCategoriesForSlug(l.product.slug),
     })),
   });
