@@ -43,6 +43,7 @@ const SEO_TITLES: Record<string, string> = {
   "tb-500-peptide-research-documentation-guide": "TB-500: COA & Research Guide",
   "tirzepatide-peptide-research-documentation-guide": "Tirzepatide: COA & Research Guide",
   "whats-inside-a-lyophilized-peptide-vial": "Inside a Lyophilized Peptide Vial",
+  "where-to-buy-research-peptides-with-coa": "Where to Buy Research Peptides With a COA",
   "white-label-peptide-dropshipping-done-right": "Research Peptide Dropshipping: Evaluation Guide",
   "why-endotoxin-testing-matters": "Endotoxin Testing: Research Documentation Guide",
   "why-wholesale-partners-choose-batch-verified-supply": "Wholesale Peptides: Batch Documentation Guide",
