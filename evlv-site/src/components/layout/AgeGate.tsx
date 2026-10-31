@@ -7,6 +7,7 @@ import { trackEvent } from "@/lib/pixel";
 import { Logo } from "@/components/ui/Logo";
 import { captureAttributionFromUrl, getStoredAttribution } from "@/lib/campaign-attribution";
 import { getStoredUser } from "@/lib/auth";
+import { useGoogleSignIn, type GoogleUserInfo } from "@/lib/google-auth";
 
 const SESSION_KEY = "evlv_research_access_v7";
 const ACCESS_KEY = "evlv_research_access_v7";
@@ -55,6 +56,24 @@ export function AgeGate({ children }: { children: React.ReactNode }) {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const emailRef = useRef<HTMLInputElement>(null);
+  const googleBtnRef = useRef<HTMLDivElement>(null);
+
+  const { available: googleAvailable } = useGoogleSignIn(
+    async (user: GoogleUserInfo) => {
+      setSubmitting(true);
+      try {
+        await fetch("/api/newsletter", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: user.email }),
+        }).catch(() => undefined);
+        completeAccess("email");
+      } finally {
+        setSubmitting(false);
+      }
+    },
+    { renderInto: googleBtnRef },
+  );
 
   useEffect(() => {
     const url = new URL(window.location.href);
@@ -174,6 +193,15 @@ export function AgeGate({ children }: { children: React.ReactNode }) {
                   {submitting ? "Entering…" : "Continue to EVLV"}
                 </button>
               </form>
+
+              {googleAvailable && (
+                <div className="cp-ruo-gate-google-divider">
+                  <span>or</span>
+                </div>
+              )}
+              {googleAvailable && (
+                <div ref={googleBtnRef} className="cp-ruo-gate-google-btn" aria-label="Continue with Google" />
+              )}
 
               <p className="cp-ruo-entry-footnote">
                 Already have an account? <Link className="cp-ruo-auth-switch" href="/login">Sign in</Link>
