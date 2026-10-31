@@ -9,17 +9,33 @@ type PromptMode = "newsletter" | "availability" | null;
 
 const NEWSLETTER_KEY = "evlv_newsletter_exit_shown_v2";
 const AVAILABILITY_KEY = "evlv_glp_availability_shown_v2";
+const SUBSCRIBED_KEY = "evlv_newsletter_subscribed";
 const CAMPAIGN_SESSION_KEY = "evlv_campaign_entry";
 const GLP_PROMO_CODE = process.env.NEXT_PUBLIC_GLP_PROMO_CODE?.trim() ?? "";
 const GLP_PROMO_LABEL = process.env.NEXT_PUBLIC_GLP_PROMO_LABEL?.trim() ?? "";
 const EXIT_INTENT_DELAY = 10000;
+const DISMISS_TTL_MS = 30 * 24 * 60 * 60 * 1000; // 30 days
+
+function isSubscribed() {
+  try { return localStorage.getItem(SUBSCRIBED_KEY) === "1"; } catch { return false; }
+}
+
+function markSubscribed() {
+  try { localStorage.setItem(SUBSCRIBED_KEY, "1"); } catch {}
+}
 
 function wasShown(key: string) {
-  try { return sessionStorage.getItem(key) === "1"; } catch { return false; }
+  try {
+    const raw = localStorage.getItem(key);
+    if (!raw) return false;
+    if (Date.now() < parseInt(raw, 10)) return true;
+    localStorage.removeItem(key);
+    return false;
+  } catch { return false; }
 }
 
 function rememberShown(key: string) {
-  try { sessionStorage.setItem(key, "1"); } catch { /* storage may be unavailable */ }
+  try { localStorage.setItem(key, String(Date.now() + DISMISS_TTL_MS)); } catch {}
 }
 
 export function ConversionPrompts() {
@@ -58,6 +74,7 @@ export function ConversionPrompts() {
     let pendingExit = false;
 
     function reveal(nextMode: Exclude<PromptMode, null>, key: string) {
+      if (nextMode === "newsletter" && isSubscribed()) return;
       if (wasShown(key)) return;
       setMode((current) => {
         if (current) return current;
@@ -145,6 +162,7 @@ export function ConversionPrompts() {
       if (!response.ok) throw new Error(data?.error ?? "We could not create your code. Please try again.");
       const code = typeof data?.couponCode === "string" ? data.couponCode : "";
       if (!code) throw new Error("Your email was saved, but no checkout code was returned. Please contact support.");
+      markSubscribed();
       setStoredCouponCode(code);
       setCouponCode(code);
     } catch (cause) {
