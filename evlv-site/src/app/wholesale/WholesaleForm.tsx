@@ -26,7 +26,7 @@ const EMPTY: FormState = {
 };
 
 const VOLUME_OPTIONS = ["Just getting started", "Growing catalog", "High-volume / multi-SKU", "Not sure yet - let's talk"];
-const PROGRAM_OPTIONS = ["Bulk Wholesale", "White Label", "Dropshipping", "Hybrid / Not sure yet"];
+const PROGRAM_OPTIONS = ["Bulk Wholesale", "White Label", "Both / Not sure yet"];
 
 export function WholesaleForm() {
   const [form, setForm] = useState<FormState>(EMPTY);
@@ -72,7 +72,7 @@ export function WholesaleForm() {
         <p className="mt-3 font-display text-lg font-semibold text-white">Inquiry received</p>
         <p className="mt-2 text-sm text-white/60">
           Our team reviews every partner inquiry by hand. We&apos;ll follow up by email within a couple of business days
-          to discuss the right wholesale, white-label, or dropshipping path.
+          to discuss the right wholesale or white-label path.
         </p>
       </div>
     );
@@ -140,7 +140,7 @@ export function WholesaleForm() {
           maxLength={500}
           value={form.message}
           onChange={(e) => set("message", e.target.value)}
-          placeholder="What are you looking to build - dropship, white-label, or a fully custom storefront?"
+          placeholder="What are you looking to build — bulk wholesale, white-label, or a fully custom storefront?"
           className="w-full resize-none rounded-md border border-white/15 bg-white/10 px-4 py-2.5 text-sm text-white outline-none placeholder:text-white/30 focus:border-copper"
         />
       </div>

@@ -20,6 +20,7 @@ export const metadata: Metadata = {
     "peptide wholesale supplier",
     "peptide reseller program",
     "peptide white label",
+    "peptide private label",
     "RUO wholesale peptides",
   ],
   alternates: { canonical: "/wholesale" },
@@ -48,7 +49,7 @@ const WHOLESALE_SERVICE_JSON_LD = {
   "@type": "Service",
   "@id": `${SITE_URL}/wholesale#service`,
   name: "EVLV Research Peptide Wholesale and Bulk Supply",
-  serviceType: "Bulk research peptide wholesale, reseller supply, white label, private label, dropshipping, and U.S. fulfillment",
+  serviceType: "Bulk research peptide wholesale, white label, reseller supply, and U.S. fulfillment",
   provider: { "@id": `${SITE_URL}/#organization` },
   areaServed: { "@type": "Country", name: "United States" },
   audience: { "@type": "BusinessAudience", audienceType: "Qualified research-product businesses and resellers" },
@@ -87,15 +88,6 @@ const PROGRAMS = [
     featured: true,
     status: "By application — extended review",
   },
-  {
-    number: "03",
-    icon: "ri-truck-line",
-    title: "Dropshipping",
-    eyebrow: "Sell it. We ship it.",
-    body: "Offer an approved catalog without holding inventory. Requires documented operating plan and catalog compliance review prior to approval.",
-    points: ["No inventory storage", "Direct U.S. fulfillment", "Compliance plan required"],
-    status: "By application — compliance review",
-  },
 ];
 
 const CAPABILITIES = [
@@ -106,7 +98,7 @@ const CAPABILITIES = [
 ];
 
 const STEPS = [
-  { number: "01", title: "Choose your model", body: "Tell us whether you need wholesale, white label, dropshipping, or a hybrid." },
+  { number: "01", title: "Choose your model", body: "Tell us whether you need bulk wholesale, white label supply, or a combination of both." },
   { number: "02", title: "Qualify the opportunity", body: "We review your catalog, audience, expected volume, and launch timeline." },
   { number: "03", title: "Receive a scoped offer", body: "You get a clear commercial proposal built around your actual operation." },
   { number: "04", title: "Build and launch", body: "We align products, branding, systems, and fulfillment before go-live." },
@@ -143,14 +135,14 @@ export default function WholesalePage() {
                 <span className="h-px w-8 bg-[#b9d9ce]/70" /> EVLV Partner Programs
               </p>
               <h1 className="font-display text-[42px] font-semibold leading-[1.02] tracking-[-0.025em] text-white sm:text-5xl md:text-6xl lg:text-[68px]">
-                Wholesale, white label, and dropshipping - built around you.
+                Wholesale and white label — built around you.
               </h1>
               <p className="mt-6 max-w-xl text-base leading-relaxed text-white/75 md:text-lg">
                 Bulk lab-grade peptide supply for qualified U.S. research businesses. All products labeled for
                 research use only in accordance with 21 CFR 809.10(c), with lot-specific COAs and documented fulfillment.
               </p>
               <p className="mt-3 max-w-xl text-sm leading-relaxed text-white/55">
-                Wholesale available after review. White label and dropshipping require extended compliance vetting.
+                Wholesale and white label available after review. Both require vetting and a documented operating plan.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <a href="#inquire" className="rounded-md bg-white px-6 py-3.5 text-[12px] font-bold uppercase tracking-[0.16em] text-[#07383a] transition hover:bg-[#edf5f2]">
@@ -183,10 +175,10 @@ export default function WholesalePage() {
       <section id="programs" className="pb-20 pt-6 md:pb-28 md:pt-10">
         <div className="mx-auto max-w-[1320px] px-5 md:px-8">
           <Reveal className="mx-auto mb-11 max-w-3xl text-center">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-sage-deep">Three ways to partner</p>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-sage-deep">Two ways to partner</p>
             <h2 className="mt-3 font-display text-3xl font-semibold tracking-tight text-charcoal md:text-5xl">Choose the operating model that fits.</h2>
             <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-charcoal/60 md:text-base">
-              Start with a single model or combine them. Every proposal is scoped around your market, catalog, volume, and fulfillment needs.
+              Bulk wholesale or white label — or combine both. Every proposal is scoped around your market, catalog, volume, and fulfillment needs.
             </p>
           </Reveal>
 
@@ -211,7 +203,7 @@ export default function WholesalePage() {
       <section className="bg-[#f2f6f4] py-20 md:py-28">
         <div className="mx-auto grid max-w-[1320px] grid-cols-1 items-center gap-12 px-5 md:px-8 lg:grid-cols-[1.05fr_.95fr] lg:gap-20">
           <Reveal className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-white shadow-[0_20px_60px_rgba(10,52,53,.10)]">
-            <Image src="/images/wholesale/evlv-white-label-dropship.png" alt="EVLV white label packaging and dropshipping operation" fill sizes="(max-width: 1024px) 100vw, 650px" className="object-cover" />
+            <Image src="/images/wholesale/evlv-white-label-dropship.png" alt="EVLV white label packaging and wholesale fulfillment operation" fill sizes="(max-width: 1024px) 100vw, 650px" className="object-cover" />
           </Reveal>
           <Reveal>
             <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-sage-deep">More than product supply</p>
@@ -263,7 +255,7 @@ export default function WholesalePage() {
             <div className="mt-8 space-y-4 border-t border-white/15 pt-7 text-sm text-white/70">
               <p className="flex items-start gap-3"><i className="ri-check-line mt-0.5 text-[#b9d9ce]" /> All products supplied with 21 CFR 809.10(c)-compliant RUO labeling and lot-specific batch documentation.</p>
               <p className="flex items-start gap-3"><i className="ri-check-line mt-0.5 text-[#b9d9ce]" /> Your supplier's compliance record is your reputation. EVLV documentation is available to demonstrate your supply chain to institutional buyers.</p>
-              <p className="flex items-start gap-3"><i className="ri-check-line mt-0.5 text-[#b9d9ce]" /> Wholesale available after review. White label and dropshipping require extended compliance vetting and a documented operating plan.</p>
+              <p className="flex items-start gap-3"><i className="ri-check-line mt-0.5 text-[#b9d9ce]" /> Wholesale and white label available after review. Both require a documented operating plan and compliance vetting.</p>
               <p className="flex items-start gap-3"><i className="ri-check-line mt-0.5 text-[#b9d9ce]" /> Partners are solely responsible for the lawful handling, marketing, and use of supplied products in their jurisdiction.</p>
             </div>
           </Reveal>

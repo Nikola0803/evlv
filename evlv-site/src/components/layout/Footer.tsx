@@ -7,7 +7,7 @@ const SHOP = [
   ["All Products", "/shop"], ["Research Peptides", "/research-peptides"],
   ["Peptide Blends", "/peptide-blends"], ["Bioregulators", "/bioregulators"],
   ["Metabolic Research", "/metabolic-research-peptides"], ["Mitochondrial Research", "/mitochondrial-research-peptides"],
-  ["Research Peptides USA", "/research-peptides-usa"], ["COA Library", "/coas"], ["Wholesale", "/wholesale"], ["Peptide Dropshipping", "/dropshipping"],
+  ["Research Peptides USA", "/research-peptides-usa"], ["COA Library", "/coas"], ["Wholesale", "/wholesale"],
 ] as const;
 
 const SUPPORT = [

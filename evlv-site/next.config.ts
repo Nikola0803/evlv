@@ -52,6 +52,8 @@ const nextConfig: NextConfig = {
       { source: "/military-discount", destination: "/heroes-discount", permanent: true },
       // Affiliate program rebranded/consolidated into a single Ambassador
       // Program page. Every affiliate/ambassador variant should land here.
+      // Dropshipping program removed — redirect to wholesale for any existing links/indexed URLs
+      { source: "/dropshipping", destination: "/wholesale", permanent: true },
       { source: "/affiliates", destination: "/ambassadors", permanent: true },
       { source: "/affiliate", destination: "/ambassadors", permanent: true },
       { source: "/affiliate-program", destination: "/ambassadors", permanent: true },
