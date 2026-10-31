@@ -4,26 +4,26 @@ import Link from "next/link";
 const SITE_URL = "https://www.evlvpeptides.com";
 
 export const metadata: Metadata = {
-  title: "Peptide Dropshipping for Approved U.S. Businesses | EVLV",
+  title: "Research Peptide Dropshipping | RUO-Compliant | EVLV",
   description:
-    "EVLV provides vetted U.S. research peptide dropshipping, starter wholesale, white-label support, batch documentation, and direct fulfillment for qualified businesses.",
+    "EVLV research peptide dropshipping for vetted U.S. businesses. 21 CFR 809.10(c) RUO-labeled products, lot-specific COAs, documented fulfillment. Compliance plan required — not a passive-income program.",
   keywords: [
-    "research peptide dropshipping companies",
+    "research peptide dropshipping",
     "peptide dropshipping USA",
-    "peptide dropshipping supplier",
+    "RUO peptide dropshipping",
+    "lab-grade peptide dropshipping",
+    "bulk peptide supply",
+    "wholesale peptides USA",
     "peptide wholesale dropshipping",
-    "peptide white label",
-    "peptide private label",
-    "bulk research peptides",
     "research peptide reseller program",
   ],
   alternates: { canonical: "/dropshipping" },
   openGraph: {
     type: "website",
     url: `${SITE_URL}/dropshipping`,
-    title: "Research Peptide Dropshipping & White Label USA | EVLV",
+    title: "Research Peptide Dropshipping — RUO-Compliant | EVLV",
     description:
-      "A documentation-first U.S. dropshipping and wholesale program for qualified research-product businesses.",
+      "21 CFR 809.10(c)-labeled peptide dropshipping for vetted U.S. research businesses. Lot-specific COAs, documented supply chain, compliance review required.",
     images: [{
       url: "/images/wholesale/evlv-white-label-dropship.png",
       width: 1600,
@@ -33,8 +33,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Peptide Dropshipping for Approved U.S. Businesses | EVLV",
-    description: "Documentation-first research-product dropshipping and fulfillment for qualified U.S. businesses.",
+    title: "Research Peptide Dropshipping — RUO-Compliant | EVLV",
+    description: "21 CFR 809.10(c) labeled. Lot-specific COAs. Vetted U.S. peptide dropshipping for qualified research businesses.",
     images: ["/images/wholesale/evlv-white-label-dropship.png"],
   },
 };
@@ -61,6 +61,7 @@ const MODELS = [
 ] as const;
 
 const CHECKS = [
+  "All products labeled 'For Research Use Only – Not for Human or Animal Use' in accordance with 21 CFR 809.10(c).",
   "Lot and product identifiers remain connected from inventory through fulfillment.",
   "Available analytical reports are tied to the product and batch they actually cover.",
   "Catalog language, labels, and partner materials preserve the research-use-only boundary.",
@@ -117,7 +118,12 @@ const FAQ = [
   {
     question: "Can partners market these products for personal use?",
     answer:
-      "No. Eligible products are supplied for lawful laboratory, in-vitro, and analytical research only. They are not for human or veterinary use, and partners must preserve that boundary in their listings and customer communications.",
+      "No. Eligible products are supplied for lawful laboratory, in-vitro, and analytical research only. They are not for human or veterinary use. Partners must preserve the research-use-only boundary in all listings, labels, and customer communications. Partners are solely responsible for the lawful handling and use of these products within their jurisdiction.",
+  },
+  {
+    question: "What compliance labeling do EVLV wholesale products carry?",
+    answer:
+      "All products supplied through EVLV's B2B programs are labeled 'For Research Use Only – Not for Human or Animal Use' in accordance with 21 CFR 809.10(c). Lot-specific certificates of analysis are provided with each batch. This documentation is available to partners to demonstrate their supply chain to institutional buyers or in audit situations.",
   },
 ] as const;
 
@@ -184,8 +190,8 @@ export default function DropshippingPage() {
             Research peptide dropshipping, built on traceability.
           </h1>
           <p className="mx-auto mt-6 max-w-3xl text-base leading-relaxed text-white/70 md:text-lg">
-            Start with approved wholesale inventory, use direct U.S. fulfillment, or build a white-label research
-            brand. EVLV connects products, batch documentation, and order records through one reviewed program.
+            RUO-compliant bulk peptide supply for qualified U.S. research businesses. All products labeled in
+            accordance with 21 CFR 809.10(c). Lot-specific COAs, documented fulfillment, and a compliance review for every partner.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <Link href="/wholesale#inquire" className="rounded-md bg-copper px-7 py-3.5 text-xs font-bold uppercase tracking-[0.14em] text-charcoal">
@@ -195,7 +201,7 @@ export default function DropshippingPage() {
               Review documentation
             </Link>
           </div>
-          <p className="mt-6 text-xs text-white/45">For qualified businesses. Research use only; not for human or veterinary use.</p>
+          <p className="mt-6 text-xs text-white/45">For qualified businesses. Research use only; not for human or veterinary use. Partners are solely responsible for lawful use.</p>
         </div>
       </section>
 

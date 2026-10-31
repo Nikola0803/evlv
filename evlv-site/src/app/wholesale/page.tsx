@@ -7,25 +7,27 @@ import { Reveal } from "@/components/ui/Reveal";
 const SITE_URL = "https://www.evlvpeptides.com";
 
 export const metadata: Metadata = {
-  title: "Wholesale Peptides for Approved U.S. Businesses | EVLV",
+  title: "Wholesale Peptides | RUO-Compliant Bulk Supply for U.S. Businesses | EVLV",
   description:
-    "Launch a research-supply brand with EVLV wholesale, white label, a custom storefront and CRM, eligible inventory, and direct U.S. fulfillment.",
+    "EVLV wholesale peptides for qualified U.S. research-product businesses. Bulk lab-grade peptide supply with lot-specific COAs, 21 CFR 809.10(c) labeling, and documented fulfillment. Vetted partner program.",
   keywords: [
+    "wholesale peptides",
+    "bulk peptide supply",
+    "lab-grade peptide supply",
     "research peptide wholesale",
     "buy peptides in bulk",
     "bulk research peptides USA",
     "peptide wholesale supplier",
     "peptide reseller program",
     "peptide white label",
-    "peptide private label",
-    "peptide dropshipping",
+    "RUO wholesale peptides",
   ],
   alternates: { canonical: "/wholesale" },
   openGraph: {
     type: "website",
     url: `${SITE_URL}/wholesale`,
-    title: "Research Peptide Wholesale, Bulk Supply & Fulfillment | EVLV",
-    description: "Reviewed B2B programs for bulk research peptide purchasing, volume pricing, white label, dropshipping, and U.S. fulfillment.",
+    title: "Wholesale Peptides — Bulk Lab-Grade Peptide Supply | EVLV",
+    description: "RUO-compliant wholesale peptides and bulk peptide supply for qualified U.S. research businesses. 21 CFR 809.10(c) labeled, lot-specific COAs, vetted partner program.",
     images: [{
       url: "/images/wholesale/evlv-b2b-fulfillment.png",
       width: 1600,
@@ -35,8 +37,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Wholesale Peptides for Approved U.S. Businesses | EVLV",
-    description: "Reviewed wholesale, white-label, dropshipping, and U.S. fulfillment programs.",
+    title: "Wholesale Peptides | RUO-Compliant Bulk Supply | EVLV",
+    description: "Vetted bulk peptide supply for qualified U.S. research businesses. 21 CFR 809.10(c) labeled. Lot-specific COAs.",
     images: ["/images/wholesale/evlv-b2b-fulfillment.png"],
   },
 };
@@ -72,33 +74,35 @@ const PROGRAMS = [
     icon: "ri-box-3-line",
     title: "Bulk Wholesale",
     eyebrow: "Stock it. Sell it.",
-    body: "Purchase finished EVLV research products at volume pricing and fulfill from your own operation.",
-    points: ["Volume-based pricing", "Batch documentation", "Flexible multi-SKU orders"],
+    body: "Purchase finished EVLV research products at volume pricing and fulfill from your own operation. All products labeled in accordance with 21 CFR 809.10(c).",
+    points: ["Volume-based pricing", "Lot-specific batch documentation", "Flexible multi-SKU orders"],
   },
   {
     number: "02",
     icon: "ri-palette-line",
     title: "White Label",
     eyebrow: "Your brand. Built properly.",
-    body: "Launch a distinct research brand with custom packaging and a storefront supported by our infrastructure.",
-    points: ["Custom brand and packaging", "Storefront and CRM options", "Guided launch planning"],
+    body: "Launch a distinct research brand with custom packaging and a storefront supported by our infrastructure. Requires additional compliance review.",
+    points: ["Custom brand and packaging", "Storefront and CRM options", "Extended compliance vetting required"],
     featured: true,
+    status: "By application — extended review",
   },
   {
     number: "03",
     icon: "ri-truck-line",
     title: "Dropshipping",
     eyebrow: "Sell it. We ship it.",
-    body: "Offer an approved catalog without holding inventory. We pick, pack, and ship eligible orders directly.",
-    points: ["No inventory storage", "Direct U.S. fulfillment", "Tracking and support workflow"],
+    body: "Offer an approved catalog without holding inventory. Requires documented operating plan and catalog compliance review prior to approval.",
+    points: ["No inventory storage", "Direct U.S. fulfillment", "Compliance plan required"],
+    status: "By application — compliance review",
   },
 ];
 
 const CAPABILITIES = [
-  { icon: "ri-test-tube-line", title: "Verified catalog", body: "Research products supported by batch-level quality documentation." },
-  { icon: "ri-layout-4-line", title: "Brand development", body: "A coherent identity, packaging system, and customer-ready presentation." },
-  { icon: "ri-dashboard-3-line", title: "Commerce infrastructure", body: "Optional storefront, CRM, content, and order-management capabilities." },
-  { icon: "ri-map-pin-2-line", title: "U.S. fulfillment", body: "Domestic pick, pack, dispatch, and tracked delivery workflows." },
+  { icon: "ri-test-tube-line", title: "RUO-labeled catalog", body: "All products labeled 'For Research Use Only – Not for Human or Animal Use' per 21 CFR 809.10(c). Lot-specific COAs on every batch." },
+  { icon: "ri-shield-check-line", title: "Compliance documentation", body: "Your supply chain documentation protects your business. Partners receive complete batch records and labeling evidence for every product supplied." },
+  { icon: "ri-dashboard-3-line", title: "Commerce infrastructure", body: "Optional storefront, CRM, content, and order-management capabilities for approved partners." },
+  { icon: "ri-map-pin-2-line", title: "U.S. fulfillment", body: "Domestic pick, pack, dispatch, and tracked delivery workflows — maintaining the product record from inventory to customer." },
 ];
 
 const STEPS = [
@@ -142,11 +146,11 @@ export default function WholesalePage() {
                 Wholesale, white label, and dropshipping - built around you.
               </h1>
               <p className="mt-6 max-w-xl text-base leading-relaxed text-white/75 md:text-lg">
-                Launch and sell under your own brand. EVLV provides the custom storefront, CRM, eligible research
-                catalog, inventory, and direct U.S. fulfillment behind it.
+                Bulk lab-grade peptide supply for qualified U.S. research businesses. All products labeled for
+                research use only in accordance with 21 CFR 809.10(c), with lot-specific COAs and documented fulfillment.
               </p>
               <p className="mt-3 max-w-xl text-sm leading-relaxed text-white/55">
-                No inventory to store. No separate website or CRM setup fee. No fixed monthly minimum.
+                Wholesale available after review. White label and dropshipping require extended compliance vetting.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <a href="#inquire" className="rounded-md bg-white px-6 py-3.5 text-[12px] font-bold uppercase tracking-[0.16em] text-[#07383a] transition hover:bg-[#edf5f2]">
@@ -157,12 +161,22 @@ export default function WholesalePage() {
                 </a>
               </div>
               <div className="mt-10 grid max-w-xl grid-cols-1 gap-3 border-t border-white/15 pt-7 text-xs text-white/75 sm:grid-cols-3">
-                <span className="flex items-center gap-2"><i className="ri-money-dollar-circle-line text-[#b9d9ce]" /> $0 website + CRM build</span>
-                <span className="flex items-center gap-2"><i className="ri-archive-2-line text-[#b9d9ce]" /> No inventory needed</span>
+                <span className="flex items-center gap-2"><i className="ri-shield-check-line text-[#b9d9ce]" /> 21 CFR 809.10(c) labeled</span>
+                <span className="flex items-center gap-2"><i className="ri-file-text-line text-[#b9d9ce]" /> Lot-specific COAs</span>
                 <span className="flex items-center gap-2"><i className="ri-map-pin-2-line text-[#b9d9ce]" /> U.S. fulfillment</span>
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      <section className="border-b border-stone bg-[#f5f3ef] py-5">
+        <div className="mx-auto max-w-[1320px] px-5 md:px-8">
+          <p className="text-center text-xs leading-relaxed text-charcoal/65">
+            <i className="ri-shield-check-line mr-1.5 text-sage-deep" />
+            All products supplied are labeled &quot;For Research Use Only – Not for Human or Animal Use&quot; in accordance with <strong className="text-charcoal">21 CFR 809.10(c)</strong>.
+            Partners are solely responsible for the lawful handling, marketing, and use of research products in their jurisdiction.
+          </p>
         </div>
       </section>
 
@@ -179,7 +193,7 @@ export default function WholesalePage() {
           <Reveal stagger className="grid grid-cols-1 gap-5 lg:grid-cols-3">
             {PROGRAMS.map((program) => (
               <article key={program.title} className={`relative overflow-hidden rounded-2xl border p-7 md:p-8 ${program.featured ? "border-sage-deep bg-[#eef5f2] shadow-[0_16px_45px_rgba(11,65,64,.10)]" : "border-stone bg-white"}`}>
-                {program.featured && <span className="absolute right-5 top-5 rounded-full bg-sage-deep px-3 py-1 text-[9px] font-bold uppercase tracking-[0.15em] text-white">Most flexible</span>}
+                {"status" in program && program.status && <span className="absolute right-5 top-5 rounded-full bg-charcoal px-3 py-1 text-[9px] font-bold uppercase tracking-[0.15em] text-white/80">{program.status}</span>}
                 <div className="flex h-11 w-11 items-center justify-center rounded-full bg-sage-deep text-xl text-white"><i className={program.icon} /></div>
                 <p className="mt-7 text-[10px] font-bold uppercase tracking-[0.18em] text-sage-deep">{program.number} · {program.eyebrow}</p>
                 <h3 className="mt-2 font-display text-2xl font-semibold text-charcoal">{program.title}</h3>
@@ -201,10 +215,14 @@ export default function WholesalePage() {
           </Reveal>
           <Reveal>
             <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-sage-deep">More than product supply</p>
-            <h2 className="mt-3 max-w-xl font-display text-3xl font-semibold leading-tight text-charcoal md:text-5xl">The infrastructure behind your next stage of growth.</h2>
+            <h2 className="mt-3 max-w-xl font-display text-3xl font-semibold leading-tight text-charcoal md:text-5xl">Your supplier&apos;s compliance record is your reputation.</h2>
             <p className="mt-5 max-w-xl text-sm leading-relaxed text-charcoal/60 md:text-base">
-              You create demand and own the customer relationship. EVLV can supply the catalog, build the branded
-              storefront and operating system, hold eligible inventory, and ship individual orders from the U.S.
+              Institutional buyers and serious researchers review documentation. EVLV supplies lot-specific COAs,
+              21 CFR 809.10(c)-labeled inventory, and complete batch records — so your supply chain can withstand scrutiny.
+            </p>
+            <p className="mt-4 max-w-xl text-sm leading-relaxed text-charcoal/60">
+              You own the customer relationship. EVLV provides the compliant catalog, optional branded storefront,
+              inventory holding, and U.S. fulfillment behind it.
             </p>
             <div className="mt-8 grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
               {CAPABILITIES.map((item) => (
@@ -243,10 +261,10 @@ export default function WholesalePage() {
             <h2 className="mt-3 font-display text-4xl font-semibold leading-tight md:text-5xl">Tell us what you want to build.</h2>
             <p className="mt-5 text-sm leading-relaxed text-white/65 md:text-base">Our team reviews every inquiry and replies with the most suitable program, practical next steps, and a scoped commercial conversation.</p>
             <div className="mt-8 space-y-4 border-t border-white/15 pt-7 text-sm text-white/70">
-              <p className="flex items-start gap-3"><i className="ri-check-line mt-0.5 text-[#b9d9ce]" /> No generic tier required before we understand your needs.</p>
-              <p className="flex items-start gap-3"><i className="ri-check-line mt-0.5 text-[#b9d9ce]" /> No separate website or CRM setup fee and no fixed monthly minimum.</p>
-              <p className="flex items-start gap-3"><i className="ri-check-line mt-0.5 text-[#b9d9ce]" /> Wholesale, white label, dropshipping, and hybrid models welcome.</p>
-              <p className="flex items-start gap-3"><i className="ri-check-line mt-0.5 text-[#b9d9ce]" /> Clear research-use-only positioning and quality documentation.</p>
+              <p className="flex items-start gap-3"><i className="ri-check-line mt-0.5 text-[#b9d9ce]" /> All products supplied with 21 CFR 809.10(c)-compliant RUO labeling and lot-specific batch documentation.</p>
+              <p className="flex items-start gap-3"><i className="ri-check-line mt-0.5 text-[#b9d9ce]" /> Your supplier's compliance record is your reputation. EVLV documentation is available to demonstrate your supply chain to institutional buyers.</p>
+              <p className="flex items-start gap-3"><i className="ri-check-line mt-0.5 text-[#b9d9ce]" /> Wholesale available after review. White label and dropshipping require extended compliance vetting and a documented operating plan.</p>
+              <p className="flex items-start gap-3"><i className="ri-check-line mt-0.5 text-[#b9d9ce]" /> Partners are solely responsible for the lawful handling, marketing, and use of supplied products in their jurisdiction.</p>
             </div>
           </Reveal>
           <Reveal><WholesaleForm /></Reveal>
