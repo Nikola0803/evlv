@@ -187,10 +187,10 @@ const COMPARISON = [
 ];
 
 const STEPS = [
-  { number: "01", title: "Submit an inquiry", body: "Tell us whether you need bulk wholesale, white label, or a combination. Include your catalog needs, expected volume, and operating model." },
-  { number: "02", title: "Review and qualify", body: "We review your business, catalog, audience, and research-use-only operating plan. An account contact is assigned for follow-up." },
-  { number: "03", title: "Receive a scoped offer", body: "You get a clear commercial proposal covering pricing, MOQs, catalog access, documentation, and fulfillment terms." },
-  { number: "04", title: "Build and fulfill", body: "Products, documentation, optional branding, and fulfillment are aligned before your first order." },
+  { number: "01", title: "Review the portal", body: "Visit the wholesale partner portal to review pricing, product availability, catalog documentation, and account requirements before submitting.", link: { label: "Open partner portal", href: "/account?tab=wholesale" } },
+  { number: "02", title: "Confirm fit", body: "Use account support to discuss quantities, documentation needs, volume forecasting, and inventory holds. An account contact is assigned after initial review." },
+  { number: "03", title: "Plan the order", body: "Coordinate catalog supply or qualifying custom runs with practical turnaround expectations. Pricing, MOQs, and fulfillment terms confirmed in writing." },
+  { number: "04", title: "Fulfill with confidence", body: "Receive research-use-only products backed by lot-specific COAs, full traceability documentation, and ongoing partner-level account support." },
 ];
 
 export default function WholesalePage() {
@@ -240,9 +240,9 @@ export default function WholesalePage() {
                 <a href="#inquire" className="rounded-md bg-white px-6 py-3.5 text-[12px] font-bold uppercase tracking-[0.16em] text-[#07383a] transition hover:bg-[#edf5f2]">
                   Apply for partner access <i className="ri-arrow-right-line" />
                 </a>
-                <a href="#programs" className="rounded-md border border-white/35 bg-white/5 px-6 py-3.5 text-[12px] font-bold uppercase tracking-[0.16em] text-white backdrop-blur-sm transition hover:bg-white/12">
-                  Compare programs
-                </a>
+                <Link href="/account?tab=wholesale" className="rounded-md border border-white/35 bg-white/5 px-6 py-3.5 text-[12px] font-bold uppercase tracking-[0.16em] text-white backdrop-blur-sm transition hover:bg-white/12">
+                  Visit partner portal
+                </Link>
               </div>
               <div className="mt-10 grid max-w-xl grid-cols-2 gap-3 border-t border-white/15 pt-7 text-xs text-white/75 sm:grid-cols-4">
                 <span className="flex items-center gap-2"><i className="ri-archive-2-line text-[#b9d9ce]" /> Low-MOQ access</span>
@@ -377,6 +377,11 @@ export default function WholesalePage() {
                 <p className="text-[11px] font-bold tracking-[0.18em] text-sage-deep">{step.number}</p>
                 <h3 className="mt-5 font-display text-xl font-semibold text-charcoal">{step.title}</h3>
                 <p className="mt-3 text-sm leading-relaxed text-charcoal/55">{step.body}</p>
+                {"link" in step && step.link && (
+                  <Link href={step.link.href} className="mt-4 inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-sage-deep">
+                    {step.link.label} <i className="ri-arrow-right-line" />
+                  </Link>
+                )}
               </div>
             ))}
           </Reveal>
