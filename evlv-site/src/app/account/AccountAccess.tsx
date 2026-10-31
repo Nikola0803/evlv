@@ -1,9 +1,10 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useRef, useState } from "react";
 import Link from "next/link";
 import { saveAuth } from "@/lib/auth";
 import { setStoredCouponCode } from "@/lib/referral";
+import { useGoogleSignIn, type GoogleUserInfo } from "@/lib/google-auth";
 
 type Mode = "signin" | "register";
 
@@ -53,11 +54,47 @@ export function AccountAccess({
   const [marketingOptIn, setMarketingOptIn] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
+  const googleBtnRef = useRef<HTMLDivElement>(null);
 
   function switchMode(next: Mode) {
     setMode(next);
     setError("");
   }
+
+  const { available: googleAvailable } = useGoogleSignIn(
+    async (user: GoogleUserInfo, rawCredential: string) => {
+      setError("");
+      setSubmitting(true);
+      try {
+        const res = await fetch("/api/auth/google", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ credential: rawCredential }),
+        });
+        const data = (await res.json().catch(() => ({}))) as AuthPayload;
+        if (!res.ok) {
+          if ((data as { code?: string }).code === "email_exists") {
+            setError("An account with this email already exists. Sign in with your email and password.");
+          } else {
+            setError((data.error ?? data.message) || "Google sign-in failed. Please try again.");
+          }
+          return;
+        }
+        const session = getSession(data, user.email);
+        if (!session) {
+          setError("Google sign-in succeeded but no session was returned. Please contact support.");
+          return;
+        }
+        saveAuth(session);
+        window.location.href = redirectTo;
+      } catch {
+        setError("Something went wrong with Google sign-in. Please try again.");
+      } finally {
+        setSubmitting(false);
+      }
+    },
+    { renderInto: googleBtnRef, buttonText: mode === "register" ? "signup_with" : "signin_with" },
+  );
 
   async function request(path: string, body: Record<string, unknown>) {
     const response = await fetch(path, {
@@ -180,6 +217,17 @@ export function AccountAccess({
                 {submitting ? "Please wait..." : mode === "signin" ? "Sign In Securely" : `Create Account & Save ${welcomePercent}%`}
               </button>
             </form>
+
+            {googleAvailable && (
+              <>
+                <div className="relative mt-6 flex items-center gap-3">
+                  <div className="h-px flex-1 bg-[#d6e0db]" />
+                  <span className="text-[10px] font-semibold uppercase tracking-widest text-charcoal/35">or</span>
+                  <div className="h-px flex-1 bg-[#d6e0db]" />
+                </div>
+                <div ref={googleBtnRef} className="mt-4 flex justify-center" aria-label="Continue with Google" />
+              </>
+            )}
 
             <p className="mt-6 text-center text-[11px] leading-relaxed text-charcoal/40">
               By continuing, you agree to our <Link href="/terms" className="underline">Terms</Link> and <Link href="/privacy" className="underline">Privacy Policy</Link>.
