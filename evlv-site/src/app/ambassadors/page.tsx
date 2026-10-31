@@ -45,7 +45,7 @@ export default function AmbassadorsPage() {
         <div className="relative mx-auto grid min-h-[720px] max-w-[1440px] grid-cols-1 lg:grid-cols-[1.05fr_.95fr]">
           <div className="flex flex-col justify-center px-6 py-20 sm:px-10 md:px-16 lg:px-20 lg:py-24">
             <div className="mb-7 flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.28em] text-[#b9d9ce]"><span className="h-px w-10 bg-[#b9d9ce]/55" />EVLV Partner Network</div>
-            <h1 className="max-w-3xl font-display text-[clamp(3.1rem,6vw,6.6rem)] font-semibold leading-[.92] tracking-[-.055em]">Built for partners who move markets.</h1>
+            <h1 className="max-w-3xl font-display text-[clamp(2.2rem,4.2vw,4.8rem)] font-semibold leading-[.96] tracking-[-.04em]">Built for partners who move markets.</h1>
             <p className="mt-8 max-w-xl text-base leading-7 text-white/68 md:text-lg md:leading-8">EVLV is building a selective network of creators, operators, educators, communities, and strategic voices ready to grow with a premium research brand.</p>
             <p className="mt-4 max-w-xl text-sm leading-6 text-white/48">This is not an open-enrollment affiliate link. Every applicant is reviewed. Every approved relationship is built around alignment, contribution, and potential.</p>
             <div className="mt-10 flex flex-col gap-3 sm:flex-row">
