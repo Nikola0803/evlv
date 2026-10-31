@@ -329,6 +329,9 @@ body {
 
 /* Final EVLV visual pass: RUO gate, image-led ticker, FAQ rhythm, and unified PDP palette. */
 .cp-hero .cp-primary{background:#fff;color:#0b2f2c;box-shadow:0 10px 24px rgba(0,0,0,.13)}
+.cp-hero-actions{display:flex;align-items:center;gap:18px}
+.cp-hero-coas{display:inline-flex;align-items:center;gap:8px;min-height:48px;width:max-content;padding:0 28px;margin-left:8px;border-radius:25px;border:1px solid rgba(255,255,255,.55);background:transparent;color:#fff;font-size:13px;font-weight:700;transition:.2s}
+.cp-hero-coas:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.85)}
 
 /* GLP pair event: one clock drives pre-launch, live, and automatic expiry states. */
 .cp-campaign-hero{position:relative;background:linear-gradient(135deg,#072927 0%,#0d3b36 54%,#102e2c 100%)}
