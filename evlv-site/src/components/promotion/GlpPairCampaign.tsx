@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { VerifiedPeptideReviewsBadge } from "@/components/trust/VerifiedPeptideReviewsBadge";
 
 const STARTS_AT = Date.parse("2026-10-06T04:00:00.000Z");
 const ENDS_AT = Date.parse("2026-10-13T04:00:00.000Z");
@@ -57,7 +56,6 @@ function StandardHero() {
   return (
     <section className="cp-hero cp-wrap">
       <div className="cp-hero-copy">
-        <VerifiedPeptideReviewsBadge />
         <h1>Premium Peptides<br /><span>&amp; BioRegulators</span></h1>
         <p>EVLV is built for researchers who expect precise documentation, consistent quality, and premium presentation.</p>
         <Link className="cp-primary" href="/shop?category=peptides">Shop All Peptides</Link>
@@ -74,7 +72,6 @@ export function GlpCampaignHomeHero() {
   return (
     <section className="cp-hero cp-campaign-hero cp-wrap" data-campaign-phase={phase}>
       <div className="cp-hero-copy cp-campaign-hero-copy">
-        <VerifiedPeptideReviewsBadge />
         <p className="cp-campaign-kicker">GLP Research Week · October 6–12</p>
         <h1>{phase === "before" ? "The Pair Event" : "The Pair Event Is Live"}</h1>
         <strong className="cp-campaign-offer">Second matching item <em>70% off</em></strong>

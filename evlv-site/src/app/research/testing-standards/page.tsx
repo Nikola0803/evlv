@@ -71,13 +71,6 @@ const INNER_HTML = `
     <p><strong>How to verify your batch:</strong> Every EVLV product comes with a lot number on the vial or carton. Enter that number at <a href="/coas">evlvpeptides.com/coas</a> to retrieve the corresponding Certificate of Analysis and testing documentation for your specific batch.</p>
   </div>
 
-  <h2>Our Relationship with VerifiedPeptideReviews.com</h2>
-
-  <div class="disclosure">
-    <strong>Ownership Disclosure</strong>
-    <p>EVLV and VerifiedPeptideReviews.com (VPR) share common ownership. VPR is a third-party review and testing platform that independently publishes peptide vendor reviews, HPLC test results, and market comparisons. Because of this ownership relationship, reviews of EVLV on VPR should be understood in the context of that shared ownership — readers should weigh this information accordingly and consult additional independent sources when evaluating EVLV relative to other vendors. We disclose this relationship directly rather than obscuring it, because transparency about how information is produced is the same standard we apply to our product documentation.</p>
-  </div>
-
   <h2>Why Documentation Transparency Matters</h2>
   <p>The research peptide market is largely unregulated in the consumer-facing tier. There is no governing body requiring vendors to publish purity data, no mandatory audit of COA claims, and no standardized reporting format that makes vendor-to-vendor comparison straightforward. In this environment, documentation transparency is not a differentiator — it is a baseline responsibility.</p>
   <p>EVLV's position is that researchers who engage with this market deserve accurate information about what they are procuring. We publish what we know, state clearly what we don't know, and do not substitute marketing language for documented evidence. That is the operational definition of the "documentation-first" standard we have built around.</p>

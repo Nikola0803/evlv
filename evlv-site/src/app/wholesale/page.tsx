@@ -1,7 +1,6 @@
 import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { WholesaleForm } from "./WholesaleForm";
 import { Reveal } from "@/components/ui/Reveal";
 
 const SITE_URL = "https://www.evlvpeptides.com";
@@ -237,9 +236,9 @@ export default function WholesalePage() {
                 Wholesale and white label available after review. Both require vetting and a documented operating plan.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
-                <a href="#inquire" className="rounded-md bg-white px-6 py-3.5 text-[12px] font-bold uppercase tracking-[0.16em] text-[#07383a] transition hover:bg-[#edf5f2]">
+                <Link href="/wholesale/apply" className="rounded-md bg-white px-6 py-3.5 text-[12px] font-bold uppercase tracking-[0.16em] text-[#07383a] transition hover:bg-[#edf5f2]">
                   Apply for partner access <i className="ri-arrow-right-line" />
-                </a>
+                </Link>
                 <Link href="/account?tab=wholesale" className="rounded-md border border-white/35 bg-white/5 px-6 py-3.5 text-[12px] font-bold uppercase tracking-[0.16em] text-white backdrop-blur-sm transition hover:bg-white/12">
                   Visit partner portal
                 </Link>
@@ -288,7 +287,7 @@ export default function WholesalePage() {
                 <ul className="mt-6 space-y-3 border-t border-charcoal/10 pt-5">
                   {program.points.map((point) => <li key={point} className="flex items-center gap-2.5 text-sm text-charcoal/75"><i className="ri-check-line text-sage-deep" />{point}</li>)}
                 </ul>
-                <a href="#inquire" className="mt-7 inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.15em] text-sage-deep">Discuss this model <i className="ri-arrow-right-line" /></a>
+                <Link href="/wholesale/apply" className="mt-7 inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.15em] text-sage-deep">Apply for this model <i className="ri-arrow-right-line" /></Link>
               </article>
             ))}
           </Reveal>
@@ -406,21 +405,36 @@ export default function WholesalePage() {
         </div>
       </section>
 
-      {/* Inquiry CTA */}
-      <section id="inquire" className="bg-[#07383a] py-20 text-white md:py-28">
-        <div className="mx-auto grid max-w-[1180px] grid-cols-1 gap-12 px-5 md:px-8 lg:grid-cols-[.78fr_1.22fr] lg:gap-20">
+      {/* Apply CTA */}
+      <section className="bg-[#07383a] py-20 text-white md:py-28">
+        <div className="mx-auto max-w-[860px] px-5 text-center md:px-8">
           <Reveal>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#b9d9ce]">Partner inquiry</p>
-            <h2 className="mt-3 font-display text-4xl font-semibold leading-tight md:text-5xl">Tell us what you want to build.</h2>
-            <p className="mt-5 text-sm leading-relaxed text-white/65 md:text-base">Our team reviews every inquiry and assigns an account contact. We reply with the most suitable program, practical next steps, and a scoped commercial proposal.</p>
-            <div className="mt-8 space-y-4 border-t border-white/15 pt-7 text-sm text-white/70">
-              <p className="flex items-start gap-3"><i className="ri-check-line mt-0.5 text-[#b9d9ce]" /> All products supplied with 21 CFR 809.10(c)-compliant RUO labeling and lot-specific batch documentation.</p>
-              <p className="flex items-start gap-3"><i className="ri-check-line mt-0.5 text-[#b9d9ce]" /> Your supplier&apos;s compliance record is your reputation — EVLV documentation supports institutional-grade supply chain transparency.</p>
-              <p className="flex items-start gap-3"><i className="ri-check-line mt-0.5 text-[#b9d9ce]" /> Low-MOQ wholesale with 3–5 day dispatch on in-stock catalog products. White label by application.</p>
-              <p className="flex items-start gap-3"><i className="ri-check-line mt-0.5 text-[#b9d9ce]" /> Partners are solely responsible for the lawful handling, marketing, and use of supplied products in their jurisdiction.</p>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#b9d9ce]">Partner application</p>
+            <h2 className="mt-3 font-display text-4xl font-semibold leading-tight md:text-5xl">Ready to apply?</h2>
+            <p className="mx-auto mt-5 max-w-xl text-sm leading-relaxed text-white/65 md:text-base">
+              Our six-step compliance application collects the information needed to review your business, confirm catalog access, and assign a dedicated account contact.
+            </p>
+            <div className="mt-8 flex flex-wrap justify-center gap-4">
+              <Link
+                href="/wholesale/apply"
+                className="rounded-md bg-white px-8 py-4 text-[12px] font-bold uppercase tracking-[0.16em] text-[#07383a] transition hover:bg-[#edf5f2]"
+              >
+                Start compliance application <i className="ri-arrow-right-line" />
+              </Link>
+              <Link
+                href="/account?tab=wholesale"
+                className="rounded-md border border-white/35 bg-white/5 px-8 py-4 text-[12px] font-bold uppercase tracking-[0.16em] text-white backdrop-blur-sm transition hover:bg-white/12"
+              >
+                Existing partner portal
+              </Link>
+            </div>
+            <div className="mx-auto mt-10 max-w-2xl grid grid-cols-1 gap-3 border-t border-white/15 pt-7 text-xs text-white/65 sm:grid-cols-2">
+              <p className="flex items-start gap-2.5 text-left"><i className="ri-check-line mt-0.5 shrink-0 text-[#b9d9ce]" /> All products supplied with 21 CFR 809.10(c)-compliant RUO labeling and lot-specific batch documentation.</p>
+              <p className="flex items-start gap-2.5 text-left"><i className="ri-check-line mt-0.5 shrink-0 text-[#b9d9ce]" /> Low-MOQ wholesale with 3–5 day dispatch on in-stock catalog products. White label by application.</p>
+              <p className="flex items-start gap-2.5 text-left"><i className="ri-check-line mt-0.5 shrink-0 text-[#b9d9ce]" /> Documentation-first supply chain supports institutional-grade transparency for your operation.</p>
+              <p className="flex items-start gap-2.5 text-left"><i className="ri-check-line mt-0.5 shrink-0 text-[#b9d9ce]" /> Partners are solely responsible for the lawful handling, marketing, and use of supplied products in their jurisdiction.</p>
             </div>
           </Reveal>
-          <Reveal><WholesaleForm /></Reveal>
         </div>
       </section>
     </>

@@ -12,7 +12,6 @@ import { getStoredUser } from "@/lib/auth";
 import { trackEvent } from "@/lib/pixel";
 import { trackOmnisendViewedProduct } from "@/lib/omnisend";
 import { getProductImage } from "@/lib/product-images";
-import { VerifiedPeptideReviewsBadge } from "@/components/trust/VerifiedPeptideReviewsBadge";
 
 const FULFILLMENT_TRUST = ["U.S. Dispatch","Same-Day Processing","Tracked Delivery","Expert Support"];
 
@@ -42,7 +41,6 @@ export function ProductClient({ product, coa, coaPath, hasEndotoxinReport = fals
       <div className="cp-pdp-summary">
         <small className="cp-pdp-kicker">Premium Research Peptide</small>
         <h1>{product.name}</h1>
-        <VerifiedPeptideReviewsBadge variant="product" />
         <div className="cp-pdp-price"><div><strong>{formatPrice(selected.unitPrice)}</strong></div><span>● In stock · Ready to dispatch</span></div>
         <p className="cp-pdp-description">{product.shortDescription}</p>
         {product.variants && product.variants.length > 1 && <div className="cp-size-row">{product.variants.map(v => <Link key={v.slug} href={`/shop/${v.slug}`} className={v.slug === product.slug ? "active" : ""}>{v.label}</Link>)}</div>}
