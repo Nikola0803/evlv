@@ -132,7 +132,7 @@ export const RESEARCH_CATEGORY_PAGES = {
     path: "/fat-loss-peptide-research",
     eyebrow: "Research classification",
     title: "Fat Loss Peptide Research",
-    metaTitle: "Fat Loss Peptide Research | Lipolysis & Metabolic Compounds",
+    metaTitle: "Fat Loss Peptide Research | Metabolic Compounds",
     description: "Explore EVLV research compounds studied in lipolysis, lipid metabolism, and metabolic signaling research, including hGH-fragment and GLP-receptor classes.",
     intro: "This page organises the EVLV research compounds most commonly evaluated in preclinical lipolysis and lipid-metabolism studies. Each compound is supplied as a research-use-only laboratory material — not for human or veterinary use — and the documentation for every listed lot is published and searchable before purchase.",
     scopeTitle: "What 'fat loss peptide' means in a research context",

@@ -432,7 +432,7 @@ export const COMPOUND_HUBS = {
     path: "/thymosin-alpha-1-research",
     shortName: "Thymosin Alpha-1",
     title: "Thymosin Alpha-1 Research: Identity, Strengths & COAs",
-    metaTitle: "Thymosin Alpha-1 Research Peptide | Strengths, COAs & Purity",
+    metaTitle: "Thymosin Alpha-1 Research Peptide | COAs & Purity",
     description: "Review EVLV Thymosin Alpha-1 (Tα1) research product identity, labeled strength, CAS reference, analytical documentation, and U.S. laboratory supply information.",
     eyebrow: "Bioregulator research hub",
     classification: "Thymic peptide — immune research compound",
