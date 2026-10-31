@@ -32,9 +32,6 @@ export function Footer() {
             <a href="tel:+15417095434">(541) 709-5434</a>
             <a href="mailto:office@evlvpeptides.com">office@evlvpeptides.com</a>
             <a href="mailto:orders@evlvpeptides.com">orders@evlvpeptides.com</a>
-            <a className="cp-footer-vpr" href="https://verifiedpeptidereviews.com/vendors/evlv-peptides" target="_blank" rel="noreferrer">
-              <img className="cp-vpr-logo" src="/images/brand/vpr-logo-clean.png" alt="Verified Peptide Reviews" /><span><span className="cp-vpr-stars" aria-label="5 out of 5 stars">★★★★★</span> 4.9 / 5 · 748 verified reviews</span><i>Verify us ↗</i>
-            </a>
             <a href="https://launchorbit.co" target="_blank" rel="noopener noreferrer nofollow" className="mt-3 inline-flex opacity-70 transition-opacity hover:opacity-100">
               <img src="/api/lb" alt="View this product on Launch Orbit" width="120" height="32" loading="lazy" />
             </a>

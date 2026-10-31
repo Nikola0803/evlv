@@ -108,7 +108,7 @@ const ORGANIZATION_JSON_LD = {
     areaServed: ["US", "CA"],
     availableLanguage: "English",
   },
-  sameAs: ["https://verifiedpeptidereviews.com/vendors/evlv-peptides"],
+  sameAs: [],
 };
 
 const WEBSITE_JSON_LD = {
