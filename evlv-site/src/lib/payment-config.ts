@@ -6,7 +6,7 @@
  */
 export const PAYMENT_HANDLES = {
   cashapp: "$warriordistributions",
-  zelle: "warriordistributions@gmail.com",
+  zelle: "payments@warriordistributions.com",
   venmo: "@warriordistributions",
 };
 
@@ -71,7 +71,7 @@ export const PAYMENT_GATEWAYS: {
     label: "Zelle",
     icon: "ri-bank-line",
     handle: PAYMENT_HANDLES.zelle,
-    handleNote: "Send to warriordistributions@gmail.com — include your order number in the payment note so we can match your payment.",
+    handleNote: "Send to payments@warriordistributions.com — include your order number in the payment note so we can match your payment.",
   },
   {
     id: "venmo",
