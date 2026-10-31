@@ -17,11 +17,12 @@ export function OmnisendSnippet() {
         window.omnisend = window.omnisend || [];
         omnisend.push(["brandID", "${OMNISEND_BRAND_ID}"]);
         omnisend.push(["track", "$pageViewed"]);
-        !function(){var e=document.createElement("script");
+        var _sub=false;try{_sub=localStorage.getItem("evlv_newsletter_subscribed")==="1";}catch(e){}
+        if(!_sub){!function(){var e=document.createElement("script");
         e.type="text/javascript",e.async=!0,
         e.src="https://omnisnippet1.com/inshop/launcher-v2.js";
         var t=document.getElementsByTagName("script")[0];
-        t.parentNode.insertBefore(e,t)}();
+        t.parentNode.insertBefore(e,t)}();}
       `}
     </Script>
   );
