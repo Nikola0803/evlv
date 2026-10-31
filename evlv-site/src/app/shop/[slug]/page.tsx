@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const product = await resolveProduct(slug);
   if (!product) return {};
   const productType = product.category === "peptides" ? "Research Peptide" : "Research Product";
-  const title = `${product.name} ${productType} | COA & Purity`;
+  const title = product.seoTitle ?? `${product.name} ${productType} | COA & Purity`;
   const description = `${product.name}: ${product.shortDescription} ${product.purity ? `Reported purity: ${product.purity}.` : ""} Review current batch documentation. Research use only; not for human or veterinary use.`.trim();
   return {
     title,

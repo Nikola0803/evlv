@@ -4,16 +4,16 @@ import Link from "next/link";
 const SITE_URL = "https://www.evlvpeptides.com";
 
 export const metadata: Metadata = {
-  title: "High Purity Research Peptides | HPLC & Mass Spec Verified",
+  title: "High Purity Research Peptides | Third-Party HPLC & Mass Spec Verified",
   description:
-    "EVLV high purity research peptides verified by third-party HPLC and mass spectrometry. Lot-specific COAs, identity confirmation, and U.S. dispatch for qualified laboratory use.",
+    "High purity research peptides and high quality research peptides from EVLV — third-party HPLC and mass spectrometry verified. Lot-specific COAs, identity confirmation, and U.S. dispatch for qualified laboratory use.",
   alternates: { canonical: "/high-purity-research-peptides" },
   openGraph: {
     type: "website",
     url: `${SITE_URL}/high-purity-research-peptides`,
-    title: "High Purity Research Peptides | HPLC & Mass Spec Verified",
+    title: "High Purity Research Peptides | Third-Party HPLC & Mass Spec Verified",
     description:
-      "Third-party HPLC and mass spectrometry verification on every listed lot. Searchable COA library with lot-matched reports.",
+      "High purity and high quality research peptides verified by independent accredited labs. Third-party HPLC and mass spectrometry on every listed lot. Searchable COA library with lot-matched reports.",
     images: [
       {
         url: "/images/certified/evlv-quality-transparency-v2.png",
