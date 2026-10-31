@@ -42,6 +42,8 @@ export interface Product {
   stockQty?: number;
   shortDescription: string;
   description: string;
+  /** Optional SEO-optimized title for the shop page, overrides the auto-generated one. */
+  seoTitle?: string;
   storage: string;
   reconstitution?: string;
   badges?: string[];
