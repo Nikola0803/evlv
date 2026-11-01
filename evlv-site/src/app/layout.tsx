@@ -13,7 +13,6 @@ import { CartDrawer } from "@/components/layout/CartDrawer";
 import { ReferralCapture } from "@/components/layout/ReferralCapture";
 import { VerificationSync } from "@/components/layout/VerificationSync";
 import { MembershipSync } from "@/components/layout/MembershipSync";
-import { AgeGate } from "@/components/layout/AgeGate";
 import { CartProvider } from "@/lib/cart-context";
 import { CurrencyProvider } from "@/lib/currency-context";
 import { GoogleAnalytics } from "@/components/layout/GoogleAnalytics";
@@ -193,7 +192,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
             ) : isAccessRoute ? (
               <main className="flex-1 bg-[#f7fbf9]">{children}</main>
             ) : (
-              <AgeGate>
+              <>
                 <AnnouncementBar />
                 <Header products={products} />
                 <main className="flex-1 bg-white pt-[90px] md:pt-[100px]"><HalloweenExperience />{children}</main>
@@ -201,7 +200,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
                 <CartToast />
                 <CartDrawer products={products} />
                 <DeferredLiveChat />
-              </AgeGate>
+              </>
             )}
           </CartProvider>
         </CurrencyProvider>
