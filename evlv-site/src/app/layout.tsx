@@ -28,6 +28,8 @@ import Script from "next/script";
 const SITE_URL = "https://www.evlvpeptides.com";
 const CRM_PUBLIC_URL = process.env.NEXT_PUBLIC_CRM_URL || "https://crm.evlvpeptides.com";
 const CRM_TRACKING_KEY = process.env.NEXT_PUBLIC_CRM_TRACKING_KEY || "cmtzmexzs002qbeckbre23u9i";
+const CHECKOUT_ROUTES = ["/checkout", "/order-success"];
+const ACCESS_ROUTES = ["/account", "/login", "/register"];
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -50,7 +52,10 @@ const newsreader = Newsreader({
   style: ["normal", "italic"],
 });
 
-export function generateMetadata(): Metadata {
+export async function generateMetadata(): Promise<Metadata> {
+  const requestHeaders = await headers();
+  const pathname = requestHeaders.get("x-pathname") ?? "";
+  const isAccessRoute = ACCESS_ROUTES.some((route) => pathname.startsWith(route));
   const halloweenLive = Date.now() < new Date("2026-11-02T07:59:59.000Z").getTime();
   const title = "Research Peptides for Sale in the USA | Verified COAs | EVLV";
   const description = "U.S.-dispatched research peptides for laboratory and in-vitro analytical research, with exact product and batch COAs clearly labeled when available. Research use only.";
@@ -87,7 +92,9 @@ export function generateMetadata(): Metadata {
       description: socialDescription,
       images: [socialImage],
     },
-    robots: { index: true, follow: true },
+    // Account screens are conversion infrastructure, not authority pages.
+    // Keep crawl budget focused on public research, product, and COA routes.
+    robots: isAccessRoute ? { index: false, follow: false } : { index: true, follow: true },
   };
 }
 
@@ -126,12 +133,11 @@ const WEBSITE_JSON_LD = {
   },
 };
 
-const CHECKOUT_ROUTES = ["/checkout", "/order-success"];
-
 export default async function RootLayout({ children }: LayoutProps<"/">) {
   const hdrs = await headers();
   const pathname = hdrs.get("x-pathname") ?? "";
   const isCheckoutRoute = CHECKOUT_ROUTES.some((r) => pathname.startsWith(r));
+  const isAccessRoute = ACCESS_ROUTES.some((r) => pathname.startsWith(r));
 
   const products = isCheckoutRoute ? [] : await getCatalogProducts();
 
@@ -184,6 +190,8 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
                   </p>
                 </footer>
               </>
+            ) : isAccessRoute ? (
+              <main className="flex-1 bg-[#f7fbf9]">{children}</main>
             ) : (
               <AgeGate>
                 <AnnouncementBar />

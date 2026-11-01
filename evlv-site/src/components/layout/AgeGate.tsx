@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { trackEvent } from "@/lib/pixel";
@@ -51,10 +51,6 @@ export function AgeGate({ children }: { children: React.ReactNode }) {
   const [ready, setReady] = useState(false);
   const [accepted, setAccepted] = useState(false);
   const [campaignMode, setCampaignMode] = useState(false);
-  const [email, setEmail] = useState("");
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState("");
-  const emailRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const url = new URL(window.location.href);
@@ -92,7 +88,6 @@ export function AgeGate({ children }: { children: React.ReactNode }) {
     if (!ready || accepted) return;
     const previous = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    if (!campaignMode) emailRef.current?.focus();
     return () => { document.body.style.overflow = previous; };
   }, [ready, accepted, campaignMode]);
 
@@ -112,25 +107,11 @@ export function AgeGate({ children }: { children: React.ReactNode }) {
     setAccepted(true);
   }
 
-  async function handleEmailEntry(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setError("");
-    const normalizedEmail = email.trim().toLowerCase();
-    if (!normalizedEmail || !normalizedEmail.includes("@")) {
-      setError("Enter a valid email address.");
-      return;
-    }
-    setSubmitting(true);
-    try {
-      await fetch("/api/newsletter", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: normalizedEmail }),
-      }).catch(() => undefined);
-      completeAccess("email");
-    } finally {
-      setSubmitting(false);
-    }
+  function startGoogleSignIn() {
+    // Return to the exact requested page only after the server-side OAuth
+    // callback has verified the Google identity and minted an EVLV session.
+    const returnTo = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+    window.location.assign(`/api/auth/google/start?returnTo=${encodeURIComponent(returnTo)}`);
   }
 
   return <>
@@ -154,32 +135,21 @@ export function AgeGate({ children }: { children: React.ReactNode }) {
             </>
           ) : (
             <>
-              <h2 id="cp-ruo-title" className="cp-ruo-auth-heading">Enter EVLV</h2>
-              <p className="cp-ruo-auth-sub">Enter your email for fast access to EVLV research products. No password required.</p>
+              <h2 id="cp-ruo-title" className="cp-ruo-auth-heading">Researcher access</h2>
+              <p className="cp-ruo-auth-sub">Sign in or create an EVLV account to continue into the research catalogue, order tools, and account documentation.</p>
 
-              <form className="cp-ruo-auth-form" onSubmit={handleEmailEntry}>
-                <label>
-                  <span>Email address</span>
-                  <input ref={emailRef} required type="email" inputMode="email" autoComplete="email" placeholder="you@example.com" value={email} onChange={(e) => setEmail(e.target.value)} />
-                </label>
+              <div className="cp-ruo-entry-attestation">
+                <strong>Research use confirmation:</strong>
+                <span>You are 21 or older and a qualified professional. Products are for in-vitro research only, never for human, clinical, or veterinary use. By continuing, you accept the <Link href="/terms" target="_blank" rel="noreferrer">Terms &amp; Conditions</Link>.</span>
+              </div>
 
-                <div className="cp-ruo-entry-attestation">
-                  <strong>Research use confirmation:</strong>
-                  <span>You are 21 or older and a qualified professional. Products are for in-vitro research only—not for human consumption, clinical, or veterinary use—and you accept the <Link href="/terms" target="_blank" rel="noreferrer">Terms &amp; Conditions</Link>.</span>
-                </div>
+              <div className="cp-ruo-auth-actions">
+                <button className="cp-ruo-entry-google" type="button" onClick={startGoogleSignIn}><span aria-hidden="true">G</span> Continue with Google</button>
+                <Link className="cp-ruo-entry-primary" href="/login">Sign in to EVLV</Link>
+                <Link className="cp-ruo-entry-secondary" href="/register">Create a researcher account</Link>
+              </div>
 
-                {error && <p className="cp-ruo-entry-error"><i className="ri-error-warning-line" /> {error}</p>}
-
-                <button className="cp-ruo-entry-primary" type="submit" disabled={submitting}>
-                  {submitting ? "Entering…" : "Continue to EVLV"}
-                </button>
-              </form>
-
-              <p className="cp-ruo-entry-footnote">
-                Already have an account? <Link className="cp-ruo-auth-switch" href="/login">Sign in</Link>
-                {" · "}
-                New to EVLV? <Link className="cp-ruo-auth-switch" href="/register">Create account</Link>
-              </p>
+              <p className="cp-ruo-entry-footnote">Account access keeps purchase tools, order records, and documentation requests connected to the correct researcher.</p>
             </>
           )}
         </section>
