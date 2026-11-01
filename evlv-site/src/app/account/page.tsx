@@ -104,7 +104,9 @@ function AccountPageInner() {
   if (!mounted) return null;
 
   if (!user) {
-    return <AccountAccess initialMode={searchParams.get("mode") === "register" ? "register" : "signin"} />;
+    const requestedReturnTo = searchParams.get("returnTo");
+    const redirectTo = requestedReturnTo?.startsWith("/") && !requestedReturnTo.startsWith("//") ? requestedReturnTo : "/account";
+    return <AccountAccess initialMode={searchParams.get("mode") === "register" ? "register" : "signin"} redirectTo={redirectTo} />;
   }
 
   return (

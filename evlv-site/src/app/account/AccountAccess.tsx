@@ -90,7 +90,10 @@ export function AccountAccess({ initialMode = "signin", redirectTo = "/account",
       if (!session) throw new Error("Your account response did not include a valid session. Please contact support.");
       saveAuth(session);
       if (registrationCouponCode) setStoredCouponCode(registrationCouponCode);
-      window.location.href = mode === "register" && !partnerMode ? isJoinOffer ? "/shop?join=25" : "/shop?welcome=10" : redirectTo;
+      const destination = mode === "register" && !partnerMode
+        ? isJoinOffer ? "/shop?join=25" : redirectTo === "/account" ? "/shop?welcome=10" : redirectTo
+        : redirectTo;
+      window.location.href = destination;
     } catch (cause) { setError(cause instanceof Error ? cause.message : "Something went wrong. Please try again."); }
     finally { setSubmitting(false); }
   }
