@@ -29,7 +29,7 @@ export default async function ShopPage() {
   return (
     <>
       <Suspense fallback={null}>
-        <ShopClient products={products} verifiedCoaSlugs={verifiedCoaSlugs} />
+        <ShopClient products={products} verifiedCoaSlugs={verifiedCoaSlugs} isAu={isAu} />
       </Suspense>
       <section className="border-t border-stone bg-ivory-soft py-14 md:py-20" aria-labelledby="shop-research-heading">
         <div className="mx-auto grid max-w-[1180px] gap-8 px-4 md:grid-cols-[1.1fr_0.9fr] md:px-8">

@@ -1,5 +1,5 @@
 const IS_AU = process.env.NEXT_PUBLIC_SITE_MARKET === "AU";
-const ITEMS = ["Free Shipping $300+", "Exact COAs Clearly Labeled", "Research Use Only", "Not for Human Consumption", IS_AU ? "Australian Fulfillment" : "U.S. Fulfillment", "Transparent Batch Data"];
+const ITEMS = [IS_AU ? "Tracked Australian Delivery" : "Free Shipping $300+", "Exact COAs Clearly Labeled", "Research Use Only", "Not for Human Consumption", IS_AU ? "Australian Fulfillment" : "U.S. Fulfillment", "Transparent Batch Data"];
 
 // One continuous marquee row, duplicated once so the CSS animation can
 // scroll a full width and loop seamlessly (see .animate-ticker in

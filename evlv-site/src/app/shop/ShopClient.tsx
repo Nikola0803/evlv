@@ -14,7 +14,7 @@ const FILTERS: { value: Filter; label: string }[] = [
 
 const FEATURED_PRIORITY = new Map([["bacteriostatic-water-10ml", 0]]);
 
-export function ShopClient({ products: initialProducts, verifiedCoaSlugs }: { products: Product[]; verifiedCoaSlugs: string[] }) {
+export function ShopClient({ products: initialProducts, verifiedCoaSlugs, isAu = false }: { products: Product[]; verifiedCoaSlugs: string[]; isAu?: boolean }) {
   const params = useSearchParams();
   const [products, setProducts] = useState(initialProducts);
   const [filter,setFilter] = useState<Filter>(() => {
@@ -70,7 +70,7 @@ export function ShopClient({ products: initialProducts, verifiedCoaSlugs }: { pr
           <h1>{title}</h1>
           <p>Research compounds with clearly labeled, product-specific batch documentation where available.</p>
           <div className="cp-shop-hero-proof" aria-label="Product quality standards">
-            <span>✓ Exact reports labeled</span><span>✓ Transparent purity data</span><span>✓ U.S. dispatch</span>
+            <span>✓ Exact reports labeled</span><span>✓ Transparent purity data</span><span>✓ {isAu ? "Australian dispatch" : "U.S. dispatch"}</span>
           </div>
           <a href="#catalogue">Explore products <span aria-hidden="true">→</span></a>
         </div>
