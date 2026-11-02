@@ -2,6 +2,16 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export function proxy(request: NextRequest) {
+  if (
+    request.nextUrl.pathname === "/_next/image" &&
+    request.nextUrl.searchParams.get("url") === "/images/products/klow-80mg.png"
+  ) {
+    const currentImage = request.nextUrl.clone();
+    currentImage.searchParams.set("url", "/images/products/generated-v1/klow-80mg.png");
+    currentImage.searchParams.delete("dpl");
+    return NextResponse.redirect(currentImage, 308);
+  }
+
   if (request.nextUrl.hostname === "evlvpeptides.com") {
     const canonical = request.nextUrl.clone();
     canonical.hostname = "www.evlvpeptides.com";
@@ -15,5 +25,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico|.*\\..*).*)"],
+  matcher: ["/_next/image", "/((?!api|_next/static|_next/image|favicon.ico|.*\\..*).*)"],
 };
