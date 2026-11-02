@@ -80,7 +80,7 @@ export function FeaturedOfferCard() {
     <label className="mt-5 flex cursor-pointer items-start gap-3 rounded-lg border border-copper/40 bg-copper/5 p-4">
       <input type="checkbox" checked={checked} onChange={toggle} className="mt-1 h-4 w-4 shrink-0 accent-copper" />
       <div className="h-14 w-11 shrink-0 overflow-hidden rounded-md bg-ivory-soft">
-        <Image src={getProductImage(product)} alt={product.name} width={90} height={112} className="h-full w-full object-cover" />
+        <Image src={getProductImage(product)} alt={product.name} width={90} height={112} sizes="90px" className="h-full w-full object-cover" />
       </div>
       <div className="flex-1">
         <p className="text-sm font-medium text-charcoal">
@@ -116,7 +116,7 @@ export function ResearchersAlsoAdd() {
           return (
             <div key={p.id} className="flex items-center gap-3">
               <div className="h-14 w-11 shrink-0 overflow-hidden rounded-md bg-ivory-soft">
-                <Image src={getProductImage(p)} alt={p.name} width={90} height={112} className="h-full w-full object-cover" />
+                <Image src={getProductImage(p)} alt={p.name} width={90} height={112} sizes="90px" className="h-full w-full object-cover" />
               </div>
               <div className="flex-1">
                 <p className="text-xs font-medium text-charcoal">{p.name}</p>

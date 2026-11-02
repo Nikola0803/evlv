@@ -180,7 +180,7 @@ function WholesaleCatalog({ products }: { products: WholesaleProduct[] }) {
         <div className="mt-5 grid gap-3 sm:grid-cols-2">
           {products.map((item) => (
             <div key={item.slug} className="flex items-center gap-3 rounded-md border border-stone p-3">
-              {item.imageUrl ? <Image src={item.imageUrl} alt="" width={64} height={64} className="h-16 w-16 shrink-0 object-contain" /> : null}
+              {item.imageUrl ? <Image src={item.imageUrl} alt="" width={64} height={64} sizes="64px" className="h-16 w-16 shrink-0 object-contain" /> : null}
               <div className="min-w-0 flex-1">
                 <p className="truncate text-sm font-semibold text-charcoal">{item.name}</p>
                 <p className="text-xs text-charcoal/50">10 vials · {money(item.casePriceCents)}</p>

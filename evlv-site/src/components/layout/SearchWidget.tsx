@@ -87,7 +87,7 @@ export function SearchWidget() {
                           className="flex items-center gap-3 rounded-md p-3 transition hover:bg-ivory-soft"
                         >
                           <div className="h-14 w-11 shrink-0 overflow-hidden rounded-md bg-ivory-soft">
-                            <Image src={getProductImage(p)} alt={p.name} width={90} height={112} className="h-full w-full object-cover" />
+                            <Image src={getProductImage(p)} alt={p.name} width={90} height={112} sizes="90px" className="h-full w-full object-cover" />
                           </div>
                           <div className="flex-1">
                             <p className="text-sm font-medium text-charcoal">{p.name}</p>

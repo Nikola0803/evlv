@@ -127,7 +127,7 @@ export function CoasClient({ coaEntries }: { coaEntries: CoaEntry[] }) {
                     className="group grid min-h-48 grid-cols-[118px_1fr] overflow-hidden rounded-2xl border border-stone bg-white text-left transition hover:-translate-y-0.5 hover:border-sage-deep hover:shadow-[0_18px_44px_rgba(11,47,44,.10)] sm:grid-cols-[150px_1fr]"
                   >
                     <div className="relative flex items-center justify-center bg-[#f3f7f4] p-3 sm:p-5">
-                      <Image src={image} alt={`${coa.productName ?? product?.name ?? "EVLV"} vial`} width={240} height={300} className="h-36 w-full object-contain transition duration-300 group-hover:scale-[1.04]" />
+                      <Image src={image} alt={`${coa.productName ?? product?.name ?? "EVLV"} vial`} width={240} height={300} sizes="240px" className="h-36 w-full object-contain transition duration-300 group-hover:scale-[1.04]" />
                       <span className="absolute left-3 top-3 rounded-full bg-white/90 px-2 py-1 text-[8px] font-bold uppercase tracking-[0.12em] text-sage-deep shadow-sm">Report on file</span>
                     </div>
                     <div className="flex min-w-0 flex-col p-5">

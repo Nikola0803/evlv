@@ -104,7 +104,7 @@ export function CartDrawer() {
                 {lines.map((line) => (
                   <div key={`${line.product.id}-${line.packLabel}`} className="flex gap-3">
                     <div className="h-20 w-16 shrink-0 overflow-hidden rounded-md bg-ivory-soft">
-                      <Image src={getProductImage(line.product)} alt={line.product.name} width={120} height={150} className="h-full w-full object-cover" />
+                      <Image src={getProductImage(line.product)} alt={line.product.name} width={120} height={150} sizes="120px" className="h-full w-full object-cover" />
                     </div>
                     <div className="flex flex-1 flex-col">
                       <div className="flex items-start justify-between gap-2">

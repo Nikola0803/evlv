@@ -69,7 +69,7 @@ export function FrequentlyBoughtTogether({ product, related }: { product: Produc
                     className="absolute right-3 top-3 h-4 w-4 accent-sage-deep disabled:opacity-70"
                   />
                   <div className="flex h-28 items-center justify-center overflow-hidden rounded-lg border border-stone bg-white p-3">
-                    <Image src={getProductImage(p)} alt={p.name} width={160} height={160} className="h-full w-full object-contain" />
+                    <Image src={getProductImage(p)} alt={p.name} width={160} height={160} sizes="160px" className="h-full w-full object-contain" />
                   </div>
                   <Link href={`/shop/${p.slug}`} className="mt-3 text-sm font-semibold text-charcoal hover:underline">
                     {p.name}

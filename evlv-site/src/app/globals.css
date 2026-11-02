@@ -740,10 +740,10 @@ body.evlv-halloween a.bg-sage-deep{background:linear-gradient(90deg,#ff7622,#ff9
 :is(a,button,input[type="submit"]).bg-sage-deep{color:#fff!important}
 :is(a,button,input[type="submit"])[class*="hover:bg-sage-deep"]:hover{color:#fff!important}
 
-/* Same hero composition, compressed source. The original PNG remains the
-   fallback, while modern browsers receive the visually matched WebP. */
-.cp-hero-image{background-image:linear-gradient(90deg,#0b2f2c 0,rgba(11,47,44,.92) 7%,rgba(11,47,44,.46) 20%,rgba(11,47,44,0) 38%),image-set(url('/images/certified/evlv-hero-multi-vials-optimized.webp') type('image/webp'),url('/images/certified/evlv-hero-multi-vials.png') type('image/png'))!important}
-@media(max-width:620px){.cp-hero-image{background-image:linear-gradient(180deg,#0b2f2c 0,rgba(11,47,44,.58) 13%,rgba(11,47,44,0) 42%),image-set(url('/images/certified/evlv-hero-multi-vials-optimized.webp') type('image/webp'),url('/images/certified/evlv-hero-multi-vials.png') type('image/png'))!important}}
+/* next/image renders the hero photograph; the ::after layer supplies its gradient. */
+.cp-hero-image{background-image:none!important}
+.cp-shop-hero-media{background-image:linear-gradient(90deg,#092c2a 0%,rgba(9,44,42,.96) 8%,rgba(9,44,42,.36) 37%,rgba(9,44,42,.02) 63%),url('/images/certified/evlv-hero-multi-vials.webp')!important}
+@media(max-width:620px){.cp-shop-hero-media{background-image:linear-gradient(180deg,rgba(9,44,42,.05) 30%,#092c2a 100%),url('/images/certified/evlv-hero-multi-vials.webp')!important}}
 
 /* Non-critical homepage imagery loads only as its section approaches view. */
 .cp-category{background-color:#16483f}

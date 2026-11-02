@@ -4,7 +4,7 @@ import Link from "next/link";
 const SITE_URL = "https://www.evlvpeptides.com";
 
 export const metadata: Metadata = {
-  title: "High Purity Research Peptides | Third-Party HPLC & Mass Spec Verified",
+  title: "High-Purity Research Peptides | COAs & Purity",
   description:
     "High purity research peptides and high quality research peptides from EVLV — third-party HPLC and mass spectrometry verified. Lot-specific COAs, identity confirmation, and U.S. dispatch for qualified laboratory use.",
   alternates: { canonical: "/high-purity-research-peptides" },

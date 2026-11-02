@@ -446,7 +446,7 @@ export default function CheckoutPage() {
                 {lines.map((line) => (
                   <div key={`${line.product.id}-${line.packLabel}`} className="flex gap-3">
                     <div className="relative h-16 w-14 shrink-0 overflow-hidden rounded-md bg-white">
-                      <Image src={getProductImage(line.product)} alt={line.product.name} width={112} height={140} className="h-full w-full object-cover" />
+                      <Image src={getProductImage(line.product)} alt={line.product.name} width={112} height={140} sizes="112px" className="h-full w-full object-cover" />
                       <span className="absolute -right-1.5 -top-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-charcoal text-[10px] font-semibold text-ivory">{line.qty}</span>
                     </div>
                     <div className="flex-1">

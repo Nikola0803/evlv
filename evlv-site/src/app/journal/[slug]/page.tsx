@@ -36,6 +36,7 @@ const SEO_TITLES: Record<string, string> = {
   "mg-versus-powder-amount": "Milligrams vs Powder Volume: Vial Guide",
   "nad-research-compound-documentation-guide": "NAD+: COA & Research Guide",
   "peptide-shipping-warm-conditions": "Lyophilized Peptide Shipping: Research Guide",
+  "where-to-buy-research-peptides-with-coa": "Where to Buy Research Peptides with COAs",
   "research-peptides-us-sourcing-guide-2026": "Research Peptides in the US: Sourcing Guide",
   "semaglutide-peptide-research-documentation-guide": "Semaglutide: COA & Research Guide",
   "ss-31-peptide-research-documentation-guide": "SS-31: COA & Research Guide",
@@ -140,7 +141,7 @@ export default async function JournalArticlePage({ params }: { params: Promise<{
         </div>
 
         <div className="mt-8 aspect-[16/9] w-full overflow-hidden rounded-lg bg-sage-mist">
-          <Image src={article.image} alt={article.title} width={1200} height={675} className="h-full w-full object-cover" priority />
+          <Image src={article.image} alt={article.title} width={1200} height={675} sizes="(max-width: 1024px) 100vw, 1200px" className="h-full w-full object-cover" priority />
         </div>
 
         {article.relatedLinks && article.relatedLinks.length > 0 && (
@@ -185,7 +186,7 @@ export default async function JournalArticlePage({ params }: { params: Promise<{
               {more.map((a) => (
                 <Link key={a.slug} href={`/journal/${a.slug}`} className="group flex items-center gap-5 rounded-lg bg-ivory p-4">
                   <div className="h-20 w-28 shrink-0 overflow-hidden rounded-md bg-sage-mist">
-                    <Image src={a.image} alt={a.title} width={280} height={200} className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+                    <Image src={a.image} alt={a.title} width={280} height={200} sizes="(max-width: 640px) 100vw, 280px" className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
                   </div>
                   <div>
                     <p className="text-[10px] font-semibold uppercase tracking-wider text-copper">{a.label}</p>

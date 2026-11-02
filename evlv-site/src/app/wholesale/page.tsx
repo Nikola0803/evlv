@@ -6,7 +6,7 @@ import { Reveal } from "@/components/ui/Reveal";
 const SITE_URL = "https://www.evlvpeptides.com";
 
 export const metadata: Metadata = {
-  title: "Wholesale Peptides USA | Lab-Grade Bulk Supply & White Label | EVLV",
+  title: "Wholesale Research Peptides | Bulk & White Label",
   description:
     "EVLV wholesale peptides for qualified U.S. research businesses. Low-MOQ laboratory research supply, available lot-specific analytical records, dedicated account support, and U.S. fulfillment.",
   keywords: [
