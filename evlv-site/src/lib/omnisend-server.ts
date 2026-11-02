@@ -207,9 +207,9 @@ export async function pushEvent(
 
 const CATEGORY_MAP: Array<[RegExp, string]> = [
   [/semaglutide|tirzepatide|5-amino-1mq|mots-c|aod-9604/i, "Metabolic"],
-  [/bpc-157|tb-500|kpv|wolverine|glow-blend/i, "Recovery"],
+  [/bpc-157|tb-500|kpv|wolverine|glow-blend/i, "Structural Research"],
   [/cjc|ipamorelin|tesamorelin|ghrp|sermorelin|growth-hormone/i, "Growth"],
-  [/nad|epithalon|ghk-cu|ss-31|longevity/i, "Longevity"],
+  [/nad|epithalon|ghk-cu|ss-31/i, "Mitochondrial Research"],
   [/pt-141|semax|selank|testosterone/i, "Hormonal & Cognitive"],
 ];
 

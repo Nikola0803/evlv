@@ -13,7 +13,7 @@ const INNER_HTML = `
   <h1 itemprop="headline">EVLV vs. Certa Peptides: How They Compare</h1>
 
   <div class="lead">
-    Certa Peptides is a European research peptide supplier with a focus on Janoshik-verified testing and a tiered affiliate program. This comparison examines the meaningful differences between Certa Peptides and EVLV for U.S.-based researchers: geography and fulfillment, testing infrastructure, physician oversight model, and program terms.
+    Certa Peptides is a European research peptide supplier with a focus on Janoshik-verified testing and a tiered affiliate program. This comparison examines geography and fulfillment, testing documentation, research-use scope, and program terms.
   </div>
 
   <div class="disclaimer">
@@ -56,9 +56,9 @@ const INNER_HTML = `
         <td>Batch-specific reports for tested lots; coverage across full catalog not independently verified</td>
       </tr>
       <tr>
-        <td>Physician Oversight Model</td>
-        <td>RUO vendor only; no physician referrals or supervised clinical protocols. Researchers requiring physician guidance for any human-context application obtain that independently.</td>
-        <td>No published physician oversight or supervised protocol structure</td>
+        <td>RUO Scope</td>
+        <td>Laboratory and analytical research materials only</td>
+        <td>Research-use-only catalogue</td>
       </tr>
       <tr>
         <td>Military / Veteran Discount</td>
@@ -94,14 +94,14 @@ const INNER_HTML = `
 
   <h2>Affiliate Program: Transparency vs. Terms</h2>
   <p>Certa Peptides publishes a straightforward tiered affiliate structure: 15% base commission, increasing to 20% at €10,000 in cumulative sales and 25% at €25,000, with a 90-day attribution cookie and monthly payment via bank transfer. This level of public transparency makes the program easy to evaluate before applying.</p>
-  <p>EVLV's ambassador program is application-based with privately negotiated terms. We do not publish a standard commission rate because our program is designed for selective partnerships with researchers and educators who fit EVLV's quality-first positioning — not a broad affiliate network. The tradeoff is that applicants cannot assess terms before engaging with our team. For affiliates who prioritize knowing commission rates upfront, Certa Peptides' structure is more immediately legible. For those prioritizing a U.S.-based vendor with physician oversight infrastructure, EVLV's program is the relevant option.</p>
+  <p>EVLV's ambassador program is application-based with privately negotiated terms. We do not publish a standard commission rate because our program is designed for selective partnerships with researchers and educators who fit EVLV's quality-first positioning — not a broad affiliate network. The tradeoff is that applicants cannot assess terms before engaging with our team. For affiliates who prioritize knowing commission rates upfront, Certa Peptides' structure is more immediately legible.</p>
 
   <div class="callout">
     <p><strong>For U.S. researchers:</strong> The most practical difference in most purchasing decisions is not program structure or testing philosophy — it is shipping time and domestic availability. An order from Certa Peptides to a U.S. address is an international shipment subject to customs and substantially longer transit times than a domestic EVLV order dispatched from U.S. inventory.</p>
   </div>
 
   <h2>Where EVLV Differentiates on Documentation and Access</h2>
-  <p>Both EVLV and Certa Peptides are RUO vendors — neither arranges physician oversight, which is appropriate for research-use-only suppliers. Researchers requiring physician guidance for any human-context application must obtain that independently from any vendor relationship.</p>
+  <p>Both EVLV and Certa Peptides describe their catalogues as research-use-only. EVLV limits its product information and support to laboratory identity, documentation, unopened-material storage, ordering, and fulfillment.</p>
   <p>EVLV's differentiators are documentation transparency (explicitly stating which products have and lack COA coverage), U.S. domestic fulfillment and support for U.S. researchers, a permanent 25% veteran and first responder discount, and research content that covers mechanism, evidence base, and regulatory context in depth. Certa Peptides' differentiators are EU-based fulfillment for European researchers and a publicly stated tiered affiliate commission structure.</p>
 
   <div class="cta-block">

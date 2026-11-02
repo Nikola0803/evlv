@@ -11,7 +11,6 @@ const INVENTORY_SHEET_SLUGS = new Set([
   "5-amino-1mq-30mg",
   "aod-9604-5mg",
   "aod-9604-10mg",
-  "bacteriostatic-water-10ml",
   "bpc-157-5mg",
   "bpc-157-10mg",
   "cagrilintide-10mg",
@@ -21,7 +20,6 @@ const INVENTORY_SHEET_SLUGS = new Set([
   "dsip-15mg",
   "epitalon-10mg",
   "epitalon-50mg",
-  "gac-water-10ml",
   "ghk-cu-50mg",
   "ghk-cu-100mg",
   "ghrp-6-5mg",
@@ -74,11 +72,8 @@ const applyStorefrontRules = <T extends { slug: string; price: number }>(
   ...product,
   // The maintained storefront prices are 5% below the matching comparison
   // catalog supplied by the owner. CRM remains stock/SKU authority, but must
-  // not overwrite this pricing schedule. BW is an explicit exception and
-  // stays at its owner-set $9.99 price.
-  price: product.slug === "bacteriostatic-water-10ml"
-    ? 9.99
-    : approvedPriceBySlug.get(product.slug) ?? product.price,
+  // not overwrite this pricing schedule.
+  price: approvedPriceBySlug.get(product.slug) ?? product.price,
 });
 
 const preventUnpricedOrders = <T extends { slug: string; inStock: boolean }>(product: T): T => ({

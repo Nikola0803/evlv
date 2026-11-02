@@ -13,7 +13,7 @@ const INNER_HTML = `
   <h1 itemprop="headline">EVLV vs. Ion Peptide: How They Compare</h1>
 
   <div class="lead">
-    Ion Peptide and EVLV are both U.S.-based research peptide suppliers with published third-party testing documentation. This comparison covers the areas where they meaningfully differ: physician oversight structure, affiliate program terms, veteran benefits, and education resources.
+    Ion Peptide and EVLV are both U.S.-based research peptide suppliers with published third-party testing documentation. This comparison covers documentation, affiliate program terms, veteran benefits, fulfillment, and research resources.
   </div>
 
   <div class="disclaimer">
@@ -52,9 +52,9 @@ const INNER_HTML = `
         <td>Lot-level COA published; coverage across catalog not independently verified</td>
       </tr>
       <tr>
-        <td>Physician Oversight Model</td>
-        <td>RUO vendor only; no physician referrals or supervised clinical protocols. Researchers requiring physician guidance for any human-context application obtain that independently.</td>
-        <td>No published physician oversight or supervised protocol structure</td>
+        <td>RUO Scope</td>
+        <td>Laboratory and analytical research materials only</td>
+        <td>Research-use-only catalogue</td>
       </tr>
       <tr>
         <td>Military / Veteran Discount</td>
@@ -68,7 +68,7 @@ const INNER_HTML = `
       </tr>
       <tr>
         <td>Education Resources</td>
-        <td>Research overviews, physician oversight context, COA education content</td>
+        <td>Research overviews and COA education content</td>
         <td>Product-focused content; research overview depth varies by compound</td>
       </tr>
       <tr>
@@ -89,7 +89,7 @@ const INNER_HTML = `
   <p>If your primary criteria is independent third-party testing documentation with lot-level traceability, both vendors have invested in that infrastructure. This is the baseline for responsible sourcing in this market segment, and both Ion Peptide and EVLV meet it.</p>
 
   <h2>Where EVLV Differentiates on Documentation</h2>
-  <p>The most substantive difference between EVLV and Ion Peptide is documentation transparency: EVLV explicitly states which products have and lack third-party COA coverage, making gaps in documentation visible rather than obscuring them. Both are RUO vendors — neither arranges physician oversight, which is appropriate for research-use-only suppliers. Physicians must be engaged independently by researchers, separate from any vendor relationship.</p>
+  <p>The most substantive difference between EVLV and Ion Peptide is documentation transparency: EVLV explicitly states which products have and lack third-party COA coverage, making gaps in documentation visible rather than obscuring them. Both catalogues designate their materials for research use only.</p>
   <p>EVLV also publishes deeper research content covering mechanism, evidence base, and regulatory context for individual compounds, and maintains a permanent 25% lifetime veteran and first responder discount that Ion Peptide does not publish an equivalent of.</p>
 
   <h2>The Veteran and First Responder Distinction</h2>

@@ -49,7 +49,7 @@ function buildEmailHtml(app: Record<string, unknown>): string {
       row("Confirmed no pharmaceutical claims", s2.c3 ? "✓ Yes" : "✗ No"),
       row("Confirmed customer vetting obligation", s2.c4 ? "✓ Yes" : "✗ No"),
       row("Confirmed legal compliance in jurisdiction", s2.c5 ? "✓ Yes" : "✗ No"),
-      row("Confirmed 21 CFR 809.10(c) labeling requirement", s2.c6 ? "✓ Yes" : "✗ No"),
+      row("Confirmed RUO labeling requirement", s2.c6 ? "✓ Yes" : "✗ No"),
     ].join(""))}
     ${section("Section 3 — Distribution & Experience", [
       row("Distribution Channels", s3.channels),

@@ -8,7 +8,7 @@ const SITE_URL = "https://www.evlvpeptides.com";
 export const metadata: Metadata = {
   title: "Wholesale Peptides USA | Lab-Grade Bulk Supply & White Label | EVLV",
   description:
-    "EVLV wholesale peptides for qualified U.S. research businesses. Low-MOQ bulk lab-grade peptide supply, lot-specific COAs, 21 CFR 809.10(c) labeling, dedicated account support, and U.S. fulfillment. Apply to the vetted partner program.",
+    "EVLV wholesale peptides for qualified U.S. research businesses. Low-MOQ laboratory research supply, available lot-specific analytical records, dedicated account support, and U.S. fulfillment.",
   keywords: [
     "wholesale peptides",
     "wholesale peptides usa",
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     type: "website",
     url: `${SITE_URL}/wholesale`,
     title: "Wholesale Peptides USA — Bulk Lab-Grade Supply & White Label | EVLV",
-    description: "Low-MOQ wholesale peptides for qualified U.S. research businesses. 21 CFR 809.10(c) labeled, lot-specific COAs, dedicated account support, U.S. fulfillment.",
+    description: "Low-MOQ wholesale research materials for qualified U.S. businesses, with clear RUO labeling, available lot-specific analytical records, and U.S. fulfillment.",
     images: [{
       url: "/images/wholesale/evlv-b2b-fulfillment.png",
       width: 1600,
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Wholesale Peptides USA | Lab-Grade Bulk Supply | EVLV",
-    description: "Vetted bulk peptide supply for qualified U.S. research businesses. Low-MOQ, 21 CFR 809.10(c) labeled, lot-specific COAs, dedicated account support.",
+    description: "Vetted bulk research-material supply for qualified U.S. businesses, with clear RUO labeling, available lot-specific analytical records, and dedicated account support.",
     images: ["/images/wholesale/evlv-b2b-fulfillment.png"],
   },
 };
@@ -74,12 +74,12 @@ const FAQ = [
   {
     question: "Where can a qualified U.S. business buy wholesale peptides?",
     answer:
-      "EVLV supplies wholesale peptides to vetted U.S. research-product businesses. All products are labeled in accordance with 21 CFR 809.10(c) and accompanied by lot-specific certificates of analysis. Partner pricing and catalog access are provided after reviewing the business, expected volume, and research-use-only operating plan.",
+      "EVLV supplies wholesale research materials to vetted U.S. research-product businesses. Products carry clear research-use-only labeling, and available lot-specific analytical records are identified before ordering. Partner pricing and catalogue access follow a review of the business, expected volume, and RUO operating plan.",
   },
   {
     question: "What compliance labeling do EVLV wholesale peptides carry?",
     answer:
-      "All products supplied through EVLV's wholesale program are labeled 'For Research Use Only – Not for Human or Animal Use' in accordance with 21 CFR 809.10(c). Lot-specific COAs from independent accredited laboratories accompany every batch. This documentation is available to partners to demonstrate their supply chain to institutional buyers.",
+      "Products supplied through EVLV's wholesale program carry clear research-use-only labeling. Available lot-specific analytical documentation is published for partner review, with documentation gaps identified rather than represented as covered.",
   },
   {
     question: "Does EVLV offer low-MOQ wholesale peptides?",
@@ -124,7 +124,7 @@ const PROGRAMS = [
     icon: "ri-box-3-line",
     title: "Bulk Wholesale",
     eyebrow: "Stock it. Sell it.",
-    body: "Purchase finished EVLV research products at volume pricing and fulfill from your own operation. Low-MOQ access on core catalog products. All products labeled per 21 CFR 809.10(c).",
+    body: "Purchase finished EVLV research products at volume pricing and fulfill from your own operation. Low-MOQ access is available on eligible catalogue products with clear RUO labeling.",
     points: ["Low-MOQ access on core catalog", "Lot-specific COAs on every batch", "3–5 day dispatch on in-stock items", "Flexible multi-SKU volume pricing"],
   },
   {
@@ -140,7 +140,7 @@ const PROGRAMS = [
 ];
 
 const CAPABILITIES = [
-  { icon: "ri-shield-check-line", title: "21 CFR 809.10(c) compliance", body: "All products labeled 'For Research Use Only – Not for Human or Animal Use' per 21 CFR 809.10(c). Lot-specific COAs from independent accredited labs." },
+  { icon: "ri-shield-check-line", title: "Clear RUO labeling", body: "Products are labeled for research use only and not for human or animal use. Available lot-specific analytical records are published for review." },
   { icon: "ri-microscope-line", title: ">98% purity, GMP-aligned supply", body: "Each lot verified at >98% purity by HPLC and identity-confirmed by mass spectrometry. Sourced from GMP-aligned manufacturing with consistent synthesis standards." },
   { icon: "ri-customer-service-2-line", title: "Dedicated account support", body: "One direct contact for quotes, inventory holds, volume forecasting, and order planning. Account inquiries handled by the EVLV partner team." },
   { icon: "ri-map-pin-2-line", title: "Low-MOQ U.S. fulfillment", body: "Low minimum order quantities on core catalog products. Domestic pick, pack, dispatch, and tracked delivery — maintaining the product record from inventory to customer." },
@@ -164,7 +164,7 @@ const COMPARISON = [
     available: false,
   },
   {
-    feature: "21 CFR 809.10(c) Labeling",
+    feature: "Clear RUO Labeling",
     detail: "All products labeled 'For Research Use Only – Not for Human or Animal Use' on every batch.",
     available: true,
   },
@@ -230,7 +230,7 @@ export default function WholesalePage() {
               </h1>
               <p className="mt-6 max-w-xl text-base leading-relaxed text-white/75 md:text-lg">
                 Lab-grade bulk peptide supply for qualified U.S. research businesses. Low-MOQ access,
-                21 CFR 809.10(c)-labeled products, lot-specific COAs, and dedicated account support.
+                clearly labeled RUO products, available lot-specific analytical records, and dedicated account support.
               </p>
               <p className="mt-3 max-w-xl text-sm leading-relaxed text-white/55">
                 Wholesale and white label available after review. Both require vetting and a documented operating plan.
@@ -247,7 +247,7 @@ export default function WholesalePage() {
                 <span className="flex items-center gap-2"><i className="ri-archive-2-line text-[#b9d9ce]" /> Low-MOQ access</span>
                 <span className="flex items-center gap-2"><i className="ri-time-line text-[#b9d9ce]" /> 3–5 day dispatch</span>
                 <span className="flex items-center gap-2"><i className="ri-customer-service-2-line text-[#b9d9ce]" /> Account support</span>
-                <span className="flex items-center gap-2"><i className="ri-shield-check-line text-[#b9d9ce]" /> 21 CFR 809.10(c)</span>
+                <span className="flex items-center gap-2"><i className="ri-shield-check-line text-[#b9d9ce]" /> Clear RUO labeling</span>
               </div>
             </div>
           </div>
@@ -259,7 +259,7 @@ export default function WholesalePage() {
         <div className="mx-auto max-w-[1320px] px-5 md:px-8">
           <p className="text-center text-xs leading-relaxed text-charcoal/65">
             <i className="ri-shield-check-line mr-1.5 text-sage-deep" />
-            All products supplied are labeled &quot;For Research Use Only – Not for Human or Animal Use&quot; in accordance with <strong className="text-charcoal">21 CFR 809.10(c)</strong>.
+            Products supplied through this program are labeled &quot;For Research Use Only – Not for Human or Animal Use.&quot; Partners are responsible for obtaining qualified advice on all laws and regulations applicable to their operations.
             Partners are solely responsible for the lawful handling, marketing, and use of research products in their jurisdiction.
           </p>
         </div>
@@ -305,7 +305,7 @@ export default function WholesalePage() {
             <h2 className="mt-3 max-w-xl font-display text-3xl font-semibold leading-tight text-charcoal md:text-5xl">Your supplier&apos;s compliance record is your reputation.</h2>
             <p className="mt-5 max-w-xl text-sm leading-relaxed text-charcoal/60 md:text-base">
               Institutional buyers and serious researchers review documentation. EVLV supplies lot-specific COAs,
-              21 CFR 809.10(c)-labeled inventory, and complete batch records — so your supply chain can withstand scrutiny.
+              clearly labeled RUO inventory and available batch records—so your supply chain can withstand scrutiny.
             </p>
             <p className="mt-4 max-w-xl text-sm leading-relaxed text-charcoal/60">
               You drive the marketing and own the customer relationship. EVLV provides the compliant catalog,
@@ -429,7 +429,7 @@ export default function WholesalePage() {
               </Link>
             </div>
             <div className="mx-auto mt-10 max-w-2xl grid grid-cols-1 gap-3 border-t border-white/15 pt-7 text-xs text-white/65 sm:grid-cols-2">
-              <p className="flex items-start gap-2.5 text-left"><i className="ri-check-line mt-0.5 shrink-0 text-[#b9d9ce]" /> All products supplied with 21 CFR 809.10(c)-compliant RUO labeling and lot-specific batch documentation.</p>
+              <p className="flex items-start gap-2.5 text-left"><i className="ri-check-line mt-0.5 shrink-0 text-[#b9d9ce]" /> Products carry clear RUO labeling; available lot-specific analytical documentation is identified before ordering.</p>
               <p className="flex items-start gap-2.5 text-left"><i className="ri-check-line mt-0.5 shrink-0 text-[#b9d9ce]" /> Low-MOQ wholesale with 3–5 day dispatch on in-stock catalog products. White label by application.</p>
               <p className="flex items-start gap-2.5 text-left"><i className="ri-check-line mt-0.5 shrink-0 text-[#b9d9ce]" /> Documentation-first supply chain supports institutional-grade transparency for your operation.</p>
               <p className="flex items-start gap-2.5 text-left"><i className="ri-check-line mt-0.5 shrink-0 text-[#b9d9ce]" /> Partners are solely responsible for the lawful handling, marketing, and use of supplied products in their jurisdiction.</p>

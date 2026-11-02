@@ -7,43 +7,40 @@ import { Reveal } from "@/components/ui/Reveal";
 const CATEGORIES = [
   {
     num: "01",
-    title: "Recovery Research",
-    descriptor: "Tissue repair and regenerative pathway compounds.",
-    compounds: "BPC-157 · TB-500",
-    href: "/shop?category=peptides",
+    title: "Peptide Materials",
+    descriptor: "Catalogue identity, labeled quantity, and lot documentation.",
+    compounds: "Standalone research materials",
+    href: "/research-peptides",
     art: "fragmented" as const,
   },
   {
     num: "02",
     title: "Metabolic Research",
-    descriptor: "Weight and metabolic regulation research materials.",
+    descriptor: "Distinct receptor-class materials organized for laboratory review.",
     compounds: "GLP1-S · GLP2-T · GLP3-R",
     href: "/shop?category=peptides",
     art: "particles" as const,
   },
   {
     num: "03",
-    title: "Performance Research",
-    descriptor: "Cellular energy and performance-focused compounds.",
-    compounds: "MOTS-C · GHK-Cu",
-    href: "/shop?category=ancillaries",
+    title: "Blend Documentation",
+    descriptor: "Multi-analyte materials with product-specific records.",
+    compounds: "GLOW · KLOW · WOLVERINE",
+    href: "/peptide-blends",
     art: "expanding" as const,
   },
   {
     num: "04",
-    title: "Longevity Research",
-    descriptor: "Growth hormone and longevity pathway materials.",
-    compounds: "CJC-1295 · Sermorelin · Tesamorelin",
-    href: "/shop?category=peptides",
+    title: "Mitochondrial Research",
+    descriptor: "Materials grouped by laboratory research classification.",
+    compounds: "MOTS-C · SS-31 · NAD+",
+    href: "/mitochondrial-research-peptides",
     art: "concentric" as const,
   },
 ];
 
 /**
- * Everlife's "Shop by goal" section is a horizontal snap-scroll carousel
- * with prev/next arrows (goal-track / #goal-prev / #goal-next in the
- * source markup) rather than a static grid -- this ports that exact
- * interaction pattern onto EVLV's own research-area categories.
+ * Horizontal research-category carousel with previous/next controls.
  */
 export function ShopByCategory() {
   const trackRef = useRef<HTMLDivElement>(null);

@@ -77,7 +77,7 @@ const INNER_HTML = `
   <p>It is also why we are transparent about the limits of our verification. A vendor who claims complete certainty about their products in this market is not being more rigorous — they are being less honest about the constraints every RUO supplier operates within.</p>
 
   <div class="disclaimer">
-    <p><strong>Important:</strong> EVLV products are sold strictly for laboratory and analytical research use. They are not intended for human self-administration. Quality documentation published by EVLV describes the analytical characteristics of research compounds, not clinical safety or efficacy. Any use of these compounds in a human research context requires physician oversight.</p>
+    <p><strong>Important:</strong> EVLV products are sold strictly for laboratory and analytical research use. They are not intended for human or veterinary administration. Quality documentation published by EVLV describes analytical characteristics only; it does not establish clinical safety, efficacy, sterility, or suitability for any personal use.</p>
   </div>
 
   <div class="cta-block">
