@@ -25,6 +25,8 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       { protocol: "https", hostname: "evlvpeptides.com" },
       { protocol: "https", hostname: "www.evlvpeptides.com" },
+      { protocol: "https", hostname: "evlvpeptides.com.au" },
+      { protocol: "https", hostname: "www.evlvpeptides.com.au" },
       // The CRM (peptide-saas) itself, wherever it's hosted -- admin-
       // uploaded product photos and COA PDFs are now served as absolute
       // URLs back to the CRM's own domain (see absoluteMediaUrl in

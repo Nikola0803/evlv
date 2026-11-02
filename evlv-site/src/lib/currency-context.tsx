@@ -2,7 +2,7 @@
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, ReactNode } from "react";
 
-export type Currency = "USD" | "CAD";
+export type Currency = "USD" | "CAD" | "AUD";
 
 const STORAGE_KEY = "evlv_currency";
 
@@ -33,12 +33,12 @@ interface CurrencyContextValue {
 
 const CurrencyContext = createContext<CurrencyContextValue | null>(null);
 
-export function CurrencyProvider({ children }: { children: ReactNode }) {
+export function CurrencyProvider({ children, marketCurrency = "USD" }: { children: ReactNode; marketCurrency?: "USD" | "AUD" }) {
   // US is the default/main store -- USD unless we detect Canada or the visitor already chose CAD.
-  const [currency, setCurrencyState] = useState<Currency>("USD");
+  const [currency, setCurrencyState] = useState<Currency>(marketCurrency);
 
   useEffect(() => {
-    if (US_ONLY_LAUNCH) return;
+    if (marketCurrency === "AUD" || US_ONLY_LAUNCH) return;
     let stored: string | null = null;
     try {
       stored = localStorage.getItem(STORAGE_KEY);
@@ -60,7 +60,7 @@ export function CurrencyProvider({ children }: { children: ReactNode }) {
       .catch(() => {
         /* stay on USD default */
       });
-  }, []);
+  }, [marketCurrency]);
 
   const setCurrency = useCallback((c: Currency) => {
     setCurrencyState(c);

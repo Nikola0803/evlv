@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Reveal } from "@/components/ui/Reveal";
 
-const SITE_URL = "https://www.evlvpeptides.com";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_MARKET === "AU" ? "https://www.evlvpeptides.com.au" : "https://www.evlvpeptides.com";
 
 export const metadata: Metadata = {
   title: "Wholesale Research Peptides | Bulk & White Label",

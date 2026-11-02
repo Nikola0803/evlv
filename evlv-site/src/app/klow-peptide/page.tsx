@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
-const SITE_URL = "https://www.evlvpeptides.com";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_MARKET === "AU" ? "https://www.evlvpeptides.com.au" : "https://www.evlvpeptides.com";
 
 export const metadata: Metadata = {
   title: "What Is KLOW Peptide? Composition & Research Documentation",

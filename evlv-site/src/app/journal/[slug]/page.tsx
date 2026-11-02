@@ -8,7 +8,7 @@ export function generateStaticParams() {
   return getJournalArticles().map((a) => ({ slug: a.slug }));
 }
 
-const SITE_URL = "https://www.evlvpeptides.com";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_MARKET === "AU" ? "https://www.evlvpeptides.com.au" : "https://www.evlvpeptides.com";
 
 // Keep SERP titles concise while preserving the complete editorial headline
 // on-page, in structured data, and in social cards.

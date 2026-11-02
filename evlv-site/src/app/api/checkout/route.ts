@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import { crmConfigured, crmFetch } from "@/lib/crm-proxy";
+import { getMarket } from "@/lib/market";
+import { createNiftipayFiatOrder, niftipayConfigured } from "@/lib/niftipay";
 
 export const runtime = "nodejs";
 
@@ -8,10 +10,17 @@ export const runtime = "nodejs";
 // Body must match peptides-crm-app's CheckoutInput shape (lib/order-engine.ts):
 // { items: [{slug, quantity}], paymentMethod, paymentMemo, billing: {...}, customerNote? }
 export async function POST(req: Request) {
+  const market = getMarket();
   if (!crmConfigured()) {
     return NextResponse.json({ error: "Checkout isn't connected to the CRM yet." }, { status: 503 });
   }
   const body = (await req.json().catch(() => ({}))) as Record<string, unknown>;
+  if (market.id === "AU" && body.paymentMethod !== "niftipay") {
+    return NextResponse.json({ error: "Australian checkout only supports secure card payment through Niftipay." }, { status: 400 });
+  }
+  if (market.id === "AU" && !niftipayConfigured()) {
+    return NextResponse.json({ error: "Australian card checkout is not configured yet." }, { status: 503 });
+  }
   const items = Array.isArray(body.items) ? body.items : [];
   const discountCode = typeof body.discountCode === "string" ? body.discountCode : undefined;
   const customerEmail = typeof body.customerEmail === "string" ? body.customerEmail : undefined;
@@ -53,5 +62,31 @@ export async function POST(req: Request) {
   const ipAddress = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || req.headers.get("x-real-ip") || undefined;
   const userAgent = req.headers.get("user-agent") || undefined;
   const { ok, status, data } = await crmFetch("/api/store/checkout", { ...checkoutBody, ipAddress, userAgent });
-  return NextResponse.json(data, { status: ok ? 200 : status });
+  if (!ok || market.id !== "AU") return NextResponse.json(data, { status: ok ? 200 : status });
+
+  const order = data && typeof data === "object" ? data as Record<string, unknown> : {};
+  const reference = String(order.number ?? order.id ?? "");
+  const totalCents = typeof order.totalCents === "number"
+    ? order.totalCents
+    : typeof order.total === "number" ? Math.round(order.total * 100) : 0;
+  const billing = body.billing && typeof body.billing === "object" ? body.billing as Record<string, unknown> : {};
+  if (!reference || totalCents <= 0) {
+    return NextResponse.json({ error: "The AU order was created without a valid reference or authoritative total. Payment was not started." }, { status: 502 });
+  }
+  try {
+    const payment = await createNiftipayFiatOrder({
+      amountCents: totalCents,
+      reference: `EVLV-AU-${reference}`.slice(0, 80),
+      description: `EVLV Australia order ${reference}`,
+      email: String(billing.email ?? body.customerEmail ?? ""),
+      firstName: String(billing.firstName ?? ""),
+      lastName: String(billing.lastName ?? ""),
+      phone: String(billing.phone ?? ""),
+      country: "AU",
+    });
+    return NextResponse.json({ ...order, paymentProvider: "niftipay", ...payment });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Niftipay could not start payment.";
+    return NextResponse.json({ error: message, orderReference: reference }, { status: 502 });
+  }
 }

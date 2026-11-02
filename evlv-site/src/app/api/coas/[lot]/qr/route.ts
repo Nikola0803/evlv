@@ -2,7 +2,7 @@ import QRCode from "qrcode";
 import { getCoaEntries } from "@/lib/coa-data";
 import { getCoaLotId } from "@/lib/coa-lots";
 
-const SITE_URL = "https://www.evlvpeptides.com";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_MARKET === "AU" ? "https://www.evlvpeptides.com.au" : "https://www.evlvpeptides.com";
 
 export async function GET(_request: Request, { params }: { params: Promise<{ lot: string }> }) {
   const { lot } = await params;

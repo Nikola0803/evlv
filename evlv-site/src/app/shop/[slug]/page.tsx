@@ -11,7 +11,7 @@ import { ProductCard } from "@/components/product/ProductCard";
 import { CompoundProductAuthority } from "@/components/seo/CompoundProductAuthority";
 import { getCompoundHubForProduct } from "@/lib/compound-hubs";
 
-const SITE_URL = "https://www.evlvpeptides.com";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_MARKET === "AU" ? "https://www.evlvpeptides.com.au" : "https://www.evlvpeptides.com";
 
 export function generateStaticParams() {
   return getProducts().map((product) => ({ slug: product.slug }));

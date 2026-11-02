@@ -4,7 +4,7 @@ import { getJournalArticles } from "@/lib/journal-data";
 import { LOCAL_COAS } from "@/lib/coa-data";
 import { getCoaLotPath } from "@/lib/coa-lots";
 
-const BASE_URL = "https://www.evlvpeptides.com";
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_MARKET === "AU" ? "https://www.evlvpeptides.com.au" : "https://www.evlvpeptides.com";
 const CONTENT_RELEASE = new Date("2026-10-28T00:00:00.000Z");
 
 const STATIC_ROUTES = [

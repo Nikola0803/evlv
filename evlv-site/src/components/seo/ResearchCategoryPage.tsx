@@ -6,7 +6,7 @@ import { getShopListProducts } from "@/lib/products";
 import { RESEARCH_CATEGORY_LINKS, type ResearchCategoryDefinition } from "@/lib/research-category-pages";
 import { COMPOUND_HUB_LIST } from "@/lib/compound-hubs";
 
-const SITE_URL = "https://www.evlvpeptides.com";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_MARKET === "AU" ? "https://www.evlvpeptides.com.au" : "https://www.evlvpeptides.com";
 
 function jsonLd(value: object) {
   return JSON.stringify(value).replace(/</g, "\\u003c");

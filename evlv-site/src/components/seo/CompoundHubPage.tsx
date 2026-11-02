@@ -5,7 +5,7 @@ import { getCoaMap } from "@/lib/coa-data";
 import { getShopListProducts } from "@/lib/products";
 import { COMPOUND_HUB_LIST, type CompoundHubDefinition } from "@/lib/compound-hubs";
 
-const SITE_URL = "https://www.evlvpeptides.com";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_MARKET === "AU" ? "https://www.evlvpeptides.com.au" : "https://www.evlvpeptides.com";
 
 function jsonLd(value: object) {
   return JSON.stringify(value).replace(/</g, "\\u003c");

@@ -25,6 +25,26 @@ NEXT_PUBLIC_CRM_TRACKING_KEY=
 
 Optional analytics and reviews variables are documented in `.env.example`.
 
+## Two-market Vercel deployment
+
+Both Vercel projects deploy the same `main` branch. Set project-specific environment variables:
+
+- US project: `NEXT_PUBLIC_SITE_MARKET=US` and the existing US CRM variables.
+- AU project: `NEXT_PUBLIC_SITE_MARKET=AU`, an AU-scoped `CRM_STORE_DOMAIN`, AU CRM API key, `AU_CATALOG_SLUGS`, and all `NIFTIPAY_*` values.
+
+AU deliberately fails closed: without an AU CRM brand plus an explicit reviewed catalog allowlist, it displays no purchasable catalog. It never falls back to US prices or products. AU checkout accepts only Niftipay and creates AUD card sessions server-side.
+
+Configure the Niftipay fiat integration with:
+
+```text
+Return URL: https://www.evlvpeptides.com.au/payment-return
+Failure URL: https://www.evlvpeptides.com.au/payment-failed
+Merchant webhook base URL: https://www.evlvpeptides.com.au
+Final webhook endpoint: https://www.evlvpeptides.com.au/niftipay/webhook
+```
+
+The AU CRM must implement `POST /api/store/payments/niftipay/webhook` with idempotent event handling and support `paymentMethod: "niftipay"`. Fulfil only on the signed `paid` event; never use the browser return page as payment confirmation.
+
 ## Research access flow
 
 Normal visitors must sign in or create an account and confirm the RUO restriction. Account creation sends `marketingOptIn: true` to the CRM.

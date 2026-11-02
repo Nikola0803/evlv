@@ -5,6 +5,7 @@ import { Product } from "./types";
 import { trackEvent } from "./pixel";
 import { trackOmnisendAddedToCart } from "./omnisend";
 import { getQuantityUnitPrice } from "./quantity-pricing";
+import { useCurrency } from "./currency-context";
 
 interface CartLine {
   product: Product;
@@ -48,6 +49,7 @@ function loadStoredLines(): CartLine[] {
 }
 
 export function CartProvider({ children }: { children: ReactNode }) {
+  const { currency } = useCurrency();
   const [lines, setLines] = useState<CartLine[]>([]);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -93,7 +95,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     toastTimer.current = window.setTimeout(() => setToastMessage(null), 2600);
     setIsOpen(true);
     trackEvent("add_to_cart", {
-      currency: "USD",
+      currency,
       valueCents: Math.round(unitPrice * qty * 100),
       properties: { name: product.name, slug: product.slug, sku: product.sku },
       items: [{
@@ -105,14 +107,14 @@ export function CartProvider({ children }: { children: ReactNode }) {
       }],
     });
     trackOmnisendAddedToCart(product, qty, unitPrice);
-  }, []);
+  }, [currency]);
 
   const removeLine = useCallback((productId: string, packLabel: string) => {
     setLines((prev) => {
       const removed = prev.find((l) => l.product.id === productId && l.packLabel === packLabel);
       if (removed) {
         trackEvent("remove_from_cart", {
-          currency: "USD",
+          currency,
           valueCents: Math.round(removed.unitPrice * removed.qty * 100),
           items: [{
             item_id: removed.product.sku,
@@ -125,7 +127,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       }
       return prev.filter((l) => !(l.product.id === productId && l.packLabel === packLabel));
     });
-  }, []);
+  }, [currency]);
 
   const setLineQty = useCallback((productId: string, packLabel: string, qty: number) => {
     setLines((prev) =>

@@ -4,7 +4,16 @@ export default function robots(): MetadataRoute.Robots {
   // Keep only genuinely private journey routes out of crawler requests. API
   // responses carry X-Robots-Tag instead, so public QR image assets are not
   // reported as "blocked" while still remaining ineligible for indexing.
-  const privateRoutes = ["/checkout", "/order-success", "/research-guide", "/trade/apply", "/trade/portal"];
+  const privateRoutes = ["/checkout", "/order-success", "/payment-return", "/payment-failed", "/research-guide", "/trade/apply", "/trade/portal"];
+  const auPrelaunch = process.env.NEXT_PUBLIC_SITE_MARKET === "AU" && process.env.AU_INDEXING_ENABLED !== "true";
+
+  if (auPrelaunch) {
+    return {
+      rules: { userAgent: "*", disallow: "/" },
+      sitemap: "https://www.evlvpeptides.com.au/sitemap.xml",
+      host: "www.evlvpeptides.com.au",
+    };
+  }
 
   return {
     rules: [
@@ -34,7 +43,7 @@ export default function robots(): MetadataRoute.Robots {
         disallow: privateRoutes,
       },
     ],
-    sitemap: "https://www.evlvpeptides.com/sitemap.xml",
-    host: "www.evlvpeptides.com",
+    sitemap: `${process.env.NEXT_PUBLIC_SITE_MARKET === "AU" ? "https://www.evlvpeptides.com.au" : "https://www.evlvpeptides.com"}/sitemap.xml`,
+    host: process.env.NEXT_PUBLIC_SITE_MARKET === "AU" ? "www.evlvpeptides.com.au" : "www.evlvpeptides.com",
   };
 }

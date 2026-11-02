@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { WholesaleForm } from "../WholesaleForm";
 
-const SITE_URL = "https://www.evlvpeptides.com";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_MARKET === "AU" ? "https://www.evlvpeptides.com.au" : "https://www.evlvpeptides.com";
 
 export const metadata: Metadata = {
   title: "Wholesale Partner Application | EVLV",

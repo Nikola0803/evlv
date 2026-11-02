@@ -22,11 +22,13 @@ import { ScrollToTop } from "@/components/layout/ScrollToTop";
 import { ChunkErrorReload } from "@/components/layout/ChunkErrorReload";
 import { DeferredWidgets } from "@/components/layout/DeferredWidgets";
 import { HalloweenExperience } from "@/components/promotion/HalloweenExperience";
+import { getMarket } from "@/lib/market";
 
-const SITE_URL = "https://www.evlvpeptides.com";
+const MARKET = getMarket();
+const SITE_URL = MARKET.siteUrl;
 const CRM_PUBLIC_URL = process.env.NEXT_PUBLIC_CRM_URL || "https://crm.evlvpeptides.com";
 const CRM_TRACKING_KEY = process.env.NEXT_PUBLIC_CRM_TRACKING_KEY || "cmtzmexzs002qbeckbre23u9i";
-const CHECKOUT_ROUTES = ["/checkout", "/order-success"];
+const CHECKOUT_ROUTES = ["/checkout", "/order-success", "/payment-return", "/payment-failed"];
 const ACCESS_ROUTES = ["/account", "/login", "/register"];
 
 const poppins = Poppins({
@@ -55,8 +57,10 @@ export async function generateMetadata(): Promise<Metadata> {
   const pathname = requestHeaders.get("x-pathname") ?? "";
   const isAccessRoute = ACCESS_ROUTES.some((route) => pathname.startsWith(route));
   const halloweenLive = Date.now() < new Date("2026-11-05T04:59:59.000Z").getTime();
-  const title = "Research Peptides for Sale in the USA | Verified COAs | EVLV";
-  const description = "U.S.-dispatched research peptides for laboratory and in-vitro analytical research, with exact product and batch COAs clearly labeled when available. Research use only.";
+  const title = MARKET.id === "AU"
+    ? "Research Peptides Australia | Verified COAs | EVLV"
+    : "Research Peptides for Sale in the USA | Verified COAs | EVLV";
+  const description = `${MARKET.fulfillmentLabel} research peptides for laboratory and in-vitro analytical research, with exact product and batch COAs clearly labeled when available. Research use only.`;
   const socialImage = halloweenLive ? "/images/social/evlv-halloween-bogo-og-v1.jpg" : "/images/hero-vial.png";
   const socialTitle = halloweenLive ? "EVLV Halloween BOGO | Buy 1, Get 1 Free" : title;
   const socialDescription = halloweenLive
@@ -75,7 +79,7 @@ export async function generateMetadata(): Promise<Metadata> {
       "third-party tested peptides",
       "research chemicals",
     ],
-    alternates: { canonical: "/", languages: { "en-US": "/" } },
+    alternates: { canonical: "/", languages: { [MARKET.locale]: "/" } },
     openGraph: {
       type: "website",
       url: SITE_URL,
@@ -104,13 +108,13 @@ const ORGANIZATION_JSON_LD = {
   url: SITE_URL,
   logo: `${SITE_URL}/logo/evlv-logo-light.png`,
   description: "High-purity research peptides supplied for laboratory and in-vitro analytical research. Batch-level Certificates of Analysis published. Not for human or animal use.",
-  legalName: "Warrior Distributions LLC",
-  areaServed: ["US", "CA"],
+  legalName: MARKET.legalEntity,
+  areaServed: MARKET.country,
   contactPoint: {
     "@type": "ContactPoint",
     contactType: "customer service",
-    email: "office@evlvpeptides.com",
-    areaServed: ["US", "CA"],
+    email: MARKET.supportEmail,
+    areaServed: MARKET.country,
     availableLanguage: "English",
   },
   sameAs: [],
@@ -122,7 +126,7 @@ const WEBSITE_JSON_LD = {
   "@id": `${SITE_URL}/#website`,
   name: "EVLV",
   url: SITE_URL,
-  inLanguage: "en-US",
+  inLanguage: MARKET.locale,
   publisher: { "@id": `${SITE_URL}/#organization` },
   potentialAction: {
     "@type": "SearchAction",
@@ -142,7 +146,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
   const products = isCheckoutRoute ? [] : await getCatalogProducts();
 
   return (
-    <html lang="en" className={`${poppins.variable} ${inter.variable} ${newsreader.variable} h-full antialiased`}>
+    <html lang={MARKET.locale} className={`${poppins.variable} ${inter.variable} ${newsreader.variable} h-full antialiased`}>
       <head>
         {/* Non-render-blocking: fetched in background, applied when ready. Eliminates ~200ms+ CSS block on first load. */}
         <link rel="preload" href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" as="style" />
@@ -159,7 +163,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         <ReferralCapture />
         <VerificationSync />
         <MembershipSync />
-        <CurrencyProvider>
+        <CurrencyProvider marketCurrency={MARKET.currency}>
           <CartProvider>
             {isCheckoutRoute ? (
               <>
@@ -173,7 +177,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
                 <main className="flex-1 bg-white">{children}</main>
                 <footer className="border-t border-stone py-5 text-center">
                   <p className="text-[11px] text-charcoal/40">
-                    © EVLV {new Date().getFullYear()} · Warrior Distributions LLC ·{" "}
+                    © EVLV {new Date().getFullYear()} · {MARKET.legalEntity} ·{" "}
                     <Link href="/ruo" className="hover:underline">Research Use Only</Link>
                   </p>
                 </footer>

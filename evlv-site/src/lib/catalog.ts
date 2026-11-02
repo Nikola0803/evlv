@@ -3,6 +3,7 @@ import { unstable_cache } from "next/cache";
 import { crmConfigured } from "./crm-proxy";
 import { getLiveProducts, mergeProducts } from "./product-feed";
 import { getProducts, withQuantityPricing } from "./products";
+import { getMarketId, isAustralianMarket } from "./market";
 
 // Authoritative storefront range from "Inventory Sheet Nikola.xlsx".
 // The CRM is allowed to update matching products, but stale CRM-only rows must
@@ -93,6 +94,21 @@ const restrictVariantsToStorefront = <T extends { variants?: Array<{ slug: strin
 
 async function resolveCatalogProducts() {
   const liveProducts = await getLiveProducts();
+  if (isAustralianMarket()) {
+    // Never leak the US fallback catalog into AU. The AU project must provide
+    // its reviewed slug allowlist and AU-scoped CRM brand/feed explicitly.
+    const approvedAuSlugs = new Set(
+      (process.env.AU_CATALOG_SLUGS || "").split(",").map((slug) => slug.trim()).filter(Boolean),
+    );
+    if (!crmConfigured() || approvedAuSlugs.size === 0) return [];
+    return liveProducts
+      .filter((product) => approvedAuSlugs.has(product.slug))
+      .map((product) => ({
+        ...product,
+        variants: product.variants?.filter((variant) => approvedAuSlugs.has(variant.slug)),
+      }))
+      .map(withQuantityPricing);
+  }
   const sheetProducts = getProducts().filter((product) => INVENTORY_SHEET_SLUGS.has(product.slug));
   const approvedPriceBySlug = new Map(sheetProducts.map((product) => [product.slug, product.price]));
 
@@ -119,8 +135,8 @@ async function resolveCatalogProducts() {
 // the static catalog remains the safe fallback if the CRM is slow or down.
 const getCachedCatalogProducts = unstable_cache(
   resolveCatalogProducts,
-  ["evlv-storefront-catalog-v2"],
-  { revalidate: 120, tags: ["storefront-catalog"] },
+  [`evlv-storefront-catalog-v3-${getMarketId().toLowerCase()}`],
+  { revalidate: 120, tags: [`storefront-catalog-${getMarketId().toLowerCase()}`] },
 );
 
 export async function getCatalogProducts() {
