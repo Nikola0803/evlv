@@ -5,13 +5,13 @@ import type { Product } from "./types";
 // vial and 10-pack price were explicitly shown are included. Never infer a
 // missing strength or reuse another strength's price.
 export const AU_PRICE_SCHEDULE = {
-  "bpc-157-5mg": { vial: 120, case10: 850 },
-  "bpc-157-10mg": { vial: 180, case10: 1250 },
-  "evlv-3-10mg": { vial: 350, case10: 1550 },
-  "evlv-2-10mg": { vial: 200, case10: 1350 },
-  "mots-c-10mg": { vial: 200, case10: 850 },
-  "tb-500-10mg": { vial: 350, case10: 1650 },
-  "tesamorelin-10mg": { vial: 300, case10: 2450 },
+  "bpc-157-5mg": { name: "BPC-157 5MG", vial: 120, case10: 850 },
+  "bpc-157-10mg": { name: "BPC-157 10MG", vial: 180, case10: 1250 },
+  "evlv-3-10mg": { name: "RETATRUTIDE 10MG", vial: 350, case10: 1550 },
+  "evlv-2-10mg": { name: "TIRZEPATIDE 10MG", vial: 200, case10: 1350 },
+  "mots-c-10mg": { name: "MOTS-C 10MG", vial: 200, case10: 850 },
+  "tb-500-10mg": { name: "TB-500 10MG", vial: 350, case10: 1650 },
+  "tesamorelin-10mg": { name: "TESAMORELIN 10MG", vial: 300, case10: 2450 },
 } as const;
 
 export type AuPricedSlug = keyof typeof AU_PRICE_SCHEDULE;
@@ -22,6 +22,7 @@ export function applyAuFallbackPrice(product: Product): Product | null {
   const savePercent = Math.max(0, Math.round((1 - price.case10 / (price.vial * 10)) * 100));
   return {
     ...product,
+    name: price.name,
     price: price.vial,
     bulkOption: { qty: 10, price: price.case10, savePercent },
     fixedBulkPricing: true,
@@ -30,4 +31,9 @@ export function applyAuFallbackPrice(product: Product): Product | null {
       price: AU_PRICE_SCHEDULE[variant.slug as AuPricedSlug].vial,
     })),
   };
+}
+
+export function applyAuDisplayName(product: Product): Product {
+  const price = AU_PRICE_SCHEDULE[product.slug as AuPricedSlug];
+  return price ? { ...product, name: price.name } : product;
 }
