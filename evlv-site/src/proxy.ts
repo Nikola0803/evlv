@@ -20,6 +20,13 @@ export function proxy(request: NextRequest) {
   requestHeaders.set("x-pathname", request.nextUrl.pathname);
   requestHeaders.set("x-market", market.id);
   const response = NextResponse.next({ request: { headers: requestHeaders } });
+  if (!auBlockedRoutes.some((path) => request.nextUrl.pathname === path || request.nextUrl.pathname.startsWith(`${path}/`))) {
+    const pathname = request.nextUrl.pathname;
+    response.headers.set(
+      "Link",
+      `<https://www.evlvpeptides.com${pathname}>; rel="alternate"; hreflang="en-US", <https://www.evlvpeptides.com.au${pathname}>; rel="alternate"; hreflang="en-AU", <https://www.evlvpeptides.com${pathname}>; rel="alternate"; hreflang="x-default"`,
+    );
+  }
   if (market.id === "AU" && process.env.AU_INDEXING_ENABLED !== "true") {
     response.headers.set("X-Robots-Tag", "noindex, nofollow");
   }

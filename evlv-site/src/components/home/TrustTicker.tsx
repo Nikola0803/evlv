@@ -1,4 +1,5 @@
-const ITEMS = ["Free Shipping $300+", "Exact COAs Clearly Labeled", "Research Use Only", "Not for Human Consumption", "U.S. Fulfillment", "Transparent Batch Data"];
+const IS_AU = process.env.NEXT_PUBLIC_SITE_MARKET === "AU";
+const ITEMS = ["Free Shipping $300+", "Exact COAs Clearly Labeled", "Research Use Only", "Not for Human Consumption", IS_AU ? "Australian Fulfillment" : "U.S. Fulfillment", "Transparent Batch Data"];
 
 // One continuous marquee row, duplicated once so the CSS animation can
 // scroll a full width and loop seamlessly (see .animate-ticker in
@@ -12,7 +13,7 @@ function TickerRow({ ariaHidden }: { ariaHidden?: boolean }) {
           <span className="mr-3 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-copper" />
           <span
             className={`font-sans text-[10px] uppercase tracking-widest ${
-              item === "U.S. Fulfillment" ? "font-semibold text-copper-dark" : "font-normal text-charcoal"
+              item === "U.S. Fulfillment" || item === "Australian Fulfillment" ? "font-semibold text-copper-dark" : "font-normal text-charcoal"
             }`}
           >
             {item}
