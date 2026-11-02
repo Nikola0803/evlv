@@ -10,9 +10,6 @@ export const PAYMENT_HANDLES = {
   venmo: "@warriordistributions",
 };
 
-export const PAYMENT_PROCESSOR_NOTE =
-  "Payments are collected by Warrior Distributions LLC, the parent company of EVLV Research.";
-
 const DEMO_HANDLES = {
   cashapp: "$EVLVPeptidesDemo",
   zelle: "payments@evlvpeptides.com",

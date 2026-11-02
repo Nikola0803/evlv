@@ -8,7 +8,7 @@ import { useCart } from "@/lib/cart-context";
 import { useCurrency } from "@/lib/currency-context";
 import { FREE_SHIPPING_THRESHOLD, FLAT_SHIPPING_COST, ShippingProgressBar } from "@/components/layout/CartUpsellOffers";
 import { getStoredToken, getStoredUser } from "@/lib/auth";
-import { PAYMENT_GATEWAYS, PAYMENT_PROCESSOR_NOTE, type PaymentGatewayId } from "@/lib/payment-config";
+import { PAYMENT_GATEWAYS, type PaymentGatewayId } from "@/lib/payment-config";
 import { getStoredCouponCode, setStoredCouponCode } from "@/lib/referral";
 import { useCouponValidation } from "@/lib/use-coupon-validation";
 import { trackEvent } from "@/lib/pixel";
@@ -431,7 +431,6 @@ export default function CheckoutPage() {
                         <span className="font-display text-base font-semibold text-copper">{formatPrice(payTotal)}</span>
                       </div>
                     </div>
-                    <p className="mt-2 text-[11px] leading-relaxed text-charcoal/40">{PAYMENT_PROCESSOR_NOTE}</p>
                   </div>
                 )}
               </div>

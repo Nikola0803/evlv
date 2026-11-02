@@ -1,6 +1,6 @@
 import Link from "next/link";
 import QRCode from "qrcode";
-import { buildQuickPayTarget, getEffectiveHandle, PAYMENT_PROCESSOR_NOTE, type PaymentGatewayId } from "@/lib/payment-config";
+import { buildQuickPayTarget, getEffectiveHandle, type PaymentGatewayId } from "@/lib/payment-config";
 import { PurchasePixel } from "./PurchasePixel";
 import { PaymentActionLink } from "./PaymentActionLink";
 
@@ -66,7 +66,6 @@ export default async function OrderSuccessPage({
         )}
         .
       </p>
-      <p className="mt-2 max-w-md text-xs leading-relaxed text-charcoal/45">{PAYMENT_PROCESSOR_NOTE}</p>
 
       {orderNumber && (
         <div className="mt-6 w-full max-w-md rounded-md border border-stone bg-ivory-soft p-5 text-left">
