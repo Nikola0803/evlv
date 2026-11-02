@@ -32,7 +32,7 @@ export interface Product {
   /** True when bulkOption is an explicit market case total rather than the
    * standard calculated quantity ladder. */
   fixedBulkPricing?: boolean;
-  availablePackQuantities?: Array<1 | 10>;
+  availablePackQuantities?: Array<1 | 3 | 5 | 10>;
   purity?: string;
   /** CAS registry number(s) for this compound -- multiple, comma-separated,
    * for a pre-combined blend (e.g. BPC-157/TB-500). Shown on the product

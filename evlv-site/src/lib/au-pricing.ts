@@ -34,9 +34,10 @@ export function applyAuFallbackPrice(product: Product): Product | null {
   const price = AU_PRICE_SCHEDULE[product.slug];
   if (!price || (price.vial == null && price.case10 == null)) return null;
   const unitPrice = price.vial ?? price.case10! / 10;
-  const availablePackQuantities: Array<1 | 10> = [];
-  if (price.vial != null) availablePackQuantities.push(1);
-  if (price.case10 != null) availablePackQuantities.push(10);
+  // AU customers can order singles or build a 3/5/10-vial pack. Where the
+  // source supplied only a 10-pack total, its per-vial equivalent is the
+  // public single price; the exact supplied total is retained for quantity 10.
+  const availablePackQuantities: Array<1 | 3 | 5 | 10> = [1, 3, 5, 10];
   const savePercent = price.vial && price.case10 ? Math.max(0, Math.round((1 - price.case10 / (price.vial * 10)) * 100)) : 0;
   return { ...product, name: price.name, price: unitPrice,
     bulkOption: price.case10 == null ? undefined : { qty: 10, price: price.case10, savePercent },

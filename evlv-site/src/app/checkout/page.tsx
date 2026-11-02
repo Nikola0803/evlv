@@ -27,7 +27,7 @@ const US_STATES = [
 
 const CA_PROVINCES = ["AB","BC","MB","NB","NL","NS","NT","NU","ON","PE","QC","SK","YT"];
 const AU_STATES = ["ACT","NSW","NT","QLD","SA","TAS","VIC","WA"];
-const IS_AU = process.env.NEXT_PUBLIC_SITE_MARKET?.toUpperCase() === "AU";
+const IS_AU_BUILD = process.env.NEXT_PUBLIC_SITE_MARKET?.toUpperCase() === "AU";
 type CheckoutGatewayId = PaymentGatewayId | "niftipay";
 
 const MEMO_CHARS = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
@@ -50,14 +50,15 @@ export default function CheckoutPage() {
   const [phone, setPhone] = useState("");
   const [address1, setAddress1] = useState("");
   const [city, setCity] = useState("");
-  const [country, setCountry] = useState<"US" | "CA" | "AU">(IS_AU ? "AU" : "US");
+  const [isAu, setIsAu] = useState(IS_AU_BUILD);
+  const [country, setCountry] = useState<"US" | "CA" | "AU">(IS_AU_BUILD ? "AU" : "US");
   const [stateCode, setStateCode] = useState("");
   const [zip, setZip] = useState("");
   const [smsConsent, setSmsConsent] = useState(false);
   const [ruoAttestation, setRuoAttestation] = useState(false);
   const [couponCode, setCouponCode] = useState(() => getStoredCouponCode());
 
-  const [selectedGateway, setSelectedGateway] = useState<CheckoutGatewayId | null>(IS_AU ? "niftipay" : null);
+  const [selectedGateway, setSelectedGateway] = useState<CheckoutGatewayId | null>(IS_AU_BUILD ? "niftipay" : null);
   const [memo] = useState(() => generateMemo());
   const [handleCopied, setHandleCopied] = useState(false);
   const [placing, setPlacing] = useState(false);
@@ -79,11 +80,22 @@ export default function CheckoutPage() {
   const discountedSubtotal = Math.max(0, displaySubtotal - discount);
   const shipping = discountedSubtotal >= FREE_SHIPPING_THRESHOLD ? 0 : FLAT_SHIPPING_COST;
   const total = discountedSubtotal + shipping;
-  const p2pDiscount = !IS_AU && selectedGateway ? Math.round(total * 0.05 * 100) / 100 : 0;
+  const p2pDiscount = !isAu && selectedGateway ? Math.round(total * 0.05 * 100) / 100 : 0;
   const payTotal = total - p2pDiscount;
   const shippingComplete = Boolean(
     firstName.trim() && lastName.trim() && email.trim() && address1.trim() && city.trim() && stateCode && zip.trim()
   );
+
+  useEffect(() => {
+    if (!window.location.hostname.toLowerCase().endsWith("evlvpeptides.com.au")) return;
+    const timer = window.setTimeout(() => {
+      setIsAu(true);
+      setCountry("AU");
+      setStateCode("");
+      setSelectedGateway("niftipay");
+    }, 0);
+    return () => window.clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     const syncAppliedCoupon = (event: Event) => {
@@ -170,7 +182,7 @@ export default function CheckoutPage() {
           discountCode: exclusiveAutomaticPromotion ? undefined : couponCode.trim() || undefined,
           customerNote: [
             `RUO attestation: purchaser confirmed laboratory/research use only at ${new Date().toISOString()}.`,
-            !IS_AU ? `P2P payment discount (5%): customer pays ${payTotal.toFixed(2)} via ${selectedGateway} (original total: ${total.toFixed(2)}).` : "AU card payment initiated through Niftipay.",
+            !isAu ? `P2P payment discount (5%): customer pays ${payTotal.toFixed(2)} via ${selectedGateway} (original total: ${total.toFixed(2)}).` : "AU card payment initiated through Niftipay.",
             formatAttributionNote(attribution),
           ]
             .filter(Boolean)
@@ -197,7 +209,7 @@ export default function CheckoutPage() {
       if (!res.ok) throw new Error(data.error || data.message || "We could not submit your order. Please try again.");
       orderId = data.number || data.id || "";
       if (!orderId) throw new Error("The order system did not return a confirmation number. Your cart has not been cleared.");
-      if (IS_AU) {
+      if (isAu) {
         if (!data.payUrl) throw new Error("Niftipay did not return a secure payment URL. Your cart has not been cleared.");
         window.location.assign(data.payUrl);
         return;
@@ -269,20 +281,24 @@ export default function CheckoutPage() {
                 <Field label="First Name" required value={firstName} onChange={setFirstName} placeholder="John" />
                 <Field label="Last Name" required value={lastName} onChange={setLastName} placeholder="Doe" />
                 <Field label="Email" required type="email" value={email} onChange={setEmail} placeholder="you@lab.edu" className="sm:col-span-2" />
-                <Field label="Phone (optional)" type="tel" value={phone} onChange={setPhone} placeholder={IS_AU ? "+61 400 000 000" : "+1 (555) 000-0000"} className="sm:col-span-2" />
+                <Field label="Phone (optional)" type="tel" value={phone} onChange={setPhone} placeholder={isAu ? "+61 400 000 000" : "+1 (555) 000-0000"} className="sm:col-span-2" />
                 <Field label="Street Address" required value={address1} onChange={setAddress1} placeholder="123 Research Blvd" className="sm:col-span-2" />
 
                 <div>
                   <label className="mb-2 block text-sm font-medium text-charcoal/70">
                     Country <span className="text-copper">*</span>
                   </label>
-                  <select
-                    value={country}
-                    onChange={(e) => { setCountry(e.target.value as "US" | "CA" | "AU"); setStateCode(""); }}
-                    className="h-12 w-full rounded-md border border-stone bg-white px-4 text-base text-charcoal outline-none focus:border-copper"
-                  >
-                    {IS_AU ? <option value="AU">Australia</option> : <><option value="US">United States</option><option value="CA">Canada</option></>}
-                  </select>
+                  {isAu ? (
+                    <div className="flex h-12 items-center rounded-md border border-stone bg-ivory-soft px-4 text-base text-charcoal">Australia</div>
+                  ) : (
+                    <select
+                      value={country}
+                      onChange={(e) => { setCountry(e.target.value as "US" | "CA"); setStateCode(""); }}
+                      className="h-12 w-full rounded-md border border-stone bg-white px-4 text-base text-charcoal outline-none focus:border-copper"
+                    >
+                      <option value="US">United States</option><option value="CA">Canada</option>
+                    </select>
+                  )}
                 </div>
                 <Field label="City" required value={city} onChange={setCity} placeholder="Boston" />
 
@@ -301,7 +317,7 @@ export default function CheckoutPage() {
                     ))}
                   </select>
                 </div>
-                <Field label={IS_AU ? "Postcode" : "ZIP / Postal Code"} required value={zip} onChange={setZip} placeholder={IS_AU ? "2000" : "02110"} maxLength={10} />
+                <Field label={isAu ? "Postcode" : "ZIP / Postal Code"} required value={zip} onChange={setZip} placeholder={isAu ? "2000" : "02110"} maxLength={10} />
               </div>
 
               <label className="mt-5 flex items-start gap-3 rounded-lg border border-stone bg-ivory-soft p-3.5">
@@ -345,7 +361,7 @@ export default function CheckoutPage() {
               {/* Payment method */}
               <div className="cp-checkout-panel">
                 <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-charcoal/50">Payment Method</h2>
-                {IS_AU ? (
+                {isAu ? (
                   <button type="button" aria-pressed="true" className="flex w-full items-center gap-4 rounded-lg border border-copper bg-copper/10 p-5 text-left">
                     <i className="ri-bank-card-line text-3xl text-copper" />
                     <span><b className="block text-sm text-charcoal">Secure card payment</b><small className="mt-1 block text-xs text-charcoal/55">Processed on Niftipay’s hosted payment page in AUD.</small></span>
@@ -381,7 +397,7 @@ export default function CheckoutPage() {
                   })}
                 </div>}
 
-                {!IS_AU && selectedGatewayInfo && (
+                {!isAu && selectedGatewayInfo && (
                   <div className="mt-4 rounded-lg border border-stone bg-ivory-soft p-4">
                     <p className="mb-3 flex items-center gap-2 text-sm font-medium text-charcoal/70">
                       <i className={`${selectedGatewayInfo.icon} text-copper`} /> Send to
@@ -447,7 +463,7 @@ export default function CheckoutPage() {
                 disabled={!selectedGateway || !shippingComplete || !ruoAttestation || placing}
                 className="w-full rounded-md bg-copper px-5 py-5 text-sm font-semibold uppercase tracking-[0.12em] text-charcoal transition hover:bg-copper-light disabled:cursor-not-allowed disabled:opacity-40"
               >
-                {placing ? (IS_AU ? "Opening secure payment..." : "Submitting...") : `${IS_AU ? "Pay securely" : "Submit Order"} · ${formatPrice(payTotal)}`}
+                {placing ? (isAu ? "Opening secure payment..." : "Submitting...") : `${isAu ? "Pay securely" : "Submit Order"} · ${formatPrice(payTotal)}`}
               </button>
             </div>
 

@@ -16,9 +16,33 @@ export interface Pack {
  * bulk option returned by the catalog so product pages and checkout agree. */
 function buildPacks(product: Product): Pack[] {
   if (product.availablePackQuantities?.length) {
-    return product.availablePackQuantities.map((qty) => qty === 1
-      ? { label: "1 Vial", qty: 1, unitPrice: product.price }
-      : { label: "10-Pack Kit", qty: 10, unitPrice: product.bulkOption!.price / 10, totalPrice: product.bulkOption!.price, savePercent: product.bulkOption!.savePercent });
+    return product.availablePackQuantities.map((qty) => {
+      if (qty === 1) return { label: "1 Vial", qty: 1, unitPrice: product.price };
+      if (qty === 10 && product.bulkOption) {
+        return {
+          label: "10 Pack",
+          qty: 10,
+          unitPrice: product.bulkOption.price / 10,
+          totalPrice: product.bulkOption.price,
+          savePercent: product.bulkOption.savePercent,
+        };
+      }
+      // A source that supplied only a 10-pack total has no separate retail
+      // discount to infer. Keep 1/3/5/10 at the same per-vial amount so a
+      // smaller pack can never appear cheaper per vial than the verified kit.
+      const derivedFromKitOnly = product.fixedBulkPricing && product.bulkOption?.savePercent === 0;
+      const savePercent = derivedFromKitOnly
+        ? 0
+        : QUANTITY_DISCOUNT_TIERS.find((tier) => tier.qty === qty)?.savePercent;
+      const unitPrice = derivedFromKitOnly ? product.price : getQuantityUnitPrice(product.price, qty);
+      return {
+        label: `${qty} Pack`,
+        qty,
+        unitPrice,
+        totalPrice: unitPrice * qty,
+        savePercent,
+      };
+    });
   }
   if (!product.bulkOption) return [{ label: "1 Vial", qty: 1, unitPrice: product.price }];
 

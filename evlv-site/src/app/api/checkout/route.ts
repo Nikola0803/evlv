@@ -11,14 +11,16 @@ export const runtime = "nodejs";
 // { items: [{slug, quantity}], paymentMethod, paymentMemo, billing: {...}, customerNote? }
 export async function POST(req: Request) {
   const market = getMarket();
+  const requestHost = (req.headers.get("x-forwarded-host") || req.headers.get("host") || "").split(":")[0].toLowerCase();
+  const isAuRequest = market.id === "AU" || requestHost.endsWith("evlvpeptides.com.au");
   if (!crmConfigured()) {
     return NextResponse.json({ error: "Checkout isn't connected to the CRM yet." }, { status: 503 });
   }
   const body = (await req.json().catch(() => ({}))) as Record<string, unknown>;
-  if (market.id === "AU" && body.paymentMethod !== "niftipay") {
+  if (isAuRequest && body.paymentMethod !== "niftipay") {
     return NextResponse.json({ error: "Australian checkout only supports secure card payment through Niftipay." }, { status: 400 });
   }
-  if (market.id === "AU" && !niftipayConfigured()) {
+  if (isAuRequest && !niftipayConfigured()) {
     return NextResponse.json({ error: "Australian card checkout is not configured yet." }, { status: 503 });
   }
   const items = Array.isArray(body.items) ? body.items : [];
@@ -62,7 +64,7 @@ export async function POST(req: Request) {
   const ipAddress = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || req.headers.get("x-real-ip") || undefined;
   const userAgent = req.headers.get("user-agent") || undefined;
   const { ok, status, data } = await crmFetch("/api/store/checkout", { ...checkoutBody, ipAddress, userAgent });
-  if (!ok || market.id !== "AU") return NextResponse.json(data, { status: ok ? 200 : status });
+  if (!ok || !isAuRequest) return NextResponse.json(data, { status: ok ? 200 : status });
 
   const order = data && typeof data === "object" ? data as Record<string, unknown> : {};
   const reference = String(order.number ?? order.id ?? "");
