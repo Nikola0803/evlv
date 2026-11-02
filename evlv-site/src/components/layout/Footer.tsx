@@ -34,7 +34,6 @@ export function Footer() {
           <div className="cp-footer-brand">
             <Logo tone="ivory" imgClassName="cp-footer-logo" />
             <p>Premium research-use-only peptides backed by transparent batch documentation.</p>
-            {!isAu && <a href="tel:+15417095434">(541) 709-5434</a>}
             <a href={`mailto:${market.supportEmail}`}>{market.supportEmail}</a>
             <a href="https://launchorbit.co" target="_blank" rel="noopener noreferrer nofollow" className="mt-3 inline-flex opacity-70 transition-opacity hover:opacity-100">
               <img src="/api/lb" alt="View this product on Launch Orbit" width="120" height="32" loading="lazy" />
@@ -50,7 +49,6 @@ export function Footer() {
         <div className="cp-footer-meta">
           <div className="cp-footer-payments"><small>Secure payment options</small>{isAu ? <span><i className="ri-bank-card-line" />Card via Niftipay</span> : PAYMENT_GATEWAYS.map(gateway => <span key={gateway.id}><i className={gateway.icon} />{gateway.label}</span>)}</div>
           <div className="cp-footer-contact-meta">
-            {!isAu && <a href="tel:+15417095434">(541) 709-5434</a>}
             <a href={`mailto:${market.supportEmail}`}>{market.supportEmail}</a>
           </div>
           <nav aria-label="Legal"><Link href="/ruo">Research Use Only</Link><Link href="/indemnity-waiver">Indemnity</Link><Link href="/terms">Terms</Link><Link href="/privacy">Privacy</Link></nav>

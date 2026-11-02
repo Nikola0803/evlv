@@ -29,11 +29,6 @@ export default function ContactPage() {
             </div>
 
             <div className="space-y-4">
-              <ContactRow icon="ri-phone-line" label="Phone">
-                <a href="tel:+15417095434" className="text-sm text-sage-deep transition hover:underline">
-                  (541) 709-5434
-                </a>
-              </ContactRow>
               <ContactRow icon="ri-mail-line" label="General">
                 <a href="mailto:office@evlvpeptides.com" data-cfasync="false" className="text-sm text-sage-deep transition hover:underline">
                   office@evlvpeptides.com

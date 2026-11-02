@@ -63,7 +63,7 @@ const FAQ = [
   },
   {
     q: "What if I have trouble submitting verification?",
-    a: "Contact our support team at office@evlvpeptides.com or (541) 709-5434 — we're available 7 days a week and can assist with manual verification.",
+    a: "Contact our support team at office@evlvpeptides.com — we're available 7 days a week and can assist with manual verification.",
   },
 ] as const;
 
@@ -209,9 +209,6 @@ export default function HeroesDiscountPage() {
               </div>
               <div className="mt-6 space-y-2.5 text-sm text-charcoal/60">
                 <p className="flex items-center gap-2.5">
-                  <i className="ri-phone-line text-sage-deep" /> (541) 709-5434
-                </p>
-                <p className="flex items-center gap-2.5">
                   <i className="ri-mail-line text-sage-deep" /> office@evlvpeptides.com
                 </p>
               </div>
@@ -249,9 +246,6 @@ export default function HeroesDiscountPage() {
                 Have questions? Our team is available 7 days a week to help.
               </p>
               <div className="mt-6 space-y-2.5 text-sm text-charcoal/60">
-                <p className="flex items-center gap-2.5">
-                  <i className="ri-phone-line text-sage-deep" /> (541) 709-5434
-                </p>
                 <p className="flex items-center gap-2.5">
                   <i className="ri-mail-line text-sage-deep" />
                   <Link href="/contact" className="underline underline-offset-2 hover:text-sage-deep">Contact support</Link>
