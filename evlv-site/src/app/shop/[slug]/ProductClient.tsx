@@ -13,7 +13,8 @@ import { trackEvent } from "@/lib/pixel";
 import { trackOmnisendViewedProduct } from "@/lib/omnisend";
 import { getProductImage } from "@/lib/product-images";
 
-const FULFILLMENT_TRUST = ["U.S. Dispatch","Same-Day Processing","Tracked Delivery","Expert Support"];
+const IS_AU = process.env.NEXT_PUBLIC_SITE_MARKET === "AU";
+const FULFILLMENT_TRUST = IS_AU ? ["Australian Dispatch","Order Processing","Tracked Delivery","Expert Support"] : ["U.S. Dispatch","Same-Day Processing","Tracked Delivery","Expert Support"];
 
 export function ProductClient({ product, coa, coaPath, hasEndotoxinReport = false }: { product: Product; coa?: CoaEntry; coaPath?: string; hasEndotoxinReport?: boolean }) {
   const { packIndex, setPackIndex, packs, selected } = usePackSelection(product);
@@ -46,7 +47,7 @@ export function ProductClient({ product, coa, coaPath, hasEndotoxinReport = fals
         {product.variants && product.variants.length > 1 && <div className="cp-size-row">{product.variants.map(v => <Link key={v.slug} href={`/shop/${v.slug}`} className={v.slug === product.slug ? "active" : ""}>{v.label}</Link>)}</div>}
         <PackSelector packs={packs} packIndex={packIndex} onSelect={setPackIndex} formatPrice={formatPrice} />
         {locked ? <Link className="cp-pdp-add" href="/account?tab=verification">Apply for verification</Link> : <button className="cp-pdp-add" type="button" disabled={!product.inStock} onClick={add}>{product.inStock ? `Add to cart · ${formatPrice(total)}` : "Out of stock"}</button>}
-        <div className="cp-urgency"><i className="ri-time-line" /><span><b>Order before 2 PM ET for same-day processing.</b> Tracked U.S. delivery and free priority shipping over $300.</span></div>
+        <div className="cp-urgency"><i className="ri-time-line" /><span>{IS_AU ? <><b>Orders dispatch after payment confirmation.</b> Tracked Australian delivery on eligible catalogue items.</> : <><b>Order before 2 PM ET for same-day processing.</b> Tracked U.S. delivery and free priority shipping over $300.</>}</span></div>
         {coa ? <><Link className="cp-coa-cta" href={coaPath ?? "/coas"}>✓ View exact product COA</Link><Link href="/verify-your-vial" className="mt-3 inline-flex text-xs font-semibold text-sage-deep underline decoration-sage-deep/30 underline-offset-4">How to verify the vial and lot <i className="ri-arrow-right-line ml-1" /></Link></> : <Link className="cp-coa-cta" href="/coas">Search the COA library</Link>}
         <p className="cp-pdp-mobile-description">{product.shortDescription}</p>
         <div className="cp-pdp-trust">

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Logo } from "@/components/ui/Logo";
 import { NewsletterForm } from "./NewsletterForm";
 import { PAYMENT_GATEWAYS } from "@/lib/payment-config";
+import { getMarket } from "@/lib/market";
 
 const SHOP = [
   ["All Products", "/shop"], ["Research Peptides", "/research-peptides"],
@@ -22,6 +23,10 @@ const COMPANY = [
 ] as const;
 
 export function Footer() {
+  const market = getMarket();
+  const isAu = market.id === "AU";
+  const shopLinks = isAu ? SHOP.filter(([label]) => label !== "Research Peptides USA" && label !== "Wholesale") : SHOP;
+  const supportLinks = isAu ? SUPPORT.filter(([label]) => label !== "Service Discount") : SUPPORT;
   return (
     <footer className="cp-footer">
       <div className="cp-footer-inner">
@@ -29,26 +34,24 @@ export function Footer() {
           <div className="cp-footer-brand">
             <Logo tone="ivory" imgClassName="cp-footer-logo" />
             <p>Premium research-use-only peptides backed by transparent batch documentation.</p>
-            <a href="tel:+15417095434">(541) 709-5434</a>
-            <a href="mailto:office@evlvpeptides.com">office@evlvpeptides.com</a>
-            <a href="mailto:orders@evlvpeptides.com">orders@evlvpeptides.com</a>
+            {!isAu && <a href="tel:+15417095434">(541) 709-5434</a>}
+            <a href={`mailto:${market.supportEmail}`}>{market.supportEmail}</a>
             <a href="https://launchorbit.co" target="_blank" rel="noopener noreferrer nofollow" className="mt-3 inline-flex opacity-70 transition-opacity hover:opacity-100">
               <img src="/api/lb" alt="View this product on Launch Orbit" width="120" height="32" loading="lazy" />
             </a>
           </div>
 
-          <FooterColumn title="Shop" links={SHOP} />
-          <FooterColumn title="Support" links={SUPPORT} />
+          <FooterColumn title="Shop" links={shopLinks} />
+          <FooterColumn title="Support" links={supportLinks} />
           <FooterColumn title="Company" links={COMPANY} />
           <div className="cp-footer-newsletter"><NewsletterForm /></div>
         </div>
 
         <div className="cp-footer-meta">
-          <div className="cp-footer-payments"><small>Secure payment options</small>{PAYMENT_GATEWAYS.map(gateway => <span key={gateway.id}><i className={gateway.icon} />{gateway.label}</span>)}</div>
+          <div className="cp-footer-payments"><small>Secure payment options</small>{isAu ? <span><i className="ri-bank-card-line" />Card via Niftipay</span> : PAYMENT_GATEWAYS.map(gateway => <span key={gateway.id}><i className={gateway.icon} />{gateway.label}</span>)}</div>
           <div className="cp-footer-contact-meta">
-            <a href="tel:+15417095434">(541) 709-5434</a>
-            <a href="mailto:office@evlvpeptides.com">office@evlvpeptides.com</a>
-            <a href="mailto:orders@evlvpeptides.com">orders@evlvpeptides.com</a>
+            {!isAu && <a href="tel:+15417095434">(541) 709-5434</a>}
+            <a href={`mailto:${market.supportEmail}`}>{market.supportEmail}</a>
           </div>
           <nav aria-label="Legal"><Link href="/ruo">Research Use Only</Link><Link href="/indemnity-waiver">Indemnity</Link><Link href="/terms">Terms</Link><Link href="/privacy">Privacy</Link></nav>
         </div>
@@ -57,12 +60,12 @@ export function Footer() {
           <summary>Research-use disclaimer <span>+</span></summary>
           <div>
             <p>All products sold on this website are intended for research and identification purposes only. They are not intended for human dosing, injection, ingestion, or veterinary use.</p>
-            <p>The statements on this website have not been evaluated by the U.S. Food and Drug Administration. Neither the statements nor the products are intended to diagnose, treat, cure, or prevent disease.</p>
-            <p>EVLV is a chemical supplier, not a compounding pharmacy or outsourcing facility as defined under sections 503A or 503B of the Federal Food, Drug, and Cosmetic Act.</p>
+            <p>{isAu ? "Products are supplied only for lawful laboratory and analytical research. They are not medicines, therapeutic goods, or intended for human or veterinary use." : "The statements on this website have not been evaluated by the U.S. Food and Drug Administration. Neither the statements nor the products are intended to diagnose, treat, cure, or prevent disease."}</p>
+            {!isAu && <p>EVLV is a chemical supplier, not a compounding pharmacy or outsourcing facility as defined under sections 503A or 503B of the Federal Food, Drug, and Cosmetic Act.</p>}
           </div>
         </details>
 
-        <div className="cp-footer-bottom"><span>© EVLV {new Date().getFullYear()}. All rights reserved. EVLV is a brand of Warrior Distributions LLC.</span><span>Strictly for laboratory and analytical research.</span></div>
+        <div className="cp-footer-bottom"><span>© EVLV {new Date().getFullYear()}. All rights reserved. {market.legalEntity}.</span><span>Strictly for laboratory and analytical research.</span></div>
       </div>
     </footer>
   );

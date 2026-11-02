@@ -1,12 +1,11 @@
 import { Metadata } from "next";
 import Link from "next/link";
+import { getMarket } from "@/lib/market";
 
-export const metadata: Metadata = {
-  title: "Shipping Policy",
-  description: "How EVLV processes, ships and delivers orders across the US and Canada.",
-};
+export function generateMetadata(): Metadata { const market = getMarket(); return { title: "Shipping Policy", description: `How EVLV processes, ships and delivers ${market.countryName} orders.` }; }
 
 export default function ShippingPage() {
+  const market = getMarket();
   return (
     <>
       <section className="cp-info-hero cp-info-shipping -mt-[90px] bg-charcoal pb-16 pt-[150px] text-center text-white md:-mt-[100px] md:pb-24 md:pt-[170px]">
@@ -54,14 +53,13 @@ export default function ShippingPage() {
 
             <PolicySection num="4" title="Shipping Availability">
               <p>
-                Shipping is available within the United States and Canada. EVLV does not currently offer shipping
-                outside these regions.
+                {market.id === "AU" ? "Shipping is available to eligible addresses within Australia. Available services and charges are displayed at checkout." : "Shipping is available within the United States and Canada. EVLV does not currently offer shipping outside these regions."}
               </p>
             </PolicySection>
 
             <PolicySection num="5" title="Free Shipping">
               <p>
-                Free shipping is offered on qualifying orders over $300 (in your selected currency). Eligibility and
+                Free shipping is offered on qualifying orders over $300 {market.currency}. Eligibility and
                 terms are displayed at checkout and may change without notice.
               </p>
             </PolicySection>

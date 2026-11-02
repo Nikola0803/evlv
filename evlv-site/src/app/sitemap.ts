@@ -60,9 +60,11 @@ const STATIC_ROUTES = [
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const isAu = process.env.NEXT_PUBLIC_SITE_MARKET === "AU";
   const products = await getCatalogProducts();
 
-  const staticEntries: MetadataRoute.Sitemap = STATIC_ROUTES.map((r) => ({
+  const blockedAuRoutes = ["/research-peptides-usa", "/heroes-discount", "/wholesale"];
+  const staticEntries: MetadataRoute.Sitemap = STATIC_ROUTES.filter((r) => !isAu || !blockedAuRoutes.includes(r.path)).map((r) => ({
     url: `${BASE_URL}${r.path}`,
     lastModified: CONTENT_RELEASE,
     changeFrequency: r.changeFrequency,

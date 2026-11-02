@@ -3,11 +3,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { ButtonLink } from "@/components/ui/Button";
 import { Reveal } from "@/components/ui/Reveal";
+import { getMarket } from "@/lib/market";
 
-export const metadata: Metadata = {
+export function generateMetadata(): Metadata { const market = getMarket(); return {
   title: "About EVLV Research | Documentation Before Claims",
-  description:
-    "Meet EVLV Research, a U.S. research-use-only supplier built around clear product information, batch-linked documentation and responsive support.",
+  description: `Meet EVLV Research, a ${market.countryName} research-use-only supplier built around clear product information, batch-linked documentation and responsive support.`,
   alternates: { canonical: "/about" },
   openGraph: {
     title: "About EVLV Research",
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [{ url: "/images/certified/evlv-quality-page.png", width: 1600, height: 900, alt: "EVLV Research quality review" }],
   },
-};
+}; }
 
 const PROOF_POINTS = [
   { icon: "ri-file-shield-2-line", title: "Batch-linked documentation", body: "Reports are connected to the products and lots they describe." },
@@ -42,6 +42,9 @@ const PRINCIPLES = [
 ];
 
 export default function AboutPage() {
+  const market = getMarket();
+  const proofPoints = PROOF_POINTS.map((point) => point.title === "U.S. fulfillment" ? { ...point, title: market.fulfillmentLabel, body: `Clear order tracking and support for ${market.countryName} orders.` } : point);
+  const process = PROCESS.map((step) => step.num === "04" ? { ...step, body: `Orders move through a controlled ${market.countryName} fulfillment workflow with tracking and responsive follow-through.` } : step);
   return (
     <main className="overflow-hidden bg-white text-charcoal">
       <section className="bg-white py-4 md:py-[30px]">
@@ -67,7 +70,7 @@ export default function AboutPage() {
 
           <div className="relative border-t border-white/15 bg-black/10 backdrop-blur-sm">
             <div className="grid grid-cols-2 md:grid-cols-4">
-              {["Research use only", "Product-specific COAs", "Independent lab records", "U.S. fulfillment"].map((item, index) => (
+              {["Research use only", "Product-specific COAs", "Independent lab records", market.fulfillmentLabel].map((item, index) => (
                 <div key={item} className={`flex min-h-[70px] items-center gap-2 px-4 py-3 text-[9px] font-semibold uppercase tracking-[.1em] text-white/75 md:min-h-[78px] md:gap-3 md:px-7 md:text-[11px] ${index % 2 ? "border-l border-white/15" : ""} ${index > 1 ? "border-t border-white/15 md:border-t-0" : ""} ${index > 0 ? "md:border-l" : ""}`}>
                   <i className="ri-checkbox-circle-line text-base text-copper md:text-lg" /> {item}
                 </div>
@@ -120,7 +123,7 @@ export default function AboutPage() {
               </a>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
-              {PROOF_POINTS.map((point) => (
+              {proofPoints.map((point) => (
                 <article key={point.title} className="rounded-2xl border border-stone bg-white p-6 transition-transform duration-300 hover:-translate-y-1 md:p-7">
                   <div className="grid h-11 w-11 place-items-center rounded-full bg-sage-mist text-xl text-sage-deep"><i className={point.icon} /></div>
                   <h3 className="mt-5 font-display text-lg font-semibold">{point.title}</h3>
@@ -138,7 +141,7 @@ export default function AboutPage() {
             <p className="text-[11px] font-semibold uppercase tracking-[.18em] text-copper-light">The EVLV standard</p>
             <h2 className="mt-4 max-w-2xl font-display text-4xl font-semibold leading-[1.02] md:text-6xl">From catalogue review to your research bench.</h2>
             <div className="mt-10 divide-y divide-white/15 border-y border-white/15">
-              {PROCESS.map((step) => (
+              {process.map((step) => (
                 <article key={step.num} className="grid grid-cols-[54px_1fr] gap-4 py-6 md:grid-cols-[72px_180px_1fr] md:gap-6 md:py-7">
                   <span className="font-display text-sm font-semibold text-copper-light">{step.num}</span>
                   <h3 className="font-display text-lg font-semibold md:text-xl">{step.title}</h3>

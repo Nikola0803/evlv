@@ -6,12 +6,12 @@ import { getCatalogProducts } from "@/lib/catalog";
 import { getCoaMap } from "@/lib/coa-data";
 import { ShopClient } from "./ShopClient";
 import { TrustIconRow } from "@/components/ui/TrustIconRow";
+import { getMarket } from "@/lib/market";
 
-export const metadata: Metadata = {
-  title: "Research Peptides for Sale in the USA",
-  description: "Browse EVLV research-use-only peptides and laboratory supplies with lot-specific COAs, current purity data, and U.S. order fulfillment.",
-  alternates: { canonical: "/shop" },
-};
+export function generateMetadata(): Metadata {
+  const market = getMarket();
+  return { title: market.id === "AU" ? "Research Peptides Australia" : "Research Peptides for Sale in the USA", description: `Browse EVLV research-use-only peptides and laboratory supplies with lot-specific COAs, current purity data, and ${market.fulfillmentLabel}.`, alternates: { canonical: "/shop" } };
+}
 
 const SHOP_TRUST_ITEMS = [
   { icon: "ri-shield-check-line", label: "Transparent Documentation", sublabel: "Exact reports clearly identified" },
@@ -21,6 +21,8 @@ const SHOP_TRUST_ITEMS = [
 ];
 
 export default async function ShopPage() {
+  const market = getMarket();
+  const isAu = market.id === "AU";
   const products = getShopListProducts(await getCatalogProducts());
   const verifiedCoaSlugs = Object.keys(await getCoaMap());
 
@@ -32,7 +34,7 @@ export default async function ShopPage() {
       <section className="border-t border-stone bg-ivory-soft py-14 md:py-20" aria-labelledby="shop-research-heading">
         <div className="mx-auto grid max-w-[1180px] gap-8 px-4 md:grid-cols-[1.1fr_0.9fr] md:px-8">
           <div>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-sage-deep">U.S. research supply</p>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-sage-deep">{isAu ? "Australian research supply" : "U.S. research supply"}</p>
             <h2 id="shop-research-heading" className="mt-3 font-display text-3xl font-semibold text-charcoal md:text-4xl">
               Research-use-only products with batch traceability
             </h2>
@@ -44,14 +46,14 @@ export default async function ShopPage() {
             </p>
           </div>
           <div className="grid gap-3 self-start rounded-lg border border-stone bg-white p-6 text-sm">
-            <Link className="font-semibold text-sage-deep" href="/research-peptides-usa">How to evaluate research peptides in the USA →</Link>
+            {!isAu && <Link className="font-semibold text-sage-deep" href="/research-peptides-usa">How to evaluate research peptides in the USA →</Link>}
             <Link className="font-semibold text-sage-deep" href="/coas">Search lot-specific Certificates of Analysis →</Link>
             <Link className="font-semibold text-sage-deep" href="/sourcing">Review EVLV testing and sourcing standards →</Link>
             <Link className="font-semibold text-sage-deep" href="/ruo">Understand the research-use-only policy →</Link>
           </div>
         </div>
       </section>
-      <TrustIconRow items={SHOP_TRUST_ITEMS} tone="plain" />
+      <TrustIconRow items={isAu ? SHOP_TRUST_ITEMS.map((item) => item.label.startsWith("US &") ? { ...item, label: "Australia Shipping", sublabel: "Tracked domestic delivery" } : item) : SHOP_TRUST_ITEMS} tone="plain" />
     </>
   );
 }

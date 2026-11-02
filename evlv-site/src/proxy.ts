@@ -4,6 +4,10 @@ import { getMarket } from "@/lib/market";
 
 export function proxy(request: NextRequest) {
   const market = getMarket();
+  const auBlockedRoutes = ["/research-peptides-usa", "/heroes-discount", "/compare", "/wholesale"];
+  if (market.id === "AU" && auBlockedRoutes.some((path) => request.nextUrl.pathname === path || request.nextUrl.pathname.startsWith(`${path}/`))) {
+    return NextResponse.redirect(new URL("/", request.url), 307);
+  }
   const bareHostname = market.hostname.replace(/^www\./, "");
   if (request.nextUrl.hostname === bareHostname) {
     const canonical = request.nextUrl.clone();
