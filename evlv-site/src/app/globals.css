@@ -758,6 +758,8 @@ body.evlv-halloween a.bg-sage-deep{background:linear-gradient(90deg,#ff7622,#ff9
 .cp-proof-ship[data-background-ready="true"]{background-image:linear-gradient(90deg,rgba(238,244,239,.98),rgba(238,244,239,.65),transparent),image-set(url('/images/certified/evlv-dispatch-card.webp') type('image/webp'),url('/images/certified/evlv-dispatch-card.png') type('image/png'))}
 .cp-proof-science[data-background-ready="true"]{background-image:linear-gradient(90deg,rgba(5,43,46,.95),rgba(5,43,46,.72),transparent),image-set(url('/images/certified/evlv-science-wide.webp') type('image/webp'),url('/images/certified/evlv-science-wide.png') type('image/png'))}
 .cp-ticker[data-background-ready="true"] span i{background-image:image-set(url('/images/certified/ticker-trust-sprite.webp') type('image/webp'),url('/images/certified/ticker-trust-sprite.png') type('image/png'))}
+.cp-ticker-au[data-background-ready="true"] span i{background-image:image-set(url('/images/certified/ticker-trust-sprite-au.webp') type('image/webp'),url('/images/certified/ticker-trust-sprite-au.png') type('image/png'))}
+.cp-ticker-au .cp-ticker-group>span:first-child{min-width:310px}
 
 /* The access routes are a focused portal, not a storefront browsing page. */
 body:has(.cp-access-shell) .cp-announcement,

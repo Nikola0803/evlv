@@ -27,7 +27,7 @@ const WHY = [
 const TICKER = [
   ["U.S. Fulfillment", 0],
   ["Product-Specific COAs", 1],
-  ["Transparent Batch Data", 0],
+  ["Transparent Batch Data", 3],
   ["Independent Lab Reports", 2],
   ["Buy More, Save More", 3],
   ["7 days a week support", 4],
@@ -59,7 +59,7 @@ export default async function Home() {
       <DeferredBackgrounds />
       <ResearchSetCampaignHomeHero />
 
-      <section className="cp-ticker" data-defer-background aria-label="EVLV trust standards"><div className="cp-ticker-track">{[0,1].map(group => <div className="cp-ticker-group" key={group}>{ticker.map(([item,icon]) => <span key={item}><i style={{backgroundPosition:`${icon * 25}% center`}} /><b>{item}</b></span>)}</div>)}</div></section>
+      <section className={`cp-ticker${isAu ? " cp-ticker-au" : ""}`} data-defer-background aria-label="EVLV trust standards"><div className="cp-ticker-track">{[0,1].map(group => <div className="cp-ticker-group" key={group}>{ticker.map(([item,icon]) => <span key={item}><i style={{backgroundPosition:`${icon * 25}% center`}} /><b>{item}</b></span>)}</div>)}</div></section>
 
       <section className="cp-categories cp-wrap">{CATEGORIES.map(card => <Link key={card.title} href={card.href} className="cp-category" data-defer-background data-background-key={card.image}><span><b>{card.title}</b><small>{card.sub}</small></span></Link>)}</section>
 
