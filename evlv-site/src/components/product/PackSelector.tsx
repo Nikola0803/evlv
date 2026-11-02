@@ -15,6 +15,11 @@ export interface Pack {
 /** EVLV's store-wide quantity ladder. Keep this aligned with the normalized
  * bulk option returned by the catalog so product pages and checkout agree. */
 function buildPacks(product: Product): Pack[] {
+  if (product.availablePackQuantities?.length) {
+    return product.availablePackQuantities.map((qty) => qty === 1
+      ? { label: "1 Vial", qty: 1, unitPrice: product.price }
+      : { label: "10-Pack Kit", qty: 10, unitPrice: product.bulkOption!.price / 10, totalPrice: product.bulkOption!.price, savePercent: product.bulkOption!.savePercent });
+  }
   if (!product.bulkOption) return [{ label: "1 Vial", qty: 1, unitPrice: product.price }];
 
   if (product.fixedBulkPricing) {

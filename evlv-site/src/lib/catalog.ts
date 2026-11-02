@@ -105,13 +105,12 @@ async function resolveCatalogProducts() {
       .filter((product): product is NonNullable<typeof product> => product !== null);
     if (!crmConfigured() || liveProducts.length === 0) return fallbackProducts;
     const liveAuSlugs = new Set(liveProducts.map((product) => product.slug));
-    const reviewedStaticProducts = getProducts().filter((product) => liveAuSlugs.has(product.slug));
     const liveAuProducts = liveProducts
       .map((product) => ({
         ...product,
         variants: product.variants?.filter((variant) => liveAuSlugs.has(variant.slug)),
       }));
-    return mergeProducts(reviewedStaticProducts, liveAuProducts).map(applyAuDisplayName).map(withQuantityPricing);
+    return mergeProducts(fallbackProducts, liveAuProducts).map(applyAuDisplayName).map(withQuantityPricing);
   }
   const sheetProducts = getProducts().filter((product) => INVENTORY_SHEET_SLUGS.has(product.slug));
   const approvedPriceBySlug = new Map(sheetProducts.map((product) => [product.slug, product.price]));
