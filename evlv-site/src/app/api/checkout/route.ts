@@ -19,7 +19,7 @@ export async function POST(req: Request) {
   const body = (await req.json().catch(() => ({}))) as Record<string, unknown>;
   if (!isAuRequest) {
     return NextResponse.json(
-      { error: "Credit card processing is down for maintenance. Please come back later." },
+      { error: "Due to recent DDoS attacks, U.S. payments are being processed manually for the next 24 hours. Please contact support to arrange credit card, Venmo, Zelle, or Cash App payment." },
       { status: 503 },
     );
   }

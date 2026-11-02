@@ -355,9 +355,10 @@ export default function CheckoutPage() {
                   </button>
                 ) : (
                   <div role="status" className="rounded-lg border border-amber-300 bg-amber-50 p-5 text-center">
-                    <i className="ri-tools-line text-3xl text-amber-700" />
-                    <p className="mt-2 font-semibold text-charcoal">Credit card processing is down for maintenance.</p>
-                    <p className="mt-1 text-sm text-charcoal/60">Please come back later.</p>
+                    <i className="ri-shield-check-line text-3xl text-amber-700" />
+                    <p className="mt-2 font-semibold text-charcoal">Temporary manual payment processing</p>
+                    <p className="mx-auto mt-2 max-w-lg text-sm leading-relaxed text-charcoal/65">Due to recent DDoS attacks, online payment processing is temporarily unavailable. For the next 24 hours, please contact us to arrange payment by credit card, Venmo, Zelle, or Cash App.</p>
+                    <Link href="/contact" className="mt-4 inline-flex min-h-11 items-center justify-center rounded-md bg-charcoal px-6 text-xs font-semibold uppercase tracking-[0.12em] text-ivory transition hover:bg-sage-deep">Contact support</Link>
                   </div>
                 )}
               </div>
