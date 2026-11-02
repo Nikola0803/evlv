@@ -544,7 +544,7 @@ export const products: Product[] = [
     category: "peptides",
     categoryLabel: "Peptide Research",
     format: "blend",
-    image: "/images/products/klow-80mg.png",
+    image: "/images/products/generated-v1/klow-80mg.png",
     price: 171.0,
     bulkOption: { qty: 10, price: 1199.92, savePercent: 20 },
     avgMass: "80.2 mg",

@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     url: `${SITE_URL}/klow-peptide`,
     title: "What Is KLOW Peptide? Composition & Research Documentation",
     description: "Composition, terminology, and documentation standards for evaluating a KLOW multi-analyte research blend.",
-    images: [{ url: `${SITE_URL}/images/products/klow-80mg.png`, width: 1200, height: 1200, alt: "EVLV KLOW 80mg research blend" }],
+    images: [{ url: `${SITE_URL}/images/products/generated-v1/klow-80mg.png`, width: 1200, height: 1200, alt: "EVLV KLOW 80mg research blend" }],
   },
 };
 
@@ -49,7 +49,7 @@ export default function KlowPeptideGuide() {
     <article className="cp-klow-guide">
       <div className="cp-klow-guide-hero">
         <div><p className="cp-pdp-kicker">Laboratory research reference</p><h1>What Is KLOW Peptide?</h1><p>KLOW is not one peptide. It is a trade name used for a multi-analyte research blend. This guide explains the composition listed for EVLV KLOW 80mg and the documentation needed to evaluate a specific lot—without human-use claims or protocols.</p></div>
-        <Image src="/images/products/klow-80mg.png" alt="EVLV KLOW 80mg multi-analyte research blend" width={720} height={720} priority sizes="(min-width: 900px) 38vw, 80vw" />
+        <Image src="/images/products/generated-v1/klow-80mg.png" alt="EVLV KLOW 80mg multi-analyte research blend" width={720} height={720} priority sizes="(min-width: 900px) 38vw, 80vw" />
       </div>
       <div className="cp-klow-guide-body">
         <section><h2>KLOW peptide composition at a glance</h2><p>EVLV identifies its KLOW 80mg material as a combination of GHK-Cu, KPV, TB-500, and BPC-157. The name “KLOW” does not itself establish a universal formula, ratio, purity, or identity. Those details must come from the labeling and exact-product analytical documentation associated with the material being evaluated.</p><div className="cp-klow-composition"><span><b>GHK-Cu</b><small>Copper-binding peptide complex</small></span><span><b>KPV</b><small>Tripeptide analyte</small></span><span><b>TB-500</b><small>Research peptide analyte</small></span><span><b>BPC-157</b><small>15-amino-acid research peptide</small></span></div></section>
