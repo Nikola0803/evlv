@@ -54,7 +54,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const requestHeaders = await headers();
   const pathname = requestHeaders.get("x-pathname") ?? "";
   const isAccessRoute = ACCESS_ROUTES.some((route) => pathname.startsWith(route));
-  const halloweenLive = Date.now() < new Date("2026-11-02T07:59:59.000Z").getTime();
+  const halloweenLive = Date.now() < new Date("2026-11-05T04:59:59.000Z").getTime();
   const title = "Research Peptides for Sale in the USA | Verified COAs | EVLV";
   const description = "U.S.-dispatched research peptides for laboratory and in-vitro analytical research, with exact product and batch COAs clearly labeled when available. Research use only.";
   const socialImage = halloweenLive ? "/images/social/evlv-halloween-bogo-og-v1.jpg" : "/images/hero-vial.png";
