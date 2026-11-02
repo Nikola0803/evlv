@@ -17,6 +17,19 @@ export interface Pack {
 function buildPacks(product: Product): Pack[] {
   if (!product.bulkOption) return [{ label: "1 Vial", qty: 1, unitPrice: product.price }];
 
+  if (product.fixedBulkPricing) {
+    return [
+      { label: "1 Vial", qty: 1, unitPrice: product.price },
+      {
+        label: "10 Pack",
+        qty: product.bulkOption.qty,
+        unitPrice: product.bulkOption.price / product.bulkOption.qty,
+        totalPrice: product.bulkOption.price,
+        savePercent: product.bulkOption.savePercent,
+      },
+    ];
+  }
+
   return QUANTITY_DISCOUNT_TIERS.map(({ qty, savePercent }) => {
     if (qty === 1) return { label: "1 Vial", qty: 1, unitPrice: product.price };
     const unitPrice = getQuantityUnitPrice(product.price, qty);

@@ -1460,6 +1460,7 @@ export function getProducts() {
 /** Normalize every catalog source to the same public quantity offer. Live
  * inventory can change a vial price without leaving an old case total behind. */
 export function withQuantityPricing(product: Product): Product {
+  if (product.fixedBulkPricing && product.bulkOption) return product;
   const savePercent = 10;
   const qty = 10;
   return {

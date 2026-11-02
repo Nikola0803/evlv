@@ -4,6 +4,7 @@ import { crmConfigured } from "./crm-proxy";
 import { getLiveProducts, mergeProducts } from "./product-feed";
 import { getProducts, withQuantityPricing } from "./products";
 import { getMarketId, isAustralianMarket } from "./market";
+import { applyAuFallbackPrice } from "./au-pricing";
 
 // Authoritative storefront range from "Inventory Sheet Nikola.xlsx".
 // The CRM is allowed to update matching products, but stale CRM-only rows must
@@ -100,14 +101,19 @@ async function resolveCatalogProducts() {
     const approvedAuSlugs = new Set(
       (process.env.AU_CATALOG_SLUGS || "").split(",").map((slug) => slug.trim()).filter(Boolean),
     );
-    if (!crmConfigured() || approvedAuSlugs.size === 0) return [];
-    return liveProducts
+    if (approvedAuSlugs.size === 0) return [];
+    const fallbackProducts = getProducts()
+      .filter((product) => approvedAuSlugs.has(product.slug))
+      .map(applyAuFallbackPrice)
+      .filter((product): product is NonNullable<typeof product> => product !== null);
+    if (!crmConfigured() || liveProducts.length === 0) return fallbackProducts;
+    const liveAuProducts = liveProducts
       .filter((product) => approvedAuSlugs.has(product.slug))
       .map((product) => ({
         ...product,
         variants: product.variants?.filter((variant) => approvedAuSlugs.has(variant.slug)),
-      }))
-      .map(withQuantityPricing);
+      }));
+    return mergeProducts(fallbackProducts, liveAuProducts).map(withQuantityPricing);
   }
   const sheetProducts = getProducts().filter((product) => INVENTORY_SHEET_SLUGS.has(product.slug));
   const approvedPriceBySlug = new Map(sheetProducts.map((product) => [product.slug, product.price]));

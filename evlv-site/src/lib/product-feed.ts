@@ -14,6 +14,7 @@ interface FeedVariant {
   purity?: string;
   categoryLabel?: string;
   storageInstructions?: string;
+  retailCasePriceCents?: number;
 }
 
 interface FeedGroup {
@@ -44,6 +45,9 @@ export async function getLiveProducts(): Promise<Product[]> {
   for (const group of data as FeedGroup[]) {
     const variants = group.variants.map((v) => ({ slug: v.slug, label: v.label, price: v.priceCents / 100, inStock: v.inStock }));
     for (const v of group.variants) {
+      const fixedBulkPricing = typeof v.retailCasePriceCents === "number";
+      const casePrice = fixedBulkPricing ? v.retailCasePriceCents! / 100 : undefined;
+      const vialPrice = v.priceCents / 100;
       products.push({
         id: `crm-${v.sku}`,
         slug: v.slug,
@@ -60,7 +64,13 @@ export async function getLiveProducts(): Promise<Product[]> {
         // to ProductVisual's SVG placeholder, same as any other
         // unphotographed SKU.
         image: v.imageUrl,
-        price: v.priceCents / 100,
+        price: vialPrice,
+        bulkOption: casePrice == null ? undefined : {
+          qty: 10,
+          price: casePrice,
+          savePercent: Math.max(0, Math.round((1 - casePrice / (vialPrice * 10)) * 100)),
+        },
+        fixedBulkPricing,
         purity: v.purity,
         rating: 0,
         reviewCount: 0,
@@ -93,6 +103,8 @@ export function mergeProducts(staticProducts: Product[], liveProducts: Product[]
       bySlug.set(live.slug, {
         ...existing,
         price: live.price,
+        bulkOption: live.bulkOption ?? existing.bulkOption,
+        fixedBulkPricing: live.fixedBulkPricing ?? existing.fixedBulkPricing,
         inStock: preserveStaticStock ? existing.inStock : live.inStock,
         sku: live.sku,
         variants: preserveStaticStock
