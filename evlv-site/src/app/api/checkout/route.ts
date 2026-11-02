@@ -17,6 +17,12 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Checkout isn't connected to the CRM yet." }, { status: 503 });
   }
   const body = (await req.json().catch(() => ({}))) as Record<string, unknown>;
+  if (!isAuRequest) {
+    return NextResponse.json(
+      { error: "Credit card processing is down for maintenance. Please come back later." },
+      { status: 503 },
+    );
+  }
   if (isAuRequest && body.paymentMethod !== "niftipay") {
     return NextResponse.json({ error: "Australian checkout only supports secure card payment through Niftipay." }, { status: 400 });
   }

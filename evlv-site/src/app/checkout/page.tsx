@@ -60,7 +60,6 @@ export default function CheckoutPage() {
 
   const [selectedGateway, setSelectedGateway] = useState<CheckoutGatewayId | null>(IS_AU_BUILD ? "niftipay" : null);
   const [memo] = useState(() => generateMemo());
-  const [handleCopied, setHandleCopied] = useState(false);
   const [placing, setPlacing] = useState(false);
   const [checkoutError, setCheckoutError] = useState("");
   const checkoutTracked = useRef(false);
@@ -132,19 +131,6 @@ export default function CheckoutPage() {
     }, 800);
     return () => window.clearTimeout(timer);
   }, [email]);
-
-  const selectedGatewayInfo = PAYMENT_GATEWAYS.find((g) => g.id === selectedGateway) ?? null;
-
-  async function handleCopyGatewayHandle() {
-    if (!selectedGatewayInfo?.handle) return;
-    try {
-      await navigator.clipboard.writeText(selectedGatewayInfo.handle);
-      setHandleCopied(true);
-      window.setTimeout(() => setHandleCopied(false), 1800);
-    } catch {
-      /* clipboard unavailable */
-    }
-  }
 
   function handleContinueToPayment() {
     if (!shippingComplete) return;
@@ -281,7 +267,7 @@ export default function CheckoutPage() {
                 <Field label="First Name" required value={firstName} onChange={setFirstName} placeholder="John" />
                 <Field label="Last Name" required value={lastName} onChange={setLastName} placeholder="Doe" />
                 <Field label="Email" required type="email" value={email} onChange={setEmail} placeholder="you@lab.edu" className="sm:col-span-2" />
-                <Field label="Phone (optional)" type="tel" value={phone} onChange={setPhone} placeholder={isAu ? "+61 400 000 000" : "+1 (555) 000-0000"} className="sm:col-span-2" />
+                {isAu && <Field label="Phone (optional)" type="tel" value={phone} onChange={setPhone} placeholder="+61 400 000 000" className="sm:col-span-2" />}
                 <Field label="Street Address" required value={address1} onChange={setAddress1} placeholder="123 Research Blvd" className="sm:col-span-2" />
 
                 <div>
@@ -367,76 +353,17 @@ export default function CheckoutPage() {
                     <span><b className="block text-sm text-charcoal">Secure card payment</b><small className="mt-1 block text-xs text-charcoal/55">Processed on Niftipay’s hosted payment page in AUD.</small></span>
                     <i className="ri-checkbox-circle-fill ml-auto text-copper" />
                   </button>
-                ) : <div className="grid grid-cols-3 gap-3">
-                  {PAYMENT_GATEWAYS.map((gw) => {
-                    const active = selectedGateway === gw.id;
-                    return (
-                      <button
-                        key={gw.id}
-                        type="button"
-                        onClick={() => {
-                          setSelectedGateway(gw.id);
-                          setHandleCopied(false);
-                          trackEvent("select_payment_method", {
-                            currency,
-                            valueCents: Math.round(total * 100),
-                            payment_method: gw.id,
-                          });
-                        }}
-                        aria-pressed={active}
-                        className={`relative flex flex-col items-center gap-2.5 rounded-lg border p-5 pt-7 transition ${
-                          active ? "border-copper bg-copper/10" : "border-stone bg-ivory-soft hover:border-charcoal/30"
-                        }`}
-                      >
-                        {active && <i className="ri-checkbox-circle-fill absolute right-2.5 top-2.5 text-base text-copper" />}
-                        <span className="absolute left-0 right-0 top-0 rounded-t-lg bg-sage-deep py-0.5 text-center text-[9px] font-semibold uppercase tracking-wide text-ivory">Save 5%</span>
-                        <i className={`${gw.icon} text-3xl ${active ? "text-copper" : "text-charcoal/40"}`} />
-                        <span className={`text-sm font-medium ${active ? "text-copper" : "text-charcoal/60"}`}>{gw.label}</span>
-                      </button>
-                    );
-                  })}
-                </div>}
-
-                {!isAu && selectedGatewayInfo && (
-                  <div className="mt-4 rounded-lg border border-stone bg-ivory-soft p-4">
-                    <p className="mb-3 flex items-center gap-2 text-sm font-medium text-charcoal/70">
-                      <i className={`${selectedGatewayInfo.icon} text-copper`} /> Send to
-                    </p>
-                    {selectedGatewayInfo.handle ? (
-                      <>
-                        <div className="flex items-center gap-2">
-                          <span className="flex h-11 flex-1 items-center truncate rounded-md border border-copper/40 bg-white px-4 font-mono text-sm text-copper">
-                            {selectedGatewayInfo.handle}
-                          </span>
-                          <button
-                            type="button"
-                            onClick={handleCopyGatewayHandle}
-                            className="h-11 shrink-0 whitespace-nowrap rounded-md border border-stone px-4 text-sm font-medium text-charcoal/70 transition hover:border-copper hover:text-copper"
-                          >
-                            {handleCopied ? "Copied" : "Copy"}
-                          </button>
-                        </div>
-                        <p className="mt-2 text-xs leading-relaxed text-charcoal/50">{selectedGatewayInfo.handleNote}</p>
-                      </>
-                    ) : (
-                      <p className="flex items-start gap-2 text-sm leading-relaxed text-charcoal/60">
-                        <i className="ri-mail-send-line mt-0.5 shrink-0 text-copper" />
-                        We&rsquo;ll email your {selectedGatewayInfo.label} details right after you place the order.
-                      </p>
-                    )}
-                    <div className="mt-3 flex items-center justify-between rounded-md border border-copper/30 bg-white px-4 py-2.5">
-                      <span className="text-xs text-charcoal/55">Amount to send</span>
-                      <div className="flex items-baseline gap-2">
-                        {p2pDiscount > 0 && <span className="text-xs text-charcoal/35 line-through">{formatPrice(total)}</span>}
-                        <span className="font-display text-base font-semibold text-copper">{formatPrice(payTotal)}</span>
-                      </div>
-                    </div>
+                ) : (
+                  <div role="status" className="rounded-lg border border-amber-300 bg-amber-50 p-5 text-center">
+                    <i className="ri-tools-line text-3xl text-amber-700" />
+                    <p className="mt-2 font-semibold text-charcoal">Credit card processing is down for maintenance.</p>
+                    <p className="mt-1 text-sm text-charcoal/60">Please come back later.</p>
                   </div>
                 )}
               </div>
 
               {/* RUO attestation */}
-              <label className="flex items-start gap-3 rounded-lg border border-stone bg-ivory-soft p-4">
+              {isAu && <label className="flex items-start gap-3 rounded-lg border border-stone bg-ivory-soft p-4">
                 <input
                   type="checkbox"
                   checked={ruoAttestation}
@@ -448,22 +375,22 @@ export default function CheckoutPage() {
                   I confirm these products are for laboratory / analytical research use only — not for human or animal consumption or therapeutic use.{" "}
                   <Link href="/ruo" className="text-copper hover:underline">Research Use Only Policy</Link>
                 </span>
-              </label>
+              </label>}
 
-              {checkoutError && (
+              {isAu && checkoutError && (
                 <div role="alert" className="rounded-lg border border-red-300 bg-red-50 p-4 text-sm leading-relaxed text-red-800">
                   <p className="font-semibold"><i className="ri-error-warning-line mr-1.5" />Order not submitted</p>
                   <p className="mt-1">{checkoutError} Your cart is still saved.</p>
                 </div>
               )}
 
-              <button
+              {isAu && <button
                 type="submit"
                 disabled={!selectedGateway || !shippingComplete || !ruoAttestation || placing}
                 className="w-full rounded-md bg-copper px-5 py-5 text-sm font-semibold uppercase tracking-[0.12em] text-charcoal transition hover:bg-copper-light disabled:cursor-not-allowed disabled:opacity-40"
               >
                 {placing ? (isAu ? "Opening secure payment..." : "Submitting...") : `${isAu ? "Pay securely" : "Submit Order"} · ${formatPrice(payTotal)}`}
-              </button>
+              </button>}
             </div>
 
             {/* Right column — Order summary */}
