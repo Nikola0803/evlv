@@ -9,14 +9,10 @@
  */
 
 import Image from "next/image";
-import { useState } from "react";
 import { useCart } from "@/lib/cart-context";
 import { useCurrency } from "@/lib/currency-context";
 import { getProductBySlug, getProducts } from "@/lib/products";
-import type { Product } from "@/lib/types";
 import { getProductImage } from "@/lib/product-images";
-
-const BW_SLUG = "bacteriostatic-water-10ml";
 
 // EVLV25 sale — free BW 10ml with every order, ends Oct 26 2026 11:59pm EST
 export const SALE_ENDS = new Date("2026-10-27T04:59:59Z");
@@ -55,103 +51,6 @@ export function ShippingProgressBar({ qualifyingSubtotal }: { qualifyingSubtotal
           style={{ width: `${pct}%` }}
         />
       </div>
-    </div>
-  );
-}
-
-/**
- * Optional BW reminder for products whose catalog entry includes
- * reconstitution information. Only fires when the cart has a relevant product
- * (anything with a `reconstitution` note) and doesn't already have
- * BW in it -- never nags on an ancillaries-only or already-
- * covered order.
- *
- * Uses the live CRM-merged catalog passed down by the root layout, so
- * the drawer can add the real BW SKU at its current price without
- * navigating away or maintaining a duplicate static product entry.
- */
-export function SaleFreeBwGiftNotice() {
-  if (!isSaleActive()) return null;
-  return (
-    <div className="mt-5 flex items-start gap-3 rounded-lg border border-sage-deep/40 bg-sage-deep/[0.07] p-4">
-      <i className="ri-gift-line mt-0.5 shrink-0 text-lg text-sage-deep" />
-      <div className="flex-1">
-        <p className="text-sm font-semibold text-sage-deep">Free BW 10mL included</p>
-        <p className="mt-0.5 text-xs leading-relaxed text-charcoal/60">
-          One free BW 10mL (bacteriostatic water) is added to every order through Oct 26 — no code needed.
-        </p>
-      </div>
-    </div>
-  );
-}
-
-export function BwHBrandOffer({ products = [] }: { products?: Product[] }) {
-  const { lines, addToCart } = useCart();
-  const { formatPrice } = useCurrency();
-  const product = products.find((item) => item.slug === BW_SLUG) ?? getProductBySlug(BW_SLUG);
-
-  const alreadyInCart = lines.some((l) => l.product.slug === BW_SLUG);
-  const needsIt = lines.some((l) => Boolean(l.product.reconstitution));
-  // During the sale BW is already included free — suppress the paid upsell
-  if (isSaleActive() || alreadyInCart || !needsIt || !product) return null;
-
-  return (
-    <div className="mt-5 flex items-start gap-3 rounded-lg border border-copper/40 bg-copper/5 p-4">
-      <i className="ri-flask-line mt-0.5 shrink-0 text-lg text-copper" />
-      <div className="flex-1">
-        <p className="text-sm font-semibold text-charcoal">Need a laboratory diluent?</p>
-        <p className="mt-1 text-xs leading-relaxed text-charcoal/60">
-          This product listing includes reconstitution information. BW 10mL is available separately for appropriate laboratory workflows.
-        </p>
-        <button
-          type="button"
-          onClick={() => addToCart(product, 1, product.price, "1 PCS")}
-          className="mt-2.5 inline-block rounded-md bg-copper px-3.5 py-2 text-[11px] font-semibold uppercase tracking-wide text-white transition hover:bg-sage-deep"
-        >
-          Add BW 10mL · {formatPrice(product.price)}
-        </button>
-      </div>
-    </div>
-  );
-}
-
-export function CheckoutBwHBrandOffer() {
-  const { lines, addToCart } = useCart();
-  const { formatPrice } = useCurrency();
-  const [justAdded, setJustAdded] = useState(false);
-  const product = getProductBySlug(BW_SLUG);
-  if (!product) return null;
-
-  const alreadyInCart = lines.some((line) => line.product.slug === BW_SLUG);
-  const needsIt = lines.some((line) => Boolean(line.product.reconstitution));
-  // During the sale BW is free — the SaleFreeBwGiftNotice handles messaging
-  if (isSaleActive() || !needsIt || (alreadyInCart && !justAdded)) return null;
-
-  function addSupply() {
-    if (!product || alreadyInCart) return;
-    addToCart(product, 1, product.price, "1 PCS");
-    setJustAdded(true);
-  }
-
-  return (
-    <div className={`mt-5 rounded-lg border p-4 ${justAdded ? "border-sage-deep/35 bg-sage-deep/[0.07]" : "border-copper/35 bg-copper/[0.05]"}`}>
-      <div className="flex items-center gap-4">
-        <div className="h-20 w-16 shrink-0 overflow-hidden rounded-md bg-white">
-          <Image src={getProductImage(product)} alt="BW 10mL laboratory supply" width={120} height={150} className="h-full w-full object-contain" />
-        </div>
-        <div className="min-w-0 flex-1">
-          <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-copper">Laboratory workflow add-on</p>
-          <p className="mt-1 text-sm font-semibold text-charcoal">BW · 10mL</p>
-          <p className="mt-1 text-xs leading-relaxed text-charcoal/55">Available for research workflows that require a suitable laboratory diluent.</p>
-        </div>
-      </div>
-      {justAdded ? (
-        <p className="mt-3 flex items-center justify-center gap-2 rounded-md bg-sage-deep px-4 py-3 text-xs font-semibold text-white"><i className="ri-checkbox-circle-fill" /> Added to this order</p>
-      ) : (
-        <button type="button" onClick={addSupply} className="mt-3 flex min-h-12 w-full items-center justify-center rounded-md bg-charcoal px-5 text-xs font-semibold uppercase tracking-[0.1em] text-white transition hover:bg-sage-deep">
-          Add to this order · {formatPrice(product.price)}
-        </button>
-      )}
     </div>
   );
 }

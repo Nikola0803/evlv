@@ -3,18 +3,13 @@
 import Link from "next/link";
 import Image from "next/image";
 import { getShopMenuGroups } from "@/lib/shop-menu-data";
-import { CategoryArt } from "@/components/ui/CategoryArt";
 import { useCurrency } from "@/lib/currency-context";
 import type { Product } from "@/lib/types";
 import { getProductImage } from "@/lib/product-images";
 
-function openQuiz() {
-  window.dispatchEvent(new Event("evlv:open-quiz"));
-}
-
 /**
  * Mega menu: a wide, clean panel of curated research-focus groups (the same
- * taxonomy the shop page's "Category" filter and the quiz already use --
+ * taxonomy the shop page's "Category" filter uses --
  * one real source, not a fabricated categorization), with a "Popular Right
  * Now" rail along the left rather than a bordered strip at the bottom --
  * softer separation (tinted panel, no hard divider lines) throughout.
@@ -97,9 +92,6 @@ export function ShopMegaMenu({ products }: { products?: Product[] }) {
                 <Link href="/journal" className="flex items-center gap-1 text-xs font-medium text-white/50 transition hover:text-white">
                   Research Journal <i className="ri-arrow-right-line" />
                 </Link>
-                <button type="button" onClick={openQuiz} className="flex items-center gap-1 text-xs font-medium text-copper transition hover:text-copper-light">
-                  Take the Quiz <i className="ri-arrow-right-line" />
-                </button>
               </div>
             </div>
           </div>

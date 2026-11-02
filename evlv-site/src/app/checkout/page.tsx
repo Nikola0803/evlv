@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/lib/cart-context";
 import { useCurrency } from "@/lib/currency-context";
-import { CheckoutBwHBrandOffer, SaleFreeBwGiftNotice, isSaleActive, FREE_SHIPPING_THRESHOLD, FLAT_SHIPPING_COST, ShippingProgressBar } from "@/components/layout/CartUpsellOffers";
+import { FREE_SHIPPING_THRESHOLD, FLAT_SHIPPING_COST, ShippingProgressBar } from "@/components/layout/CartUpsellOffers";
 import { getStoredToken, getStoredUser } from "@/lib/auth";
 import { PAYMENT_GATEWAYS, PAYMENT_PROCESSOR_NOTE, type PaymentGatewayId } from "@/lib/payment-config";
 import { getStoredCouponCode, setStoredCouponCode } from "@/lib/referral";
@@ -458,8 +458,6 @@ export default function CheckoutPage() {
                 ))}
               </div>
 
-              <CheckoutBwHBrandOffer />
-              <SaleFreeBwGiftNotice />
 
               {/* Promo code */}
               <div className="mt-4 border-t border-stone pt-4">
@@ -522,12 +520,6 @@ export default function CheckoutPage() {
                   <span className="text-charcoal/60">Shipping</span>
                   <span className="font-medium text-charcoal">{shipping === 0 ? "Free" : formatPrice(shipping)}</span>
                 </div>
-                {isSaleActive() && (
-                  <div className="flex items-center justify-between">
-                    <span className="text-sage-deep">Free gift (BW 10mL)</span>
-                    <span className="font-medium text-sage-deep">Included</span>
-                  </div>
-                )}
                 {p2pDiscount > 0 && (
                   <div className="flex items-center justify-between rounded-md bg-sage-deep/[0.07] px-2 py-1.5">
                     <span className="text-sage-deep">P2P discount (5%)</span>

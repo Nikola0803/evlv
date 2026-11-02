@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Poppins, Inter, Newsreader } from "next/font/google";
-import { headers } from "next/headers";
+import { cookies, headers } from "next/headers";
+import Script from "next/script";
 import Link from "next/link";
 import Image from "next/image";
 import "./globals.css";
@@ -9,7 +10,6 @@ import { Header } from "@/components/layout/Header";
 import { getCatalogProducts } from "@/lib/catalog";
 import { Footer } from "@/components/layout/Footer";
 import { CartToast } from "@/components/layout/CartToast";
-import { CartDrawer } from "@/components/layout/CartDrawer";
 import { ReferralCapture } from "@/components/layout/ReferralCapture";
 import { VerificationSync } from "@/components/layout/VerificationSync";
 import { MembershipSync } from "@/components/layout/MembershipSync";
@@ -17,13 +17,11 @@ import { AgeGate } from "@/components/layout/AgeGate";
 import { CartProvider } from "@/lib/cart-context";
 import { CurrencyProvider } from "@/lib/currency-context";
 import { GoogleAnalytics } from "@/components/layout/GoogleAnalytics";
-import { GoogleTagManagerHead, GoogleTagManagerBody } from "@/components/layout/GoogleTagManager";
 import { OmnisendSnippet } from "@/components/layout/OmnisendSnippet";
 import { ScrollToTop } from "@/components/layout/ScrollToTop";
 import { ChunkErrorReload } from "@/components/layout/ChunkErrorReload";
-import { DeferredLiveChat } from "@/components/layout/DeferredLiveChat";
+import { DeferredWidgets } from "@/components/layout/DeferredWidgets";
 import { HalloweenExperience } from "@/components/promotion/HalloweenExperience";
-import Script from "next/script";
 
 const SITE_URL = "https://www.evlvpeptides.com";
 const CRM_PUBLIC_URL = process.env.NEXT_PUBLIC_CRM_URL || "https://crm.evlvpeptides.com";
@@ -138,13 +136,14 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
   const pathname = hdrs.get("x-pathname") ?? "";
   const isCheckoutRoute = CHECKOUT_ROUTES.some((r) => pathname.startsWith(r));
   const isAccessRoute = ACCESS_ROUTES.some((r) => pathname.startsWith(r));
+  const isGateBypass = ["/login", "/register", "/account", "/join25"].some((route) => pathname === route || pathname.startsWith(`${route}/`));
+  const accessCookie = (await cookies()).get("evlv_research_access")?.value === "1";
 
   const products = isCheckoutRoute ? [] : await getCatalogProducts();
 
   return (
     <html lang="en" className={`${poppins.variable} ${inter.variable} ${newsreader.variable} h-full antialiased`}>
       <head>
-        <GoogleTagManagerHead />
         {/* The homepage LCP visual is a CSS background, so preload its compact
             source here. CSS backgrounds are otherwise discovered only after
             the stylesheet is parsed and cannot receive fetchPriority. */}
@@ -164,7 +163,6 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
       <body className="flex min-h-full flex-col bg-ivory text-charcoal">
         <ScrollToTop />
         <ChunkErrorReload />
-        <GoogleTagManagerBody />
         <GoogleAnalytics />
         <OmnisendSnippet />
         <Script src={`${CRM_PUBLIC_URL}/pixel.js`} data-key={CRM_TRACKING_KEY} strategy="lazyOnload" />
@@ -178,7 +176,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
                 <header className="border-b border-stone bg-ivory">
                   <div className="flex h-16 items-center justify-center px-4">
                     <Link href="/" className="inline-flex shrink-0 items-center">
-                      <Image src="/logo/evlv-logo-dark.png" alt="EVLV" width={2172} height={724} className="h-6 w-auto" priority />
+                      <Image src="/logo/evlv-logo-dark.webp" alt="EVLV" width={252} height={84} sizes="126px" className="h-6 w-auto" priority />
                     </Link>
                   </div>
                 </header>
@@ -193,14 +191,13 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
             ) : isAccessRoute ? (
               <main className="flex-1 bg-[#f7fbf9]">{children}</main>
             ) : (
-              <AgeGate>
+              <AgeGate initialAccepted={isGateBypass || accessCookie}>
                 <AnnouncementBar />
                 <Header products={products} />
                 <main className="flex-1 bg-white pt-[90px] md:pt-[100px]"><HalloweenExperience />{children}</main>
                 <Footer />
                 <CartToast />
-                <CartDrawer products={products} />
-                <DeferredLiveChat />
+                <DeferredWidgets />
               </AgeGate>
             )}
           </CartProvider>

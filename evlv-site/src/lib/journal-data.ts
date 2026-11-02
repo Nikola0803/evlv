@@ -659,18 +659,18 @@ export const JOURNAL_ARTICLES: JournalArticle[] = [
   {
     slug: "are-research-peptides-legal-in-the-us-2026",
     label: "Regulatory",
-    title: "Are Research Peptides Legal in the US? The 2026 Answer",
+    title: "Research Peptide Regulation in the US: A 2026 Overview",
     excerpt:
       "A plain-language summary of the US regulatory framework around research-use-only peptides, including FDA's stance on in vitro research and the 503A/503B distinction.",
     image: "/images/science/standard.jpg",
     publishedDate: "2026-09-03",
     readTime: "6 min read",
     body: [
-      "Research peptides sold for laboratory and research use are legal to purchase and possess in the US when supplied and used strictly as research use only (RUO) chemicals, not intended for human or veterinary consumption, injection, or ingestion, and not evaluated by the FDA for any medical indication. That framing is the entire basis on which a research-chemical supplier can legally operate.",
-      "The key regulatory distinction is between a research chemical supplier and a compounding pharmacy. Facilities compounding drugs for human administration operate under 503A or 503B of the Federal Food, Drug, and Cosmetic Act, with a distinct set of licensing, sterility, and dispensing requirements tied to human use. A supplier of RUO research compounds is explicitly not operating under that framework, EVLV is a chemical supplier, not a compounding pharmacy or outsourcing facility as defined under 503A or 503B.",
-      "That distinction is what makes the RUO label load-bearing rather than a formality. It's the legal basis for the entire product category: compounds sold for laboratory research, identification, and in vitro study, with no claim of safety or efficacy for any human or animal application, and no dosing information provided for that purpose.",
-      "State-level rules can add additional wrinkles on top of the federal framework, and they vary, some states have moved on specific compounds independently of federal action. This is a summary of the general federal framework, not legal advice, and a researcher or institution with a specific compliance question should consult counsel familiar with their state's rules.",
-      "The practical upshot for 2026: yes, research peptides are legal to source in the US as RUO laboratory chemicals, provided both the supplier and the buyer treat that designation as real, proper documentation, no human-use marketing, and no dosing claims, rather than as a label of convenience.",
+      "The regulatory status of a peptide product depends on the substance, its intended use, the claims surrounding it, how it is supplied, and applicable federal and state law. A research-use-only label is not a blanket determination that every product or transaction is lawful.",
+      "Sections 503A and 503B of the Federal Food, Drug, and Cosmetic Act establish conditions for certain human-drug compounding activities. EVLV is not a compounding pharmacy or outsourcing facility, and its laboratory research materials are not offered as compounded drugs.",
+      "FDA warning letters show that regulators evaluate the full context of sale. Product copy, educational material, support responses, accessories, and other surrounding evidence can establish an intended human use despite an RUO disclaimer.",
+      "Rules can vary by substance, transaction and jurisdiction, and they change over time. This page is general information rather than a legal opinion. A purchaser or institution should obtain advice from qualified counsel about its own circumstances.",
+      "EVLV limits its public product information to laboratory identity, composition, analytical documentation, unopened-material storage, ordering and fulfillment. It does not provide human or veterinary dosing, administration, preparation or therapeutic guidance.",
     ],
   },
   {

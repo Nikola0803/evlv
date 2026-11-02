@@ -34,7 +34,7 @@ const EMAIL_TESTIMONIALS = [
   },
   {
     rating: 5,
-    quote: "Lyophilization quality is exceptional. No clumping, consistent reconstitution, fast delivery.",
+    quote: "Lyophilization quality is exceptional. Packaging was secure and delivery was fast.",
     initial: "T",
     name: "T. Nakagawa",
     role: "Sports Science Lab",

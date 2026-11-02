@@ -16,10 +16,10 @@ export function Logo({
   className?: string;
   imgClassName?: string;
 }) {
-  const src = tone === "ivory" ? "/logo/evlv-logo-light.png" : "/logo/evlv-logo-dark.png";
+  const src = tone === "ivory" ? "/logo/evlv-logo-light.webp" : "/logo/evlv-logo-dark.webp";
   return (
     <Link href="/" className={`inline-flex shrink-0 items-center ${className}`}>
-      <Image src={src} alt="EVLV" width={2172} height={724} className={imgClassName} priority />
+      <Image src={src} alt="EVLV" width={252} height={84} sizes="(min-width: 768px) 126px, 105px" className={imgClassName} priority />
     </Link>
   );
 }

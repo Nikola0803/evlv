@@ -26,8 +26,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const product = await resolveProduct(slug);
   if (!product) return {};
   const productType = product.category === "peptides" ? "Research Peptide" : "Research Product";
-  const title = product.seoTitle ?? `${product.name} ${productType} | COA & Purity`;
-  const description = `${product.name}: ${product.shortDescription} ${product.purity ? `Reported purity: ${product.purity}.` : ""} Review current batch documentation. Research use only; not for human or veterinary use.`.trim();
+  const title = product.slug === "klow-80mg"
+    ? "KLOW Peptide 80mg Research Blend | Composition & COA"
+    : product.seoTitle ?? `${product.name} ${productType} | COA & Purity`;
+  const description = product.slug === "klow-80mg"
+    ? "KLOW peptide 80mg research blend containing GHK-Cu, KPV, TB-500, and BPC-157. Review composition, exact-product COA documentation, and laboratory specifications. Research use only."
+    : `${product.name}: ${product.shortDescription} ${product.purity ? `Reported purity: ${product.purity}.` : ""} Review current batch documentation. Research use only; not for human or veterinary use.`.trim();
   return {
     title,
     description,
@@ -78,7 +82,6 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
     category: product.categoryLabel,
     brand: { "@type": "Brand", name: "EVLV" },
     manufacturer: { "@id": `${SITE_URL}/#organization` },
-    audience: { "@type": "BusinessAudience", audienceType: "Qualified laboratory researchers" },
     offers: {
       "@type": "Offer",
       url: `${SITE_URL}/shop/${product.slug}`,
@@ -87,8 +90,52 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       itemCondition: "https://schema.org/NewCondition",
       availability: product.inStock ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
       seller: { "@id": `${SITE_URL}/#organization` },
+      shippingDetails: {
+        "@type": "OfferShippingDetails",
+        shippingDestination: {
+          "@type": "DefinedRegion",
+          addressCountry: "US",
+        },
+        shippingRate: {
+          "@type": "MonetaryAmount",
+          value: 15,
+          currency: "USD",
+        },
+        deliveryTime: {
+          "@type": "ShippingDeliveryTime",
+          handlingTime: {
+            "@type": "QuantitativeValue",
+            minValue: 0,
+            maxValue: 1,
+            unitCode: "DAY",
+          },
+          transitTime: {
+            "@type": "QuantitativeValue",
+            minValue: 1,
+            maxValue: 2,
+            unitCode: "DAY",
+          },
+        },
+      },
+      hasMerchantReturnPolicy: {
+        "@type": "MerchantReturnPolicy",
+        applicableCountry: "US",
+        returnPolicyCategory: "https://schema.org/MerchantReturnNotPermitted",
+        merchantReturnLink: `${SITE_URL}/returns`,
+      },
     },
   };
+  const klowFaq = product.slug === "klow-80mg" ? [
+    { q: "What is KLOW peptide?", a: "KLOW is a trade name used for a multi-analyte research blend rather than a single peptide. EVLV's KLOW 80mg research material identifies GHK-Cu, KPV, TB-500, and BPC-157 as its four components." },
+    { q: "What is in the KLOW peptide blend?", a: "The EVLV KLOW 80mg blend contains GHK-Cu, KPV, TB-500, and BPC-157. Exact-product analytical documentation should be reviewed to determine which identity, purity, and content results were reported for the current lot." },
+    { q: "How is a KLOW blend evaluated in the laboratory?", a: "A multi-analyte blend should be evaluated against documentation that names the exact product and reports the methods and results for the identified components. A report for only one ingredient is not a substitute for an exact-product blend report." },
+    { q: "Is KLOW approved by the FDA for human use?", a: "No. KLOW is not an FDA-approved drug. EVLV supplies this product only as a laboratory research material, not for human or veterinary use, and provides no dosing, administration, or therapeutic guidance." },
+  ] : [];
+  const faqJsonLd = klowFaq.length ? {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: klowFaq.map((item) => ({ "@type": "Question", name: item.q, acceptedAnswer: { "@type": "Answer", text: item.a } })),
+  } : null;
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -113,6 +160,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd).replace(/</g, "\\u003c") }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd).replace(/</g, "\\u003c") }} />
       {productFaqJsonLd && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productFaqJsonLd).replace(/</g, "\\u003c") }} />}
+      {faqJsonLd && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd).replace(/</g, "\\u003c") }} />}
       <div className="mx-auto max-w-[1400px] px-4 pb-4 pt-8 md:px-8 md:pt-10">
         <nav className="flex flex-wrap items-center gap-2 text-xs text-charcoal/50" aria-label="Breadcrumb">
           <Link href="/" className="transition hover:text-charcoal">Home</Link>
@@ -148,6 +196,26 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         </div>
       </section>
       {compoundHub && <CompoundProductAuthority product={product} hub={compoundHub} />}
+      {product.slug === "klow-80mg" && (
+        <section className="cp-klow-research" aria-labelledby="klow-research-heading">
+          <div className="cp-klow-research-inner">
+            <header>
+              <small className="cp-pdp-kicker">KLOW research reference</small>
+              <h2 id="klow-research-heading">What is KLOW peptide?</h2>
+              <p>KLOW is a trade name used for a multi-analyte research blend, not a single peptide sequence. EVLV&apos;s KLOW 80mg research material identifies four components: GHK-Cu, KPV, TB-500, and BPC-157.</p>
+            </header>
+            <div className="cp-klow-grid">
+              <article><h3>Four identified analytes</h3><ul><li>GHK-Cu</li><li>KPV</li><li>TB-500</li><li>BPC-157</li></ul></article>
+              <article><h3>Documentation to verify</h3><ul><li>Exact product and lot match</li><li>Named analytical methods</li><li>Per-analyte reported results</li><li>Issuing laboratory and test date</li></ul></article>
+              <article><h3>Strict research scope</h3><p>KLOW is not an FDA-approved drug. This material is not for human or veterinary use. EVLV does not provide dosing, administration, reconstitution, therapeutic, or body-function guidance.</p></article>
+            </div>
+            <div className="cp-klow-faq">
+              {klowFaq.map((item) => <details key={item.q}><summary>{item.q}<span>+</span></summary><p>{item.a}</p></details>)}
+            </div>
+            <div className="cp-klow-links"><Link href="/klow-peptide">Read the KLOW composition and documentation guide</Link><Link href="/coas">Search the COA library</Link></div>
+          </div>
+        </section>
+      )}
       {relatedProducts.length > 0 && (
         <section className="cp-related" aria-labelledby="related-products-heading">
           <header>

@@ -1,5 +1,4 @@
 import "server-only";
-
 import { unstable_cache } from "next/cache";
 import { crmConfigured } from "./crm-proxy";
 import { getLiveProducts, mergeProducts } from "./product-feed";

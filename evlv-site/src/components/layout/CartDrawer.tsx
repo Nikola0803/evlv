@@ -6,15 +6,14 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/lib/cart-context";
 import { useCurrency } from "@/lib/currency-context";
-import { ShippingProgressBar, BwHBrandOffer, SaleFreeBwGiftNotice, FREE_SHIPPING_THRESHOLD, FLAT_SHIPPING_COST } from "./CartUpsellOffers";
+import { ShippingProgressBar, FREE_SHIPPING_THRESHOLD, FLAT_SHIPPING_COST } from "./CartUpsellOffers";
 import { getStoredCouponCode, setStoredCouponCode } from "@/lib/referral";
 import { useCouponValidation } from "@/lib/use-coupon-validation";
 import { getStoredUser } from "@/lib/auth";
 import { getProductImage } from "@/lib/product-images";
-import type { Product } from "@/lib/types";
 import { trackEvent } from "@/lib/pixel";
 
-export function CartDrawer({ products = [] }: { products?: Product[] }) {
+export function CartDrawer() {
   const { lines, subtotal, isOpen, closeCart, removeLine, setLineQty } = useCart();
   const { formatPrice } = useCurrency();
   const [promoOpen, setPromoOpen] = useState(false);
@@ -136,9 +135,6 @@ export function CartDrawer({ products = [] }: { products?: Product[] }) {
                   </div>
                 ))}
               </div>
-
-              <SaleFreeBwGiftNotice />
-              <BwHBrandOffer products={products} />
             </>
           )}
         </div>

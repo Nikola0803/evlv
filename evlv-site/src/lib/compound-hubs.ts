@@ -57,7 +57,7 @@ export const COMPOUND_HUBS = {
     identityContext: "The three classes are chemically distinct and should not be treated as interchangeable. Compare the CAS reference, molecular identity, labeled amount, and analytical report on the individual listing rather than relying on the shared GLP category name.",
     analyticalFocus: "For every GLP series item, match the product name and strength to the report, then review the sample identifier, purity method, identity method where reported, measured content, test date, and issuing laboratory. Results for one class or strength do not transfer to another.",
     slugs: ["evlv-1-5mg", "evlv-1-10mg", "evlv-1-30mg", "evlv-2-10mg", "evlv-2-15mg", "evlv-2-30mg", "evlv-2-60mg", "evlv-3-10mg", "evlv-3-15mg", "evlv-3-20mg", "evlv-3-30mg", "evlv-3-60mg"],
-    categoryPaths: ["/research-peptides", "/metabolic-research-peptides", "/fat-loss-peptide-research"],
+    categoryPaths: ["/research-peptides", "/metabolic-research-peptides"],
     journalLinks: [
       { href: "/journal/evlv-3-us-research-guide-2026", label: "GLP3-R U.S. research guide", description: "Triple-receptor research classification, sourcing, and verification." },
       { href: "/journal/evlv-1-vs-evlv-2-receptor-selectivity-research", label: "GLP1-S vs GLP2-T", description: "A research-focused comparison of single- and dual-receptor classes." },
@@ -158,7 +158,7 @@ export const COMPOUND_HUBS = {
     identityContext: "The catalogue CAS reference for Semaglutide is 910463-68-2. The GLP1-S catalogue name and CAS reference identify the intended compound, but only a matching analytical record can support the identity and purity of a specific sample or lot.",
     analyticalFocus: "Match the Semaglutide identity, labeled strength, sample or lot identifier, laboratory, and analysis date. Review HPLC purity separately from mass-based identity evidence and measured content where those results are reported.",
     slugs: ["evlv-1-5mg", "evlv-1-10mg", "evlv-1-30mg"],
-    categoryPaths: ["/research-peptides", "/metabolic-research-peptides", "/fat-loss-peptide-research"],
+    categoryPaths: ["/research-peptides", "/metabolic-research-peptides"],
     journalLinks: [
       { href: "/journal/semaglutide-peptide-research-documentation-guide", label: "Semaglutide product and documentation guide", description: "How to assess GLP1-S identity, strengths, COAs, and lot-specific records." },
       { href: "/journal/how-to-review-a-semaglutide-coa", label: "How to review a Semaglutide COA", description: "A GLP1-S sample, method, and result checklist." },
@@ -184,7 +184,7 @@ export const COMPOUND_HUBS = {
     identityContext: "The catalogue CAS reference for Tirzepatide is 2023788-19-2. Shared metabolic-research terminology does not make Tirzepatide interchangeable with another GLP research class, strength, or lot.",
     analyticalFocus: "Confirm the Tirzepatide identity and labeled quantity, then match the sample or lot identifier, issuing laboratory, methods, and analysis date. A result for one strength should not be generalized to another.",
     slugs: ["evlv-2-10mg", "evlv-2-15mg", "evlv-2-30mg", "evlv-2-60mg"],
-    categoryPaths: ["/research-peptides", "/metabolic-research-peptides", "/fat-loss-peptide-research"],
+    categoryPaths: ["/research-peptides", "/metabolic-research-peptides"],
     journalLinks: [
       { href: "/journal/tirzepatide-peptide-research-documentation-guide", label: "Tirzepatide product and documentation guide", description: "How to assess GLP2-T identity, strengths, COAs, and lot-specific records." },
       { href: "/journal/how-to-review-a-tirzepatide-coa", label: "How to review a Tirzepatide COA", description: "A GLP2-T sample, method, and result checklist." },
@@ -492,7 +492,7 @@ export const COMPOUND_HUBS = {
     identityContext: "The catalogue CAS reference for Tirzepatide is 2023788-19-2. As a tirzepatide peptide research compound, shared metabolic-research terminology does not make tirzepatide interchangeable with another GLP research class, strength, or lot.",
     analyticalFocus: "Confirm the tirzepatide identity and labeled quantity, then match the sample or lot identifier, issuing laboratory, methods, and analysis date. A result for one strength should not be generalized to another.",
     slugs: ["evlv-2-10mg", "evlv-2-15mg", "evlv-2-30mg", "evlv-2-60mg"],
-    categoryPaths: ["/research-peptides", "/metabolic-research-peptides", "/fat-loss-peptide-research"],
+    categoryPaths: ["/research-peptides", "/metabolic-research-peptides"],
     journalLinks: [
       { href: "/journal/tirzepatide-peptide-research-documentation-guide", label: "Tirzepatide product and documentation guide", description: "How to assess GLP2-T identity, strengths, COAs, and lot-specific records." },
       { href: "/journal/how-to-review-a-tirzepatide-coa", label: "How to review a Tirzepatide COA", description: "A GLP2-T sample, method, and result checklist." },
@@ -518,7 +518,7 @@ export const COMPOUND_HUBS = {
     identityContext: "The catalogue CAS reference for Semaglutide is 910463-68-2. As a semaglutide peptide research compound, the GLP1-S catalogue name and CAS reference identify the intended compound, but only a matching analytical record can support the identity and purity of a specific sample or lot.",
     analyticalFocus: "Match the semaglutide identity, labeled strength, sample or lot identifier, laboratory, and analysis date. Review HPLC purity separately from mass-based identity evidence and measured content where those results are reported.",
     slugs: ["evlv-1-5mg", "evlv-1-10mg", "evlv-1-30mg"],
-    categoryPaths: ["/research-peptides", "/metabolic-research-peptides", "/fat-loss-peptide-research"],
+    categoryPaths: ["/research-peptides", "/metabolic-research-peptides"],
     journalLinks: [
       { href: "/journal/semaglutide-peptide-research-documentation-guide", label: "Semaglutide product and documentation guide", description: "How to assess GLP1-S identity, strengths, COAs, and lot-specific records." },
       { href: "/journal/how-to-review-a-semaglutide-coa", label: "How to review a Semaglutide COA", description: "A GLP1-S sample, method, and result checklist." },

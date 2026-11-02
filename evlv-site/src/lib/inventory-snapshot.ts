@@ -103,8 +103,8 @@ export function applyInventoryRows(source: Product[], rows: InventoryRow[], addM
       categoryLabel: row.slug.includes("water") ? "Research Supplies" : "Peptide Research",
       format: row.slug.includes("water") ? "supplies" : undefined,
       price: row.retailPrice!, rating: 0, reviewCount: 0, inStock: true, stockQty: row.stockQty,
-      shortDescription: `${name} for research protocols.`, description: `${name}, supplied for laboratory research use only.`,
-      storage: "Store lyophilized vials at 2–8°C. After reconstitution, refrigerate.",
+      shortDescription: `${name} supplied as a laboratory analytical research material.`, description: `${name}, supplied for laboratory research use only.`,
+      storage: "Store the sealed research material according to its product label and the laboratory's material-handling procedures.",
     });
     existingSlugs.add(row.slug);
   }

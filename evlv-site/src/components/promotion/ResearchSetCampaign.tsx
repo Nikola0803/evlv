@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
 const STARTS_AT = Date.parse("2026-10-13T04:00:00.000Z");
@@ -63,7 +64,7 @@ function StandardHero() {
           <Link className="cp-hero-coas" href="/coas"><i className="ri-file-text-line" /> View COAs</Link>
         </div>
       </div>
-      <div className="cp-hero-image" aria-label="EVLV premium peptide vials and matching cartons" />
+      <div className="cp-hero-image"><Image src="/images/certified/evlv-hero-multi-vials.webp" alt="EVLV premium peptide vials and matching cartons" fill priority fetchPriority="high" sizes="(min-width: 981px) 55vw, 100vw" /></div>
     </section>
   );
 }
@@ -88,7 +89,7 @@ export function ResearchSetCampaignHomeHero() {
         </Link>
         <small className="cp-campaign-terms">Any 3 or more eligible catalog items. Automatic — no code required. Cannot be combined with other offers. $15 shipping below $300.</small>
       </div>
-      <div className="cp-hero-image cp-campaign-hero-image" aria-label="EVLV research peptide collection" />
+      <div className="cp-hero-image cp-campaign-hero-image"><Image src="/images/certified/evlv-hero-multi-vials.webp" alt="EVLV research peptide collection" fill priority fetchPriority="high" sizes="(min-width: 981px) 55vw, 100vw" /></div>
       {!ready && <span className="sr-only">Loading campaign countdown</span>}
     </section>
   );
