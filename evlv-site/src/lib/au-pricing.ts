@@ -6,7 +6,7 @@ export const AU_PRICE_SCHEDULE: Record<string, AuPrice> = {
   "bpc-157-5mg": { name: "BPC-157 5MG", vial: 120, case10: 850 },
   "bpc-157-10mg": { name: "BPC-157 10MG", vial: 180, case10: 1250 },
   "evlv-3-10mg": { name: "RETATRUTIDE 10MG", vial: 350, case10: 1550 },
-  "evlv-3-20mg": { name: "RETATRUTIDE 20MG", case10: 2150 },
+  "evlv-3-20mg": { name: "RETATRUTIDE 20MG", vial: 500, case10: 2150 },
   "evlv-2-10mg": { name: "TIRZEPATIDE 10MG", vial: 200, case10: 1350 },
   "evlv-1-5mg": { name: "SEMAGLUTIDE 5MG", vial: 200 },
   "evlv-1-10mg": { name: "SEMAGLUTIDE 10MG", vial: 300 },
