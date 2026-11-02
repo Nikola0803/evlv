@@ -119,7 +119,7 @@ async function resolveCatalogProducts() {
 // the static catalog remains the safe fallback if the CRM is slow or down.
 const getCachedCatalogProducts = unstable_cache(
   resolveCatalogProducts,
-  ["evlv-storefront-catalog-v1"],
+  ["evlv-storefront-catalog-v2"],
   { revalidate: 120, tags: ["storefront-catalog"] },
 );
 
