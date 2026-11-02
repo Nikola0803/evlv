@@ -25,7 +25,7 @@ const MARKETS: Record<MarketId, MarketConfig> = {
     countryName: "United States",
     paymentProvider: "manual",
     fulfillmentLabel: "U.S. fulfillment",
-    legalEntity: "Warrior Distributions LLC",
+    legalEntity: "EVLV Research",
     supportEmail: "office@evlvpeptides.com",
   },
   AU: {

@@ -13,8 +13,8 @@ export interface CoaEntry {
 }
 
 /**
- * Public COA library. Reports may be issued under Warrior Distributions LLC,
- * the registered parent entity of the EVLV brand. Laboratory attribution is
+ * Public COA library. Reports may identify the commissioning party shown on
+ * the original certificate. Laboratory attribution is
  * kept separate: DPS-series reports are analyzed by Horizon Analytical and
  * OPT-series reports are analyzed by OPTIQ.
  * Multiple entries for one slug represent distinct lots.

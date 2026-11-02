@@ -130,7 +130,7 @@ export function AccountAccess({ initialMode = "signin", redirectTo = "/account",
         <div className="relative mt-5 min-h-[190px] overflow-hidden rounded-[24px] border border-[#d9e8e1] bg-[#e9f2ed] p-6 sm:mt-8 sm:min-h-[220px] sm:p-8 xl:hidden"><div className="absolute inset-y-0 right-0 w-[52%] bg-[linear-gradient(90deg,rgba(233,242,237,1),rgba(233,242,237,.12)),url('/images/certified/evlv-quality-transparency-v2.png')] bg-cover bg-center" /><div className="relative z-10 max-w-sm"><p className="text-[10px] font-bold uppercase tracking-[.2em] text-[#4c786d]">Documentation first</p><p className="mt-3 font-display text-2xl font-semibold leading-tight text-[#103a35] sm:text-3xl">Built for researchers who expect a cleaner record.</p></div></div>
       </div>
     </section>
-    <footer className="mt-10 flex shrink-0 flex-col justify-between gap-3 border-t border-[#dbe7e1] px-1 pt-5 text-[10px] font-medium text-[#7d9089] sm:mt-14 sm:flex-row xl:mt-3 xl:pt-3"><span>© EVLV {new Date().getFullYear()} · Warrior Distributions LLC</span><span>Strictly for lawful laboratory and analytical research · Not for human or veterinary use</span></footer>
+    <footer className="mt-10 flex shrink-0 flex-col justify-between gap-3 border-t border-[#dbe7e1] px-1 pt-5 text-[10px] font-medium text-[#7d9089] sm:mt-14 sm:flex-row xl:mt-3 xl:pt-3"><span>© EVLV {new Date().getFullYear()}</span><span>Strictly for lawful laboratory and analytical research · Not for human or veterinary use</span></footer>
   </div></main>;
 }
 
