@@ -4,7 +4,7 @@ import { crmConfigured } from "./crm-proxy";
 import { getLiveProducts, mergeProducts } from "./product-feed";
 import { getProducts, withQuantityPricing } from "./products";
 import { getMarketId, isAustralianMarket } from "./market";
-import { applyAuFallbackPrice } from "./au-pricing";
+import { applyAuFallbackPrice, AU_PRICE_SCHEDULE } from "./au-pricing";
 
 // Authoritative storefront range from "Inventory Sheet Nikola.xlsx".
 // The CRM is allowed to update matching products, but stale CRM-only rows must
@@ -96,24 +96,22 @@ const restrictVariantsToStorefront = <T extends { variants?: Array<{ slug: strin
 async function resolveCatalogProducts() {
   const liveProducts = await getLiveProducts();
   if (isAustralianMarket()) {
-    // Never leak the US fallback catalog into AU. The AU project must provide
-    // its reviewed slug allowlist and AU-scoped CRM brand/feed explicitly.
-    const approvedAuSlugs = new Set(
-      (process.env.AU_CATALOG_SLUGS || "").split(",").map((slug) => slug.trim()).filter(Boolean),
-    );
-    if (approvedAuSlugs.size === 0) return [];
+    // The AU CRM brand is the catalog boundary. crmGet sends the AU project's
+    // CRM_STORE_DOMAIN, and the CRM returns only active StoreMappings for that
+    // brand. No second env-maintained slug list is needed or allowed to drift.
     const fallbackProducts = getProducts()
-      .filter((product) => approvedAuSlugs.has(product.slug))
+      .filter((product) => product.slug in AU_PRICE_SCHEDULE)
       .map(applyAuFallbackPrice)
       .filter((product): product is NonNullable<typeof product> => product !== null);
     if (!crmConfigured() || liveProducts.length === 0) return fallbackProducts;
+    const liveAuSlugs = new Set(liveProducts.map((product) => product.slug));
+    const reviewedStaticProducts = getProducts().filter((product) => liveAuSlugs.has(product.slug));
     const liveAuProducts = liveProducts
-      .filter((product) => approvedAuSlugs.has(product.slug))
       .map((product) => ({
         ...product,
-        variants: product.variants?.filter((variant) => approvedAuSlugs.has(variant.slug)),
+        variants: product.variants?.filter((variant) => liveAuSlugs.has(variant.slug)),
       }));
-    return mergeProducts(fallbackProducts, liveAuProducts).map(withQuantityPricing);
+    return mergeProducts(reviewedStaticProducts, liveAuProducts).map(withQuantityPricing);
   }
   const sheetProducts = getProducts().filter((product) => INVENTORY_SHEET_SLUGS.has(product.slug));
   const approvedPriceBySlug = new Map(sheetProducts.map((product) => [product.slug, product.price]));

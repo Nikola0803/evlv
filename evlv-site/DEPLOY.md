@@ -30,7 +30,7 @@ Optional analytics and reviews variables are documented in `.env.example`.
 Both Vercel projects deploy the same `main` branch. Set project-specific environment variables:
 
 - US project: `NEXT_PUBLIC_SITE_MARKET=US` and the existing US CRM variables.
-- AU project: `NEXT_PUBLIC_SITE_MARKET=AU`, an AU-scoped `CRM_STORE_DOMAIN`, AU CRM API key, `AU_CATALOG_SLUGS`, and all `NIFTIPAY_*` values.
+- AU project: `NEXT_PUBLIC_SITE_MARKET=AU`, an AU-scoped `CRM_STORE_DOMAIN`, AU CRM API key, and all `NIFTIPAY_*` values. Active mappings on the `evlv-au` CRM brand determine the catalog.
 
 AU deliberately fails closed: without an AU CRM brand plus an explicit reviewed catalog allowlist, it displays no purchasable catalog. It never falls back to US prices or products. AU checkout accepts only Niftipay and creates AUD card sessions server-side.
 

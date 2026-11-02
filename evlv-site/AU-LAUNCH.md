@@ -8,7 +8,8 @@ The AU Vercel project deploys the same `main` branch as US. Do not fork the repo
 - Configure an AU-scoped CRM brand, `CRM_STORE_DOMAIN`, and API key.
 - Update the CRM checkout schema to accept `paymentMethod: "niftipay"`.
 - Implement the CRM endpoint `POST /api/store/payments/niftipay/webhook` with idempotent status transitions.
-- Load AU prices in AUD and set `AU_CATALOG_SLUGS` to the reviewed published slugs.
+- Load AU prices in AUD as active mappings on the `evlv-au` CRM brand. Those
+  brand-scoped mappings are the AU catalog allowlist.
 - Load AU-specific COAs and confirm that no US lot/report appears in the AU brand.
 - Complete Niftipay KYB and enable fiat card payments.
 - Create one Niftipay fiat integration for the AU site and set its integration ID, API key, and webhook secret in Vercel.
@@ -26,7 +27,6 @@ NEXT_PUBLIC_SITE_MARKET=AU
 CRM_STORE_DOMAIN=evlvpeptides.com.au
 AU_LEGAL_ENTITY=<Australian legal entity>
 AU_SUPPORT_EMAIL=support@evlvpeptides.com.au
-AU_CATALOG_SLUGS=<reviewed comma-separated AU slugs>
 AU_INDEXING_ENABLED=false
 NIFTIPAY_API_KEY=<issued by Niftipay>
 NIFTIPAY_INTEGRATION_ID=<issued by Niftipay>
@@ -64,6 +64,8 @@ Run Niftipay's signed test-webhook action before accepting a live order. The sto
 ## Safety properties already implemented
 
 - AU never falls back to the US catalog.
+- AU publication is controlled by active `evlv-au` CRM StoreMappings, not a
+  duplicate environment-variable slug list.
 - AU checkout rejects non-Niftipay methods.
 - Niftipay secrets stay server-side.
 - Browser redirects never mark an order paid; only a verified webhook may do that.
