@@ -6,13 +6,13 @@
  */
 export const PAYMENT_HANDLES = {
   cashapp: "$warriordistributions",
-  zelle: "payments@warriordistributions.com",
+  zelle: "orders@evlvpeptides.com",
   venmo: "@warriordistributions",
 };
 
 const DEMO_HANDLES = {
   cashapp: "$EVLVPeptidesDemo",
-  zelle: "payments@evlvpeptides.com",
+  zelle: "orders@evlvpeptides.com",
   venmo: "@EVLV-Peptides-Demo",
 };
 
@@ -68,7 +68,7 @@ export const PAYMENT_GATEWAYS: {
     label: "Zelle",
     icon: "ri-bank-line",
     handle: PAYMENT_HANDLES.zelle,
-    handleNote: "Send to payments@warriordistributions.com — include your order number in the payment note so we can match your payment.",
+    handleNote: "Send to orders@evlvpeptides.com — include your order number in the payment note so we can match your payment.",
   },
   {
     id: "venmo",
