@@ -4,6 +4,15 @@ import { getMarket } from "@/lib/market";
 
 export function proxy(request: NextRequest) {
   const market = getMarket();
+  const requestHost = request.nextUrl.hostname.toLowerCase();
+  const isAustralianHost = requestHost.endsWith("evlvpeptides.com.au");
+  const isUsMarket = market.id === "US" && !isAustralianHost;
+  if (isUsMarket && request.nextUrl.pathname.startsWith("/coas/") && request.nextUrl.pathname.toLowerCase().endsWith(".pdf")) {
+    return new NextResponse("Not Found", {
+      status: 404,
+      headers: { "Content-Type": "text/plain; charset=utf-8", "X-Robots-Tag": "noindex, nofollow, noarchive" },
+    });
+  }
   const auBlockedRoutes = ["/research-peptides-usa", "/heroes-discount", "/compare", "/wholesale"];
   if (market.id === "AU" && auBlockedRoutes.some((path) => request.nextUrl.pathname === path || request.nextUrl.pathname.startsWith(`${path}/`))) {
     return NextResponse.redirect(new URL("/", request.url), 307);
@@ -34,5 +43,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico|.*\\..*).*)"],
+  matcher: ["/coas/:path*", "/((?!api|_next/static|_next/image|favicon.ico|.*\\..*).*)"],
 };

@@ -7,6 +7,7 @@ import { getCoaLotId, getEndotoxinReport } from "@/lib/coa-lots";
 import { getProductBySlug } from "@/lib/products";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_MARKET === "AU" ? "https://www.evlvpeptides.com.au" : "https://www.evlvpeptides.com";
+const HIDE_SOURCE_REPORTS = process.env.NEXT_PUBLIC_SITE_MARKET !== "AU";
 
 function jsonLd(value: object) {
   return JSON.stringify(value).replace(/</g, "\\u003c");
@@ -55,7 +56,7 @@ export default async function CoaLotPage({ params }: { params: Promise<{ lot: st
     about: { "@type": "Thing", name: coa.compound ?? productName },
     datePublished: coa.tested,
     publisher: { "@type": "Organization", name: "EVLV", url: SITE_URL },
-    isBasedOn: coa.url,
+    ...(!HIDE_SOURCE_REPORTS ? { isBasedOn: coa.url } : {}),
   };
   const breadcrumb = {
     "@context": "https://schema.org",
@@ -98,10 +99,14 @@ export default async function CoaLotPage({ params }: { params: Promise<{ lot: st
             </dl>
             <div className="mt-8 border-t border-stone pt-7">
               <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-sage-deep">Published report bundle</p>
-              <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                <a href={coa.url} target="_blank" rel="noreferrer" className="rounded-xl border border-sage-deep/20 bg-white p-4 transition hover:border-sage-deep hover:shadow-sm"><span className="flex items-center justify-between gap-3"><b className="text-sm">COA / purity record</b><i className="ri-external-link-line text-sage-deep" /></span><small className="mt-2 block leading-5 text-soft-gray">Open the original record for its stated method, result, sample identification, and scope.</small></a>
-                {endotoxinUrl ? <a href={endotoxinUrl} target="_blank" rel="noreferrer" className="rounded-xl border border-sage-deep/20 bg-[#f4f8f5] p-4 transition hover:border-sage-deep hover:shadow-sm"><span className="flex items-center justify-between gap-3"><b className="text-sm">Endotoxin report</b><i className="ri-test-tube-line text-lg text-sage-deep" /></span><small className="mt-2 block leading-5 text-soft-gray">Published for this same DPS lot. Read it as a separate analytical record.</small></a> : <div className="rounded-xl border border-stone bg-ivory-soft p-4"><span className="flex items-center justify-between gap-3"><b className="text-sm text-charcoal/65">Endotoxin report</b><i className="ri-file-forbid-line text-charcoal/35" /></span><small className="mt-2 block leading-5 text-soft-gray">No matching endotoxin report is currently published for this identified lot.</small></div>}
-              </div>
+              {HIDE_SOURCE_REPORTS ? (
+                <div className="mt-4 rounded-xl border border-stone bg-ivory-soft p-4"><span className="flex items-center justify-between gap-3"><b className="text-sm text-charcoal/65">Source reports temporarily unavailable</b><i className="ri-file-forbid-line text-charcoal/35" /></span><small className="mt-2 block leading-5 text-soft-gray">Contact support if you need documentation for an existing order.</small></div>
+              ) : (
+                <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                  <a href={coa.url} target="_blank" rel="noreferrer" className="rounded-xl border border-sage-deep/20 bg-white p-4 transition hover:border-sage-deep hover:shadow-sm"><span className="flex items-center justify-between gap-3"><b className="text-sm">COA / purity record</b><i className="ri-external-link-line text-sage-deep" /></span><small className="mt-2 block leading-5 text-soft-gray">Open the original record for its stated method, result, sample identification, and scope.</small></a>
+                  {endotoxinUrl ? <a href={endotoxinUrl} target="_blank" rel="noreferrer" className="rounded-xl border border-sage-deep/20 bg-[#f4f8f5] p-4 transition hover:border-sage-deep hover:shadow-sm"><span className="flex items-center justify-between gap-3"><b className="text-sm">Endotoxin report</b><i className="ri-test-tube-line text-lg text-sage-deep" /></span><small className="mt-2 block leading-5 text-soft-gray">Published for this same DPS lot. Read it as a separate analytical record.</small></a> : <div className="rounded-xl border border-stone bg-ivory-soft p-4"><span className="flex items-center justify-between gap-3"><b className="text-sm text-charcoal/65">Endotoxin report</b><i className="ri-file-forbid-line text-charcoal/35" /></span><small className="mt-2 block leading-5 text-soft-gray">No matching endotoxin report is currently published for this identified lot.</small></div>}
+                </div>
+              )}
               <p className="mt-4 text-xs leading-6 text-soft-gray">An endotoxin record is not a sterility or clinical-use claim. Results remain limited to the identified sample and report scope.</p>
             </div>
           </article>
