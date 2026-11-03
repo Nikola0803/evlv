@@ -59,7 +59,7 @@ export default function CheckoutPage() {
   const [ruoAttestation, setRuoAttestation] = useState(false);
   const [couponCode, setCouponCode] = useState(() => getStoredCouponCode());
 
-  const [selectedGateway, setSelectedGateway] = useState<CheckoutGatewayId | null>("niftipay");
+  const [selectedGateway, setSelectedGateway] = useState<CheckoutGatewayId | null>(IS_AU_BUILD ? "niftipay" : "zelle");
   const [memo] = useState(() => generateMemo());
   const [placing, setPlacing] = useState(false);
   const [checkoutError, setCheckoutError] = useState("");
@@ -430,12 +430,12 @@ export default function CheckoutPage() {
                 <div className="grid gap-3 sm:grid-cols-2">
                   <button
                     type="button"
-                    aria-pressed={selectedGateway === "niftipay"}
-                    onClick={() => setSelectedGateway("niftipay")}
-                    className={`flex items-center gap-3 rounded-lg border p-4 text-left transition ${selectedGateway === "niftipay" ? "border-copper bg-copper/10" : "border-stone bg-white hover:border-copper/60"}`}
+                    disabled
+                    aria-disabled="true"
+                    className="flex cursor-not-allowed items-center gap-3 rounded-lg border border-stone bg-stone/20 p-4 text-left opacity-50"
                   >
-                    <i className="ri-bank-card-line text-2xl text-copper" />
-                    <span><b className="block text-sm text-charcoal">Credit or debit card</b><small className="mt-1 block text-xs text-charcoal/55">Securely processed by Niftipay</small></span>
+                    <i className="ri-bank-card-line text-2xl text-charcoal/50" />
+                    <span><b className="block text-sm text-charcoal">Credit or debit card</b><small className="mt-1 block text-xs text-charcoal/55">Temporarily unavailable online</small></span>
                   </button>
                   <button
                     type="button"
@@ -448,9 +448,9 @@ export default function CheckoutPage() {
                   </button>
                 </div>
                 <p className="mt-3 text-xs leading-relaxed text-charcoal/55">
-                  {selectedGateway === "zelle"
-                    ? "After placing the order, we’ll show the Zelle recipient and the reference to include with your payment."
-                    : "After placing the order, you’ll continue to Niftipay’s secure hosted card page."}
+                  After placing the order, we’ll show the Zelle recipient and the reference to include with your payment. Need to pay by credit or debit card?{" "}
+                  <Link href="/contact" className="font-semibold text-copper hover:underline">Contact us</Link>{" "}
+                  and our team will explain the currently available card-processing option.
                 </p>
               </div>
 
