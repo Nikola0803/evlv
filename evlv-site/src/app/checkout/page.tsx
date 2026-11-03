@@ -41,7 +41,6 @@ export default function CheckoutPage() {
   const { lines, subtotal, clearCart } = useCart();
   const { formatPrice, currency } = useCurrency();
   const router = useRouter();
-  const usesNiftipay = true;
 
   const [step, setStep] = useState<1 | 2>(1);
 
@@ -52,6 +51,7 @@ export default function CheckoutPage() {
   const [address1, setAddress1] = useState("");
   const [city, setCity] = useState("");
   const [isAu, setIsAu] = useState(IS_AU_BUILD);
+  const singleStepCheckout = isAu;
   const [country, setCountry] = useState<"US" | "CA" | "AU">(IS_AU_BUILD ? "AU" : "US");
   const [stateCode, setStateCode] = useState("");
   const [zip, setZip] = useState("");
@@ -249,7 +249,7 @@ export default function CheckoutPage() {
   return (
     <div className="mx-auto max-w-5xl px-4 py-8 md:py-14">
       {/* AU is one EVLV form followed directly by Niftipay's hosted card page. */}
-      {usesNiftipay ? (
+      {singleStepCheckout ? (
         <div className="mb-8 text-center">
           <p className="text-xs font-semibold uppercase tracking-widest text-charcoal">Delivery &amp; secure payment</p>
           <p className="mt-2 text-sm text-charcoal/55">Enter your delivery details, then continue directly to secure card processing.</p>
@@ -323,7 +323,7 @@ export default function CheckoutPage() {
               </label>
             </div>
 
-            {usesNiftipay ? (
+            {singleStepCheckout ? (
               <>
                 {!isAu && (
                   <div className="cp-checkout-panel">
@@ -407,7 +407,7 @@ export default function CheckoutPage() {
         )}
 
         {/* ── Step 2: Payment ── */}
-        {step === 2 && !usesNiftipay && (
+        {step === 2 && !singleStepCheckout && (
           <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_400px]">
             {/* Left column */}
             <div className="space-y-5">
@@ -427,23 +427,35 @@ export default function CheckoutPage() {
               {/* Payment method */}
               <div className="cp-checkout-panel">
                 <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-charcoal/50">Payment Method</h2>
-                {isAu ? (
-                  <button type="button" aria-pressed="true" className="flex w-full items-center gap-4 rounded-lg border border-copper bg-copper/10 p-5 text-left">
-                    <i className="ri-bank-card-line text-3xl text-copper" />
-                    <span><b className="block text-sm text-charcoal">Secure card payment</b><small className="mt-1 block text-xs text-charcoal/55">Processed on Niftipay’s hosted payment page in AUD.</small></span>
-                    <i className="ri-checkbox-circle-fill ml-auto text-copper" />
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <button
+                    type="button"
+                    aria-pressed={selectedGateway === "niftipay"}
+                    onClick={() => setSelectedGateway("niftipay")}
+                    className={`flex items-center gap-3 rounded-lg border p-4 text-left transition ${selectedGateway === "niftipay" ? "border-copper bg-copper/10" : "border-stone bg-white hover:border-copper/60"}`}
+                  >
+                    <i className="ri-bank-card-line text-2xl text-copper" />
+                    <span><b className="block text-sm text-charcoal">Credit or debit card</b><small className="mt-1 block text-xs text-charcoal/55">Securely processed by Niftipay</small></span>
                   </button>
-                ) : (
-                  <div role="status" className="rounded-lg border border-amber-300 bg-amber-50 p-5 text-center">
-                    <i className="ri-shield-check-line text-3xl text-amber-700" />
-                    <p className="mt-2 font-semibold text-charcoal">Choose card or Zelle</p>
-                    <p className="mx-auto mt-2 max-w-lg text-sm leading-relaxed text-charcoal/65">Pay securely by credit or debit card through Niftipay, or save 5% when paying by Zelle.</p>
-                  </div>
-                )}
+                  <button
+                    type="button"
+                    aria-pressed={selectedGateway === "zelle"}
+                    onClick={() => setSelectedGateway("zelle")}
+                    className={`flex items-center gap-3 rounded-lg border p-4 text-left transition ${selectedGateway === "zelle" ? "border-copper bg-copper/10" : "border-stone bg-white hover:border-copper/60"}`}
+                  >
+                    <i className="ri-bank-line text-2xl text-copper" />
+                    <span><b className="block text-sm text-charcoal">Zelle</b><small className="mt-1 block text-xs font-medium text-sage-deep">Save 5% · manual transfer</small></span>
+                  </button>
+                </div>
+                <p className="mt-3 text-xs leading-relaxed text-charcoal/55">
+                  {selectedGateway === "zelle"
+                    ? "After placing the order, we’ll show the Zelle recipient and the reference to include with your payment."
+                    : "After placing the order, you’ll continue to Niftipay’s secure hosted card page."}
+                </p>
               </div>
 
               {/* RUO attestation */}
-              {isAu && <label className="flex items-start gap-3 rounded-lg border border-stone bg-ivory-soft p-4">
+              <label className="flex items-start gap-3 rounded-lg border border-stone bg-ivory-soft p-4">
                 <input
                   type="checkbox"
                   checked={ruoAttestation}
@@ -455,22 +467,24 @@ export default function CheckoutPage() {
                   I confirm these products are for laboratory / analytical research use only — not for human or animal consumption or therapeutic use.{" "}
                   <Link href="/ruo" className="text-copper hover:underline">Research Use Only Policy</Link>
                 </span>
-              </label>}
+              </label>
 
-              {isAu && checkoutError && (
+              {checkoutError && (
                 <div role="alert" className="rounded-lg border border-red-300 bg-red-50 p-4 text-sm leading-relaxed text-red-800">
                   <p className="font-semibold"><i className="ri-error-warning-line mr-1.5" />Order not submitted</p>
                   <p className="mt-1">{checkoutError} Your cart is still saved.</p>
                 </div>
               )}
 
-              {isAu && <button
+              <button
                 type="submit"
                 disabled={!selectedGateway || !shippingComplete || !ruoAttestation || placing}
                 className="w-full rounded-md bg-copper px-5 py-5 text-sm font-semibold uppercase tracking-[0.12em] text-charcoal transition hover:bg-copper-light disabled:cursor-not-allowed disabled:opacity-40"
               >
-                {placing ? (isAu ? "Opening secure payment..." : "Submitting...") : `${isAu ? "Pay securely" : "Submit Order"} · ${formatPrice(payTotal)}`}
-              </button>}
+                {placing
+                  ? selectedGateway === "zelle" ? "Placing order..." : "Opening secure card payment..."
+                  : `${selectedGateway === "zelle" ? "Place order with Zelle" : "Continue to secure card payment"} · ${formatPrice(payTotal)}`}
+              </button>
             </div>
 
             {/* Right column — Order summary */}
