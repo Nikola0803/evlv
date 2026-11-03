@@ -151,7 +151,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
       <main className="flex-1 bg-white pt-[90px] md:pt-[100px]"><HalloweenExperience />{children}</main>
       <Footer />
       <CartToast />
-      <DeferredWidgets />
+      <DeferredWidgets showQuiz={MARKET.id === "US"} />
     </>
   );
 

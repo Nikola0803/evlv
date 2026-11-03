@@ -6,8 +6,9 @@ import { useEffect, useState } from "react";
 const CartDrawer = dynamic(() => import("./CartDrawer").then((mod) => mod.CartDrawer), { ssr: false });
 const ConversionPrompts = dynamic(() => import("./ConversionPrompts").then((mod) => mod.ConversionPrompts), { ssr: false });
 const LiveChat = dynamic(() => import("./LiveChat").then((mod) => mod.LiveChat), { ssr: false });
+const QuizWidget = dynamic(() => import("./QuizWidget").then((mod) => mod.QuizWidget), { ssr: false });
 
-export function DeferredWidgets() {
+export function DeferredWidgets({ showQuiz = false }: { showQuiz?: boolean }) {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
@@ -19,5 +20,5 @@ export function DeferredWidgets() {
   }, []);
 
   if (!ready) return null;
-  return <><CartDrawer /><ConversionPrompts /><LiveChat /></>;
+  return <><CartDrawer /><ConversionPrompts /><LiveChat />{showQuiz ? <QuizWidget /> : null}</>;
 }
