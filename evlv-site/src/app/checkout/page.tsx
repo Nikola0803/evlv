@@ -247,15 +247,22 @@ export default function CheckoutPage() {
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-8 md:py-14">
-      {/* Step indicator */}
-      <div className="mb-8 flex items-center justify-center gap-3 text-xs font-semibold uppercase tracking-widest">
-        <span className={step === 1 ? "text-charcoal" : "text-charcoal/35"}>
-          {step === 2 && <i className="ri-check-line mr-1 text-sage-deep" />}
-          Delivery
-        </span>
-        <span className="text-charcoal/20">—</span>
-        <span className={step === 2 ? "text-charcoal" : "text-charcoal/35"}>Payment</span>
-      </div>
+      {/* AU is one EVLV form followed directly by Niftipay's hosted card page. */}
+      {isAu ? (
+        <div className="mb-8 text-center">
+          <p className="text-xs font-semibold uppercase tracking-widest text-charcoal">Delivery &amp; secure payment</p>
+          <p className="mt-2 text-sm text-charcoal/55">Enter your delivery details, then continue directly to secure card processing.</p>
+        </div>
+      ) : (
+        <div className="mb-8 flex items-center justify-center gap-3 text-xs font-semibold uppercase tracking-widest">
+          <span className={step === 1 ? "text-charcoal" : "text-charcoal/35"}>
+            {step === 2 && <i className="ri-check-line mr-1 text-sage-deep" />}
+            Delivery
+          </span>
+          <span className="text-charcoal/20">—</span>
+          <span className={step === 2 ? "text-charcoal" : "text-charcoal/35"}>Payment</span>
+        </div>
+      )}
 
       <form onSubmit={handlePlaceOrder}>
         {/* ── Step 1: Delivery ── */}
@@ -315,19 +322,63 @@ export default function CheckoutPage() {
               </label>
             </div>
 
-            <button
-              type="button"
-              onClick={handleContinueToPayment}
-              disabled={!shippingComplete}
-              className="w-full rounded-md bg-charcoal px-5 py-4 text-sm font-semibold uppercase tracking-[0.12em] text-ivory transition hover:bg-sage-deep disabled:cursor-not-allowed disabled:opacity-40"
-            >
-              Continue to Payment
-            </button>
+            {isAu ? (
+              <>
+                <div className="rounded-lg border border-copper/50 bg-copper/10 p-4">
+                  <div className="flex items-center gap-3">
+                    <i className="ri-bank-card-line text-2xl text-copper" />
+                    <div>
+                      <p className="text-sm font-semibold text-charcoal">Secure credit or debit card processing</p>
+                      <p className="mt-0.5 text-xs leading-relaxed text-charcoal/60">After submitting, you’ll continue directly to Niftipay’s secure hosted payment page. Your cart remains saved until the handoff succeeds.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <label className="flex items-start gap-3 rounded-lg border border-stone bg-ivory-soft p-4">
+                  <input
+                    type="checkbox"
+                    checked={ruoAttestation}
+                    onChange={(e) => setRuoAttestation(e.target.checked)}
+                    required
+                    className="mt-0.5 h-4 w-4 shrink-0 accent-copper"
+                  />
+                  <span className="text-xs leading-relaxed text-charcoal/60">
+                    I confirm these products are for laboratory / analytical research use only — not for human or animal consumption or therapeutic use.{" "}
+                    <Link href="/ruo" className="text-copper hover:underline">Research Use Only Policy</Link>
+                  </span>
+                </label>
+
+                {checkoutError && (
+                  <div role="alert" className="rounded-lg border border-red-300 bg-red-50 p-4 text-sm leading-relaxed text-red-800">
+                    <p className="font-semibold"><i className="ri-error-warning-line mr-1.5" />Order not submitted</p>
+                    <p className="mt-1">{checkoutError} Your cart is still saved.</p>
+                  </div>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={!shippingComplete || !ruoAttestation || placing}
+                  className="w-full rounded-md bg-copper px-5 py-5 text-sm font-semibold uppercase tracking-[0.12em] text-charcoal transition hover:bg-copper-light disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                  {placing ? "Opening secure card payment..." : `Continue to secure card payment · ${formatPrice(payTotal)}`}
+                </button>
+                <p className="text-center text-[11px] leading-relaxed text-charcoal/45"><i className="ri-lock-line mr-1" />Card details are entered securely on Niftipay and are not collected by EVLV.</p>
+              </>
+            ) : (
+              <button
+                type="button"
+                onClick={handleContinueToPayment}
+                disabled={!shippingComplete}
+                className="w-full rounded-md bg-charcoal px-5 py-4 text-sm font-semibold uppercase tracking-[0.12em] text-ivory transition hover:bg-sage-deep disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                Continue to Payment
+              </button>
+            )}
           </div>
         )}
 
         {/* ── Step 2: Payment ── */}
-        {step === 2 && (
+        {step === 2 && !isAu && (
           <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_400px]">
             {/* Left column */}
             <div className="space-y-5">

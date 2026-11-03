@@ -47,7 +47,16 @@ export function Footer() {
         </div>
 
         <div className="cp-footer-meta">
-          <div className="cp-footer-payments"><small>Secure payment options</small>{isAu ? <span><i className="ri-bank-card-line" />Card via Niftipay</span> : PAYMENT_GATEWAYS.map(gateway => <span key={gateway.id}><i className={gateway.icon} />{gateway.label}</span>)}</div>
+          <div className="cp-footer-payments">
+            <small>{isAu ? "Secure card processing" : "Secure payment options"}</small>
+            {isAu ? (
+              <>
+                <span><i className="ri-bank-card-line" />Credit &amp; debit cards</span>
+                <span><i className="ri-shield-check-line" />Hosted by Niftipay</span>
+                <span><i className="ri-lock-line" />Secure checkout</span>
+              </>
+            ) : PAYMENT_GATEWAYS.map(gateway => <span key={gateway.id}><i className={gateway.icon} />{gateway.label}</span>)}
+          </div>
           <div className="cp-footer-contact-meta">
             <a href={`mailto:${market.supportEmail}`}>{market.supportEmail}</a>
           </div>
