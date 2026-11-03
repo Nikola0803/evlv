@@ -75,9 +75,16 @@ export async function POST(req: Request) {
 
   const order = data && typeof data === "object" ? data as Record<string, unknown> : {};
   const reference = String(order.number ?? order.id ?? "");
+  const grossCents = typeof order.grossCents === "number" ? order.grossCents : 0;
+  const shippingCents = typeof order.shippingCents === "number" ? order.shippingCents : 0;
+  const decimalTotal = typeof order.total === "string" || typeof order.total === "number"
+    ? Number(order.total)
+    : Number.NaN;
   const totalCents = typeof order.totalCents === "number"
     ? order.totalCents
-    : typeof order.total === "number" ? Math.round(order.total * 100) : 0;
+    : grossCents > 0
+      ? grossCents + shippingCents
+      : Number.isFinite(decimalTotal) ? Math.round(decimalTotal * 100) : 0;
   const billing = body.billing && typeof body.billing === "object" ? body.billing as Record<string, unknown> : {};
   if (!reference || totalCents <= 0) {
     return NextResponse.json({ error: "The AU order was created without a valid reference or authoritative total. Payment was not started." }, { status: 502 });
