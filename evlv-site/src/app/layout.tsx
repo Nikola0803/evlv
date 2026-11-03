@@ -141,9 +141,19 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
   const isCheckoutRoute = CHECKOUT_ROUTES.some((r) => pathname.startsWith(r));
   const isAccessRoute = ACCESS_ROUTES.some((r) => pathname.startsWith(r));
   const isGateBypass = ["/login", "/register", "/account", "/join25"].some((route) => pathname === route || pathname.startsWith(`${route}/`));
-  const accessCookie = (await cookies()).get("evlv_research_access")?.value === "1";
+  const accessCookie = MARKET.id !== "AU" && (await cookies()).get("evlv_research_access")?.value === "1";
 
   const products = isCheckoutRoute ? [] : await getCatalogProducts();
+  const storefront = (
+    <>
+      <AnnouncementBar />
+      <Header products={products} />
+      <main className="flex-1 bg-white pt-[90px] md:pt-[100px]"><HalloweenExperience />{children}</main>
+      <Footer />
+      <CartToast />
+      <DeferredWidgets />
+    </>
+  );
 
   return (
     <html lang={MARKET.locale} className={`${poppins.variable} ${inter.variable} ${newsreader.variable} h-full antialiased`}>
@@ -184,14 +194,11 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
               </>
             ) : isAccessRoute ? (
               <main className="flex-1 bg-[#f7fbf9]">{children}</main>
+            ) : MARKET.id === "AU" ? (
+              storefront
             ) : (
               <AgeGate initialAccepted={isGateBypass || accessCookie}>
-                <AnnouncementBar />
-                <Header products={products} />
-                <main className="flex-1 bg-white pt-[90px] md:pt-[100px]"><HalloweenExperience />{children}</main>
-                <Footer />
-                <CartToast />
-                <DeferredWidgets />
+                {storefront}
               </AgeGate>
             )}
           </CartProvider>
