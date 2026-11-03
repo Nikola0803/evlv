@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { Logo } from "@/components/ui/Logo";
 import { NewsletterForm } from "./NewsletterForm";
-import { PAYMENT_GATEWAYS } from "@/lib/payment-config";
 import { getMarket } from "@/lib/market";
 
 const SHOP = [
@@ -48,14 +47,11 @@ export function Footer() {
 
         <div className="cp-footer-meta">
           <div className="cp-footer-payments">
-            <small>{isAu ? "Secure card processing" : "Secure payment options"}</small>
-            {isAu ? (
-              <>
-                <span><i className="ri-bank-card-line" />Credit &amp; debit cards</span>
-                <span><i className="ri-shield-check-line" />Hosted by Niftipay</span>
-                <span><i className="ri-lock-line" />Secure checkout</span>
-              </>
-            ) : PAYMENT_GATEWAYS.map(gateway => <span key={gateway.id}><i className={gateway.icon} />{gateway.label}</span>)}
+            <small>Secure card processing</small>
+            <span><i className="ri-bank-card-line" />Credit &amp; debit cards</span>
+            <span><i className="ri-shield-check-line" />Hosted by Niftipay</span>
+            {!isAu && <span><i className="ri-bank-line" />Zelle · save 5%</span>}
+            <span><i className="ri-lock-line" />Secure checkout</span>
           </div>
           <div className="cp-footer-contact-meta">
             <a href={`mailto:${market.supportEmail}`}>{market.supportEmail}</a>

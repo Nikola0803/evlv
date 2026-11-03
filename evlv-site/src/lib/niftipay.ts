@@ -10,6 +10,7 @@ export async function createNiftipayFiatOrder(input: {
   amountCents: number;
   reference: string;
   description: string;
+  currency: "USD" | "AUD";
   email: string;
   firstName?: string;
   lastName?: string;
@@ -34,7 +35,7 @@ export async function createNiftipayFiatOrder(input: {
       body: JSON.stringify({
         integrationId,
         amountCents: input.amountCents,
-        currency: "AUD",
+        currency: input.currency,
         reference: input.reference,
         description: input.description,
         serviceFeePayer: process.env.NIFTIPAY_SERVICE_FEE_PAYER === "customer" ? "customer" : "merchant",
@@ -42,7 +43,7 @@ export async function createNiftipayFiatOrder(input: {
         firstName: input.firstName,
         lastName: input.lastName,
         phone: input.phone,
-        country: input.country || "AU",
+        country: input.country,
       }),
       signal: AbortSignal.timeout(8_000),
       cache: "no-store",

@@ -1,7 +1,6 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
 import { crmConfigured, crmFetch } from "@/lib/crm-proxy";
-import { isAustralianMarket } from "@/lib/market";
 
 export const runtime = "nodejs";
 
@@ -14,7 +13,6 @@ function validSignature(rawBody: string, timestamp: string, signature: string, s
 }
 
 export async function POST(request: Request) {
-  if (!isAustralianMarket()) return NextResponse.json({ error: "Not found" }, { status: 404 });
   const secret = process.env.NIFTIPAY_WEBHOOK_SECRET;
   const timestamp = request.headers.get("x-timestamp") || "";
   const signature = request.headers.get("x-signature") || "";
@@ -33,7 +31,7 @@ export async function POST(request: Request) {
   if (payload.event === "test") return NextResponse.json({ ok: true });
   if (!crmConfigured()) return NextResponse.json({ error: "CRM is not configured" }, { status: 503 });
 
-  // The AU CRM brand owns deduplication and order-state transitions. It must
+  // The market-specific CRM brand owns deduplication and order-state transitions. It must
   // only fulfil on `paid`; browser return URLs are never payment authority.
   const result = await crmFetch("/api/store/payments/niftipay/webhook", {
     ...payload,

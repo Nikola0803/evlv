@@ -18,17 +18,15 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Checkout isn't connected to the CRM yet." }, { status: 503 });
   }
   const body = (await req.json().catch(() => ({}))) as Record<string, unknown>;
-  if (!isAuRequest) {
-    return NextResponse.json(
-      { error: "Due to recent DDoS attacks, U.S. payments are being processed manually for the next 24 hours. Please contact support to arrange credit card, Venmo, Zelle, or Cash App payment." },
-      { status: 503 },
-    );
-  }
-  if (isAuRequest && body.paymentMethod !== "niftipay") {
+  const paymentMethod = typeof body.paymentMethod === "string" ? body.paymentMethod : "";
+  if (isAuRequest && paymentMethod !== "niftipay") {
     return NextResponse.json({ error: "Australian checkout only supports secure card payment through Niftipay." }, { status: 400 });
   }
-  if (isAuRequest && !niftipayConfigured()) {
-    return NextResponse.json({ error: "Australian card checkout is not configured yet." }, { status: 503 });
+  if (!isAuRequest && paymentMethod !== "niftipay" && paymentMethod !== "zelle") {
+    return NextResponse.json({ error: "Choose secure card payment or Zelle." }, { status: 400 });
+  }
+  if (paymentMethod === "niftipay" && !niftipayConfigured()) {
+    return NextResponse.json({ error: "Secure card checkout is not configured yet." }, { status: 503 });
   }
   const items = Array.isArray(body.items) ? body.items : [];
   const discountCode = typeof body.discountCode === "string" ? body.discountCode : undefined;
@@ -71,9 +69,10 @@ export async function POST(req: Request) {
   const ipAddress = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || req.headers.get("x-real-ip") || undefined;
   const userAgent = req.headers.get("user-agent") || undefined;
   const { ok, status, data } = await crmFetch("/api/store/checkout", { ...checkoutBody, ipAddress, userAgent });
-  if (!ok || !isAuRequest) return NextResponse.json(data, { status: ok ? 200 : status });
+  if (!ok) return NextResponse.json(data, { status });
 
   const order = data && typeof data === "object" ? data as Record<string, unknown> : {};
+  if (paymentMethod === "zelle") return NextResponse.json(order);
   const reference = String(order.number ?? order.id ?? "");
   const grossCents = typeof order.grossCents === "number" ? order.grossCents : 0;
   const shippingCents = typeof order.shippingCents === "number" ? order.shippingCents : 0;
@@ -92,13 +91,14 @@ export async function POST(req: Request) {
   try {
     const payment = await createNiftipayFiatOrder({
       amountCents: totalCents,
-      reference: `EVLV-AU-${reference}`.slice(0, 80),
-      description: `EVLV Australia order ${reference}`,
+      reference: `EVLV-${market.id}-${reference}`.slice(0, 80),
+      description: `EVLV ${market.countryName} order ${reference}`,
+      currency: market.currency,
       email: String(billing.email ?? body.customerEmail ?? ""),
       firstName: String(billing.firstName ?? ""),
       lastName: String(billing.lastName ?? ""),
       phone: String(billing.phone ?? ""),
-      country: "AU",
+      country: String(billing.country ?? market.country),
     });
     return NextResponse.json({ ...order, paymentProvider: "niftipay", ...payment });
   } catch (error) {

@@ -23,7 +23,7 @@ const MARKETS: Record<MarketId, MarketConfig> = {
     currency: "USD",
     country: "US",
     countryName: "United States",
-    paymentProvider: "manual",
+    paymentProvider: "niftipay",
     fulfillmentLabel: "U.S. fulfillment",
     legalEntity: "EVLV Research",
     supportEmail: "office@evlvpeptides.com",

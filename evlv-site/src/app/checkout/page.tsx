@@ -41,6 +41,7 @@ export default function CheckoutPage() {
   const { lines, subtotal, clearCart } = useCart();
   const { formatPrice, currency } = useCurrency();
   const router = useRouter();
+  const usesNiftipay = true;
 
   const [step, setStep] = useState<1 | 2>(1);
 
@@ -58,7 +59,7 @@ export default function CheckoutPage() {
   const [ruoAttestation, setRuoAttestation] = useState(false);
   const [couponCode, setCouponCode] = useState(() => getStoredCouponCode());
 
-  const [selectedGateway, setSelectedGateway] = useState<CheckoutGatewayId | null>(IS_AU_BUILD ? "niftipay" : null);
+  const [selectedGateway, setSelectedGateway] = useState<CheckoutGatewayId | null>("niftipay");
   const [memo] = useState(() => generateMemo());
   const [placing, setPlacing] = useState(false);
   const [checkoutError, setCheckoutError] = useState("");
@@ -79,7 +80,7 @@ export default function CheckoutPage() {
   const discountedSubtotal = Math.max(0, displaySubtotal - discount);
   const shipping = discountedSubtotal >= FREE_SHIPPING_THRESHOLD ? 0 : FLAT_SHIPPING_COST;
   const total = discountedSubtotal + shipping;
-  const p2pDiscount = !isAu && selectedGateway ? Math.round(total * 0.05 * 100) / 100 : 0;
+  const p2pDiscount = selectedGateway && selectedGateway !== "niftipay" ? Math.round(total * 0.05 * 100) / 100 : 0;
   const payTotal = total - p2pDiscount;
   const shippingComplete = Boolean(
     firstName.trim() && lastName.trim() && email.trim() && address1.trim() && city.trim() && stateCode && zip.trim()
@@ -168,7 +169,7 @@ export default function CheckoutPage() {
           discountCode: exclusiveAutomaticPromotion ? undefined : couponCode.trim() || undefined,
           customerNote: [
             `RUO attestation: purchaser confirmed laboratory/research use only at ${new Date().toISOString()}.`,
-            !isAu ? `P2P payment discount (5%): customer pays ${payTotal.toFixed(2)} via ${selectedGateway} (original total: ${total.toFixed(2)}).` : "AU card payment initiated through Niftipay.",
+            selectedGateway === "niftipay" ? `${isAu ? "AU" : "US"} card payment initiated through Niftipay.` : `P2P payment discount (5%): customer pays ${payTotal.toFixed(2)} via ${selectedGateway} (original total: ${total.toFixed(2)}).`,
             formatAttributionNote(attribution),
           ]
             .filter(Boolean)
@@ -195,7 +196,7 @@ export default function CheckoutPage() {
       if (!res.ok) throw new Error(data.error || data.message || "We could not submit your order. Please try again.");
       orderId = data.number || data.id || "";
       if (!orderId) throw new Error("The order system did not return a confirmation number. Your cart has not been cleared.");
-      if (isAu) {
+      if (selectedGateway === "niftipay") {
         if (!data.payUrl) throw new Error("Niftipay did not return a secure payment URL. Your cart has not been cleared.");
         window.location.assign(data.payUrl);
         return;
@@ -248,7 +249,7 @@ export default function CheckoutPage() {
   return (
     <div className="mx-auto max-w-5xl px-4 py-8 md:py-14">
       {/* AU is one EVLV form followed directly by Niftipay's hosted card page. */}
-      {isAu ? (
+      {usesNiftipay ? (
         <div className="mb-8 text-center">
           <p className="text-xs font-semibold uppercase tracking-widest text-charcoal">Delivery &amp; secure payment</p>
           <p className="mt-2 text-sm text-charcoal/55">Enter your delivery details, then continue directly to secure card processing.</p>
@@ -322,14 +323,40 @@ export default function CheckoutPage() {
               </label>
             </div>
 
-            {isAu ? (
+            {usesNiftipay ? (
               <>
+                {!isAu && (
+                  <div className="cp-checkout-panel">
+                    <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-charcoal/50">Payment method</h2>
+                    <div className="grid gap-3 sm:grid-cols-2">
+                      <button
+                        type="button"
+                        aria-pressed={selectedGateway === "niftipay"}
+                        onClick={() => setSelectedGateway("niftipay")}
+                        className={`flex items-center gap-3 rounded-lg border p-4 text-left transition ${selectedGateway === "niftipay" ? "border-copper bg-copper/10" : "border-stone bg-white hover:border-copper/60"}`}
+                      >
+                        <i className="ri-bank-card-line text-2xl text-copper" />
+                        <span><b className="block text-sm text-charcoal">Credit or debit card</b><small className="mt-1 block text-xs text-charcoal/55">Securely processed by Niftipay</small></span>
+                      </button>
+                      <button
+                        type="button"
+                        aria-pressed={selectedGateway === "zelle"}
+                        onClick={() => setSelectedGateway("zelle")}
+                        className={`flex items-center gap-3 rounded-lg border p-4 text-left transition ${selectedGateway === "zelle" ? "border-copper bg-copper/10" : "border-stone bg-white hover:border-copper/60"}`}
+                      >
+                        <i className="ri-bank-line text-2xl text-copper" />
+                        <span><b className="block text-sm text-charcoal">Zelle</b><small className="mt-1 block text-xs font-medium text-sage-deep">Save 5% · manual transfer</small></span>
+                      </button>
+                    </div>
+                  </div>
+                )}
+
                 <div className="rounded-lg border border-copper/50 bg-copper/10 p-4">
                   <div className="flex items-center gap-3">
-                    <i className="ri-bank-card-line text-2xl text-copper" />
+                    <i className={`${selectedGateway === "zelle" ? "ri-bank-line" : "ri-bank-card-line"} text-2xl text-copper`} />
                     <div>
-                      <p className="text-sm font-semibold text-charcoal">Secure credit or debit card processing</p>
-                      <p className="mt-0.5 text-xs leading-relaxed text-charcoal/60">After submitting, you’ll continue directly to Niftipay’s secure hosted payment page. Your cart remains saved until the handoff succeeds.</p>
+                      <p className="text-sm font-semibold text-charcoal">{selectedGateway === "zelle" ? "Zelle payment — 5% savings applied" : "Secure credit or debit card processing"}</p>
+                      <p className="mt-0.5 text-xs leading-relaxed text-charcoal/60">{selectedGateway === "zelle" ? "Place the order to receive the Zelle recipient and your order reference. Payment is confirmed manually." : "After submitting, you’ll continue directly to Niftipay’s secure hosted payment page. Your cart remains saved until the handoff succeeds."}</p>
                     </div>
                   </div>
                 </div>
@@ -360,9 +387,11 @@ export default function CheckoutPage() {
                   disabled={!shippingComplete || !ruoAttestation || placing}
                   className="w-full rounded-md bg-copper px-5 py-5 text-sm font-semibold uppercase tracking-[0.12em] text-charcoal transition hover:bg-copper-light disabled:cursor-not-allowed disabled:opacity-40"
                 >
-                  {placing ? "Opening secure card payment..." : `Continue to secure card payment · ${formatPrice(payTotal)}`}
+                  {placing
+                    ? selectedGateway === "zelle" ? "Placing order..." : "Opening secure card payment..."
+                    : `${selectedGateway === "zelle" ? "Place order with Zelle" : "Continue to secure card payment"} · ${formatPrice(payTotal)}`}
                 </button>
-                <p className="text-center text-[11px] leading-relaxed text-charcoal/45"><i className="ri-lock-line mr-1" />Card details are entered securely on Niftipay and are not collected by EVLV.</p>
+                {selectedGateway === "niftipay" && <p className="text-center text-[11px] leading-relaxed text-charcoal/45"><i className="ri-lock-line mr-1" />Card details are entered securely on Niftipay and are not collected by EVLV.</p>}
               </>
             ) : (
               <button
@@ -378,7 +407,7 @@ export default function CheckoutPage() {
         )}
 
         {/* ── Step 2: Payment ── */}
-        {step === 2 && !isAu && (
+        {step === 2 && !usesNiftipay && (
           <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_400px]">
             {/* Left column */}
             <div className="space-y-5">
@@ -407,9 +436,8 @@ export default function CheckoutPage() {
                 ) : (
                   <div role="status" className="rounded-lg border border-amber-300 bg-amber-50 p-5 text-center">
                     <i className="ri-shield-check-line text-3xl text-amber-700" />
-                    <p className="mt-2 font-semibold text-charcoal">Temporary manual payment processing</p>
-                    <p className="mx-auto mt-2 max-w-lg text-sm leading-relaxed text-charcoal/65">Due to recent DDoS attacks, online payment processing is temporarily unavailable. For the next 24 hours, please contact us to arrange payment by credit card, Venmo, Zelle, or Cash App.</p>
-                    <Link href="/contact" className="mt-4 inline-flex min-h-11 items-center justify-center rounded-md bg-charcoal px-6 text-xs font-semibold uppercase tracking-[0.12em] text-ivory transition hover:bg-sage-deep">Contact support</Link>
+                    <p className="mt-2 font-semibold text-charcoal">Choose card or Zelle</p>
+                    <p className="mx-auto mt-2 max-w-lg text-sm leading-relaxed text-charcoal/65">Pay securely by credit or debit card through Niftipay, or save 5% when paying by Zelle.</p>
                   </div>
                 )}
               </div>
