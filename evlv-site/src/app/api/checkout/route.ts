@@ -4,6 +4,7 @@ import { getMarket } from "@/lib/market";
 import { createNiftipayFiatOrder, niftipayConfigured } from "@/lib/niftipay";
 
 export const runtime = "nodejs";
+export const maxDuration = 30;
 
 // POST /api/checkout - proxies to the CRM's /api/store/checkout, which
 // places a real order in the same database the CRM dashboard reads from.
@@ -95,6 +96,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ ...order, paymentProvider: "niftipay", ...payment });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Niftipay could not start payment.";
+    console.error("[au-checkout] Niftipay payment creation failed", { reference, message });
     return NextResponse.json({ error: message, orderReference: reference }, { status: 502 });
   }
 }
