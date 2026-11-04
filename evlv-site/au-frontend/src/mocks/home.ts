@@ -33,7 +33,7 @@ export const heroBannerMobileVideo =
 export const heroBannerMobilePoster =
   'https://cdn.prod.website-files.com/67ab626233e66749b69fc19f%2F6a6ba172279087dbacefd984_raven_site_banner_v2_mobile_poster.0000000.jpg';
 
-export const bentoPackShot = '/images/products/semaglutide-10mg.png';
+export const bentoPackShot = '/images/products/au-cutouts/evlv-1-10mg.webp';
 
 export const bentoCareImage =
   'https://readdy.ai/api/search-image?query=Two%20women%20in%20their%20mid%20thirties%20walking%20side%20by%20side%20along%20a%20quiet%20tree%20lined%20path%20in%20warm%20late%20afternoon%20light%2C%20one%20with%20soft%20curves%20and%20one%20athletic%20build%2C%20both%20in%20relaxed%20cream%20and%20olive%20athleisure%20after%20a%20walk%2C%20mid%20conversation%20and%20genuinely%20laughing%2C%20candid%20caring%20moment%2C%20editorial%20lifestyle%20photography%2C%20shallow%20depth%20of%20field%2C%20hopeful%20and%20active%20mood&width=1400&height=788&seq=evlv-care-together-02&orientation=landscape&nocache=true';

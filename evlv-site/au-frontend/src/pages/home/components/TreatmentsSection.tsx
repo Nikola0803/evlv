@@ -52,28 +52,29 @@ export default function TreatmentsSection() {
         <div ref={rail} data-product-shop className="peek-rail no-scrollbar -mr-4 mt-5 md:mr-0 md:mt-12">
           {treatments.map((t) => (
             <SmartLink key={t.name} href={t.href} className="peek-item group block cursor-pointer">
-              <div className="h-full rounded-[18px] md:rounded-[22px] bg-background-100 p-2 md:p-3 flex flex-col shadow-[0_20px_45px_-30px_rgba(0,0,0,0.55)] transition-transform duration-500 group-hover:-translate-y-1">
-                <div className="relative aspect-[4/5] rounded-[13px] md:rounded-[16px] overflow-hidden bg-background-50">
+              <div className="h-full rounded-[18px] md:rounded-[22px] bg-foreground-950 p-2 md:p-2.5 flex flex-col shadow-[0_24px_50px_-16px_rgba(0,0,0,0.65)] transition-transform duration-500 group-hover:-translate-y-1">
+                <div className="relative aspect-[4/5] rounded-[13px] md:rounded-[16px] overflow-hidden bg-gradient-to-b from-foreground-800 to-foreground-950">
                   <img
                     src={t.image}
                     alt={`${t.name} ${t.type} treatment pack shot`}
                     title={`${t.name} ${t.type}`}
-                    className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-[1.04]"
+                    className="w-full h-full object-contain object-center px-5 py-5 transition-transform duration-700 group-hover:scale-[1.04]"
                   />
+                  <div className="pointer-events-none absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-foreground-950 to-transparent" />
                 </div>
 
-                <div className="relative z-10 -mt-4 md:-mt-5 mx-auto rounded-full bg-background-50 px-4 md:px-5 py-[6px] md:py-[7px] text-[11px] md:text-xs font-semibold text-foreground-950 whitespace-nowrap shadow-[0_8px_18px_-10px_rgba(0,0,0,0.45)]">
+                <div className="relative z-10 -mt-4 md:-mt-5 mx-auto rounded-full bg-background-50 px-4 md:px-5 py-[6px] md:py-[7px] text-[11px] md:text-xs font-semibold text-foreground-950 whitespace-nowrap shadow-[0_8px_18px_-10px_rgba(0,0,0,0.6)]">
                   {t.name}
                 </div>
 
-                <p className="mt-2.5 md:mt-3 text-center text-[10.5px] md:text-[11px] leading-none text-foreground-600">
+                <p className="mt-2.5 md:mt-3 text-center text-[10.5px] md:text-[11px] leading-none text-background-400">
                   Starting at{' '}
-                  <span className="font-semibold text-foreground-900">
+                  <span className="font-semibold text-background-100">
                     {t.price}
                     <sup className="text-[8px]">{t.cents}</sup>
                   </span>
                 </p>
-                <p className="mt-2 mb-1 text-center text-[10px] uppercase tracking-[0.12em] text-foreground-500">
+                <p className="mt-2 mb-1.5 text-center text-[10px] uppercase tracking-[0.12em] text-background-500">
                   {t.type}
                 </p>
               </div>

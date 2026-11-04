@@ -72,13 +72,13 @@ export default function HeroSection() {
                   <i className="ri-arrow-right-up-line" />
                 </span>
               </div>
-              <div className="absolute inset-x-4 md:inset-x-5 bottom-0 h-[58%] overflow-hidden rounded-t-[18px] md:rounded-t-[20px] shadow-[0_-18px_40px_-24px_rgba(0,0,0,0.45)]">
+              <div className="absolute inset-x-0 bottom-0 h-[70%]">
                 <img
                   src={bentoPackShot}
-                  alt="EVLV pre-filled injection pen with its warm ivory carton"
-                  className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-[1.04]"
+                  alt="EVLV GLP-1 Semaglutide vial"
+                  className="w-full h-full object-contain object-bottom transition-transform duration-700 group-hover:scale-[1.04] group-hover:-translate-y-1"
                 />
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-accent-900/10 to-transparent" />
+                <div className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-accent-800/30 to-transparent" />
               </div>
             </Link>
           </Reveal>
