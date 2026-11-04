@@ -66,7 +66,7 @@ export default function QuizResult({ rec, secondary, onRetake }: Props) {
               to="/contact"
               className="whitespace-nowrap inline-flex items-center justify-center gap-2 rounded-full bg-secondary-950 text-background-50 px-6 py-3 text-sm font-semibold cursor-pointer hover:bg-secondary-800"
             >
-              Submit intake for medical approval
+              Submit intake for specialist review
             </Link>
             <Link
               to="/treatments"
@@ -143,7 +143,7 @@ export default function QuizResult({ rec, secondary, onRetake }: Props) {
 
       <p className="mt-8 text-[11px] leading-relaxed text-foreground-500 max-w-3xl">
         This quiz is a guidance tool, not a diagnosis or a prescription. Answers are used to suggest a starting point
-        only. Prescription products require an online consultation with a licensed healthcare practitioner who decides
+        only. Prescription products require an online consultation with a Wellness Optimisation Specialist who decides
         whether treatment is appropriate. EVLV is an Australian wellness optimisation service.
       </p>
     </div>

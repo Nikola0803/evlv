@@ -15,7 +15,7 @@ const terms: Section[] = [
   {
     title: '2. Not a pharmacy or manufacturer',
     body: [
-      'EVLV is not a pharmacy, drug manufacturer, or emergency care provider. Prescription products require an online consultation with a licensed healthcare practitioner who determines whether a prescription is appropriate.',
+      'EVLV is not a pharmacy, drug manufacturer, or emergency care provider. Prescription products require an online consultation with a Wellness Optimisation Specialist who determines whether a prescription is appropriate.',
       'Medications shown on this site are dispensed by a licensed pharmacy partner. Availability, pricing, and eligibility are confirmed during your assessment.',
     ],
   },

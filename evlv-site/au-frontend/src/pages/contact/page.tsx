@@ -295,7 +295,7 @@ export default function Contact() {
             </p>
             <p className="mt-4 text-[11px] text-foreground-500 leading-relaxed">
               EVLV is an Australian wellness optimisation service. Prescription products require an online consultation with a
-              licensed healthcare practitioner.
+              Wellness Optimisation Specialist.
             </p>
           </div>
         </aside>

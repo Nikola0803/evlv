@@ -161,7 +161,7 @@ export const testimonials = [
       'https://public.readdy.ai/ai/img_res/edited_e4aaad52c3f3feabe2fc0028b0c6f9e5_207ae4e3.jpg',
   },
   {
-    quote: '"I switched to EVLV for better support. All my questions were answered quickly, and the customer service agent was knowledgeable and friendly. Love that you are Australian owned and my physician is a woman."',
+    quote: '"I switched to EVLV for better support. All my questions were answered quickly, and the customer service agent was knowledgeable and friendly. Love that you are Australian owned and my Wellness Optimisation Specialist is a woman."',
     author: 'Judylaine',
     place: 'Sydney',
     product: 'GLP-2',
@@ -223,7 +223,7 @@ export const faqGroups = [
       { q: 'Does EVLV replace my primary doctor?', a: "No. EVLV can help with specific concerns, but it isn't a full replacement for your family doctor. For full physicals, complex issues, or urgent care, you should still see a provider in person." },
       { q: 'Is it legal to prescribe treatment online?', a: 'Yes. Consulting a licensed provider online is legal in Australia. Every doctor you interact with is licensed to prescribe medication and treat patients in your state or territory, and complies with all governing medical laws in Australia.' },
       { q: 'Where are you available?', a: 'We are currently available across New South Wales, Victoria, Queensland, Western Australia, South Australia, Tasmania, the ACT and the Northern Territory, with more regional coverage added regularly.' },
-      { q: 'What is the 60-second wellness quiz?', a: 'It is a short, no-cost questionnaire about your goal, your week and your medical history. Your answers are matched to a physician-led wellness protocol, and a licensed practitioner reviews the result before anything is prescribed or charged. It takes about a minute and you can stop at any point.' },
+      { q: 'What is the 60-second wellness quiz?', a: 'It is a short, no-cost questionnaire about your goal, your week and your medical history. Your answers are matched to a Wellness Optimisation protocol, and a Wellness Optimisation Specialist reviews the result before anything is prescribed or charged. It takes about a minute and you can stop at any point.' },
       { q: 'Is my information private?', a: 'Yes. We follow Australian privacy law, including the Privacy Act 1988 and the Australian Privacy Principles, and use encrypted, healthcare-grade systems to protect your personal and medical information. Any medication is shipped discreetly and requires a signature upon delivery.' },
     ],
   },
@@ -232,7 +232,7 @@ export const faqGroups = [
     items: [
       { q: 'How does EVLV work?', a: 'You fill out a simple, secure health form. A licensed provider reviews your information. If prescribed, your medication is delivered discreetly to your door. Then you get ongoing support through doctor check-ins and reminders.' },
       { q: 'How quickly will a Wellness Optimisation Expert review my questionnaire?', a: 'After your online questionnaire, a Wellness Optimisation Expert (MD) will complete their initial review of your medical history within 24 hours.' },
-      { q: 'What should I do if I am experiencing a side effect?', a: 'If you believe you have a medical emergency, please call 000 immediately. Otherwise, stop taking the medication and message your prescribing physician.' },
+      { q: 'What should I do if I am experiencing a side effect?', a: 'If you believe you have a medical emergency, please call 000 immediately. Otherwise, stop taking the medication and message your Wellness Optimisation Specialist.' },
       { q: 'Can I cancel my order at any time?', a: 'Yes. You can pause or cancel upcoming orders. We suggest messaging your provider first since most concerns can be resolved with small adjustments.' },
     ],
   },

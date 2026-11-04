@@ -144,8 +144,8 @@ export default function Footer() {
             <strong className="text-background-200">
               <em>EVLV is not a pharmacy or drug manufacturer.</em>
             </strong>{' '}
-            Prescription products, including RX peptides, require an online consultation with a licensed healthcare
-            practitioner who will determine whether a prescription is appropriate. EVLV is an Australian wellness
+            Prescription products, including RX peptides, require an online consultation with a Wellness Optimisation
+            Specialist who will determine whether a prescription is appropriate. EVLV is an Australian wellness
             optimisation service.
           </p>
           <div className="flex shrink-0 flex-col gap-1 sm:text-right">

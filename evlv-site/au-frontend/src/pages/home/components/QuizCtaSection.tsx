@@ -21,8 +21,8 @@ export default function QuizCtaSection() {
                 Not sure where to start? Start with your own answers.
               </h2>
               <p className="mt-5 text-background-300 leading-relaxed max-w-xl">
-                Six short questions about your goal, your week and your history. We match them to a physician-led
-                protocol, then a licensed practitioner reviews it before you pay anything.
+                Six short questions about your goal, your week and your history. We match them to a Wellness Optimisation
+                protocol, then a Wellness Optimisation Specialist reviews it before you pay anything.
               </p>
 
               <div className="mt-7 flex flex-col sm:flex-row gap-3">
