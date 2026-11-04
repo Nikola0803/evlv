@@ -106,7 +106,8 @@ export default function Legal() {
   if (!doc) {
     return (
       <PageShell>
-        <section className="mx-auto w-full max-w-[1440px] px-5 md:px-8 lg:px-12 py-24 text-center">
+        <section className="atmo-cream panel-section section-y">
+          <div className="mx-auto w-full max-w-[1440px] px-5 md:px-8 lg:px-12 text-center">
           <h1 className="font-heading text-3xl md:text-4xl font-semibold">That document is not here.</h1>
           <p className="mt-3 text-foreground-600">Try our Terms of Service or Privacy Policy.</p>
           <div className="mt-7 flex flex-wrap justify-center gap-3">
@@ -122,6 +123,7 @@ export default function Legal() {
             >
               Privacy Policy
             </Link>
+          </div>
           </div>
         </section>
       </PageShell>
@@ -142,7 +144,8 @@ export default function Legal() {
         }
       />
 
-      <section className="mx-auto w-full max-w-[1440px] px-5 md:px-8 lg:px-12 pb-20 grid grid-cols-1 lg:grid-cols-[1fr_260px] gap-8 items-start">
+      <section className="atmo-cream panel-section section-y">
+        <div className="mx-auto w-full max-w-[1440px] px-5 md:px-8 lg:px-12 grid grid-cols-1 lg:grid-cols-[1fr_260px] gap-8 items-start">
         <article className="glass-card rounded-[28px] p-6 md:p-10 max-w-3xl">
           {doc.map((s) => (
             <div key={s.title} className="mb-8 last:mb-0">
@@ -185,6 +188,7 @@ export default function Legal() {
             </ul>
           </div>
         </aside>
+        </div>
       </section>
     </PageShell>
   );

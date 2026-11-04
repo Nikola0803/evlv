@@ -48,8 +48,8 @@ export default function WomensHealthSection() {
 
             <Reveal delay={90} className="h-full">
               <div className="h-full flex flex-col justify-center px-3 pb-6 pt-4 md:px-6 md:py-8">
-                <p className="eyebrow text-primary-700">Women&apos;s health</p>
-                <h2 className="t-section mt-3">Women&apos;s health, without the waiting room.</h2>
+                <p className="eyebrow text-primary-700">Women&apos;s wellness</p>
+                <h2 className="t-section mt-3">Women&apos;s wellness, without the waiting room.</h2>
                 <p className="mt-4 text-foreground-600 leading-relaxed max-w-xl">
                   Weight, skin, hair, and the lab work that keeps getting pushed to next year. Start with a secure
                   assessment at home and a provider who listens properly instead of rushing you out the door.

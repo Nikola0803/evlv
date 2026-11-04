@@ -100,7 +100,8 @@ export default function Contact() {
         text="Tell us what is going on and a member of the EVLV care team will point you in the right direction. No pressure, no sales script."
       />
 
-      <section className="mx-auto w-full max-w-[1440px] px-5 md:px-8 lg:px-12 pb-20 grid grid-cols-1 lg:grid-cols-[1.35fr_1fr] gap-8 items-start">
+      <section className="atmo-cream panel-section section-y">
+        <div className="mx-auto w-full max-w-[1440px] px-5 md:px-8 lg:px-12 grid grid-cols-1 lg:grid-cols-[1.35fr_1fr] gap-8 items-start">
         <div className="glass-card rounded-[28px] p-6 md:p-9 mt-6 lg:mt-0">
           {(chosen || chosenProduct) && status !== 'ok' && (
             <div className="mb-6 flex items-start gap-3 rounded-[20px] border border-primary-800/12 bg-background-50/70 px-4 py-3.5">
@@ -299,6 +300,7 @@ export default function Contact() {
             </p>
           </div>
         </aside>
+        </div>
       </section>
     </PageShell>
   );

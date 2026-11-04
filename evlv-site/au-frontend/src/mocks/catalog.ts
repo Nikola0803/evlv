@@ -37,7 +37,7 @@ export const treatmentDetails = [
     cents: '.99',
     cadence: 'per piece',
     image:
-      'https://public.readdy.ai/ai/img_res/edited_e4aaad52c3f3feabe2fc0028b0c6f9e5_207ae4e3.jpg',
+      '/images/products/au-cutouts/evlv-1-10mg.webp',
     tagline: 'Once-weekly semaglutide, the starting point for most patients.',
     summary:
       'GLP-1 is our entry-level weight treatment: a once-weekly semaglutide injection that slows digestion and quiets appetite signals. Your EVLV provider starts you low, reviews how your body responds, and moves you up only when it is the right call.',
@@ -70,7 +70,7 @@ export const treatmentDetails = [
     cents: '.99',
     cadence: 'per piece',
     image:
-      'https://readdy.ai/api/search-image?query=Two%20slender%20white%20injection%20pens%20with%20champagne%20gold%20accent%20bands%20standing%20beside%20a%20slim%20matte%20cream%20carton%2C%20the%20product%20name%20GLP-2%20printed%20directly%20on%20the%20white%20pen%20barrels%20in%20thin%20champagne%20gold%20capital%20letters%20with%20no%20black%20label%20or%20sticker%2C%20the%20carton%20printed%20with%20EVLV%20in%20thin%20champagne%20lettering%2C%20product%20centred%20with%20generous%20space%20around%20it%2C%20minimal%20luxury%20pharmaceutical%20pack%20shot%2C%20seamless%20warm%20ivory%20studio%20sweep%20backdrop%2C%20soft%20directional%20daylight%20from%20the%20left%2C%20gentle%20cast%20shadow%2C%20editorial%20and%20refined&width=900&height=900&seq=evlv-pack-glp2-03&orientation=squarish',
+      '/images/products/au-cutouts/evlv-2-30mg.webp',
     tagline: 'Dual-action tirzepatide for patients who need a step up.',
     summary:
       'GLP-2 is tirzepatide, a once-weekly injection that acts on two incretin receptors rather than one. Providers often move patients here when a single-pathway treatment has not moved the needle enough, or when appetite response has plateaued.',
@@ -103,7 +103,7 @@ export const treatmentDetails = [
     cents: '.99',
     cadence: 'per piece',
     image:
-      'https://readdy.ai/api/search-image?query=One%20slim%20frosted%20white%20auto-injector%20device%20with%20a%20pale%20champagne%20gold%20collar%20standing%20upright%20in%20front%20of%20a%20tall%20matte%20cream%20carton%2C%20the%20product%20name%20GLP-3%20printed%20directly%20on%20the%20frosted%20device%20body%20in%20thin%20champagne%20gold%20capital%20letters%20with%20no%20black%20label%20or%20sticker%2C%20the%20carton%20printed%20with%20EVLV%20in%20thin%20champagne%20lettering%2C%20product%20centred%20with%20generous%20space%20around%20it%2C%20minimal%20high%20end%20pharmaceutical%20pack%20shot%2C%20seamless%20warm%20ivory%20studio%20sweep%20backdrop%2C%20soft%20directional%20daylight%20from%20the%20left%2C%20gentle%20cast%20shadow%2C%20editorial%20and%20premium&width=900&height=900&seq=evlv-pack-glp3-03&orientation=squarish',
+      '/images/products/au-cutouts/evlv-3-30mg.webp',
     tagline: 'Triple-agonist retatrutide, the newest option in our protocol.',
     summary:
       'GLP-3 is retatrutide, a triple agonist that works on GLP-1, GIP and glucagon pathways at once. It is the most recent addition to the EVLV weight protocol and the one we monitor most closely, because it is still under clinical investigation in Australia.',
@@ -136,7 +136,7 @@ export const treatmentDetails = [
     cents: '.99',
     cadence: 'per piece',
     image:
-      'https://readdy.ai/api/search-image?query=Small%20amber%20glass%20peptide%20vial%20with%20a%20cream%20cap%20standing%20on%20a%20soft%20ivory%20ceramic%20dish%20beside%20a%20compact%20matte%20cream%20carton%2C%20a%20slim%20cream%20label%20wrapped%20around%20the%20vial%20printed%20with%20BPC-157%20in%20thin%20champagne%20gold%20capitals%20and%20no%20black%20label%2C%20the%20carton%20printed%20with%20EVLV%20in%20thin%20champagne%20lettering%2C%20product%20centred%20with%20generous%20space%20around%20it%2C%20minimal%20luxury%20pharmaceutical%20pack%20shot%2C%20seamless%20warm%20ivory%20studio%20sweep%20backdrop%2C%20soft%20directional%20daylight%20from%20the%20left%2C%20gentle%20cast%20shadow%2C%20editorial%20and%20calm&width=900&height=900&seq=evlv-pack-bpc-03&orientation=squarish',
+      '/images/products/au-cutouts/bpc-157-10mg.webp',
     tagline: 'A peptide studied for recovery and gut lining support.',
     summary:
       'BPC-157 is a synthetic peptide that comes up often in recovery conversations. It is not TGA approved, so your EVLV provider reviews your history first and is upfront about what the evidence does and does not support.',
@@ -169,7 +169,7 @@ export const treatmentDetails = [
     cents: '.99',
     cadence: 'per piece',
     image:
-      'https://readdy.ai/api/search-image?query=Two%20small%20clear%20glass%20peptide%20vials%20with%20brushed%20champagne%20gold%20caps%20standing%20together%2C%20each%20wrapped%20in%20a%20slim%20cream%20label%20printed%20with%20CJC-1295%20and%20IPAMORELIN%20in%20thin%20champagne%20gold%20capitals%20and%20no%20black%20label%2C%20a%20low%20matte%20cream%20carton%20printed%20with%20EVLV%20beside%20them%2C%20product%20centred%20with%20generous%20space%20around%20it%2C%20minimal%20luxury%20pharmaceutical%20pack%20shot%2C%20seamless%20warm%20ivory%20studio%20sweep%20backdrop%2C%20soft%20directional%20daylight%20from%20the%20left%2C%20gentle%20cast%20shadow%2C%20editorial%20and%20understated&width=900&height=900&seq=evlv-pack-cjc-03&orientation=squarish',
+      '/images/products/au-cutouts/cjc-ipa-blend-10mg.webp',
     tagline: 'A paired protocol for body composition and recovery.',
     summary:
       'CJC-1295 and ipamorelin are used together as a growth hormone secretagogue protocol. Providers consider it for body composition, sleep and recovery goals, and will tell you plainly when it is not appropriate for you.',
@@ -202,7 +202,7 @@ export const treatmentDetails = [
     cents: '.99',
     cadence: 'per piece',
     image:
-      'https://readdy.ai/api/search-image?query=Single%20frosted%20glass%20peptide%20vial%20with%20a%20champagne%20gold%20cap%20standing%20on%20a%20warm%20ivory%20stone%20tile%2C%20a%20slim%20cream%20label%20wrapped%20around%20the%20vial%20printed%20with%20THYMOSIN%20in%20thin%20champagne%20gold%20capitals%20and%20no%20black%20label%2C%20beside%20a%20small%20matte%20cream%20carton%20printed%20with%20EVLV%20in%20thin%20champagne%20lettering%2C%20product%20centred%20with%20generous%20space%20around%20it%2C%20minimal%20pharmaceutical%20still%20life%2C%20seamless%20warm%20ivory%20studio%20sweep%20backdrop%2C%20soft%20directional%20daylight%20from%20the%20left%2C%20gentle%20cast%20shadow%2C%20editorial%20and%20premium&width=900&height=900&seq=evlv-pack-thymosin-03&orientation=squarish',
+      '/images/products/au-cutouts/thymosin-alpha-1-5mg.webp',
     tagline: 'An immune-focused peptide protocol, reviewed case by case.',
     summary:
       'Thymosin alpha-1 is studied for immune modulation. It is not TGA approved for general use, so EVLV treats it as a case-by-case conversation with a licensed provider rather than an off-the-shelf add-on.',

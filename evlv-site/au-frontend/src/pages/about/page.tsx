@@ -51,19 +51,21 @@ export default function About() {
         </Link>
       </PageIntro>
 
-      <section className="mx-auto w-full max-w-[1440px] px-5 md:px-8 lg:px-12 pb-16 md:pb-20">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          {principles.map((p, i) => (
-            <Reveal key={p.title} delay={i * 70}>
-              <div className="h-full glass-card glass-lift rounded-[26px] p-7">
-                <span className="w-11 h-11 rounded-full glass-inner flex items-center justify-center text-xl text-primary-700">
-                  <i className={p.icon} />
-                </span>
-                <h2 className="font-heading text-xl font-semibold mt-5">{p.title}</h2>
-                <p className="mt-2 text-sm text-foreground-600 leading-relaxed">{p.text}</p>
-              </div>
-            </Reveal>
-          ))}
+      <section className="atmo-cream panel-section section-y">
+        <div className="mx-auto w-full max-w-[1440px] px-5 md:px-8 lg:px-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            {principles.map((p, i) => (
+              <Reveal key={p.title} delay={i * 70}>
+                <div className="h-full glass-card glass-lift rounded-[26px] p-7">
+                  <span className="w-11 h-11 rounded-full glass-inner flex items-center justify-center text-xl text-primary-700">
+                    <i className={p.icon} />
+                  </span>
+                  <h2 className="font-heading text-xl font-semibold mt-5">{p.title}</h2>
+                  <p className="mt-2 text-sm text-foreground-600 leading-relaxed">{p.text}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -148,7 +150,8 @@ export default function About() {
         </Container>
       </section>
 
-      <section className="mx-auto w-full max-w-[1440px] px-5 md:px-8 lg:px-12 pb-20">
+      <section className="atmo-cream panel-section section-y">
+        <div className="mx-auto w-full max-w-[1440px] px-5 md:px-8 lg:px-12">
         <div className="glass-card rounded-[28px] p-8 md:p-12 grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-8 items-center">
           <div>
             <p className="text-[11px] uppercase tracking-[0.16em] text-primary-700">Clinical standards</p>
@@ -167,6 +170,7 @@ export default function About() {
           >
             Get in touch
           </Link>
+        </div>
         </div>
       </section>
     </PageShell>
