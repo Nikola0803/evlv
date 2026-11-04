@@ -26,7 +26,7 @@ const entryPoints = [
 
 export default function WomensHealthSection() {
   return (
-    <section id="womens-health" className="atmo-peach panel-section section-y">
+    <section id="womens-health" className="atmo-plum panel-section section-y">
       <Container>
         <div className="glass-card rounded-[32px] p-3 md:p-4 overflow-hidden">
           <div className="grid grid-cols-1 lg:grid-cols-[0.85fr_1.15fr] gap-4 lg:gap-8 items-stretch">
