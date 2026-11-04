@@ -1,3 +1,4 @@
+import { useRef, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import PageShell from '@/components/feature/PageShell';
 import Reveal from '@/components/base/Reveal';
@@ -11,12 +12,14 @@ import { shopCategories, shopDetailBlocks, shopDispatchNotes, shopProducts } fro
 
 export default function ShopProductDetail() {
   const { slug } = useParams();
+  const [galleryView, setGalleryView] = useState<'photo' | 'label' | 'spec'>('photo');
+  const galleryRef = useRef<HTMLDivElement | null>(null);
   const product = shopProducts.find((p) => p.slug === slug);
 
   if (!product) {
     return (
       <PageShell>
-        <section className="mx-auto w-full max-w-[1440px] px-5 md:px-8 lg:px-12 py-24 text-center">
+        <section className="mx-auto w-full max-w-[1440px] px-4 sm:px-5 md:px-8 lg:px-12 py-24 text-center">
           <h1 className="font-heading text-3xl md:text-4xl font-semibold">That vial is no longer listed.</h1>
           <p className="mt-3 text-foreground-600">It may have sold out or been renamed.</p>
           <Link
@@ -52,6 +55,25 @@ export default function ShopProductDetail() {
 
   return (
     <PageShell>
+      <div className="fixed inset-x-3 bottom-3 z-40 lg:hidden">
+        <div className="flex items-center gap-3 rounded-full border border-primary-800/15 bg-background-50/95 px-3 py-2 shadow-[0_18px_40px_-18px_rgba(0,0,0,0.45)] backdrop-blur">
+          <div className="min-w-0 flex-1">
+            <p className="truncate text-[10.5px] leading-tight text-foreground-500">
+              {product.name} · {product.size}
+            </p>
+            <p className="font-heading text-[15px] font-semibold leading-tight text-foreground-950">
+              ${product.price.toFixed(2)}
+            </p>
+          </div>
+          <Link
+            to={`/contact?intent=buy&product=${product.slug}`}
+            className="whitespace-nowrap rounded-full bg-primary-500 px-5 py-2.5 text-[12.5px] font-semibold text-secondary-950 cursor-pointer"
+          >
+            Buy this vial
+          </Link>
+        </div>
+      </div>
+
       <section className="atmo-cream pt-8 md:pt-10 pb-14 md:pb-20">
         <Container>
           <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-2 text-xs text-foreground-500">
@@ -75,10 +97,15 @@ export default function ShopProductDetail() {
             </span>
           </nav>
 
-          <div className="mt-7 grid grid-cols-1 lg:grid-cols-[0.92fr_1.08fr] gap-8 lg:gap-12 items-start">
+          <div className="mt-5 md:mt-7 grid grid-cols-1 lg:grid-cols-[1.08fr_0.92fr] gap-6 md:gap-8 lg:gap-10 items-start">
             <Reveal>
-              <div className="lg:sticky lg:top-28">
-                <VialGallery product={product} categoryLabel={categoryLabel} />
+              <div ref={galleryRef} className="lg:sticky lg:top-28">
+                <VialGallery
+                  product={product}
+                  categoryLabel={categoryLabel}
+                  view={galleryView}
+                  onViewChange={setGalleryView}
+                />
 
                 <div className="mt-4 grid grid-cols-3 gap-3">
                   {[
@@ -149,13 +176,17 @@ export default function ShopProductDetail() {
                     Buy this vial
                     <i className="ri-arrow-right-line transition-transform duration-300 group-hover:translate-x-0.5" />
                   </Link>
-                  <Link
-                    to={`/contact?intent=docs&product=${product.slug}`}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setGalleryView('spec');
+                      galleryRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }}
                     className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full border border-primary-800/25 bg-background-50/60 px-6 py-3.5 text-sm font-medium text-primary-800 cursor-pointer hover:border-primary-500 hover:bg-primary-50 transition-colors"
                   >
                     <i className="ri-file-text-line" />
-                    Request COA and endotoxin reports
-                  </Link>
+                    Show COA &amp; Endotoxin Report
+                  </button>
                 </div>
 
                 <dl className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-0 rounded-[22px] border border-primary-800/12 bg-background-50/55 px-5 py-2">
@@ -181,50 +212,52 @@ export default function ShopProductDetail() {
         </Container>
       </section>
 
-      <section className="mx-auto w-full max-w-[1440px] px-5 md:px-8 lg:px-12 pb-16 md:pb-20">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-5">
-          {shopDetailBlocks.map((block, i) => (
-            <Reveal key={block.key} delay={i * 60}>
-              <div className="glass-card rounded-[24px] p-6 h-full">
-                <span className="flex h-10 w-10 items-center justify-center rounded-full glass-inner text-lg text-primary-700">
-                  <i className={block.icon} />
-                </span>
-                <h2 className="font-heading text-xl font-semibold mt-4">{block.title}</h2>
-                <ul className="mt-4 space-y-2.5">
-                  {block.items.map((x) => (
-                    <li key={x} className="flex items-start gap-2.5 text-[12.5px] leading-relaxed text-foreground-700">
-                      <i className="ri-check-line mt-0.5 text-primary-600" />
-                      <span>{x}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-
-        <div className="mt-5 atmo-dark panel-section rounded-[26px] p-6 md:p-8 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-          <div>
-            <p className="eyebrow text-primary-300">Dispatch</p>
-            <h2 className="font-heading text-xl md:text-2xl font-semibold mt-2 text-background-50">
-              Sent the same working day the order is confirmed.
-            </h2>
-            <ul className="mt-4 space-y-2">
-              {shopDispatchNotes.map((n) => (
-                <li key={n} className="flex items-start gap-2.5 text-[12.5px] leading-relaxed text-background-300">
-                  <i className="ri-arrow-right-s-line mt-0.5 text-primary-300" />
-                  <span>{n}</span>
-                </li>
-              ))}
-            </ul>
+      <section className="band-soft panel-section py-10 md:py-20">
+        <Container>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
+            {shopDetailBlocks.map((block, i) => (
+              <Reveal key={block.key} delay={i * 60}>
+                <div className="glass-card rounded-[24px] p-6 h-full">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-full glass-inner text-lg text-primary-700">
+                    <i className={block.icon} />
+                  </span>
+                  <h2 className="font-heading text-xl font-semibold mt-4">{block.title}</h2>
+                  <ul className="mt-4 space-y-2.5">
+                    {block.items.map((x) => (
+                      <li key={x} className="flex items-start gap-2.5 text-[12.5px] leading-relaxed text-foreground-700">
+                        <i className="ri-check-line mt-0.5 text-primary-600" />
+                        <span>{x}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </Reveal>
+            ))}
           </div>
-          <Link
-            to={`/contact?intent=buy&product=${product.slug}`}
-            className="whitespace-nowrap shrink-0 rounded-full bg-primary-500 px-6 py-3 text-sm font-semibold text-secondary-950 cursor-pointer hover:bg-primary-400"
-          >
-            Order {product.name} {product.size}
-          </Link>
-        </div>
+
+          <div className="mt-6 md:mt-8 atmo-dark panel-section rounded-[26px] p-6 md:p-9 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+            <div>
+              <p className="eyebrow text-primary-300">Dispatch</p>
+              <h2 className="font-heading text-xl md:text-2xl font-semibold mt-2 text-background-50">
+                Sent the same working day the order is confirmed.
+              </h2>
+              <ul className="mt-4 space-y-2">
+                {shopDispatchNotes.map((n) => (
+                  <li key={n} className="flex items-start gap-2.5 text-[12.5px] leading-relaxed text-background-300">
+                    <i className="ri-arrow-right-s-line mt-0.5 text-primary-300" />
+                    <span>{n}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <Link
+              to={`/contact?intent=buy&product=${product.slug}`}
+              className="whitespace-nowrap shrink-0 rounded-full bg-primary-500 px-6 py-3 text-sm font-semibold text-secondary-950 cursor-pointer hover:bg-primary-400"
+            >
+              Order {product.name} {product.size}
+            </Link>
+          </div>
+        </Container>
       </section>
 
       <IncludedCards />
@@ -232,28 +265,32 @@ export default function ShopProductDetail() {
       <ProductFaq />
 
       {related.length > 0 && (
-        <section className="mx-auto w-full max-w-[1440px] px-5 md:px-8 lg:px-12 pb-20">
-          <div className="flex items-end justify-between gap-4 flex-wrap">
-            <div>
-              <h2 className="t-section">Also in {categoryLabel}</h2>
-              <p className="mt-2 text-sm text-foreground-600 max-w-xl leading-relaxed">
-                The same documentation standard, on the vials that sit closest to this one.
-              </p>
+        <section className="band-soft panel-section py-10 md:py-20">
+          <Container>
+            <div className="flex items-end justify-between gap-4 flex-wrap">
+              <div>
+                <h2 className="t-section">Also in {categoryLabel}</h2>
+                <p className="mt-2 text-sm text-foreground-600 max-w-xl leading-relaxed">
+                  The same documentation standard, on the vials that sit closest to this one.
+                </p>
+              </div>
+              <Link
+                to={`/shop?category=${product.category}`}
+                className="text-sm text-primary-700 underline underline-offset-4 cursor-pointer whitespace-nowrap"
+              >
+                See the full range
+              </Link>
             </div>
-            <Link
-              to={`/shop?category=${product.category}`}
-              className="text-sm text-primary-700 underline underline-offset-4 cursor-pointer whitespace-nowrap"
-            >
-              See the full range
-            </Link>
-          </div>
-          <div className="mt-7 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-5">
-            {related.map((p, i) => (
-              <ProductCard key={p.slug} product={p} categoryLabel={categoryLabel} index={i} />
-            ))}
-          </div>
+            <div className="mt-6 grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3 lg:gap-5 xl:grid-cols-4">
+              {related.map((p, i) => (
+                <ProductCard key={p.slug} product={p} categoryLabel={categoryLabel} index={i} />
+              ))}
+            </div>
+          </Container>
         </section>
       )}
+
+      <div className="h-16 lg:hidden" aria-hidden="true" />
     </PageShell>
   );
 }

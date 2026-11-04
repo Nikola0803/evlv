@@ -11,6 +11,8 @@ type GalleryProduct = {
 type Props = {
   product: GalleryProduct;
   categoryLabel: string;
+  view?: ViewKey;
+  onViewChange?: (view: ViewKey) => void;
 };
 
 type ViewKey = 'photo' | 'label' | 'spec';
@@ -21,13 +23,18 @@ const VIEWS: { key: ViewKey; short: string; label: string; icon: string }[] = [
   { key: 'spec', short: 'Lot', label: 'Lot sheet', icon: 'ri-file-list-3-line' },
 ];
 
-export default function VialGallery({ product, categoryLabel }: Props) {
-  const [view, setView] = useState<ViewKey>('photo');
+export default function VialGallery({ product, categoryLabel, view: controlledView, onViewChange }: Props) {
+  const [innerView, setInnerView] = useState<ViewKey>('photo');
+  const view = controlledView ?? innerView;
+  const setView = (next: ViewKey) => {
+    setInnerView(next);
+    onViewChange?.(next);
+  };
   const [failed, setFailed] = useState(false);
 
   return (
     <div className="flex flex-col-reverse gap-3 sm:flex-row">
-      <div className="flex sm:flex-col gap-2.5 sm:w-[84px] shrink-0">
+      <div className="flex sm:flex-col gap-2.5 sm:w-[96px] shrink-0">
         {VIEWS.map((v) => {
           const active = v.key === view;
           return (
@@ -37,7 +44,7 @@ export default function VialGallery({ product, categoryLabel }: Props) {
               onClick={() => setView(v.key)}
               aria-label={v.label}
               aria-pressed={active}
-              className={`cursor-pointer flex sm:h-[84px] flex-1 sm:flex-none flex-col items-center justify-center gap-1 rounded-[16px] border px-2 py-2.5 transition-colors ${
+              className={`cursor-pointer flex sm:h-[96px] flex-1 sm:flex-none flex-col items-center justify-center gap-1 rounded-[16px] border px-2 py-2.5 transition-colors ${
                 active
                   ? 'border-primary-500 bg-background-50 text-primary-800'
                   : 'border-primary-800/12 bg-background-50/45 text-foreground-500 hover:border-primary-800/30 hover:text-foreground-800'
@@ -59,7 +66,7 @@ export default function VialGallery({ product, categoryLabel }: Props) {
         })}
       </div>
 
-      <div className="relative flex-1 min-w-0 rounded-[30px] overflow-hidden product-frame-light aspect-square">
+      <div className="relative flex-1 min-w-0 rounded-[30px] overflow-hidden product-frame-light aspect-[4/5]">
         {view === 'photo' &&
           (failed ? (
             <div className="product-frame-fallback">
@@ -137,7 +144,8 @@ export default function VialGallery({ product, categoryLabel }: Props) {
             </dl>
 
             <p className="text-[9.5px] leading-relaxed text-foreground-500">
-              Figures are copied from the supplier report for this lot. COA and endotoxin reports are emailed on request.
+              Figures are copied from the supplier report for this lot. The COA and endotoxin report for this lot is
+              available on request.
             </p>
           </div>
         )}

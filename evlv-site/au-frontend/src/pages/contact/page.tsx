@@ -275,7 +275,7 @@ export default function Contact() {
               {[
                 'We read your message and route it to the right person.',
                 'A wellness optimisation specialist reviews your answers and calls you if anything needs clarifying.',
-                'If treatment makes sense, a licensed provider confirms it and your plan is dispensed.',
+                'If treatment makes sense, an expert confirms it and your plan is dispensed.',
               ].map((t, i) => (
                 <li key={t} className="flex items-start gap-3 text-sm text-background-300 leading-relaxed">
                   <span className="w-6 h-6 shrink-0 rounded-full glass-inner-dark flex items-center justify-center text-[11px] text-primary-200">
@@ -294,8 +294,8 @@ export default function Contact() {
               nearest emergency department.
             </p>
             <p className="mt-4 text-[11px] text-foreground-500 leading-relaxed">
-              EVLV is an Australian wellness optimisation service. Prescription products require an online consultation with a
-              licensed healthcare practitioner.
+              EVLV is an Australian wellness optimisation service. RX peptides require an online consultation with an
+              expert.
             </p>
           </div>
         </aside>

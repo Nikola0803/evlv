@@ -11,7 +11,7 @@ type Props = {
 
 export default function PageIntro({ eyebrow, title, text, children }: Props) {
   return (
-    <section className="atmo-cream panel-section pt-12 md:pt-16 pb-10 md:pb-14">
+    <section className="atmo-cream panel-section pt-8 md:pt-16 pb-8 md:pb-14">
       <Container>
         <Reveal>
           <div className="w-full">
@@ -20,9 +20,17 @@ export default function PageIntro({ eyebrow, title, text, children }: Props) {
                 {eyebrow}
               </p>
             )}
-            <h1 className="t-display mt-5 w-full">{title}</h1>
-            {text && <p className="mt-5 text-base md:text-lg text-foreground-600 leading-relaxed max-w-2xl">{text}</p>}
-            {children && <div className="mt-7 flex flex-wrap gap-3">{children}</div>}
+            <h1 className="t-display mt-4 md:mt-5 w-full">{title}</h1>
+            {text && (
+              <p className="mt-4 md:mt-5 text-[13.5px] md:text-lg text-foreground-600 leading-relaxed max-w-2xl">
+                {text}
+              </p>
+            )}
+            {children && (
+              <div className="mt-6 md:mt-7 flex flex-wrap gap-2.5 md:gap-3 [&>a]:w-full [&>a]:text-center sm:[&>a]:w-auto">
+                {children}
+              </div>
+            )}
           </div>
         </Reveal>
       </Container>

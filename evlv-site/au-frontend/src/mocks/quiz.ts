@@ -79,8 +79,8 @@ export const quizQuestions = [
   },
   {
     id: 'health',
-    title: 'Has a doctor ever flagged any of these?',
-    helper: 'This helps your provider choose the safest starting point.',
+    title: 'Has any of these ever been flagged for you?',
+    helper: 'This helps your expert choose the safest starting point.',
     type: 'single',
     options: [
       { id: 'insulin', label: 'Insulin resistance or prediabetes', hint: '', weights: { glp2: 2, labs: 2 } },
@@ -93,7 +93,7 @@ export const quizQuestions = [
   {
     id: 'experience',
     title: 'Have you used prescription weight management before?',
-    helper: 'This changes what your provider would recommend.',
+    helper: 'This changes what your expert would recommend.',
     type: 'single',
     options: [
       { id: 'never', label: 'Never', hint: 'This would be my first', weights: { glp1: 3 } },
@@ -140,7 +140,7 @@ export const quizRecommendations = [
     reasons: [
       'Fits a first-time or restarting profile with a steady, sustainable goal.',
       'One injection a week, so the routine is simple enough to actually keep.',
-      'Provider-titrated, so the dose climbs slowly and side effects stay manageable.',
+      'Expert-titrated, so the dose climbs slowly and side effects stay manageable.',
     ],
   },
   {
@@ -154,7 +154,7 @@ export const quizRecommendations = [
     reasons: [
       'Built for a plateau: months of effort with the scale refusing to move.',
       'Metabolic flags such as insulin resistance or PCOS suit a dual-action approach.',
-      'Still once weekly, with the same provider check-ins as the foundation plan.',
+      'Still once weekly, with the same expert check-ins as the foundation plan.',
     ],
   },
   {
@@ -168,7 +168,7 @@ export const quizRecommendations = [
     reasons: [
       'Suggested for a long history, or a previous treatment that stopped working.',
       'Triple pathway action makes it the most closely watched option we offer.',
-      'Your provider confirms eligibility before anything is dispensed.',
+      'An expert confirms eligibility before anything is dispensed.',
     ],
   },
   {
@@ -178,11 +178,11 @@ export const quizRecommendations = [
     href: '/treatments/bpc-157',
     price: 'From $149.99 / month',
     summary:
-      'Provider-reviewed peptides for recovery, body composition and training load, rather than appetite alone.',
+      'Expert-reviewed peptides for recovery, body composition and training load, rather than appetite alone.',
     reasons: [
       'You put training, recovery or body composition ahead of appetite.',
       'Peptides are prescribed and reviewed the same way as any other treatment here.',
-      'Your provider explains the evidence and approval status before you start.',
+      'An expert explains the evidence and approval status before you start.',
     ],
   },
   {
@@ -192,25 +192,25 @@ export const quizRecommendations = [
     href: '/treatments/labs',
     price: '$89.00 one-off',
     summary:
-      'A baseline panel before treatment, so your provider prescribes from data instead of guesswork.',
+      'A baseline panel before treatment, so your expert prescribes from data instead of guesswork.',
     reasons: [
       'Your answers point to metabolic numbers worth seeing before medication.',
-      'Results feed straight into your assessment with a licensed provider.',
+      'Results feed straight into your assessment with an expert.',
       'A sensible first step if you are still deciding between the GLP options.',
     ],
   },
 ];
 
 export const quizTrustPoints = [
-  'Every result is reviewed by a licensed Australian practitioner',
-  'No payment until a provider approves your plan',
+  'Every result is reviewed by an expert',
+  'No payment until an expert approves your plan',
   'Free, discreet delivery, Australia wide',
 ];
 
 export const quizAnalyzingSteps = [
   'Analysing your answers',
   'Matching you with a clinical protocol',
-  'Checking eligibility with a licensed provider',
+  'Checking eligibility with an expert',
 ];
 
 export const quizIntroFacts = [

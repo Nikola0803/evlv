@@ -4,7 +4,7 @@ import { shopIncludedCards } from '@/mocks/shop';
 
 export default function IncludedCards() {
   return (
-    <section className="pb-16 md:pb-20">
+    <section className="panel-section py-14 md:py-20">
       <Container>
         <div className="flex items-end justify-between gap-6 flex-wrap">
           <div>
@@ -16,7 +16,7 @@ export default function IncludedCards() {
           </p>
         </div>
 
-        <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
+        <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5">
           {shopIncludedCards.map((card, i) => (
             <Reveal key={card.title} delay={i * 45}>
               <div className="glass-card rounded-[20px] p-4 md:p-5 h-full flex items-start gap-3">

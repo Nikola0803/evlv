@@ -57,18 +57,18 @@ export default function Footer() {
 
   return (
     <footer className="atmo-footer panel-section text-background-50">
-      <Container className="py-12 md:py-16">
-        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1.5fr_repeat(4,minmax(0,1fr))] lg:gap-8">
-          <div className="max-w-sm">
+      <Container className="py-10 md:py-16">
+        <div className="grid grid-cols-2 gap-8 md:gap-10 lg:grid-cols-[1.5fr_repeat(4,minmax(0,1fr))] lg:gap-8">
+          <div className="col-span-2 max-w-sm lg:col-span-1">
             <Link to="/" aria-label="EVLV home" className="inline-flex items-center cursor-pointer">
               <Logo variant="light" className="w-[88px] h-auto" />
             </Link>
-            <p className="mt-4 text-[13px] leading-relaxed text-background-300">
-              Wellness optimisation for women across Australia, including prescribed RX peptides. Every protocol is reviewed by a
-              licensed provider before anything is dispensed.
+            <p className="mt-3.5 text-[12.5px] md:text-[13px] leading-relaxed text-background-300">
+              Wellness optimisation for women across Australia, including prescribed RX peptides. Every protocol is
+              reviewed by an expert before anything is dispensed.
             </p>
 
-            <h4 className="mt-6 font-heading text-base font-semibold">Expert tips on everyday health</h4>
+            <h4 className="mt-5 md:mt-6 font-heading text-base font-semibold">Expert tips on everyday health</h4>
             <p className="mt-1 text-[12px] text-background-400">
               Short, useful notes. Unsubscribe whenever you like.
             </p>
@@ -133,7 +133,7 @@ export default function Footer() {
           </div>
 
           {footerColumns.map((col) => (
-            <div key={col.title}>
+            <div key={col.title} className="min-w-0">
               <h4 className="mb-3 text-[11px] font-medium uppercase tracking-[0.14em] text-primary-200">{col.title}</h4>
               <ul className="space-y-2 text-[13px] text-background-300">
                 {col.links.map((l) => (
@@ -153,9 +153,8 @@ export default function Footer() {
             <strong className="text-background-200">
               <em>EVLV is not a pharmacy or drug manufacturer.</em>
             </strong>{' '}
-            Prescription products, including RX peptides, require an online consultation with a licensed healthcare
-            practitioner who will determine whether a prescription is appropriate. EVLV is an Australian wellness
-            optimisation service.
+            RX peptides require an online consultation with an expert who determines whether a prescription is
+            appropriate. EVLV is an Australian wellness optimisation service.
           </p>
           <div className="flex shrink-0 flex-col gap-1 sm:text-right">
             <span className="text-background-300">Wellness optimisation for women, Australia wide</span>
@@ -163,6 +162,20 @@ export default function Footer() {
           </div>
         </div>
       </Container>
+
+      <div className="relative mt-6 overflow-hidden">
+        <div className="pointer-events-none absolute left-1/2 top-1/2 -z-0 -translate-x-1/2 -translate-y-1/2" aria-hidden="true">
+          <span className="block w-[52vw] h-[52vw] max-w-[760px] max-h-[760px] rounded-full border border-primary-300/10" />
+          <span className="absolute left-1/2 top-1/2 block w-[36vw] h-[36vw] max-w-[520px] max-h-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-primary-300/10" />
+          <span className="absolute left-1/2 top-1/2 block w-[22vw] h-[22vw] max-w-[320px] max-h-[320px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-primary-300/10" />
+        </div>
+        <p
+          aria-hidden="true"
+          className="relative select-none text-center font-heading font-semibold leading-[0.78] tracking-[-0.04em] text-[clamp(84px,17vw,250px)] bg-gradient-to-b from-primary-300/90 via-primary-500/55 to-primary-700/20 bg-clip-text text-transparent translate-y-[14%]"
+        >
+          EVLV
+        </p>
+      </div>
     </footer>
   );
 }

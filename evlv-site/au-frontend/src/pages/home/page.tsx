@@ -2,9 +2,7 @@ import Header from '@/components/feature/Header';
 import Footer from '@/components/feature/Footer';
 import HeroSection from './components/HeroSection';
 import TreatmentsSection from './components/TreatmentsSection';
-import QuizCtaSection from './components/QuizCtaSection';
 import StepsSection from './components/StepsSection';
-import WomensHealthSection from './components/WomensHealthSection';
 import GoalsSection from './components/GoalsSection';
 import PrivacySection from './components/PrivacySection';
 import TestimonialsSection from './components/TestimonialsSection';
@@ -20,9 +18,7 @@ export default function Home() {
       <main>
         <HeroSection />
         <TreatmentsSection />
-        <QuizCtaSection />
         <StepsSection />
-        <WomensHealthSection />
         <GoalsSection />
         <PrivacySection />
         <TestimonialsSection />

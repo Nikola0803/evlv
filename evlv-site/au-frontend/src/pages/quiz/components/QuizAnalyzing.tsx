@@ -28,8 +28,8 @@ export default function QuizAnalyzing({ onDone }: Props) {
         </span>
       </div>
 
-      <h2 className="font-heading text-2xl md:text-3xl font-semibold mt-7">Analysing your answers...</h2>
-      <p className="mt-2 text-sm text-foreground-600">Matching with our clinical protocol. This takes a moment.</p>
+      <h2 className="font-heading text-2xl md:text-3xl font-semibold mt-7">Reviewing your options…</h2>
+      <p className="mt-2 text-sm text-foreground-600">Matching your answers to the right starting point.</p>
 
       <ul className="mt-8 space-y-3 text-left max-w-md mx-auto">
         {quizAnalyzingSteps.map((step, i) => {
@@ -60,7 +60,7 @@ export default function QuizAnalyzing({ onDone }: Props) {
       </ul>
 
       <p className="mt-8 text-[11px] text-foreground-500">
-        Reviewed by licensed Australian practitioners. Your answers are never sold or shared.
+        Reviewed by experts. Your answers are never sold or shared.
       </p>
     </div>
   );

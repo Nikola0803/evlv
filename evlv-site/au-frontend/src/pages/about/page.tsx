@@ -8,8 +8,8 @@ import { steps } from '@/mocks/home';
 const principles = [
   {
     icon: 'ri-user-heart-line',
-    title: 'Real clinicians, not chatbots',
-    text: 'Every assessment is read by a licensed Australian provider who is accountable for the decision they make about your care.',
+    title: 'Real experts, not chatbots',
+    text: 'Every assessment is read by an expert who is accountable for the decision they make about your care.',
   },
   {
     icon: 'ri-shield-check-line',
@@ -19,7 +19,7 @@ const principles = [
   {
     icon: 'ri-time-line',
     title: 'Care that keeps up',
-    text: 'Follow-ups are part of the plan, not an upsell. If something is not working, your provider adjusts instead of leaving you to figure it out.',
+    text: 'Follow-ups are part of the plan, not an upsell. If something is not working, your expert adjusts instead of leaving you to figure it out.',
   },
 ];
 
@@ -35,7 +35,7 @@ export default function About() {
             everyday care.
           </>
         }
-        text="EVLV is an Australian wellness optimisation service for women who want straightforward access to licensed providers — for weight, skin, hair, and the health questions that usually get pushed to the bottom of the list."
+        text="EVLV is an Australian wellness optimisation service for women who want straightforward access to Wellness Optimisation Experts — for weight, skin, hair, and the health questions that usually get pushed to the bottom of the list."
       >
         <Link
           to="/treatments"
@@ -51,45 +51,47 @@ export default function About() {
         </Link>
       </PageIntro>
 
-      <section className="mx-auto w-full max-w-[1440px] px-5 md:px-8 lg:px-12 pb-16 md:pb-20">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          {principles.map((p, i) => (
-            <Reveal key={p.title} delay={i * 70}>
-              <div className="h-full glass-card glass-lift rounded-[26px] p-7">
-                <span className="w-11 h-11 rounded-full glass-inner flex items-center justify-center text-xl text-primary-700">
-                  <i className={p.icon} />
-                </span>
-                <h2 className="font-heading text-xl font-semibold mt-5">{p.title}</h2>
-                <p className="mt-2 text-sm text-foreground-600 leading-relaxed">{p.text}</p>
-              </div>
-            </Reveal>
-          ))}
-        </div>
+      <section className="band-soft panel-section pb-16 md:pb-24 pt-2">
+        <Container>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-6">
+            {principles.map((p, i) => (
+              <Reveal key={p.title} delay={i * 70}>
+                <div className="h-full glass-card glass-lift rounded-[22px] md:rounded-[26px] p-5 md:p-7">
+                  <span className="w-10 h-10 md:w-11 md:h-11 rounded-full glass-inner flex items-center justify-center text-lg md:text-xl text-primary-700">
+                    <i className={p.icon} />
+                  </span>
+                  <h2 className="font-heading text-lg md:text-xl font-semibold mt-4 md:mt-5">{p.title}</h2>
+                  <p className="mt-1.5 md:mt-2 text-[13px] md:text-sm text-foreground-600 leading-relaxed">{p.text}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </Container>
       </section>
 
       <section className="atmo-purple panel-section text-background-50 section-y">
         <Container>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-7 md:gap-10 lg:gap-16 items-start">
           <Reveal>
             <div>
               <p className="text-[11px] uppercase tracking-[0.16em] text-primary-300">Built for women</p>
               <h2 className="t-section mt-3">
                 Care designed around women&apos;s health, not a generic health app.
               </h2>
-              <p className="mt-5 text-background-300 leading-relaxed">
+              <p className="mt-4 md:mt-5 text-[13.5px] md:text-base text-background-300 leading-relaxed">
                 EVLV started with weight, hair, and skin because those are the concerns women most often raise and
-                least often get a straight answer about. We built the service so the same clinician, the same
+                least often get a straight answer about. We built the service so the same expert, the same
                 standards, and the same discretion apply from the first assessment onwards.
               </p>
-              <p className="mt-4 text-background-300 leading-relaxed">
+              <p className="mt-3.5 md:mt-4 text-[13.5px] md:text-base text-background-300 leading-relaxed">
                 Women come to us with very different histories, and rarely with time to spare. What does not change is
-                who is on the other side of the assessment: a licensed provider, in your state or territory, working to
+                who is on the other side of the assessment: a Wellness Optimisation Expert, in your state or territory, working to
                 Australian clinical standards, who explains the plan instead of leaving you to guess.
               </p>
             </div>
           </Reveal>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
             {[
               {
                 label: 'What we treat',
@@ -97,11 +99,11 @@ export default function About() {
               },
               {
                 label: 'How it feels',
-                items: ['A provider who listens properly', 'Free, discreet delivery', 'Encrypted, privacy-law-aligned records', 'Follow-ups included in your plan'],
+                items: ['An expert who listens properly', 'Free, discreet delivery', 'Encrypted, privacy-law-aligned records', 'Follow-ups included in your plan'],
               },
             ].map((col, i) => (
               <Reveal key={col.label} delay={i * 90}>
-                <div className="glass-card-dark rounded-[24px] p-6 h-full">
+                <div className="glass-card-dark rounded-[20px] md:rounded-[24px] p-5 md:p-6 h-full">
                   <h3 className="font-heading text-lg font-semibold text-background-50">{col.label}</h3>
                   <ul className="mt-4 space-y-2.5">
                     {col.items.map((x) => (
@@ -127,7 +129,7 @@ export default function About() {
             <h2 className="t-section mt-3">How care works at EVLV.</h2>
           </div>
         </Reveal>
-        <div className="mt-10 md:mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="mt-7 md:mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
           {steps.map((s, i) => (
             <Reveal key={s.title} delay={i * 80}>
               <div className="h-full glass-card glass-lift rounded-[26px] p-2.5 pb-6 flex flex-col">
@@ -148,16 +150,15 @@ export default function About() {
         </Container>
       </section>
 
-      <section className="mx-auto w-full max-w-[1440px] px-5 md:px-8 lg:px-12 pb-20">
-        <div className="glass-card rounded-[28px] p-8 md:p-12 grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-8 items-center">
+      <section className="mx-auto w-full max-w-[1440px] px-4 sm:px-5 md:px-8 lg:px-12 pb-16 md:pb-20">
+        <div className="glass-card rounded-[22px] md:rounded-[28px] p-5 md:p-12 grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-6 md:gap-8 items-center">
           <div>
             <p className="text-[11px] uppercase tracking-[0.16em] text-primary-700">Clinical standards</p>
             <h2 className="font-heading text-2xl md:text-3xl font-semibold mt-3">
-              A licensed provider network, a real pharmacy, and follow-up that continues.
+              An expert network, a real pharmacy, and follow-up that continues.
             </h2>
             <p className="mt-3 text-foreground-600 leading-relaxed max-w-2xl">
-              Every assessment is reviewed by an Australian registered practitioner who works to national prescribing
-              standards. Prescriptions are dispensed by a licensed pharmacy, and your care team stays with you through
+              Every assessment is reviewed by a Wellness Optimisation Expert who works to national standards. Prescriptions are dispensed by a licensed pharmacy, and your care team stays with you through
               titration, refills and any adjustment along the way.
             </p>
           </div>

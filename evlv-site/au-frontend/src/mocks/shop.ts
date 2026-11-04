@@ -13,7 +13,7 @@ export const shopCategories = [
     slug: 'peptides',
     label: 'RX Peptides',
     blurb:
-      'Prescribed RX peptide protocols for recovery, body composition and immune support, dispensed after a provider review.',
+      'Prescribed RX peptide protocols for recovery, body composition and immune support, dispensed after an expert review.',
   },
   {
     slug: 'blends',
@@ -391,7 +391,7 @@ export const shopIncludedCards = [
   },
   {
     icon: 'ri-file-shield-2-line',
-    title: 'COA and endotoxin on request',
+    title: 'COA & endotoxin report',
     text: 'The certificate of analysis and endotoxin report for the vial you receive, emailed usually the same business day.',
   },
   {
@@ -419,7 +419,7 @@ export const shopIncludedCards = [
 export const shopProductFaqs = [
   {
     q: 'Is this a prescription medicine?',
-    a: 'No. Vials in this catalogue are supplied as laboratory reference material for analytical and research work only. They are not a medicine and are not for human or veterinary use. Prescribed RX peptide protocols are a separate path, handled through a provider assessment before anything is dispensed.',
+    a: 'No. Vials in this catalogue are supplied as laboratory reference material for analytical and research work only. They are not a medicine and are not for human or veterinary use. Prescribed RX peptide protocols are a separate path, handled through an expert assessment before anything is dispensed.',
   },
   {
     q: 'How does the vial arrive?',
@@ -430,7 +430,7 @@ export const shopProductFaqs = [
     a: 'Keep the vial sealed, upright, between 2 and 8 degrees and out of direct light. Once it has been reconstituted, keep it refrigerated and use it within the window printed on the label. Never freeze a mixed solution.',
   },
   {
-    q: 'Can I request the COA and endotoxin report?',
+    q: 'Can I see the COA and endotoxin report?',
     a: 'Yes. Where a report exists for the lot, the purity figure is stated on this page and the full certificate of analysis and endotoxin report are emailed on request. Where no report exists for a lot, this page says report on request rather than estimating a number.',
   },
   {

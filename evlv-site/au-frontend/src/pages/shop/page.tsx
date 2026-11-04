@@ -57,39 +57,38 @@ export default function Shop() {
 
   return (
     <PageShell>
-      <section className="atmo-dark panel-section py-14 md:py-20">
+      <section className="atmo-dark panel-section section-y">
         <Container>
           <Reveal>
             <div className="w-full max-w-3xl">
               <p className="eyebrow inline-flex items-center gap-2 rounded-full border border-primary-200/25 bg-primary-200/10 px-3 py-1.5 text-primary-200">
                 Research catalogue
               </p>
-              <h1 className="t-display mt-5 text-background-50">
+              <h1 className="t-display mt-4 text-background-50 md:mt-5">
                 Every vial, held to
-                <br />
-                one standard.
+                <br className="hidden sm:block" /> one standard.
               </h1>
-              <p className="mt-5 max-w-xl text-base leading-relaxed text-background-300 md:text-lg">
+              <p className="mt-4 max-w-xl text-[14px] leading-relaxed text-background-300 md:mt-5 md:text-lg">
                 Lyophilised research peptides with the labelled quantity and purity figure printed on the card, not
                 buried in a PDF. Prices are in AUD and include tracked Australian delivery.
               </p>
-              <div className="mt-7 flex flex-wrap gap-3">
+              <div className="mt-6 flex flex-col gap-2.5 sm:flex-row sm:flex-wrap sm:gap-3 md:mt-7">
                 <a
                   href="#catalogue"
-                  className="whitespace-nowrap rounded-full bg-primary-500 px-6 py-3 text-sm font-semibold text-secondary-950 cursor-pointer hover:bg-primary-400"
+                  className="w-full whitespace-nowrap rounded-full bg-primary-500 px-6 py-3 text-center text-sm font-semibold text-secondary-950 cursor-pointer hover:bg-primary-400 sm:w-auto"
                 >
                   Browse the catalogue
                 </a>
                 <Link
                   to="/treatments?category=peptides"
-                  className="whitespace-nowrap rounded-full border border-primary-200/30 px-6 py-3 text-sm font-medium text-background-100 cursor-pointer hover:bg-primary-200/10"
+                  className="w-full whitespace-nowrap rounded-full border border-primary-200/30 px-6 py-3 text-center text-sm font-medium text-background-100 cursor-pointer hover:bg-primary-200/10 sm:w-auto"
                 >
                   Prescribed RX peptides
                 </Link>
               </div>
               <p className="mt-4 max-w-xl text-[12.5px] leading-relaxed text-background-400">
-                Looking for RX peptides rather than research vials? Those are prescribed by a licensed provider —
-                start with an assessment instead of the catalogue.
+                Looking for RX peptides rather than research vials? Those are prescribed by an expert — start with an
+                assessment instead of the catalogue.
               </p>
               <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-background-400">
                 <span className="inline-flex items-center gap-1.5">
@@ -110,7 +109,7 @@ export default function Shop() {
         </Container>
       </section>
 
-      <section id="catalogue" className="mx-auto w-full max-w-[1440px] px-5 md:px-8 lg:px-12 py-12 md:py-16">
+      <section id="catalogue" className="mx-auto w-full max-w-[1440px] px-4 sm:px-5 md:px-8 lg:px-12 py-12 md:py-16">
         <ShopToolbar
           categories={shopCategories}
           active={category}
@@ -126,7 +125,7 @@ export default function Shop() {
         {list.length > 0 ? (
           <div
             data-product-shop
-            className="mt-7 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-5"
+            className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3 lg:gap-5 xl:grid-cols-4"
           >
             {list.map((p, i) => (
               <ProductCard key={p.slug} product={p} categoryLabel={labelFor(p.category)} index={i} />
@@ -160,7 +159,7 @@ export default function Shop() {
         </p>
       </section>
 
-      <section className="atmo-cream panel-section py-14 md:py-20">
+      <section className="atmo-cream panel-section py-10 md:py-20">
         <Container>
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
             <Reveal>
@@ -180,7 +179,7 @@ export default function Shop() {
               </div>
             </Reveal>
 
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-4">
               {standards.map((s, i) => (
                 <Reveal key={s.title} delay={i * 60}>
                   <div className="glass-card rounded-[22px] h-full p-5">
@@ -197,7 +196,7 @@ export default function Shop() {
         </Container>
       </section>
 
-      <section className="mx-auto w-full max-w-[1440px] px-5 md:px-8 lg:px-12 py-14 md:py-20">
+      <section className="mx-auto w-full max-w-[1440px] px-4 sm:px-5 md:px-8 lg:px-12 py-10 md:py-20">
         <div className="glass-gold rounded-[28px] p-7 md:p-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div>
             <h2 className="font-heading text-2xl md:text-3xl font-semibold text-accent-950">

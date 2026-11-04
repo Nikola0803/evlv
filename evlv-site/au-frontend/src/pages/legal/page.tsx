@@ -15,22 +15,22 @@ const terms: Section[] = [
   {
     title: '2. Not a pharmacy or manufacturer',
     body: [
-      'EVLV is not a pharmacy, drug manufacturer, or emergency care provider. Prescription products require an online consultation with a licensed healthcare practitioner who determines whether a prescription is appropriate.',
+      'EVLV is not a pharmacy, drug manufacturer, or emergency care provider. RX peptides require an online consultation with a Wellness Optimisation Expert who determines whether a prescription is appropriate.',
       'Medications shown on this site are dispensed by a licensed pharmacy partner. Availability, pricing, and eligibility are confirmed during your assessment.',
     ],
   },
   {
     title: '3. Your responsibilities',
     body: [
-      'You agree to provide accurate, complete health information, to answer follow-up questions honestly, and to tell your provider about other medications, conditions, and allergies.',
-      'Incomplete or inaccurate information can make treatment unsafe. Your provider may decline to prescribe or may stop treatment if the information you supply does not support it.',
+      'You agree to provide accurate, complete health information, to answer follow-up questions honestly, and to tell your Wellness Optimisation Expert about other medications, conditions, and allergies.',
+      'Incomplete or inaccurate information can make treatment unsafe. Your Wellness Optimisation Expert may decline to prescribe or may stop treatment if the information you supply does not support it.',
     ],
   },
   {
     title: '4. Emergencies',
     body: [
       'EVLV does not provide emergency or urgent care. If you believe you are experiencing a medical emergency, call 000 or attend your nearest emergency department immediately.',
-      'If you experience a serious side effect, stop taking the medication and seek medical attention, then notify your prescribing provider.',
+      'If you experience a serious side effect, stop taking the medication and seek medical attention, then notify the Wellness Optimisation Expert who prescribed it.',
     ],
   },
   {
@@ -44,7 +44,7 @@ const terms: Section[] = [
     title: '6. Limitations',
     body: [
       'The content on this site is general information, not medical advice, and should not be used to diagnose or treat any condition on its own.',
-      'To the extent permitted by law, EVLV and tagadaRX are not liable for outcomes resulting from reliance on site content rather than advice from a licensed provider.',
+      'To the extent permitted by law, EVLV and tagadaRX are not liable for outcomes resulting from reliance on site content rather than advice from a Wellness Optimisation Expert.',
     ],
   },
   {
@@ -73,7 +73,7 @@ const privacy: Section[] = [
   {
     title: '3. Who can see it',
     body: [
-      'Your information is available to the licensed provider managing your care, the pharmacy partner dispensing your prescription, and the tagadaRX staff who support those services.',
+      'Your information is available to the Wellness Optimisation Expert managing your care, the pharmacy partner dispensing your prescription, and the tagadaRX staff who support those services.',
       'We do not sell your personal or health information, and we do not share it for advertising.',
     ],
   },

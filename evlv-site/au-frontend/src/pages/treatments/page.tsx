@@ -21,7 +21,7 @@ export default function Treatments() {
             a real conversation.
           </>
         }
-        text="Every EVLV treatment begins with a free assessment reviewed by a licensed Australian provider. Choose a starting point below — your provider decides what is actually appropriate for you. That includes our RX peptides, which are prescribed and dispensed like any other treatment here."
+        text="Every EVLV treatment begins with a free assessment reviewed by a Wellness Optimisation Expert. Choose a starting point below — your Wellness Optimisation Expert decides what is actually appropriate for you. That includes our RX peptides, which are prescribed and dispensed like any other treatment here."
       >
         <Link
           to="/contact"
@@ -37,7 +37,7 @@ export default function Treatments() {
         </Link>
       </PageIntro>
 
-      <section className="mx-auto w-full max-w-[1440px] px-5 md:px-8 lg:px-12 pb-16 md:pb-24">
+      <section className="mx-auto w-full max-w-[1440px] px-4 sm:px-5 md:px-8 lg:px-12 pb-16 md:pb-24">
         <div className="flex flex-wrap items-center gap-2">
           <button
             type="button"
@@ -70,14 +70,14 @@ export default function Treatments() {
           <p className="mt-5 text-sm text-foreground-600 max-w-2xl leading-relaxed">{activeCategory.blurb}</p>
         )}
 
-        <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="mt-6 grid grid-cols-1 gap-4 sm:mt-8 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
           {list.map((t, i) => (
             <Reveal key={t.slug} delay={i * 60}>
               <Link
                 to={`/treatments/${t.slug}`}
                 className="group flex flex-col h-full glass-card glass-lift rounded-[26px] p-2.5 pb-5 cursor-pointer"
               >
-                <div className="product-frame-light w-full h-[210px] rounded-[20px]">
+                <div className="product-frame-light w-full h-[190px] rounded-[20px] sm:h-[210px]">
                   <img
                     src={t.image}
                     alt={`${t.name} ${t.generic} treatment`}
@@ -91,7 +91,7 @@ export default function Treatments() {
                     </span>
                     <span className="text-[10px] uppercase tracking-[0.14em] text-foreground-500">{t.generic}</span>
                   </div>
-                  <h2 className="font-heading text-2xl font-semibold mt-1.5">{t.name}</h2>
+                  <h2 className="font-heading text-xl font-semibold mt-1.5 sm:text-2xl">{t.name}</h2>
                   <p className="text-sm text-foreground-600 mt-1.5 leading-relaxed flex-1">{t.tagline}</p>
                   <div className="mt-4 flex items-end justify-between">
                     <p className="text-sm text-foreground-700">
@@ -115,7 +115,7 @@ export default function Treatments() {
               Not sure which one is right?
             </h2>
             <p className="mt-2 text-sm text-accent-950/80 max-w-xl leading-relaxed">
-              That is what the assessment is for. Describe what is going on and a licensed Australian provider will
+              That is what the assessment is for. Describe what is going on and a Wellness Optimisation Expert will
               recommend a path — including no treatment at all, if that is the honest answer.
             </p>
           </div>

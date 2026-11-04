@@ -7,7 +7,7 @@ const entryPoints = [
   {
     icon: 'ri-scales-3-line',
     title: 'Weight and metabolic health',
-    text: 'GLP-1, GLP-2 and GLP-3 protocols reviewed by a licensed provider, with dosing adjusted to your body and your history.',
+    text: 'GLP-1, GLP-2 and GLP-3 protocols reviewed by a Wellness Optimisation Expert, with dosing adjusted to your body and your history.',
     href: '/treatments?category=weight-loss',
   },
   {
@@ -40,7 +40,7 @@ export default function WomensHealthSection() {
                 <div className="absolute inset-x-4 bottom-4 rounded-2xl bg-foreground-950/55 backdrop-blur-md border border-background-50/20 px-4 py-3">
                   <p className="text-[11px] uppercase tracking-[0.16em] text-primary-200">For women, at every stage</p>
                   <p className="mt-1 text-sm text-background-50 leading-snug">
-                    The same licensed providers, the same discretion, built around what you actually asked for.
+                    The same Wellness Optimisation Experts, the same discretion, built around what you actually asked for.
                   </p>
                 </div>
               </div>
@@ -52,7 +52,7 @@ export default function WomensHealthSection() {
                 <h2 className="t-section mt-3">Women&apos;s health, without the waiting room.</h2>
                 <p className="mt-4 text-foreground-600 leading-relaxed max-w-xl">
                   Weight, skin, hair, and the lab work that keeps getting pushed to next year. Start with a secure
-                  assessment at home and a provider who listens properly instead of rushing you out the door.
+                  assessment at home and an expert who listens properly instead of rushing you out the door.
                 </p>
 
                 <ul className="mt-7 divide-y divide-primary-800/10">
@@ -83,7 +83,7 @@ export default function WomensHealthSection() {
                   </span>
                   <p className="text-[12.5px] leading-relaxed text-foreground-700">
                     <span className="font-semibold text-foreground-950">Looking after him too?</span> We supply RX
-                    peptides to men as well. Mention it in your assessment and your provider can advise on the right
+                    peptides to men as well. Mention it in your assessment and your Wellness Optimisation Expert can advise on the right
                     protocol for your partner — you do not need a second account.
                     <SmartLink
                       href="/treatments?category=peptides"

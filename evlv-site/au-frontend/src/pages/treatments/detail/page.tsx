@@ -11,7 +11,7 @@ export default function TreatmentDetail() {
   if (!item) {
     return (
       <PageShell>
-        <section className="mx-auto w-full max-w-[1440px] px-5 md:px-8 lg:px-12 py-24 text-center">
+        <section className="mx-auto w-full max-w-[1440px] px-4 sm:px-5 md:px-8 lg:px-12 py-24 text-center">
           <h1 className="font-heading text-3xl md:text-4xl font-semibold">We could not find that treatment.</h1>
           <p className="mt-3 text-foreground-600">It may have been renamed or moved.</p>
           <Link
@@ -111,10 +111,10 @@ export default function TreatmentDetail() {
                   <i className="ri-shield-check-line" />
                 </span>
                 <p className="text-[12px] leading-relaxed text-foreground-600">
-                  <strong className="font-semibold text-foreground-900">Reviewed by a real person.</strong> Our
-                  wellness optimisation specialists review every form. If anything you have told us needs clarifying,
-                  they will give you a call on the number you provide, usually within one business day. You are not
-                  charged until a licensed provider confirms your treatment.
+                  <strong className="font-semibold text-foreground-900">Reviewed by a real person.</strong> An
+                  expert reviews every form. If anything you have told us needs clarifying, they will give you a call
+                  on the number you provide, usually within one business day. You are not charged until an expert
+                  confirms your treatment.
                 </p>
               </div>
 
@@ -132,7 +132,9 @@ export default function TreatmentDetail() {
         </Container>
       </section>
 
-      <section className="mx-auto w-full max-w-[1440px] px-5 md:px-8 lg:px-12 pb-16 md:pb-24 grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <section className="band-soft panel-section py-14 md:py-20">
+        <Container>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 md:gap-6">
         <div className="glass-card rounded-[26px] p-6 md:p-8">
           <h2 className="font-heading text-2xl font-semibold">What is included</h2>
           <ul className="mt-5 space-y-3">
@@ -162,15 +164,18 @@ export default function TreatmentDetail() {
             ))}
           </dl>
           <p className="mt-6 text-[11px] leading-relaxed text-background-400">
-            <strong className="text-background-200">Important:</strong> EVLV does not sell medication directly. A
-            licensed Australian provider reviews every assessment and decides whether a prescription is appropriate.
-            EVLV is a wellness optimisation service operated by tagadaRX.
+            <strong className="text-background-200">Important:</strong> EVLV does not sell medication directly. An
+            expert reviews every assessment and decides whether a prescription is appropriate. EVLV is a wellness
+            optimisation service operated by tagadaRX.
           </p>
         </div>
+        </div>
+        </Container>
       </section>
 
       {related.length > 0 && (
-        <section className="mx-auto w-full max-w-[1440px] px-5 md:px-8 lg:px-12 pb-20">
+        <section className="band-soft panel-section py-14 md:py-20">
+          <Container>
           <div className="flex items-end justify-between gap-4 flex-wrap">
             <h2 className="font-heading text-2xl md:text-3xl font-semibold">Also in {category?.label}</h2>
             <Link to="/treatments" className="text-sm text-primary-700 underline cursor-pointer whitespace-nowrap">
@@ -204,6 +209,7 @@ export default function TreatmentDetail() {
               </Link>
             ))}
           </div>
+          </Container>
         </section>
       )}
     </PageShell>

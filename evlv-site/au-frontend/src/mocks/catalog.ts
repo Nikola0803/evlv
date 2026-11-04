@@ -2,13 +2,13 @@ export const careCategories = [
   {
     slug: 'weight-loss',
     label: 'Weight Loss',
-    blurb: 'GLP-1, GLP-2 and GLP-3 treatment guided by a licensed Australian provider and built around your goals.',
+    blurb: 'GLP-1, GLP-2 and GLP-3 treatment guided by an expert and built around your goals.',
   },
   {
     slug: 'peptides',
     label: 'RX Peptides',
     blurb:
-      'Prescribed RX peptides — not research vials. Reviewed by a licensed provider for recovery, body composition, and immune support, and available to women and their partners.',
+      'Prescribed RX peptides — not research vials. Reviewed by an expert for recovery, body composition, and immune support, and available to women and their partners.',
   },
   {
     slug: 'hair-growth',
@@ -23,7 +23,7 @@ export const careCategories = [
   {
     slug: 'labs',
     label: 'Labs & Testing',
-    blurb: 'At-home testing with results reviewed and explained by a real clinician.',
+    blurb: 'At-home testing with results reviewed and explained by a real expert.',
   },
 ];
 
@@ -40,10 +40,10 @@ export const treatmentDetails = [
       'https://public.readdy.ai/ai/img_res/edited_e4aaad52c3f3feabe2fc0028b0c6f9e5_207ae4e3.jpg',
     tagline: 'Once-weekly semaglutide, the starting point for most patients.',
     summary:
-      'GLP-1 is our entry-level weight treatment: a once-weekly semaglutide injection that slows digestion and quiets appetite signals. Your EVLV provider starts you low, reviews how your body responds, and moves you up only when it is the right call.',
+      'GLP-1 is our entry-level weight treatment: a once-weekly semaglutide injection that slows digestion and quiets appetite signals. Your EVLV Wellness Optimisation Expert starts you low, reviews how your body responds, and moves you up only when it is the right call.',
     highlights: [
       'One injection per week, on a day that fits your life',
-      'Dose titrated by your provider, never guessed',
+      'Dose titrated by your expert, never guessed',
       'Free, discreet delivery with signature on arrival',
     ],
     facts: [
@@ -53,13 +53,13 @@ export const treatmentDetails = [
       { label: 'Delivery', value: '2-3 business days' },
     ],
     included: [
-      'Free online assessment with a licensed Australian provider',
+      'Free online assessment with an expert',
       'Prescription, if appropriate, filled by a licensed pharmacy',
       'Ongoing check-ins and dose adjustments',
       'Discreet, unbranded packaging',
     ],
     goodFor:
-      'Women starting medical weight support for the first time, who want a well-studied option and a clinician watching their progress week to week.',
+      'Women starting medical weight support for the first time, who want a well-studied option and a Wellness Optimisation Expert watching their progress week to week.',
   },
   {
     slug: 'glp-2',
@@ -73,10 +73,10 @@ export const treatmentDetails = [
       'https://readdy.ai/api/search-image?query=Two%20slender%20white%20injection%20pens%20with%20champagne%20gold%20accent%20bands%20standing%20beside%20a%20slim%20matte%20cream%20carton%2C%20the%20product%20name%20GLP-2%20printed%20directly%20on%20the%20white%20pen%20barrels%20in%20thin%20champagne%20gold%20capital%20letters%20with%20no%20black%20label%20or%20sticker%2C%20the%20carton%20printed%20with%20EVLV%20in%20thin%20champagne%20lettering%2C%20product%20centred%20with%20generous%20space%20around%20it%2C%20minimal%20luxury%20pharmaceutical%20pack%20shot%2C%20seamless%20warm%20ivory%20studio%20sweep%20backdrop%2C%20soft%20directional%20daylight%20from%20the%20left%2C%20gentle%20cast%20shadow%2C%20editorial%20and%20refined&width=900&height=900&seq=evlv-pack-glp2-03&orientation=squarish',
     tagline: 'Dual-action tirzepatide for patients who need a step up.',
     summary:
-      'GLP-2 is tirzepatide, a once-weekly injection that acts on two incretin receptors rather than one. Providers often move patients here when a single-pathway treatment has not moved the needle enough, or when appetite response has plateaued.',
+      'GLP-2 is tirzepatide, a once-weekly injection that acts on two incretin receptors rather than one. Wellness Optimisation Experts often move patients here when a single-pathway treatment has not moved the needle enough, or when appetite response has plateaued.',
     highlights: [
       'Dual receptor action in a single weekly dose',
-      'Step-by-step titration with your provider',
+      'Step-by-step titration with your expert',
       'Ongoing monitoring through your care plan',
     ],
     facts: [
@@ -86,13 +86,13 @@ export const treatmentDetails = [
       { label: 'Delivery', value: '2-3 business days' },
     ],
     included: [
-      'Free online assessment with a licensed Australian provider',
+      'Free online assessment with an expert',
       'Prescription filled by a licensed pharmacy, if appropriate',
       'Ongoing dose review and support',
       'Free discreet shipping in unbranded packaging',
     ],
     goodFor:
-      'Women who have already tried a GLP-1, or who want a dual-action option with a structured titration plan and regular clinician oversight.',
+      'Women who have already tried a GLP-1, or who want a dual-action option with a structured titration plan and regular expert oversight.',
   },
   {
     slug: 'glp-3',
@@ -109,7 +109,7 @@ export const treatmentDetails = [
       'GLP-3 is retatrutide, a triple agonist that works on GLP-1, GIP and glucagon pathways at once. It is the most recent addition to the EVLV weight protocol and the one we monitor most closely, because it is still under clinical investigation in Australia.',
     highlights: [
       'Triple pathway action in one weekly dose',
-      'Starting dose set only after your provider reviews your history',
+      'Starting dose set only after your expert reviews your history',
       'Closer follow-up while the evidence base develops',
     ],
     facts: [
@@ -119,13 +119,13 @@ export const treatmentDetails = [
       { label: 'Delivery', value: '2-3 business days' },
     ],
     included: [
-      'Free online assessment with a licensed Australian provider',
+      'Free online assessment with an expert',
       'Prescription, if appropriate, filled by a licensed pharmacy',
       'More frequent check-ins during titration',
       'Free discreet shipping in unbranded packaging',
     ],
     goodFor:
-      'Women who have discussed retatrutide with their provider and want the closest available monitoring while the clinical picture continues to develop.',
+      'Women who have discussed retatrutide with their Wellness Optimisation Expert and want the closest available monitoring while the clinical picture continues to develop.',
   },
   {
     slug: 'bpc-157',
@@ -139,9 +139,9 @@ export const treatmentDetails = [
       'https://readdy.ai/api/search-image?query=Small%20amber%20glass%20peptide%20vial%20with%20a%20cream%20cap%20standing%20on%20a%20soft%20ivory%20ceramic%20dish%20beside%20a%20compact%20matte%20cream%20carton%2C%20a%20slim%20cream%20label%20wrapped%20around%20the%20vial%20printed%20with%20BPC-157%20in%20thin%20champagne%20gold%20capitals%20and%20no%20black%20label%2C%20the%20carton%20printed%20with%20EVLV%20in%20thin%20champagne%20lettering%2C%20product%20centred%20with%20generous%20space%20around%20it%2C%20minimal%20luxury%20pharmaceutical%20pack%20shot%2C%20seamless%20warm%20ivory%20studio%20sweep%20backdrop%2C%20soft%20directional%20daylight%20from%20the%20left%2C%20gentle%20cast%20shadow%2C%20editorial%20and%20calm&width=900&height=900&seq=evlv-pack-bpc-03&orientation=squarish',
     tagline: 'A peptide studied for recovery and gut lining support.',
     summary:
-      'BPC-157 is a synthetic peptide that comes up often in recovery conversations. It is not TGA approved, so your EVLV provider reviews your history first and is upfront about what the evidence does and does not support.',
+      'BPC-157 is a synthetic peptide that comes up often in recovery conversations. It is not TGA approved, so your EVLV Wellness Optimisation Expert reviews your history first and is upfront about what the evidence does and does not support.',
     highlights: [
-      'Provider-reviewed before anything is dispensed',
+      'Expert-reviewed before anything is dispensed',
       'Straight talk about where the evidence stands',
       'Reconstitution and storage guidance included',
     ],
@@ -152,13 +152,13 @@ export const treatmentDetails = [
       { label: 'Delivery', value: '2-3 business days' },
     ],
     included: [
-      'Free online assessment with a licensed Australian provider',
+      'Free online assessment with an expert',
       'Vial, supplies and storage instructions',
       'Check-ins during the first month',
       'Free discreet shipping in unbranded packaging',
     ],
     goodFor:
-      'Women researching recovery support who want a clinician to review their history first rather than ordering blind.',
+      'Women researching recovery support who want a Wellness Optimisation Expert to review their history first rather than ordering blind.',
   },
   {
     slug: 'cjc-1295-ipamorelin',
@@ -172,9 +172,9 @@ export const treatmentDetails = [
       'https://readdy.ai/api/search-image?query=Two%20small%20clear%20glass%20peptide%20vials%20with%20brushed%20champagne%20gold%20caps%20standing%20together%2C%20each%20wrapped%20in%20a%20slim%20cream%20label%20printed%20with%20CJC-1295%20and%20IPAMORELIN%20in%20thin%20champagne%20gold%20capitals%20and%20no%20black%20label%2C%20a%20low%20matte%20cream%20carton%20printed%20with%20EVLV%20beside%20them%2C%20product%20centred%20with%20generous%20space%20around%20it%2C%20minimal%20luxury%20pharmaceutical%20pack%20shot%2C%20seamless%20warm%20ivory%20studio%20sweep%20backdrop%2C%20soft%20directional%20daylight%20from%20the%20left%2C%20gentle%20cast%20shadow%2C%20editorial%20and%20understated&width=900&height=900&seq=evlv-pack-cjc-03&orientation=squarish',
     tagline: 'A paired protocol for body composition and recovery.',
     summary:
-      'CJC-1295 and ipamorelin are used together as a growth hormone secretagogue protocol. Providers consider it for body composition, sleep and recovery goals, and will tell you plainly when it is not appropriate for you.',
+      'CJC-1295 and ipamorelin are used together as a growth hormone secretagogue protocol. Wellness Optimisation Experts consider it for body composition, sleep and recovery goals, and will tell you plainly when it is not appropriate for you.',
     highlights: [
-      'Two-peptide protocol, planned by your provider',
+      'Two-peptide protocol, planned by your expert',
       'Dosing schedule matched to your routine',
       'Progress reviewed at each refill',
     ],
@@ -185,13 +185,13 @@ export const treatmentDetails = [
       { label: 'Delivery', value: '2-3 business days' },
     ],
     included: [
-      'Free online assessment with a licensed Australian provider',
+      'Free online assessment with an expert',
       'Both vials, supplies and storage guidance',
       'Dosing plan written out in plain language',
       'Free discreet shipping in unbranded packaging',
     ],
     goodFor:
-      'Women focused on body composition, sleep quality and recovery who want a provider-managed plan rather than a self-directed protocol.',
+      'Women focused on body composition, sleep quality and recovery who want an expert-managed plan rather than a self-directed protocol.',
   },
   {
     slug: 'thymosin-alpha-1',
@@ -205,11 +205,11 @@ export const treatmentDetails = [
       'https://readdy.ai/api/search-image?query=Single%20frosted%20glass%20peptide%20vial%20with%20a%20champagne%20gold%20cap%20standing%20on%20a%20warm%20ivory%20stone%20tile%2C%20a%20slim%20cream%20label%20wrapped%20around%20the%20vial%20printed%20with%20THYMOSIN%20in%20thin%20champagne%20gold%20capitals%20and%20no%20black%20label%2C%20beside%20a%20small%20matte%20cream%20carton%20printed%20with%20EVLV%20in%20thin%20champagne%20lettering%2C%20product%20centred%20with%20generous%20space%20around%20it%2C%20minimal%20pharmaceutical%20still%20life%2C%20seamless%20warm%20ivory%20studio%20sweep%20backdrop%2C%20soft%20directional%20daylight%20from%20the%20left%2C%20gentle%20cast%20shadow%2C%20editorial%20and%20premium&width=900&height=900&seq=evlv-pack-thymosin-03&orientation=squarish',
     tagline: 'An immune-focused peptide protocol, reviewed case by case.',
     summary:
-      'Thymosin alpha-1 is studied for immune modulation. It is not TGA approved for general use, so EVLV treats it as a case-by-case conversation with a licensed provider rather than an off-the-shelf add-on.',
+      'Thymosin alpha-1 is studied for immune modulation. It is not TGA approved for general use, so EVLV treats it as a case-by-case conversation with a Wellness Optimisation Expert rather than an off-the-shelf add-on.',
     highlights: [
       'Reviewed against your full health history',
       'Clear explanation of what it can and cannot do',
-      'Provider check-ins through the protocol',
+      'Expert check-ins through the protocol',
     ],
     facts: [
       { label: 'Format', value: 'Subcutaneous vial' },
@@ -218,13 +218,13 @@ export const treatmentDetails = [
       { label: 'Delivery', value: '2-3 business days' },
     ],
     included: [
-      'Free online assessment with a licensed Australian provider',
+      'Free online assessment with an expert',
       'Vial, supplies and storage instructions',
       'Follow-up review after the first month',
       'Free discreet shipping in unbranded packaging',
     ],
     goodFor:
-      'Women with a specific immune-related question who want it reviewed by a clinician before starting anything.',
+      'Women with a specific immune-related question who want it reviewed by a Wellness Optimisation Expert before starting anything.',
   },
   {
     slug: 'minoxidil',
@@ -238,10 +238,10 @@ export const treatmentDetails = [
       'https://readdy.ai/api/search-image?query=Amber%20glass%20dropper%20bottle%20of%20topical%20hair%20treatment%20with%20a%20brushed%20champagne%20gold%20pipette%20cap%2C%20a%20cream%20bottle%20label%20printed%20with%20MINOXIDIL%20in%20thin%20champagne%20gold%20capitals%20and%20no%20black%20label%2C%20standing%20beside%20a%20slim%20matte%20cream%20carton%20printed%20with%20EVLV%20in%20thin%20champagne%20lettering%2C%20product%20centred%20with%20generous%20space%20around%20it%2C%20minimal%20luxury%20pharmaceutical%20pack%20shot%2C%20seamless%20warm%20ivory%20studio%20sweep%20backdrop%2C%20soft%20directional%20daylight%20from%20the%20left%2C%20gentle%20cast%20shadow%2C%20editorial%20and%20premium&width=900&height=900&seq=evlv-pack-minoxidil-03&orientation=squarish',
     tagline: 'A first-line option for thinning hair and a widening part.',
     summary:
-      'Minoxidil is one of the most studied treatments for pattern hair loss. Your EVLV provider reviews your history and photos, then recommends a format and strength that fit your routine.',
+      'Minoxidil is one of the most studied treatments for pattern hair loss. Your EVLV Wellness Optimisation Expert reviews your history and photos, then recommends a format and strength that fit your routine.',
     highlights: [
       'Studied in women with female pattern hair loss',
-      'Topical or oral format, chosen with your provider',
+      'Topical or oral format, chosen with your expert',
       'Progress reviewed with photos over time',
     ],
     facts: [
@@ -251,7 +251,7 @@ export const treatmentDetails = [
       { label: 'Delivery', value: '2-3 business days' },
     ],
     included: [
-      'Free online assessment with a licensed Australian provider',
+      'Free online assessment with an expert',
       'Prescription, if appropriate, filled by a licensed pharmacy',
       'Photo-based progress check-ins',
       'Free discreet shipping in unbranded packaging',
@@ -271,11 +271,11 @@ export const treatmentDetails = [
       'https://readdy.ai/api/search-image?query=Matte%20cream%20skincare%20tube%20with%20a%20brushed%20champagne%20gold%20cap%20lying%20on%20a%20warm%20ivory%20surface%2C%20the%20tube%20printed%20with%20TRETINOIN%20in%20thin%20champagne%20gold%20capital%20letters%20as%20part%20of%20the%20packaging%20and%20no%20black%20label%2C%20beside%20a%20small%20matte%20cream%20carton%20printed%20with%20EVLV%20in%20thin%20champagne%20lettering%2C%20product%20centred%20with%20generous%20space%20around%20it%2C%20minimal%20luxury%20skincare%20pack%20shot%2C%20seamless%20warm%20ivory%20studio%20sweep%20backdrop%2C%20soft%20directional%20daylight%20from%20the%20left%2C%20gentle%20cast%20shadow%2C%20editorial%20and%20refined&width=900&height=900&seq=evlv-pack-tretinoin-03&orientation=squarish',
     tagline: 'Prescription retinoid for texture, breakouts, and fine lines.',
     summary:
-      'Tretinoin is a prescription retinoid used for acne and photoaging. It is stronger than anything you can buy off the shelf, so your provider starts you at a strength your skin can actually tolerate.',
+      'Tretinoin is a prescription retinoid used for acne and photoaging. It is stronger than anything you can buy off the shelf, so your Wellness Optimisation Expert starts you at a strength your skin can actually tolerate.',
     highlights: [
       'Prescription-strength retinoid',
       'Strength and frequency ramped up gradually',
-      'Provider guidance on routine and irritation',
+      'Expert guidance on routine and irritation',
     ],
     facts: [
       { label: 'Format', value: 'Topical cream' },
@@ -284,7 +284,7 @@ export const treatmentDetails = [
       { label: 'Delivery', value: '2-3 business days' },
     ],
     included: [
-      'Free online assessment with a licensed Australian provider',
+      'Free online assessment with an expert',
       'Prescription, if appropriate, filled by a licensed pharmacy',
       'Routine guidance for the first weeks',
       'Free discreet shipping in unbranded packaging',
@@ -304,10 +304,10 @@ export const treatmentDetails = [
       'https://readdy.ai/api/search-image?query=Compact%20matte%20cream%20at%20home%20blood%20test%20collection%20kit%20box%20printed%20with%20EVLV%20in%20thin%20letter%20spaced%20champagne%20gold%20capitals%2C%20a%20small%20glass%20collection%20tube%20and%20a%20folded%20instruction%20card%20beside%20it%2C%20product%20centred%20with%20generous%20space%20around%20it%2C%20minimal%20luxury%20diagnostics%20pack%20shot%2C%20seamless%20warm%20ivory%20studio%20sweep%20backdrop%2C%20soft%20directional%20daylight%20from%20the%20left%2C%20gentle%20cast%20shadow%2C%20no%20other%20text%20or%20logos%2C%20editorial%20and%20calm&width=900&height=900&seq=evlv-pack-labs-02&orientation=squarish',
     tagline: 'Know your numbers before you start treatment.',
     summary:
-      'A baseline panel covering the markers your provider needs before prescribing, plus the ones worth tracking as you go. Results come back with a plain-language explanation instead of a raw PDF.',
+      'A baseline panel covering the markers your Wellness Optimisation Expert needs before prescribing, plus the ones worth tracking as you go. Results come back with a plain-language explanation instead of a raw PDF.',
     highlights: [
       'At-home collection or partner lab visit',
-      'Reviewed by the clinician managing your care',
+      'Reviewed by the expert managing your care',
       'Results explained in plain language',
     ],
     facts: [
@@ -319,8 +319,8 @@ export const treatmentDetails = [
     included: [
       'Collection kit shipped to your door',
       'Prepaid return shipping and lab processing',
-      'Clinician review of every result',
-      'A written summary you can share with your family doctor',
+      'Expert review of every result',
+      'A written summary you can share with anyone else involved in your care',
     ],
     goodFor:
       'Anyone starting treatment, or tracking how their body is responding to it, who wants real data rather than guesswork.',

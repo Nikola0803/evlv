@@ -24,13 +24,13 @@ export default function ShopToolbar({
   return (
     <div className="w-full">
       <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="no-scrollbar -mx-4 flex items-center gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 sm:pb-0">
           {categories.map((c) => (
             <button
               key={c.slug}
               type="button"
               onClick={() => onCategory(c.slug)}
-              className={`whitespace-nowrap rounded-full px-4 py-2 text-sm font-medium border cursor-pointer transition-colors ${
+              className={`shrink-0 whitespace-nowrap rounded-full px-4 py-2 text-[13px] font-medium border cursor-pointer transition-colors sm:text-sm ${
                 active === c.slug
                   ? 'bg-secondary-900 text-background-50 border-secondary-900'
                   : 'border-primary-800/15 text-foreground-700 hover:bg-background-100'
@@ -69,11 +69,13 @@ export default function ShopToolbar({
         </div>
       </div>
 
-      <div className="mt-5 flex flex-wrap items-center justify-between gap-2 border-t border-primary-800/10 pt-4">
-        <p className="text-xs text-foreground-600">
-          Showing <span className="font-semibold text-foreground-900">{count}</span> of {total} products
-        </p>
-        <p className="text-xs text-foreground-500">All prices in AUD · COA badge shown only where a matching report exists</p>
+      <div className="mt-4 flex flex-col gap-1 border-t border-primary-800/10 pt-3.5 sm:mt-5 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-2 sm:pt-4">
+        <div className="flex items-center justify-between gap-2 sm:justify-start">
+          <p className="text-xs text-foreground-600">
+            Showing <span className="font-semibold text-foreground-900">{count}</span> of {total}
+          </p>
+        </div>
+        <p className="text-[11px] leading-relaxed text-foreground-500 sm:text-xs">All prices in AUD · COA badge shown only where a matching report exists</p>
       </div>
     </div>
   );

@@ -1,19 +1,37 @@
 import { Link } from 'react-router-dom';
-import { heroBannerVideo, heroBannerPoster, heroPromos, bentoPackShot, bentoCareImage, bentoSmall } from '@/mocks/home';
+import {
+  heroBannerVideo,
+  heroBannerPoster,
+  heroBannerMobileVideo,
+  heroBannerMobilePoster,
+  bentoPackShot,
+  bentoCareImage,
+  bentoSmall,
+} from '@/mocks/home';
 import Reveal from '@/components/base/Reveal';
 import SmartLink from '@/components/base/SmartLink';
 import Container from '@/components/base/Container';
 
 export default function HeroSection() {
   return (
-    <section className="atmo-cream panel-section pt-6 md:pt-10 pb-16 md:pb-24">
+    <section className="atmo-cream panel-section pt-4 md:pt-10 pb-12 md:pb-24">
       <Container>
         <Link
           to="/treatments?category=weight-loss"
-          className="group relative block w-full h-[240px] md:h-[380px] lg:h-[440px] rounded-[28px] overflow-hidden cursor-pointer glass-frame"
+          className="group relative block w-full overflow-hidden rounded-[22px] glass-frame cursor-pointer aspect-[4/5] sm:aspect-[16/10] md:aspect-auto md:h-[380px] lg:h-[440px] md:rounded-[28px]"
         >
           <video
-            className="w-full h-full object-cover object-center"
+            className="md:hidden w-full h-full object-cover object-center"
+            autoPlay
+            loop
+            muted
+            playsInline
+            poster={heroBannerMobilePoster}
+            src={heroBannerMobileVideo}
+            aria-label="EVLV wellness optimisation promotion"
+          />
+          <video
+            className="hidden md:block w-full h-full object-cover object-center"
             autoPlay
             loop
             muted
@@ -25,54 +43,36 @@ export default function HeroSection() {
         </Link>
 
         <Reveal>
-          <div className="mt-12 md:mt-16 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 lg:gap-10">
-            <div className="min-w-0 lg:flex-1">
-              <p className="eyebrow text-primary-700">A better standard of women&apos;s care</p>
-              <h1 className="t-display mt-4 text-foreground-950">Women&apos;s health, on your terms.</h1>
-              <div className="mt-6 flex flex-col sm:flex-row gap-3">
-                <Link
-                  to="/quiz"
-                  className="whitespace-nowrap inline-flex items-center justify-center gap-2 rounded-full bg-primary-500 text-secondary-950 px-6 py-3 text-sm font-semibold cursor-pointer hover:bg-primary-400"
-                >
-                  Take the 60-second quiz
-                  <i className="ri-arrow-right-line" />
-                </Link>
-                <Link
-                  to="/treatments"
-                  className="whitespace-nowrap inline-flex items-center justify-center rounded-full border border-primary-800/25 text-foreground-800 px-6 py-3 text-sm font-medium cursor-pointer hover:bg-background-50/70"
-                >
-                  Browse formulations
-                </Link>
-              </div>
-            </div>
-            <ul className="flex flex-wrap items-center gap-2 text-[11px] leading-none shrink-0 lg:flex-col lg:items-end">
-              {heroPromos.map((p) => (
-                <li
-                  key={p}
-                  className="inline-flex items-center gap-1.5 bg-background-50/60 text-foreground-700 border border-primary-800/12 rounded-full px-2.5 py-[6px] whitespace-nowrap shadow-[inset_0_1px_0_0_rgba(255,255,255,0.6)]"
-                >
-                  <i className="ri-checkbox-circle-fill text-[11px] text-primary-600" /> {p}
-                </li>
-              ))}
-            </ul>
+          <div className="mt-6 flex flex-col gap-3 md:mt-14 md:flex-row md:items-end md:justify-between md:gap-10">
+            <h1 className="t-display text-foreground-950 min-w-0">Women&apos;s health, on your terms.</h1>
+            <Link
+              to="/quiz"
+              className="group inline-flex items-center gap-2 shrink-0 self-end whitespace-nowrap text-[11px] md:self-auto md:text-sm font-medium text-foreground-800 cursor-pointer hover:text-primary-700 transition-colors"
+            >
+              <span className="hidden sm:inline">Take the 60-second quiz</span>
+              <span className="sm:hidden">Take the quiz</span>
+              <span className="w-6 h-6 md:w-7 md:h-7 rounded-full border border-primary-800/20 flex items-center justify-center text-[11px] md:text-xs transition-transform group-hover:translate-x-0.5">
+                <i className="ri-arrow-right-line" />
+              </span>
+            </Link>
           </div>
         </Reveal>
 
-        <div className="mt-8 md:mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-          <Reveal className="sm:col-span-2" delay={60}>
+        <div className="mt-5 md:mt-10 grid grid-cols-2 gap-2.5 md:grid-cols-4 md:gap-4">
+          <Reveal className="col-span-2" delay={60}>
             <Link
               to="/treatments?category=weight-loss"
-              className="group relative block h-[320px] md:h-[380px] rounded-[28px] overflow-hidden p-6 md:p-7 glass-gold cursor-pointer"
+              className="group relative flex h-[290px] md:h-[380px] w-full flex-col overflow-hidden rounded-[22px] md:rounded-[28px] p-5 md:p-7 glass-gold cursor-pointer"
             >
               <div className="relative z-20 flex items-start justify-between gap-4">
-                <p className="font-heading text-xl md:text-2xl font-semibold text-accent-950 leading-tight max-w-[15ch]">
+                <p className="font-heading text-lg md:text-2xl font-semibold text-accent-950 leading-tight max-w-[15ch]">
                   Access semaglutides and more
                 </p>
-                <span className="w-9 h-9 shrink-0 rounded-full bg-background-50/70 flex items-center justify-center text-accent-950 transition-transform group-hover:translate-x-1">
+                <span className="w-8 h-8 md:w-9 md:h-9 shrink-0 rounded-full bg-background-50/70 flex items-center justify-center text-accent-950 transition-transform group-hover:translate-x-1">
                   <i className="ri-arrow-right-up-line" />
                 </span>
               </div>
-              <div className="absolute inset-x-5 bottom-0 h-[60%] overflow-hidden rounded-t-[20px] shadow-[0_-18px_40px_-24px_rgba(0,0,0,0.45)]">
+              <div className="absolute inset-x-4 md:inset-x-5 bottom-0 h-[58%] overflow-hidden rounded-t-[18px] md:rounded-t-[20px] shadow-[0_-18px_40px_-24px_rgba(0,0,0,0.45)]">
                 <img
                   src={bentoPackShot}
                   alt="EVLV pre-filled injection pen with its warm ivory carton"
@@ -83,10 +83,10 @@ export default function HeroSection() {
             </Link>
           </Reveal>
 
-          <Reveal className="sm:col-span-2" delay={120}>
+          <Reveal className="col-span-2" delay={120}>
             <Link
               to="/about"
-              className="group relative block aspect-[16/9] rounded-[28px] overflow-hidden cursor-pointer glass-frame"
+              className="group relative block w-full aspect-[16/10] md:aspect-[16/9] overflow-hidden rounded-[22px] md:rounded-[28px] glass-frame cursor-pointer"
             >
               <img
                 src={bentoCareImage}
@@ -94,11 +94,11 @@ export default function HeroSection() {
                 className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-foreground-950/45 via-transparent to-transparent" />
-              <div className="absolute top-6 left-6 right-6 flex items-start justify-between gap-4">
-                <p className="font-heading text-xl md:text-2xl font-semibold text-background-50 max-w-[14ch]">
+              <div className="absolute top-4 left-4 right-4 md:top-6 md:left-6 md:right-6 flex items-start justify-between gap-4">
+                <p className="font-heading text-lg md:text-2xl font-semibold text-background-50 max-w-[14ch]">
                   Care built for women
                 </p>
-                <span className="w-9 h-9 shrink-0 rounded-full bg-background-50/85 flex items-center justify-center text-foreground-950">
+                <span className="w-8 h-8 md:w-9 md:h-9 shrink-0 rounded-full bg-background-50/85 flex items-center justify-center text-foreground-950">
                   <i className="ri-arrow-right-up-line" />
                 </span>
               </div>
@@ -108,28 +108,30 @@ export default function HeroSection() {
           {bentoSmall.map((b, i) => {
             const isCta = i === 3;
             return (
-              <Reveal key={b.label} delay={180 + i * 60}>
+              <Reveal key={b.label} delay={150 + i * 50}>
                 <SmartLink
                   href={b.href}
-                  className={`group relative flex flex-col justify-between h-[220px] rounded-[28px] overflow-hidden p-5 cursor-pointer ${
+                  className={`group relative flex flex-col justify-between h-[142px] md:h-[220px] rounded-[18px] md:rounded-[28px] overflow-hidden p-3.5 md:p-5 cursor-pointer ${
                     isCta ? 'glass-gold text-secondary-950' : 'glass-card glass-lift text-foreground-950'
                   }`}
                 >
-                  <span className="font-heading text-lg font-semibold max-w-[62%] leading-snug">{b.label}</span>
+                  <span className="font-heading text-[15px] md:text-lg font-semibold max-w-[78%] md:max-w-[62%] leading-snug">
+                    {b.label}
+                  </span>
                   {isCta ? (
                     <img
                       src={b.image}
                       alt={b.alt}
-                      className="absolute right-3 bottom-3 w-[86px] h-[86px] rounded-2xl object-cover object-top ring-2 ring-primary-300/60"
+                      className="absolute right-2.5 bottom-2.5 w-[64px] h-[64px] md:w-[86px] md:h-[86px] rounded-xl object-cover object-top ring-2 ring-primary-300/60"
                     />
                   ) : (
                     <img
                       src={b.image}
                       alt={b.alt}
-                      className="absolute right-2 bottom-1 w-[104px] h-[104px] object-contain object-top transition-transform duration-500 group-hover:-translate-y-1"
+                      className="absolute right-1 bottom-1 w-[76px] h-[76px] md:w-[104px] md:h-[104px] object-contain object-top transition-transform duration-500 group-hover:-translate-y-1"
                     />
                   )}
-                  <span className="absolute right-4 top-4 text-foreground-500 opacity-0 transition-opacity group-hover:opacity-100">
+                  <span className="absolute right-3 top-3 hidden md:block text-foreground-500 opacity-0 transition-opacity group-hover:opacity-100">
                     <i className="ri-arrow-right-up-line" />
                   </span>
                 </SmartLink>

@@ -17,10 +17,9 @@ export default function TreatmentsSection() {
   return (
     <section className="atmo-purple panel-section text-background-50 section-y">
       <Container>
-        <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div className="min-w-0">
-            <p className="eyebrow text-primary-300">Popular treatments</p>
-            <h2 className="t-section mt-3">Care that fits your life, not the other way around.</h2>
+            <h2 className="t-section">Popular treatments, now within reach.</h2>
           </div>
           <div className="flex items-center gap-3 shrink-0">
             <SmartLink
@@ -50,52 +49,39 @@ export default function TreatmentsSection() {
           </div>
         </div>
 
-        <div
-          ref={rail}
-          data-product-shop
-          className="peek-rail no-scrollbar mt-10"
-        >
+        <div ref={rail} data-product-shop className="peek-rail no-scrollbar -mr-4 mt-5 md:mr-0 md:mt-12">
           {treatments.map((t) => (
-            <article
-              key={t.name}
-              className="peek-item group glass-card-dark glass-lift rounded-[26px] p-5 flex flex-col"
-            >
-              <div className="flex items-center justify-between h-7">
-                <span className="text-[11px] rounded-full border border-primary-200/40 bg-background-50/10 px-3 py-1 text-primary-100 backdrop-blur-sm whitespace-nowrap">
+            <SmartLink key={t.name} href={t.href} className="peek-item group block cursor-pointer">
+              <div className="h-full rounded-[18px] md:rounded-[22px] bg-background-100 p-2 md:p-3 flex flex-col shadow-[0_20px_45px_-30px_rgba(0,0,0,0.55)] transition-transform duration-500 group-hover:-translate-y-1">
+                <div className="relative aspect-[4/5] rounded-[13px] md:rounded-[16px] overflow-hidden bg-background-50">
+                  <img
+                    src={t.image}
+                    alt={`${t.name} ${t.type} treatment pack shot`}
+                    title={`${t.name} ${t.type}`}
+                    className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-[1.04]"
+                  />
+                </div>
+
+                <div className="relative z-10 -mt-4 md:-mt-5 mx-auto rounded-full bg-background-50 px-4 md:px-5 py-[6px] md:py-[7px] text-[11px] md:text-xs font-semibold text-foreground-950 whitespace-nowrap shadow-[0_8px_18px_-10px_rgba(0,0,0,0.45)]">
+                  {t.name}
+                </div>
+
+                <p className="mt-2.5 md:mt-3 text-center text-[10.5px] md:text-[11px] leading-none text-foreground-600">
+                  Starting at{' '}
+                  <span className="font-semibold text-foreground-900">
+                    {t.price}
+                    <sup className="text-[8px]">{t.cents}</sup>
+                  </span>
+                </p>
+                <p className="mt-2 mb-1 text-center text-[10px] uppercase tracking-[0.12em] text-foreground-500">
                   {t.type}
-                </span>
-                <span className="w-7 h-7 rounded-full border border-primary-300/40 flex items-center justify-center text-primary-100 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <i className="ri-arrow-right-up-line" />
-                </span>
+                </p>
               </div>
-
-              <h3 className="t-card mt-4">{t.name}</h3>
-
-              <div className="product-frame h-[190px] mt-4 rounded-[18px]">
-                <img
-                  src={t.image}
-                  alt={`${t.name} prescription treatment`}
-                  title={`${t.name} ${t.type}`}
-                  className="transition-transform duration-500 group-hover:scale-[1.04]"
-                />
-              </div>
-
-              <SmartLink
-                href={t.href}
-                className="mt-5 whitespace-nowrap text-center rounded-full bg-gradient-to-b from-primary-300 to-accent-500 text-foreground-950 py-3 text-sm font-semibold cursor-pointer hover:from-primary-200 hover:to-accent-400 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.45)]"
-              >
-                Get started
-              </SmartLink>
-
-              <p className="mt-3 text-[11px] leading-4 text-primary-200 text-center h-4">
-                {t.price}
-                <sup>{t.cents}</sup> per piece
-              </p>
-            </article>
+            </SmartLink>
           ))}
         </div>
 
-        <p className="mt-6 text-[11px] text-primary-300/80">
+        <p className="mt-4 md:mt-6 text-[10px] md:text-[11px] text-primary-300/80">
           Prices are per piece and include delivery. No subscription, no recurring charge.
         </p>
       </Container>

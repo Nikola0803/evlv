@@ -26,10 +26,10 @@ export default function ProductCard({ product, categoryLabel, index }: Props) {
     <Reveal delay={(index % 4) * 55}>
       <article
         data-product-shop
-        className="group glass-card glass-lift rounded-[24px] p-2.5 pb-4 h-full flex flex-col"
+        className="group glass-card glass-lift rounded-[20px] p-2 pb-3 h-full flex flex-col sm:rounded-[24px] sm:p-2.5 sm:pb-4"
       >
         <Link to={`/shop/${product.slug}`} className="relative block cursor-pointer" aria-label={`${product.name} ${product.size} details`}>
-          <div className="product-frame-light product-frame-contain w-full aspect-square rounded-[18px] overflow-hidden">
+          <div className="product-frame-light product-frame-contain w-full aspect-square rounded-[14px] overflow-hidden sm:rounded-[18px]">
             {failed ? (
               <div className="product-frame-fallback">
                 <span className="flex h-10 w-10 items-center justify-center rounded-full bg-background-50/80 text-lg">
@@ -61,16 +61,16 @@ export default function ProductCard({ product, categoryLabel, index }: Props) {
           </span>
         </Link>
 
-        <div className="px-2.5 pt-3 flex flex-col flex-1">
-          <p className="text-[9.5px] uppercase tracking-[0.14em] text-primary-700">{categoryLabel}</p>
-          <h3 className="t-card mt-1 leading-tight">
+        <div className="px-1.5 pt-2.5 flex flex-col flex-1 sm:px-2.5 sm:pt-3">
+          <p className="text-[8.5px] uppercase tracking-[0.12em] text-primary-700 sm:text-[9.5px] sm:tracking-[0.14em]">{categoryLabel}</p>
+          <h3 className="t-card mt-1 leading-tight text-[13.5px] sm:text-[15px] md:text-[17px]">
             <Link to={`/shop/${product.slug}`} className="cursor-pointer hover:text-primary-700 transition-colors">
               {product.name}
             </Link>
           </h3>
-          <p className="text-xs text-foreground-500 mt-0.5">{product.size} vial</p>
+          <p className="text-[10.5px] text-foreground-500 mt-0.5 sm:text-xs">{product.size} vial</p>
 
-          <p className="mt-2 text-[11px] leading-relaxed text-foreground-500">
+          <p className="mt-1.5 text-[10px] leading-relaxed text-foreground-500 sm:mt-2 sm:text-[11px]">
             {product.purity ? (
               <>
                 Reported purity <span className="text-foreground-800">{product.purity}</span>
@@ -80,16 +80,23 @@ export default function ProductCard({ product, categoryLabel, index }: Props) {
             )}
           </p>
 
-          <div className="mt-auto pt-3.5 flex items-end justify-between gap-2">
-            <p className="leading-none">
-              <span className="font-heading text-lg font-semibold text-foreground-950">
+          <div className="mt-auto pt-2.5 flex items-end justify-between gap-2 sm:pt-3.5">
+            <p className="leading-none min-w-0">
+              <span className="font-heading text-[15px] font-semibold text-foreground-950 sm:text-lg">
                 ${product.price.toFixed(2)}
               </span>
-              <span className="ml-1 text-[10px] text-foreground-500">AUD / vial</span>
+              <span className="ml-1 text-[9px] text-foreground-500 sm:text-[10px]">AUD</span>
             </p>
             <Link
               to={`/shop/${product.slug}`}
-              className="whitespace-nowrap rounded-full bg-secondary-900 px-3.5 py-2 text-[11.5px] font-semibold text-background-50 cursor-pointer hover:bg-secondary-800 transition-colors"
+              aria-label={`View ${product.name}`}
+              className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-secondary-900 text-background-50 cursor-pointer sm:hidden"
+            >
+              <i className="ri-arrow-right-line text-xs" />
+            </Link>
+            <Link
+              to={`/shop/${product.slug}`}
+              className="hidden whitespace-nowrap rounded-full bg-secondary-900 px-3.5 py-2 text-[11.5px] font-semibold text-background-50 cursor-pointer hover:bg-secondary-800 transition-colors sm:inline-flex"
             >
               View vial
             </Link>

@@ -8,7 +8,7 @@ export default function ProductFaq() {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <section className="pb-16 md:pb-20">
+    <section className="panel-section py-14 md:py-20">
       <Container>
         <div className="grid grid-cols-1 lg:grid-cols-[0.78fr_1.22fr] gap-8 lg:gap-12 items-start">
           <div>

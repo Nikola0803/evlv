@@ -21,8 +21,8 @@ export default function QuizCtaSection() {
                 Not sure where to start? Start with your own answers.
               </h2>
               <p className="mt-5 text-background-300 leading-relaxed max-w-xl">
-                Six short questions about your goal, your week and your history. We match them to a physician-led
-                protocol, then a licensed practitioner reviews it before you pay anything.
+                Six short questions about your goal, your week and your history. We match them to an expert-led
+                protocol, then a Wellness Optimisation Expert reviews it before you pay anything.
               </p>
 
               <div className="mt-7 flex flex-col sm:flex-row gap-3">
@@ -41,7 +41,7 @@ export default function QuizCtaSection() {
               </div>
 
               <p className="mt-5 text-[11px] text-background-400">
-                Free to take · No card needed · Reviewed by licensed Australian practitioners
+                Free to take · No card needed · Reviewed by experts
               </p>
             </div>
           </Reveal>

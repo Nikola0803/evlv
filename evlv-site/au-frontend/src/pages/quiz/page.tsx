@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
 import PageShell from '@/components/feature/PageShell';
 import Container from '@/components/base/Container';
 import QuizIntro from '@/pages/quiz/components/QuizIntro';
@@ -79,16 +78,8 @@ export default function Quiz() {
 
       answersRef.current = next;
       setAnswers(next);
-
-      if (type === 'single') {
-        if (timer.current) window.clearTimeout(timer.current);
-        timer.current = window.setTimeout(() => {
-          if (step + 1 >= total) startAnalyzing();
-          else setStep((prev) => prev + 1);
-        }, 260);
-      }
     },
-    [startAnalyzing, step, total],
+    [],
   );
 
   const restart = useCallback(() => {
@@ -104,53 +95,20 @@ export default function Quiz() {
 
   return (
     <PageShell>
-      <section className="atmo-cream panel-section pt-12 md:pt-16 pb-16 md:pb-24 min-h-[calc(100vh-260px)]">
+      <section className="atmo-cream panel-section py-12 md:py-20 min-h-[calc(100vh-260px)]">
         <Container>
           {stage === 'intro' && <QuizIntro onStart={() => setStage('quiz')} />}
 
-          {stage === 'quiz' && (
-            <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-8 lg:gap-12 items-start">
-              <aside className="w-full lg:sticky lg:top-28">
-                <p className="eyebrow text-primary-700">Wellness quiz</p>
-                <h1 className="font-heading text-2xl md:text-3xl font-semibold leading-tight mt-3">
-                  A few answers.
-                  <br />
-                  A clearer starting point.
-                </h1>
-                <p className="mt-3 text-sm text-foreground-600 leading-relaxed">
-                  Answer honestly — there is nothing to get right here. Your provider reads all of it before anything
-                  is prescribed.
-                </p>
-
-                <div className="mt-6 rounded-2xl glass-inner p-4">
-                  <p className="text-xs font-medium flex items-center gap-1.5">
-                    <i className="ri-lock-2-line text-primary-700" /> Private by default
-                  </p>
-                  <p className="mt-1.5 text-[11px] text-foreground-600 leading-relaxed">
-                    Answers are used to match a protocol only. No card, no payment, no obligation.
-                  </p>
-                </div>
-
-                <Link
-                  to="/treatments"
-                  className="mt-5 inline-flex items-center gap-1.5 text-xs text-foreground-600 underline cursor-pointer hover:text-primary-700"
-                >
-                  Skip the quiz and browse formulations
-                </Link>
-              </aside>
-
-              {current && (
-                <QuizStep
-                  question={current}
-                  index={step}
-                  total={total}
-                  selected={answers[current.id] || []}
-                  onSelect={(optionId) => handleSelect(optionId, current.type, current.id)}
-                  onNext={goNext}
-                  onBack={goBack}
-                />
-              )}
-            </div>
+          {stage === 'quiz' && current && (
+            <QuizStep
+              question={current}
+              index={step}
+              total={total}
+              selected={answers[current.id] || []}
+              onSelect={(optionId) => handleSelect(optionId, current.type, current.id)}
+              onNext={goNext}
+              onBack={goBack}
+            />
           )}
 
           {stage === 'analyzing' && <QuizAnalyzing onDone={finish} />}

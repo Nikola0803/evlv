@@ -14,23 +14,23 @@ export default function GoalsSection() {
     <section className="atmo-plum panel-section text-background-50 section-y">
       <Container>
       <Reveal>
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-5 md:gap-6">
           <div className="min-w-0">
             <p className="eyebrow text-primary-300">Tracked in app</p>
-            <h2 className="t-section mt-3">Your goals, conveniently tracked in one place.</h2>
+            <h2 className="t-section mt-2.5 md:mt-3">Your goals, conveniently tracked in one place.</h2>
           </div>
           <SmartLink
             href="/treatments?category=weight-loss"
-            className="whitespace-nowrap self-start rounded-full bg-accent-500 text-foreground-950 px-6 py-3 text-sm font-semibold cursor-pointer hover:bg-accent-400"
+            className="hidden md:inline-flex whitespace-nowrap self-start rounded-full bg-accent-500 text-foreground-950 px-6 py-3 text-sm font-semibold cursor-pointer hover:bg-accent-400"
           >
             Start your free assessment
           </SmartLink>
         </div>
       </Reveal>
 
-      <div className="mt-10 md:mt-12 grid grid-cols-1 lg:grid-cols-2 gap-5">
+      <div className="mt-6 md:mt-12 grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-5">
         <Reveal delay={80}>
-          <div className="h-full glass-card-dark rounded-[28px] p-6 md:p-8">
+          <div className="h-full glass-card-dark rounded-[22px] md:rounded-[28px] p-4 md:p-8">
             <p className="text-sm text-background-300 leading-relaxed max-w-md">
               Semaglutides and Tirzepatides are prescription medications available through EVLV as part of medically
               supervised treatment plans.
@@ -89,14 +89,14 @@ export default function GoalsSection() {
           </div>
         </Reveal>
 
-        <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-4 md:gap-5">
           <Reveal delay={140}>
-            <div className="w-full aspect-[16/10] rounded-[28px] overflow-hidden glass-frame">
+            <div className="w-full aspect-[16/10] rounded-[22px] md:rounded-[28px] overflow-hidden glass-frame">
               <img src={goalsImage} alt="Woman outdoors in activewear on a morning walk" className="w-full h-full object-cover object-center" />
             </div>
           </Reveal>
           <Reveal delay={200}>
-            <div className="relative overflow-hidden rounded-[28px] glass-gold text-secondary-950 p-6 md:p-8">
+            <div className="relative overflow-hidden rounded-[22px] md:rounded-[28px] glass-gold text-secondary-950 p-5 md:p-8">
               <div className="relative z-10 max-w-sm">
                 <h3 className="font-heading text-xl md:text-2xl font-semibold leading-tight">
                   See results in as little as one month.
