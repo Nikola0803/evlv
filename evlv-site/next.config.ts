@@ -47,6 +47,15 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  async rewrites() {
+    return [
+      // Serve the au-frontend SPA for /au-app and all its sub-routes.
+      // Static assets under /au-app/assets/* are served by Next.js static
+      // file serving before this rewrite is reached (afterFiles order).
+      { source: "/au-app", destination: "/au-app/index.html" },
+      { source: "/au-app/:path*", destination: "/au-app/index.html" },
+    ];
+  },
   async redirects() {
     return [
       // Renamed to /heroes-discount (broader umbrella covering active
