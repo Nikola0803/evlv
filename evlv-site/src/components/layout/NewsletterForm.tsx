@@ -7,24 +7,31 @@ export function NewsletterForm() {
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [couponCode, setCouponCode] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setSubmitting(true);
+    setError(null);
     try {
       const res = await fetch("/api/newsletter", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: email.trim() }),
+        body: JSON.stringify({ email: email.trim(), source: "au-redesign-footer" }),
       });
       const data = await res.json().catch(() => null);
+      if (!res.ok) {
+        setError(typeof data?.error === "string" ? data.error : "We couldn't add you right now. Please try again.");
+        return;
+      }
       if (typeof data?.couponCode === "string") setCouponCode(data.couponCode);
     } catch {
-      /* still show success below -- signup isn't worth blocking on a network hiccup */
+      setError("We couldn't reach the signup service. Please try again.");
+      return;
     } finally {
       setSubmitting(false);
-      setSubmitted(true);
     }
+    setSubmitted(true);
   }
 
   return (
@@ -62,6 +69,7 @@ export function NewsletterForm() {
               <i className="ri-arrow-right-line text-xs" />
             </button>
           </form>
+          {error && <p className="mt-3 text-xs leading-relaxed text-red-300">{error}</p>}
         </>
       )}
     </div>

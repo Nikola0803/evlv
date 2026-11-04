@@ -1,6 +1,55 @@
 import type { Product } from "./types";
 
 const GENERATED_ROOT = "/images/products/generated-v1";
+const AU_CUTOUT_ROOT = "/images/products/au-cutouts";
+
+// Reviewed transparent product photography supplied for the Australian
+// storefront. CRM remains authoritative for inventory, SKU and pricing; it
+// never replaces these deploy-local reviewed assets.
+const AU_CUTOUT_SLUGS = new Set([
+  "aod-9604-10mg",
+  "bpc-tb-500-blend-10mg",
+  "bpc-tb-500-blend-20mg",
+  "bpc-157-5mg",
+  "bpc-157-10mg",
+  "bpc-157-20mg",
+  "cartalax-20mg",
+  "cjc-ipa-blend-10mg",
+  "cjc-ipa-blend-20mg",
+  "ghk-cu-50mg",
+  "glow-70mg",
+  "hcg-2000iu",
+  "hcg-5000iu",
+  "igf-1-lr3-1mg",
+  "kpv-10mg",
+  "kpv-oral-500mcg",
+  "klow-80mg",
+  "mots-c-10mg",
+  "mots-c-40mg",
+  "melanotan-ii-10mg",
+  "nad-500mg",
+  "oxytocin-10mg",
+  "pt-141-10mg",
+  "evlv-3-10mg",
+  "evlv-3-15mg",
+  "evlv-3-30mg",
+  "evlv-3-60mg",
+  "evlv-1-5mg",
+  "evlv-1-10mg",
+  "selank-10mg",
+  "semax-10mg",
+  "ss-31-10mg",
+  "thymosin-alpha-1-5mg",
+  "tb-500-5mg",
+  "tb-500-10mg",
+  "tb-500-20mg",
+  "tesamorelin-10mg",
+  "tesamorelin-20mg",
+  "evlv-2-10mg",
+  "evlv-2-15mg",
+  "evlv-2-30mg",
+  "evlv-2-60mg",
+]);
 
 const GENERATED_IMAGE_BY_SLUG: Record<string, string> = {
   "5-amino-1mq-50mg": "5-amino-1mq-50mg.png",
@@ -77,5 +126,8 @@ export function getGeneratedProductImage(product: Pick<Product, "slug" | "name">
 }
 
 export function getProductImage(product: Pick<Product, "slug" | "name" | "image">) {
+  if (process.env.NEXT_PUBLIC_SITE_MARKET?.toUpperCase() === "AU" && AU_CUTOUT_SLUGS.has(product.slug)) {
+    return `${AU_CUTOUT_ROOT}/${product.slug}.webp`;
+  }
   return getGeneratedProductImage(product) || product.image || "/images/certified/evlv-glp3r.png";
 }
