@@ -1,3 +1,4 @@
+import type * as React from "react";
 import { Metadata } from "next";
 import Link from "next/link";
 import { getMarket } from "@/lib/market";

@@ -1,5 +1,7 @@
 "use client";
 
+import type * as React from "react";
+
 /**
  * Live batch-verification tool, styled after a terminal. Unlike a typical
  * marketing mockup, this queries the real catalog (getProducts()) so every

@@ -1,0 +1,422 @@
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=DM+Sans:wght@400;500;600&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-heading: 'Bricolage Grotesque', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-label: 'DM Sans', sans-serif;
+
+  /* Soft Porcelain -> Warm Ivory page system */
+  --background-50: 0.975 0.005 95;
+  --background-100: 0.955 0.026 82;
+  --background-200: 0.922 0.032 80;
+  --background-300: 0.878 0.038 78;
+  --background-400: 0.82 0.045 76;
+  --background-500: 0.74 0.048 73;
+  --background-600: 0.64 0.046 70;
+  --background-700: 0.52 0.042 66;
+  --background-800: 0.4 0.036 60;
+  --background-900: 0.3 0.03 55;
+  --background-950: 0.215 0.024 50;
+
+  /* Champagne Gold -> Warm Amber (brand + conversion) */
+  --primary-50: 0.975 0.02 85;
+  --primary-100: 0.955 0.038 82;
+  --primary-200: 0.925 0.058 80;
+  --primary-300: 0.89 0.075 78;
+  --primary-400: 0.85 0.088 76;
+  --primary-500: 0.83 0.092 74;
+  --primary-600: 0.745 0.105 70;
+  --primary-700: 0.64 0.098 64;
+  --primary-800: 0.53 0.082 58;
+  --primary-900: 0.42 0.066 54;
+  --primary-950: 0.31 0.05 50;
+
+  /* Burnished Bronze / amber secondary direction */
+  --accent-50: 0.965 0.02 70;
+  --accent-100: 0.935 0.038 68;
+  --accent-200: 0.89 0.062 66;
+  --accent-300: 0.84 0.082 64;
+  --accent-400: 0.78 0.1 62;
+  --accent-500: 0.72 0.115 60;
+  --accent-600: 0.63 0.11 57;
+  --accent-700: 0.545 0.1 55;
+  --accent-800: 0.45 0.085 53;
+  --accent-900: 0.36 0.07 50;
+  --accent-950: 0.26 0.055 48;
+
+  /* Deep Espresso -> Rich Walnut -> Burnished Bronze */
+  --secondary-50: 0.965 0.014 70;
+  --secondary-100: 0.925 0.026 68;
+  --secondary-200: 0.86 0.036 64;
+  --secondary-300: 0.76 0.048 60;
+  --secondary-400: 0.64 0.058 56;
+  --secondary-500: 0.52 0.06 52;
+  --secondary-600: 0.44 0.062 55;
+  --secondary-700: 0.36 0.052 52;
+  --secondary-800: 0.3 0.045 50;
+  --secondary-900: 0.245 0.036 47;
+  --secondary-950: 0.2 0.033 45;
+
+  /* Dark Cocoa text scale */
+  --foreground-50: 0.97 0.006 80;
+  --foreground-100: 0.94 0.01 75;
+  --foreground-200: 0.875 0.014 70;
+  --foreground-300: 0.79 0.018 65;
+  --foreground-400: 0.68 0.022 60;
+  --foreground-500: 0.58 0.026 55;
+  --foreground-600: 0.5 0.028 52;
+  --foreground-700: 0.42 0.03 50;
+  --foreground-800: 0.345 0.03 49;
+  --foreground-900: 0.29 0.03 48;
+  --foreground-950: 0.235 0.028 48;
+}
+
+body {
+  font-family: var(--font-body);
+  background: oklch(var(--background-50));
+  color: oklch(var(--foreground-950));
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-heading);
+  letter-spacing: -0.025em;
+}
+
+.field-extra {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  overflow: hidden;
+}
+
+/* ------------------------------------------------------------------
+   Warm glass card system
+   Inspired by warm editorial social templates: translucent surfaces,
+   amber hairline borders, inner top sheen, soft espresso shadows.
+   Border radius is intentionally NOT set here so Tailwind radius
+   utilities keep working on top of these classes.
+-------------------------------------------------------------------*/
+.glass-card {
+  border: 1px solid oklch(var(--primary-800) / 0.14);
+  background:
+    linear-gradient(165deg, oklch(1 0 0 / 0.55) 0%, oklch(1 0 0 / 0) 34%),
+    radial-gradient(120% 90% at 100% 0%, oklch(var(--primary-200) / 0.45) 0%, transparent 58%),
+    linear-gradient(155deg, oklch(var(--background-50) / 0.9) 0%, oklch(var(--background-100) / 0.7) 100%);
+  box-shadow:
+    inset 0 1px 0 0 oklch(1 0 0 / 0.7),
+    inset 0 -1px 0 0 oklch(var(--primary-800) / 0.06),
+    0 18px 44px -26px oklch(var(--secondary-950) / 0.42),
+    0 2px 6px -3px oklch(var(--secondary-950) / 0.1);
+  -webkit-backdrop-filter: blur(18px) saturate(115%);
+  backdrop-filter: blur(18px) saturate(115%);
+}
+
+.glass-card-dark {
+  border: 1px solid oklch(var(--primary-300) / 0.24);
+  background:
+    linear-gradient(160deg, oklch(1 0 0 / 0.14) 0%, oklch(1 0 0 / 0.03) 30%, oklch(1 0 0 / 0) 62%),
+    radial-gradient(110% 84% at 88% 0%, oklch(var(--accent-600) / 0.4) 0%, transparent 60%),
+    linear-gradient(158deg, oklch(var(--secondary-800) / 0.62) 0%, oklch(var(--secondary-950) / 0.8) 100%);
+  box-shadow:
+    inset 0 1px 0 0 oklch(var(--primary-200) / 0.28),
+    inset 0 -1px 0 0 oklch(0 0 0 / 0.25),
+    0 26px 60px -34px oklch(0 0 0 / 0.85);
+  -webkit-backdrop-filter: blur(22px) saturate(122%);
+  backdrop-filter: blur(22px) saturate(122%);
+}
+
+.glass-gold {
+  border: 1px solid oklch(var(--primary-200) / 0.5);
+  background:
+    linear-gradient(160deg, oklch(1 0 0 / 0.4) 0%, oklch(1 0 0 / 0) 42%),
+    linear-gradient(150deg, oklch(var(--primary-300)) 0%, oklch(var(--primary-500)) 62%, oklch(var(--accent-500)) 100%);
+  box-shadow:
+    inset 0 1px 0 0 oklch(1 0 0 / 0.5),
+    0 26px 60px -34px oklch(var(--secondary-950) / 0.55);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.glass-inner {
+  border: 1px solid oklch(var(--primary-800) / 0.12);
+  background: linear-gradient(160deg, oklch(1 0 0 / 0.62) 0%, oklch(var(--background-100) / 0.46) 100%);
+  box-shadow: inset 0 1px 0 0 oklch(1 0 0 / 0.72);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+.glass-inner-dark {
+  border: 1px solid oklch(var(--primary-300) / 0.22);
+  background: linear-gradient(160deg, oklch(1 0 0 / 0.11) 0%, oklch(1 0 0 / 0.03) 100%);
+  box-shadow: inset 0 1px 0 0 oklch(var(--primary-200) / 0.2);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+}
+
+.glass-frame {
+  border: 1px solid oklch(var(--primary-300) / 0.28);
+  box-shadow:
+    inset 0 1px 0 0 oklch(var(--primary-200) / 0.35),
+    0 30px 70px -42px oklch(0 0 0 / 0.9);
+}
+
+.glass-lift {
+  transition:
+    transform 0.55s cubic-bezier(0.2, 0.7, 0.2, 1),
+    box-shadow 0.55s ease,
+    border-color 0.55s ease;
+}
+
+.glass-lift:hover {
+  transform: translateY(-4px);
+  border-color: oklch(var(--primary-600) / 0.36);
+  box-shadow:
+    inset 0 1px 0 0 oklch(1 0 0 / 0.8),
+    inset 0 -1px 0 0 oklch(var(--primary-800) / 0.08),
+    0 32px 64px -32px oklch(var(--secondary-950) / 0.5);
+}
+
+.glass-card-dark.glass-lift:hover,
+.glass-inner-dark.glass-lift:hover {
+  border-color: oklch(var(--primary-200) / 0.45);
+  box-shadow:
+    inset 0 1px 0 0 oklch(var(--primary-200) / 0.32),
+    0 34px 70px -36px oklch(0 0 0 / 0.9);
+}
+
+.gold-text {
+  background: linear-gradient(180deg, oklch(var(--primary-200)) 0%, oklch(var(--primary-400)) 46%, oklch(var(--accent-500)) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+.gold-text-deep {
+  background: linear-gradient(180deg, oklch(var(--primary-700)) 0%, oklch(var(--accent-700)) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ------------------------------------------------------------------
+   Layout rhythm + one headline system
+   Headlines scale with the viewport instead of a fixed rem, so they
+   never dwarf the cards underneath on a wide screen.
+-------------------------------------------------------------------*/
+.section-y {
+  padding-top: 4.25rem;
+  padding-bottom: 4.25rem;
+}
+@media (min-width: 768px) {
+  .section-y {
+    padding-top: 6.5rem;
+    padding-bottom: 6.5rem;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Section bands
+   Sections run full width, edge to edge, so consecutive colour bands
+   meet cleanly. The rounded corners live on the blocks INSIDE a band
+   (banner, cards, photos, video tiles), not on the band itself.
+-------------------------------------------------------------------*/
+.panel-section {
+  position: relative;
+  width: 100%;
+  margin: 0;
+  border-radius: 0;
+  border: 0;
+  box-shadow: none;
+}
+
+.t-display {
+  font-family: var(--font-heading);
+  font-size: clamp(2.45rem, 4.2vw, 4.05rem);
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  font-weight: 600;
+}
+
+.t-section {
+  font-family: var(--font-heading);
+  font-size: clamp(1.85rem, 2.5vw, 2.7rem);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  font-weight: 600;
+}
+
+.t-card {
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+}
+
+.eyebrow {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* ------------------------------------------------------------------
+   Peeking carousel
+   Cards are sized from the container width, so the row always starts
+   flush with the content grid and deliberately shows a sliver of the
+   next card instead of chopping one in half at the screen edge.
+-------------------------------------------------------------------*/
+.peek-rail {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  padding-bottom: 0.5rem;
+}
+
+.peek-item {
+  flex: 0 0 calc((100% - 3rem) / 1.22);
+  scroll-snap-align: start;
+}
+
+@media (min-width: 640px) {
+  .peek-item {
+    flex-basis: calc((100% - 2rem) / 2.18);
+  }
+}
+
+@media (min-width: 1024px) {
+  .peek-item {
+    flex-basis: calc((100% - 3rem) / 3.2);
+  }
+}
+
+@media (min-width: 1280px) {
+  .peek-item {
+    flex-basis: calc((100% - 3rem) / 4.2);
+  }
+}
+
+/* Normalised product photo frame. Every pack shot is lit on the same warm
+   ivory sweep, so the photo bleeds edge to edge inside the frame and the
+   card never shows a visible square seam around the product. */
+.product-frame {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px solid oklch(var(--primary-300) / 0.16);
+  background: linear-gradient(170deg, oklch(var(--background-50)) 0%, oklch(var(--background-100)) 100%);
+  box-shadow: inset 0 1px 0 0 oklch(var(--primary-200) / 0.16);
+}
+
+.product-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Same optical box for product photos sitting on light cards */
+.product-frame-light {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px solid oklch(var(--primary-800) / 0.09);
+  background: linear-gradient(170deg, oklch(var(--background-50)) 0%, oklch(var(--background-100)) 100%);
+  box-shadow: inset 0 1px 0 0 oklch(1 0 0 / 0.7);
+}
+
+.product-frame-light img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Shows the whole vial inside the frame without cropping the label or cap */
+.product-frame-light.product-frame-contain img {
+  object-fit: contain;
+  object-position: center;
+  padding: 10px 12px;
+}
+
+.product-frame-fallback {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  padding: 12px;
+  color: oklch(var(--primary-800));
+}
+
+/* Section atmospheres */
+.atmo-cream {
+  background:
+    radial-gradient(120% 80% at 80% 0%, oklch(var(--primary-100) / 0.85) 0%, transparent 55%),
+    linear-gradient(180deg, oklch(var(--background-50)) 0%, oklch(var(--background-100)) 100%);
+}
+.atmo-plum {
+  background:
+    radial-gradient(90% 70% at 15% 0%, oklch(var(--secondary-700) / 0.65) 0%, transparent 60%),
+    radial-gradient(80% 60% at 95% 100%, oklch(var(--accent-700) / 0.5) 0%, transparent 55%),
+    linear-gradient(160deg, oklch(var(--secondary-950)) 0%, oklch(var(--secondary-900)) 55%, oklch(var(--secondary-800)) 100%);
+}
+.atmo-purple {
+  background:
+    radial-gradient(70% 60% at 10% 0%, oklch(var(--secondary-700) / 0.9) 0%, transparent 60%),
+    radial-gradient(70% 70% at 100% 100%, oklch(var(--accent-800) / 0.55) 0%, transparent 60%),
+    linear-gradient(150deg, oklch(var(--secondary-900)) 0%, oklch(var(--secondary-800)) 100%);
+}
+.atmo-peach {
+  background:
+    radial-gradient(80% 70% at 85% 10%, oklch(var(--primary-200) / 0.9) 0%, transparent 60%),
+    linear-gradient(180deg, oklch(var(--background-100)) 0%, oklch(var(--background-50)) 100%);
+}
+.atmo-dark {
+  background:
+    radial-gradient(80% 70% at 20% 10%, oklch(var(--secondary-800) / 0.9) 0%, transparent 60%),
+    radial-gradient(60% 50% at 90% 90%, oklch(var(--accent-800) / 0.45) 0%, transparent 60%),
+    linear-gradient(160deg, oklch(var(--secondary-950)) 0%, oklch(var(--secondary-900)) 100%);
+}
+.atmo-footer {
+  background:
+    radial-gradient(70% 60% at 50% 0%, oklch(var(--secondary-700) / 0.85) 0%, transparent 65%),
+    linear-gradient(180deg, oklch(var(--secondary-950)) 0%, oklch(var(--secondary-900)) 100%);
+}
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.animate-marquee { animation: marquee 32s linear infinite; }
+
+@keyframes floaty {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+.animate-floaty { animation: floaty 6s ease-in-out infinite; }
+
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+.animate-spin-slow { animation: spin-slow 18s linear infinite; }

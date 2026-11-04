@@ -1,5 +1,6 @@
 'use client';
 
+import type * as React from 'react';
 import { useState, useEffect, useRef, useCallback } from 'react';
 
 const CRM_URL = process.env.NEXT_PUBLIC_CRM_URL || 'https://crm.evlvpeptides.com';

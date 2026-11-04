@@ -1,5 +1,6 @@
 "use client";
 
+import type * as React from "react";
 import { FormEvent, useState, useEffect } from "react";
 import { trackEvent } from "@/lib/pixel";
 

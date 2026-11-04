@@ -1,12 +1,17 @@
 import { Metadata } from "next";
+import { getMarket } from "@/lib/market";
 import { ContactForm } from "./ContactForm";
 
-export const metadata: Metadata = {
-  title: "Contact Us",
-  description: "Get in touch with the EVLV support team.",
-};
+export function generateMetadata(): Metadata {
+  const market = getMarket();
+  return {
+    title: "Contact Us",
+    description: `Get in touch with the EVLV ${market.countryName} support team.`,
+  };
+}
 
 export default function ContactPage() {
+  const market = getMarket();
   return (
     <>
       <section className="cp-info-hero cp-info-support -mt-[90px] bg-charcoal pb-20 pt-[150px] text-center text-white md:-mt-[100px] md:pb-32 md:pt-[170px]">
@@ -29,14 +34,9 @@ export default function ContactPage() {
             </div>
 
             <div className="space-y-4">
-              <ContactRow icon="ri-mail-line" label="General">
-                <a href="mailto:office@evlvpeptides.com" data-cfasync="false" className="text-sm text-sage-deep transition hover:underline">
-                  office@evlvpeptides.com
-                </a>
-              </ContactRow>
-              <ContactRow icon="ri-shopping-bag-line" label="Orders">
-                <a href="mailto:orders@evlvpeptides.com" data-cfasync="false" className="text-sm text-sage-deep transition hover:underline">
-                  orders@evlvpeptides.com
+              <ContactRow icon="ri-mail-line" label={`${market.countryName} support`}>
+                <a href={`mailto:${market.supportEmail}`} data-cfasync="false" className="text-sm text-sage-deep transition hover:underline">
+                  {market.supportEmail}
                 </a>
               </ContactRow>
               <ContactRow icon="ri-time-line" label="Response Time">
