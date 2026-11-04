@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  trailingSlash: true,
   allowedDevOrigins: ["192.168.1.83", "localhost", "127.0.0.1"],
   turbopack: {
     root: process.cwd(),
