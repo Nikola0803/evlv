@@ -15,17 +15,17 @@ export default function TreatmentsSection() {
   };
 
   return (
-    <section className="atmo-cream panel-section section-y">
+    <section className="atmo-purple panel-section text-background-50 section-y">
       <Container>
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div className="min-w-0">
-            <p className="eyebrow text-primary-700">Popular treatments</p>
+            <p className="eyebrow text-primary-300">Popular treatments</p>
             <h2 className="t-section mt-3">Care that fits your life, not the other way around.</h2>
           </div>
           <div className="flex items-center gap-3 shrink-0">
             <SmartLink
               href="/treatments"
-              className="whitespace-nowrap text-sm text-primary-700 underline decoration-primary-500/40 underline-offset-4 cursor-pointer hover:text-primary-800"
+              className="whitespace-nowrap text-sm text-primary-100 underline decoration-primary-300/50 underline-offset-4 cursor-pointer hover:text-primary-50"
             >
               See all treatments
             </SmartLink>
@@ -34,7 +34,7 @@ export default function TreatmentsSection() {
                 type="button"
                 aria-label="Previous treatments"
                 onClick={() => slide(-1)}
-                className="w-11 h-11 rounded-full border border-primary-800/20 flex items-center justify-center cursor-pointer text-foreground-700 hover:bg-background-200 hover:border-primary-800/40 transition-colors"
+                className="w-11 h-11 rounded-full border border-primary-300/50 flex items-center justify-center cursor-pointer text-primary-100 hover:bg-primary-700/50 hover:border-primary-200/70 transition-colors"
               >
                 <i className="ri-arrow-left-line" />
               </button>
@@ -42,7 +42,7 @@ export default function TreatmentsSection() {
                 type="button"
                 aria-label="Next treatments"
                 onClick={() => slide(1)}
-                className="w-11 h-11 rounded-full border border-primary-800/20 flex items-center justify-center cursor-pointer text-foreground-700 hover:bg-background-200 hover:border-primary-800/40 transition-colors"
+                className="w-11 h-11 rounded-full border border-primary-300/50 flex items-center justify-center cursor-pointer text-primary-100 hover:bg-primary-700/50 hover:border-primary-200/70 transition-colors"
               >
                 <i className="ri-arrow-right-line" />
               </button>
@@ -95,7 +95,7 @@ export default function TreatmentsSection() {
           ))}
         </div>
 
-        <p className="mt-6 text-[11px] text-foreground-500">
+        <p className="mt-6 text-[11px] text-primary-300/80">
           Prices are per piece and include delivery. No subscription, no recurring charge.
         </p>
       </Container>

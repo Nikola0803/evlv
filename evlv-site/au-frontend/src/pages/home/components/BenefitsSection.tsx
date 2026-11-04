@@ -16,7 +16,7 @@ export default function BenefitsSection() {
         {benefits.map((b, i) => (
           <Reveal key={b} delay={i * 80}>
             <div className="h-full glass-card glass-lift rounded-[24px] p-6 md:p-7 flex flex-col">
-              <div className="w-9 h-9 flex items-center justify-center rounded-full glass-inner text-primary-700 text-lg">
+              <div className="w-9 h-9 flex items-center justify-center rounded-full bg-primary-200/60 ring-1 ring-primary-600/20 text-primary-800 text-lg shadow-[inset_0_1px_0_0_rgba(255,255,255,0.6)]">
                 <i className="ri-check-line" />
               </div>
               <p className="mt-6 text-foreground-800 leading-relaxed">{b}</p>
