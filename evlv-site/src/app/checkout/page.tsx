@@ -427,45 +427,38 @@ export default function CheckoutPage() {
               {/* Payment method */}
               <div className="cp-checkout-panel">
                 <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-charcoal/50">Payment Method</h2>
-                <div className="grid gap-3 sm:grid-cols-3">
+                <div className="grid gap-3 sm:grid-cols-2">
                   <button
                     type="button"
                     aria-pressed={selectedGateway === "cashapp"}
                     onClick={() => setSelectedGateway("cashapp")}
-                    className={`flex items-center gap-3 rounded-lg border p-4 text-left transition ${selectedGateway === "cashapp" ? "border-copper bg-copper/10" : "border-stone bg-white hover:border-copper/60"}`}
+                    className={`flex items-center gap-4 rounded-lg border p-4 text-left transition ${selectedGateway === "cashapp" ? "border-copper bg-copper/10" : "border-stone bg-white hover:border-copper/60"}`}
                   >
                     <i className="ri-money-dollar-circle-line text-2xl text-copper" />
                     <span>
                       <b className="block text-sm text-charcoal">Cash App</b>
-                      <small className="mt-0.5 block font-mono text-[11px] text-charcoal/60">$warriordistributions</small>
-                      <small className="block text-xs font-medium text-sage-deep">Save 5%</small>
+                      <small className="mt-0.5 block font-mono text-xs text-charcoal/55">$warriordistributions</small>
+                      <small className="mt-0.5 block text-xs font-medium text-sage-deep">Save 5%</small>
                     </span>
                   </button>
                   <button
                     type="button"
                     aria-pressed={selectedGateway === "venmo"}
                     onClick={() => setSelectedGateway("venmo")}
-                    className={`flex items-center gap-3 rounded-lg border p-4 text-left transition ${selectedGateway === "venmo" ? "border-copper bg-copper/10" : "border-stone bg-white hover:border-copper/60"}`}
+                    className={`flex items-center gap-4 rounded-lg border p-4 text-left transition ${selectedGateway === "venmo" ? "border-copper bg-copper/10" : "border-stone bg-white hover:border-copper/60"}`}
                   >
                     <i className="ri-smartphone-line text-2xl text-copper" />
                     <span>
                       <b className="block text-sm text-charcoal">Venmo</b>
-                      <small className="mt-0.5 block font-mono text-[11px] text-charcoal/60">@warriordistributions</small>
-                      <small className="block text-xs font-medium text-sage-deep">Save 5%</small>
+                      <small className="mt-0.5 block font-mono text-xs text-charcoal/55">@warriordistributions</small>
+                      <small className="mt-0.5 block text-xs font-medium text-sage-deep">Save 5%</small>
                     </span>
                   </button>
-                  <button
-                    type="button"
-                    disabled
-                    aria-disabled="true"
-                    className="flex cursor-not-allowed items-center gap-3 rounded-lg border border-stone bg-stone/20 p-4 text-left opacity-50"
-                  >
-                    <i className="ri-bank-line text-2xl text-charcoal/40" />
-                    <span>
-                      <b className="block text-sm text-charcoal/50">Zelle</b>
-                      <small className="mt-1 block text-xs text-charcoal/40">Temporarily unavailable</small>
-                    </span>
-                  </button>
+                </div>
+                <div className="mt-2 flex cursor-not-allowed items-center gap-3 rounded-lg border border-stone/60 bg-stone/10 px-4 py-3 opacity-50">
+                  <i className="ri-bank-line text-lg text-charcoal/40" />
+                  <span className="text-sm text-charcoal/50">Zelle</span>
+                  <span className="ml-auto text-xs text-charcoal/40">Temporarily unavailable</span>
                 </div>
                 <p className="mt-3 text-xs leading-relaxed text-charcoal/55">
                   After placing the order, we’ll show the payment handle and the reference to include with your payment.
