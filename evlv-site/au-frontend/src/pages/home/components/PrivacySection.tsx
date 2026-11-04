@@ -1,19 +1,11 @@
-import { privacyCards, privacyBackdrop } from '@/mocks/home';
+import { privacyCards } from '@/mocks/home';
 import Reveal from '@/components/base/Reveal';
 import Container from '@/components/base/Container';
 
 export default function PrivacySection() {
   return (
-    <section className="relative panel-section text-background-50 section-y overflow-hidden">
-      <img
-        src={privacyBackdrop}
-        alt=""
-        aria-hidden="true"
-        className="absolute inset-0 w-full h-full object-cover object-center"
-      />
-      <div className="absolute inset-0 bg-gradient-to-b from-foreground-950/88 via-foreground-950/72 to-foreground-950/92" />
-
-      <Container className="relative z-10">
+    <section className="panel-section bg-foreground-950 text-background-50 section-y">
+      <Container>
         <Reveal>
           <div className="max-w-2xl">
             <h2 className="t-section">We take your privacy seriously.</h2>
