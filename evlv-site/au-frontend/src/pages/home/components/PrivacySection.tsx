@@ -8,9 +8,9 @@ export default function PrivacySection() {
       <Container>
         <Reveal>
           <div className="max-w-2xl">
-            <h2 className="t-section">We take your privacy seriously.</h2>
+            <h2 className="t-section">Your data stays yours. Full stop.</h2>
             <p className="mt-3 md:mt-4 text-[13px] md:text-base text-background-300 leading-relaxed">
-              Your personal health information is protected every step of the way.
+              No third-party data brokers. No marketing partners. Your health information is used for one thing: your care.
             </p>
           </div>
         </Reveal>

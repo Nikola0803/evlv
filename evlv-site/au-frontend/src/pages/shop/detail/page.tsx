@@ -158,14 +158,16 @@ export default function ShopProductDetail() {
                       <span className="ml-2 text-xs text-foreground-500">AUD, delivery included</span>
                     </p>
                   </div>
-                  <p className="inline-flex items-center gap-1.5 rounded-full bg-background-50/80 border border-primary-800/12 px-3 py-1.5 text-[11.5px] text-foreground-700">
-                    <i
-                      className={
-                        product.purity ? 'ri-checkbox-circle-fill text-primary-600' : 'ri-time-line text-accent-700'
-                      }
-                    />
-                    {product.purity ? `Reported purity ${product.purity}` : 'Purity report on request'}
-                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    <p className="inline-flex items-center gap-1.5 rounded-full bg-background-50/80 border border-primary-800/12 px-3 py-1.5 text-[11.5px] text-foreground-700">
+                      <i className="ri-truck-line text-primary-600" />
+                      Free discreet delivery
+                    </p>
+                    <p className="inline-flex items-center gap-1.5 rounded-full bg-background-50/80 border border-primary-800/12 px-3 py-1.5 text-[11.5px] text-foreground-700">
+                      <i className={product.purity ? 'ri-checkbox-circle-fill text-primary-600' : 'ri-flask-line text-foreground-500'} />
+                      {product.purity ? `Purity ${product.purity}` : 'COA on request'}
+                    </p>
+                  </div>
                 </div>
 
                 <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">

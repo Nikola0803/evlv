@@ -52,8 +52,8 @@ export default function TreatmentsSection() {
         <div ref={rail} data-product-shop className="peek-rail no-scrollbar -mr-4 mt-5 md:mr-0 md:mt-12">
           {treatments.map((t) => (
             <SmartLink key={t.name} href={t.href} className="peek-item group block cursor-pointer">
-              <div className="h-full rounded-[18px] md:rounded-[22px] bg-foreground-950 p-2 md:p-2.5 flex flex-col shadow-[0_24px_50px_-16px_rgba(0,0,0,0.65)] transition-transform duration-500 group-hover:-translate-y-1">
-                <div className="relative aspect-[4/5] rounded-[13px] md:rounded-[16px] overflow-hidden bg-gradient-to-b from-foreground-800 to-foreground-950">
+              <div className="h-full rounded-[18px] md:rounded-[22px] bg-gradient-to-b from-background-100 to-foreground-950 p-2 md:p-2.5 flex flex-col shadow-[0_24px_50px_-16px_rgba(0,0,0,0.65)] transition-transform duration-500 group-hover:-translate-y-1">
+                <div className="relative aspect-[4/5] rounded-[13px] md:rounded-[16px] overflow-hidden bg-gradient-to-b from-background-100 to-foreground-900">
                   <img
                     src={t.image}
                     alt={`${t.name} ${t.type} treatment pack shot`}

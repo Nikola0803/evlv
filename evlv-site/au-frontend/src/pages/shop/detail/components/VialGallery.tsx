@@ -33,40 +33,8 @@ export default function VialGallery({ product, categoryLabel, view: controlledVi
   const [failed, setFailed] = useState(false);
 
   return (
-    <div className="flex flex-col-reverse gap-3 sm:flex-row">
-      <div className="flex sm:flex-col gap-2.5 sm:w-[96px] shrink-0">
-        {VIEWS.map((v) => {
-          const active = v.key === view;
-          return (
-            <button
-              key={v.key}
-              type="button"
-              onClick={() => setView(v.key)}
-              aria-label={v.label}
-              aria-pressed={active}
-              className={`cursor-pointer flex sm:h-[96px] flex-1 sm:flex-none flex-col items-center justify-center gap-1 rounded-[16px] border px-2 py-2.5 transition-colors ${
-                active
-                  ? 'border-primary-500 bg-background-50 text-primary-800'
-                  : 'border-primary-800/12 bg-background-50/45 text-foreground-500 hover:border-primary-800/30 hover:text-foreground-800'
-              }`}
-            >
-              {v.key === 'photo' && !failed ? (
-                <img
-                  src={product.image}
-                  alt=""
-                  className="h-7 w-7 rounded-[6px] object-contain"
-                  onError={() => setFailed(true)}
-                />
-              ) : (
-                <i className={`${v.icon} text-[15px]`} />
-              )}
-              <span className="text-[8.5px] font-medium uppercase tracking-[0.1em] whitespace-nowrap">{v.short}</span>
-            </button>
-          );
-        })}
-      </div>
-
-      <div className="relative flex-1 min-w-0 rounded-[30px] overflow-hidden product-frame-light aspect-[4/5]">
+    <div className="flex flex-col gap-3">
+      <div className="relative w-full rounded-[30px] overflow-hidden product-frame-light aspect-[3/4]">
         {view === 'photo' &&
           (failed ? (
             <div className="product-frame-fallback">
@@ -160,6 +128,38 @@ export default function VialGallery({ product, categoryLabel, view: controlledVi
         <span className="absolute right-4 top-4 inline-flex items-center rounded-full border border-primary-900/25 bg-background-50/92 px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.16em] text-primary-900">
           RX Only
         </span>
+      </div>
+
+      <div className="flex gap-2">
+        {VIEWS.map((v) => {
+          const active = v.key === view;
+          return (
+            <button
+              key={v.key}
+              type="button"
+              onClick={() => setView(v.key)}
+              aria-label={v.label}
+              aria-pressed={active}
+              className={`cursor-pointer flex flex-1 flex-col items-center justify-center gap-1 rounded-[12px] border py-2.5 transition-colors ${
+                active
+                  ? 'border-primary-500 bg-background-50 text-primary-800'
+                  : 'border-primary-800/12 bg-background-50/45 text-foreground-500 hover:border-primary-800/30 hover:text-foreground-800'
+              }`}
+            >
+              {v.key === 'photo' && !failed ? (
+                <img
+                  src={product.image}
+                  alt=""
+                  className="h-6 w-6 rounded-[4px] object-contain"
+                  onError={() => setFailed(true)}
+                />
+              ) : (
+                <i className={`${v.icon} text-[14px]`} />
+              )}
+              <span className="text-[8px] font-medium uppercase tracking-[0.1em] whitespace-nowrap">{v.short}</span>
+            </button>
+          );
+        })}
       </div>
     </div>
   );

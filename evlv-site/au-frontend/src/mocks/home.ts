@@ -149,9 +149,9 @@ export const privacyBackdrop =
   'https://readdy.ai/api/search-image?query=Close%20up%20editorial%20portrait%20of%20a%20woman%20in%20her%20late%20thirties%20turned%20slightly%20away%20from%20the%20camera%2C%20half%20of%20her%20face%20falling%20into%20soft%20shadow%20while%20warm%20rim%20light%20catches%20her%20cheekbone%20and%20jaw%2C%20deep%20espresso%20brown%20background%20with%20a%20faint%20amber%20glow%20behind%20her%20hair%2C%20calm%20private%20expression%2C%20cinematic%20low%20key%20lighting%2C%20shallow%20depth%20of%20field%2C%20premium%20wellness%20campaign%20aesthetic%2C%20wide%20composition%20with%20quiet%20negative%20space%20on%20the%20left%20side&width=1600&height=900&seq=evlv-privacy-backdrop-01&orientation=landscape';
 
 export const privacyCards = [
-  { icon: 'ri-eye-off-line', text: 'Your health assessment is securely reviewed by your assigned expert.' },
-  { icon: 'ri-box-3-line', text: 'Medications arrive in discreet, unbranded packaging.' },
-  { icon: 'ri-shield-user-line', text: 'Ongoing follow-ups are confidential and take place in a secure, private relationship with your expert.' },
+  { icon: 'ri-eye-off-line', text: 'Your health intake is reviewed only by your assigned expert — never sold, shared, or used for advertising.' },
+  { icon: 'ri-box-3-line', text: 'Orders ship in plain, unbranded packaging with no mention of EVLV, the medication, or the prescriber.' },
+  { icon: 'ri-shield-user-line', text: 'All communication with your expert is encrypted end-to-end and held under Australian health privacy law (Privacy Act 1988).' },
 ];
 
 export const testimonials = [
