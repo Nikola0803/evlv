@@ -59,7 +59,7 @@ export default function CheckoutPage() {
   const [ruoAttestation, setRuoAttestation] = useState(false);
   const [couponCode, setCouponCode] = useState(() => getStoredCouponCode());
 
-  const [selectedGateway, setSelectedGateway] = useState<CheckoutGatewayId | null>(IS_AU_BUILD ? "niftipay" : "zelle");
+  const [selectedGateway, setSelectedGateway] = useState<CheckoutGatewayId | null>(IS_AU_BUILD ? "niftipay" : "cashapp");
   const [memo] = useState(() => generateMemo());
   const [placing, setPlacing] = useState(false);
   const [checkoutError, setCheckoutError] = useState("");
@@ -427,30 +427,48 @@ export default function CheckoutPage() {
               {/* Payment method */}
               <div className="cp-checkout-panel">
                 <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-charcoal/50">Payment Method</h2>
-                <div className="grid gap-3 sm:grid-cols-2">
+                <div className="grid gap-3 sm:grid-cols-3">
+                  <button
+                    type="button"
+                    aria-pressed={selectedGateway === "cashapp"}
+                    onClick={() => setSelectedGateway("cashapp")}
+                    className={`flex items-center gap-3 rounded-lg border p-4 text-left transition ${selectedGateway === "cashapp" ? "border-copper bg-copper/10" : "border-stone bg-white hover:border-copper/60"}`}
+                  >
+                    <i className="ri-money-dollar-circle-line text-2xl text-copper" />
+                    <span>
+                      <b className="block text-sm text-charcoal">Cash App</b>
+                      <small className="mt-0.5 block font-mono text-[11px] text-charcoal/60">$warriordistributions</small>
+                      <small className="block text-xs font-medium text-sage-deep">Save 5%</small>
+                    </span>
+                  </button>
+                  <button
+                    type="button"
+                    aria-pressed={selectedGateway === "venmo"}
+                    onClick={() => setSelectedGateway("venmo")}
+                    className={`flex items-center gap-3 rounded-lg border p-4 text-left transition ${selectedGateway === "venmo" ? "border-copper bg-copper/10" : "border-stone bg-white hover:border-copper/60"}`}
+                  >
+                    <i className="ri-smartphone-line text-2xl text-copper" />
+                    <span>
+                      <b className="block text-sm text-charcoal">Venmo</b>
+                      <small className="mt-0.5 block font-mono text-[11px] text-charcoal/60">@warriordistributions</small>
+                      <small className="block text-xs font-medium text-sage-deep">Save 5%</small>
+                    </span>
+                  </button>
                   <button
                     type="button"
                     disabled
                     aria-disabled="true"
                     className="flex cursor-not-allowed items-center gap-3 rounded-lg border border-stone bg-stone/20 p-4 text-left opacity-50"
                   >
-                    <i className="ri-bank-card-line text-2xl text-charcoal/50" />
-                    <span><b className="block text-sm text-charcoal">Credit or debit card</b><small className="mt-1 block text-xs text-charcoal/55">Temporarily unavailable online</small></span>
-                  </button>
-                  <button
-                    type="button"
-                    aria-pressed={selectedGateway === "zelle"}
-                    onClick={() => setSelectedGateway("zelle")}
-                    className={`flex items-center gap-3 rounded-lg border p-4 text-left transition ${selectedGateway === "zelle" ? "border-copper bg-copper/10" : "border-stone bg-white hover:border-copper/60"}`}
-                  >
-                    <i className="ri-bank-line text-2xl text-copper" />
-                    <span><b className="block text-sm text-charcoal">Zelle</b><small className="mt-1 block text-xs font-medium text-sage-deep">Save 5% · manual transfer</small></span>
+                    <i className="ri-bank-line text-2xl text-charcoal/40" />
+                    <span>
+                      <b className="block text-sm text-charcoal/50">Zelle</b>
+                      <small className="mt-1 block text-xs text-charcoal/40">Temporarily unavailable</small>
+                    </span>
                   </button>
                 </div>
                 <p className="mt-3 text-xs leading-relaxed text-charcoal/55">
-                  After placing the order, we’ll show the Zelle recipient and the reference to include with your payment. Need to pay by credit or debit card?{" "}
-                  <Link href="/contact" className="font-semibold text-copper hover:underline">Contact us</Link>{" "}
-                  and our team will explain the currently available card-processing option.
+                  After placing the order, we’ll show the payment handle and the reference to include with your payment.
                 </p>
               </div>
 
@@ -482,8 +500,10 @@ export default function CheckoutPage() {
                 className="w-full rounded-md bg-copper px-5 py-5 text-sm font-semibold uppercase tracking-[0.12em] text-charcoal transition hover:bg-copper-light disabled:cursor-not-allowed disabled:opacity-40"
               >
                 {placing
-                  ? selectedGateway === "zelle" ? "Placing order..." : "Opening secure card payment..."
-                  : `${selectedGateway === "zelle" ? "Place order with Zelle" : "Continue to secure card payment"} · ${formatPrice(payTotal)}`}
+                  ? (selectedGateway !== "niftipay" ? "Placing order..." : "Opening secure card payment...")
+                  : (selectedGateway && selectedGateway !== "niftipay"
+                    ? `Place order with ${PAYMENT_GATEWAYS.find((g) => g.id === selectedGateway)?.label ?? selectedGateway} · ${formatPrice(payTotal)}`
+                    : `Continue to secure card payment · ${formatPrice(payTotal)}`)}
               </button>
             </div>
 
