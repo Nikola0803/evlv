@@ -41,25 +41,25 @@ export const bentoCareImage =
 
 export const bentoSmall = [
   {
-    label: 'Tretinoin',
-    href: '/treatments/tretinoin',
+    label: 'Semaglutide',
+    href: '/treatments/glp-1',
     image:
-      'https://readdy.ai/api/search-image?query=Matte%20cream%20skincare%20tube%20with%20a%20brushed%20champagne%20gold%20cap%20lying%20on%20a%20warm%20ivory%20surface%2C%20the%20tube%20printed%20with%20TRETINOIN%20in%20thin%20champagne%20gold%20capital%20letters%20as%20part%20of%20the%20packaging%20and%20no%20black%20label%2C%20beside%20a%20small%20matte%20cream%20carton%20printed%20with%20EVLV%20in%20thin%20champagne%20lettering%2C%20product%20centred%20with%20generous%20space%20around%20it%2C%20minimal%20luxury%20skincare%20pack%20shot%2C%20seamless%20warm%20ivory%20studio%20sweep%20backdrop%2C%20soft%20directional%20daylight%20from%20the%20left%2C%20gentle%20cast%20shadow%2C%20editorial%20and%20refined&width=900&height=900&seq=evlv-pack-tretinoin-03&orientation=squarish',
-    alt: 'EVLV tretinoin cream tube with matching carton',
+      'https://readdy.ai/api/search-image?query=Single%20clear%20glass%20peptide%20vial%20with%20a%20brushed%20champagne%20gold%20crimp%20cap%2C%20a%20slim%20cream%20label%20wrapped%20around%20the%20vial%20printed%20with%20SEMAGLUTIDE%20in%20thin%20champagne%20gold%20capitals%20and%20no%20black%20label%2C%20the%20vial%20standing%20upright%20on%20a%20seamless%20warm%20ivory%20studio%20sweep%20backdrop%2C%20soft%20directional%20daylight%20from%20the%20left%2C%20gentle%20cast%20shadow%2C%20minimal%20luxury%20pharmaceutical%20pack%20shot%2C%20editorial%20and%20refined&width=900&height=900&seq=evlv-bento-sema-01&orientation=squarish',
+    alt: 'EVLV Semaglutide glass peptide vial',
   },
   {
-    label: 'Minoxidil',
-    href: '/treatments/minoxidil',
+    label: 'Tirzepatide',
+    href: '/treatments/glp-2',
     image:
-      'https://readdy.ai/api/search-image?query=Amber%20glass%20dropper%20bottle%20of%20topical%20hair%20treatment%20with%20a%20brushed%20champagne%20gold%20pipette%20cap%2C%20a%20cream%20bottle%20label%20printed%20with%20MINOXIDIL%20in%20thin%20champagne%20gold%20capitals%20and%20no%20black%20label%2C%20standing%20beside%20a%20slim%20matte%20cream%20carton%20printed%20with%20EVLV%20in%20thin%20champagne%20lettering%2C%20product%20centred%20with%20generous%20space%20around%20it%2C%20minimal%20luxury%20pharmaceutical%20pack%20shot%2C%20seamless%20warm%20ivory%20studio%20sweep%20backdrop%2C%20soft%20directional%20daylight%20from%20the%20left%2C%20gentle%20cast%20shadow%2C%20editorial%20and%20premium&width=900&height=900&seq=evlv-pack-minoxidil-03&orientation=squarish',
-    alt: 'EVLV minoxidil dropper bottle with matching carton',
+      'https://readdy.ai/api/search-image?query=Single%20clear%20glass%20peptide%20vial%20with%20a%20brushed%20champagne%20gold%20crimp%20cap%2C%20a%20slim%20cream%20label%20wrapped%20around%20the%20vial%20printed%20with%20TIRZEPATIDE%20in%20thin%20champagne%20gold%20capitals%20and%20no%20black%20label%2C%20the%20vial%20standing%20upright%20on%20a%20seamless%20warm%20ivory%20studio%20sweep%20backdrop%2C%20soft%20directional%20daylight%20from%20the%20left%2C%20gentle%20cast%20shadow%2C%20minimal%20luxury%20pharmaceutical%20pack%20shot%2C%20editorial%20and%20refined&width=900&height=900&seq=evlv-bento-tirz-01&orientation=squarish',
+    alt: 'EVLV Tirzepatide glass peptide vial',
   },
   {
-    label: 'Labs',
-    href: '/treatments/labs',
+    label: 'Retatrutide',
+    href: '/treatments/glp-3',
     image:
-      'https://readdy.ai/api/search-image?query=Compact%20matte%20cream%20at%20home%20blood%20test%20collection%20kit%20box%20printed%20with%20EVLV%20in%20thin%20letter%20spaced%20champagne%20gold%20capitals%2C%20a%20small%20glass%20collection%20tube%20and%20a%20folded%20instruction%20card%20beside%20it%2C%20product%20centred%20with%20generous%20space%20around%20it%2C%20minimal%20luxury%20diagnostics%20pack%20shot%2C%20seamless%20warm%20ivory%20studio%20sweep%20backdrop%2C%20soft%20directional%20daylight%20from%20the%20left%2C%20gentle%20cast%20shadow%2C%20no%20other%20text%20or%20logos%2C%20editorial%20and%20calm&width=900&height=900&seq=evlv-pack-labs-02&orientation=squarish',
-    alt: 'EVLV at-home lab collection kit',
+      'https://readdy.ai/api/search-image?query=Single%20clear%20glass%20peptide%20vial%20with%20a%20brushed%20champagne%20gold%20crimp%20cap%2C%20a%20slim%20cream%20label%20wrapped%20around%20the%20vial%20printed%20with%20RETATRUTIDE%20in%20thin%20champagne%20gold%20capitals%20and%20no%20black%20label%2C%20the%20vial%20standing%20upright%20on%20a%20seamless%20warm%20ivory%20studio%20sweep%20backdrop%2C%20soft%20directional%20daylight%20from%20the%20left%2C%20gentle%20cast%20shadow%2C%20minimal%20luxury%20pharmaceutical%20pack%20shot%2C%20editorial%20and%20refined&width=900&height=900&seq=evlv-bento-reta-01&orientation=squarish',
+    alt: 'EVLV Retatrutide glass peptide vial',
   },
   {
     label: 'Unsure where to start? Take the quiz.',
