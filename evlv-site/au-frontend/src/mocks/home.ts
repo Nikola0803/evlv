@@ -33,8 +33,7 @@ export const heroBannerMobileVideo =
 export const heroBannerMobilePoster =
   'https://cdn.prod.website-files.com/67ab626233e66749b69fc19f%2F6a6ba172279087dbacefd984_raven_site_banner_v2_mobile_poster.0000000.jpg';
 
-export const bentoPackShot =
-  'https://public.readdy.ai/ai/img_res/edited_e4aaad52c3f3feabe2fc0028b0c6f9e5_207ae4e3.jpg';
+export const bentoPackShot = '/images/products/semaglutide-10mg.png';
 
 export const bentoCareImage =
   'https://readdy.ai/api/search-image?query=Two%20women%20in%20their%20mid%20thirties%20walking%20side%20by%20side%20along%20a%20quiet%20tree%20lined%20path%20in%20warm%20late%20afternoon%20light%2C%20one%20with%20soft%20curves%20and%20one%20athletic%20build%2C%20both%20in%20relaxed%20cream%20and%20olive%20athleisure%20after%20a%20walk%2C%20mid%20conversation%20and%20genuinely%20laughing%2C%20candid%20caring%20moment%2C%20editorial%20lifestyle%20photography%2C%20shallow%20depth%20of%20field%2C%20hopeful%20and%20active%20mood&width=1400&height=788&seq=evlv-care-together-02&orientation=landscape&nocache=true';
@@ -43,23 +42,20 @@ export const bentoSmall = [
   {
     label: 'Semaglutide',
     href: '/treatments/glp-1',
-    image:
-      'https://readdy.ai/api/search-image?query=Single%20clear%20glass%20peptide%20vial%20with%20a%20brushed%20champagne%20gold%20crimp%20cap%2C%20a%20slim%20cream%20label%20wrapped%20around%20the%20vial%20printed%20with%20SEMAGLUTIDE%20in%20thin%20champagne%20gold%20capitals%20and%20no%20black%20label%2C%20the%20vial%20standing%20upright%20on%20a%20seamless%20warm%20ivory%20studio%20sweep%20backdrop%2C%20soft%20directional%20daylight%20from%20the%20left%2C%20gentle%20cast%20shadow%2C%20minimal%20luxury%20pharmaceutical%20pack%20shot%2C%20editorial%20and%20refined&width=900&height=900&seq=evlv-bento-sema-01&orientation=squarish',
-    alt: 'EVLV Semaglutide glass peptide vial',
+    image: '/images/products/au-cutouts/evlv-1-10mg.webp',
+    alt: 'EVLV GLP-1 Semaglutide vial',
   },
   {
     label: 'Tirzepatide',
     href: '/treatments/glp-2',
-    image:
-      'https://readdy.ai/api/search-image?query=Single%20clear%20glass%20peptide%20vial%20with%20a%20brushed%20champagne%20gold%20crimp%20cap%2C%20a%20slim%20cream%20label%20wrapped%20around%20the%20vial%20printed%20with%20TIRZEPATIDE%20in%20thin%20champagne%20gold%20capitals%20and%20no%20black%20label%2C%20the%20vial%20standing%20upright%20on%20a%20seamless%20warm%20ivory%20studio%20sweep%20backdrop%2C%20soft%20directional%20daylight%20from%20the%20left%2C%20gentle%20cast%20shadow%2C%20minimal%20luxury%20pharmaceutical%20pack%20shot%2C%20editorial%20and%20refined&width=900&height=900&seq=evlv-bento-tirz-01&orientation=squarish',
-    alt: 'EVLV Tirzepatide glass peptide vial',
+    image: '/images/products/au-cutouts/evlv-2-10mg.webp',
+    alt: 'EVLV GLP-2 Tirzepatide vial',
   },
   {
     label: 'Retatrutide',
     href: '/treatments/glp-3',
-    image:
-      'https://readdy.ai/api/search-image?query=Single%20clear%20glass%20peptide%20vial%20with%20a%20brushed%20champagne%20gold%20crimp%20cap%2C%20a%20slim%20cream%20label%20wrapped%20around%20the%20vial%20printed%20with%20RETATRUTIDE%20in%20thin%20champagne%20gold%20capitals%20and%20no%20black%20label%2C%20the%20vial%20standing%20upright%20on%20a%20seamless%20warm%20ivory%20studio%20sweep%20backdrop%2C%20soft%20directional%20daylight%20from%20the%20left%2C%20gentle%20cast%20shadow%2C%20minimal%20luxury%20pharmaceutical%20pack%20shot%2C%20editorial%20and%20refined&width=900&height=900&seq=evlv-bento-reta-01&orientation=squarish',
-    alt: 'EVLV Retatrutide glass peptide vial',
+    image: '/images/products/au-cutouts/evlv-3-10mg.webp',
+    alt: 'EVLV GLP-3 Retatrutide vial',
   },
   {
     label: 'Unsure where to start? Take the quiz.',
@@ -79,8 +75,7 @@ export const treatments = [
     price: '$124',
     cents: '.99',
     href: '/treatments/glp-1',
-    image:
-      'https://public.readdy.ai/ai/img_res/edited_e4aaad52c3f3feabe2fc0028b0c6f9e5_207ae4e3.jpg',
+    image: '/images/products/au-cutouts/evlv-1-10mg.webp',
   },
   {
     name: 'GLP-2',
@@ -88,8 +83,7 @@ export const treatments = [
     price: '$289',
     cents: '.99',
     href: '/treatments/glp-2',
-    image:
-      'https://readdy.ai/api/search-image?query=Two%20slender%20white%20injection%20pens%20with%20champagne%20gold%20accent%20bands%20standing%20beside%20a%20slim%20matte%20cream%20carton%2C%20the%20product%20name%20GLP-2%20printed%20directly%20on%20the%20white%20pen%20barrels%20in%20thin%20champagne%20gold%20capital%20letters%20with%20no%20black%20label%20or%20sticker%2C%20the%20carton%20printed%20with%20EVLV%20in%20thin%20champagne%20lettering%2C%20product%20centred%20with%20generous%20space%20around%20it%2C%20minimal%20luxury%20pharmaceutical%20pack%20shot%2C%20seamless%20warm%20ivory%20studio%20sweep%20backdrop%2C%20soft%20directional%20daylight%20from%20the%20left%2C%20gentle%20cast%20shadow%2C%20editorial%20and%20refined&width=900&height=900&seq=evlv-pack-glp2-03&orientation=squarish',
+    image: '/images/products/au-cutouts/evlv-2-10mg.webp',
   },
   {
     name: 'GLP-3',
@@ -97,8 +91,7 @@ export const treatments = [
     price: '$399',
     cents: '.99',
     href: '/treatments/glp-3',
-    image:
-      'https://readdy.ai/api/search-image?query=One%20slim%20frosted%20white%20auto-injector%20device%20with%20a%20pale%20champagne%20gold%20collar%20standing%20upright%20in%20front%20of%20a%20tall%20matte%20cream%20carton%2C%20the%20product%20name%20GLP-3%20printed%20directly%20on%20the%20frosted%20device%20body%20in%20thin%20champagne%20gold%20capital%20letters%20with%20no%20black%20label%20or%20sticker%2C%20the%20carton%20printed%20with%20EVLV%20in%20thin%20champagne%20lettering%2C%20product%20centred%20with%20generous%20space%20around%20it%2C%20minimal%20high%20end%20pharmaceutical%20pack%20shot%2C%20seamless%20warm%20ivory%20studio%20sweep%20backdrop%2C%20soft%20directional%20daylight%20from%20the%20left%2C%20gentle%20cast%20shadow%2C%20editorial%20and%20premium&width=900&height=900&seq=evlv-pack-glp3-03&orientation=squarish',
+    image: '/images/products/au-cutouts/evlv-3-10mg.webp',
   },
   {
     name: 'BPC-157',
@@ -106,8 +99,7 @@ export const treatments = [
     price: '$149',
     cents: '.99',
     href: '/treatments/bpc-157',
-    image:
-      'https://readdy.ai/api/search-image?query=Small%20amber%20glass%20peptide%20vial%20with%20a%20cream%20cap%20standing%20on%20a%20soft%20ivory%20ceramic%20dish%20beside%20a%20compact%20matte%20cream%20carton%2C%20a%20slim%20cream%20label%20wrapped%20around%20the%20vial%20printed%20with%20BPC-157%20in%20thin%20champagne%20gold%20capitals%20and%20no%20black%20label%2C%20the%20carton%20printed%20with%20EVLV%20in%20thin%20champagne%20lettering%2C%20product%20centred%20with%20generous%20space%20around%20it%2C%20minimal%20luxury%20pharmaceutical%20pack%20shot%2C%20seamless%20warm%20ivory%20studio%20sweep%20backdrop%2C%20soft%20directional%20daylight%20from%20the%20left%2C%20gentle%20cast%20shadow%2C%20editorial%20and%20calm&width=900&height=900&seq=evlv-pack-bpc-03&orientation=squarish',
+    image: '/images/products/au-cutouts/bpc-157-10mg.webp',
   },
   {
     name: 'CJC-1295 + Ipamorelin',
@@ -115,8 +107,7 @@ export const treatments = [
     price: '$189',
     cents: '.99',
     href: '/treatments/cjc-1295-ipamorelin',
-    image:
-      'https://readdy.ai/api/search-image?query=Two%20small%20clear%20glass%20peptide%20vials%20with%20brushed%20champagne%20gold%20caps%20standing%20together%2C%20each%20wrapped%20in%20a%20slim%20cream%20label%20printed%20with%20CJC-1295%20and%20IPAMORELIN%20in%20thin%20champagne%20gold%20capitals%20and%20no%20black%20label%2C%20a%20low%20matte%20cream%20carton%20printed%20with%20EVLV%20beside%20them%2C%20product%20centred%20with%20generous%20space%20around%20it%2C%20minimal%20luxury%20pharmaceutical%20pack%20shot%2C%20seamless%20warm%20ivory%20studio%20sweep%20backdrop%2C%20soft%20directional%20daylight%20from%20the%20left%2C%20gentle%20cast%20shadow%2C%20editorial%20and%20understated&width=900&height=900&seq=evlv-pack-cjc-03&orientation=squarish',
+    image: '/images/products/au-cutouts/cjc-ipa-blend-10mg.webp',
   },
 ];
 
