@@ -50,7 +50,8 @@ export function Footer() {
             <small>Secure card processing</small>
             {isAu ? <span><i className="ri-bank-card-line" />Credit &amp; debit cards</span> : <Link href="/contact"><i className="ri-bank-card-line" />Card processing · contact us</Link>}
             {isAu && <span><i className="ri-shield-check-line" />Hosted by Niftipay</span>}
-            {!isAu && <span><i className="ri-bank-line" />Zelle · save 5%</span>}
+            {!isAu && <span><i className="ri-money-dollar-circle-line" />Cash App · save 5%</span>}
+            {!isAu && <span><i className="ri-smartphone-line" />Venmo · save 5%</span>}
             <span><i className="ri-lock-line" />Secure checkout</span>
           </div>
           <div className="cp-footer-contact-meta">
