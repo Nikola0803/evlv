@@ -79,8 +79,16 @@ export default function Quiz() {
 
       answersRef.current = next;
       setAnswers(next);
+
+      if (type === 'single') {
+        if (timer.current) window.clearTimeout(timer.current);
+        timer.current = window.setTimeout(() => {
+          if (step + 1 >= total) startAnalyzing();
+          else setStep((prev) => prev + 1);
+        }, 260);
+      }
     },
-    [],
+    [startAnalyzing, step, total],
   );
 
   const restart = useCallback(() => {
@@ -110,8 +118,8 @@ export default function Quiz() {
                   A clearer starting point.
                 </h1>
                 <p className="mt-3 text-sm text-foreground-600 leading-relaxed">
-                  Answer honestly — there is nothing to get right here. Your Wellness Optimisation Expert (MD) reads all
-                  of it before anything is prescribed.
+                  Answer honestly — there is nothing to get right here. Your provider reads all of it before anything
+                  is prescribed.
                 </p>
 
                 <div className="mt-6 rounded-2xl glass-inner p-4">

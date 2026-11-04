@@ -5,6 +5,8 @@ import PageIntro from '@/components/feature/PageIntro';
 import { careCategories, treatmentDetails } from '@/mocks/catalog';
 import { shopProducts } from '@/mocks/shop';
 
+const FORM_URL = 'https://readdy.ai/api/form/dbksbo6smf5femiju5og';
+
 const states = [
   'New South Wales',
   'Victoria',
@@ -54,28 +56,26 @@ export default function Contact() {
     setFormError('');
     setStatus('sending');
     try {
-      const phone = String(fd.get('phone') || '').trim();
-      const state = String(fd.get('state') || '').trim();
-      const interest = String(fd.get('interest') || '').trim();
-      const treatment = String(fd.get('treatment') || '').trim();
-      const context = [phone && `Phone: ${phone}`, state && `State: ${state}`, interest && `Interest: ${interest}`, treatment && `Requested: ${treatment}`]
-        .filter(Boolean)
-        .join('\n');
-      const res = await fetch('/api/contact', {
+      const body = new URLSearchParams();
+      fd.forEach((v, k) => body.append(k, String(v)));
+      const res = await fetch(FORM_URL, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name,
-          email,
-          subject: treatment || interest || (isDirectBuy ? 'Australian product enquiry' : 'Australian care enquiry'),
-          message: context ? `${message}\n\n${context}` : message,
-          source: 'au-redesign-contact',
-        }),
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: body.toString(),
       });
-      const parsed = await res.json().catch(() => null) as { error?: string } | null;
-      if (!res.ok) {
+      const responseText = await res.text();
+      let parsed: { code?: string; message?: string; meta?: { message?: string; detail?: string } } | null = null;
+      try {
+        parsed = JSON.parse(responseText);
+      } catch {
+        parsed = null;
+      }
+      const serverMsg =
+        parsed?.meta?.message || parsed?.message || parsed?.meta?.detail || responseText || '';
+      const failed = !res.ok || parsed?.code !== 'OK' || /spam/i.test(serverMsg);
+      if (failed) {
         setStatus('idle');
-        setFormError(parsed?.error || 'Something went wrong. Please try again.');
+        setFormError(serverMsg || 'Something went wrong. Please try again.');
         return;
       }
       setStatus('ok');
@@ -100,8 +100,7 @@ export default function Contact() {
         text="Tell us what is going on and a member of the EVLV care team will point you in the right direction. No pressure, no sales script."
       />
 
-      <section className="atmo-cream panel-section section-y">
-        <div className="mx-auto w-full max-w-[1440px] px-5 md:px-8 lg:px-12 grid grid-cols-1 lg:grid-cols-[1.35fr_1fr] gap-8 items-start">
+      <section className="mx-auto w-full max-w-[1440px] px-5 md:px-8 lg:px-12 pb-20 grid grid-cols-1 lg:grid-cols-[1.35fr_1fr] gap-8 items-start">
         <div className="glass-card rounded-[28px] p-6 md:p-9 mt-6 lg:mt-0">
           {(chosen || chosenProduct) && status !== 'ok' && (
             <div className="mb-6 flex items-start gap-3 rounded-[20px] border border-primary-800/12 bg-background-50/70 px-4 py-3.5">
@@ -135,7 +134,7 @@ export default function Contact() {
               </button>
             </div>
           ) : (
-            <form id="evlv-contact" onSubmit={onSubmit} className="space-y-5">
+            <form id="evlv-contact" data-readdy-form onSubmit={onSubmit} className="space-y-5">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div className="min-w-0">
                   <label htmlFor="contact-name" className="block text-xs font-medium text-foreground-700 mb-1.5">
@@ -296,11 +295,10 @@ export default function Contact() {
             </p>
             <p className="mt-4 text-[11px] text-foreground-500 leading-relaxed">
               EVLV is an Australian wellness optimisation service. Prescription products require an online consultation with a
-              Wellness Optimisation Specialist.
+              licensed healthcare practitioner.
             </p>
           </div>
         </aside>
-        </div>
       </section>
     </PageShell>
   );

@@ -31,10 +31,10 @@ export const questions = quizQuestions as unknown as QuizQuestion[];
 
 export const recommendations = quizRecommendations as unknown as Recommendation[];
 
-const order = ['glp1', 'glp2', 'glp3', 'peptides', 'labs', 'hair', 'skin'];
+const order = ['glp1', 'glp2', 'glp3', 'peptides', 'labs'];
 
 export function getRecommendation(answers: AnswerMap): Recommendation {
-  const scores: Record<string, number> = { glp1: 0, glp2: 0, glp3: 0, peptides: 0, labs: 0, hair: 0, skin: 0 };
+  const scores: Record<string, number> = { glp1: 0, glp2: 0, glp3: 0, peptides: 0, labs: 0 };
 
   questions.forEach((question) => {
     const picked = answers[question.id] || [];

@@ -168,7 +168,7 @@ export const quizRecommendations = [
     reasons: [
       'Suggested for a long history, or a previous treatment that stopped working.',
       'Triple pathway action makes it the most closely watched option we offer.',
-      'Your Wellness Optimisation Expert (MD) confirms eligibility before anything is dispensed.',
+      'Your provider confirms eligibility before anything is dispensed.',
     ],
   },
   {
@@ -195,14 +195,14 @@ export const quizRecommendations = [
       'A baseline panel before treatment, so your provider prescribes from data instead of guesswork.',
     reasons: [
       'Your answers point to metabolic numbers worth seeing before medication.',
-      'Results feed straight into your assessment with a Wellness Optimisation Expert (MD).',
+      'Results feed straight into your assessment with a licensed provider.',
       'A sensible first step if you are still deciding between the GLP options.',
     ],
   },
 ];
 
 export const quizTrustPoints = [
-  'Every result is reviewed by a Wellness Optimisation Expert (MD)',
+  'Every result is reviewed by a licensed Australian practitioner',
   'No payment until a provider approves your plan',
   'Free, discreet delivery, Australia wide',
 ];
@@ -210,7 +210,7 @@ export const quizTrustPoints = [
 export const quizAnalyzingSteps = [
   'Analysing your answers',
   'Matching you with a clinical protocol',
-  'Checking eligibility with a Wellness Optimisation Expert',
+  'Checking eligibility with a licensed provider',
 ];
 
 export const quizIntroFacts = [

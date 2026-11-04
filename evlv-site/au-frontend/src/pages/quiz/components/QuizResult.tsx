@@ -10,7 +10,7 @@ type Props = {
 
 const nextSteps = [
   'Submit your intake — it takes about two minutes.',
-  'A Wellness Optimisation Expert (MD) reviews it and confirms (or adjusts) the protocol.',
+  'A licensed Australian practitioner reviews it and confirms (or adjusts) the protocol.',
   'Your medication is dispensed and delivered discreetly, if you are approved.',
 ];
 
@@ -24,17 +24,17 @@ export default function QuizResult({ rec, secondary, onRetake }: Props) {
         <div className="glass-card rounded-[30px] p-6 md:p-9">
           <div className="flex flex-wrap items-center gap-2">
             <span className="inline-flex items-center gap-1.5 rounded-full bg-primary-100 text-primary-800 text-[11px] font-medium px-3 py-1.5">
-              <i className="ri-stethoscope-line" /> Wellness Optimisation Expert protocol
+              <i className="ri-stethoscope-line" /> Physician-led wellness protocol
             </span>
             <span className="text-[11px] text-foreground-500">Based on your 6 answers</span>
           </div>
 
           <h1 className="t-section mt-5">
-            Based on your profile, you are a candidate for our Wellness Optimisation Expert protocol.
+            Based on your profile, you are a candidate for our physician-led wellness protocol.
           </h1>
           <p className="mt-3 text-foreground-600 leading-relaxed">
-            Your answers point to one protocol first. Nothing is prescribed until a Wellness Optimisation Expert (MD) has
-            read your intake and confirmed it is appropriate for you.
+            Your answers point to one protocol first. Nothing is prescribed until a licensed practitioner has read your
+            intake and confirmed it is appropriate for you.
           </p>
 
           <div className="mt-7 glass-inner rounded-[24px] p-5 md:p-6">
@@ -66,7 +66,7 @@ export default function QuizResult({ rec, secondary, onRetake }: Props) {
               to="/contact"
               className="whitespace-nowrap inline-flex items-center justify-center gap-2 rounded-full bg-secondary-950 text-background-50 px-6 py-3 text-sm font-semibold cursor-pointer hover:bg-secondary-800"
             >
-              Submit intake for specialist review
+              Submit intake for medical approval
             </Link>
             <Link
               to="/treatments"
@@ -99,7 +99,7 @@ export default function QuizResult({ rec, secondary, onRetake }: Props) {
             </div>
             <p className="mt-4 text-xs text-foreground-500 leading-relaxed">
               <i className="ri-shield-check-line text-primary-600 mr-1" />
-              Reviewed by a Wellness Optimisation Expert (MD). Free, discreet delivery Australia wide.
+              Reviewed by a licensed practitioner. Free, discreet delivery Australia wide.
             </p>
           </div>
 
@@ -120,7 +120,7 @@ export default function QuizResult({ rec, secondary, onRetake }: Props) {
       </div>
 
       <div className="mt-8">
-        <h2 className="font-heading text-lg font-semibold">Also worth raising with your Wellness Optimisation Expert</h2>
+        <h2 className="font-heading text-lg font-semibold">Also worth raising with your provider</h2>
         <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
           {secondary.map((item) => (
             <Link
@@ -143,7 +143,7 @@ export default function QuizResult({ rec, secondary, onRetake }: Props) {
 
       <p className="mt-8 text-[11px] leading-relaxed text-foreground-500 max-w-3xl">
         This quiz is a guidance tool, not a diagnosis or a prescription. Answers are used to suggest a starting point
-        only. Prescription products require an online consultation with a Wellness Optimisation Specialist who decides
+        only. Prescription products require an online consultation with a licensed healthcare practitioner who decides
         whether treatment is appropriate. EVLV is an Australian wellness optimisation service.
       </p>
     </div>

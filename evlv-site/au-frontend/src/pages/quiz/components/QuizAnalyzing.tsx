@@ -60,7 +60,7 @@ export default function QuizAnalyzing({ onDone }: Props) {
       </ul>
 
       <p className="mt-8 text-[11px] text-foreground-500">
-        Reviewed by Wellness Optimisation Experts (MDs). Your answers are never sold or shared.
+        Reviewed by licensed Australian practitioners. Your answers are never sold or shared.
       </p>
     </div>
   );

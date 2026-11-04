@@ -27,18 +27,27 @@ export default function Footer() {
     setFormError('');
     setStatus('sending');
     try {
-      const res = await fetch('/api/newsletter', {
+      const body = new URLSearchParams();
+      fd.forEach((v, k) => body.append(k, String(v)));
+      const res = await fetch('https://readdy.ai/api/form/dbkq4eebe8r9umpnnr7g', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, source: 'au-redesign-footer' }),
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: body.toString(),
       });
-      const parsed = await res.json().catch(() => null) as { error?: string } | null;
-      if (res.ok) {
+      const text = await res.text();
+      let parsed: { code?: string; message?: string; meta?: { message?: string; detail?: string } } | null = null;
+      try {
+        parsed = JSON.parse(text);
+      } catch {
+        parsed = null;
+      }
+      const msg = parsed?.meta?.message || parsed?.message || parsed?.meta?.detail || text;
+      if (res.ok && parsed?.code === 'OK' && !/spam/i.test(msg || '')) {
         setStatus('ok');
         form.reset();
       } else {
         setStatus('idle');
-        setFormError(parsed?.error || 'Something went wrong. Please try again.');
+        setFormError(msg || 'Something went wrong. Please try again.');
       }
     } catch {
       setStatus('idle');
@@ -69,7 +78,7 @@ export default function Footer() {
                 Thank you! Your submission has been received.
               </p>
             ) : (
-              <form id="newsletter-footer" onSubmit={onSubmit} className="mt-3">
+              <form id="newsletter-footer" data-readdy-form onSubmit={onSubmit} className="mt-3">
                 <div className="flex flex-col gap-2 sm:flex-row">
                   <input
                     type="email"
@@ -144,8 +153,8 @@ export default function Footer() {
             <strong className="text-background-200">
               <em>EVLV is not a pharmacy or drug manufacturer.</em>
             </strong>{' '}
-            Prescription products, including RX peptides, require an online consultation with a Wellness Optimisation
-            Specialist who will determine whether a prescription is appropriate. EVLV is an Australian wellness
+            Prescription products, including RX peptides, require an online consultation with a licensed healthcare
+            practitioner who will determine whether a prescription is appropriate. EVLV is an Australian wellness
             optimisation service.
           </p>
           <div className="flex shrink-0 flex-col gap-1 sm:text-right">

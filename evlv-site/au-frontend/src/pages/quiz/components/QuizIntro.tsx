@@ -3,43 +3,8 @@ import Reveal from '@/components/base/Reveal';
 import { quizIntroFacts, quizTrustPoints } from '@/mocks/quiz';
 
 type Props = {
-  onStart: (goalId?: string) => void;
+  onStart: () => void;
 };
-
-// Front door: each path opens the quiz with its matching first answer
-// pre-selected (the user can still change it before continuing).
-const paths = [
-  {
-    goalId: 'sustainable',
-    icon: 'ri-scales-3-line',
-    title: 'Weight management',
-    text: 'Steady fat loss, or breaking through a plateau.',
-  },
-  {
-    goalId: 'hair',
-    icon: 'ri-brush-line',
-    title: 'Hair',
-    text: 'Thinning, shedding or a widening part.',
-  },
-  {
-    goalId: 'skin',
-    icon: 'ri-drop-line',
-    title: 'Skin',
-    text: 'Texture, breakouts or visible ageing.',
-  },
-  {
-    goalId: 'composition',
-    icon: 'ri-run-line',
-    title: 'Recovery and body composition',
-    text: 'Tone, training recovery and strength.',
-  },
-  {
-    goalId: 'metabolic',
-    icon: 'ri-heart-pulse-line',
-    title: 'Metabolic health and labs',
-    text: 'Energy, sleep, blood sugar and your numbers.',
-  },
-];
 
 const inside = [
   { icon: 'ri-focus-3-line', title: 'Your goal', text: 'What you actually want to change first.' },
@@ -56,37 +21,22 @@ export default function QuizIntro({ onStart }: Props) {
             <i className="ri-sparkling-2-line text-sm" /> Wellness quiz · 60 seconds
           </p>
           <h1 className="t-display mt-5 w-full">
-            What can we help
+            Not sure where to start?
             <br />
-            you with?
+            Let your answers lead.
           </h1>
           <p className="mt-5 text-base md:text-lg text-foreground-600 leading-relaxed max-w-2xl">
-            Six short questions about your goal, your week and your history. Your answers are matched to a protocol,
-            then a Wellness Optimisation Expert (MD) reviews it before you pay a cent.
+            Six short questions about your goal, your week and your history. We match your answers to a physician-led
+            wellness protocol, then a licensed practitioner reviews it before you pay a cent.
           </p>
 
-          <div className="mt-8 grid grid-cols-2 lg:grid-cols-3 gap-3">
-            {paths.map((path) => (
-              <button
-                key={path.goalId}
-                type="button"
-                onClick={() => onStart(path.goalId)}
-                className="text-left cursor-pointer rounded-2xl border border-primary-800/12 bg-background-50/70 hover:border-primary-400 hover:bg-primary-50/50 px-4 py-4 transition-all duration-200"
-              >
-                <i className={`${path.icon} text-xl text-primary-700`} />
-                <span className="block mt-3 text-sm font-semibold leading-snug">{path.title}</span>
-                <span className="block mt-1 text-xs text-foreground-600 leading-relaxed">{path.text}</span>
-              </button>
-            ))}
-          </div>
-
-          <div className="mt-6 flex flex-col sm:flex-row gap-3">
+          <div className="mt-8 flex flex-col sm:flex-row gap-3">
             <button
               type="button"
-              onClick={() => onStart()}
+              onClick={onStart}
               className="whitespace-nowrap inline-flex items-center justify-center gap-2 rounded-full bg-primary-500 text-secondary-950 px-7 py-3.5 text-sm font-semibold cursor-pointer hover:bg-primary-400"
             >
-              Not sure? Take the 60-second quiz
+              Take the 60-second quiz
               <i className="ri-arrow-right-line" />
             </button>
             <Link
@@ -141,8 +91,8 @@ export default function QuizIntro({ onStart }: Props) {
           <div className="mt-6 rounded-2xl bg-secondary-900 text-background-50 p-4">
             <p className="text-xs leading-relaxed text-background-300">
               <i className="ri-stethoscope-line text-primary-300 mr-1.5" />
-              This is a guidance tool, not a diagnosis. A Wellness Optimisation Expert (MD) reviews every recommendation
-              before treatment is dispensed.
+              This is a guidance tool, not a diagnosis. A licensed practitioner reviews every recommendation before
+              treatment is dispensed.
             </p>
           </div>
         </div>

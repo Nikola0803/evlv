@@ -1,8 +1,5 @@
-import { useCallback, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import PageShell from '@/components/feature/PageShell';
-import CoaModal from '@/pages/shop/detail/components/CoaModal';
-import { coaDocsBySlug } from '@/mocks/coa';
 import Reveal from '@/components/base/Reveal';
 import Container from '@/components/base/Container';
 import ProductCard from '@/pages/shop/components/ProductCard';
@@ -14,8 +11,6 @@ import { shopCategories, shopDetailBlocks, shopDispatchNotes, shopProducts } fro
 
 export default function ShopProductDetail() {
   const { slug } = useParams();
-  const [coaOpen, setCoaOpen] = useState(false);
-  const closeCoa = useCallback(() => setCoaOpen(false), []);
   const product = shopProducts.find((p) => p.slug === slug);
 
   if (!product) {
@@ -154,20 +149,13 @@ export default function ShopProductDetail() {
                     Buy this vial
                     <i className="ri-arrow-right-line transition-transform duration-300 group-hover:translate-x-0.5" />
                   </Link>
-                  <button
-                    type="button"
-                    onClick={() => setCoaOpen(true)}
+                  <Link
+                    to={`/contact?intent=docs&product=${product.slug}`}
                     className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full border border-primary-800/25 bg-background-50/60 px-6 py-3.5 text-sm font-medium text-primary-800 cursor-pointer hover:border-primary-500 hover:bg-primary-50 transition-colors"
                   >
                     <i className="ri-file-text-line" />
-                    Show COA and Endotoxin Reports
-                  </button>
-                  <CoaModal
-                    open={coaOpen}
-                    onClose={closeCoa}
-                    productName={`${product.name} ${product.size}`}
-                    docs={coaDocsBySlug[product.slug] ?? []}
-                  />
+                    Request COA and endotoxin reports
+                  </Link>
                 </div>
 
                 <dl className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-0 rounded-[22px] border border-primary-800/12 bg-background-50/55 px-5 py-2">

@@ -1,8 +1,4 @@
-import { treatmentDetails } from '@/mocks/catalog';
-
 const CDN = 'https://cdn.prod.website-files.com/67ab626233e66749b69fc19f/';
-
-const img = (slug: string) => treatmentDetails.find((t) => t.slug === slug)?.image ?? '';
 
 export const navTreatments = [
   { label: 'Weight Loss', href: '/treatments?category=weight-loss' },
@@ -26,7 +22,13 @@ export const heroPromos = [
   'Women first, RX peptides too',
 ];
 
-export const bentoPackShot = img('glp-3');
+export const heroBannerVideo =
+  'https://cdn.prod.website-files.com/67ab626233e66749b69fc19f%2F6a6b9f77d838065d2c974b06_raven_site_banner_v2_desktop_mp4.mp4';
+export const heroBannerPoster =
+  'https://cdn.prod.website-files.com/67ab626233e66749b69fc19f%2F6a6b9f77d838065d2c974b06_raven_site_banner_v2_desktop_poster.0000000.jpg';
+
+export const bentoPackShot =
+  'https://public.readdy.ai/ai/img_res/edited_e4aaad52c3f3feabe2fc0028b0c6f9e5_207ae4e3.jpg';
 
 export const bentoCareImage =
   'https://readdy.ai/api/search-image?query=Two%20women%20in%20their%20mid%20thirties%20walking%20side%20by%20side%20along%20a%20quiet%20tree%20lined%20path%20in%20warm%20late%20afternoon%20light%2C%20one%20with%20soft%20curves%20and%20one%20athletic%20build%2C%20both%20in%20relaxed%20cream%20and%20olive%20athleisure%20after%20a%20walk%2C%20mid%20conversation%20and%20genuinely%20laughing%2C%20candid%20caring%20moment%2C%20editorial%20lifestyle%20photography%2C%20shallow%20depth%20of%20field%2C%20hopeful%20and%20active%20mood&width=1400&height=788&seq=evlv-care-together-02&orientation=landscape&nocache=true';
@@ -35,19 +37,22 @@ export const bentoSmall = [
   {
     label: 'Tretinoin',
     href: '/treatments/tretinoin',
-    image: img('tretinoin'),
+    image:
+      'https://readdy.ai/api/search-image?query=Matte%20cream%20skincare%20tube%20with%20a%20brushed%20champagne%20gold%20cap%20lying%20on%20a%20warm%20ivory%20surface%2C%20the%20tube%20printed%20with%20TRETINOIN%20in%20thin%20champagne%20gold%20capital%20letters%20as%20part%20of%20the%20packaging%20and%20no%20black%20label%2C%20beside%20a%20small%20matte%20cream%20carton%20printed%20with%20EVLV%20in%20thin%20champagne%20lettering%2C%20product%20centred%20with%20generous%20space%20around%20it%2C%20minimal%20luxury%20skincare%20pack%20shot%2C%20seamless%20warm%20ivory%20studio%20sweep%20backdrop%2C%20soft%20directional%20daylight%20from%20the%20left%2C%20gentle%20cast%20shadow%2C%20editorial%20and%20refined&width=900&height=900&seq=evlv-pack-tretinoin-03&orientation=squarish',
     alt: 'EVLV tretinoin cream tube with matching carton',
   },
   {
     label: 'Minoxidil',
     href: '/treatments/minoxidil',
-    image: img('minoxidil'),
+    image:
+      'https://readdy.ai/api/search-image?query=Amber%20glass%20dropper%20bottle%20of%20topical%20hair%20treatment%20with%20a%20brushed%20champagne%20gold%20pipette%20cap%2C%20a%20cream%20bottle%20label%20printed%20with%20MINOXIDIL%20in%20thin%20champagne%20gold%20capitals%20and%20no%20black%20label%2C%20standing%20beside%20a%20slim%20matte%20cream%20carton%20printed%20with%20EVLV%20in%20thin%20champagne%20lettering%2C%20product%20centred%20with%20generous%20space%20around%20it%2C%20minimal%20luxury%20pharmaceutical%20pack%20shot%2C%20seamless%20warm%20ivory%20studio%20sweep%20backdrop%2C%20soft%20directional%20daylight%20from%20the%20left%2C%20gentle%20cast%20shadow%2C%20editorial%20and%20premium&width=900&height=900&seq=evlv-pack-minoxidil-03&orientation=squarish',
     alt: 'EVLV minoxidil dropper bottle with matching carton',
   },
   {
     label: 'Labs',
     href: '/treatments/labs',
-    image: img('labs'),
+    image:
+      'https://readdy.ai/api/search-image?query=Compact%20matte%20cream%20at%20home%20blood%20test%20collection%20kit%20box%20printed%20with%20EVLV%20in%20thin%20letter%20spaced%20champagne%20gold%20capitals%2C%20a%20small%20glass%20collection%20tube%20and%20a%20folded%20instruction%20card%20beside%20it%2C%20product%20centred%20with%20generous%20space%20around%20it%2C%20minimal%20luxury%20diagnostics%20pack%20shot%2C%20seamless%20warm%20ivory%20studio%20sweep%20backdrop%2C%20soft%20directional%20daylight%20from%20the%20left%2C%20gentle%20cast%20shadow%2C%20no%20other%20text%20or%20logos%2C%20editorial%20and%20calm&width=900&height=900&seq=evlv-pack-labs-02&orientation=squarish',
     alt: 'EVLV at-home lab collection kit',
   },
   {
@@ -62,11 +67,51 @@ export const womensHealthImage =
   'https://readdy.ai/api/search-image?query=Confident%20woman%20in%20her%20early%20forties%20with%20an%20athletic%20build%20and%20shoulder%20length%20hair%2C%20standing%20beside%20a%20bright%20window%20in%20a%20relaxed%20ivory%20linen%20shirt%2C%20calm%20assured%20expression%20of%20someone%20who%20is%20sticking%20with%20it%2C%20warm%20morning%20light%20falling%20across%20her%20face%2C%20minimal%20cream%20interior%20with%20a%20single%20ceramic%20vase%2C%20editorial%20portrait%20photography%2C%20shallow%20depth%20of%20field%2C%20quiet%20and%20composed%20mood&width=800&height=1000&seq=evlv-womens-health-02&orientation=portrait&nocache=true';
 
 export const treatments = [
-  { name: 'GLP-1', type: 'Semaglutide',           price: '$124', cents: '.99', href: '/treatments/glp-1',              image: img('glp-1') },
-  { name: 'GLP-2', type: 'Tirzepatide',            price: '$289', cents: '.99', href: '/treatments/glp-2',              image: img('glp-2') },
-  { name: 'GLP-3', type: 'Retatrutide',            price: '$399', cents: '.99', href: '/treatments/glp-3',              image: img('glp-3') },
-  { name: 'BPC-157', type: 'Peptide',              price: '$149', cents: '.99', href: '/treatments/bpc-157',            image: img('bpc-157') },
-  { name: 'CJC-1295 + Ipamorelin', type: 'Peptide', price: '$189', cents: '.99', href: '/treatments/cjc-1295-ipamorelin', image: img('cjc-1295-ipamorelin') },
+  {
+    name: 'GLP-1',
+    type: 'Semaglutide',
+    price: '$124',
+    cents: '.99',
+    href: '/treatments/glp-1',
+    image:
+      'https://public.readdy.ai/ai/img_res/edited_e4aaad52c3f3feabe2fc0028b0c6f9e5_207ae4e3.jpg',
+  },
+  {
+    name: 'GLP-2',
+    type: 'Tirzepatide',
+    price: '$289',
+    cents: '.99',
+    href: '/treatments/glp-2',
+    image:
+      'https://readdy.ai/api/search-image?query=Two%20slender%20white%20injection%20pens%20with%20champagne%20gold%20accent%20bands%20standing%20beside%20a%20slim%20matte%20cream%20carton%2C%20the%20product%20name%20GLP-2%20printed%20directly%20on%20the%20white%20pen%20barrels%20in%20thin%20champagne%20gold%20capital%20letters%20with%20no%20black%20label%20or%20sticker%2C%20the%20carton%20printed%20with%20EVLV%20in%20thin%20champagne%20lettering%2C%20product%20centred%20with%20generous%20space%20around%20it%2C%20minimal%20luxury%20pharmaceutical%20pack%20shot%2C%20seamless%20warm%20ivory%20studio%20sweep%20backdrop%2C%20soft%20directional%20daylight%20from%20the%20left%2C%20gentle%20cast%20shadow%2C%20editorial%20and%20refined&width=900&height=900&seq=evlv-pack-glp2-03&orientation=squarish',
+  },
+  {
+    name: 'GLP-3',
+    type: 'Retatrutide',
+    price: '$399',
+    cents: '.99',
+    href: '/treatments/glp-3',
+    image:
+      'https://readdy.ai/api/search-image?query=One%20slim%20frosted%20white%20auto-injector%20device%20with%20a%20pale%20champagne%20gold%20collar%20standing%20upright%20in%20front%20of%20a%20tall%20matte%20cream%20carton%2C%20the%20product%20name%20GLP-3%20printed%20directly%20on%20the%20frosted%20device%20body%20in%20thin%20champagne%20gold%20capital%20letters%20with%20no%20black%20label%20or%20sticker%2C%20the%20carton%20printed%20with%20EVLV%20in%20thin%20champagne%20lettering%2C%20product%20centred%20with%20generous%20space%20around%20it%2C%20minimal%20high%20end%20pharmaceutical%20pack%20shot%2C%20seamless%20warm%20ivory%20studio%20sweep%20backdrop%2C%20soft%20directional%20daylight%20from%20the%20left%2C%20gentle%20cast%20shadow%2C%20editorial%20and%20premium&width=900&height=900&seq=evlv-pack-glp3-03&orientation=squarish',
+  },
+  {
+    name: 'BPC-157',
+    type: 'Peptide',
+    price: '$149',
+    cents: '.99',
+    href: '/treatments/bpc-157',
+    image:
+      'https://readdy.ai/api/search-image?query=Small%20amber%20glass%20peptide%20vial%20with%20a%20cream%20cap%20standing%20on%20a%20soft%20ivory%20ceramic%20dish%20beside%20a%20compact%20matte%20cream%20carton%2C%20a%20slim%20cream%20label%20wrapped%20around%20the%20vial%20printed%20with%20BPC-157%20in%20thin%20champagne%20gold%20capitals%20and%20no%20black%20label%2C%20the%20carton%20printed%20with%20EVLV%20in%20thin%20champagne%20lettering%2C%20product%20centred%20with%20generous%20space%20around%20it%2C%20minimal%20luxury%20pharmaceutical%20pack%20shot%2C%20seamless%20warm%20ivory%20studio%20sweep%20backdrop%2C%20soft%20directional%20daylight%20from%20the%20left%2C%20gentle%20cast%20shadow%2C%20editorial%20and%20calm&width=900&height=900&seq=evlv-pack-bpc-03&orientation=squarish',
+  },
+  {
+    name: 'CJC-1295 + Ipamorelin',
+    type: 'Peptide',
+    price: '$189',
+    cents: '.99',
+    href: '/treatments/cjc-1295-ipamorelin',
+    image:
+      'https://readdy.ai/api/search-image?query=Two%20small%20clear%20glass%20peptide%20vials%20with%20brushed%20champagne%20gold%20caps%20standing%20together%2C%20each%20wrapped%20in%20a%20slim%20cream%20label%20printed%20with%20CJC-1295%20and%20IPAMORELIN%20in%20thin%20champagne%20gold%20capitals%20and%20no%20black%20label%2C%20a%20low%20matte%20cream%20carton%20printed%20with%20EVLV%20beside%20them%2C%20product%20centred%20with%20generous%20space%20around%20it%2C%20minimal%20luxury%20pharmaceutical%20pack%20shot%2C%20seamless%20warm%20ivory%20studio%20sweep%20backdrop%2C%20soft%20directional%20daylight%20from%20the%20left%2C%20gentle%20cast%20shadow%2C%20editorial%20and%20understated&width=900&height=900&seq=evlv-pack-cjc-03&orientation=squarish',
+  },
 ];
 
 export const steps = [
@@ -78,7 +123,7 @@ export const steps = [
     alt: 'Woman reviewing an online health questionnaire on her phone at home',
   },
   {
-    title: 'A Wellness Optimisation Expert (MD) reviews',
+    title: 'A doctor reviews',
     text: 'A Wellness Optimisation Expert will recommend what is right for you, and answer anything before you begin.',
     image:
       'https://readdy.ai/api/search-image?query=Female%20clinician%20in%20her%20forties%20with%20a%20warm%20professional%20presence%2C%20wearing%20a%20cream%20knit%20polo%20and%20reviewing%20a%20patient%20questionnaire%20on%20a%20tablet%20at%20a%20warm%20wooden%20desk%2C%20soft%20morning%20light%2C%20espresso%20and%20champagne%20colour%20palette%2C%20clean%20modern%20clinic%2C%20editorial%20photography%2C%20shallow%20depth%20of%20field%2C%20reassuring%20and%20professional&width=800&height=600&seq=evlv-step-02&orientation=landscape&nocache=true',
@@ -121,7 +166,7 @@ export const testimonials = [
       'https://public.readdy.ai/ai/img_res/edited_e4aaad52c3f3feabe2fc0028b0c6f9e5_207ae4e3.jpg',
   },
   {
-    quote: '"I switched to EVLV for better support. All my questions were answered quickly, and the customer service agent was knowledgeable and friendly. Love that you are Australian owned and my Wellness Optimisation Specialist is a woman."',
+    quote: '"I switched to EVLV for better support. All my questions were answered quickly, and the customer service agent was knowledgeable and friendly. Love that you are Australian owned and my physician is a woman."',
     author: 'Judylaine',
     place: 'Sydney',
     product: 'GLP-2',
@@ -183,7 +228,7 @@ export const faqGroups = [
       { q: 'Does EVLV replace my primary doctor?', a: "No. EVLV can help with specific concerns, but it isn't a full replacement for your family doctor. For full physicals, complex issues, or urgent care, you should still see a provider in person." },
       { q: 'Is it legal to prescribe treatment online?', a: 'Yes. Consulting a licensed provider online is legal in Australia. Every doctor you interact with is licensed to prescribe medication and treat patients in your state or territory, and complies with all governing medical laws in Australia.' },
       { q: 'Where are you available?', a: 'We are currently available across New South Wales, Victoria, Queensland, Western Australia, South Australia, Tasmania, the ACT and the Northern Territory, with more regional coverage added regularly.' },
-      { q: 'What is the 60-second wellness quiz?', a: 'It is a short, no-cost questionnaire about your goal, your week and your medical history. Your answers are matched to a Wellness Optimisation protocol, and a Wellness Optimisation Specialist reviews the result before anything is prescribed or charged. It takes about a minute and you can stop at any point.' },
+      { q: 'What is the 60-second wellness quiz?', a: 'It is a short, no-cost questionnaire about your goal, your week and your medical history. Your answers are matched to a physician-led wellness protocol, and a licensed practitioner reviews the result before anything is prescribed or charged. It takes about a minute and you can stop at any point.' },
       { q: 'Is my information private?', a: 'Yes. We follow Australian privacy law, including the Privacy Act 1988 and the Australian Privacy Principles, and use encrypted, healthcare-grade systems to protect your personal and medical information. Any medication is shipped discreetly and requires a signature upon delivery.' },
     ],
   },
@@ -191,8 +236,8 @@ export const faqGroups = [
     title: 'Onboarding & Experience',
     items: [
       { q: 'How does EVLV work?', a: 'You fill out a simple, secure health form. A licensed provider reviews your information. If prescribed, your medication is delivered discreetly to your door. Then you get ongoing support through doctor check-ins and reminders.' },
-      { q: 'How quickly will a Wellness Optimisation Expert review my questionnaire?', a: 'After your online questionnaire, a Wellness Optimisation Expert (MD) will complete their initial review of your medical history within 24 hours.' },
-      { q: 'What should I do if I am experiencing a side effect?', a: 'If you believe you have a medical emergency, please call 000 immediately. Otherwise, stop taking the medication and message your Wellness Optimisation Specialist.' },
+      { q: 'How quickly will a doctor review my questionnaire?', a: 'After your online questionnaire, a doctor will complete their initial review of your medical history within 24 hours.' },
+      { q: 'What should I do if I am experiencing a side effect?', a: 'If you believe you have a medical emergency, please call 000 immediately. Otherwise, stop taking the medication and message your prescribing physician.' },
       { q: 'Can I cancel my order at any time?', a: 'Yes. You can pause or cancel upcoming orders. We suggest messaging your provider first since most concerns can be resolved with small adjustments.' },
     ],
   },

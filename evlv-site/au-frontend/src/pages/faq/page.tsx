@@ -28,8 +28,7 @@ export default function Faq() {
         </Link>
       </PageIntro>
 
-      <section className="atmo-cream panel-section section-y">
-        <div className="mx-auto w-full max-w-[1440px] px-5 md:px-8 lg:px-12 grid grid-cols-1 lg:grid-cols-[1.55fr_1fr] gap-8 items-start">
+      <section className="mx-auto w-full max-w-[1440px] px-5 md:px-8 lg:px-12 pb-20 grid grid-cols-1 lg:grid-cols-[1.55fr_1fr] gap-8 items-start">
         <div className="space-y-5">
           {faqGroups.map((g) => (
             <div key={g.title} className="glass-card rounded-[26px] p-5 md:p-7">
@@ -99,7 +98,6 @@ export default function Faq() {
             </ul>
           </div>
         </aside>
-        </div>
       </section>
     </PageShell>
   );

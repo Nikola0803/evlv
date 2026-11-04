@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { heroPromos, bentoPackShot, bentoCareImage, bentoSmall } from '@/mocks/home';
+import { heroBannerVideo, heroBannerPoster, heroPromos, bentoPackShot, bentoCareImage, bentoSmall } from '@/mocks/home';
 import Reveal from '@/components/base/Reveal';
 import SmartLink from '@/components/base/SmartLink';
 import Container from '@/components/base/Container';
@@ -12,25 +12,23 @@ export default function HeroSection() {
           to="/treatments?category=weight-loss"
           className="group relative block w-full h-[240px] md:h-[380px] lg:h-[440px] rounded-[28px] overflow-hidden cursor-pointer glass-frame"
         >
-          <img
-            src={bentoCareImage}
-            alt="EVLV wellness optimisation, women's care on your terms"
-            className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-[1.02]"
+          <video
+            className="w-full h-full object-cover object-center"
+            autoPlay
+            loop
+            muted
+            playsInline
+            poster={heroBannerPoster}
+            src={heroBannerVideo}
+            aria-label="EVLV wellness optimisation promotion"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-foreground-950/65 via-foreground-950/25 to-transparent" />
-          <div className="absolute inset-0 flex flex-col justify-end md:justify-center p-6 md:p-12 max-w-[640px]">
-            <p className="eyebrow text-primary-200">EVLV Wellness Optimisation</p>
-            <p className="mt-3 font-heading text-2xl md:text-4xl font-semibold text-background-50 leading-tight">
-              Start with a 60-second quiz. Free, discreet delivery.
-            </p>
-          </div>
         </Link>
 
         <Reveal>
           <div className="mt-12 md:mt-16 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 lg:gap-10">
             <div className="min-w-0 lg:flex-1">
               <p className="eyebrow text-primary-700">A better standard of women&apos;s care</p>
-              <h1 className="t-display mt-4 text-foreground-950">Women&apos;s wellness, on your terms.</h1>
+              <h1 className="t-display mt-4 text-foreground-950">Women&apos;s health, on your terms.</h1>
               <div className="mt-6 flex flex-col sm:flex-row gap-3">
                 <Link
                   to="/quiz"
@@ -67,12 +65,9 @@ export default function HeroSection() {
               className="group relative block h-[320px] md:h-[380px] rounded-[28px] overflow-hidden p-6 md:p-7 glass-gold cursor-pointer"
             >
               <div className="relative z-20 flex items-start justify-between gap-4">
-                <div className="max-w-[18ch]">
-                  <p className="font-heading text-xl md:text-2xl font-semibold text-accent-950 leading-tight">
-                    Access retatrutide and more
-                  </p>
-                  <p className="mt-2 text-sm font-medium text-accent-950/80">Retatrutide 10mg · $399.99</p>
-                </div>
+                <p className="font-heading text-xl md:text-2xl font-semibold text-accent-950 leading-tight max-w-[15ch]">
+                  Access semaglutides and more
+                </p>
                 <span className="w-9 h-9 shrink-0 rounded-full bg-background-50/70 flex items-center justify-center text-accent-950 transition-transform group-hover:translate-x-1">
                   <i className="ri-arrow-right-up-line" />
                 </span>
