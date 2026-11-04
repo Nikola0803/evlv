@@ -8,8 +8,6 @@ export default function GoalsSection() {
   const [weight, setWeight] = useState(175);
   const lost = Math.round(weight * 0.222);
   const change = (d: number) => setWeight((w) => Math.min(350, Math.max(120, w + d)));
-  const bars = [100, 86, 72, 58, 46, 36];
-
   return (
     <section className="atmo-plum panel-section text-background-50 section-y">
       <Container>
@@ -31,9 +29,8 @@ export default function GoalsSection() {
       <div className="mt-6 md:mt-12 grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-5">
         <Reveal delay={80}>
           <div className="h-full glass-card-dark rounded-[22px] md:rounded-[28px] p-4 md:p-8">
-            <p className="text-sm text-background-300 leading-relaxed max-w-md">
-              Semaglutides and Tirzepatides are prescription medications available through EVLV as part of medically
-              supervised treatment plans.
+            <p className="text-[15px] md:text-base font-medium text-background-200 leading-relaxed max-w-md">
+              Semaglutides, Tirzepatides, Retatrutides, and Wellness Weight Loss programmes are available through EVLV as part of medically supervised care plans.
             </p>
 
             <div className="mt-6 glass-card rounded-2xl p-5 text-foreground-950">
@@ -73,17 +70,52 @@ export default function GoalsSection() {
 
             <div className="mt-4 glass-card rounded-2xl p-5 text-foreground-950">
               <p className="font-heading font-semibold text-sm">Your Progress</p>
-              <div className="mt-4 flex items-end gap-2 h-[110px]">
-                {bars.map((h, i) => (
-                  <div key={h} className="flex-1 flex flex-col items-center justify-end h-full gap-1">
-                    <div
-                      className="w-full rounded-t-md bg-gradient-to-t from-accent-500 to-accent-300 transition-all duration-500"
-                      style={{ height: `${h}%` }}
-                    />
-                    <span className="text-[10px] text-foreground-500">W{i + 1}</span>
-                  </div>
+              <svg
+                viewBox="0 55 1080 310"
+                className="mt-2 w-full"
+                preserveAspectRatio="xMidYMid meet"
+                aria-hidden="true"
+              >
+                <defs>
+                  <linearGradient id="evlvChartGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" style={{ stopColor: 'oklch(var(--accent-500))', stopOpacity: 0.5 }} />
+                    <stop offset="100%" style={{ stopColor: 'oklch(var(--accent-500))', stopOpacity: 0 }} />
+                  </linearGradient>
+                </defs>
+                <path
+                  d="M 90 85 C 160 95, 220 145, 270 170 S 360 200, 450 215 S 540 230, 630 240 S 720 245, 810 250 S 900 255, 990 258 L 990 300 L 90 300 Z"
+                  fill="url(#evlvChartGrad)"
+                />
+                <path
+                  d="M 90 85 C 160 95, 220 145, 270 170 S 360 200, 450 215 S 540 230, 630 240 S 720 245, 810 250 S 900 255, 990 258"
+                  fill="none"
+                  style={{ stroke: 'oklch(var(--accent-600))' }}
+                  strokeWidth={5}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                {([[90, 85], [270, 170], [450, 215], [630, 240], [810, 250], [990, 258]] as [number, number][]).map(([x, y], i) => (
+                  <g key={i}>
+                    <circle cx={x} cy={y} r={20} style={{ fill: 'oklch(var(--accent-500))' }} fillOpacity={0.2} />
+                    <circle cx={x} cy={y} r={9} fill="white" />
+                    <circle cx={x} cy={y} r={5.5} style={{ fill: 'oklch(var(--accent-600))' }} />
+                  </g>
                 ))}
-              </div>
+                {[90, 270, 450, 630, 810, 990].map((x, i) => (
+                  <text
+                    key={i}
+                    x={x}
+                    y={325}
+                    textAnchor="middle"
+                    fontSize={26}
+                    fill="currentColor"
+                    fillOpacity={0.4}
+                    fontWeight={500}
+                  >
+                    W{i + 1}
+                  </text>
+                ))}
+              </svg>
             </div>
             <p className="mt-4 text-[11px] text-background-400">For demonstration purposes only. Individual results may vary.</p>
           </div>

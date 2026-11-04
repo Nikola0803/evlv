@@ -14,7 +14,7 @@ export default function TestimonialsSection() {
   };
 
   return (
-    <section className="atmo-peach panel-section pt-12 md:pt-24 pb-12 md:pb-24 overflow-hidden">
+    <section className="panel-section pt-12 md:pt-24 pb-12 md:pb-24 overflow-hidden" style={{ background: 'linear-gradient(to bottom, oklch(0.93 0.025 72) 0%, oklch(0.18 0.012 68) 100%)' }}>
       <div className="flex w-max animate-marquee font-heading text-[28px] sm:text-4xl md:text-6xl font-semibold text-accent-950 whitespace-nowrap">
         {marquee.map((_, i) => (
           <span key={i} className="px-4 md:px-6 flex items-center gap-4 md:gap-6">
@@ -67,7 +67,7 @@ export default function TestimonialsSection() {
         </div>
 
         <div className="flex flex-col gap-4 mt-5 md:mt-6 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-[13px] md:text-sm text-accent-950/70 max-w-md">
+          <p className="text-[13px] md:text-sm text-background-300 max-w-md">
             Real stories from patients across Australia using EVLV.
           </p>
           <div className="flex gap-2 self-start sm:self-auto">
@@ -75,7 +75,7 @@ export default function TestimonialsSection() {
               type="button"
               aria-label="Previous testimonial"
               onClick={() => slide(-1)}
-              className="w-11 h-11 rounded-full bg-background-50 flex items-center justify-center cursor-pointer hover:bg-background-100"
+              className="w-11 h-11 rounded-full bg-background-50/15 text-background-100 border border-background-50/20 flex items-center justify-center cursor-pointer hover:bg-background-50/25"
             >
               <i className="ri-arrow-left-line" />
             </button>

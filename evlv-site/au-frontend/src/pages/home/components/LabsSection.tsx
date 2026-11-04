@@ -40,27 +40,31 @@ export default function LabsSection() {
         <div className="mt-6 md:mt-14 grid grid-cols-1 lg:grid-cols-[1.05fr_0.85fr_1.1fr] gap-3 md:gap-4 items-stretch">
           <Reveal delay={60}>
             <div className="h-full rounded-[22px] md:rounded-[28px] bg-background-50/80 p-5 md:p-7 flex flex-col ring-1 ring-foreground-950/5">
-              <h3 className="font-heading text-lg md:text-2xl font-semibold leading-tight text-foreground-950">
-                50 biomarkers.
-                <br />
-                One clear picture.
-              </h3>
-              <p className="mt-2.5 md:mt-3 text-[13px] md:text-sm text-foreground-600 leading-relaxed">
-                Your results are reviewed by your expert and explained in plain language, so you know what each number
-                actually means.
-              </p>
-              <SmartLink
-                href="/treatments/labs"
-                className="inline-block self-start whitespace-nowrap mt-5 rounded-full bg-foreground-950 text-background-50 px-6 py-2.5 text-sm font-semibold cursor-pointer hover:bg-foreground-900"
-              >
-                Get started
-              </SmartLink>
-              <div className="mt-5 md:mt-6 w-full flex-1 min-h-[200px] md:min-h-[220px] rounded-2xl overflow-hidden glass-frame">
-                <img
-                  src={labsImage}
-                  alt="Woman reviewing her EVLV lab results at home"
-                  className="w-full h-full object-cover object-center"
-                />
+              <div className="flex flex-col sm:flex-row sm:gap-5 sm:items-start flex-1 min-h-0">
+                <div className="flex flex-col min-w-0 flex-1">
+                  <h3 className="font-heading text-lg md:text-2xl font-semibold leading-tight text-foreground-950">
+                    50 biomarkers.
+                    <br />
+                    One clear picture.
+                  </h3>
+                  <p className="mt-2.5 md:mt-3 text-[13px] md:text-sm text-foreground-600 leading-relaxed">
+                    Your results are reviewed by your expert and explained in plain language, so you know what each
+                    number actually means.
+                  </p>
+                  <SmartLink
+                    href="/treatments/labs"
+                    className="inline-block self-start whitespace-nowrap mt-5 rounded-full bg-foreground-950 text-background-50 px-6 py-2.5 text-sm font-semibold cursor-pointer hover:bg-foreground-900"
+                  >
+                    Get started
+                  </SmartLink>
+                </div>
+                <div className="mt-5 sm:mt-0 sm:w-[150px] md:w-[180px] shrink-0 h-44 rounded-2xl overflow-hidden glass-frame">
+                  <img
+                    src={labsImage}
+                    alt="Woman reviewing her EVLV lab results at home"
+                    className="w-full h-full object-cover object-center"
+                  />
+                </div>
               </div>
             </div>
           </Reveal>

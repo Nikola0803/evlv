@@ -1,10 +1,21 @@
-import { privacyCards } from '@/mocks/home';
+import { privacyCards, privacyBackdrop } from '@/mocks/home';
 import Reveal from '@/components/base/Reveal';
 import Container from '@/components/base/Container';
 
 export default function PrivacySection() {
   return (
-    <section className="panel-section bg-foreground-950 text-background-50 section-y">
+    <section className="relative overflow-hidden panel-section bg-foreground-950 text-background-50 section-y">
+      <div className="absolute inset-0 z-0">
+        <img src={privacyBackdrop} alt="" aria-hidden="true" className="w-full h-full object-cover object-center opacity-[0.18]" />
+        <div className="absolute inset-0 bg-foreground-950/55" />
+      </div>
+      <img
+        src="https://cdn.prod.website-files.com/67ab626233e66749b69fc19f/6a315e927f5762dd7b9cb111_rvn-spiral-dots-anim.gif"
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute -top-8 -right-8 w-64 md:w-80 opacity-20 z-10"
+      />
+      <div className="relative z-20">
       <Container>
         <Reveal>
           <div className="max-w-2xl">
@@ -30,6 +41,7 @@ export default function PrivacySection() {
           ))}
         </div>
       </Container>
+      </div>
     </section>
   );
 }

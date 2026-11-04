@@ -4,7 +4,7 @@ import Container from '@/components/base/Container';
 
 export default function BenefitsSection() {
   return (
-    <section className="atmo-cream panel-section section-y">
+    <section className="atmo-dark panel-section section-y">
       <Container>
         <Reveal>
           <div className="w-full">
@@ -16,10 +16,10 @@ export default function BenefitsSection() {
           {benefits.map((b, i) => (
             <Reveal key={b} delay={i * 80}>
               <div className="flex flex-col">
-                <span className="w-7 h-7 md:w-8 md:h-8 rounded-full border border-primary-700/30 flex items-center justify-center text-primary-800 text-[13px] md:text-sm shrink-0">
+                <span className="w-7 h-7 md:w-8 md:h-8 rounded-full border border-primary-300/35 flex items-center justify-center text-primary-300 text-[13px] md:text-sm shrink-0">
                   <i className="ri-check-line" />
                 </span>
-                <p className="mt-2.5 md:mt-4 text-[12px] md:text-sm leading-relaxed text-foreground-700">{b}</p>
+                <p className="mt-2.5 md:mt-4 text-[12px] md:text-sm leading-relaxed text-background-300">{b}</p>
               </div>
             </Reveal>
           ))}
