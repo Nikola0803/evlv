@@ -22,7 +22,7 @@ const USD_TO_CAD_RATE = 1.38;
  * with no UI to switch back). Flip this back to false once CAD is ready
  * to show again; nothing else needs to change.
  */
-const US_ONLY_LAUNCH = true;
+const US_ONLY_LAUNCH = false;
 
 interface CurrencyContextValue {
   currency: Currency;
