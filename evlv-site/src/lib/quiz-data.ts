@@ -155,7 +155,7 @@ export const QUIZ_PRODUCTS: Record<string, QuizProduct> = {
   "tesamorelin-10mg": {
     tier: "mid",
     variants: {
-      "growth:gh": "Studied for its role in body composition and pituitary-axis research.",
+      "growth:gh": "Studied for its role in GHRH-analog and pituitary-axis research.",
     },
   },
   "selank-10mg": {
