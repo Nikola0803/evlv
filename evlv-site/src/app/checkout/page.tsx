@@ -275,7 +275,7 @@ export default function CheckoutPage() {
                 <Field label="First Name" required value={firstName} onChange={setFirstName} placeholder="John" />
                 <Field label="Last Name" required value={lastName} onChange={setLastName} placeholder="Doe" />
                 <Field label="Email" required type="email" value={email} onChange={setEmail} placeholder="you@lab.edu" className="sm:col-span-2" />
-                {isAu && <Field label="Phone (optional)" type="tel" value={phone} onChange={setPhone} placeholder="+61 400 000 000" className="sm:col-span-2" />}
+                <Field label="Phone (optional)" type="tel" value={phone} onChange={setPhone} placeholder={isAu ? "+61 400 000 000" : "+1 (555) 000-0000"} className="sm:col-span-2" />
                 <Field label="Street Address" required value={address1} onChange={setAddress1} placeholder="123 Research Blvd" className="sm:col-span-2" />
 
                 <div>
