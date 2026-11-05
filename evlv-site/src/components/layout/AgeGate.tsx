@@ -1,7 +1,7 @@
 "use client";
 
 import type * as React from "react";
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { trackEvent } from "@/lib/pixel";
@@ -51,10 +51,6 @@ export function AgeGate({ children, initialAccepted = false }: { children: React
   const pathname = usePathname();
   const [accepted, setAccepted] = useState(initialAccepted);
   const [campaignMode, setCampaignMode] = useState(false);
-  const [email, setEmail] = useState("");
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState("");
-  const emailRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const url = new URL(window.location.href);
@@ -92,7 +88,6 @@ export function AgeGate({ children, initialAccepted = false }: { children: React
     if (accepted) return;
     const previous = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    if (!campaignMode) emailRef.current?.focus();
     return () => { document.body.style.overflow = previous; };
   }, [accepted, campaignMode]);
 
@@ -111,27 +106,6 @@ export function AgeGate({ children, initialAccepted = false }: { children: React
     trackEvent("research_gate_accept", { gate_type: source, campaign: attribution?.campaign, source: attribution?.source });
     stripCampaignParam();
     setAccepted(true);
-  }
-
-  async function handleEmailEntry(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setError("");
-    const normalizedEmail = email.trim().toLowerCase();
-    if (!normalizedEmail || !normalizedEmail.includes("@")) {
-      setError("Enter a valid email address.");
-      return;
-    }
-    setSubmitting(true);
-    try {
-      await fetch("/api/newsletter", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: normalizedEmail }),
-      }).catch(() => undefined);
-      completeAccess("email");
-    } finally {
-      setSubmitting(false);
-    }
   }
 
   return <>
@@ -156,31 +130,17 @@ export function AgeGate({ children, initialAccepted = false }: { children: React
           ) : (
             <>
               <h2 id="cp-ruo-title" className="cp-ruo-auth-heading">Enter EVLV</h2>
-              <p className="cp-ruo-auth-sub">Enter your email for fast access to EVLV research products. No password required.</p>
+              <p className="cp-ruo-auth-sub">EVLV research products are available to registered researchers and qualified professionals.</p>
 
-              <form className="cp-ruo-auth-form" onSubmit={handleEmailEntry}>
-                <label>
-                  <span>Email address</span>
-                  <input ref={emailRef} required type="email" inputMode="email" autoComplete="email" placeholder="you@example.com" value={email} onChange={(e) => setEmail(e.target.value)} />
-                </label>
+              <div className="cp-ruo-entry-attestation">
+                <strong>Research use confirmation:</strong>
+                <span>You are 21 or older and a qualified professional. Products are for in-vitro research only—not for human consumption, clinical, or veterinary use—and you accept the <Link href="/terms" target="_blank" rel="noreferrer">Terms &amp; Conditions</Link>.</span>
+              </div>
 
-                <div className="cp-ruo-entry-attestation">
-                  <strong>Research use confirmation:</strong>
-                  <span>You are 21 or older and a qualified professional. Products are for in-vitro research only—not for human consumption, clinical, or veterinary use—and you accept the <Link href="/terms" target="_blank" rel="noreferrer">Terms &amp; Conditions</Link>.</span>
-                </div>
-
-                {error && <p className="cp-ruo-entry-error"><i className="ri-error-warning-line" /> {error}</p>}
-
-                <button className="cp-ruo-entry-primary" type="submit" disabled={submitting}>
-                  {submitting ? "Entering…" : "Continue to EVLV"}
-                </button>
-              </form>
-
-              <p className="cp-ruo-entry-footnote">
-                Already have an account? <Link className="cp-ruo-auth-switch" href="/login">Sign in</Link>
-                {" · "}
-                New to EVLV? <Link className="cp-ruo-auth-switch" href="/register">Create account</Link>
-              </p>
+              <div className="cp-ruo-auth-actions">
+                <Link className="cp-ruo-entry-primary" href="/login">Sign In</Link>
+                <Link className="cp-ruo-entry-secondary" href="/register">Create Account</Link>
+              </div>
             </>
           )}
         </section>
