@@ -32,7 +32,7 @@ export function Hero() {
           <h1 className="font-display text-4xl font-semibold leading-[1.05] md:text-6xl lg:text-7xl">
             <span className="text-white/40">Evolve.</span>
             <br />
-            <span className="text-white">Become your ultimate.</span>
+            <span className="text-white">Research further.</span>
           </h1>
 
           <p className="mt-7 max-w-md text-base leading-relaxed text-white/70 md:text-lg">
@@ -61,7 +61,7 @@ export function Hero() {
 
       <div className="absolute bottom-6 left-4 border-l border-copper/60 bg-charcoal/70 px-5 py-3 text-white backdrop-blur-sm md:bottom-8 md:left-8">
         <div className="text-[10px] uppercase tracking-[0.2em] text-copper">Independently Verified</div>
-        <div className="text-base font-semibold md:text-lg">99.2% Avg. Purity</div>
+        <div className="text-base font-semibold md:text-lg">≥98% Purity Per Lot</div>
       </div>
 
       <StampBadge className="absolute right-4 top-[100px] h-20 w-20 md:right-8 md:top-[120px] md:h-24 md:w-24" />
@@ -70,7 +70,7 @@ export function Hero() {
 }
 
 function StampBadge({ className = "" }: { className?: string }) {
-  const text = "EVOLVE. • BECOME YOUR ULTIMATE. • ";
+  const text = "EVOLVE. • RESEARCH FURTHER. • ";
   return (
     <div className={`flex items-center justify-center rounded-full border border-white/40 bg-charcoal/50 backdrop-blur-sm ${className}`}>
       <svg viewBox="0 0 100 100" className="hero-spin absolute inset-0 h-full w-full">

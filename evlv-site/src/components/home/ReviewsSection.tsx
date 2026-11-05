@@ -7,7 +7,7 @@ const PURITY_STATS = [
   { icon: "ri-flask-line", value: "Exact", label: "Product-specific reports clearly labeled" },
   { icon: "ri-file-shield-2-line", value: "100%", label: "Batches with published COA" },
   { icon: "ri-time-line", value: "48h", label: "Third-party lab turnaround" },
-  { icon: "ri-calendar-check-line", value: "12 mo", label: "Shelf life guarantee" },
+  { icon: "ri-calendar-check-line", value: "12 mo", label: "Shelf life (unopened)" },
 ];
 
 /** Real customer testimonials supplied directly by EVLV from their own

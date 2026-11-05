@@ -2,7 +2,7 @@ const ITEMS = [
   { icon: "ri-flask-line", title: "Third-Party", subtitle: "Tested" },
   { icon: "ri-shield-check-line", title: "Transparency", subtitle: "You Can Trust" },
   { icon: "ri-node-tree", title: "Premium", subtitle: "Quality" },
-  { icon: "ri-bar-chart-line", title: "Performance", subtitle: "Driven" },
+  { icon: "ri-bar-chart-line", title: "Precision", subtitle: "Driven" },
 ];
 
 export function TrustBar() {
