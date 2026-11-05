@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Poppins, Inter, Newsreader } from "next/font/google";
+import { Poppins, Inter } from "next/font/google";
 import { cookies, headers } from "next/headers";
 import Script from "next/script";
 import Link from "next/link";
@@ -43,14 +43,6 @@ const inter = Inter({
   weight: ["300", "400", "500", "600"],
 });
 
-// Editorial serif used only for the single-product page's headline, to
-// mirror the reference PDP's premium serif title treatment.
-const newsreader = Newsreader({
-  variable: "--font-newsreader",
-  subsets: ["latin"],
-  weight: ["500", "600"],
-  style: ["normal", "italic"],
-});
 
 export async function generateMetadata(): Promise<Metadata> {
   const requestHeaders = await headers();
@@ -156,7 +148,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
   );
 
   return (
-    <html lang={MARKET.locale} className={`${poppins.variable} ${inter.variable} ${newsreader.variable} h-full antialiased`}>
+    <html lang={MARKET.locale} className={`${poppins.variable} ${inter.variable} h-full antialiased`}>
       <head>
         {/* Non-render-blocking: fetched in background, applied when ready. Eliminates ~200ms+ CSS block on first load. */}
         <link rel="preload" href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" as="style" />
