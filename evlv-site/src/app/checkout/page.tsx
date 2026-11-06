@@ -524,9 +524,9 @@ export default function CheckoutPage() {
               {/* Promo code */}
               <div className="mt-4 border-t border-stone pt-4">
                 {automaticHalloween ? (
-                  <div className="rounded-md border border-orange-500/40 bg-[#1a0b20] p-3 text-orange-200">
-                    <p className="flex items-center gap-2 text-xs font-semibold"><i className="ri-checkbox-circle-fill" /> Halloween BOGO applied</p>
-                    <p className="mt-0.5 text-xs leading-relaxed">The cheaper item in every pair is free. You saved {formatPrice(coupon.discountUsd)}. No code and no stacking.</p>
+                  <div className="rounded-md border border-[#39ff14]/40 bg-black p-3 text-[#39ff14]">
+                    <p className="flex items-center gap-2 text-xs font-semibold"><i className="ri-checkbox-circle-fill" /> Black Friday BOGO applied</p>
+                    <p className="mt-0.5 text-xs leading-relaxed text-[#39ff14]/80">The cheaper item in every pair is free. You saved {formatPrice(coupon.discountUsd)}. No code and no stacking.</p>
                   </div>
                 ) : automaticJoin25 ? (
                   <div className="rounded-md border border-sage-deep/30 bg-sage-deep/[0.07] p-3 text-sage-deep">
@@ -573,7 +573,7 @@ export default function CheckoutPage() {
                 {discount > 0 && (
                   <div className="flex items-center justify-between">
                     <span className="text-sage-deep">
-                      {automaticHalloween ? "Halloween BOGO" : automaticJoin25 ? "25% first-order reward" : automaticGlpPromotion ? "GLP Pair Event" : automaticResearchSet ? "Research Set" : `Discount${couponCode.trim() ? ` (${couponCode.trim()})` : " (member)"}`}
+                      {automaticHalloween ? "Black Friday BOGO" : automaticJoin25 ? "25% first-order reward" : automaticGlpPromotion ? "GLP Pair Event" : automaticResearchSet ? "Research Set" : `Discount${couponCode.trim() ? ` (${couponCode.trim()})` : " (member)"}`}
                     </span>
                     <span className="font-medium text-sage-deep">-{formatPrice(discount)}</span>
                   </div>
