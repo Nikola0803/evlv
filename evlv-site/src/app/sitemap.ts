@@ -10,6 +10,7 @@ const CONTENT_RELEASE = new Date("2026-10-28T00:00:00.000Z");
 const STATIC_ROUTES = [
   { path: "/", priority: 1, changeFrequency: "daily" as const },
   { path: "/shop", priority: 0.9, changeFrequency: "daily" as const },
+  { path: "/pens", priority: 0.9, changeFrequency: "weekly" as const },
   { path: "/research-peptides-usa", priority: 0.9, changeFrequency: "weekly" as const },
   { path: "/research-peptides", priority: 0.9, changeFrequency: "weekly" as const },
   { path: "/peptide-blends", priority: 0.8, changeFrequency: "weekly" as const },

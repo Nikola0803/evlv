@@ -13,8 +13,9 @@ import { WholesalePanel } from "./WholesalePanel";
 import { AccountDeletionPanel } from "./AccountDeletionPanel";
 import { AccountAccess } from "./AccountAccess";
 import { ReferralPanel } from "./ReferralPanel";
+import { VipPensPanel } from "./VipPensPanel";
 
-type Tab = "referrals" | "orders" | "addresses" | "profile" | "affiliate" | "verification" | "wholesale";
+type Tab = "referrals" | "orders" | "addresses" | "profile" | "affiliate" | "verification" | "wholesale" | "vip-pens";
 
 const STATUS_STYLE: Record<Order["status"], string> = {
   Processing: "bg-copper/15 text-copper",
@@ -27,13 +28,14 @@ const STATUS_STYLE: Record<Order["status"], string> = {
   Cancelled: "bg-red-100 text-red-700",
 };
 
-const TABS: { key: Tab; label: string; icon: string }[] = [
+const TABS: { key: Tab; label: string; icon: string; vipOnly?: boolean }[] = [
   { key: "referrals", label: "Refer & Earn", icon: "ri-share-forward-line" },
   { key: "orders", label: "Orders", icon: "ri-file-list-3-line" },
   { key: "addresses", label: "Addresses", icon: "ri-map-pin-line" },
   { key: "affiliate", label: "Ambassador", icon: "ri-handshake-line" },
   { key: "verification", label: "Verification", icon: "ri-shield-check-line" },
   { key: "wholesale", label: "Wholesale", icon: "ri-store-2-line" },
+  { key: "vip-pens", label: "VIP Pens", icon: "ri-vip-crown-line", vipOnly: true },
   { key: "profile", label: "Profile", icon: "ri-user-settings-line" },
 ];
 
@@ -135,7 +137,7 @@ function AccountPageInner() {
 
       <div className="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-[240px_1fr]">
         <aside className="flex flex-row gap-1 overflow-x-auto lg:flex-col lg:overflow-visible">
-          {TABS.map((t) => (
+          {TABS.filter((t) => !t.vipOnly || user.membershipStatus === "APPROVED").map((t) => (
             <button
               key={t.key}
               type="button"
@@ -147,6 +149,9 @@ function AccountPageInner() {
               <i className={t.icon} /> {t.label}
               {t.key === "orders" && orders.length > 0 && (
                 <span className={`ml-auto rounded-full px-1.5 text-[10px] ${tab === t.key ? "bg-ivory/20" : "bg-charcoal/10"}`}>{orders.length}</span>
+              )}
+              {t.key === "vip-pens" && (
+                <span className={`ml-auto rounded-full px-1.5 text-[10px] font-bold ${tab === t.key ? "bg-copper/30 text-copper-light" : "bg-copper/15 text-copper"}`}>VIP</span>
               )}
             </button>
           ))}
@@ -165,6 +170,7 @@ function AccountPageInner() {
           {tab === "affiliate" && <AffiliatePanel />}
           {tab === "verification" && <VerificationPanel />}
           {tab === "wholesale" && <WholesalePanel />}
+          {tab === "vip-pens" && user.membershipStatus === "APPROVED" && <VipPensPanel />}
           {tab === "profile" && (
             <>
               <ProfilePanel user={user} onUpdate={setUser} />
