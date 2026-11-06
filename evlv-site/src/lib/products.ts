@@ -1,6 +1,7 @@
 import { Product, ProductVariant } from "./types";
 import { applyInventorySnapshot } from "./inventory-snapshot";
 import { getQuantityUnitPrice } from "./quantity-pricing";
+import { applyCadPricing } from "./cad-pricing";
 
 /**
  * Mock catalog shaped to mirror the WooCommerce REST/Store API product
@@ -1454,7 +1455,7 @@ export const products: Product[] = [
 ];
 
 export function getProducts() {
-  return applyInventorySnapshot(products).map(applyStorefrontPrice).map(withQuantityPricing);
+  return applyInventorySnapshot(products).map(applyStorefrontPrice).map(applyCadPricing).map(withQuantityPricing);
 }
 
 /** Normalize every catalog source to the same public quantity offer. Live
