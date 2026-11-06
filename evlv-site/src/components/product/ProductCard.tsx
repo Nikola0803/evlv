@@ -24,6 +24,9 @@ export function ProductCard({ product, coaVerified = false }: { product: Product
   }, []);
 
   const locked = (!!product.memberOnly || !!product.restricted) && !authorized;
+  // For single-vial display use the hardcoded CAD price when available; multi-pack
+  // falls back to the exchange-rate conversion (packs apply % discounts off USD).
+  const cadOverride = selected.qty === 1 ? product.cadPrice : undefined;
   return (
     <article className="cp-product-card">
       {coaVerified && <span className="cp-coa-badge">✓ Exact COA Available</span>}
@@ -33,7 +36,7 @@ export function ProductCard({ product, coaVerified = false }: { product: Product
       <div className="cp-purity">{coaVerified ? <>Reported purity <b>{product.purity || "See COA"}</b></> : <>Documentation <b>See product page</b></>}</div>
       <div className="cp-product-copy">
         <Link href={`/shop/${product.slug}`}><h3>{product.name}</h3></Link>
-        <div className="cp-product-bottom"><strong>{formatPrice(selected.unitPrice)}</strong>{locked ? <Link href="/account?tab=verification" className="cp-card-add">Verify</Link> : <button type="button" className="cp-card-add" disabled={!product.inStock} onClick={() => addToCart(product, selected.qty, selected.unitPrice, selected.label)}>{product.inStock ? <><span className="hidden md:inline">Add to Cart</span><span className="md:hidden">Buy</span></> : "Sold out"}</button>}</div>
+        <div className="cp-product-bottom"><strong>{formatPrice(selected.unitPrice, cadOverride)}</strong>{locked ? <Link href="/account?tab=verification" className="cp-card-add">Verify</Link> : <button type="button" className="cp-card-add" disabled={!product.inStock} onClick={() => addToCart(product, selected.qty, selected.unitPrice, selected.label)}>{product.inStock ? <><span className="hidden md:inline">Add to Cart</span><span className="md:hidden">Buy</span></> : "Sold out"}</button>}</div>
       </div>
     </article>
   );

@@ -4,7 +4,6 @@ import { useCurrency, type Currency } from "@/lib/currency-context";
 
 const OPTIONS: { value: Currency; flag: string; label: string }[] = [
   { value: "USD", flag: "🇺🇸", label: "USD" },
-  { value: "CAD", flag: "🇨🇦", label: "CAD" },
 ];
 
 export function CurrencySwitcher() {

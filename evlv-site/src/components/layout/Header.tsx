@@ -4,7 +4,6 @@ import { useState } from "react";
 import Link from "next/link";
 import { Logo } from "@/components/ui/Logo";
 import { SearchWidget } from "./SearchWidget";
-import { CurrencySwitcher } from "./CurrencySwitcher";
 import { useCart } from "@/lib/cart-context";
 import type { Product } from "@/lib/types";
 
@@ -23,7 +22,7 @@ export function Header({ products }: { products?: Product[] } = {}) {
           <Link href="/coas">COA Library</Link>
           <div className="cp-nav-dropdown"><button type="button">More <i className="ri-arrow-down-s-line" /></button><div className="cp-nav-dropdown-menu">{!isAu && <Link href="/research-peptides-usa">Research Peptides USA</Link>}<Link href="/about">About Us</Link><Link href="/contact">Customer Support</Link><Link href="/faq">FAQ</Link><Link href="/journal">Research Center</Link>{!isAu && <Link href="/heroes-discount">Service Discount</Link>}{!isAu && <Link href="/wholesale">Wholesale</Link>}<Link href="/ambassadors">Partner Network</Link><Link href="/shipping">Shipping Policy</Link><Link href="/terms">Terms &amp; Conditions</Link><Link href="/privacy">Privacy Policy</Link></div></div>
         </nav>
-        <div className="cp-header-actions">{!isAu && <CurrencySwitcher />}<SearchWidget /><Link href="/account" aria-label="Account"><i className="ri-user-line" /></Link><button type="button" onClick={openCart} aria-label="Shopping cart"><i className="ri-shopping-bag-line" />{count > 0 && <span>{count}</span>}</button><Link className="cp-header-shop" href="/shop">Shop Now</Link><button className="cp-mobile-menu" type="button" onClick={() => setOpen(v => !v)} aria-label="Menu"><i className={open ? "ri-close-line" : "ri-menu-line"} /></button></div>
+        <div className="cp-header-actions"><SearchWidget /><Link href="/account" aria-label="Account"><i className="ri-user-line" /></Link><button type="button" onClick={openCart} aria-label="Shopping cart"><i className="ri-shopping-bag-line" />{count > 0 && <span>{count}</span>}</button><Link className="cp-header-shop" href="/shop">Shop Now</Link><button className="cp-mobile-menu" type="button" onClick={() => setOpen(v => !v)} aria-label="Menu"><i className={open ? "ri-close-line" : "ri-menu-line"} /></button></div>
       </div>
     </header>
   );
