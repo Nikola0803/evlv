@@ -34,15 +34,24 @@ export function Footer() {
             <Logo tone="ivory" imgClassName="cp-footer-logo" />
             <p>Premium research-use-only peptides backed by transparent batch documentation.</p>
             <a href={`mailto:${market.supportEmail}`}>{market.supportEmail}</a>
-            <a href="https://launchorbit.co" target="_blank" rel="noopener noreferrer nofollow" className="mt-3 inline-flex opacity-70 transition-opacity hover:opacity-100">
-              <img src="/api/lb" alt="View this product on Launch Orbit" width="120" height="32" loading="lazy" />
-            </a>
           </div>
 
           <FooterColumn title="Shop" links={shopLinks} />
           <FooterColumn title="Support" links={supportLinks} />
           <FooterColumn title="Company" links={COMPANY} />
           <div className="cp-footer-newsletter"><NewsletterForm /></div>
+        </div>
+
+        <div className="cp-footer-badges">
+          <p className="cp-footer-badges-label">Our success is being tracked by the best</p>
+          <div className="cp-footer-badges-row">
+            <a href="https://easydofollow.dev/e-commerce/evlv" target="_blank" rel="noopener">
+              <img src="https://easydofollow.dev/badge/easydofollow-badge-light.svg" alt="Featured on EasyDoFollow" width="188" height="56" loading="lazy" />
+            </a>
+            <a href="https://launchorbit.co" target="_blank" rel="noopener noreferrer nofollow">
+              <img src="/api/lb" alt="View this product on Launch Orbit" width="150" height="40" loading="lazy" />
+            </a>
+          </div>
         </div>
 
         <div className="cp-footer-meta">
