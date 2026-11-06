@@ -1,5 +1,6 @@
 "use client";
 
+import type { FormEvent } from "react";
 import type * as React from "react";
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -7,7 +8,9 @@ import { usePathname } from "next/navigation";
 import { trackEvent } from "@/lib/pixel";
 import { Logo } from "@/components/ui/Logo";
 import { captureAttributionFromUrl, getStoredAttribution } from "@/lib/campaign-attribution";
-import { getStoredUser } from "@/lib/auth";
+import { getStoredUser, saveAuth } from "@/lib/auth";
+
+type AuthApiResponse = { token?: string; accessToken?: string; access_token?: string; email?: string; user_id?: string; id?: string; user?: AuthApiResponse; data?: AuthApiResponse; error?: string; message?: string; username?: string; name?: string };
 
 const SESSION_KEY = "evlv_research_access_v7";
 const ACCESS_KEY = "evlv_research_access_v7";
@@ -51,6 +54,10 @@ export function AgeGate({ children, initialAccepted = false }: { children: React
   const pathname = usePathname();
   const [accepted, setAccepted] = useState(initialAccepted);
   const [campaignMode, setCampaignMode] = useState(false);
+  const [gateEmail, setGateEmail] = useState("");
+  const [gatePassword, setGatePassword] = useState("");
+  const [gateError, setGateError] = useState("");
+  const [gateSubmitting, setGateSubmitting] = useState(false);
 
   useEffect(() => {
     const url = new URL(window.location.href);
@@ -99,6 +106,34 @@ export function AgeGate({ children, initialAccepted = false }: { children: React
     window.history.replaceState({}, "", `${url.pathname}${query ? `?${query}` : ""}${url.hash}`);
   }
 
+  async function handleSignIn(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setGateError("");
+    setGateSubmitting(true);
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: gateEmail, password: gatePassword }),
+      });
+      const data = (await res.json().catch(() => ({}))) as AuthApiResponse;
+      if (!res.ok) throw new Error(data.error ?? data.message ?? "Sign in failed. Please try again.");
+      const root = data.data ?? data;
+      const user = (root.user as AuthApiResponse | undefined) ?? root;
+      const token = root.token ?? root.accessToken ?? root.access_token;
+      const email = user.email ?? root.email ?? gateEmail;
+      const userId = user.user_id ?? user.id ?? root.user_id ?? root.id;
+      const username = user.username ?? user.name ?? root.username ?? root.name ?? email.split("@")[0];
+      if (!token || !userId) throw new Error("Sign in failed. Please try again.");
+      saveAuth({ token, email, username, user_id: userId });
+      completeAccess("email");
+    } catch (cause) {
+      setGateError(cause instanceof Error ? cause.message : "Sign in failed. Please try again.");
+    } finally {
+      setGateSubmitting(false);
+    }
+  }
+
   function completeAccess(source: "email" | "campaign") {
     rememberAccess(source);
     document.cookie = `evlv_research_access=1; Max-Age=${ACCESS_TTL_DAYS * 86_400}; Path=/; SameSite=Lax; Secure`;
@@ -129,18 +164,27 @@ export function AgeGate({ children, initialAccepted = false }: { children: React
             </>
           ) : (
             <>
-              <h2 id="cp-ruo-title" className="cp-ruo-auth-heading">Enter EVLV</h2>
-              <p className="cp-ruo-auth-sub">EVLV research products are available to registered researchers and qualified professionals.</p>
-
-              <div className="cp-ruo-entry-attestation">
-                <strong>Research use confirmation:</strong>
-                <span>You are 21 or older and a qualified professional. Products are for in-vitro research only—not for human consumption, clinical, or veterinary use—and you accept the <Link href="/terms" target="_blank" rel="noreferrer">Terms &amp; Conditions</Link>.</span>
-              </div>
-
-              <div className="cp-ruo-auth-actions">
-                <Link className="cp-ruo-entry-primary" href="/login">Sign In</Link>
-                <Link className="cp-ruo-entry-secondary" href="/register">Create Account</Link>
-              </div>
+              <h2 id="cp-ruo-title" className="cp-ruo-auth-heading">Sign in to enter</h2>
+              <p className="cp-ruo-auth-sub">EVLV research products are for registered researchers and qualified professionals.</p>
+              <form onSubmit={handleSignIn} className="cp-ruo-gate-form">
+                <label style={{ gridColumn: "1/-1" }}>
+                  <span>Email address</span>
+                  <input type="email" value={gateEmail} onChange={e => setGateEmail(e.target.value)} autoComplete="email" required placeholder="you@example.com" />
+                </label>
+                <label style={{ gridColumn: "1/-1" }}>
+                  <span>Password</span>
+                  <input type="password" value={gatePassword} onChange={e => setGatePassword(e.target.value)} autoComplete="current-password" required placeholder="••••••••" />
+                </label>
+                {gateError && <p className="cp-ruo-gate-error"><i className="ri-error-warning-line" />{gateError}</p>}
+                <button type="submit" disabled={gateSubmitting} className="cp-ruo-gate-submit">
+                  {gateSubmitting ? "Signing in…" : "Sign In & Enter →"}
+                </button>
+              </form>
+              <p style={{ marginTop: "11px", textAlign: "center", fontSize: "10px", color: "#7a8581" }}>
+                No account? <Link href="/register" style={{ color: "#327657", fontWeight: 700 }}>Create one →</Link>
+                <span style={{ margin: "0 6px", color: "#d6e0db" }}>·</span>
+                <Link href="/login" style={{ color: "#327657", fontWeight: 700 }}>Forgot password?</Link>
+              </p>
             </>
           )}
         </section>
