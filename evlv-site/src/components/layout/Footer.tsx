@@ -42,18 +42,6 @@ export function Footer() {
           <div className="cp-footer-newsletter"><NewsletterForm /></div>
         </div>
 
-        <div className="cp-footer-badges">
-          <p className="cp-footer-badges-label">Our success is being tracked by the best</p>
-          <div className="cp-footer-badges-row">
-            <a href="https://easydofollow.dev/e-commerce/evlv" target="_blank" rel="noopener">
-              <img src="https://easydofollow.dev/badge/easydofollow-badge-light.svg" alt="Featured on EasyDoFollow" width="188" height="56" loading="lazy" />
-            </a>
-            <a href="https://launchorbit.co" target="_blank" rel="noopener noreferrer nofollow">
-              <img src="/api/lb" alt="View this product on Launch Orbit" width="150" height="40" loading="lazy" />
-            </a>
-          </div>
-        </div>
-
         <div className="cp-footer-meta">
           <div className="cp-footer-payments">
             <small>Secure card processing</small>
@@ -75,6 +63,23 @@ export function Footer() {
             <p>All products sold on this website are intended for research and identification purposes only. They are not intended for human dosing, injection, ingestion, or veterinary use.</p>
             <p>{isAu ? "Products are supplied only for lawful laboratory and analytical research. They are not medicines, therapeutic goods, or intended for human or veterinary use." : "The statements on this website have not been evaluated by the U.S. Food and Drug Administration. Neither the statements nor the products are intended to diagnose, treat, cure, or prevent disease."}</p>
             {!isAu && <p>EVLV is a chemical supplier, not a compounding pharmacy or outsourcing facility as defined under sections 503A or 503B of the Federal Food, Drug, and Cosmetic Act.</p>}
+          </div>
+          <div className="cp-footer-badges">
+            <p className="cp-footer-badges-label">Our success is being tracked by the best</p>
+            <div className="cp-footer-badges-row">
+              <a href="https://easydofollow.dev/e-commerce/evlv" target="_blank" rel="noopener">
+                <img src="https://easydofollow.dev/badge/easydofollow-badge-light.svg" alt="Featured on EasyDoFollow" width="188" height="56" loading="lazy" />
+              </a>
+              <a href="https://launchorbit.co" target="_blank" rel="noopener noreferrer nofollow">
+                <img src="/api/lb" alt="View this product on Launch Orbit" width="150" height="40" loading="lazy" />
+              </a>
+              <a href="https://capylaunch.com/tools/evlvpeptides" target="_blank" rel="noopener">
+                <img src="https://capylaunch.com/badge.svg?site=948f2837-0ec6-43a9-ac5e-e7b49193a133" alt="Featured on CapyLaunch" width="200" height="48" loading="lazy" />
+              </a>
+              <a href="https://nicklaunches.com/products/evlv-peptides/" target="_blank" rel="noopener">
+                <img src="https://nicklaunches.com/badges/featured.png" alt="EVLV Peptides on Nick Launches" width="244" height="56" loading="lazy" />
+              </a>
+            </div>
           </div>
         </details>
 
