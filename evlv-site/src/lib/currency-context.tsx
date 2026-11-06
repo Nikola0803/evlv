@@ -7,11 +7,10 @@ export type Currency = "USD" | "CAD" | "AUD";
 const STORAGE_KEY = "evlv_currency";
 
 /**
- * Static approximate USD->CAD rate. There's no live FX feed wired up yet --
- * replace this with a real-time rate (or a fixed retail price list per
- * currency, which is more common for RUO stores) before this matters for
- * real money. All internal math (cart subtotal, product.price, etc.) stays
- * in USD; this is a display-only conversion applied via formatPrice/convert.
+ * Static approximate USD->CAD rate used as a fallback for products that
+ * don't have an explicit entry in CAD_PRICE_OVERRIDES (cad-pricing.ts).
+ * Products with a known CAD price pass it as `cadOverride` to convert()/
+ * formatPrice() and bypass this rate entirely.
  */
 const USD_TO_CAD_RATE = 1.38;
 
@@ -27,8 +26,8 @@ const US_ONLY_LAUNCH = false;
 interface CurrencyContextValue {
   currency: Currency;
   setCurrency: (c: Currency) => void;
-  convert: (usdAmount: number) => number;
-  formatPrice: (usdAmount: number) => string;
+  convert: (usdAmount: number, cadOverride?: number) => number;
+  formatPrice: (usdAmount: number, cadOverride?: number) => string;
 }
 
 const CurrencyContext = createContext<CurrencyContextValue | null>(null);
@@ -71,8 +70,19 @@ export function CurrencyProvider({ children, marketCurrency = "USD" }: { childre
     }
   }, []);
 
-  const convert = useCallback((usdAmount: number) => (currency === "CAD" ? usdAmount * USD_TO_CAD_RATE : usdAmount), [currency]);
-  const formatPrice = useCallback((usdAmount: number) => `$${convert(usdAmount).toFixed(2)} ${currency}`, [convert, currency]);
+  const convert = useCallback(
+    (usdAmount: number, cadOverride?: number) => {
+      if (currency === "CAD") return cadOverride ?? usdAmount * USD_TO_CAD_RATE;
+      return usdAmount;
+    },
+    [currency]
+  );
+
+  const formatPrice = useCallback(
+    (usdAmount: number, cadOverride?: number) =>
+      `$${convert(usdAmount, cadOverride).toFixed(2)} ${currency}`,
+    [convert, currency]
+  );
 
   const value = useMemo(() => ({ currency, setCurrency, convert, formatPrice }), [currency, setCurrency, convert, formatPrice]);
 

@@ -28,6 +28,9 @@ export interface Product {
    */
   gallery?: { type: "image" | "video"; src: string }[];
   price: number;
+  /** Hardcoded CAD retail price. Overrides the USD→CAD conversion rate when
+   * the visitor's currency is CAD. Set by applyCadPricing() in the pipeline. */
+  cadPrice?: number;
   bulkOption?: BulkOption;
   /** True when bulkOption is an explicit market case total rather than the
    * standard calculated quantity ladder. */
@@ -81,6 +84,8 @@ export interface ProductVariant {
   slug: string;
   label: string;
   price: number;
+  /** Hardcoded CAD retail price for this variant size. */
+  cadPrice?: number;
   inStock: boolean;
 }
 
