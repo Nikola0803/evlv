@@ -76,6 +76,9 @@ export function Footer() {
               <a href="https://capylaunch.com/tools/evlvpeptides" target="_blank" rel="noopener">
                 <img src="https://capylaunch.com/badge.svg?site=948f2837-0ec6-43a9-ac5e-e7b49193a133" alt="Featured on CapyLaunch" width="200" height="48" loading="lazy" />
               </a>
+              <a href="https://nicklaunches.com/products/evlv-peptides/" target="_blank" rel="noopener">
+                <img src="https://nicklaunches.com/badges/featured.png" alt="EVLV Peptides on Nick Launches" width="244" height="56" loading="lazy" />
+              </a>
             </div>
           </div>
         </details>
