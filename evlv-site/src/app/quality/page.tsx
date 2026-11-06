@@ -47,7 +47,7 @@ const PROOF_STEPS = [
 
 const FAQ = [
   {
-    question: "What does an Exact COA Available label mean?",
+    question: "What does the COA Up-to-date badge mean?",
     answer: "It means the product page connects to a published EVLV COA record for the identified product or lot. The source document remains the record to review for its method, result, date, and sample scope.",
   },
   {
