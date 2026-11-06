@@ -110,8 +110,8 @@ export function AgeGate({ children, initialAccepted = false }: { children: React
   return <>
     {children}
     {!accepted && (
-      <div className="cp-ruo-gate cp-ruo-gate-simple" role="dialog" aria-modal="true" aria-labelledby="cp-ruo-title">
-        {campaignMode ? (
+      campaignMode ? (
+        <div className="cp-ruo-gate cp-ruo-gate-simple" role="dialog" aria-modal="true" aria-labelledby="cp-ruo-title">
           <section className="cp-ruo-auth-card">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/logo/evlv-logo-dark.webp" alt="EVLV" style={{ height: "28px", width: "auto" }} />
@@ -125,14 +125,15 @@ export function AgeGate({ children, initialAccepted = false }: { children: React
             <button className="cp-ruo-entry-primary" type="button" onClick={() => completeAccess("campaign")}>I Confirm &amp; Enter</button>
             <p className="cp-ruo-entry-footnote">Your campaign link provides streamlined access. No email re-entry needed.</p>
           </section>
-        ) : (
+        </div>
+      ) : (
+        <div className="cp-ruo-gate-auth-overlay" role="dialog" aria-modal="true">
           <AccountAccess
-            compact
             initialMode="signin"
             onSuccess={() => completeAccess("email")}
           />
-        )}
-      </div>
+        </div>
+      )
     )}
   </>;
 }
