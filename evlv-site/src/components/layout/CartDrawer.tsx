@@ -142,9 +142,9 @@ export function CartDrawer() {
         {lines.length > 0 && (
           <div className="border-t border-stone px-5 py-5">
             {automaticHalloween ? (
-              <div className="mb-4 rounded-md border border-orange-500/40 bg-[#1a0b20] p-3 text-orange-200">
-                <p className="flex items-center gap-1.5 text-xs font-semibold"><i className="ri-checkbox-circle-fill" /> Halloween BOGO automatically applied</p>
-                <p className="mt-1 text-[10px] leading-relaxed">You saved {formatPrice(discount)}. Add more pairs to unlock more free items. No stacking.</p>
+              <div className="mb-4 rounded-md border border-[#39ff14]/40 bg-black p-3 text-[#39ff14]">
+                <p className="flex items-center gap-1.5 text-xs font-semibold"><i className="ri-checkbox-circle-fill" /> Black Friday BOGO automatically applied</p>
+                <p className="mt-1 text-[10px] leading-relaxed text-[#39ff14]/80">You saved {formatPrice(discount)}. Add more pairs to unlock more free items. No stacking.</p>
               </div>
             ) : automaticJoin25 ? (
               <div className="mb-4 rounded-md border border-sage-deep/30 bg-sage-deep/[0.07] p-3 text-sage-deep">
@@ -213,7 +213,7 @@ export function CartDrawer() {
               {discount > 0 && (
                 <div className="flex items-center justify-between">
                   <span className="text-sage-deep">
-                    {automaticHalloween ? "Halloween BOGO" : automaticGlpPromotion ? "GLP Pair Event" : automaticResearchSet ? "Research Set (30% off)" : "Discount"}
+                    {automaticHalloween ? "Black Friday BOGO" : automaticGlpPromotion ? "GLP Pair Event" : automaticResearchSet ? "Research Set (30% off)" : "Discount"}
                   </span>
                   <span className="font-medium text-sage-deep">-{formatPrice(discount)}</span>
                 </div>

@@ -77,16 +77,15 @@ export function HalloweenExperience() {
             window.sessionStorage.setItem("evlv_halloween_seen", "1");
           }
         }}>
-          <aside className="hw-popup" role="dialog" aria-modal="true" aria-label="Halloween BOGO offer">
-            <button aria-label="Close Halloween offer" onClick={() => { setShowPopup(false); window.sessionStorage.setItem("evlv_halloween_seen", "1"); }}>×</button>
-            <Spider className="hw-popup-spider" />
-            <small>HALLOWEEN BOGO IS LIVE</small>
+          <aside className="hw-popup" role="dialog" aria-modal="true" aria-label="Black Friday BOGO offer">
+            <button aria-label="Close offer" onClick={() => { setShowPopup(false); window.sessionStorage.setItem("evlv_halloween_seen", "1"); }}>×</button>
+            <small>BLACK FRIDAY BOGO IS LIVE</small>
             <h3>Buy one. Get one free.</h3>
             <p>Add any 2 products and the cheaper one is free. Add 4 and the cheaper 2 are free. Every pair unlocks another free item.</p>
             <strong>Unlimited pairs · Applied automatically</strong>
-            <div className="hw-popup-timer-label">EVENT ENDS IN</div>
+            <div className="hw-popup-timer-label">SALE ENDS IN</div>
             {timer}
-            <Link href="/shop?utm_source=popup&utm_medium=site&utm_campaign=halloween_bogo_2026" onClick={() => window.sessionStorage.setItem("evlv_halloween_seen", "1")}>Shop the Halloween BOGO</Link>
+            <Link href="/shop?utm_source=popup&utm_medium=site&utm_campaign=blackfriday_bogo_2026" onClick={() => window.sessionStorage.setItem("evlv_halloween_seen", "1")}>Shop the Black Friday BOGO</Link>
             <em>No code. No stacking. Free priority shipping at $300.</em>
           </aside>
         </div>
