@@ -76,6 +76,9 @@ export function Footer() {
               <a href="https://nicklaunches.com/products/evlv-peptides/" target="_blank" rel="noopener">
                 <img src="https://nicklaunches.com/badges/featured.png" alt="EVLV Peptides on Nick Launches" width="244" height="56" loading="lazy" />
               </a>
+              <a href="https://launchstreak.dev/e-commerce/evlv" target="_blank" rel="noopener">
+                <img src="https://launchstreak.dev/badge/launch-streak-badge-light.svg" alt="Launched on Launch Streak" width="248" height="68" loading="lazy" />
+              </a>
             </div>
           </div>
         </details>
