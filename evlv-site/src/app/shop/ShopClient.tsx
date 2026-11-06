@@ -86,7 +86,7 @@ export function ShopClient({ products: initialProducts, verifiedCoaSlugs, isAu =
         </div>
         <div className="cp-shop-search"><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search products" /><select value={sort} onChange={e=>setSort(e.target.value)}><option value="featured">Featured</option><option value="az">Name</option><option value="low">Price: low to high</option><option value="high">Price: high to low</option></select></div>
       </div>
-      <div className="cp-shop-status"><span>{list.length} products</span><span>Exact COA badges appear only when a matching report is available</span></div><div className="cp-shop-grid">{list.map(product=><ProductCard key={product.id} product={product} coaVerified={verifiedCoas.has(product.slug)}/>)}</div>{list.length===0&&<p className="cp-shop-empty">No products match your search.</p>}
+      <div className="cp-shop-status"><span>{list.length} products</span><span>COA badges appear only when a matching report is available</span></div><div className="cp-shop-grid">{list.map(product=><ProductCard key={product.id} product={product} coaVerified={verifiedCoas.has(product.slug)}/>)}</div>{list.length===0&&<p className="cp-shop-empty">No products match your search.</p>}
     </div>
   </section>;
 }

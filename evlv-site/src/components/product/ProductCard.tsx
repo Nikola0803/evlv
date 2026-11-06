@@ -29,7 +29,7 @@ export function ProductCard({ product, coaVerified = false }: { product: Product
   const cadOverride = selected.qty === 1 ? product.cadPrice : undefined;
   return (
     <article className="cp-product-card">
-      {coaVerified && <span className="cp-coa-badge">✓ Exact COA Available</span>}
+      {coaVerified && <span className="cp-coa-badge">✓ COA Up-to-date</span>}
       <Link href={`/shop/${product.slug}`} className="cp-product-shot">
         <Image src={getProductImage(product)} alt={`${product.name} EVLV research product`} width={640} height={640} sizes="(min-width: 1200px) 277px, (min-width: 621px) 42vw, 44vw" />
       </Link>

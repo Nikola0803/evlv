@@ -83,7 +83,7 @@ export async function ResearchCategoryPage({ definition }: { definition: Researc
             <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-copper">Current catalogue</p>
             <h2 className="mt-2 font-display text-3xl font-semibold md:text-4xl">Available research products</h2>
           </div>
-          <p className="max-w-xl text-sm leading-6 text-soft-gray">{products.length} current listings. Exact COA badges appear only when a matching product report is available.</p>
+          <p className="max-w-xl text-sm leading-6 text-soft-gray">{products.length} current listings. COA badges appear only when a matching product report is available.</p>
         </header>
         {products.length > 0 ? (
           <div className="cp-product-grid">
