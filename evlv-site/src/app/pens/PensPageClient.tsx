@@ -131,13 +131,13 @@ const PENS = [
 function PenCard({
   pen,
   formatPrice,
-  currency,
+  isCanada,
 }: {
   pen: (typeof PENS)[number];
   formatPrice: (n: number) => string;
-  currency: string;
+  isCanada: boolean;
 }) {
-  const displayPrice = currency === "CAD" ? pen.cadPrice : pen.usdPrice;
+  const displayPrice = isCanada ? pen.cadPrice : pen.usdPrice;
 
   return (
     <article
@@ -166,7 +166,9 @@ function PenCard({
 
         <div className="mt-4 flex items-center justify-between gap-3 border-t border-stone pt-4">
           <div>
-            <p className="font-display text-lg font-semibold text-charcoal">{formatPrice(displayPrice)}</p>
+            <p className="font-display text-lg font-semibold text-charcoal">
+              ${displayPrice.toFixed(2)} {isCanada ? "CAD" : "USD"}
+            </p>
             <p className="text-[10px] text-charcoal/40">
               {pen.dose} · {pen.doses} doses
             </p>
@@ -215,15 +217,21 @@ function VipGate() {
 
 export function PensPageClient() {
   const [user, setUser] = useState<AuthUser | null>(null);
+  const [isCanada, setIsCanada] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const { currency, formatPrice } = useCurrency();
+  const { formatPrice } = useCurrency();
 
   useEffect(() => {
     setUser(getStoredUser());
+    // Gate on a direct geo-IP check so the pens page stays unlocked for
+    // Canadian visitors regardless of whether the currency switcher is live.
+    fetch("https://get.geojs.io/v1/ip/country.json")
+      .then((r) => r.json())
+      .then((d) => { if (d?.country === "CA") setIsCanada(true); })
+      .catch(() => { /* stay false — VIP gate is still available */ });
     setMounted(true);
   }, []);
 
-  const isCanada = currency === "CAD";
   const isVip = user?.membershipStatus === "APPROVED";
   const canSee = isCanada || isVip;
 
@@ -261,7 +269,7 @@ export function PensPageClient() {
 
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {PENS.map((pen) => (
-                  <PenCard key={pen.slug} pen={pen} formatPrice={formatPrice} currency={currency} />
+                  <PenCard key={pen.slug} pen={pen} formatPrice={formatPrice} isCanada={isCanada} />
                 ))}
               </div>
 
