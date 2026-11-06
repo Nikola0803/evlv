@@ -431,6 +431,7 @@ body {
 /* One-click RUO acknowledgment: account creation is an optional reward,
    never a prerequisite to inspect the catalog. */
 .cp-ruo-gate-simple{padding:max(16px,env(safe-area-inset-top)) max(16px,env(safe-area-inset-right)) max(16px,env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left));min-height:100dvh;overflow-y:auto}
+.cp-ruo-gate-auth-overlay{position:fixed;inset:0;z-index:9999;overflow-y:auto}
 .cp-ruo-entry-card{width:min(520px,100%);margin:auto;padding:34px;border:1px solid rgba(159,199,180,.4);border-radius:16px;background:#fff;color:#152522;box-shadow:0 32px 100px rgba(0,20,19,.55)}
 .cp-ruo-entry-card-campaign{width:min(500px,100%)}
 .cp-ruo-entry-brand{display:flex;justify-content:center;margin-bottom:24px}.cp-ruo-entry-brand img{width:104px;height:auto}
