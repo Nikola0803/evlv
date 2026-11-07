@@ -435,9 +435,8 @@ export default function CheckoutPage() {
                     className={`flex items-center gap-3 rounded-lg border p-4 text-left transition ${selectedGateway === "cashapp" ? "border-copper bg-copper/10" : "border-stone bg-white hover:border-copper/60"}`}
                   >
                     <i className="ri-money-dollar-circle-line shrink-0 text-2xl text-copper" />
-                    <span className="min-w-0">
+                    <span>
                       <b className="block text-sm text-charcoal">Cash App</b>
-                      <small className="mt-0.5 block truncate font-mono text-xs text-charcoal/55">$warriordistributions</small>
                       <small className="mt-0.5 block text-xs font-medium text-sage-deep">Save 5%</small>
                     </span>
                   </button>
@@ -448,9 +447,8 @@ export default function CheckoutPage() {
                     className={`flex items-center gap-3 rounded-lg border p-4 text-left transition ${selectedGateway === "venmo" ? "border-copper bg-copper/10" : "border-stone bg-white hover:border-copper/60"}`}
                   >
                     <i className="ri-smartphone-line shrink-0 text-2xl text-copper" />
-                    <span className="min-w-0">
+                    <span>
                       <b className="block text-sm text-charcoal">Venmo</b>
-                      <small className="mt-0.5 block truncate font-mono text-xs text-charcoal/55">@warriordistributions</small>
                       <small className="mt-0.5 block text-xs font-medium text-sage-deep">Save 5%</small>
                     </span>
                   </button>
@@ -461,9 +459,8 @@ export default function CheckoutPage() {
                     className={`flex items-center gap-3 rounded-lg border p-4 text-left transition ${selectedGateway === "zelle" ? "border-copper bg-copper/10" : "border-stone bg-white hover:border-copper/60"}`}
                   >
                     <i className="ri-bank-line shrink-0 text-2xl text-copper" />
-                    <span className="min-w-0">
+                    <span>
                       <b className="block text-sm text-charcoal">Zelle</b>
-                      <small className="mt-0.5 block truncate font-mono text-xs text-charcoal/55">Support@warriorresearch.net</small>
                       <small className="mt-0.5 block text-xs font-medium text-sage-deep">Save 5%</small>
                     </span>
                   </button>
@@ -471,8 +468,10 @@ export default function CheckoutPage() {
                     const gw = PAYMENT_GATEWAYS.find((g) => g.id === selectedGateway);
                     if (!gw) return null;
                     return (
-                      <div className="col-span-3 rounded-lg border border-stone bg-ivory-soft p-4">
-                        <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-charcoal/50">How to pay with {gw.label}</p>
+                      <div className="col-span-3 rounded-lg border-2 border-copper bg-copper/5 p-5">
+                        <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-charcoal/50">Pay with {gw.label}</p>
+                        <p className="mb-4 font-mono text-2xl font-bold text-charcoal">{gw.handle}</p>
+                        <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-charcoal/50">How to pay</p>
                         <ol className="space-y-1.5">
                           {gw.steps.map((step, i) => (
                             <li key={i} className="flex gap-2.5 text-xs leading-relaxed text-charcoal/70">
@@ -486,7 +485,7 @@ export default function CheckoutPage() {
                   })()}
                 </div>
                 <p className="mt-3 text-xs leading-relaxed text-charcoal/55">
-                  After placing the order, we’ll show the payment handle and the reference to include with your payment.
+                  After placing the order, we’ll confirm the exact reference to include with your payment.
                 </p>
               </div>
 
