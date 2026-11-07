@@ -434,10 +434,10 @@ export default function CheckoutPage() {
                     onClick={() => setSelectedGateway("cashapp")}
                     className={`flex items-center gap-3 rounded-lg border p-4 text-left transition ${selectedGateway === "cashapp" ? "border-copper bg-copper/10" : "border-stone bg-white hover:border-copper/60"}`}
                   >
-                    <i className="ri-money-dollar-circle-line text-2xl text-copper" />
-                    <span>
+                    <i className="ri-money-dollar-circle-line shrink-0 text-2xl text-copper" />
+                    <span className="min-w-0">
                       <b className="block text-sm text-charcoal">Cash App</b>
-                      <small className="mt-0.5 block font-mono text-xs text-charcoal/55">$warriordistributions</small>
+                      <small className="mt-0.5 block truncate font-mono text-xs text-charcoal/55">$warriordistributions</small>
                       <small className="mt-0.5 block text-xs font-medium text-sage-deep">Save 5%</small>
                     </span>
                   </button>
@@ -447,10 +447,10 @@ export default function CheckoutPage() {
                     onClick={() => setSelectedGateway("venmo")}
                     className={`flex items-center gap-3 rounded-lg border p-4 text-left transition ${selectedGateway === "venmo" ? "border-copper bg-copper/10" : "border-stone bg-white hover:border-copper/60"}`}
                   >
-                    <i className="ri-smartphone-line text-2xl text-copper" />
-                    <span>
+                    <i className="ri-smartphone-line shrink-0 text-2xl text-copper" />
+                    <span className="min-w-0">
                       <b className="block text-sm text-charcoal">Venmo</b>
-                      <small className="mt-0.5 block font-mono text-xs text-charcoal/55">@warriordistributions</small>
+                      <small className="mt-0.5 block truncate font-mono text-xs text-charcoal/55">@warriordistributions</small>
                       <small className="mt-0.5 block text-xs font-medium text-sage-deep">Save 5%</small>
                     </span>
                   </button>
@@ -460,10 +460,10 @@ export default function CheckoutPage() {
                     onClick={() => setSelectedGateway("zelle")}
                     className={`flex items-center gap-3 rounded-lg border p-4 text-left transition ${selectedGateway === "zelle" ? "border-copper bg-copper/10" : "border-stone bg-white hover:border-copper/60"}`}
                   >
-                    <i className="ri-bank-line text-2xl text-copper" />
-                    <span>
+                    <i className="ri-bank-line shrink-0 text-2xl text-copper" />
+                    <span className="min-w-0">
                       <b className="block text-sm text-charcoal">Zelle</b>
-                      <small className="mt-0.5 block font-mono text-xs text-charcoal/55">Support@warriorresearch.net</small>
+                      <small className="mt-0.5 block truncate font-mono text-xs text-charcoal/55">Support@warriorresearch.net</small>
                       <small className="mt-0.5 block text-xs font-medium text-sage-deep">Save 5%</small>
                     </span>
                   </button>
