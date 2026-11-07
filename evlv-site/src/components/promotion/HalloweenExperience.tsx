@@ -12,10 +12,6 @@ type HalloweenConfig = {
   detail: string;
 };
 
-function Spider({ className }: { className: string }) {
-  return <span className={className} aria-hidden="true">🕷</span>;
-}
-
 function useCountdown(end: string | null | undefined) {
   const [now, setNow] = useState(0);
   useEffect(() => {
@@ -78,15 +74,30 @@ export function HalloweenExperience() {
           }
         }}>
           <aside className="hw-popup" role="dialog" aria-modal="true" aria-label="Black Friday BOGO offer">
-            <button aria-label="Close offer" onClick={() => { setShowPopup(false); window.sessionStorage.setItem("evlv_halloween_seen", "1"); }}>×</button>
-            <small>BLACK FRIDAY BOGO IS LIVE</small>
-            <h3>Buy one. Get one free.</h3>
-            <p>Add any 2 products and the cheaper one is free. Add 4 and the cheaper 2 are free. Every pair unlocks another free item.</p>
-            <strong>Unlimited pairs · Applied automatically</strong>
-            <div className="hw-popup-timer-label">SALE ENDS IN</div>
-            {timer}
-            <Link href="/shop?utm_source=popup&utm_medium=site&utm_campaign=blackfriday_bogo_2026" onClick={() => window.sessionStorage.setItem("evlv_halloween_seen", "1")}>Shop the Black Friday BOGO</Link>
-            <em>No code. No stacking. Free priority shipping at $300.</em>
+            <div className="hw-popup-accent-bar" />
+            <div className="hw-popup-inner">
+              <button className="hw-popup-close" aria-label="Close offer" onClick={() => { setShowPopup(false); window.sessionStorage.setItem("evlv_halloween_seen", "1"); }}>×</button>
+              <div className="hw-popup-eyebrow">Black Friday BOGO is live</div>
+              <h3>Buy one.<br />Get one<br />free.</h3>
+              <div className="hw-popup-grid" aria-label="2 items added, 1 item paid for">
+                <div className="hw-popup-cell">
+                  <div className="hw-popup-cell-num">2</div>
+                  <div className="hw-popup-cell-label">You add</div>
+                </div>
+                <div className="hw-popup-cell">
+                  <div className="hw-popup-cell-num">1</div>
+                  <div className="hw-popup-cell-label">You pay for</div>
+                </div>
+              </div>
+              <p className="hw-popup-copy">Add any 2 eligible products and the cheaper one is <b>$0 at checkout.</b> Every extra pair unlocks another free item. No code needed.</p>
+              <div className="hw-popup-timer-label">Sale ends in</div>
+              {timer}
+              <Link href="/shop?utm_source=popup&utm_medium=site&utm_campaign=blackfriday_bogo_2026" className="hw-popup-cta" onClick={() => window.sessionStorage.setItem("evlv_halloween_seen", "1")}>
+                <span>Shop the Black Friday BOGO</span>
+                <span aria-hidden="true">→</span>
+              </Link>
+              <p className="hw-popup-fine">No code · No stacking · Free priority shipping over $300</p>
+            </div>
           </aside>
         </div>
       )}
