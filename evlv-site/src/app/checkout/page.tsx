@@ -474,7 +474,7 @@ export default function CheckoutPage() {
                         <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-charcoal/50">How to pay</p>
                         <ol className="space-y-1.5">
                           {gw.steps.map((step, i) => (
-                            <li key={i} className="flex gap-2.5 text-xs leading-relaxed text-charcoal/70">
+                            <li key={i} className="flex gap-2.5 text-sm leading-relaxed text-charcoal/70">
                               <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-copper/20 text-[9px] font-bold text-copper">{i + 1}</span>
                               {step}
                             </li>
