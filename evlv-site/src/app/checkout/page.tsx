@@ -427,12 +427,12 @@ export default function CheckoutPage() {
               {/* Payment method */}
               <div className="cp-checkout-panel">
                 <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-charcoal/50">Payment Method</h2>
-                <div className="grid gap-3 sm:grid-cols-2">
+                <div className="grid gap-3 sm:grid-cols-3">
                   <button
                     type="button"
                     aria-pressed={selectedGateway === "cashapp"}
                     onClick={() => setSelectedGateway("cashapp")}
-                    className={`flex items-center gap-4 rounded-lg border p-4 text-left transition ${selectedGateway === "cashapp" ? "border-copper bg-copper/10" : "border-stone bg-white hover:border-copper/60"}`}
+                    className={`flex items-center gap-3 rounded-lg border p-4 text-left transition ${selectedGateway === "cashapp" ? "border-copper bg-copper/10" : "border-stone bg-white hover:border-copper/60"}`}
                   >
                     <i className="ri-money-dollar-circle-line text-2xl text-copper" />
                     <span>
@@ -445,7 +445,7 @@ export default function CheckoutPage() {
                     type="button"
                     aria-pressed={selectedGateway === "venmo"}
                     onClick={() => setSelectedGateway("venmo")}
-                    className={`flex items-center gap-4 rounded-lg border p-4 text-left transition ${selectedGateway === "venmo" ? "border-copper bg-copper/10" : "border-stone bg-white hover:border-copper/60"}`}
+                    className={`flex items-center gap-3 rounded-lg border p-4 text-left transition ${selectedGateway === "venmo" ? "border-copper bg-copper/10" : "border-stone bg-white hover:border-copper/60"}`}
                   >
                     <i className="ri-smartphone-line text-2xl text-copper" />
                     <span>
@@ -454,11 +454,36 @@ export default function CheckoutPage() {
                       <small className="mt-0.5 block text-xs font-medium text-sage-deep">Save 5%</small>
                     </span>
                   </button>
-                </div>
-                <div className="mt-2 flex cursor-not-allowed items-center gap-3 rounded-lg border border-stone/60 bg-stone/10 px-4 py-3 opacity-50">
-                  <i className="ri-bank-line text-lg text-charcoal/40" />
-                  <span className="text-sm text-charcoal/50">Zelle</span>
-                  <span className="ml-auto text-xs text-charcoal/40">Temporarily unavailable</span>
+                  <button
+                    type="button"
+                    aria-pressed={selectedGateway === "zelle"}
+                    onClick={() => setSelectedGateway("zelle")}
+                    className={`flex items-center gap-3 rounded-lg border p-4 text-left transition ${selectedGateway === "zelle" ? "border-copper bg-copper/10" : "border-stone bg-white hover:border-copper/60"}`}
+                  >
+                    <i className="ri-bank-line text-2xl text-copper" />
+                    <span>
+                      <b className="block text-sm text-charcoal">Zelle</b>
+                      <small className="mt-0.5 block font-mono text-xs text-charcoal/55">Support@warriorresearch.net</small>
+                      <small className="mt-0.5 block text-xs font-medium text-sage-deep">Save 5%</small>
+                    </span>
+                  </button>
+                  {selectedGateway && selectedGateway !== "niftipay" && (() => {
+                    const gw = PAYMENT_GATEWAYS.find((g) => g.id === selectedGateway);
+                    if (!gw) return null;
+                    return (
+                      <div className="col-span-3 rounded-lg border border-stone bg-ivory-soft p-4">
+                        <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-charcoal/50">How to pay with {gw.label}</p>
+                        <ol className="space-y-1.5">
+                          {gw.steps.map((step, i) => (
+                            <li key={i} className="flex gap-2.5 text-xs leading-relaxed text-charcoal/70">
+                              <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-copper/20 text-[9px] font-bold text-copper">{i + 1}</span>
+                              {step}
+                            </li>
+                          ))}
+                        </ol>
+                      </div>
+                    );
+                  })()}
                 </div>
                 <p className="mt-3 text-xs leading-relaxed text-charcoal/55">
                   After placing the order, we’ll show the payment handle and the reference to include with your payment.
