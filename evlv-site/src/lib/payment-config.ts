@@ -6,13 +6,13 @@
  */
 export const PAYMENT_HANDLES = {
   cashapp: "$warriordistributions",
-  zelle: "orders@evlvpeptides.com",
+  zelle: "Support@warriorresearch.net",
   venmo: "@warriordistributions",
 };
 
 const DEMO_HANDLES = {
   cashapp: "$EVLVPeptidesDemo",
-  zelle: "orders@evlvpeptides.com",
+  zelle: "Support@warriorresearch.net",
   venmo: "@EVLV-Peptides-Demo",
 };
 
@@ -55,6 +55,7 @@ export const PAYMENT_GATEWAYS: {
   icon: string;
   handle: string;
   handleNote: string;
+  steps: string[];
 }[] = [
   {
     id: "cashapp",
@@ -62,13 +63,28 @@ export const PAYMENT_GATEWAYS: {
     icon: "ri-money-dollar-circle-line",
     handle: PAYMENT_HANDLES.cashapp,
     handleNote: "Include your order number in the payment note so we can match your payment quickly.",
+    steps: [
+      "Open Cash App on your phone.",
+      "Tap the $ button (Send Money).",
+      "Enter the exact order total.",
+      "Search for and send to $warriordistributions.",
+      "Add your order number in the note field.",
+      "Place your order above — we'll confirm once payment is received.",
+    ],
   },
   {
     id: "zelle",
     label: "Zelle",
     icon: "ri-bank-line",
     handle: PAYMENT_HANDLES.zelle,
-    handleNote: "Send to orders@evlvpeptides.com — include your order number in the payment note so we can match your payment.",
+    handleNote: "Send to Support@warriorresearch.net — include your order number in the memo so we can match your payment.",
+    steps: [
+      "Open your banking app and navigate to Zelle.",
+      "Add a new recipient: Support@warriorresearch.net.",
+      "Enter the exact order total.",
+      "Include your order number in the memo field.",
+      "Place your order above — we'll confirm once payment is received.",
+    ],
   },
   {
     id: "venmo",
@@ -76,5 +92,13 @@ export const PAYMENT_GATEWAYS: {
     icon: "ri-smartphone-line",
     handle: PAYMENT_HANDLES.venmo,
     handleNote: "Include your order number in the payment note so we can match your payment quickly.",
+    steps: [
+      "Open Venmo on your phone.",
+      "Tap Pay/Request and search for @warriordistributions.",
+      "Enter the exact order total.",
+      "Add your order number in the note field.",
+      "Tap Pay — make sure it's set to Pay, not Request.",
+      "Place your order above — we'll confirm once payment is received.",
+    ],
   },
 ];
